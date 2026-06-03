@@ -1,5 +1,16 @@
 # Magicka Community Patch: A Forensic Engine Investigation
 
+> [!TIP]
+>
+> ### ❤️ Enjoying the Patch?
+>
+> If the patch brought Magicka back to life for you and you'd like to support further reverse-engineering work and long-term maintenance, consider supporting the project on Patreon:
+>
+> **☕ Support on Patreon:** [https://www.patreon.com/16047341/join](https://www.patreon.com/16047341/join)
+>
+> Every bit of support helps keep these investigations going.
+
+
 ## About This Project
 
 This repository contains a massive collection of root-cause stability, memory-management, and compatibility fixes for Magicka and its DLCs. 
