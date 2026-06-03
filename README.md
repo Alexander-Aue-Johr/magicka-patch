@@ -7,7 +7,13 @@
 > If the patch brought Magicka back to life for you and you'd like to support further reverse-engineering work and long-term maintenance, consider supporting the project on Patreon:
 >
 > **☕ Support on Patreon:** [https://www.patreon.com/16047341/join](https://www.patreon.com/16047341/join)
+> 
+> 🚀 **Latest release:** https://github.com/Alexander-Aue-Johr/magicka-patch/releases/latest
 >
+> 🐛 **Report issues:** https://github.com/Alexander-Aue-Johr/magicka-patch/issues
+>
+> 💬 **Prefer not to use GitHub?** You can also add me on Steam and send me what you observed: **27126879**
+> 
 > Every bit of support helps keep these investigations going.
 
 
