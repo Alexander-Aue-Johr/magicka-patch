@@ -1,0 +1,21 @@
+name: magicka_community_patch_auto_updater_ui
+description: Flutter Windows UI for applying prepared Magicka Community Patch updates.
+publish_to: "none"
+
+version: 0.0.12+12
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  magicka_community_patch_installer_ui:
+    path: ../..
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true

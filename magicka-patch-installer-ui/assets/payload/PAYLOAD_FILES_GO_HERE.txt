@@ -1,0 +1,8 @@
+Put the patched payload files here before building a release installer:
+
+  assets\payload\Magicka.exe
+  assets\payload\PolygonHead.dll
+
+If these two files exist at build time, Flutter includes them in the app asset bundle.
+The installer can also run in developer mode with the payload files beside the EXE, in
+assets\payload, or in a Payload folder beside the EXE.
