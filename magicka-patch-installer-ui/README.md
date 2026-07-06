@@ -1,6 +1,6 @@
 # Magicka Community Patch Installer / Updater
 
-Version: **0.0.12**
+Version: **0.0.13**
 
 This directory contains the Flutter Windows UI for the Magicka Community Patch installer, updater and uninstaller surface.
 

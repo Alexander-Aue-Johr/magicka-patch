@@ -125,7 +125,7 @@ String _option(List<String> args, String key) {
 }
 
 class AppConstants {
-  static const patchVersion = '0.0.12';
+  static const patchVersion = '0.0.13';
   static const settingsDirectoryName = 'CommunityPatch';
   static const settingsFileName = 'patch-settings.ini';
   static const manifestFileName = 'install-manifest.ini';
@@ -4928,7 +4928,7 @@ class _Header extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('MAGICKA COMMUNITY PATCH 0.0.12',
+          Text('MAGICKA COMMUNITY PATCH 0.0.13',
               style: TextStyle(
                   color: Color(0xfff7d897),
                   fontFamily: 'Georgia',
