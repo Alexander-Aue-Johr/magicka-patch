@@ -25,6 +25,23 @@ This project is the culmination of weeks of grueling reverse engineering, dnSpy 
 
 The goal is to preserve the original gameplay experience while completely overhauling the resource lifetime management to ensure rock-solid stability during long play sessions, even at 4K resolution. This README is written specifically for other developers, engineers, and perhaps even the original creators, to document exactly what went wrong under the hood for more than a decade, and how it was finally resolved.
 
+## Source Snapshots for Added Executable Code
+
+When the community patch adds new classes to `Magicka.exe`, source snapshots for
+those additions are kept under `docs/injected-source/`. These files are included
+so players and developers can inspect patch-specific code such as telemetry,
+settings, update checks, and patch metadata.
+
+They are documentation/review snapshots, not a standalone build system and not
+the original Magicka source code. The shipped artifact remains `Magicka.exe`;
+release-specific constants such as the patch version should match the shipped
+executable for each tag.
+
+Changes made inside existing closed-source game classes are documented as
+patch-site notes instead of full decompiled source snapshots. See
+`docs/reverse-engineering-notes/` for those notes and
+`docs/telemetry-and-privacy.md` for the telemetry disclosure and opt-out path.
+
 ---
 
 ## The Mystery: A 32-bit Engine on the Brink
