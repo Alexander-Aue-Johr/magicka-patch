@@ -20,6 +20,6 @@ the Magicka folder, keeps the current settings, and removes
 To run or build the Windows updater:
 
 ```powershell
-flutter run -d windows -- --offer-pending-update "G:\SteamLibrary\steamapps\common\Magicka" "0.0.15" "C:\path\to\update.zip"
+flutter run -d windows -- --offer-pending-update "G:\SteamLibrary\steamapps\common\Magicka" "0.0.16" "C:\path\to\update.zip"
 flutter build windows --release
 ```

@@ -501,6 +501,9 @@ $installerRelease = Join-PathChecked $installerProject 'build\windows\x64\runner
 $updaterRelease = Join-PathChecked $updaterProject 'build\windows\x64\runner\Release'
 $installerExe = Join-PathChecked $installerRelease 'magicka-community-patch-installer-ui.exe'
 $updaterExe = Join-PathChecked $updaterRelease 'magicka-community-patch-auto-updater-ui.exe'
+if (-not (Test-Path -LiteralPath $updaterExe)) {
+    $updaterExe = Join-PathChecked $updaterRelease 'magicka_community_patch_auto_updater_ui.exe'
+}
 
 Assert-File (Join-PathChecked $repoRoot 'Magicka.exe')
 Assert-File (Join-PathChecked $repoRoot 'PolygonHead.dll')

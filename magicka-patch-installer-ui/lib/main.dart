@@ -125,7 +125,7 @@ String _option(List<String> args, String key) {
 }
 
 class AppConstants {
-  static const patchVersion = '0.0.15';
+  static const patchVersion = '0.0.16';
   static const settingsDirectoryName = 'CommunityPatch';
   static const settingsFileName = 'patch-settings.ini';
   static const manifestFileName = 'install-manifest.ini';
@@ -134,6 +134,7 @@ class AppConstants {
   static const toolFileName = 'MagickaPatchTool.exe';
   static const uninstallerFileName = 'MagickaPatchUninstaller.exe';
   static const uninstallerCommandFileName = 'uninstall_magicka_patch.cmd';
+  static const magickaSteamAppId = '42910';
   static const patreonUrl =
       'https://www.patreon.com/c/alexander_aue_johr/membership';
   static const postHogApiKey =
@@ -702,6 +703,9 @@ class _InstallerScreenState extends State<InstallerScreen>
   }
 
   Future<String?> _findMagickaDirectory({bool deep = false}) async {
+    final steamFound = await _findMagickaDirectoryFromSteam();
+    if (steamFound != null) return steamFound;
+
     final candidates = <String>[
       _join(
           Platform.environment['ProgramFiles(x86)'] ??
@@ -724,6 +728,90 @@ class _InstallerScreenState extends State<InstallerScreen>
       }
     }
     return null;
+  }
+
+  Future<String?> _findMagickaDirectoryFromSteam() async {
+    final steamDirs = await _findSteamDirectories();
+    final libraryDirs = <String>[];
+    for (final steamDir in steamDirs) {
+      _addUniquePath(libraryDirs, steamDir);
+      final libraryFile = File(_join(steamDir, r'steamapps\libraryfolders.vdf'));
+      if (!await libraryFile.exists()) continue;
+      try {
+        final values = _readValveKeyValues(await libraryFile.readAsString());
+        for (final path in values['path'] ?? const <String>[]) {
+          _addUniquePath(libraryDirs, path);
+        }
+        values.forEach((key, paths) {
+          if (int.tryParse(key) == null) return;
+          for (final path in paths) {
+            if (path.contains('\\') || path.contains('/')) {
+              _addUniquePath(libraryDirs, path);
+            }
+          }
+        });
+      } catch (_) {}
+    }
+
+    for (final libraryDir in libraryDirs) {
+      final manifest = File(_join(libraryDir, 'steamapps',
+          'appmanifest_${AppConstants.magickaSteamAppId}.acf'));
+      if (await manifest.exists()) {
+        try {
+          final values = _readValveKeyValues(await manifest.readAsString());
+          for (final installDir in values['installdir'] ?? const <String>[]) {
+            final candidate =
+                _join(libraryDir, 'steamapps', _join('common', installDir));
+            if (_isValidMagickaDirectory(candidate)) return candidate;
+          }
+        } catch (_) {}
+      }
+
+      final candidate = _join(libraryDir, r'steamapps\common\Magicka');
+      if (_isValidMagickaDirectory(candidate)) return candidate;
+    }
+    return null;
+  }
+
+  Future<List<String>> _findSteamDirectories() async {
+    final dirs = <String>[];
+    final envProgramFilesX86 =
+        Platform.environment['ProgramFiles(x86)'] ?? r'C:\Program Files (x86)';
+    final envProgramFiles =
+        Platform.environment['ProgramFiles'] ?? r'C:\Program Files';
+    _addUniquePath(dirs, _join(envProgramFilesX86, 'Steam'));
+    _addUniquePath(dirs, _join(envProgramFiles, 'Steam'));
+    _addUniquePath(dirs, r'C:\Steam');
+
+    for (final registryPath in <String>[
+      r'HKCU\Software\Valve\Steam',
+      r'HKLM\Software\Valve\Steam',
+      r'HKLM\Software\WOW6432Node\Valve\Steam',
+    ]) {
+      for (final valueName in <String>['SteamPath', 'InstallPath']) {
+        final value = await _readRegistryString(registryPath, valueName);
+        if (value != null && value.trim().isNotEmpty) {
+          _addUniquePath(dirs, value.replaceAll('/', '\\'));
+        }
+      }
+    }
+    return dirs.where((dir) => Directory(dir).existsSync()).toList();
+  }
+
+  Future<String?> _readRegistryString(String key, String valueName) async {
+    try {
+      final result = await Process.run(
+          'reg', <String>['query', key, '/v', valueName]);
+      if (result.exitCode != 0) return null;
+      final pattern = RegExp(
+          '^\\s*${RegExp.escape(valueName)}\\s+REG_\\w+\\s+(.+)\$',
+          multiLine: true,
+          caseSensitive: false);
+      final match = pattern.firstMatch(result.stdout.toString());
+      return match?.group(1)?.trim();
+    } catch (_) {
+      return null;
+    }
   }
 
   bool _isValidMagickaDirectory(String path) {
@@ -3357,6 +3445,32 @@ String _join(String a, String b, [String? c]) {
   return _join('$first\\$second', c);
 }
 
+void _addUniquePath(List<String> paths, String path) {
+  final normalized = path.trim().replaceAll('/', '\\');
+  if (normalized.isEmpty) return;
+  final comparable = normalized.toLowerCase();
+  for (final existing in paths) {
+    if (existing.toLowerCase() == comparable) return;
+  }
+  paths.add(normalized);
+}
+
+Map<String, List<String>> _readValveKeyValues(String text) {
+  final values = <String, List<String>>{};
+  final pattern = RegExp(r'"([^"]+)"\s*"((?:\\.|[^"])*)"');
+  for (final match in pattern.allMatches(text)) {
+    final key = _decodeValveString(match.group(1)!).toLowerCase();
+    final value = _decodeValveString(match.group(2)!);
+    values.putIfAbsent(key, () => <String>[]).add(value);
+  }
+  return values;
+}
+
+String _decodeValveString(String value) => value
+    .replaceAll(r'\\', '\\')
+    .replaceAll(r'\"', '"')
+    .replaceAll(r'\/', '/');
+
 String _safeFileName(String value) {
   if (value.trim().isEmpty) return 'unknown';
   return value.replaceAll(RegExp(r'[<>:"/\\|?*]'), '_').replaceAll('.', '_');
@@ -4928,7 +5042,7 @@ class _Header extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('MAGICKA COMMUNITY PATCH 0.0.15',
+          Text('MAGICKA COMMUNITY PATCH 0.0.16',
               style: TextStyle(
                   color: Color(0xfff7d897),
                   fontFamily: 'Georgia',
