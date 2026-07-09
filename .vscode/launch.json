@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Build Release 0.0.17",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\build-release.ps1 -Version 0.0.17",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

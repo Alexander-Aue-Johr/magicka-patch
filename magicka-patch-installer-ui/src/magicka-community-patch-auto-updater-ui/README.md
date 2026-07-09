@@ -1,6 +1,6 @@
 # Magicka Community Patch Auto Updater UI
 
-Small Flutter Windows shell for the prepared-update UI.
+Small Flutter entry point for the prepared-update UI.
 
 The UI widgets, shaders, assets, Patreon effects, feedback dialog, and special
 thanks banner are reused from the parent installer package.
@@ -17,9 +17,14 @@ or uses a prepared directory, copies `Magicka.exe` and `PolygonHead.dll` into
 the Magicka folder, keeps the current settings, and removes
 `CommunityPatch/pending-update.ini`.
 
-To run or build the Windows updater:
+For release packages, `scripts/build-release.ps1` builds the parent installer
+Windows app and copies that runner as `MagickaPatchAutoUpdater.exe`. The updater
+mode is selected by the command-line arguments, so this package does not track a
+separate Windows runner project.
+
+To run the updater UI from the parent installer project:
 
 ```powershell
-flutter run -d windows -- --offer-pending-update "G:\SteamLibrary\steamapps\common\Magicka" "0.0.16" "C:\path\to\update.zip"
-flutter build windows --release
+cd ..\..
+flutter run -d windows -- --offer-pending-update "G:\SteamLibrary\steamapps\common\Magicka" "0.0.17" "C:\path\to\update.zip"
 ```

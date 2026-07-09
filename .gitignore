@@ -1,2 +1,5 @@
 /release
+release-build-*.log
+**/windows/flutter/generated_plugin_registrant.*
+**/windows/flutter/generated_plugins.cmake
 /magicka-patch-installer-ui/src/magicka-community-patch-auto-updater-ui/windows

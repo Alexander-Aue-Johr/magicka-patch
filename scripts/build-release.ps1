@@ -490,31 +490,16 @@ if ($SkipBuild -and -not [string]::IsNullOrWhiteSpace($Version)) {
 if (-not $SkipBuild) {
     Invoke-Tool $flutterExe @('pub', 'get') $installerProject
     Invoke-Tool $flutterExe @('build', 'windows', '--release') $installerProject
-
-    if (-not $SkipAutoUpdaterUi) {
-        Invoke-Tool $flutterExe @('pub', 'get') $updaterProject
-        Invoke-Tool $flutterExe @('build', 'windows', '--release') $updaterProject
-    }
 }
 
 $installerRelease = Join-PathChecked $installerProject 'build\windows\x64\runner\Release'
-$updaterRelease = Join-PathChecked $updaterProject 'build\windows\x64\runner\Release'
 $installerExe = Join-PathChecked $installerRelease 'magicka-community-patch-installer-ui.exe'
-$updaterExe = Join-PathChecked $updaterRelease 'magicka-community-patch-auto-updater-ui.exe'
-if (-not (Test-Path -LiteralPath $updaterExe)) {
-    $updaterExe = Join-PathChecked $updaterRelease 'magicka_community_patch_auto_updater_ui.exe'
-}
 
 Assert-File (Join-PathChecked $repoRoot 'Magicka.exe')
 Assert-File (Join-PathChecked $repoRoot 'PolygonHead.dll')
 Assert-File $installerExe
 Assert-File (Join-PathChecked $installerRelease 'flutter_windows.dll')
 Assert-Directory (Join-PathChecked $installerRelease 'data')
-if (-not $SkipAutoUpdaterUi) {
-    Assert-File $updaterExe
-    Assert-File (Join-PathChecked $updaterRelease 'flutter_windows.dll')
-    Assert-Directory (Join-PathChecked $updaterRelease 'data')
-}
 
 New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
 Remove-PathInside $stageDir $OutputDir
@@ -540,9 +525,9 @@ Copy-Item -LiteralPath (Join-PathChecked $installerRelease 'data') -Destination 
 if (-not $SkipAutoUpdaterUi) {
     $updaterStage = Join-PathChecked $stageDir 'tools\auto-updater'
     New-Item -ItemType Directory -Force -Path $updaterStage | Out-Null
-    Copy-Item -LiteralPath $updaterExe -Destination (Join-PathChecked $updaterStage 'MagickaPatchAutoUpdater.exe')
-    Copy-Item -LiteralPath (Join-PathChecked $updaterRelease 'flutter_windows.dll') -Destination (Join-PathChecked $updaterStage 'flutter_windows.dll')
-    Copy-Item -LiteralPath (Join-PathChecked $updaterRelease 'data') -Destination (Join-PathChecked $updaterStage 'data') -Recurse
+    Copy-Item -LiteralPath $installerExe -Destination (Join-PathChecked $updaterStage 'MagickaPatchAutoUpdater.exe')
+    Copy-Item -LiteralPath (Join-PathChecked $installerRelease 'flutter_windows.dll') -Destination (Join-PathChecked $updaterStage 'flutter_windows.dll')
+    Copy-Item -LiteralPath (Join-PathChecked $installerRelease 'data') -Destination (Join-PathChecked $updaterStage 'data') -Recurse
 }
 
 Compress-Archive -Path (Join-Path $stageDir '*') -DestinationPath $zipPath -CompressionLevel Optimal -Force
