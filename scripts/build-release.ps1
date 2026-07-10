@@ -5,6 +5,7 @@ param(
     [string]$OldExeVersion = "",
     [string]$Flutter = "",
     [string]$OutputDir = "",
+    [string]$Locale = "",
     [string]$MagickaDir = "",
     [switch]$SkipExeVersionPatch,
     [switch]$SkipBuild,
@@ -301,6 +302,40 @@ function Format-FlutterVersion {
     return "$SemanticVersion+$resolvedBuildNumber"
 }
 
+function Resolve-ReleaseLocale {
+    param([AllowEmptyString()][string]$Requested)
+
+    if ([string]::IsNullOrWhiteSpace($Requested)) {
+        return ""
+    }
+
+    $normalized = $Requested.Trim().Replace('_', '-')
+    if ([string]::Equals($normalized, 'system', [System.StringComparison]::OrdinalIgnoreCase)) {
+        return ""
+    }
+
+    $supported = @(
+        'es-AR',
+        'ru-RU',
+        'uk-UA',
+        'de-DE',
+        'ja-JP',
+        'en-US',
+        'fr-FR',
+        'pt-BR',
+        'ko-KR',
+        'cs-CZ'
+    )
+
+    foreach ($locale in $supported) {
+        if ([string]::Equals($normalized, $locale, [System.StringComparison]::OrdinalIgnoreCase)) {
+            return $locale
+        }
+    }
+
+    throw "Unsupported release locale '$Requested'. Supported locales: $($supported -join ', ')"
+}
+
 function Get-PreviousPatchVersion {
     param([Parameter(Mandatory = $true)][string]$SemanticVersion)
 
@@ -552,6 +587,7 @@ function Set-ProjectVersion {
     $updaterPubspecPath = Join-PathChecked $UpdaterProject 'pubspec.yaml'
     $updaterLockPath = Join-PathChecked $UpdaterProject 'pubspec.lock'
     $installerMainPath = Join-PathChecked $InstallerProject 'lib\main.dart'
+    $localizationPath = Join-PathChecked $InstallerProject 'lib\localization.dart'
     $widgetTestPath = Join-PathChecked $InstallerProject 'test\widget_test.dart'
     $installerReadmePath = Join-PathChecked $InstallerProject 'README.md'
     $updaterReadmePath = Join-PathChecked $UpdaterProject 'README.md'
@@ -560,7 +596,8 @@ function Set-ProjectVersion {
     Replace-RegexRequired $updaterPubspecPath '^\s*version:\s*[^\s#]+' "version: $FullVersion" 'auto-updater pubspec version'
     Set-UpdaterLockPackageVersion $updaterLockPath $FullVersion
     Replace-RegexRequired $installerMainPath "static\s+const\s+patchVersion\s*=\s*'[^']+'" "static const patchVersion = '$SemanticVersion'" 'AppConstants.patchVersion'
-    Replace-RegexRequired $installerMainPath 'MAGICKA COMMUNITY PATCH \d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?' "MAGICKA COMMUNITY PATCH $SemanticVersion" 'installer header version'
+    Replace-RegexIfPresent $installerMainPath 'MAGICKA COMMUNITY PATCH \d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?' "MAGICKA COMMUNITY PATCH $SemanticVersion" 'installer header version'
+    Replace-RegexRequired $localizationPath 'MAGICKA COMMUNITY PATCH \d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?' "MAGICKA COMMUNITY PATCH $SemanticVersion" 'localized installer header version'
     Replace-RegexRequired $widgetTestPath 'MAGICKA COMMUNITY PATCH \d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?' "MAGICKA COMMUNITY PATCH $SemanticVersion" 'widget test header version'
     Replace-RegexRequired $installerReadmePath '^Version:\s+\*\*[^*]+\*\*' "Version: **$SemanticVersion**" 'installer README version'
 
@@ -741,6 +778,8 @@ if ($mainText -notmatch "static\s+const\s+patchVersion\s*=\s*'$([regex]::Escape(
 }
 
 $version = $installerVersion.Semantic
+$releaseLocale = Resolve-ReleaseLocale $Locale
+$releaseSuffix = if ([string]::IsNullOrWhiteSpace($releaseLocale)) { "" } else { "-$releaseLocale" }
 $flutterExe = Resolve-Flutter $Flutter
 if ([string]::IsNullOrWhiteSpace($OutputDir)) {
     $OutputDir = Join-PathChecked $repoRoot 'release'
@@ -749,10 +788,13 @@ else {
     $OutputDir = [System.IO.Path]::GetFullPath($OutputDir)
 }
 
-$stageDir = Join-PathChecked $OutputDir "magicka-community-patch-$version"
-$zipPath = Join-PathChecked $OutputDir "magicka-community-patch-$version.zip"
+$stageDir = Join-PathChecked $OutputDir "magicka-community-patch-$version$releaseSuffix"
+$zipPath = Join-PathChecked $OutputDir "magicka-community-patch-$version$releaseSuffix.zip"
 
 Write-Host "Release version: $version ($($installerVersion.Full))" -ForegroundColor Green
+if (-not [string]::IsNullOrWhiteSpace($releaseLocale)) {
+    Write-Host "Release locale: $releaseLocale" -ForegroundColor Green
+}
 Write-Host "Output ZIP: $zipPath" -ForegroundColor Green
 
 if ($SkipBuild -and -not [string]::IsNullOrWhiteSpace($Version)) {
@@ -761,7 +803,11 @@ if ($SkipBuild -and -not [string]::IsNullOrWhiteSpace($Version)) {
 
 if (-not $SkipBuild) {
     Invoke-Tool $flutterExe @('pub', 'get') $installerProject
-    Invoke-Tool $flutterExe @('build', 'windows', '--release') $installerProject
+    $buildArgs = @('build', 'windows', '--release')
+    if (-not [string]::IsNullOrWhiteSpace($releaseLocale)) {
+        $buildArgs += "--dart-define=APP_LOCALE=$releaseLocale"
+    }
+    Invoke-Tool $flutterExe $buildArgs $installerProject
 }
 
 $installerRelease = Join-PathChecked $installerProject 'build\windows\x64\runner\Release'

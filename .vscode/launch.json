@@ -2,11 +2,49 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Build Release 0.0.17",
+      "name": "Installer UI (choose language)",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "cwd": "${workspaceFolder}/magicka-patch-installer-ui",
+      "args": [
+        "--locale",
+        "${input:installerLanguage}"
+      ]
+    },
+    {
+      "name": "Build Release",
       "type": "node-terminal",
       "request": "launch",
-      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\build-release.ps1 -Version 0.0.17",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\build-release.ps1 -Version ${input:releaseVersion}",
       "cwd": "${workspaceFolder}"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "releaseVersion",
+      "type": "promptString",
+      "description": "Release version",
+      "default": "0.0.19"
+    },
+    {
+      "id": "installerLanguage",
+      "type": "pickString",
+      "description": "Installer language",
+      "default": "system",
+      "options": [
+        "system",
+        "es-AR",
+        "ru-RU",
+        "uk-UA",
+        "de-DE",
+        "ja-JP",
+        "en-US",
+        "fr-FR",
+        "pt-BR",
+        "ko-KR",
+        "cs-CZ"
+      ]
     }
   ]
 }

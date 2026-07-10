@@ -6,10 +6,14 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
+import 'localization.dart';
+
 String? _assetPackage;
+const String _buildDefaultLocale = String.fromEnvironment('APP_LOCALE');
 
 String _assetKey(String path) =>
     _assetPackage == null ? path : 'packages/$_assetPackage/$path';
@@ -23,10 +27,25 @@ void runMagickaPatchApp(List<String> args,
     bool forceUninstaller = false,
     String? assetPackage}) {
   _assetPackage = assetPackage;
+  final updaterCommand = UpdaterCommand.parse(args);
+  final effectiveForceUninstaller =
+      forceUninstaller || _isUninstallRequest(args);
+  final localeSelection = resolveAppLocaleSelection(
+      args, ui.PlatformDispatcher.instance.locale, _buildDefaultLocale);
+  final startupSurface = effectiveForceUninstaller
+      ? 'uninstaller'
+      : (forceUpdater || updaterCommand != null)
+          ? 'updater'
+          : 'installer';
+  unawaited(_sendInstallerStartupTelemetry(
+    localeSelection: localeSelection,
+    startupSurface: startupSurface,
+  ));
   runApp(MagickaPatchApp(
-      updaterCommand: UpdaterCommand.parse(args),
+      updaterCommand: updaterCommand,
       forceUpdater: forceUpdater,
-      forceUninstaller: forceUninstaller || _isUninstallRequest(args)));
+      forceUninstaller: effectiveForceUninstaller,
+      localeSelection: localeSelection));
 }
 
 class MagickaPatchApp extends StatelessWidget {
@@ -34,17 +53,30 @@ class MagickaPatchApp extends StatelessWidget {
       {super.key,
       this.updaterCommand,
       this.forceUpdater = false,
-      this.forceUninstaller = false});
+      this.forceUninstaller = false,
+      this.localeSelection});
 
   final UpdaterCommand? updaterCommand;
   final bool forceUpdater;
   final bool forceUninstaller;
+  final AppLocaleSelection? localeSelection;
 
   @override
   Widget build(BuildContext context) {
+    final effectiveLocaleSelection = localeSelection ??
+        resolveAppLocaleSelection(const <String>[],
+            ui.PlatformDispatcher.instance.locale, _buildDefaultLocale);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Magicka Community Patch',
+      locale: effectiveLocaleSelection.language.locale,
+      supportedLocales: AppLanguage.supportedLocales,
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+        AppStrings.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       theme: ThemeData.dark(useMaterial3: true),
       home: forceUninstaller
           ? const UninstallerScreen()
@@ -125,7 +157,7 @@ String _option(List<String> args, String key) {
 }
 
 class AppConstants {
-  static const patchVersion = '0.0.18';
+  static const patchVersion = '0.0.19';
   static const settingsDirectoryName = 'CommunityPatch';
   static const settingsFileName = 'patch-settings.ini';
   static const manifestFileName = 'install-manifest.ini';
@@ -140,8 +172,26 @@ class AppConstants {
   static const postHogApiKey =
       'phc_vbVuHJdtwsf2gzBY36KcLo8btGZY4D6foFGqtxbkfog8';
   static const postHogEndpoint = 'https://eu.i.posthog.com/capture/';
+  static const telemetryEventInstallerStarted =
+      'magicka_patch_installer_started';
+  static const telemetryEventInstallerLanguageResolved =
+      'magicka_patch_installer_language_resolved';
   static const telemetryEventInstalled = 'magicka_patch_installed';
   static const telemetryEventAutoUpdate = 'magicka_patch_auto_update';
+  static const telemetryEventDirectXAlreadyInstalled =
+      'magicka_patch_directx_already_installed';
+  static const telemetryEventDirectXSetupMissing =
+      'magicka_patch_directx_setup_missing';
+  static const telemetryEventDirectXInstallPromptShown =
+      'magicka_patch_directx_install_prompt_shown';
+  static const telemetryEventDirectXInstallIgnored =
+      'magicka_patch_directx_install_ignored';
+  static const telemetryEventDirectXInstallStarted =
+      'magicka_patch_directx_install_started';
+  static const telemetryEventDirectXInstallSucceeded =
+      'magicka_patch_directx_install_succeeded';
+  static const telemetryEventDirectXInstallFailed =
+      'magicka_patch_directx_install_failed';
 }
 
 const double _patreonTurbulence = 0.78;
@@ -223,8 +273,9 @@ class _InstallerScreenState extends State<InstallerScreen>
   bool _crashReports = true;
   bool _autoUpdate = true;
   bool _patchAlreadyInstalled = false;
+  bool _statusInitialized = false;
   String _patchInstallCheckDir = '';
-  String _status = 'Ready.';
+  String _status = '';
 
   @override
   void initState() {
@@ -235,6 +286,14 @@ class _InstallerScreenState extends State<InstallerScreen>
     _pathController.addListener(_handlePathChanged);
     _loadShader();
     _detectQuick();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_statusInitialized) return;
+    _status = AppStrings.of(context).t('ready');
+    _statusInitialized = true;
   }
 
   Future<void> _loadShader() async {
@@ -287,11 +346,12 @@ class _InstallerScreenState extends State<InstallerScreen>
   }
 
   Future<void> _browse() async {
+    final s = AppStrings.of(context);
     final result = await Process.run('powershell', <String>[
       '-Sta',
       '-NoProfile',
       '-Command',
-      r'Add-Type -AssemblyName System.Windows.Forms; $d=New-Object System.Windows.Forms.FolderBrowserDialog; $d.Description="Game folder"; if($d.ShowDialog() -eq "OK"){ $d.SelectedPath }',
+      'Add-Type -AssemblyName System.Windows.Forms; \$d=New-Object System.Windows.Forms.FolderBrowserDialog; \$d.Description=${_psQuote(s.t('gameFolder'))}; if(\$d.ShowDialog() -eq "OK"){ \$d.SelectedPath }',
     ]);
     final path = result.stdout.toString().trim();
     if (path.isNotEmpty) {
@@ -300,14 +360,16 @@ class _InstallerScreenState extends State<InstallerScreen>
   }
 
   Future<void> _discover() async {
-    setState(() => _status = 'Searching Steam libraries...');
+    setState(
+        () => _status = AppStrings.of(context).t('searchingSteamLibraries'));
     final found = await _findMagickaDirectory(deep: true);
     if (!mounted) return;
+    final s = AppStrings.of(context);
     if (found == null) {
       setState(() {
         _patchAlreadyInstalled = false;
         _patchInstallCheckDir = '';
-        _status = 'This does not look like the Magicka Steam folder.';
+        _status = s.t('invalidMagickaFolder');
       });
       return;
     }
@@ -328,15 +390,17 @@ class _InstallerScreenState extends State<InstallerScreen>
       _patchAlreadyInstalled = installed;
       if (!installed) _patchInstallCheckDir = '';
       _status = installed
-          ? 'Patch ${AppConstants.patchVersion} is already installed.'
-          : 'Detected folder: $gameDir';
+          ? AppStrings.of(context)
+              .patchAlreadyInstalled(AppConstants.patchVersion)
+          : AppStrings.of(context).detectedFolder(gameDir);
     });
   }
 
   Future<void> _install() async {
+    final s = AppStrings.of(context);
     final gameDir = _pathController.text.trim();
     if (!_isValidMagickaDirectory(gameDir)) {
-      _showMessage('This does not look like the Magicka Steam folder.');
+      _showMessage(s.t('invalidMagickaFolder'));
       return;
     }
 
@@ -347,8 +411,7 @@ class _InstallerScreenState extends State<InstallerScreen>
           setState(() {
             _patchAlreadyInstalled = true;
             _patchInstallCheckDir = gameDir;
-            _status =
-                'Patch ${AppConstants.patchVersion} is already installed.';
+            _status = s.patchAlreadyInstalled(AppConstants.patchVersion);
           });
         }
         await _startGameFromInstaller(gameDir);
@@ -388,24 +451,25 @@ class _InstallerScreenState extends State<InstallerScreen>
         patchVersion: AppConstants.patchVersion,
       );
 
-      setState(() => _status = 'The patch was installed.');
+      setState(() => _status = s.t('thePatchWasInstalled'));
       await _showStartGameDialog(
         context,
         gameDir,
-        'The patch was installed.',
+        s.t('thePatchWasInstalled'),
         flameProgram: _flameProgram,
         starProgram: _starProgram,
       );
     } catch (error) {
-      setState(() => _status = 'Install failed: $error');
-      _showMessage('Install failed: $error');
+      setState(() => _status = s.installFailed(error));
+      _showMessage(s.installFailed(error));
     }
   }
 
   Future<void> _startInstalledGame() async {
+    final s = AppStrings.of(context);
     final gameDir = _pathController.text.trim();
     if (!_isValidMagickaDirectory(gameDir)) {
-      _showMessage('This does not look like the Magicka Steam folder.');
+      _showMessage(s.t('invalidMagickaFolder'));
       return;
     }
     await _startGameFromInstaller(gameDir);
@@ -413,17 +477,30 @@ class _InstallerScreenState extends State<InstallerScreen>
 
   Future<void> _startGameFromInstaller(String gameDir) async {
     try {
-      await _startMagicka(gameDir);
-      if (mounted) setState(() => _status = 'Magicka was started.');
+      final started = await _startMagickaWithPrerequisites(context, gameDir);
+
+      if (!started) {
+        if (mounted) {
+          setState(
+              () => _status = AppStrings.of(context).t('magickaWasNotStarted'));
+        }
+        return;
+      }
+
+      if (mounted) {
+        setState(() => _status = AppStrings.of(context).t('magickaWasStarted'));
+      }
     } catch (error) {
       if (!mounted) return;
-      setState(() => _status = 'Could not start Magicka: $error');
-      await _showMessage('Could not start Magicka: $error');
+      final s = AppStrings.of(context);
+      setState(() => _status = s.couldNotStartMagicka(error));
+      await _showMessage(s.couldNotStartMagicka(error));
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     final showStarTuningPanel = kDebugMode && _showStarTuningPanel;
     return Scaffold(
       backgroundColor: const Color(0xff040608),
@@ -484,7 +561,7 @@ class _InstallerScreenState extends State<InstallerScreen>
                             height: 34,
                             child: FlameButton(
                                 program: null,
-                                label: 'Browse...',
+                                label: s.t('browse'),
                                 icon: Icons.folder,
                                 accent: const Color(0xffd9a04f),
                                 overlayIcon: true,
@@ -497,7 +574,7 @@ class _InstallerScreenState extends State<InstallerScreen>
                             height: 34,
                             child: FlameButton(
                                 program: null,
-                                label: 'Find automatically',
+                                label: s.t('findAutomatically'),
                                 icon: Icons.search,
                                 accent: const Color(0xff3f9fff),
                                 overlayIcon: true,
@@ -534,8 +611,8 @@ class _InstallerScreenState extends State<InstallerScreen>
                             child: FlameButton(
                                 program: _starProgram,
                                 label: _patchAlreadyInstalled
-                                    ? 'Start game'
-                                    : 'Install patch',
+                                    ? s.t('startGame')
+                                    : s.t('installPatch'),
                                 icon: _patchAlreadyInstalled
                                     ? Icons.play_arrow_rounded
                                     : Icons.auto_awesome,
@@ -555,7 +632,7 @@ class _InstallerScreenState extends State<InstallerScreen>
                             height: 42,
                             child: FlameButton(
                                 program: _flameProgram,
-                                label: 'Send feedback',
+                                label: s.t('sendFeedback'),
                                 icon: Icons.chat_bubble,
                                 accent: const Color(0xffd9a04f),
                                 overlayIcon: true,
@@ -567,7 +644,7 @@ class _InstallerScreenState extends State<InstallerScreen>
                             height: 42,
                             child: FlameButton(
                                 program: _flameProgram,
-                                label: 'Support on Patreon',
+                                label: s.t('supportOnPatreon'),
                                 icon: Icons.favorite,
                                 accent: const Color(0xffff5d2d),
                                 patreon: true,
@@ -585,7 +662,7 @@ class _InstallerScreenState extends State<InstallerScreen>
                             height: 42,
                             child: FlameButton(
                                 program: _flameProgram,
-                                label: 'Cancel',
+                                label: s.t('cancel'),
                                 icon: Icons.close,
                                 accent: const Color(0xffd03f30),
                                 overlayIcon: true,
@@ -642,21 +719,23 @@ class _InstallerScreenState extends State<InstallerScreen>
 
   Future<void> _showMessage(String message) async {
     if (!mounted) return;
+    final s = AppStrings.of(context);
     await showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xff101315),
-        title: const Text('Magicka Community Patch'),
+        title: Text(s.t('appTitle')),
         content: Text(message),
         actions: <Widget>[
           TextButton(
-              onPressed: () => Navigator.pop(context), child: const Text('OK'))
+              onPressed: () => Navigator.pop(context), child: Text(s.t('ok')))
         ],
       ),
     );
   }
 
   Future<void> _showFeedbackDialog() async {
+    final s = AppStrings.of(context);
     final nameController = TextEditingController();
     final subjectController = TextEditingController();
     final messageController = TextEditingController();
@@ -665,7 +744,7 @@ class _InstallerScreenState extends State<InstallerScreen>
         context: context,
         builder: (context) => AlertDialog(
           backgroundColor: const Color(0xff101315),
-          title: const Text('Send feedback'),
+          title: Text(s.t('feedbackTitle')),
           content: SizedBox(
             width: 520,
             child: Column(
@@ -673,20 +752,20 @@ class _InstallerScreenState extends State<InstallerScreen>
               children: <Widget>[
                 TextField(
                   controller: nameController,
-                  decoration:
-                      const InputDecoration(labelText: 'Name (optional)'),
+                  decoration: InputDecoration(labelText: s.t('feedbackName')),
                 ),
                 const SizedBox(height: 10),
                 TextField(
                   controller: subjectController,
                   decoration:
-                      const InputDecoration(labelText: 'Subject (optional)'),
+                      InputDecoration(labelText: s.t('feedbackSubject')),
                 ),
                 const SizedBox(height: 10),
                 TextField(
                   controller: messageController,
                   maxLines: 7,
-                  decoration: const InputDecoration(labelText: 'Message'),
+                  decoration:
+                      InputDecoration(labelText: s.t('feedbackMessage')),
                 ),
               ],
             ),
@@ -694,7 +773,7 @@ class _InstallerScreenState extends State<InstallerScreen>
           actions: <Widget>[
             TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel')),
+                child: Text(s.t('cancel'))),
             FilledButton.icon(
               onPressed: () async {
                 final sent = await _sendFeedback(
@@ -706,13 +785,12 @@ class _InstallerScreenState extends State<InstallerScreen>
                 if (!mounted) return;
                 Navigator.pop(context);
                 setState(() => _status =
-                    sent ? 'Feedback sent.' : 'Feedback could not be sent.');
-                await _showMessage(sent
-                    ? 'Feedback sent. Thank you!'
-                    : 'Feedback could not be sent right now.');
+                    sent ? s.t('feedbackSent') : s.t('feedbackNotSent'));
+                await _showMessage(
+                    sent ? s.t('feedbackThankYou') : s.t('feedbackFailed'));
               },
               icon: const Icon(Icons.send, size: 16),
-              label: const Text('Send'),
+              label: Text(s.t('feedbackSend')),
             ),
           ],
         ),
@@ -984,7 +1062,7 @@ version=${AppConstants.patchVersion}
 usage_sharing=$_usageSharing
 crash_reports=$_crashReports
 auto_update=$_autoUpdate
-language=en
+language=${AppStrings.of(context).language.localeTag}
 skipped_version=
 created_utc=${DateTime.now().toUtc().toIso8601String()}
 event_log=${AppConstants.settingsDirectoryName}\\${AppConstants.eventLogFileName}
@@ -1050,7 +1128,8 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
   bool _busy = false;
   bool _updated = false;
   bool _toolUpdateScheduled = false;
-  String _status = 'Ready to update.';
+  bool _statusInitialized = false;
+  String _status = '';
 
   @override
   void initState() {
@@ -1059,12 +1138,22 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
         vsync: this, duration: const Duration(milliseconds: 3200))
       ..repeat();
     _loadShader();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_statusInitialized) return;
+    final s = AppStrings.of(context);
     final command = widget.command;
     if (command == null) {
-      _status = 'No pending update was supplied.';
+      _status = s.t('noPendingUpdate');
     } else if (command.version.isNotEmpty) {
-      _status = 'Patch ${command.version} is ready.';
+      _status = s.patchReady(command.version);
+    } else {
+      _status = s.t('ready');
     }
+    _statusInitialized = true;
   }
 
   Future<void> _loadShader() async {
@@ -1100,16 +1189,17 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
   }
 
   Future<void> _updatePatch() async {
+    final s = AppStrings.of(context);
     final command = widget.command;
     if (command == null) {
-      await _showMessage('No pending update was supplied.');
+      await _showMessage(s.t('noPendingUpdate'));
       return;
     }
     if (_busy) return;
 
     setState(() {
       _busy = true;
-      _status = 'Preparing update...';
+      _status = s.t('preparingUpdate');
     });
 
     try {
@@ -1122,19 +1212,19 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
       if (!mounted) return;
       setState(() {
         _updated = true;
-        _status = 'Patch ${_displayVersion(command)} installed.';
+        _status = s.patchInstalled(_displayVersion(command));
       });
       await _showStartGameDialog(
         context,
         command.gameDir,
-        'Magicka Community Patch ${_displayVersion(command)} installed.',
+        s.patchInstalled(_displayVersion(command)),
         flameProgram: _flameProgram,
         starProgram: _starProgram,
       );
     } catch (error) {
       if (!mounted) return;
-      setState(() => _status = 'Update failed: $error');
-      await _showMessage('Update failed: $error');
+      setState(() => _status = s.updateFailed(error));
+      await _showMessage(s.updateFailed(error));
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -1382,7 +1472,7 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
       'usage_sharing': 'true',
       'crash_reports': 'true',
       'auto_update': 'true',
-      'language': 'en',
+      'language': AppStrings.of(context).language.localeTag,
       'skipped_version': '',
       'created_utc': DateTime.now().toUtc().toIso8601String(),
       'event_log':
@@ -1438,6 +1528,7 @@ event_log=${values['event_log']}
           : command.version.trim();
 
   Future<void> _showFeedbackDialog() async {
+    final s = AppStrings.of(context);
     final nameController = TextEditingController();
     final subjectController = TextEditingController();
     final messageController = TextEditingController();
@@ -1446,7 +1537,7 @@ event_log=${values['event_log']}
         context: context,
         builder: (context) => AlertDialog(
           backgroundColor: const Color(0xff101315),
-          title: const Text('Send feedback'),
+          title: Text(s.t('feedbackTitle')),
           content: SizedBox(
             width: 520,
             child: Column(
@@ -1454,20 +1545,20 @@ event_log=${values['event_log']}
               children: <Widget>[
                 TextField(
                   controller: nameController,
-                  decoration:
-                      const InputDecoration(labelText: 'Name (optional)'),
+                  decoration: InputDecoration(labelText: s.t('feedbackName')),
                 ),
                 const SizedBox(height: 10),
                 TextField(
                   controller: subjectController,
                   decoration:
-                      const InputDecoration(labelText: 'Subject (optional)'),
+                      InputDecoration(labelText: s.t('feedbackSubject')),
                 ),
                 const SizedBox(height: 10),
                 TextField(
                   controller: messageController,
                   maxLines: 7,
-                  decoration: const InputDecoration(labelText: 'Message'),
+                  decoration:
+                      InputDecoration(labelText: s.t('feedbackMessage')),
                 ),
               ],
             ),
@@ -1475,7 +1566,7 @@ event_log=${values['event_log']}
           actions: <Widget>[
             TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel')),
+                child: Text(s.t('cancel'))),
             FilledButton.icon(
               onPressed: () async {
                 final sent = await _sendFeedback(
@@ -1487,13 +1578,12 @@ event_log=${values['event_log']}
                 if (!mounted) return;
                 Navigator.pop(context);
                 setState(() => _status =
-                    sent ? 'Feedback sent.' : 'Feedback could not be sent.');
-                await _showMessage(sent
-                    ? 'Feedback sent. Thank you!'
-                    : 'Feedback could not be sent right now.');
+                    sent ? s.t('feedbackSent') : s.t('feedbackNotSent'));
+                await _showMessage(
+                    sent ? s.t('feedbackThankYou') : s.t('feedbackFailed'));
               },
               icon: const Icon(Icons.send, size: 16),
-              label: const Text('Send'),
+              label: Text(s.t('feedbackSend')),
             ),
           ],
         ),
@@ -1579,15 +1669,16 @@ event_log=${values['event_log']}
 
   Future<void> _showMessage(String message) async {
     if (!mounted) return;
+    final s = AppStrings.of(context);
     await showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xff101315),
-        title: const Text('Magicka Community Patch'),
+        title: Text(s.t('appTitle')),
         content: Text(message),
         actions: <Widget>[
           TextButton(
-              onPressed: () => Navigator.pop(context), child: const Text('OK'))
+              onPressed: () => Navigator.pop(context), child: Text(s.t('ok')))
         ],
       ),
     );
@@ -1595,6 +1686,7 @@ event_log=${values['event_log']}
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     final version = widget.command == null
         ? AppConstants.patchVersion
         : _displayVersion(widget.command!);
@@ -1629,16 +1721,23 @@ event_log=${values['event_log']}
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text('Patch update $version',
+                            Text(
+                                s
+                                    .t('updateTitle')
+                                    .replaceAll('{version}', version),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     color: Color(0xfff7d897),
                                     fontFamily: 'Georgia',
                                     fontSize: 30,
                                     fontWeight: FontWeight.bold)),
                             const SizedBox(height: 10),
-                            const Text(
-                              'A prepared Magicka Community Patch update is ready. It will replace Magicka.exe and PolygonHead.dll, keep the current settings, and store the previous patch files as backup.',
-                              style: TextStyle(
+                            Text(
+                              s.t('updateBody'),
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
                                   color: Color(0xffeedfc4),
                                   fontSize: 16,
                                   height: 1.35),
@@ -1677,7 +1776,7 @@ event_log=${values['event_log']}
                       height: 42,
                       child: FlameButton(
                           program: _starProgram,
-                          label: _busy ? 'Updating...' : 'Update patch',
+                          label: _busy ? s.t('updating') : s.t('updatePatch'),
                           icon: Icons.system_update_alt_rounded,
                           accent: const Color(0xff3f9fff),
                           starField: true,
@@ -1693,7 +1792,7 @@ event_log=${values['event_log']}
                       height: 42,
                       child: FlameButton(
                           program: _flameProgram,
-                          label: 'Send feedback',
+                          label: s.t('sendFeedback'),
                           icon: Icons.chat_bubble,
                           accent: const Color(0xffd9a04f),
                           overlayIcon: true,
@@ -1705,7 +1804,7 @@ event_log=${values['event_log']}
                       height: 42,
                       child: FlameButton(
                           program: _flameProgram,
-                          label: 'Support on Patreon',
+                          label: s.t('supportOnPatreon'),
                           icon: Icons.favorite,
                           accent: const Color(0xffff5d2d),
                           patreon: true,
@@ -1721,7 +1820,7 @@ event_log=${values['event_log']}
                       height: 42,
                       child: FlameButton(
                           program: _flameProgram,
-                          label: 'Close',
+                          label: s.t('close'),
                           icon: Icons.close,
                           accent: const Color(0xffd03f30),
                           overlayIcon: true,
@@ -1757,7 +1856,8 @@ class _UninstallerScreenState extends State<UninstallerScreen>
   bool _busy = false;
   bool _removed = false;
   bool _cleanupScheduled = false;
-  String _status = 'Ready to remove the patch.';
+  bool _statusInitialized = false;
+  String _status = '';
 
   String get _gameDir => File(Platform.resolvedExecutable).parent.path;
 
@@ -1768,6 +1868,14 @@ class _UninstallerScreenState extends State<UninstallerScreen>
         vsync: this, duration: const Duration(milliseconds: 3200))
       ..repeat();
     _loadShader();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_statusInitialized) return;
+    _status = AppStrings.of(context).t('uninstallInitialStatus');
+    _statusInitialized = true;
   }
 
   Future<void> _loadShader() async {
@@ -1804,21 +1912,21 @@ class _UninstallerScreenState extends State<UninstallerScreen>
 
   Future<void> _uninstall() async {
     if (_busy || _removed) return;
+    final s = AppStrings.of(context);
     final confirmed = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
             backgroundColor: const Color(0xff101315),
-            title: const Text('Uninstall patch?'),
-            content: Text(
-                'This will restore the original Magicka.exe and PolygonHead.dll from backup.\n\nFolder:\n$_gameDir'),
+            title: Text(s.t('uninstallConfirmTitle')),
+            content: Text(s.uninstallConfirmBody(_gameDir)),
             actions: <Widget>[
               TextButton(
                   onPressed: () => Navigator.pop(context, false),
-                  child: const Text('Cancel')),
+                  child: Text(s.t('cancel'))),
               FilledButton.icon(
                 onPressed: () => Navigator.pop(context, true),
                 icon: const Icon(Icons.delete_outline_rounded, size: 18),
-                label: const Text('Uninstall'),
+                label: Text(s.t('uninstallConfirmButton')),
               ),
             ],
           ),
@@ -1828,7 +1936,7 @@ class _UninstallerScreenState extends State<UninstallerScreen>
 
     setState(() {
       _busy = true;
-      _status = 'Restoring original files...';
+      _status = s.t('restoringOriginalFiles');
     });
 
     try {
@@ -1836,13 +1944,13 @@ class _UninstallerScreenState extends State<UninstallerScreen>
       if (!mounted) return;
       setState(() {
         _removed = true;
-        _status = 'The patch was removed.';
+        _status = s.t('thePatchWasRemoved');
       });
-      await _showMessage('The patch was removed.');
+      await _showMessage(s.t('thePatchWasRemoved'));
     } catch (error) {
       if (!mounted) return;
-      setState(() => _status = 'Uninstall failed: $error');
-      await _showMessage('Uninstall failed: $error');
+      setState(() => _status = s.uninstallFailed(error));
+      await _showMessage(s.uninstallFailed(error));
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -1928,15 +2036,16 @@ class _UninstallerScreenState extends State<UninstallerScreen>
 
   Future<void> _showMessage(String message) async {
     if (!mounted) return;
+    final s = AppStrings.of(context);
     await showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xff101315),
-        title: const Text('Magicka Community Patch'),
+        title: Text(s.t('appTitle')),
         content: Text(message),
         actions: <Widget>[
           TextButton(
-              onPressed: () => Navigator.pop(context), child: const Text('OK'))
+              onPressed: () => Navigator.pop(context), child: Text(s.t('ok')))
         ],
       ),
     );
@@ -1944,6 +2053,7 @@ class _UninstallerScreenState extends State<UninstallerScreen>
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     return Scaffold(
       backgroundColor: const Color(0xff040608),
       body: SizedBox.expand(
@@ -1975,16 +2085,16 @@ class _UninstallerScreenState extends State<UninstallerScreen>
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            const Text('Uninstall patch',
-                                style: TextStyle(
+                            Text(s.t('uninstallTitle'),
+                                style: const TextStyle(
                                     color: Color(0xfff7d897),
                                     fontFamily: 'Georgia',
                                     fontSize: 30,
                                     fontWeight: FontWeight.bold)),
                             const SizedBox(height: 10),
-                            const Text(
-                              'Restore the original Magicka files from backup and remove the Community Patch tool files.',
-                              style: TextStyle(
+                            Text(
+                              s.t('uninstallBody'),
+                              style: const TextStyle(
                                   color: Color(0xffeedfc4),
                                   fontSize: 16,
                                   height: 1.35),
@@ -2028,7 +2138,8 @@ class _UninstallerScreenState extends State<UninstallerScreen>
                       height: 42,
                       child: FlameButton(
                           program: _starProgram,
-                          label: _busy ? 'Removing...' : 'Uninstall patch',
+                          label:
+                              _busy ? s.t('removing') : s.t('uninstallPatch'),
                           icon: Icons.delete_outline_rounded,
                           accent: const Color(0xffd03f30),
                           starField: true,
@@ -2044,7 +2155,7 @@ class _UninstallerScreenState extends State<UninstallerScreen>
                       height: 42,
                       child: FlameButton(
                           program: _flameProgram,
-                          label: 'Support on Patreon',
+                          label: s.t('supportOnPatreon'),
                           icon: Icons.favorite,
                           accent: const Color(0xffff5d2d),
                           patreon: true,
@@ -2060,7 +2171,7 @@ class _UninstallerScreenState extends State<UninstallerScreen>
                       height: 42,
                       child: FlameButton(
                           program: _flameProgram,
-                          label: 'Close',
+                          label: s.t('close'),
                           icon: Icons.close,
                           accent: const Color(0xffd03f30),
                           overlayIcon: true,
@@ -3537,17 +3648,80 @@ void _addOptionalTelemetry(
   if (safe.isNotEmpty) properties[key] = safe;
 }
 
+Future<void> _sendInstallerStartupTelemetry({
+  required AppLocaleSelection localeSelection,
+  required String startupSurface,
+}) async {
+  await _sendInstallerTelemetryEvent(
+    eventName: AppConstants.telemetryEventInstallerStarted,
+    localeSelection: localeSelection,
+    startupSurface: startupSurface,
+  );
+  await _sendInstallerTelemetryEvent(
+    eventName: AppConstants.telemetryEventInstallerLanguageResolved,
+    localeSelection: localeSelection,
+    startupSurface: startupSurface,
+  );
+}
+
+Future<void> _sendInstallerTelemetryEvent({
+  required String eventName,
+  required AppLocaleSelection localeSelection,
+  required String startupSurface,
+}) async {
+  try {
+    final safeVersion = _safeTelemetryText(AppConstants.patchVersion, 100);
+    final properties = <String, Object>{
+      'distinct_id': await _patchTelemetryDistinctId(),
+      r'$process_person_profile': false,
+      'patch_name': 'Community Patch',
+      'patch_version': safeVersion,
+      'app_surface': startupSurface,
+      'locale': localeSelection.resolvedLocaleTag,
+      'locale_country': localeSelection.language.countryName,
+      'locale_source': localeSelection.source,
+      'system_locale': localeSelection.systemLocaleTag,
+      'os': _safeTelemetryText(Platform.operatingSystemVersion, 200),
+    };
+    _addOptionalTelemetry(
+        properties, 'requested_locale', localeSelection.requestedLocale, 80);
+
+    final payload = <String, Object>{
+      'api_key': AppConstants.postHogApiKey,
+      'event': eventName,
+      'properties': properties,
+    };
+
+    final client = HttpClient()
+      ..connectionTimeout = const Duration(milliseconds: 1200);
+    try {
+      final request =
+          await client.postUrl(Uri.parse(AppConstants.postHogEndpoint));
+      request.headers.contentType = ContentType.json;
+      request.headers.set(
+          HttpHeaders.userAgentHeader, 'MagickaPatchInstaller/$safeVersion');
+      request.write(jsonEncode(payload));
+      final response =
+          await request.close().timeout(const Duration(milliseconds: 1500));
+      await response.drain();
+    } finally {
+      client.close(force: true);
+    }
+  } catch (_) {}
+}
+
 Future<void> _sendPatchTelemetryEvent({
   required String eventName,
   required String gameDir,
   required String patchVersion,
+  Map<String, Object>? properties,
 }) async {
   try {
     if (!await _isUsageSharingEnabled(gameDir)) return;
     if (await _isPatchTelemetryDisabled(gameDir)) return;
 
     final safeVersion = _safeTelemetryText(patchVersion, 100);
-    final properties = <String, Object>{
+    final eventProperties = <String, Object>{
       'distinct_id': await _patchTelemetryDistinctId(),
       r'$process_person_profile': false,
       'patch_name': 'Community Patch',
@@ -3555,11 +3729,14 @@ Future<void> _sendPatchTelemetryEvent({
       'game_version': '',
       'os': _safeTelemetryText(Platform.operatingSystemVersion, 200),
     };
+    if (properties != null) {
+      eventProperties.addAll(properties);
+    }
 
     final payload = <String, Object>{
       'api_key': AppConstants.postHogApiKey,
       'event': eventName,
-      'properties': properties,
+      'properties': eventProperties,
     };
 
     final client = HttpClient()
@@ -3825,18 +4002,19 @@ Future<void> _showStartGameDialog(
 
   if (!start) return;
   try {
-    await _startMagicka(gameDir);
+    await _startMagickaWithPrerequisites(context, gameDir);
   } catch (error) {
     if (!context.mounted) return;
+    final s = AppStrings.of(context);
     await showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: const Color(0xff101315),
-        title: const Text('Magicka Community Patch'),
-        content: Text('Could not start Magicka: $error'),
+        title: Text(s.t('appTitle')),
+        content: Text(s.couldNotStartMagicka(error)),
         actions: <Widget>[
           TextButton(
-              onPressed: () => Navigator.pop(context), child: const Text('OK'))
+              onPressed: () => Navigator.pop(context), child: Text(s.t('ok')))
         ],
       ),
     );
@@ -3856,6 +4034,7 @@ class _StartGameDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     final media = MediaQuery.sizeOf(context);
     final dialogWidth = math.min(math.max(520.0, media.width - 64), 760.0);
 
@@ -3887,8 +4066,8 @@ class _StartGameDialog extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          const Text(
-                            'Magicka Community Patch',
+                          Text(
+                            s.t('appTitle'),
                             style: TextStyle(
                               color: Color(0xfff7d897),
                               fontFamily: 'Georgia',
@@ -3914,15 +4093,15 @@ class _StartGameDialog extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 22),
-                const SectionHeading(text: 'READY TO PLAY'),
+                SectionHeading(text: s.t('readyToPlay')),
                 const SizedBox(height: 18),
                 SizedBox(
                   height: 104,
                   child: Stack(
                     fit: StackFit.expand,
-                    children: const <Widget>[
-                      ArcaneCardSurface(accent: Color(0xff80caff)),
-                      Positioned(
+                    children: <Widget>[
+                      const ArcaneCardSurface(accent: Color(0xff80caff)),
+                      const Positioned(
                         left: 20,
                         top: 20,
                         width: 42,
@@ -3937,8 +4116,8 @@ class _StartGameDialog extends StatelessWidget {
                         top: 20,
                         right: 20,
                         child: Text(
-                          'Start Magicka now?',
-                          style: TextStyle(
+                          s.t('startMagickaNow'),
+                          style: const TextStyle(
                             color: Color(0xfff7d897),
                             fontFamily: 'Georgia',
                             fontSize: 20,
@@ -3951,8 +4130,8 @@ class _StartGameDialog extends StatelessWidget {
                         top: 52,
                         right: 22,
                         child: Text(
-                          'You can launch the patched game immediately or close this window and start it from Steam later.',
-                          style: TextStyle(
+                          s.t('startMagickaBody'),
+                          style: const TextStyle(
                             color: Color(0xffeedfc4),
                             fontSize: 14,
                             height: 1.25,
@@ -3970,7 +4149,7 @@ class _StartGameDialog extends StatelessWidget {
                       height: 44,
                       child: FlameButton(
                         program: flameProgram,
-                        label: 'Close',
+                        label: s.t('close'),
                         icon: Icons.close,
                         accent: const Color(0xffd03f30),
                         overlayIcon: true,
@@ -3983,7 +4162,7 @@ class _StartGameDialog extends StatelessWidget {
                       height: 44,
                       child: FlameButton(
                         program: starProgram,
-                        label: 'Start game',
+                        label: s.t('startGame'),
                         icon: Icons.play_arrow_rounded,
                         accent: const Color(0xff3f9fff),
                         starField: true,
@@ -4001,6 +4180,522 @@ class _StartGameDialog extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<bool> _startMagickaWithPrerequisites(
+    BuildContext context, String gameDir) async {
+  final ready = await _ensureManagedDirectInput(context, gameDir);
+  if (!ready) return false;
+
+  await _startMagicka(gameDir);
+  return true;
+}
+
+Future<bool> _ensureManagedDirectInput(
+    BuildContext context, String gameDir) async {
+  final s = AppStrings.of(context);
+  if (await _isManagedDirectInputInstalled()) {
+    await _sendDirectXTelemetryEvent(
+      eventName: AppConstants.telemetryEventDirectXAlreadyInstalled,
+      gameDir: gameDir,
+      installedBefore: true,
+    );
+    return true;
+  }
+
+  final directXSetup = _findMagickaDirectXSetup(gameDir);
+
+  if (directXSetup == null) {
+    await _sendDirectXTelemetryEvent(
+      eventName: AppConstants.telemetryEventDirectXSetupMissing,
+      gameDir: gameDir,
+      installedBefore: false,
+      reason: 'setup_not_found',
+    );
+
+    if (!context.mounted) return false;
+
+    await showDialog<bool>(
+      context: context,
+      builder: (context) => _DirectXRedistDialog(
+        title: s.t('directXMissingTitle'),
+        heading: s.t('directXUnavailableHeading'),
+        body: s.t('directXUnavailableBody'),
+        cardTitle: s.t('directXInstallerNotFound'),
+        cardBody: s.t('directXInstallerNotFoundBody'),
+        icon: Icons.extension_off_rounded,
+        accent: const Color(0xffd03f30),
+        primaryLabel: s.t('close'),
+        primaryIcon: Icons.close_rounded,
+      ),
+    );
+
+    return false;
+  }
+
+  if (!context.mounted) return false;
+
+  await _sendDirectXTelemetryEvent(
+    eventName: AppConstants.telemetryEventDirectXInstallPromptShown,
+    gameDir: gameDir,
+    setupPath: directXSetup,
+    installedBefore: false,
+  );
+
+  final install = await showDialog<bool>(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => _DirectXRedistDialog(
+          title: s.t('directXMissingTitle'),
+          heading: s.t('directXInstallHeading'),
+          body: s.t('directXInstallBody'),
+          cardTitle: s.t('directXSetupFound'),
+          cardBody: s.t('directXSetupFoundBody'),
+          icon: Icons.system_update_alt_rounded,
+          accent: const Color(0xff3f9fff),
+          primaryLabel: s.t('installDirectX'),
+          primaryIcon: Icons.system_update_alt_rounded,
+          primaryResult: true,
+          secondaryLabel: s.t('notNow'),
+          secondaryIcon: Icons.close_rounded,
+          secondaryResult: false,
+        ),
+      ) ??
+      false;
+
+  if (!install) {
+    await _sendDirectXTelemetryEvent(
+      eventName: AppConstants.telemetryEventDirectXInstallIgnored,
+      gameDir: gameDir,
+      setupPath: directXSetup,
+      installedBefore: false,
+      reason: 'user_declined',
+    );
+    return false;
+  }
+
+  await _sendDirectXTelemetryEvent(
+    eventName: AppConstants.telemetryEventDirectXInstallStarted,
+    gameDir: gameDir,
+    setupPath: directXSetup,
+    installedBefore: false,
+  );
+
+  int? setupExitCode;
+  var setupProcessFailed = false;
+  try {
+    setupExitCode = await _runDirectXSetupElevated(directXSetup);
+  } catch (_) {
+    setupProcessFailed = true;
+  }
+
+  // Give Windows and the Global Assembly Cache a brief moment to finish.
+  await Future<void>.delayed(const Duration(milliseconds: 400));
+
+  if (await _isManagedDirectInputInstalled()) {
+    await _sendDirectXTelemetryEvent(
+      eventName: AppConstants.telemetryEventDirectXInstallSucceeded,
+      gameDir: gameDir,
+      setupPath: directXSetup,
+      setupExitCode: setupExitCode,
+      installedBefore: false,
+      installedAfter: true,
+    );
+    return true;
+  }
+
+  await _sendDirectXTelemetryEvent(
+    eventName: AppConstants.telemetryEventDirectXInstallFailed,
+    gameDir: gameDir,
+    setupPath: directXSetup,
+    setupExitCode: setupExitCode,
+    installedBefore: false,
+    installedAfter: false,
+    reason: setupProcessFailed
+        ? 'setup_process_error'
+        : setupExitCode == 1223
+            ? 'elevation_cancelled_or_setup_blocked'
+            : 'component_still_missing',
+  );
+
+  if (!context.mounted) return false;
+
+  await showDialog<bool>(
+    context: context,
+    builder: (context) => _DirectXRedistDialog(
+      title: s.t('directXIncompleteTitle'),
+      heading: s.t('directXIncompleteHeading'),
+      body: s.t('directXIncompleteBody'),
+      cardTitle: s.t('directXInstallDidNotComplete'),
+      cardBody: s.t('directXInstallDidNotCompleteBody'),
+      icon: Icons.warning_rounded,
+      accent: const Color(0xffd03f30),
+      primaryLabel: s.t('close'),
+      primaryIcon: Icons.close_rounded,
+    ),
+  );
+
+  return false;
+}
+
+class _DirectXRedistDialog extends StatelessWidget {
+  const _DirectXRedistDialog({
+    required this.title,
+    required this.heading,
+    required this.body,
+    required this.cardTitle,
+    required this.cardBody,
+    required this.icon,
+    required this.accent,
+    required this.primaryLabel,
+    required this.primaryIcon,
+    this.primaryResult = false,
+    this.secondaryLabel,
+    this.secondaryIcon,
+    this.secondaryResult,
+  });
+
+  final String title;
+  final String heading;
+  final String body;
+  final String cardTitle;
+  final String cardBody;
+  final IconData icon;
+  final Color accent;
+  final String primaryLabel;
+  final IconData primaryIcon;
+  final bool primaryResult;
+  final String? secondaryLabel;
+  final IconData? secondaryIcon;
+  final bool? secondaryResult;
+
+  @override
+  Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
+    final media = MediaQuery.sizeOf(context);
+    final dialogWidth = math.min(math.max(640.0, media.width - 64), 820.0);
+
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.all(32),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxHeight: media.height - 64),
+        child: SingleChildScrollView(
+          child: SizedBox(
+            width: dialogWidth,
+            child: ArcanePanel(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(30, 26, 30, 28),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(
+                          width: 64,
+                          height: 64,
+                          child: ArcaneIconBadge(icon: icon, accent: accent),
+                        ),
+                        const SizedBox(width: 20),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                title,
+                                style: const TextStyle(
+                                  color: Color(0xfff7d897),
+                                  fontFamily: 'Georgia',
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  shadows: <Shadow>[
+                                    Shadow(color: Colors.black, blurRadius: 3)
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 7),
+                              Text(
+                                body,
+                                style: const TextStyle(
+                                  color: Color(0xffeedfc4),
+                                  fontSize: 16,
+                                  height: 1.3,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                    SectionHeading(text: s.t('directXSection')),
+                    const SizedBox(height: 18),
+                    SizedBox(
+                      height: 174,
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: <Widget>[
+                          ArcaneCardSurface(accent: accent),
+                          Positioned(
+                            left: 20,
+                            top: 22,
+                            width: 44,
+                            height: 44,
+                            child: ArcaneIconBadge(icon: icon, accent: accent),
+                          ),
+                          Positioned(
+                            left: 82,
+                            top: 22,
+                            right: 24,
+                            child: Text(
+                              heading,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: Color(0xfff7d897),
+                                fontFamily: 'Georgia',
+                                fontSize: 21,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            left: 82,
+                            top: 58,
+                            right: 24,
+                            child: Text(
+                              cardTitle,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: Color.lerp(
+                                    const Color(0xfff7d897), accent, 0.28),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                height: 1.25,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            left: 82,
+                            top: 82,
+                            right: 24,
+                            bottom: 20,
+                            child: Text(
+                              cardBody,
+                              maxLines: 4,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: Color(0xffeedfc4),
+                                fontSize: 14,
+                                height: 1.28,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 26),
+                    Row(
+                      children: <Widget>[
+                        if (secondaryLabel != null)
+                          SizedBox(
+                            width: 210,
+                            height: 44,
+                            child: FlameButton(
+                              program: null,
+                              label: secondaryLabel!,
+                              icon: secondaryIcon ?? Icons.close_rounded,
+                              accent: const Color(0xffd03f30),
+                              overlayIcon: true,
+                              effects: false,
+                              onTap: () =>
+                                  Navigator.pop(context, secondaryResult),
+                            ),
+                          ),
+                        if (secondaryLabel != null) const Spacer(),
+                        SizedBox(
+                          width: secondaryLabel == null ? 210 : 274,
+                          height: 44,
+                          child: FlameButton(
+                            program: null,
+                            label: primaryLabel,
+                            icon: primaryIcon,
+                            accent: accent,
+                            overlayIcon: true,
+                            effects: false,
+                            onTap: () => Navigator.pop(context, primaryResult),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+String? _findMagickaDirectXSetup(String gameDir) {
+  final candidates = <String>[
+    _join(gameDir, r'Dependencies\directx_feb2010\DXSETUP.exe'),
+    _join(gameDir, r'_CommonRedist\DirectX\Jun2010\DXSETUP.exe'),
+  ];
+
+  for (final candidate in candidates) {
+    if (File(candidate).existsSync()) {
+      return candidate;
+    }
+  }
+
+  return null;
+}
+
+Future<void> _sendDirectXTelemetryEvent({
+  required String eventName,
+  required String gameDir,
+  String? setupPath,
+  int? setupExitCode,
+  bool? installedBefore,
+  bool? installedAfter,
+  String? reason,
+}) async {
+  final properties = <String, Object>{
+    'directx_component': 'Managed DirectX 1.1',
+    'directx_assembly': 'Microsoft.DirectX.DirectInput',
+  };
+  if (setupPath != null) {
+    properties['directx_setup_source'] = _directXSetupSource(setupPath);
+  }
+  if (setupExitCode != null) {
+    properties['directx_setup_exit_code'] = setupExitCode;
+  }
+  if (installedBefore != null) {
+    properties['directx_installed_before'] = installedBefore;
+  }
+  if (installedAfter != null) {
+    properties['directx_installed_after'] = installedAfter;
+  }
+  _addOptionalTelemetry(properties, 'directx_reason', reason, 120);
+
+  await _sendPatchTelemetryEvent(
+    eventName: eventName,
+    gameDir: gameDir,
+    patchVersion: AppConstants.patchVersion,
+    properties: properties,
+  );
+}
+
+String _directXSetupSource(String setupPath) {
+  final normalized = setupPath.replaceAll('/', r'\').toLowerCase();
+  if (normalized.contains(r'\dependencies\directx_feb2010\dxsetup.exe')) {
+    return 'dependencies_directx_feb2010';
+  }
+  if (normalized.contains(r'\_commonredist\directx\jun2010\dxsetup.exe')) {
+    return 'steam_common_redist_directx_jun2010';
+  }
+  return 'unknown';
+}
+
+Future<int> _runDirectXSetupElevated(String setupPath) async {
+  final workingDirectory = File(setupPath).parent.path;
+  final command = '''
+try {
+  \$process = Start-Process `
+    -FilePath ${_psQuote(setupPath)} `
+    -WorkingDirectory ${_psQuote(workingDirectory)} `
+    -Verb RunAs `
+    -Wait `
+    -PassThru
+
+  exit \$process.ExitCode
+}
+catch {
+  exit 1223
+}
+''';
+
+  final result = await Process.run(
+    'powershell',
+    <String>[
+      '-NoProfile',
+      '-ExecutionPolicy',
+      'Bypass',
+      '-WindowStyle',
+      'Hidden',
+      '-Command',
+      command,
+    ],
+  );
+
+  // The actual success criterion is the GAC check performed afterwards.
+  // This also handles unusual but harmless installer exit codes.
+  if (result.exitCode == 1223) {
+    return result.exitCode;
+  }
+  return result.exitCode;
+}
+
+Future<bool> _isManagedDirectInputInstalled() async {
+  final windowsDirectory = Platform.environment['WINDIR'] ?? r'C:\Windows';
+
+  const assemblyName = 'Microsoft.DirectX.DirectInput';
+  const assemblyFileName = 'Microsoft.DirectX.DirectInput.dll';
+  const requiredVersion = '1.0.2902.0';
+  const publicKeyToken = '31bf3856ad364e35';
+
+  final gacRoots = <String>[
+    _join(windowsDirectory, r'assembly\GAC'),
+    _join(windowsDirectory, r'assembly\GAC_32'),
+    _join(windowsDirectory, r'assembly\GAC_MSIL'),
+    _join(windowsDirectory, r'Microsoft.NET\assembly\GAC_32'),
+    _join(windowsDirectory, r'Microsoft.NET\assembly\GAC_MSIL'),
+  ];
+
+  for (final gacRoot in gacRoots) {
+    final assemblyDirectory = Directory(_join(gacRoot, assemblyName));
+
+    try {
+      if (!await assemblyDirectory.exists()) continue;
+
+      await for (final entity in assemblyDirectory.list(
+        recursive: false,
+        followLinks: false,
+      )) {
+        if (entity is! Directory) continue;
+
+        final parts = entity.path
+            .split(RegExp(r'[\\/]+'))
+            .where((part) => part.isNotEmpty)
+            .toList();
+
+        if (parts.isEmpty) continue;
+
+        final versionDirectoryName = parts.last.toLowerCase();
+
+        if (!versionDirectoryName.contains(requiredVersion) ||
+            !versionDirectoryName.contains(publicKeyToken)) {
+          continue;
+        }
+
+        final assemblyFile = File(_join(entity.path, assemblyFileName));
+
+        if (await assemblyFile.exists()) {
+          return true;
+        }
+      }
+    } catch (_) {
+      // Try the next possible GAC directory.
+    }
+  }
+
+  return false;
 }
 
 Future<void> _startMagicka(String gameDir) async {
@@ -5468,13 +6163,14 @@ class SidebarImage extends StatelessWidget {
 class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
+    final s = AppStrings.of(context);
+    return SizedBox(
       width: 760,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('MAGICKA COMMUNITY PATCH 0.0.18',
-              style: TextStyle(
+          Text(s.t('appHeader'),
+              style: const TextStyle(
                   color: Color(0xfff7d897),
                   fontFamily: 'Georgia',
                   fontSize: 37,
@@ -5485,9 +6181,9 @@ class _Header extends StatelessWidget {
                         offset: Offset(2, 2),
                         blurRadius: 2)
                   ])),
-          SizedBox(height: 2),
-          Text('Community Installer & Updater',
-              style: TextStyle(
+          const SizedBox(height: 2),
+          Text(s.t('appSubtitle'),
+              style: const TextStyle(
                   color: Color(0xffeedfc4),
                   fontFamily: 'Georgia',
                   fontSize: 18)),
@@ -5503,14 +6199,15 @@ class _FolderPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     return ArcanePanel(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 4, 16, 6),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              const Text('Game folder',
-                  style: TextStyle(
+              Text(s.t('gameFolder'),
+                  style: const TextStyle(
                       color: Color(0xfff7d897), fontWeight: FontWeight.bold)),
               const SizedBox(height: 4),
               SizedBox(
@@ -5561,6 +6258,7 @@ class _TelemetryPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     return ArcanePanel(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 10, 16, 21),
@@ -5569,74 +6267,70 @@ class _TelemetryPanel extends StatelessWidget {
             Row(children: <Widget>[
               ArcaneCheck(value: usageSharing, onChanged: onUsageChanged),
               const SizedBox(width: 12),
-              const Expanded(
+              Expanded(
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                    Text(
-                        'Send anonymous crash and usage data to help improve the patch',
-                        style: TextStyle(
+                    Text(s.t('telemetryIntroTitle'),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
                             color: Color(0xffeedfc4),
                             fontWeight: FontWeight.bold,
                             fontSize: 15)),
-                    Text(
-                        'No personal data is sent. When enabled, only these events are shared:',
-                        style:
-                            TextStyle(color: Color(0xffbeb19b), fontSize: 13)),
+                    Text(s.t('telemetryIntroBody'),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                            color: Color(0xffbeb19b), fontSize: 13)),
                   ])),
             ]),
             const SizedBox(height: 15),
-            const Row(children: <Widget>[
+            Row(children: <Widget>[
               EventCard(
                   icon: Icons.play_arrow_rounded,
-                  title: 'Game started',
-                  body:
-                      'Event name + patch version. Measures active sessions per version.',
-                  accent: Color(0xffab4fff)),
-              SizedBox(width: 11),
+                  title: s.t('eventGameStarted'),
+                  body: s.t('eventGameStartedBody'),
+                  accent: const Color(0xffab4fff)),
+              const SizedBox(width: 11),
               EventCard(
                   icon: Icons.verified_rounded,
-                  title: 'Game closed normally',
-                  body:
-                      'Event name + patch version. Compares normal exits with crashes.',
-                  accent: Color(0xff5bdf64)),
-              SizedBox(width: 11),
+                  title: s.t('eventGameClosed'),
+                  body: s.t('eventGameClosedBody'),
+                  accent: const Color(0xff5bdf64)),
+              const SizedBox(width: 11),
               EventCard(
                   icon: Icons.file_download_done_rounded,
-                  title: 'Patch installed',
-                  body:
-                      'Event name + patch version. Estimates installs and ongoing use.',
-                  accent: Color(0xff80caff)),
-              SizedBox(width: 11),
+                  title: s.t('eventPatchInstalled'),
+                  body: s.t('eventPatchInstalledBody'),
+                  accent: const Color(0xff80caff)),
+              const SizedBox(width: 11),
               EventCard(
                   icon: Icons.autorenew_rounded,
-                  title: 'Auto update',
-                  body:
-                      'Event name + patch version. Confirms auto-update adoption.',
-                  accent: Color(0xff3f9fff)),
-              SizedBox(width: 11),
+                  title: s.t('eventAutoUpdate'),
+                  body: s.t('eventAutoUpdateBody'),
+                  accent: const Color(0xff3f9fff)),
+              const SizedBox(width: 11),
               EventCard(
                   icon: Icons.warning_amber_rounded,
-                  title: 'Crash / error report',
-                  body:
-                      'Event, version, and short error details for faster crash fixes.',
-                  accent: Color(0xffd63a20)),
+                  title: s.t('eventCrashReport'),
+                  body: s.t('eventCrashReportBody'),
+                  accent: const Color(0xffd63a20)),
             ]),
             const Spacer(),
             Row(children: <Widget>[
               ArcaneCheck(value: autoUpdate, onChanged: onAutoUpdateChanged),
               const SizedBox(width: 8),
-              const Text('Check for updates when the game starts',
-                  style: TextStyle(
+              Text(s.t('checkForUpdates'),
+                  style: const TextStyle(
                       color: Color(0xffeedfc4), fontWeight: FontWeight.bold)),
               const SizedBox(width: 28),
               ArcaneCheck(value: crashReports, onChanged: onCrashChanged),
               const SizedBox(width: 8),
-              const Flexible(
-                  child: Text(
-                      'Save error notes too: <Magicka>\\CommunityPatch\\event-log.jsonl',
+              Flexible(
+                  child: Text(s.t('saveErrorNotes'),
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Color(0xffeedfc4),
                           fontWeight: FontWeight.bold))),
             ]),
@@ -5950,6 +6644,7 @@ class _SpecialThanksBannerState extends State<SpecialThanksBanner>
     await showDialog<void>(
       context: context,
       builder: (context) {
+        final s = AppStrings.of(context);
         final media = MediaQuery.sizeOf(context);
         final dialogWidth = math.min(math.max(320.0, media.width - 32), 1500.0);
         final dialogHeight =
@@ -5966,9 +6661,9 @@ class _SpecialThanksBannerState extends State<SpecialThanksBanner>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Row(children: <Widget>[
-                    const Expanded(
-                      child: Text('Special Thanks',
-                          style: TextStyle(
+                    Expanded(
+                      child: Text(s.t('specialThanks'),
+                          style: const TextStyle(
                               color: Color(0xfff7d897),
                               fontFamily: 'Georgia',
                               fontWeight: FontWeight.bold,
@@ -6038,13 +6733,14 @@ class _SpecialThanksBannerState extends State<SpecialThanksBanner>
 
   @override
   Widget build(BuildContext context) {
+    final s = AppStrings.of(context);
     return Stack(children: <Widget>[
       Positioned.fill(
           child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: _showAll,
               child: const ArcaneSupporterSurface())),
-      const Positioned(
+      Positioned(
         left: 0,
         top: 8,
         right: 0,
@@ -6053,9 +6749,9 @@ class _SpecialThanksBannerState extends State<SpecialThanksBanner>
           child: ColoredBox(
             color: Color(0xee0a090a),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 26, vertical: 2),
-              child: Text('SPECIAL THANKS',
-                  style: TextStyle(
+              padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 2),
+              child: Text(s.t('specialThanksCaps'),
+                  style: const TextStyle(
                       color: Color(0xfff7d897),
                       fontFamily: 'Georgia',
                       fontWeight: FontWeight.bold,
@@ -6172,6 +6868,7 @@ class _SpecialThanksCardState extends State<SpecialThanksCard>
   @override
   Widget build(BuildContext context) {
     final person = widget.person;
+    final s = AppStrings.of(context);
     return MouseRegion(
       onEnter: (_) => _setHovered(true),
       onExit: (_) => _setHovered(false),
@@ -6273,8 +6970,8 @@ class _SpecialThanksCardState extends State<SpecialThanksCard>
                               ]
                             : null,
                       ),
-                      child: const Text('SUPPORTER',
-                          style: TextStyle(
+                      child: Text(s.t('supporter'),
+                          style: const TextStyle(
                               color: Color(0xfff7d897), fontSize: 11)),
                     ),
                   ),
