@@ -14,6 +14,6 @@ void main() {
     await tester.pumpWidget(const MagickaPatchApp());
     await tester.pump();
 
-    expect(find.text('MAGICKA COMMUNITY PATCH 0.0.17'), findsOneWidget);
+    expect(find.text('MAGICKA COMMUNITY PATCH 0.0.18'), findsOneWidget);
   });
 }

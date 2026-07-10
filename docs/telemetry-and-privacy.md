@@ -11,10 +11,14 @@ advertising, or player profiling.
 
 | Event | When it is sent |
 | --- | --- |
+| `magicka_patch_installed` | The installer successfully installs the patch. |
+| `magicka_patch_auto_update` | The auto-updater successfully applies a prepared update. |
 | `magicka_patch_start` | The patched game starts. |
+| `magicka_patch_game_closed_normally` | The patched game exits through the normal shutdown path. |
 | `magicka_patch_crash_report_written` | The patch writes a crash report. |
 | `magicka_patch_network_guard_drop` | A guard ignored an unsafe network action that could otherwise crash the game. |
 | `magicka_patch_network_guard_exception` | A guarded network path caught a null-reference exception and reported a summary. |
+| `magicka_patch_typing_text_guard_exception` | The typing text guard caught an out-of-range text reveal state and skipped to the end of the text. |
 
 ## Data Sent
 
@@ -25,6 +29,9 @@ Network guard events may also include the guarded subsystem, packet type, reason
 code, short diagnostic details, and hashes used to group similar failures.
 Some multiplayer guard events can include the remote sender's Steam ID and Steam
 persona name when the game exposes them to the patched code.
+
+Typing text guard events include text length, a text hash, reveal counters, and
+exception metadata. They do not include the full text.
 
 Crash events may include exception type, exception hash, thread name, and the
 crash report text written by the patch.

@@ -1,6 +1,6 @@
 # Magicka Community Patch Installer / Updater
 
-Version: **0.0.17**
+Version: **0.0.18**
 
 This directory contains the Flutter Windows UI for the Magicka Community Patch installer, updater and uninstaller surface.
 
@@ -36,11 +36,19 @@ The Flutter Windows build output is under:
 build\windows\x64\runner\Release
 ```
 
-For the installer release, copy the patched payload files into the Flutter asset payload folder before building:
+For a release build, run the repository release script from the repo root. It copies the current patched payload files from the Steam Magicka folder into the repo before packaging:
+
+```powershell
+.\scripts\build-release.ps1
+```
+
+Pass `-MagickaDir "G:\SteamLibrary\steamapps\common\Magicka"` if Steam cannot be detected automatically.
+
+The Flutter Windows build copies the repo-root payload files next to the generated installer EXE:
 
 ```text
-assets\payload\Magicka.exe
-assets\payload\PolygonHead.dll
+build\windows\x64\runner\Release\Magicka.exe
+build\windows\x64\runner\Release\PolygonHead.dll
 ```
 
 The installer also accepts these fallback locations while developing:
@@ -81,13 +89,13 @@ https://api.github.com/repos/Alexander-Aue-Johr/magicka-patch/releases/latest
 The release tag must be newer than `CommunityPatchInfo.Version`, for example:
 
 ```text
-v0.0.17
+v0.0.18
 ```
 
 Minimal ZIP for patch-only updates:
 
 ```text
-magicka-community-patch-0.0.17.zip
+magicka-community-patch-0.0.18.zip
 - Magicka.exe
 - PolygonHead.dll
 ```
@@ -95,7 +103,7 @@ magicka-community-patch-0.0.17.zip
 Full ZIP when the Flutter tool/runtime should update too:
 
 ```text
-magicka-community-patch-0.0.17.zip
+magicka-community-patch-0.0.18.zip
 - MagickaPatchInstaller.exe
 - Magicka.exe
 - PolygonHead.dll
@@ -138,10 +146,10 @@ The player UI avoids the word "telemetry" and explains the feature as short anon
 Normal helper messages effectively send only the event name, for example:
 
 ```text
-magicka_patch_installed_0_0_12
-magicka_patch_auto_updated_<version>
-magicka_patch_game_started_0_0_12
-magicka_patch_game_closed_0_0_12
+magicka_patch_installed
+magicka_patch_auto_update
+magicka_patch_start
+magicka_patch_game_closed_normally
 ```
 
 Crash helper messages additionally send a shortened, redacted error message and a short error hash.

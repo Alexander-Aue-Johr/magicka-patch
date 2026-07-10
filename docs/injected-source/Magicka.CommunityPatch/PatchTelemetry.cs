@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Security.Cryptography;
@@ -9,10 +10,8 @@ using System.Windows.Forms;
 
 namespace Magicka.CommunityPatch
 {
-	// Token: 0x0200082E RID: 2094
 	internal static class PatchTelemetry
 	{
-		// Token: 0x06003E8A RID: 16010 RVA: 0x001D5730 File Offset: 0x001D3930
 		public static void SendStartup()
 		{
 			PatchTelemetry.SendAsync("magicka_patch_start", new Dictionary<string, string>
@@ -36,7 +35,6 @@ namespace Magicka.CommunityPatch
 			});
 		}
 
-		// Token: 0x06003E8B RID: 16011 RVA: 0x001D579C File Offset: 0x001D399C
 		private static void SendAsync(string eventName, Dictionary<string, string> properties)
 		{
 			if (PatchTelemetry.IsDisabled())
@@ -50,7 +48,6 @@ namespace Magicka.CommunityPatch
 			ThreadPool.QueueUserWorkItem(new WaitCallback(PatchTelemetry.SendAsyncWorker), telemetrySendState);
 		}
 
-		// Token: 0x06003E8C RID: 16012 RVA: 0x001D57E4 File Offset: 0x001D39E4
 		private static void SendBlocking(string eventName, Dictionary<string, string> properties, int timeoutMs)
 		{
 			try
@@ -59,7 +56,7 @@ namespace Magicka.CommunityPatch
 				{
 					try
 					{
-						ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
+						ServicePointManager.SecurityProtocol |= (SecurityProtocolType)3072;
 					}
 					catch
 					{
@@ -87,7 +84,6 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x06003E8D RID: 16013 RVA: 0x001D58E0 File Offset: 0x001D3AE0
 		private static string BuildPostHogJson(string eventName, Dictionary<string, string> properties)
 		{
 			StringBuilder stringBuilder = new StringBuilder();
@@ -108,7 +104,6 @@ namespace Magicka.CommunityPatch
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06003E8E RID: 16014 RVA: 0x001D5A34 File Offset: 0x001D3C34
 		private static string GetDistinctId()
 		{
 			object obj = PatchTelemetry.sLock;
@@ -151,7 +146,6 @@ namespace Magicka.CommunityPatch
 			return result;
 		}
 
-		// Token: 0x06003E8F RID: 16015 RVA: 0x001D5B3C File Offset: 0x001D3D3C
 		private static bool IsDisabled()
 		{
 			bool result;
@@ -166,7 +160,6 @@ namespace Magicka.CommunityPatch
 			return result;
 		}
 
-		// Token: 0x06003E90 RID: 16016 RVA: 0x001D5B6C File Offset: 0x001D3D6C
 		private static string HashShort(string value)
 		{
 			string result;
@@ -191,7 +184,6 @@ namespace Magicka.CommunityPatch
 			return result;
 		}
 
-		// Token: 0x06003E91 RID: 16017 RVA: 0x0002B0FE File Offset: 0x000292FE
 		private static string Safe(string value)
 		{
 			if (value == null)
@@ -205,7 +197,6 @@ namespace Magicka.CommunityPatch
 			return value;
 		}
 
-		// Token: 0x06003E92 RID: 16018 RVA: 0x001D5C0C File Offset: 0x001D3E0C
 		private static string Json(string value)
 		{
 			if (value == null)
@@ -269,7 +260,6 @@ namespace Magicka.CommunityPatch
 			return stringBuilder.ToString();
 		}
 
-		// Token: 0x06003E94 RID: 16020 RVA: 0x001D5D10 File Offset: 0x001D3F10
 		private static void SendAsyncWorker(object stateObject)
 		{
 			try
@@ -285,13 +275,11 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x06003E95 RID: 16021 RVA: 0x0002B130 File Offset: 0x00029330
 		private static string GetPatchVersion()
 		{
 			return CommunityPatchInfo.Version;
 		}
 
-		// Token: 0x06003E96 RID: 16022 RVA: 0x001D5D54 File Offset: 0x001D3F54
 		public static void SendCrash(Exception exception, string threadName, string crashReport)
 		{
 			string value = (exception != null) ? exception.GetType().Name : "UnknownException";
@@ -337,7 +325,6 @@ namespace Magicka.CommunityPatch
 			}, 1800);
 		}
 
-		// Token: 0x06003E97 RID: 16023 RVA: 0x0002B137 File Offset: 0x00029337
 		private static string SafeReport(string value)
 		{
 			if (value == null)
@@ -347,7 +334,6 @@ namespace Magicka.CommunityPatch
 			return value;
 		}
 
-		// Token: 0x06003E98 RID: 16024 RVA: 0x001D5E54 File Offset: 0x001D4054
 		private static string GetLengthString(string value)
 		{
 			if (value == null)
@@ -357,7 +343,6 @@ namespace Magicka.CommunityPatch
 			return value.Length.ToString();
 		}
 
-		// Token: 0x06003E99 RID: 16025 RVA: 0x001D5E78 File Offset: 0x001D4078
 		public static void SendNetworkGuardDrop(string side, string packetType, string senderSteamId, string senderName, string reason, string details)
 		{
 			try
@@ -378,7 +363,6 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x06003E9A RID: 16026 RVA: 0x001D5F30 File Offset: 0x001D4130
 		public static void SendNetworkGuardException(string side, string packetType, string senderSteamId, string senderName, string reason, string details, Exception exception)
 		{
 			try
@@ -411,7 +395,39 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x06003E9B RID: 16027 RVA: 0x001D607C File Offset: 0x001D427C
+		public static void SendTypingTextGuardException(string reason, string text, int charIndex, int visibleCharacters, int primitiveCount, float nextChar, float typeSpeed, Exception exception)
+		{
+			try
+			{
+				Dictionary<string, string> dictionary = new Dictionary<string, string>();
+				PatchTelemetry.AddCommonProperties(dictionary);
+				dictionary["reason"] = PatchTelemetry.Safe(reason);
+				dictionary["text_length"] = (text == null) ? "null" : text.Length.ToString(CultureInfo.InvariantCulture);
+				dictionary["text_hash"] = PatchTelemetry.Safe(PatchTelemetry.HashShort(text));
+				dictionary["char_index"] = charIndex.ToString(CultureInfo.InvariantCulture);
+				dictionary["visible_characters"] = visibleCharacters.ToString(CultureInfo.InvariantCulture);
+				dictionary["primitive_count"] = primitiveCount.ToString(CultureInfo.InvariantCulture);
+				dictionary["next_char"] = nextChar.ToString(CultureInfo.InvariantCulture);
+				dictionary["type_speed"] = typeSpeed.ToString(CultureInfo.InvariantCulture);
+				if (exception != null)
+				{
+					dictionary["exception_type"] = PatchTelemetry.Safe(exception.GetType().FullName);
+					dictionary["exception_message"] = PatchTelemetry.Safe(exception.Message);
+					dictionary["exception_hash"] = PatchTelemetry.Safe(PatchTelemetry.HashShort(exception.ToString()));
+				}
+				else
+				{
+					dictionary["exception_type"] = "";
+					dictionary["exception_message"] = "";
+					dictionary["exception_hash"] = "unknown";
+				}
+				PatchTelemetry.SendAsync("magicka_patch_typing_text_guard_exception", dictionary);
+			}
+			catch
+			{
+			}
+		}
+
 		private static void AddCommonProperties(Dictionary<string, string> properties)
 		{
 			properties["patch_name"] = CommunityPatchInfo.Name;
@@ -420,7 +436,6 @@ namespace Magicka.CommunityPatch
 			properties["os"] = PatchTelemetry.Safe(Environment.OSVersion.ToString());
 		}
 
-		// Token: 0x06003E9C RID: 16028 RVA: 0x0002B143 File Offset: 0x00029343
 		private static string SafeLong(string value)
 		{
 			if (value == null)
@@ -434,34 +449,47 @@ namespace Magicka.CommunityPatch
 			return value;
 		}
 
-		// Token: 0x0400470C RID: 18188
+		public static void SendGameClosedNormally()
+		{
+			PatchTelemetry.SendBlocking("magicka_patch_game_closed_normally", new Dictionary<string, string>
+			{
+				{
+					"patch_name",
+					CommunityPatchInfo.Name
+				},
+				{
+					"patch_version",
+					PatchTelemetry.GetPatchVersion()
+				},
+				{
+					"game_version",
+					PatchTelemetry.Safe(Application.ProductVersion)
+				},
+				{
+					"os",
+					PatchTelemetry.Safe(Environment.OSVersion.ToString())
+				}
+			}, 1500);
+		}
+
 		private const string PostHogApiKey = "phc_vbVuHJdtwsf2gzBY36KcLo8btGZY4D6foFGqtxbkfog8";
 
-		// Token: 0x0400470D RID: 18189
 		private const string PostHogEndpoint = "https://eu.i.posthog.com/capture/";
 
-		// Token: 0x0400470E RID: 18190
 		private const int StartupTimeoutMs = 1200;
 
-		// Token: 0x0400470F RID: 18191
 		private const int CrashTimeoutMs = 1800;
 
-		// Token: 0x04004710 RID: 18192
 		private static readonly object sLock = new object();
 
-		// Token: 0x04004711 RID: 18193
 		private static string sDistinctId;
 
-		// Token: 0x0200082F RID: 2095
 		private sealed class TelemetrySendState
 		{
-			// Token: 0x04004712 RID: 18194
 			public string EventName;
 
-			// Token: 0x04004713 RID: 18195
 			public Dictionary<string, string> Properties;
 
-			// Token: 0x04004714 RID: 18196
 			public int TimeoutMs;
 		}
 	}

@@ -13,8 +13,10 @@ The guards currently cover these high-risk areas:
 | --- | --- |
 | `Magicka.GameLogic.Entities.MissileEntity` | Drop invalid remote missile events instead of crashing when the missile, target, play state, hit lists, or condition collection are missing. |
 | `Magicka.GameLogic.Spells.SpellEffects.ProjectileSpell` | Guard missile creation when the owner, play state, condition cache, model, or cached missile instance is missing. |
+| `Magicka.GameLogic.Entities.Character.NetworkAction` | Drop unsafe remote grip actions before they dereference missing actors, bodies, grippers, animation controllers, skeletons, or out-of-range grip joints. |
 | `Magicka.Network.NetworkClient` | Validate incoming spawn/entity/missile packets before applying them to local game state. |
 | `Magicka.Network.NetworkServer` | Validate host-side spawn requests and catch last-resort `NullReferenceException` failures during message handling. |
+| `Magicka.Rendering.TypingText.Update` | Catch an out-of-range text reveal state, report diagnostic counters, and reveal the rest of the text instead of crashing. |
 
 The goal is not to hide bugs. The goal is to keep multiplayer sessions alive
 long enough to learn which object is actually missing, disposed, or detached
@@ -28,6 +30,7 @@ Network guards use two event names:
 | --- | --- |
 | `magicka_patch_network_guard_drop` | A malformed or unsafe network action was ignored before it could crash the game. |
 | `magicka_patch_network_guard_exception` | A guarded path still hit a `NullReferenceException`; the exception was caught and summarized. |
+| `magicka_patch_typing_text_guard_exception` | The typing text guard caught an invalid reveal index and forced the text to a completed state. |
 
 Crash-report telemetry may also emit `magicka_patch_crash_report_written` when a
 crash report is generated.
@@ -72,6 +75,8 @@ counted over time:
 | `spawn_vortex_*` | Vortex instance, owner, or play state is missing. |
 | `missile_event_*` | Remote missile event references a missing/unusable missile, target, collision target, condition collection, hit list, or damage target. |
 | `network_server_readmessage_*` | Last-resort server-side guard caught an otherwise unhandled null reference while reading a network packet. |
+| `CharacterActionMessage.Grip` reasons | Missing target character, missing body, missing gripper/gripped character, missing animation controller, missing skeleton, or invalid grip joint index. |
+| `text_index_out_of_range` | The typing text reveal cursor moved outside the backing string; the patch reports counters and completes the reveal. |
 
 When a reason code becomes frequent, the next step is to reproduce that specific
 state and replace the guard with a narrower root-cause fix where possible.

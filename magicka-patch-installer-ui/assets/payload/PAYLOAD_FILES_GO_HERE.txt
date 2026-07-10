@@ -1,8 +1,9 @@
-Put the patched payload files here before building a release installer:
+Release builds now sync the patched payload files from the Steam Magicka folder into
+the repository root:
 
-  assets\payload\Magicka.exe
-  assets\payload\PolygonHead.dll
+  Magicka.exe
+  PolygonHead.dll
 
-If these two files exist at build time, Flutter includes them in the app asset bundle.
-The installer can also run in developer mode with the payload files beside the EXE, in
-assets\payload, or in a Payload folder beside the EXE.
+The Windows Flutter build copies those repo-root files next to the generated installer
+EXE. This folder remains as a development fallback only; the installer can still read
+payload files from assets\payload if they are placed here manually.

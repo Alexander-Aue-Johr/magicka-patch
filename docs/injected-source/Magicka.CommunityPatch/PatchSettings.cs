@@ -1,15 +1,12 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Text;
 
 namespace Magicka.CommunityPatch
 {
-	// Token: 0x02000832 RID: 2098
 	internal sealed class PatchSettings
 	{
-		// Token: 0x17000E19 RID: 3609
-		// (get) Token: 0x06003E9E RID: 16030 RVA: 0x001D60D8 File Offset: 0x001D42D8
 		public static string GameDirectory
 		{
 			get
@@ -42,8 +39,6 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x17000E1A RID: 3610
-		// (get) Token: 0x06003E9F RID: 16031 RVA: 0x0002B169 File Offset: 0x00029369
 		public static string CommunityPatchDirectory
 		{
 			get
@@ -52,8 +47,6 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x17000E1B RID: 3611
-		// (get) Token: 0x06003EA0 RID: 16032 RVA: 0x0002B17A File Offset: 0x0002937A
 		public static string SettingsPath
 		{
 			get
@@ -62,8 +55,6 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x17000E1C RID: 3612
-		// (get) Token: 0x06003EA1 RID: 16033 RVA: 0x0002B18B File Offset: 0x0002938B
 		public static string EventLogPath
 		{
 			get
@@ -72,8 +63,6 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x17000E1D RID: 3613
-		// (get) Token: 0x06003EA2 RID: 16034 RVA: 0x0002B19C File Offset: 0x0002939C
 		public static string EventSentStatePath
 		{
 			get
@@ -82,8 +71,6 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x17000E1E RID: 3614
-		// (get) Token: 0x06003EA3 RID: 16035 RVA: 0x0002B1AD File Offset: 0x000293AD
 		public static string AnonymousIdPath
 		{
 			get
@@ -92,8 +79,6 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x17000E1F RID: 3615
-		// (get) Token: 0x06003EA4 RID: 16036 RVA: 0x0002B1BE File Offset: 0x000293BE
 		public static string PendingUpdatePath
 		{
 			get
@@ -102,8 +87,6 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x17000E20 RID: 3616
-		// (get) Token: 0x06003EA5 RID: 16037 RVA: 0x0002B1CF File Offset: 0x000293CF
 		public static string DownloadDirectory
 		{
 			get
@@ -112,8 +95,6 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x17000E21 RID: 3617
-		// (get) Token: 0x06003EA6 RID: 16038 RVA: 0x0002B1E0 File Offset: 0x000293E0
 		public static string ToolPath
 		{
 			get
@@ -122,7 +103,6 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x06003EA7 RID: 16039 RVA: 0x001D614C File Offset: 0x001D434C
 		public static PatchSettings Load()
 		{
 			PatchSettings patchSettings = new PatchSettings();
@@ -186,7 +166,6 @@ namespace Magicka.CommunityPatch
 			return patchSettings;
 		}
 
-		// Token: 0x06003EA8 RID: 16040 RVA: 0x001D6314 File Offset: 0x001D4514
 		public void Save()
 		{
 			try
@@ -209,7 +188,6 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x06003EA9 RID: 16041 RVA: 0x001D6454 File Offset: 0x001D4654
 		public static void SaveSkippedVersion(string version)
 		{
 			try
@@ -223,13 +201,11 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x06003EAA RID: 16042 RVA: 0x0002B1F1 File Offset: 0x000293F1
 		private static bool ParseBool(string value)
 		{
 			return value != null && (value.Equals("true", StringComparison.OrdinalIgnoreCase) || value.Equals("yes", StringComparison.OrdinalIgnoreCase) || value == "1");
 		}
 
-		// Token: 0x06003EAB RID: 16043 RVA: 0x0002B221 File Offset: 0x00029421
 		private static string Safe(string value)
 		{
 			if (value == null)
@@ -239,25 +215,18 @@ namespace Magicka.CommunityPatch
 			return value.Replace("\r", string.Empty).Replace("\n", string.Empty);
 		}
 
-		// Token: 0x04004716 RID: 18198
 		public bool UsageSharing;
 
-		// Token: 0x04004717 RID: 18199
 		public bool CrashReports;
 
-		// Token: 0x04004718 RID: 18200
 		public bool AutoUpdate;
 
-		// Token: 0x04004719 RID: 18201
 		public string Version;
 
-		// Token: 0x0400471A RID: 18202
 		public string Language;
 
-		// Token: 0x0400471B RID: 18203
 		public string SkippedVersion;
 
-		// Token: 0x0400471C RID: 18204
 		public string CreatedUtc;
 	}
 }

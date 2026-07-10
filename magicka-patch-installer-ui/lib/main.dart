@@ -125,7 +125,7 @@ String _option(List<String> args, String key) {
 }
 
 class AppConstants {
-  static const patchVersion = '0.0.17';
+  static const patchVersion = '0.0.18';
   static const settingsDirectoryName = 'CommunityPatch';
   static const settingsFileName = 'patch-settings.ini';
   static const manifestFileName = 'install-manifest.ini';
@@ -140,6 +140,8 @@ class AppConstants {
   static const postHogApiKey =
       'phc_vbVuHJdtwsf2gzBY36KcLo8btGZY4D6foFGqtxbkfog8';
   static const postHogEndpoint = 'https://eu.i.posthog.com/capture/';
+  static const telemetryEventInstalled = 'magicka_patch_installed';
+  static const telemetryEventAutoUpdate = 'magicka_patch_auto_update';
 }
 
 const double _patreonTurbulence = 0.78;
@@ -220,6 +222,8 @@ class _InstallerScreenState extends State<InstallerScreen>
   bool _usageSharing = true;
   bool _crashReports = true;
   bool _autoUpdate = true;
+  bool _patchAlreadyInstalled = false;
+  String _patchInstallCheckDir = '';
   String _status = 'Ready.';
 
   @override
@@ -228,14 +232,15 @@ class _InstallerScreenState extends State<InstallerScreen>
     _pulse = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 3200))
       ..repeat();
+    _pathController.addListener(_handlePathChanged);
     _loadShader();
     _detectQuick();
   }
 
   Future<void> _loadShader() async {
     try {
-      final flame =
-          await ui.FragmentProgram.fromAsset(_assetKey('shaders/flame_button.frag'));
+      final flame = await ui.FragmentProgram.fromAsset(
+          _assetKey('shaders/flame_button.frag'));
       if (mounted) setState(() => _flameProgram = flame);
     } catch (_) {}
 
@@ -252,24 +257,33 @@ class _InstallerScreenState extends State<InstallerScreen>
     } catch (_) {}
 
     try {
-      final patreonSparks =
-          await ui.FragmentProgram.fromAsset(_assetKey('shaders/patreon_fire_sparks.frag'));
+      final patreonSparks = await ui.FragmentProgram.fromAsset(
+          _assetKey('shaders/patreon_fire_sparks.frag'));
       if (mounted) setState(() => _patreonSparkProgram = patreonSparks);
     } catch (_) {}
   }
 
   @override
   void dispose() {
+    _pathController.removeListener(_handlePathChanged);
     _pathController.dispose();
     _pulse.dispose();
     super.dispose();
   }
 
+  void _handlePathChanged() {
+    if (!_patchAlreadyInstalled) return;
+    if (_pathController.text.trim() == _patchInstallCheckDir) return;
+    setState(() {
+      _patchAlreadyInstalled = false;
+      _patchInstallCheckDir = '';
+    });
+  }
+
   Future<void> _detectQuick() async {
     final found = await _findMagickaDirectory();
     if (!mounted || found == null) return;
-    _pathController.text = found;
-    setState(() => _status = 'Detected folder: $found');
+    await _useDetectedGameDirectory(found);
   }
 
   Future<void> _browse() async {
@@ -281,21 +295,41 @@ class _InstallerScreenState extends State<InstallerScreen>
     ]);
     final path = result.stdout.toString().trim();
     if (path.isNotEmpty) {
-      _pathController.text = path;
-      setState(() => _status = 'Detected folder: $path');
+      await _useDetectedGameDirectory(path);
     }
   }
 
   Future<void> _discover() async {
     setState(() => _status = 'Searching Steam libraries...');
     final found = await _findMagickaDirectory(deep: true);
-    setState(() {
-      if (found == null) {
+    if (!mounted) return;
+    if (found == null) {
+      setState(() {
+        _patchAlreadyInstalled = false;
+        _patchInstallCheckDir = '';
         _status = 'This does not look like the Magicka Steam folder.';
-      } else {
-        _pathController.text = found;
-        _status = 'Detected folder: $found';
-      }
+      });
+      return;
+    }
+    await _useDetectedGameDirectory(found);
+  }
+
+  Future<void> _useDetectedGameDirectory(String gameDir) async {
+    final valid = _isValidMagickaDirectory(gameDir);
+    var installed = false;
+    if (valid) {
+      installed = await _magickaExeContainsPatchVersion(
+          gameDir, AppConstants.patchVersion);
+    }
+    if (!mounted) return;
+    _patchInstallCheckDir = gameDir;
+    _pathController.text = gameDir;
+    setState(() {
+      _patchAlreadyInstalled = installed;
+      if (!installed) _patchInstallCheckDir = '';
+      _status = installed
+          ? 'Patch ${AppConstants.patchVersion} is already installed.'
+          : 'Detected folder: $gameDir';
     });
   }
 
@@ -307,14 +341,28 @@ class _InstallerScreenState extends State<InstallerScreen>
     }
 
     try {
+      if (await _magickaExeContainsPatchVersion(
+          gameDir, AppConstants.patchVersion)) {
+        if (mounted) {
+          setState(() {
+            _patchAlreadyInstalled = true;
+            _patchInstallCheckDir = gameDir;
+            _status =
+                'Patch ${AppConstants.patchVersion} is already installed.';
+          });
+        }
+        await _startGameFromInstaller(gameDir);
+        return;
+      }
+
       final communityDir =
           Directory(_join(gameDir, AppConstants.settingsDirectoryName));
       await communityDir.create(recursive: true);
       final backupDir = Directory(_join(communityDir.path, 'backup'));
       await backupDir.create(recursive: true);
 
-      final existingManifest = await _readIniFile(_join(
-          communityDir.path, AppConstants.manifestFileName));
+      final existingManifest = await _readIniFile(
+          _join(communityDir.path, AppConstants.manifestFileName));
       var magickaBackup =
           existingManifest['original_magicka_backup']?.trim() ?? '';
       var polygonBackup =
@@ -325,23 +373,52 @@ class _InstallerScreenState extends State<InstallerScreen>
                 await _backupIfExists(gameDir, backupDir.path, 'Magicka.exe');
       }
       if (polygonBackup.isEmpty || !File(polygonBackup).existsSync()) {
-        polygonBackup =
-            await _findOriginalBackupFile(backupDir.path, 'PolygonHead.dll') ??
-                await _backupIfExists(
-                    gameDir, backupDir.path, 'PolygonHead.dll');
+        polygonBackup = await _findOriginalBackupFile(
+                backupDir.path, 'PolygonHead.dll') ??
+            await _backupIfExists(gameDir, backupDir.path, 'PolygonHead.dll');
       }
       await _writePayload(gameDir, 'Magicka.exe');
       await _writePayload(gameDir, 'PolygonHead.dll');
       await _writeSettings(gameDir);
       await _writeManifest(gameDir, magickaBackup, polygonBackup);
       await _installTools(gameDir);
+      await _sendPatchTelemetryEvent(
+        eventName: AppConstants.telemetryEventInstalled,
+        gameDir: gameDir,
+        patchVersion: AppConstants.patchVersion,
+      );
 
       setState(() => _status = 'The patch was installed.');
       await _showStartGameDialog(
-          context, gameDir, 'The patch was installed.');
+        context,
+        gameDir,
+        'The patch was installed.',
+        flameProgram: _flameProgram,
+        starProgram: _starProgram,
+      );
     } catch (error) {
       setState(() => _status = 'Install failed: $error');
       _showMessage('Install failed: $error');
+    }
+  }
+
+  Future<void> _startInstalledGame() async {
+    final gameDir = _pathController.text.trim();
+    if (!_isValidMagickaDirectory(gameDir)) {
+      _showMessage('This does not look like the Magicka Steam folder.');
+      return;
+    }
+    await _startGameFromInstaller(gameDir);
+  }
+
+  Future<void> _startGameFromInstaller(String gameDir) async {
+    try {
+      await _startMagicka(gameDir);
+      if (mounted) setState(() => _status = 'Magicka was started.');
+    } catch (error) {
+      if (!mounted) return;
+      setState(() => _status = 'Could not start Magicka: $error');
+      await _showMessage('Could not start Magicka: $error');
     }
   }
 
@@ -374,6 +451,26 @@ class _InstallerScreenState extends State<InstallerScreen>
                             height: 720,
                             child: SidebarImage()),
                         Positioned(left: 250, top: 29, child: _Header()),
+                        Positioned(
+                            left: 250,
+                            top: 94,
+                            width: 946,
+                            height: 18,
+                            child: Row(children: <Widget>[
+                              Icon(
+                                  _patchAlreadyInstalled
+                                      ? Icons.play_arrow_rounded
+                                      : Icons.info_outline_rounded,
+                                  color: const Color(0xffbeb19b),
+                                  size: 15),
+                              const SizedBox(width: 7),
+                              Expanded(
+                                  child: Text(_status,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                          color: Color(0xffbeb19b),
+                                          fontSize: 13)))
+                            ])),
                         Positioned(
                             left: 250,
                             top: 118,
@@ -427,8 +524,8 @@ class _InstallerScreenState extends State<InstallerScreen>
                             top: 470,
                             width: 946,
                             height: 150,
-                            child: SpecialThanksBanner(
-                                starProgram: _starProgram)),
+                            child:
+                                SpecialThanksBanner(starProgram: _starProgram)),
                         Positioned(
                             left: 66,
                             top: 654,
@@ -436,15 +533,21 @@ class _InstallerScreenState extends State<InstallerScreen>
                             height: 42,
                             child: FlameButton(
                                 program: _starProgram,
-                                label: 'Install patch',
-                                icon: Icons.auto_awesome,
+                                label: _patchAlreadyInstalled
+                                    ? 'Start game'
+                                    : 'Install patch',
+                                icon: _patchAlreadyInstalled
+                                    ? Icons.play_arrow_rounded
+                                    : Icons.auto_awesome,
                                 accent: const Color(0xff3f9fff),
                                 starField: true,
                                 overlayIcon: true,
                                 starTuning: _starTuning,
                                 forceHover: _previewStarHover,
                                 intensity: 1.0,
-                                onTap: _install)),
+                                onTap: _patchAlreadyInstalled
+                                    ? _startInstalledGame
+                                    : _install)),
                         Positioned(
                             left: 372,
                             top: 654,
@@ -670,8 +773,7 @@ class _InstallerScreenState extends State<InstallerScreen>
     final gameDir = _pathController.text.trim();
     final baseDir = _isValidMagickaDirectory(gameDir)
         ? _join(gameDir, AppConstants.settingsDirectoryName)
-        : _join(
-            Platform.environment['APPDATA'] ?? Directory.systemTemp.path,
+        : _join(Platform.environment['APPDATA'] ?? Directory.systemTemp.path,
             'MagickaPatch');
     final idFile = File(_join(baseDir, 'anonymous-id.txt'));
     try {
@@ -735,7 +837,8 @@ class _InstallerScreenState extends State<InstallerScreen>
     final libraryDirs = <String>[];
     for (final steamDir in steamDirs) {
       _addUniquePath(libraryDirs, steamDir);
-      final libraryFile = File(_join(steamDir, r'steamapps\libraryfolders.vdf'));
+      final libraryFile =
+          File(_join(steamDir, r'steamapps\libraryfolders.vdf'));
       if (!await libraryFile.exists()) continue;
       try {
         final values = _readValveKeyValues(await libraryFile.readAsString());
@@ -800,8 +903,8 @@ class _InstallerScreenState extends State<InstallerScreen>
 
   Future<String?> _readRegistryString(String key, String valueName) async {
     try {
-      final result = await Process.run(
-          'reg', <String>['query', key, '/v', valueName]);
+      final result =
+          await Process.run('reg', <String>['query', key, '/v', valueName]);
       if (result.exitCode != 0) return null;
       final pattern = RegExp(
           '^\\s*${RegExp.escape(valueName)}\\s+REG_\\w+\\s+(.+)\$',
@@ -845,8 +948,7 @@ class _InstallerScreenState extends State<InstallerScreen>
   Future<List<int>> _readPayloadBytes(String fileName) async {
     try {
       final data = await rootBundle.load(_assetKey('assets/payload/$fileName'));
-      return data.buffer
-          .asUint8List(data.offsetInBytes, data.lengthInBytes);
+      return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     } catch (_) {
       final exeDir = File(Platform.resolvedExecutable).parent.path;
       final candidates = <String>[
@@ -908,8 +1010,9 @@ original_polygonhead_backup=$originalPolygonHeadBackup
     await File(exe).copy(_join(gameDir, AppConstants.toolFileName));
     await File(exe).copy(_join(gameDir, AppConstants.uninstallerFileName));
     await _copyFlutterRuntimeFiles(gameDir);
-    await File(_join(gameDir, AppConstants.uninstallerCommandFileName)).writeAsString(
-        '@echo off\r\n"%~dp0${AppConstants.uninstallerFileName}" --uninstall\r\n');
+    await File(_join(gameDir, AppConstants.uninstallerCommandFileName))
+        .writeAsString(
+            '@echo off\r\n"%~dp0${AppConstants.uninstallerFileName}" --uninstall\r\n');
   }
 
   Future<void> _copyFlutterRuntimeFiles(String gameDir) async {
@@ -966,8 +1069,8 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
 
   Future<void> _loadShader() async {
     try {
-      final flame =
-          await ui.FragmentProgram.fromAsset(_assetKey('shaders/flame_button.frag'));
+      final flame = await ui.FragmentProgram.fromAsset(
+          _assetKey('shaders/flame_button.frag'));
       if (mounted) setState(() => _flameProgram = flame);
     } catch (_) {}
 
@@ -984,8 +1087,8 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
     } catch (_) {}
 
     try {
-      final patreonSparks =
-          await ui.FragmentProgram.fromAsset(_assetKey('shaders/patreon_fire_sparks.frag'));
+      final patreonSparks = await ui.FragmentProgram.fromAsset(
+          _assetKey('shaders/patreon_fire_sparks.frag'));
       if (mounted) setState(() => _patreonSparkProgram = patreonSparks);
     } catch (_) {}
   }
@@ -1011,15 +1114,23 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
 
     try {
       await _applyPreparedUpdate(command);
+      await _sendPatchTelemetryEvent(
+        eventName: AppConstants.telemetryEventAutoUpdate,
+        gameDir: command.gameDir,
+        patchVersion: _displayVersion(command),
+      );
       if (!mounted) return;
       setState(() {
         _updated = true;
         _status = 'Patch ${_displayVersion(command)} installed.';
       });
       await _showStartGameDialog(
-          context,
-          command.gameDir,
-          'Magicka Community Patch ${_displayVersion(command)} installed.');
+        context,
+        command.gameDir,
+        'Magicka Community Patch ${_displayVersion(command)} installed.',
+        flameProgram: _flameProgram,
+        starProgram: _starProgram,
+      );
     } catch (error) {
       if (!mounted) return;
       setState(() => _status = 'Update failed: $error');
@@ -1040,7 +1151,8 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
 
     final gameDir = Directory(command.gameDir);
     if (!gameDir.existsSync()) {
-      throw FileSystemException('Magicka directory does not exist.', gameDir.path);
+      throw FileSystemException(
+          'Magicka directory does not exist.', gameDir.path);
     }
 
     var payloadDir = command.source;
@@ -1089,7 +1201,8 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
     }
   }
 
-  Future<bool> _stageOptionalToolUpdate(String payloadDir, String gameDir) async {
+  Future<bool> _stageOptionalToolUpdate(
+      String payloadDir, String gameDir) async {
     final tool = await _findFile(payloadDir, AppConstants.toolFileName);
     final toolDir = tool == null ? payloadDir : File(tool).parent.path;
     final installer = tool == null
@@ -1098,8 +1211,8 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
             toolDir, payloadDir, AppConstants.installerFileName);
     if (installer == null && tool == null) return false;
 
-    final staging = Directory(_join(gameDir, AppConstants.settingsDirectoryName,
-        'tool-update-staging'));
+    final staging = Directory(_join(
+        gameDir, AppConstants.settingsDirectoryName, 'tool-update-staging'));
     try {
       if (await staging.exists()) await staging.delete(recursive: true);
     } catch (_) {}
@@ -1107,18 +1220,20 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
 
     final installerSource = File(installer ?? tool!);
     final toolSource = File(tool ?? installer!);
-    await installerSource.copy(_join(staging.path, AppConstants.installerFileName));
+    await installerSource
+        .copy(_join(staging.path, AppConstants.installerFileName));
     await toolSource.copy(_join(staging.path, AppConstants.toolFileName));
 
-    final flutterDll = await _findFileNear(
-        toolDir, payloadDir, 'flutter_windows.dll');
+    final flutterDll =
+        await _findFileNear(toolDir, payloadDir, 'flutter_windows.dll');
     if (flutterDll != null) {
       await File(flutterDll).copy(_join(staging.path, 'flutter_windows.dll'));
     }
 
     final dataDir = await _findDirectoryNear(toolDir, payloadDir, 'data');
     if (dataDir != null) {
-      await _copyDirectory(Directory(dataDir), Directory(_join(staging.path, 'data')));
+      await _copyDirectory(
+          Directory(dataDir), Directory(_join(staging.path, 'data')));
     }
 
     return true;
@@ -1141,8 +1256,7 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
     final dataTarget = _join(gameDir, 'data');
     final currentPid = pid;
 
-    final command =
-        '\$pidToWait=$currentPid; '
+    final command = '\$pidToWait=$currentPid; '
         '\$staging=${_psQuote(staging)}; '
         '\$installerSource=${_psQuote(installerSource)}; '
         '\$installerTarget=${_psQuote(installerTarget)}; '
@@ -1195,8 +1309,11 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
       'Expand-Archive -LiteralPath ${_psQuote(zipPath)} -DestinationPath ${_psQuote(destination)} -Force',
     ]);
     if (result.exitCode != 0) {
-      throw ProcessException('powershell', const <String>[],
-          'Could not extract update package: ${result.stderr}', result.exitCode);
+      throw ProcessException(
+          'powershell',
+          const <String>[],
+          'Could not extract update package: ${result.stderr}',
+          result.exitCode);
     }
   }
 
@@ -1205,10 +1322,12 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
     if (await direct.exists()) return direct.path;
     final directory = Directory(dir);
     if (!await directory.exists()) return null;
-    await for (final entity in directory.list(recursive: true, followLinks: false)) {
+    await for (final entity
+        in directory.list(recursive: true, followLinks: false)) {
       if (entity is File &&
           entity.uri.pathSegments.isNotEmpty &&
-          entity.uri.pathSegments.last.toLowerCase() == fileName.toLowerCase()) {
+          entity.uri.pathSegments.last.toLowerCase() ==
+              fileName.toLowerCase()) {
         return entity.path;
       }
     }
@@ -1234,7 +1353,8 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
     if (await direct.exists()) return direct.path;
     final directory = Directory(dir);
     if (!await directory.exists()) return null;
-    await for (final entity in directory.list(recursive: true, followLinks: false)) {
+    await for (final entity
+        in directory.list(recursive: true, followLinks: false)) {
       if (entity is Directory &&
           entity.uri.pathSegments.isNotEmpty &&
           entity.uri.pathSegments
@@ -1313,7 +1433,9 @@ event_log=${values['event_log']}
   }
 
   String _displayVersion(UpdaterCommand command) =>
-      command.version.trim().isEmpty ? AppConstants.patchVersion : command.version.trim();
+      command.version.trim().isEmpty
+          ? AppConstants.patchVersion
+          : command.version.trim();
 
   Future<void> _showFeedbackDialog() async {
     final nameController = TextEditingController();
@@ -1433,8 +1555,7 @@ event_log=${values['event_log']}
   Future<String> _feedbackDistinctId(String gameDir) async {
     final baseDir = gameDir.isNotEmpty
         ? _join(gameDir, AppConstants.settingsDirectoryName)
-        : _join(
-            Platform.environment['APPDATA'] ?? Directory.systemTemp.path,
+        : _join(Platform.environment['APPDATA'] ?? Directory.systemTemp.path,
             'MagickaPatch');
     final idFile = File(_join(baseDir, 'anonymous-id.txt'));
     try {
@@ -1651,8 +1772,8 @@ class _UninstallerScreenState extends State<UninstallerScreen>
 
   Future<void> _loadShader() async {
     try {
-      final flame =
-          await ui.FragmentProgram.fromAsset(_assetKey('shaders/flame_button.frag'));
+      final flame = await ui.FragmentProgram.fromAsset(
+          _assetKey('shaders/flame_button.frag'));
       if (mounted) setState(() => _flameProgram = flame);
     } catch (_) {}
 
@@ -1669,8 +1790,8 @@ class _UninstallerScreenState extends State<UninstallerScreen>
     } catch (_) {}
 
     try {
-      final patreonSparks =
-          await ui.FragmentProgram.fromAsset(_assetKey('shaders/patreon_fire_sparks.frag'));
+      final patreonSparks = await ui.FragmentProgram.fromAsset(
+          _assetKey('shaders/patreon_fire_sparks.frag'));
       if (mounted) setState(() => _patreonSparkProgram = patreonSparks);
     } catch (_) {}
   }
@@ -1749,10 +1870,12 @@ class _UninstallerScreenState extends State<UninstallerScreen>
 
     await _deleteIfExists(_join(gameDir, AppConstants.installerFileName));
     await _deleteIfExists(_join(gameDir, AppConstants.toolFileName));
-    await _deleteIfExists(_join(gameDir, AppConstants.uninstallerCommandFileName));
+    await _deleteIfExists(
+        _join(gameDir, AppConstants.uninstallerCommandFileName));
 
     try {
-      if (await communityDir.exists()) await communityDir.delete(recursive: true);
+      if (await communityDir.exists())
+        await communityDir.delete(recursive: true);
     } catch (_) {}
 
     await _scheduleToolCleanup(gameDir);
@@ -1772,8 +1895,7 @@ class _UninstallerScreenState extends State<UninstallerScreen>
     ];
     final currentPid = pid;
     final targetArray = targets.map(_psQuote).join(',');
-    final command =
-        '\$cleanupPid=$currentPid; \$targets=@($targetArray); '
+    final command = '\$cleanupPid=$currentPid; \$targets=@($targetArray); '
         'try { Wait-Process -Id \$cleanupPid -ErrorAction SilentlyContinue } catch {} '
         'Start-Sleep -Milliseconds 300; '
         'for(\$i=0; \$i -lt 20; \$i++){ foreach(\$target in \$targets){ Remove-Item -LiteralPath \$target -Recurse -Force -ErrorAction SilentlyContinue }; Start-Sleep -Milliseconds 500 }';
@@ -1983,52 +2105,52 @@ class StarTuningConfig {
   const StarTuningConfig({required this.normal, required this.hover});
 
   factory StarTuningConfig.defaults() {
-    return const   StarTuningConfig(
-  normal: StarTuningMode(
-    spawnWidth: 1.000,
-    spawnHeight: 1.000,
-    spawnRate: 20.0,
-    radiusMin: 0.75,
-    radiusMax: 2.20,
-    hueMin: 205.0,
-    hueMax: 322.0,
-    speedMin: 30.0,
-    speedMax: 62.0,
-    lifetimeMin: 1.05,
-    lifetimeMax: 1.75,
-    brightnessMin: 0.45,
-    brightnessMax: 0.77,
-    rotationMin: -2.80,
-    rotationMax: 2.80,
-    tipLengthMin: 0.50,
-    tipLengthMax: 5.40,
-    centerRadiusMin: 0.82,
-    centerRadiusMax: 1.18,
-    accentMix: 0.30,
-  ),
-  hover: StarTuningMode(
-    spawnWidth: 1.000,
-    spawnHeight: 1.000,
-    spawnRate: 68.0,
-    radiusMin: 0.75,
-    radiusMax: 8.00,
-    hueMin: 205.0,
-    hueMax: 322.0,
-    speedMin: 30.0,
-    speedMax: 62.0,
-    lifetimeMin: 1.15,
-    lifetimeMax: 2.10,
-    brightnessMin: 0.45,
-    brightnessMax: 0.77,
-    rotationMin: -2.80,
-    rotationMax: 2.80,
-    tipLengthMin: 0.50,
-    tipLengthMax: 8.50,
-    centerRadiusMin: 0.15,
-    centerRadiusMax: 0.85,
-    accentMix: 0.33,
-  ),
-);
+    return const StarTuningConfig(
+      normal: StarTuningMode(
+        spawnWidth: 1.000,
+        spawnHeight: 1.000,
+        spawnRate: 20.0,
+        radiusMin: 0.75,
+        radiusMax: 2.20,
+        hueMin: 205.0,
+        hueMax: 322.0,
+        speedMin: 30.0,
+        speedMax: 62.0,
+        lifetimeMin: 1.05,
+        lifetimeMax: 1.75,
+        brightnessMin: 0.45,
+        brightnessMax: 0.77,
+        rotationMin: -2.80,
+        rotationMax: 2.80,
+        tipLengthMin: 0.50,
+        tipLengthMax: 5.40,
+        centerRadiusMin: 0.82,
+        centerRadiusMax: 1.18,
+        accentMix: 0.30,
+      ),
+      hover: StarTuningMode(
+        spawnWidth: 1.000,
+        spawnHeight: 1.000,
+        spawnRate: 68.0,
+        radiusMin: 0.75,
+        radiusMax: 8.00,
+        hueMin: 205.0,
+        hueMax: 322.0,
+        speedMin: 30.0,
+        speedMax: 62.0,
+        lifetimeMin: 1.15,
+        lifetimeMax: 2.10,
+        brightnessMin: 0.45,
+        brightnessMax: 0.77,
+        rotationMin: -2.80,
+        rotationMax: 2.80,
+        tipLengthMin: 0.50,
+        tipLengthMax: 8.50,
+        centerRadiusMin: 0.15,
+        centerRadiusMax: 0.85,
+        accentMix: 0.33,
+      ),
+    );
   }
 
   final StarTuningMode normal;
@@ -2170,80 +2292,80 @@ class PatreonFireConfig {
   const PatreonFireConfig({required this.normal, required this.hover});
 
   factory PatreonFireConfig.defaults() {
-    return const   PatreonFireConfig(
-  normal: PatreonFireMode(
-    heartX: 0.205,
-    heartY: 0.520,
-    heartSize: 0.82,
-    heartGlow: 0.00,
-    heartBloom: 0.00,
-    flameHeight: 14.00,
-    flameWidth: 0.98,
-    flameOriginY: 1.800,
-    flameIntensity: 0.91,
-    edgeFlameHeight: 280.0,
-    edgeFlameY: -0.130,
-    edgeFlameIntensity: 0.41,
-    sideFlameHeight: 11.75,
-    sideFlameWidth: 0.02,
-    sideFlameX: 0.497,
-    sideFlameOriginY: 1.420,
-    sideFlameIntensity: 0.34,
-    sparkSpawnRate: 34.0,
-    sparkSpeedMin: 90.0,
-    sparkSpeedMax: 220.0,
-    sparkSizeMin: 1.30,
-    sparkSizeMax: 6.00,
-    sparkSpread: 1.16,
-    sparkOriginY: 5.000,
-    sparkBottomCrop: 0.310,
-    sparkOpacity: 0.00,
-    sparkMotionX: -0.14,
-    sparkMotionY: -3.00,
-    sparkSmoke: 0.22,
-    sparkBloom: 0.00,
-    sparkLayerSize: 1.60,
-    sparkLayerAlpha: 0.70,
-    sparkLayers: 13.0,
-    buttonGlow: 1.20,
-  ),
-  hover: PatreonFireMode(
-    heartX: 0.205,
-    heartY: 0.520,
-    heartSize: 1.00,
-    heartGlow: 1.55,
-    heartBloom: 1.65,
-    flameHeight: 14.00,
-    flameWidth: 0.98,
-    flameOriginY: 1.800,
-    flameIntensity: 3.19,
-    edgeFlameHeight: 280.0,
-    edgeFlameY: -0.130,
-    edgeFlameIntensity: 2.25,
-    sideFlameHeight: 11.75,
-    sideFlameWidth: 0.02,
-    sideFlameX: 0.497,
-    sideFlameOriginY: 1.420,
-    sideFlameIntensity: 1.45,
-    sparkSpawnRate: 34.0,
-    sparkSpeedMin: 90.0,
-    sparkSpeedMax: 220.0,
-    sparkSizeMin: 1.30,
-    sparkSizeMax: 6.00,
-    sparkSpread: 1.16,
-    sparkOriginY: 5.000,
-    sparkBottomCrop: 0.310,
-    sparkOpacity: 1.00,
-    sparkMotionX: -0.14,
-    sparkMotionY: -3.00,
-    sparkSmoke: 0.22,
-    sparkBloom: 0.00,
-    sparkLayerSize: 1.60,
-    sparkLayerAlpha: 0.70,
-    sparkLayers: 13.0,
-    buttonGlow: 1.20,
-  ),
-);
+    return const PatreonFireConfig(
+      normal: PatreonFireMode(
+        heartX: 0.205,
+        heartY: 0.520,
+        heartSize: 0.82,
+        heartGlow: 0.00,
+        heartBloom: 0.00,
+        flameHeight: 14.00,
+        flameWidth: 0.98,
+        flameOriginY: 1.800,
+        flameIntensity: 0.91,
+        edgeFlameHeight: 280.0,
+        edgeFlameY: -0.130,
+        edgeFlameIntensity: 0.41,
+        sideFlameHeight: 11.75,
+        sideFlameWidth: 0.02,
+        sideFlameX: 0.497,
+        sideFlameOriginY: 1.420,
+        sideFlameIntensity: 0.34,
+        sparkSpawnRate: 34.0,
+        sparkSpeedMin: 90.0,
+        sparkSpeedMax: 220.0,
+        sparkSizeMin: 1.30,
+        sparkSizeMax: 6.00,
+        sparkSpread: 1.16,
+        sparkOriginY: 5.000,
+        sparkBottomCrop: 0.310,
+        sparkOpacity: 0.00,
+        sparkMotionX: -0.14,
+        sparkMotionY: -3.00,
+        sparkSmoke: 0.22,
+        sparkBloom: 0.00,
+        sparkLayerSize: 1.60,
+        sparkLayerAlpha: 0.70,
+        sparkLayers: 13.0,
+        buttonGlow: 1.20,
+      ),
+      hover: PatreonFireMode(
+        heartX: 0.205,
+        heartY: 0.520,
+        heartSize: 1.00,
+        heartGlow: 1.55,
+        heartBloom: 1.65,
+        flameHeight: 14.00,
+        flameWidth: 0.98,
+        flameOriginY: 1.800,
+        flameIntensity: 3.19,
+        edgeFlameHeight: 280.0,
+        edgeFlameY: -0.130,
+        edgeFlameIntensity: 2.25,
+        sideFlameHeight: 11.75,
+        sideFlameWidth: 0.02,
+        sideFlameX: 0.497,
+        sideFlameOriginY: 1.420,
+        sideFlameIntensity: 1.45,
+        sparkSpawnRate: 34.0,
+        sparkSpeedMin: 90.0,
+        sparkSpeedMax: 220.0,
+        sparkSizeMin: 1.30,
+        sparkSizeMax: 6.00,
+        sparkSpread: 1.16,
+        sparkOriginY: 5.000,
+        sparkBottomCrop: 0.310,
+        sparkOpacity: 1.00,
+        sparkMotionX: -0.14,
+        sparkMotionY: -3.00,
+        sparkSmoke: 0.22,
+        sparkBloom: 0.00,
+        sparkLayerSize: 1.60,
+        sparkLayerAlpha: 0.70,
+        sparkLayers: 13.0,
+        buttonGlow: 1.20,
+      ),
+    );
   }
 
   final PatreonFireMode normal;
@@ -3266,8 +3388,7 @@ class _PatreonModeTuningPanel extends StatelessWidget {
                       2.00,
                       200,
                       _fixed(values.sparkSmoke, 2),
-                      (value) =>
-                          onChanged(values.copyWith(sparkSmoke: value))),
+                      (value) => onChanged(values.copyWith(sparkSmoke: value))),
                   _singleSlider(
                       'Spark bloom',
                       values.sparkBloom,
@@ -3275,8 +3396,7 @@ class _PatreonModeTuningPanel extends StatelessWidget {
                       3.00,
                       300,
                       _fixed(values.sparkBloom, 2),
-                      (value) =>
-                          onChanged(values.copyWith(sparkBloom: value))),
+                      (value) => onChanged(values.copyWith(sparkBloom: value))),
                   _singleSlider(
                       'Spark layer size',
                       values.sparkLayerSize,
@@ -3302,8 +3422,8 @@ class _PatreonModeTuningPanel extends StatelessWidget {
                       24.00,
                       23,
                       _fixed(values.sparkLayers, 0),
-                      (value) => onChanged(values.copyWith(
-                          sparkLayers: value.roundToDouble()))),
+                      (value) => onChanged(
+                          values.copyWith(sparkLayers: value.roundToDouble()))),
                   _singleSlider(
                       'Button glow',
                       values.buttonGlow,
@@ -3417,6 +3537,100 @@ void _addOptionalTelemetry(
   if (safe.isNotEmpty) properties[key] = safe;
 }
 
+Future<void> _sendPatchTelemetryEvent({
+  required String eventName,
+  required String gameDir,
+  required String patchVersion,
+}) async {
+  try {
+    if (!await _isUsageSharingEnabled(gameDir)) return;
+    if (await _isPatchTelemetryDisabled(gameDir)) return;
+
+    final safeVersion = _safeTelemetryText(patchVersion, 100);
+    final properties = <String, Object>{
+      'distinct_id': await _patchTelemetryDistinctId(),
+      r'$process_person_profile': false,
+      'patch_name': 'Community Patch',
+      'patch_version': safeVersion,
+      'game_version': '',
+      'os': _safeTelemetryText(Platform.operatingSystemVersion, 200),
+    };
+
+    final payload = <String, Object>{
+      'api_key': AppConstants.postHogApiKey,
+      'event': eventName,
+      'properties': properties,
+    };
+
+    final client = HttpClient()
+      ..connectionTimeout = const Duration(milliseconds: 1200);
+    try {
+      final request =
+          await client.postUrl(Uri.parse(AppConstants.postHogEndpoint));
+      request.headers.contentType = ContentType.json;
+      request.headers.set(
+          HttpHeaders.userAgentHeader, 'MagickaPatchTelemetry/$safeVersion');
+      request.write(jsonEncode(payload));
+      final response =
+          await request.close().timeout(const Duration(milliseconds: 1500));
+      await response.drain();
+    } finally {
+      client.close(force: true);
+    }
+  } catch (_) {}
+}
+
+Future<bool> _isUsageSharingEnabled(String gameDir) async {
+  if (gameDir.trim().isEmpty) return false;
+  final values = await _readIniFile(_join(gameDir,
+      AppConstants.settingsDirectoryName, AppConstants.settingsFileName));
+  return _parseBool(values['usage_sharing']);
+}
+
+Future<bool> _isPatchTelemetryDisabled(String gameDir) async {
+  try {
+    return await File(_join(gameDir, 'telemetry_disabled.txt')).exists();
+  } catch (_) {
+    return true;
+  }
+}
+
+Future<String> _patchTelemetryDistinctId() async {
+  final baseDir = _join(
+      Platform.environment['APPDATA'] ?? Directory.systemTemp.path,
+      'MagickaPatch');
+  final idFile = File(_join(baseDir, 'telemetry_id.txt'));
+  try {
+    await Directory(baseDir).create(recursive: true);
+    if (await idFile.exists()) {
+      final existing = (await idFile.readAsString()).trim();
+      if (existing.isNotEmpty) return existing;
+    }
+    final id = _newGuidLikeTelemetryId();
+    await idFile.writeAsString(id, flush: true);
+    return id;
+  } catch (_) {
+    return 'ephemeral_${_newGuidLikeTelemetryId()}';
+  }
+}
+
+String _newGuidLikeTelemetryId() {
+  try {
+    final random = math.Random.secure();
+    return List<String>.generate(
+      16,
+      (_) => random.nextInt(256).toRadixString(16).padLeft(2, '0'),
+    ).join();
+  } catch (_) {
+    return _newTelemetryId().replaceAll('_', '');
+  }
+}
+
+bool _parseBool(String? value) {
+  final normalized = (value ?? '').trim().toLowerCase();
+  return normalized == 'true' || normalized == 'yes' || normalized == '1';
+}
+
 String _normalizeEventPart(String? value) {
   final raw = (value == null || value.trim().isEmpty) ? 'unknown' : value;
   final buffer = StringBuffer();
@@ -3425,8 +3639,10 @@ String _normalizeEventPart(String? value) {
     final isDigit = code >= 48 && code <= 57;
     buffer.write(isLetter || isDigit ? String.fromCharCode(code) : '_');
   }
-  final normalized =
-      buffer.toString().replaceAll(RegExp(r'_+'), '_').replaceAll(RegExp(r'^_|_$'), '');
+  final normalized = buffer
+      .toString()
+      .replaceAll(RegExp(r'_+'), '_')
+      .replaceAll(RegExp(r'^_|_$'), '');
   return normalized.isEmpty ? 'unknown' : normalized;
 }
 
@@ -3466,10 +3682,8 @@ Map<String, List<String>> _readValveKeyValues(String text) {
   return values;
 }
 
-String _decodeValveString(String value) => value
-    .replaceAll(r'\\', '\\')
-    .replaceAll(r'\"', '"')
-    .replaceAll(r'\/', '/');
+String _decodeValveString(String value) =>
+    value.replaceAll(r'\\', '\\').replaceAll(r'\"', '"').replaceAll(r'\/', '/');
 
 String _safeFileName(String value) {
   if (value.trim().isEmpty) return 'unknown';
@@ -3498,6 +3712,45 @@ Future<Map<String, String>> _readIniFile(String path) async {
   return values;
 }
 
+Future<bool> _magickaExeContainsPatchVersion(
+    String gameDir, String version) async {
+  if (gameDir.trim().isEmpty || version.trim().isEmpty) return false;
+  try {
+    final exe = File(_join(gameDir, 'Magicka.exe'));
+    if (!await exe.exists()) return false;
+    final bytes = await exe.readAsBytes();
+    final needle = _utf16LeBytes(version);
+    return _countBytePattern(bytes, needle) == 1;
+  } catch (_) {
+    return false;
+  }
+}
+
+List<int> _utf16LeBytes(String value) {
+  final bytes = <int>[];
+  for (final codeUnit in value.codeUnits) {
+    bytes.add(codeUnit & 0xff);
+    bytes.add((codeUnit >> 8) & 0xff);
+  }
+  return bytes;
+}
+
+int _countBytePattern(List<int> haystack, List<int> needle) {
+  if (needle.isEmpty || haystack.length < needle.length) return 0;
+  var count = 0;
+  for (var i = 0; i <= haystack.length - needle.length; i++) {
+    var matched = true;
+    for (var j = 0; j < needle.length; j++) {
+      if (haystack[i + j] != needle[j]) {
+        matched = false;
+        break;
+      }
+    }
+    if (matched) count++;
+  }
+  return count;
+}
+
 Future<void> _deleteIfExists(String path) async {
   try {
     final file = File(path);
@@ -3518,7 +3771,8 @@ Future<String?> _findOriginalBackupFile(String backupDir, String fileName,
   final directory = Directory(backupDir);
   if (!await directory.exists()) return null;
   final candidates = <String>[];
-  await for (final entity in directory.list(recursive: false, followLinks: false)) {
+  await for (final entity
+      in directory.list(recursive: false, followLinks: false)) {
     if (entity is! File) continue;
     final parts = entity.path
         .split(RegExp(r'[\\/]+'))
@@ -3535,7 +3789,8 @@ Future<String?> _findOriginalBackupFile(String backupDir, String fileName,
 
 Future<void> _copyDirectory(Directory source, Directory destination) async {
   await destination.create(recursive: true);
-  await for (final entity in source.list(recursive: false, followLinks: false)) {
+  await for (final entity
+      in source.list(recursive: false, followLinks: false)) {
     final parts = entity.path
         .split(RegExp(r'[\\/]+'))
         .where((part) => part.isNotEmpty)
@@ -3552,23 +3807,18 @@ Future<void> _copyDirectory(Directory source, Directory destination) async {
 }
 
 Future<void> _showStartGameDialog(
-    BuildContext context, String gameDir, String message) async {
+  BuildContext context,
+  String gameDir,
+  String message, {
+  ui.FragmentProgram? flameProgram,
+  ui.FragmentProgram? starProgram,
+}) async {
   final start = await showDialog<bool>(
         context: context,
-        builder: (context) => AlertDialog(
-          backgroundColor: const Color(0xff101315),
-          title: const Text('Magicka Community Patch'),
-          content: Text('$message\n\nStart Magicka now?'),
-          actions: <Widget>[
-            TextButton(
-                onPressed: () => Navigator.pop(context, false),
-                child: const Text('Close')),
-            FilledButton.icon(
-              onPressed: () => Navigator.pop(context, true),
-              icon: const Icon(Icons.play_arrow_rounded, size: 18),
-              label: const Text('Start game'),
-            ),
-          ],
+        builder: (context) => _StartGameDialog(
+          message: message,
+          flameProgram: flameProgram,
+          starProgram: starProgram,
         ),
       ) ??
       false;
@@ -3588,6 +3838,166 @@ Future<void> _showStartGameDialog(
           TextButton(
               onPressed: () => Navigator.pop(context), child: const Text('OK'))
         ],
+      ),
+    );
+  }
+}
+
+class _StartGameDialog extends StatelessWidget {
+  const _StartGameDialog({
+    required this.message,
+    required this.flameProgram,
+    required this.starProgram,
+  });
+
+  final String message;
+  final ui.FragmentProgram? flameProgram;
+  final ui.FragmentProgram? starProgram;
+
+  @override
+  Widget build(BuildContext context) {
+    final media = MediaQuery.sizeOf(context);
+    final dialogWidth = math.min(math.max(520.0, media.width - 64), 760.0);
+
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.all(32),
+      child: SizedBox(
+        width: dialogWidth,
+        child: ArcanePanel(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(28, 24, 28, 26),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    const SizedBox(
+                      width: 58,
+                      height: 58,
+                      child: ArcaneIconBadge(
+                        icon: Icons.verified_rounded,
+                        accent: Color(0xff3f9fff),
+                      ),
+                    ),
+                    const SizedBox(width: 18),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          const Text(
+                            'Magicka Community Patch',
+                            style: TextStyle(
+                              color: Color(0xfff7d897),
+                              fontFamily: 'Georgia',
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              shadows: <Shadow>[
+                                Shadow(color: Colors.black, blurRadius: 3)
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            message,
+                            style: const TextStyle(
+                              color: Color(0xffeedfc4),
+                              fontSize: 16,
+                              height: 1.25,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 22),
+                const SectionHeading(text: 'READY TO PLAY'),
+                const SizedBox(height: 18),
+                SizedBox(
+                  height: 104,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: const <Widget>[
+                      ArcaneCardSurface(accent: Color(0xff80caff)),
+                      Positioned(
+                        left: 20,
+                        top: 20,
+                        width: 42,
+                        height: 42,
+                        child: ArcaneIconBadge(
+                          icon: Icons.play_arrow_rounded,
+                          accent: Color(0xff80caff),
+                        ),
+                      ),
+                      Positioned(
+                        left: 78,
+                        top: 20,
+                        right: 20,
+                        child: Text(
+                          'Start Magicka now?',
+                          style: TextStyle(
+                            color: Color(0xfff7d897),
+                            fontFamily: 'Georgia',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 78,
+                        top: 52,
+                        right: 22,
+                        child: Text(
+                          'You can launch the patched game immediately or close this window and start it from Steam later.',
+                          style: TextStyle(
+                            color: Color(0xffeedfc4),
+                            fontSize: 14,
+                            height: 1.25,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: 210,
+                      height: 44,
+                      child: FlameButton(
+                        program: flameProgram,
+                        label: 'Close',
+                        icon: Icons.close,
+                        accent: const Color(0xffd03f30),
+                        overlayIcon: true,
+                        onTap: () => Navigator.pop(context, false),
+                      ),
+                    ),
+                    const Spacer(),
+                    SizedBox(
+                      width: 274,
+                      height: 44,
+                      child: FlameButton(
+                        program: starProgram,
+                        label: 'Start game',
+                        icon: Icons.play_arrow_rounded,
+                        accent: const Color(0xff3f9fff),
+                        starField: true,
+                        overlayIcon: true,
+                        intensity: 1.0,
+                        onTap: () => Navigator.pop(context, true),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -3812,7 +4222,8 @@ class ArcaneButtonSurfacePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
-    final rrect = RRect.fromRectAndRadius(rect.deflate(1), const Radius.circular(6));
+    final rrect =
+        RRect.fromRectAndRadius(rect.deflate(1), const Radius.circular(6));
     final base = Paint()
       ..shader = ui.Gradient.linear(
         rect.topLeft,
@@ -3820,7 +4231,8 @@ class ArcaneButtonSurfacePainter extends CustomPainter {
         <Color>[
           Color.lerp(const Color(0xff101314), accent, starField ? 0.28 : 0.10)!,
           const Color(0xff090909),
-          Color.lerp(const Color(0xff20110b), accent, highlighted ? 0.30 : 0.16)!,
+          Color.lerp(
+              const Color(0xff20110b), accent, highlighted ? 0.30 : 0.16)!,
         ],
         <double>[0.0, 0.55, 1.0],
       );
@@ -3832,7 +4244,8 @@ class ArcaneButtonSurfacePainter extends CustomPainter {
         Offset(size.width * 0.28, size.height * 0.50),
         size.width * 0.65,
         <Color>[
-          accent.withValues(alpha: (highlighted ? 0.34 : 0.18) + (starField ? 0.10 : 0.0)),
+          accent.withValues(
+              alpha: (highlighted ? 0.34 : 0.18) + (starField ? 0.10 : 0.0)),
           const Color(0x00000000),
         ],
       );
@@ -3855,7 +4268,8 @@ class ArcaneButtonSurfacePainter extends CustomPainter {
     final border = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = highlighted ? 1.45 : 1.0
-      ..color = Color.lerp(const Color(0xff845025), accent, highlighted ? 0.42 : 0.18)!
+      ..color = Color.lerp(
+              const Color(0xff845025), accent, highlighted ? 0.42 : 0.18)!
           .withValues(alpha: highlighted ? 0.95 : 0.78);
     canvas.drawRRect(rrect, border);
 
@@ -3871,10 +4285,14 @@ class ArcaneButtonSurfacePainter extends CustomPainter {
       ..color = const Color(0xffd9a04f).withValues(alpha: 0.76);
     canvas.drawLine(const Offset(3, 9), const Offset(3, 3), corner);
     canvas.drawLine(const Offset(3, 3), const Offset(9, 3), corner);
-    canvas.drawLine(Offset(size.width - 3, 9), Offset(size.width - 3, 3), corner);
-    canvas.drawLine(Offset(size.width - 3, 3), Offset(size.width - 9, 3), corner);
-    canvas.drawLine(Offset(3, size.height - 9), Offset(3, size.height - 3), corner);
-    canvas.drawLine(Offset(3, size.height - 3), Offset(9, size.height - 3), corner);
+    canvas.drawLine(
+        Offset(size.width - 3, 9), Offset(size.width - 3, 3), corner);
+    canvas.drawLine(
+        Offset(size.width - 3, 3), Offset(size.width - 9, 3), corner);
+    canvas.drawLine(
+        Offset(3, size.height - 9), Offset(3, size.height - 3), corner);
+    canvas.drawLine(
+        Offset(3, size.height - 3), Offset(9, size.height - 3), corner);
     canvas.drawLine(Offset(size.width - 3, size.height - 9),
         Offset(size.width - 3, size.height - 3), corner);
     canvas.drawLine(Offset(size.width - 3, size.height - 3),
@@ -3926,9 +4344,9 @@ class FlameButtonPainter extends CustomPainter {
       ..setFloat(2, time)
       ..setFloat(3, hovered ? 1.0 : 0.0)
       ..setFloat(4, intensity)
-      ..setFloat(5, accent.red / 255.0)
-      ..setFloat(6, accent.green / 255.0)
-      ..setFloat(7, accent.blue / 255.0);
+      ..setFloat(5, accent.r)
+      ..setFloat(6, accent.g)
+      ..setFloat(7, accent.b);
     final rect = starField
         ? Rect.fromLTRB(-40, -88, size.width + 40, size.height + 16)
         : Offset.zero & size;
@@ -4063,9 +4481,8 @@ class _PatreonFireLayerState extends State<PatreonFireLayer>
     if (widget.sparkProgram != null) {
       _sparkDebt = _sparkDebt % 1;
     } else {
-      while (mode.sparkOpacity > 0 &&
-          _sparkDebt >= 1 &&
-          _particles.length < 320) {
+      while (
+          mode.sparkOpacity > 0 && _sparkDebt >= 1 && _particles.length < 320) {
         _particles.add(_createSpark(mode, _overflowEnabled));
         _sparkDebt -= 1;
       }
@@ -4241,7 +4658,8 @@ class _PatreonFirePainter extends CustomPainter {
     final border = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.2
-      ..color = Color(0xffff9a3d).withValues(alpha: 0.60 + 0.22 * mode.buttonGlow);
+      ..color =
+          Color(0xffff9a3d).withValues(alpha: 0.60 + 0.22 * mode.buttonGlow);
     canvas.drawRRect(rrect.deflate(0.6), border);
   }
 
@@ -4377,7 +4795,8 @@ class _PatreonFirePainter extends CustomPainter {
         buttonRect.top + buttonRect.height * mode.heartY);
     final scale = buttonRect.height * mode.heartSize * 0.52;
     final path = _heartPath(center, scale);
-    final cover = Paint()..color = const Color(0xff3b0906).withValues(alpha: 0.92);
+    final cover = Paint()
+      ..color = const Color(0xff3b0906).withValues(alpha: 0.92);
     canvas.drawPath(path, cover);
 
     final bloomPaint = Paint()
@@ -4508,7 +4927,8 @@ class _PatreonFirePainter extends CustomPainter {
       ..setFloat(6, (averageSize / 3.0).clamp(0.05, 2.60).toDouble())
       ..setFloat(7, mode.sparkSpread.clamp(0.0, 3.20).toDouble())
       ..setFloat(8, _patreonTurbulence.clamp(0.0, 2.00).toDouble())
-      ..setFloat(9,
+      ..setFloat(
+          9,
           ((0.52 + mode.sparkSpawnRate / 120.0) * sparkOpacity)
               .clamp(0.0, 2.50)
               .toDouble())
@@ -4575,8 +4995,8 @@ class _PatreonFirePainter extends CustomPainter {
     canvas.drawLine(position, position + trail, paint);
     paint
       ..style = PaintingStyle.fill
-      ..color =
-          Color.lerp(particle.color, Colors.white, 0.50)!.withValues(alpha: alpha);
+      ..color = Color.lerp(particle.color, Colors.white, 0.50)!
+          .withValues(alpha: alpha);
     canvas.drawCircle(position, particle.size * (1.0 - life * 0.45), paint);
   }
 
@@ -4729,8 +5149,8 @@ class _InstallStarLayerState extends State<InstallStarLayer>
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-        painter:
-            _InstallStarPainter(program: widget.program, particles: _particles));
+        painter: _InstallStarPainter(
+            program: widget.program, particles: _particles));
   }
 }
 
@@ -4829,8 +5249,15 @@ class _InstallStarPainter extends CustomPainter {
     }
   }
 
-  void _drawStar(Canvas canvas, Offset center, double radius, Color color,
-      double alpha, double angle, double tipLength, double centerRadius,
+  void _drawStar(
+      Canvas canvas,
+      Offset center,
+      double radius,
+      Color color,
+      double alpha,
+      double angle,
+      double tipLength,
+      double centerRadius,
       double brightness) {
     if (program != null) {
       _drawShaderStar(canvas, center, radius, color, alpha, angle, tipLength,
@@ -4847,7 +5274,8 @@ class _InstallStarPainter extends CustomPainter {
         center,
         flareLength * 0.86,
         <Color>[
-          Color.lerp(color, Colors.white, 0.58)!.withValues(alpha: alpha * 0.36),
+          Color.lerp(color, Colors.white, 0.58)!
+              .withValues(alpha: alpha * 0.36),
           color.withValues(alpha: alpha * 0.20),
           const Color(0x00000000),
         ],
@@ -4857,7 +5285,8 @@ class _InstallStarPainter extends CustomPainter {
 
     final rayPaint = Paint()
       ..blendMode = BlendMode.plus
-      ..color = Color.lerp(color, Colors.white, 0.42)!.withValues(alpha: alpha * 0.82)
+      ..color =
+          Color.lerp(color, Colors.white, 0.42)!.withValues(alpha: alpha * 0.82)
       ..strokeCap = StrokeCap.round
       ..strokeWidth = math.max(0.42, radius * 0.34)
       ..maskFilter = MaskFilter.blur(BlurStyle.normal, radius * 0.10);
@@ -4866,8 +5295,8 @@ class _InstallStarPainter extends CustomPainter {
     canvas.translate(center.dx, center.dy);
     canvas.rotate(angle);
     canvas.drawLine(Offset(-flareLength, 0), Offset(flareLength, 0), rayPaint);
-    canvas.drawLine(
-        Offset(0, -flareLength * 0.72), Offset(0, flareLength * 0.72), rayPaint);
+    canvas.drawLine(Offset(0, -flareLength * 0.72),
+        Offset(0, flareLength * 0.72), rayPaint);
     rayPaint
       ..color = color.withValues(alpha: alpha * 0.42)
       ..strokeWidth = math.max(0.24, radius * 0.19)
@@ -4893,7 +5322,8 @@ class _InstallStarPainter extends CustomPainter {
         coreRadius * 2.3,
         <Color>[
           Colors.white.withValues(alpha: alpha),
-          Color.lerp(color, Colors.white, 0.38)!.withValues(alpha: alpha * 0.86),
+          Color.lerp(color, Colors.white, 0.38)!
+              .withValues(alpha: alpha * 0.86),
           color.withValues(alpha: alpha * 0.10),
         ],
         const <double>[0.0, 0.42, 1.0],
@@ -4911,23 +5341,23 @@ class _InstallStarPainter extends CustomPainter {
       double tipLength,
       double centerRadius,
       double brightness) {
-    final side = (radius * (12.0 + tipLength * 5.5))
-        .clamp(12.0, 420.0)
-        .toDouble();
+    final side =
+        (radius * (12.0 + tipLength * 5.5)).clamp(12.0, 420.0).toDouble();
     final shader = program!.fragmentShader()
       ..setFloat(0, side)
       ..setFloat(1, side)
       ..setFloat(2, angle + brightness * 11.0)
       ..setFloat(3, alpha)
       ..setFloat(4, (0.20 + centerRadius * 0.04).clamp(0.10, 0.48).toDouble())
-      ..setFloat(5, (0.018 + centerRadius * 0.019).clamp(0.006, 0.070).toDouble())
+      ..setFloat(
+          5, (0.018 + centerRadius * 0.019).clamp(0.006, 0.070).toDouble())
       ..setFloat(6, (0.38 + tipLength * 0.12).clamp(0.10, 7.00).toDouble())
       ..setFloat(7, (900.0 + tipLength * 115.0).clamp(500.0, 9000.0).toDouble())
       ..setFloat(8, (1.0 + brightness * 0.75).clamp(0.4, 3.0).toDouble())
       ..setFloat(9, (0.12 + brightness * 0.17).clamp(0.0, 0.45).toDouble())
-      ..setFloat(10, color.red / 255.0)
-      ..setFloat(11, color.green / 255.0)
-      ..setFloat(12, color.blue / 255.0);
+      ..setFloat(10, color.r)
+      ..setFloat(11, color.g)
+      ..setFloat(12, color.b);
 
     final paint = Paint()
       ..shader = shader
@@ -5018,7 +5448,8 @@ class SidebarImage extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        Image.asset(_assetKey('assets/magicka-workshop-sidebar.png'), fit: BoxFit.cover),
+        Image.asset(_assetKey('assets/magicka-workshop-sidebar.png'),
+            fit: BoxFit.cover),
         DecoratedBox(
             decoration: BoxDecoration(
                 gradient: LinearGradient(colors: <Color>[
@@ -5042,7 +5473,7 @@ class _Header extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('MAGICKA COMMUNITY PATCH 0.0.17',
+          Text('MAGICKA COMMUNITY PATCH 0.0.18',
               style: TextStyle(
                   color: Color(0xfff7d897),
                   fontFamily: 'Georgia',
@@ -5093,8 +5524,7 @@ class _FolderPanel extends StatelessWidget {
                       fontSize: 15),
                   decoration: InputDecoration(
                     isDense: true,
-                    contentPadding:
-                        const EdgeInsets.fromLTRB(14, 6, 14, 6),
+                    contentPadding: const EdgeInsets.fromLTRB(14, 6, 14, 6),
                     filled: true,
                     fillColor: const Color(0xff0a0f10),
                     enabledBorder: OutlineInputBorder(
@@ -5235,7 +5665,8 @@ class ArcanePanelPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
-    final rrect = RRect.fromRectAndRadius(rect.deflate(1), const Radius.circular(6));
+    final rrect =
+        RRect.fromRectAndRadius(rect.deflate(1), const Radius.circular(6));
     final base = Paint()
       ..shader = ui.Gradient.linear(
         rect.topLeft,
@@ -5249,7 +5680,8 @@ class ArcanePanelPainter extends CustomPainter {
       );
     canvas.drawRRect(rrect, base);
 
-    final texture = Paint()..color = const Color(0xffffffff).withValues(alpha: 0.025);
+    final texture = Paint()
+      ..color = const Color(0xffffffff).withValues(alpha: 0.025);
     for (var y = 10.0; y < size.height; y += 12) {
       canvas.drawLine(Offset(6, y), Offset(size.width - 6, y + 4), texture);
     }
@@ -5275,8 +5707,10 @@ class ArcanePanelPainter extends CustomPainter {
       ..color = color;
     const inset = 4.0;
     const len = 14.0;
-    canvas.drawLine(const Offset(inset, inset + len), const Offset(inset, inset), paint);
-    canvas.drawLine(const Offset(inset, inset), const Offset(inset + len, inset), paint);
+    canvas.drawLine(
+        const Offset(inset, inset + len), const Offset(inset, inset), paint);
+    canvas.drawLine(
+        const Offset(inset, inset), const Offset(inset + len, inset), paint);
     canvas.drawLine(Offset(size.width - inset, inset + len),
         Offset(size.width - inset, inset), paint);
     canvas.drawLine(Offset(size.width - inset, inset),
@@ -5350,7 +5784,8 @@ class ArcaneCardPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
-    final rrect = RRect.fromRectAndRadius(rect.deflate(1), const Radius.circular(5));
+    final rrect =
+        RRect.fromRectAndRadius(rect.deflate(1), const Radius.circular(5));
     canvas.drawRRect(
         rrect,
         Paint()
@@ -5500,9 +5935,9 @@ class _SpecialThanksBannerState extends State<SpecialThanksBanner>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-        vsync: this, duration: const Duration(seconds: 74))
-      ..repeat();
+    _controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 74))
+          ..repeat();
   }
 
   @override
@@ -5552,8 +5987,8 @@ class _SpecialThanksBannerState extends State<SpecialThanksBanner>
                         final cardWidth = columns == 2
                             ? (constraints.maxWidth - gap) / 2
                             : constraints.maxWidth;
-                        final cardHeight = math.min(248.0,
-                            math.max(188.0, cardWidth * 116.0 / 360.0));
+                        final cardHeight = math.min(
+                            248.0, math.max(188.0, cardWidth * 116.0 / 360.0));
                         return SingleChildScrollView(
                           child: Wrap(
                             spacing: gap,
@@ -5823,8 +6258,8 @@ class _SpecialThanksCardState extends State<SpecialThanksCard>
                     left: 88,
                     bottom: 8,
                     child: Container(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 2),
                       decoration: BoxDecoration(
                         border: Border.all(color: const Color(0xffe0a956)),
                         borderRadius: BorderRadius.circular(4),
@@ -5839,8 +6274,8 @@ class _SpecialThanksCardState extends State<SpecialThanksCard>
                             : null,
                       ),
                       child: const Text('SUPPORTER',
-                        style:
-                            TextStyle(color: Color(0xfff7d897), fontSize: 11)),
+                          style: TextStyle(
+                              color: Color(0xfff7d897), fontSize: 11)),
                     ),
                   ),
               ],
@@ -5924,8 +6359,7 @@ class _SpecialThanksDetailDialogState extends State<SpecialThanksDetailDialog> {
                     width: 360,
                     height: 116,
                     child: SpecialThanksCard(
-                        person: widget.person,
-                        starProgram: widget.starProgram),
+                        person: widget.person, starProgram: widget.starProgram),
                   ),
                 ),
               ),
@@ -6030,9 +6464,9 @@ class ThanksHoverPainter extends CustomPainter {
       final phase = (time + i * 0.113) % 1.0;
       final x = (0.10 + 0.82 * ((math.sin(seed) * 43758.5453).abs() % 1.0)) *
           size.width;
-      final y = (0.14 +
-              0.72 * ((math.sin(seed + 9.91) * 19341.913).abs() % 1.0)) *
-          size.height;
+      final y =
+          (0.14 + 0.72 * ((math.sin(seed + 9.91) * 19341.913).abs() % 1.0)) *
+              size.height;
       final rise = (phase - 0.5) * size.height * 0.16;
       final sparkleAlpha =
           (1.0 - (phase - 0.5).abs() * 2.0).clamp(0.0, 1.0).toDouble();
@@ -6066,9 +6500,8 @@ class ThanksHoverPainter extends CustomPainter {
   void _drawShaderStar(Canvas canvas, Offset center, double radius, Color color,
       double alpha, double angle, double tipLength, double brightness) {
     if (alpha <= 0.01) return;
-    final side = (radius * (12.0 + tipLength * 5.5))
-        .clamp(22.0, 180.0)
-        .toDouble();
+    final side =
+        (radius * (12.0 + tipLength * 5.5)).clamp(22.0, 180.0).toDouble();
     final shader = program!.fragmentShader()
       ..setFloat(0, side)
       ..setFloat(1, side)
@@ -6080,9 +6513,9 @@ class ThanksHoverPainter extends CustomPainter {
       ..setFloat(7, (900.0 + tipLength * 115.0).clamp(500.0, 9000.0).toDouble())
       ..setFloat(8, 1.45)
       ..setFloat(9, 0.22)
-      ..setFloat(10, color.red / 255.0)
-      ..setFloat(11, color.green / 255.0)
-      ..setFloat(12, color.blue / 255.0);
+      ..setFloat(10, color.r)
+      ..setFloat(11, color.g)
+      ..setFloat(12, color.b);
 
     final paint = Paint()
       ..shader = shader
@@ -6114,16 +6547,16 @@ class ThanksHoverPainter extends CustomPainter {
     canvas.translate(center.dx, center.dy);
     canvas.rotate(angle);
     canvas.drawLine(Offset(-rayLength, 0), Offset(rayLength, 0), ray);
-    canvas.drawLine(Offset(0, -rayLength * 0.62),
-        Offset(0, rayLength * 0.62), ray);
+    canvas.drawLine(
+        Offset(0, -rayLength * 0.62), Offset(0, rayLength * 0.62), ray);
     ray
       ..strokeWidth = math.max(0.25, radius * 0.14)
       ..color = color.withValues(alpha: alpha * 0.46);
     canvas.rotate(math.pi / 4);
     canvas.drawLine(
         Offset(-rayLength * 0.34, 0), Offset(rayLength * 0.34, 0), ray);
-    canvas.drawLine(Offset(0, -rayLength * 0.34),
-        Offset(0, rayLength * 0.34), ray);
+    canvas.drawLine(
+        Offset(0, -rayLength * 0.34), Offset(0, rayLength * 0.34), ray);
     canvas.restore();
 
     final core = Paint()
@@ -6168,14 +6601,12 @@ class ThanksBadgeStarPainter extends CustomPainter {
     ];
 
     for (final star in stars) {
-      final pulse =
-          0.55 + 0.45 * math.sin((time + star.phase) * math.pi * 2.0);
+      final pulse = 0.55 + 0.45 * math.sin((time + star.phase) * math.pi * 2.0);
       final alpha = (0.34 + pulse * 0.48).clamp(0.0, 1.0).toDouble();
       final color = Color.lerp(accent, const Color(0xfffff0b0), 0.68)!;
       if (program == null) {
-        _drawFallbackStar(
-            canvas, star.center, star.radius, star.tipLength, color, alpha,
-            time + star.phase);
+        _drawFallbackStar(canvas, star.center, star.radius, star.tipLength,
+            color, alpha, time + star.phase);
       } else {
         _drawShaderStar(canvas, star.center, star.radius, star.tipLength, color,
             alpha, time + star.phase);
@@ -6197,9 +6628,9 @@ class ThanksBadgeStarPainter extends CustomPainter {
       ..setFloat(7, (1500.0 + tipLength * 70.0).clamp(900.0, 2800.0).toDouble())
       ..setFloat(8, 2.2)
       ..setFloat(9, 0.22)
-      ..setFloat(10, color.red / 255.0)
-      ..setFloat(11, color.green / 255.0)
-      ..setFloat(12, color.blue / 255.0);
+      ..setFloat(10, color.r)
+      ..setFloat(11, color.g)
+      ..setFloat(12, color.b);
     final paint = Paint()
       ..shader = shader
       ..blendMode = BlendMode.plus;
@@ -6229,8 +6660,7 @@ class ThanksBadgeStarPainter extends CustomPainter {
       ..color = color.withValues(alpha: alpha * 0.46);
     canvas.rotate(math.pi / 4);
     canvas.drawLine(Offset(-length * 0.48, 0), Offset(length * 0.48, 0), paint);
-    canvas.drawLine(
-        Offset(0, -length * 0.48), Offset(0, length * 0.48), paint);
+    canvas.drawLine(Offset(0, -length * 0.48), Offset(0, length * 0.48), paint);
     canvas.restore();
   }
 
@@ -6265,7 +6695,8 @@ class ArcaneSupporterPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
-    final rrect = RRect.fromRectAndRadius(rect.deflate(1), const Radius.circular(5));
+    final rrect =
+        RRect.fromRectAndRadius(rect.deflate(1), const Radius.circular(5));
     canvas.drawRRect(
         rrect,
         Paint()
@@ -6316,7 +6747,9 @@ class SupporterBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: 54, height: 60, child: CustomPaint(painter: SupporterBadgePainter()));
+        width: 54,
+        height: 60,
+        child: CustomPaint(painter: SupporterBadgePainter()));
   }
 }
 

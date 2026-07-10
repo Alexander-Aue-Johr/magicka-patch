@@ -5,9 +5,11 @@ param(
     [string]$OldExeVersion = "",
     [string]$Flutter = "",
     [string]$OutputDir = "",
+    [string]$MagickaDir = "",
     [switch]$SkipExeVersionPatch,
     [switch]$SkipBuild,
     [switch]$SkipAutoUpdaterUi,
+    [switch]$SkipSteamPayloadSync,
     [switch]$KeepStage
 )
 
@@ -20,6 +22,217 @@ function Join-PathChecked {
         [Parameter(Mandatory = $true)][string]$Child
     )
     return [System.IO.Path]::GetFullPath((Join-Path $Base $Child))
+}
+
+function Add-UniquePath {
+    param(
+        [Parameter(Mandatory = $true)][System.Collections.IList]$List,
+        [AllowEmptyString()][string]$Path
+    )
+
+    if ([string]::IsNullOrWhiteSpace($Path)) {
+        return
+    }
+
+    $fullPath = [System.IO.Path]::GetFullPath($Path)
+    foreach ($existing in $List) {
+        if ([string]::Equals($existing, $fullPath, [System.StringComparison]::OrdinalIgnoreCase)) {
+            return
+        }
+    }
+
+    $List.Add($fullPath) | Out-Null
+}
+
+function Normalize-ValvePath {
+    param([Parameter(Mandatory = $true)][string]$Path)
+    return $Path.Replace('\\', '\').Replace('/', '\')
+}
+
+function Read-RegistryString {
+    param(
+        [Parameter(Mandatory = $true)][string]$Key,
+        [Parameter(Mandatory = $true)][string]$ValueName
+    )
+
+    $startInfo = New-Object System.Diagnostics.ProcessStartInfo
+    $startInfo.FileName = 'reg.exe'
+    $startInfo.Arguments = "query `"$Key`" /v `"$ValueName`""
+    $startInfo.UseShellExecute = $false
+    $startInfo.RedirectStandardOutput = $true
+    $startInfo.RedirectStandardError = $true
+    $startInfo.CreateNoWindow = $true
+
+    $process = New-Object System.Diagnostics.Process
+    $process.StartInfo = $startInfo
+    try {
+        [void]$process.Start()
+        $stdout = $process.StandardOutput.ReadToEnd()
+        [void]$process.StandardError.ReadToEnd()
+        $process.WaitForExit()
+        $exitCode = $process.ExitCode
+    }
+    catch {
+        return ""
+    }
+    finally {
+        $process.Dispose()
+    }
+
+    if ($exitCode -ne 0) {
+        return ""
+    }
+
+    foreach ($line in ($stdout -split "`r?`n")) {
+        if ($line -match "^\s*$([regex]::Escape($ValueName))\s+REG_\w+\s+(?<value>.+?)\s*$") {
+            return $Matches["value"].Trim()
+        }
+    }
+    return ""
+}
+
+function Get-SteamDirectories {
+    $dirs = New-Object System.Collections.Generic.List[string]
+
+    if (-not [string]::IsNullOrWhiteSpace(${env:ProgramFiles(x86)})) {
+        Add-UniquePath $dirs (Join-Path ${env:ProgramFiles(x86)} 'Steam')
+    }
+    if (-not [string]::IsNullOrWhiteSpace($env:ProgramFiles)) {
+        Add-UniquePath $dirs (Join-Path $env:ProgramFiles 'Steam')
+    }
+    Add-UniquePath $dirs 'C:\Steam'
+
+    foreach ($key in @(
+            'HKCU\Software\Valve\Steam',
+            'HKLM\Software\Valve\Steam',
+            'HKLM\Software\WOW6432Node\Valve\Steam'
+        )) {
+        foreach ($valueName in @('SteamPath', 'InstallPath')) {
+            $value = Read-RegistryString $key $valueName
+            if (-not [string]::IsNullOrWhiteSpace($value)) {
+                Add-UniquePath $dirs (Normalize-ValvePath $value)
+            }
+        }
+    }
+
+    return @($dirs | Where-Object { Test-Path -LiteralPath $_ -PathType Container })
+}
+
+function Get-SteamLibraryDirectories {
+    $libraries = New-Object System.Collections.Generic.List[string]
+
+    foreach ($steamDir in Get-SteamDirectories) {
+        Add-UniquePath $libraries $steamDir
+        $libraryFile = Join-PathChecked $steamDir 'steamapps\libraryfolders.vdf'
+        if (-not (Test-Path -LiteralPath $libraryFile -PathType Leaf)) {
+            continue
+        }
+
+        $text = [System.IO.File]::ReadAllText($libraryFile)
+        foreach ($match in [regex]::Matches($text, '"path"\s+"(?<path>[^"]+)"')) {
+            Add-UniquePath $libraries (Normalize-ValvePath $match.Groups["path"].Value)
+        }
+        foreach ($match in [regex]::Matches($text, '"\d+"\s+"(?<path>(?:[A-Za-z]:|\\\\)[^"]+)"')) {
+            Add-UniquePath $libraries (Normalize-ValvePath $match.Groups["path"].Value)
+        }
+    }
+
+    return @($libraries | Where-Object { Test-Path -LiteralPath $_ -PathType Container })
+}
+
+function Test-MagickaPayloadDirectory {
+    param([Parameter(Mandatory = $true)][string]$Path)
+
+    return (Test-Path -LiteralPath (Join-PathChecked $Path 'Magicka.exe') -PathType Leaf) -and
+        (Test-Path -LiteralPath (Join-PathChecked $Path 'PolygonHead.dll') -PathType Leaf)
+}
+
+function Resolve-MagickaDirectory {
+    param([AllowEmptyString()][string]$Requested)
+
+    if (-not [string]::IsNullOrWhiteSpace($Requested)) {
+        $resolved = [System.IO.Path]::GetFullPath($Requested)
+        if (-not (Test-MagickaPayloadDirectory $resolved)) {
+            throw "Magicka payload files were not found in ${resolved}. Expected Magicka.exe and PolygonHead.dll."
+        }
+        return $resolved
+    }
+
+    foreach ($envName in @('MAGICKA_DIR', 'MAGICKA_GAME_DIR')) {
+        $envValue = [Environment]::GetEnvironmentVariable($envName)
+        if (-not [string]::IsNullOrWhiteSpace($envValue) -and (Test-MagickaPayloadDirectory $envValue)) {
+            return [System.IO.Path]::GetFullPath($envValue)
+        }
+    }
+
+    $candidates = New-Object System.Collections.Generic.List[string]
+    foreach ($libraryDir in Get-SteamLibraryDirectories) {
+        $manifest = Join-PathChecked $libraryDir 'steamapps\appmanifest_42910.acf'
+        if (Test-Path -LiteralPath $manifest -PathType Leaf) {
+            $manifestText = [System.IO.File]::ReadAllText($manifest)
+            $installDirMatch = [regex]::Match($manifestText, '"installdir"\s+"(?<dir>[^"]+)"')
+            if ($installDirMatch.Success) {
+                $commonDir = Join-PathChecked (Join-PathChecked $libraryDir 'steamapps') 'common'
+                Add-UniquePath $candidates (Join-PathChecked $commonDir (Normalize-ValvePath $installDirMatch.Groups["dir"].Value))
+            }
+        }
+
+        Add-UniquePath $candidates (Join-PathChecked $libraryDir 'steamapps\common\Magicka')
+    }
+
+    $fallbackCandidates = @(
+        'C:\Steam\steamapps\common\Magicka',
+        'D:\SteamLibrary\steamapps\common\Magicka',
+        'G:\SteamLibrary\steamapps\common\Magicka'
+    )
+    if (-not [string]::IsNullOrWhiteSpace(${env:ProgramFiles(x86)})) {
+        $fallbackCandidates += Join-Path ${env:ProgramFiles(x86)} 'Steam\steamapps\common\Magicka'
+    }
+    if (-not [string]::IsNullOrWhiteSpace($env:ProgramFiles)) {
+        $fallbackCandidates += Join-Path $env:ProgramFiles 'Steam\steamapps\common\Magicka'
+    }
+
+    foreach ($candidate in $fallbackCandidates) {
+        Add-UniquePath $candidates $candidate
+    }
+
+    foreach ($candidate in $candidates) {
+        if (Test-MagickaPayloadDirectory $candidate) {
+            return [System.IO.Path]::GetFullPath($candidate)
+        }
+    }
+
+    throw "Could not find the Steam Magicka directory. Pass -MagickaDir `"C:\path\to\Steam\steamapps\common\Magicka`"."
+}
+
+function Sync-ReleasePayloadFromMagickaDirectory {
+    param(
+        [Parameter(Mandatory = $true)][string]$GameDir,
+        [Parameter(Mandatory = $true)][string]$RepoRoot
+    )
+
+    foreach ($fileName in @('Magicka.exe', 'PolygonHead.dll')) {
+        $source = Join-PathChecked $GameDir $fileName
+        $destination = Join-PathChecked $RepoRoot $fileName
+        if (-not (Test-Path -LiteralPath $source -PathType Leaf)) {
+            throw "Required payload file missing in ${GameDir}: $fileName"
+        }
+        Copy-Item -LiteralPath $source -Destination $destination -Force
+        Write-Host "Synced $fileName from Steam Magicka folder" -ForegroundColor DarkGray
+    }
+}
+
+function Copy-ReleasePayloadToDirectory {
+    param(
+        [Parameter(Mandatory = $true)][string]$RepoRoot,
+        [Parameter(Mandatory = $true)][string]$DestinationDir
+    )
+
+    Assert-Directory $DestinationDir
+    foreach ($fileName in @('Magicka.exe', 'PolygonHead.dll')) {
+        Copy-Item -LiteralPath (Join-PathChecked $RepoRoot $fileName) -Destination (Join-PathChecked $DestinationDir $fileName) -Force
+    }
+    Write-Host "Copied payload files next to installer EXE: $DestinationDir" -ForegroundColor DarkGray
 }
 
 function Read-PubspecVersion {
@@ -86,6 +299,43 @@ function Format-FlutterVersion {
 
     $resolvedBuildNumber = Get-BuildNumberForVersion $SemanticVersion $RequestedBuildNumber
     return "$SemanticVersion+$resolvedBuildNumber"
+}
+
+function Get-PreviousPatchVersion {
+    param([Parameter(Mandatory = $true)][string]$SemanticVersion)
+
+    if ($SemanticVersion -notmatch '^(\d+)\.(\d+)\.(\d+)$') {
+        return ""
+    }
+
+    $patch = [int]$Matches[3]
+    if ($patch -le 0) {
+        return ""
+    }
+
+    return "$($Matches[1]).$($Matches[2]).$($patch - 1)"
+}
+
+function Resolve-OldExeVersionForRelease {
+    param(
+        [Parameter(Mandatory = $true)][string]$TargetSemanticVersion,
+        [Parameter(Mandatory = $true)][string]$ProjectOldSemanticVersion
+    )
+
+    if (-not [string]::IsNullOrWhiteSpace($OldExeVersion)) {
+        return $OldExeVersion
+    }
+
+    $expectedPrevious = Get-PreviousPatchVersion $TargetSemanticVersion
+    if ([string]::IsNullOrWhiteSpace($expectedPrevious)) {
+        return $ProjectOldSemanticVersion
+    }
+
+    if ($ProjectOldSemanticVersion -ne $expectedPrevious) {
+        Write-Warning "Project files currently report $ProjectOldSemanticVersion, but release $TargetSemanticVersion normally updates Magicka.exe from $expectedPrevious. Using $expectedPrevious for the EXE version check. Pass -OldExeVersion to override."
+    }
+
+    return $expectedPrevious
 }
 
 function Set-TextFile {
@@ -246,13 +496,18 @@ function Set-ExeVersionString {
     $newBytes = [System.Text.Encoding]::Unicode.GetBytes($NewVersion)
     $oldCount = [ReleaseByteSearch]::Count($bytes, $oldBytes)
     $newCount = [ReleaseByteSearch]::Count($bytes, $newBytes)
+    $explicitOldVersion = -not [string]::IsNullOrWhiteSpace($script:OldExeVersion)
 
     if ($OldVersion -eq $NewVersion) {
-        if ($newCount -ne 1) {
-            throw "Expected exactly one UTF-16 version string '$NewVersion' in $Path, found $newCount"
+        if ($newCount -eq 1) {
+            Write-Host "Magicka.exe already contains version $NewVersion" -ForegroundColor DarkGray
+            return
         }
-        Write-Host "Magicka.exe already contains version $NewVersion" -ForegroundColor DarkGray
-        return
+        if ($newCount -eq 0 -and -not $explicitOldVersion) {
+            Write-Warning "Magicka.exe does not contain UTF-16 patch version '$NewVersion'. Skipping binary EXE version patch."
+            return
+        }
+        throw "Expected exactly one UTF-16 version string '$NewVersion' in $Path, found $newCount"
     }
 
     if ($oldCount -eq 0 -and $newCount -eq 1) {
@@ -261,6 +516,10 @@ function Set-ExeVersionString {
     }
 
     if ($oldCount -ne 1) {
+        if ($oldCount -eq 0 -and -not $explicitOldVersion) {
+            Write-Warning "Magicka.exe does not contain expected UTF-16 patch version '$OldVersion'. Skipping binary EXE version patch. If the game-side version still needs changing, update the Steam Magicka.exe or pass -OldExeVersion."
+            return
+        }
         throw "Expected exactly one UTF-16 version string '$OldVersion' in $Path, found $oldCount. Pass -OldExeVersion or -SkipExeVersionPatch."
     }
 
@@ -285,7 +544,8 @@ function Set-ProjectVersion {
         [Parameter(Mandatory = $true)][string]$OldFullVersion,
         [Parameter(Mandatory = $true)][string]$RepoRoot,
         [Parameter(Mandatory = $true)][string]$InstallerProject,
-        [Parameter(Mandatory = $true)][string]$UpdaterProject
+        [Parameter(Mandatory = $true)][string]$UpdaterProject,
+        [Parameter(Mandatory = $true)][string]$OldExeVersionForPatch
     )
 
     $installerPubspecPath = Join-PathChecked $InstallerProject 'pubspec.yaml'
@@ -314,8 +574,7 @@ function Set-ProjectVersion {
 
     if (-not $SkipExeVersionPatch) {
         $exePath = Join-PathChecked $RepoRoot 'Magicka.exe'
-        $resolvedOldExeVersion = if ([string]::IsNullOrWhiteSpace($OldExeVersion)) { $OldSemanticVersion } else { $OldExeVersion }
-        Set-ExeVersionString $exePath $resolvedOldExeVersion $SemanticVersion
+        Set-ExeVersionString $exePath $OldExeVersionForPatch $SemanticVersion
     }
 }
 
@@ -438,6 +697,15 @@ $installerVersion = Read-PubspecVersion $installerPubspec
 $originalInstallerVersion = $installerVersion
 $originalAppVersion = Read-AppPatchVersion $installerMain
 
+if ($SkipSteamPayloadSync) {
+    Write-Warning "Steam payload sync skipped. The release will use Magicka.exe and PolygonHead.dll from $repoRoot."
+}
+else {
+    $resolvedMagickaDir = Resolve-MagickaDirectory $MagickaDir
+    Write-Host "Steam Magicka folder: $resolvedMagickaDir" -ForegroundColor Green
+    Sync-ReleasePayloadFromMagickaDirectory -GameDir $resolvedMagickaDir -RepoRoot $repoRoot
+}
+
 if (-not [string]::IsNullOrWhiteSpace($Version)) {
     $targetSemanticVersion = $Version.Trim()
     $targetFullVersion = Format-FlutterVersion $targetSemanticVersion $BuildNumber
@@ -445,6 +713,9 @@ if (-not [string]::IsNullOrWhiteSpace($Version)) {
     if ($oldSemanticVersion -eq $targetSemanticVersion -and $originalAppVersion -ne $targetSemanticVersion) {
         $oldSemanticVersion = $originalAppVersion
     }
+    $oldExeVersionForPatch = Resolve-OldExeVersionForRelease `
+        -TargetSemanticVersion $targetSemanticVersion `
+        -ProjectOldSemanticVersion $oldSemanticVersion
 
     Write-Host "Setting release version: $($originalInstallerVersion.Full) -> $targetFullVersion" -ForegroundColor Green
     Set-ProjectVersion `
@@ -454,7 +725,8 @@ if (-not [string]::IsNullOrWhiteSpace($Version)) {
         -OldFullVersion $originalInstallerVersion.Full `
         -RepoRoot $repoRoot `
         -InstallerProject $installerProject `
-        -UpdaterProject $updaterProject
+        -UpdaterProject $updaterProject `
+        -OldExeVersionForPatch $oldExeVersionForPatch
     $installerVersion = Read-PubspecVersion $installerPubspec
 }
 
@@ -500,6 +772,10 @@ Assert-File (Join-PathChecked $repoRoot 'PolygonHead.dll')
 Assert-File $installerExe
 Assert-File (Join-PathChecked $installerRelease 'flutter_windows.dll')
 Assert-Directory (Join-PathChecked $installerRelease 'data')
+
+Copy-ReleasePayloadToDirectory -RepoRoot $repoRoot -DestinationDir $installerRelease
+Assert-File (Join-PathChecked $installerRelease 'Magicka.exe')
+Assert-File (Join-PathChecked $installerRelease 'PolygonHead.dll')
 
 New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
 Remove-PathInside $stageDir $OutputDir

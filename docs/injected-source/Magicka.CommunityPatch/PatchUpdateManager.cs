@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -9,10 +9,8 @@ using System.Windows.Forms;
 
 namespace Magicka.CommunityPatch
 {
-	// Token: 0x02000833 RID: 2099
 	internal static class PatchUpdateManager
 	{
-		// Token: 0x06003EAD RID: 16045 RVA: 0x001D6490 File Offset: 0x001D4690
 		public static void CheckForUpdatesInBackground()
 		{
 			try
@@ -36,7 +34,6 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x06003EAE RID: 16046 RVA: 0x001D6504 File Offset: 0x001D4704
 		public static void OfferPendingUpdateAfterGameExit()
 		{
 			try
@@ -75,13 +72,11 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x06003EAF RID: 16047 RVA: 0x0002B24B File Offset: 0x0002944B
 		private static bool IsNullOrWhiteSpaceCompat(string value)
 		{
 			return string.IsNullOrEmpty(value) || value.Trim().Length == 0;
 		}
 
-		// Token: 0x06003EB0 RID: 16048 RVA: 0x001D65E4 File Offset: 0x001D47E4
 		public static void OfferPendingUpdateAfterCrash()
 		{
 			try
@@ -100,7 +95,6 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x06003EB1 RID: 16049 RVA: 0x001D663C File Offset: 0x001D483C
 		private static void CheckWorker()
 		{
 			try
@@ -137,7 +131,6 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x06003EB2 RID: 16050 RVA: 0x001D6708 File Offset: 0x001D4908
 		private static string DownloadBestAsset(string releaseJson, string latestVersion)
 		{
 			string text = Path.Combine(PatchSettings.DownloadDirectory, PatchUpdateManager.SafeFileName(latestVersion));
@@ -177,7 +170,6 @@ namespace Magicka.CommunityPatch
 			return string.Empty;
 		}
 
-		// Token: 0x06003EB3 RID: 16051 RVA: 0x001D6844 File Offset: 0x001D4A44
 		private static string DownloadString(string url, int timeoutMs)
 		{
 			string result;
@@ -194,7 +186,6 @@ namespace Magicka.CommunityPatch
 			return result;
 		}
 
-		// Token: 0x06003EB4 RID: 16052 RVA: 0x001D68C4 File Offset: 0x001D4AC4
 		private static void DownloadFile(string url, string path, int timeoutMs)
 		{
 			using (HttpWebResponse httpWebResponse = (HttpWebResponse)PatchUpdateManager.CreateRequest(url, timeoutMs).GetResponse())
@@ -214,7 +205,6 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x06003EB5 RID: 16053 RVA: 0x001D6964 File Offset: 0x001D4B64
 		private static HttpWebRequest CreateRequest(string url, int timeoutMs)
 		{
 			try
@@ -231,7 +221,6 @@ namespace Magicka.CommunityPatch
 			return httpWebRequest;
 		}
 
-		// Token: 0x06003EB6 RID: 16054 RVA: 0x001D69BC File Offset: 0x001D4BBC
 		private static string ExtractJsonString(string json, string key)
 		{
 			if (string.IsNullOrEmpty(json) || string.IsNullOrEmpty(key))
@@ -246,7 +235,6 @@ namespace Magicka.CommunityPatch
 			return PatchUpdateManager.UnescapeJson(match.Groups["v"].Value);
 		}
 
-		// Token: 0x06003EB7 RID: 16055 RVA: 0x001D6A24 File Offset: 0x001D4C24
 		private static string FindAssetUrl(string json, string nameRegex)
 		{
 			if (string.IsNullOrEmpty(json))
@@ -264,7 +252,6 @@ namespace Magicka.CommunityPatch
 			return string.Empty;
 		}
 
-		// Token: 0x06003EB8 RID: 16056 RVA: 0x0002B265 File Offset: 0x00029465
 		private static string UnescapeJson(string value)
 		{
 			if (value == null)
@@ -274,7 +261,6 @@ namespace Magicka.CommunityPatch
 			return value.Replace("\\/", "/").Replace("\\\"", "\"").Replace("\\\\", "\\");
 		}
 
-		// Token: 0x06003EB9 RID: 16057 RVA: 0x001D6AD8 File Offset: 0x001D4CD8
 		private static bool IsNewerVersion(string candidate, string current)
 		{
 			Version v;
@@ -286,7 +272,6 @@ namespace Magicka.CommunityPatch
 			return string.Compare(candidate, current, StringComparison.OrdinalIgnoreCase) > 0;
 		}
 
-		// Token: 0x06003EBA RID: 16058 RVA: 0x001D6B0C File Offset: 0x001D4D0C
 		private static bool TryParseVersion(string value, out Version version)
 		{
 			version = null;
@@ -304,7 +289,6 @@ namespace Magicka.CommunityPatch
 			return result;
 		}
 
-		// Token: 0x06003EBB RID: 16059 RVA: 0x0002B29E File Offset: 0x0002949E
 		private static string NormalizeVersion(string value)
 		{
 			if (value == null)
@@ -319,7 +303,6 @@ namespace Magicka.CommunityPatch
 			return value;
 		}
 
-		// Token: 0x06003EBC RID: 16060 RVA: 0x001D6B48 File Offset: 0x001D4D48
 		private static void StartTool(string mode, string source, string version)
 		{
 			ProcessStartInfo processStartInfo = new ProcessStartInfo(PatchSettings.ToolPath);
@@ -366,7 +349,6 @@ namespace Magicka.CommunityPatch
 			Process.Start(processStartInfo);
 		}
 
-		// Token: 0x06003EBD RID: 16061 RVA: 0x0002B2C9 File Offset: 0x000294C9
 		private static string Quote(string value)
 		{
 			if (value == null)
@@ -376,7 +358,6 @@ namespace Magicka.CommunityPatch
 			return "\"" + value.Replace("\"", "\\\"") + "\"";
 		}
 
-		// Token: 0x06003EBE RID: 16062 RVA: 0x001D6C80 File Offset: 0x001D4E80
 		private static string SafeFileName(string value)
 		{
 			if (string.IsNullOrEmpty(value))
@@ -390,7 +371,6 @@ namespace Magicka.CommunityPatch
 			return value.Replace('.', '_');
 		}
 
-		// Token: 0x06003EBF RID: 16063 RVA: 0x001D6CC8 File Offset: 0x001D4EC8
 		private static void TryDelete(string path)
 		{
 			try
@@ -405,14 +385,10 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		// Token: 0x0400471D RID: 18205
 		private static int sCheckStarted;
 
-		// Token: 0x02000834 RID: 2100
 		private sealed class PendingUpdate
 		{
-			// Token: 0x17000E22 RID: 3618
-			// (get) Token: 0x06003EC0 RID: 16064 RVA: 0x0002B2F4 File Offset: 0x000294F4
 			public bool IsValid
 			{
 				get
@@ -421,7 +397,6 @@ namespace Magicka.CommunityPatch
 				}
 			}
 
-			// Token: 0x06003EC1 RID: 16065 RVA: 0x001D6CF8 File Offset: 0x001D4EF8
 			public static PatchUpdateManager.PendingUpdate Load()
 			{
 				PatchUpdateManager.PendingUpdate pendingUpdate = new PatchUpdateManager.PendingUpdate();
@@ -457,7 +432,6 @@ namespace Magicka.CommunityPatch
 				return pendingUpdate;
 			}
 
-			// Token: 0x06003EC2 RID: 16066 RVA: 0x001D6DBC File Offset: 0x001D4FBC
 			public void Save()
 			{
 				try
@@ -479,10 +453,8 @@ namespace Magicka.CommunityPatch
 				}
 			}
 
-			// Token: 0x0400471E RID: 18206
 			public string Version;
 
-			// Token: 0x0400471F RID: 18207
 			public string Source;
 		}
 	}

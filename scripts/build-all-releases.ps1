@@ -5,7 +5,9 @@ param(
     [string]$Flutter = "",
     [string]$OutputDir = "",
     [string]$WorktreeRoot = "",
+    [string]$MagickaDir = "",
     [switch]$SkipAutoUpdaterUi,
+    [switch]$SkipSteamPayloadSync,
     [switch]$KeepStage,
     [switch]$KeepWorktrees
 )
@@ -202,8 +204,14 @@ foreach ($release in $releases) {
     if (-not [string]::IsNullOrWhiteSpace($Flutter)) {
         $arguments["Flutter"] = $Flutter
     }
+    if (-not [string]::IsNullOrWhiteSpace($MagickaDir)) {
+        $arguments["MagickaDir"] = $MagickaDir
+    }
     if ($SkipAutoUpdaterUi) {
         $arguments["SkipAutoUpdaterUi"] = $true
+    }
+    if ($SkipSteamPayloadSync) {
+        $arguments["SkipSteamPayloadSync"] = $true
     }
     if ($KeepStage) {
         $arguments["KeepStage"] = $true
