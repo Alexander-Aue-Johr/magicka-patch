@@ -8,7 +8,7 @@
 >
 > **☕ Support on Patreon:** [https://www.patreon.com/16047341/join](https://www.patreon.com/16047341/join)
 > 
-> 🚀 **Latest release:** [releases/download/0.0.20/magicka-community-patch-0.0.20.zip](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.20/magicka-community-patch-0.0.20.zip)
+> 🚀 **Latest release:** [releases/download/0.0.21/magicka-community-patch-0.0.21.zip](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.21/magicka-community-patch-0.0.21.zip)
 >
 > 🐛 **Report issues:** https://github.com/Alexander-Aue-Johr/magicka-patch/issues
 >
