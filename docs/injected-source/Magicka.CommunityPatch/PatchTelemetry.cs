@@ -395,39 +395,6 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		public static void SendTypingTextGuardException(string reason, string text, int charIndex, int visibleCharacters, int primitiveCount, float nextChar, float typeSpeed, Exception exception)
-		{
-			try
-			{
-				Dictionary<string, string> dictionary = new Dictionary<string, string>();
-				PatchTelemetry.AddCommonProperties(dictionary);
-				dictionary["reason"] = PatchTelemetry.Safe(reason);
-				dictionary["text_length"] = (text == null) ? "null" : text.Length.ToString(CultureInfo.InvariantCulture);
-				dictionary["text_hash"] = PatchTelemetry.Safe(PatchTelemetry.HashShort(text));
-				dictionary["char_index"] = charIndex.ToString(CultureInfo.InvariantCulture);
-				dictionary["visible_characters"] = visibleCharacters.ToString(CultureInfo.InvariantCulture);
-				dictionary["primitive_count"] = primitiveCount.ToString(CultureInfo.InvariantCulture);
-				dictionary["next_char"] = nextChar.ToString(CultureInfo.InvariantCulture);
-				dictionary["type_speed"] = typeSpeed.ToString(CultureInfo.InvariantCulture);
-				if (exception != null)
-				{
-					dictionary["exception_type"] = PatchTelemetry.Safe(exception.GetType().FullName);
-					dictionary["exception_message"] = PatchTelemetry.Safe(exception.Message);
-					dictionary["exception_hash"] = PatchTelemetry.Safe(PatchTelemetry.HashShort(exception.ToString()));
-				}
-				else
-				{
-					dictionary["exception_type"] = "";
-					dictionary["exception_message"] = "";
-					dictionary["exception_hash"] = "unknown";
-				}
-				PatchTelemetry.SendAsync("magicka_patch_typing_text_guard_exception", dictionary);
-			}
-			catch
-			{
-			}
-		}
-
 		private static void AddCommonProperties(Dictionary<string, string> properties)
 		{
 			properties["patch_name"] = CommunityPatchInfo.Name;
@@ -470,6 +437,121 @@ namespace Magicka.CommunityPatch
 					PatchTelemetry.Safe(Environment.OSVersion.ToString())
 				}
 			}, 1500);
+		}
+
+		public static void SendTypingTextGuardException(string reason, char[] text, int charIndex, int visibleCharacters, int primitiveCount, float nextChar, float typeSpeed, Exception exception)
+		{
+			try
+			{
+				string text2 = (text != null) ? new string(text) : "";
+				int num = charIndex - 80;
+				if (num < 0)
+				{
+					num = 0;
+				}
+				if (num > text2.Length)
+				{
+					num = text2.Length;
+				}
+				int num2 = text2.Length - num;
+				if (num2 > 160)
+				{
+					num2 = 160;
+				}
+				string value = "";
+				if (num2 > 0)
+				{
+					value = text2.Substring(num, num2);
+				}
+				Dictionary<string, string> dictionary = new Dictionary<string, string>();
+				PatchTelemetry.AddCommonProperties(dictionary);
+				dictionary["reason"] = PatchTelemetry.Safe(reason);
+				dictionary["text_length"] = text2.Length.ToString();
+				dictionary["text_hash"] = PatchTelemetry.Safe(PatchTelemetry.HashShort(text2));
+				dictionary["char_index"] = charIndex.ToString();
+				dictionary["visible_characters"] = visibleCharacters.ToString();
+				dictionary["primitive_count"] = primitiveCount.ToString();
+				dictionary["expected_visible_characters"] = (primitiveCount / 2).ToString();
+				dictionary["next_char"] = nextChar.ToString(CultureInfo.InvariantCulture);
+				dictionary["type_speed"] = typeSpeed.ToString(CultureInfo.InvariantCulture);
+				dictionary["text_context_start"] = num.ToString();
+				dictionary["text_context"] = PatchTelemetry.SafeLong(value);
+				if (exception != null)
+				{
+					dictionary["exception_type"] = PatchTelemetry.Safe(exception.GetType().FullName);
+					dictionary["exception_message"] = PatchTelemetry.Safe(exception.Message);
+					dictionary["exception_hash"] = PatchTelemetry.Safe(PatchTelemetry.HashShort(exception.ToString()));
+				}
+				else
+				{
+					dictionary["exception_type"] = "";
+					dictionary["exception_message"] = "";
+					dictionary["exception_hash"] = "unknown";
+				}
+				PatchTelemetry.SendAsync("magicka_patch_typing_text_guard_exception", dictionary);
+			}
+			catch
+			{
+			}
+		}
+
+		public static void SendNetworkPlayStateWaitDelayed(int networkPlayerCount, int playersInPlayState, long waitedMilliseconds)
+		{
+			try
+			{
+				Dictionary<string, string> dictionary = new Dictionary<string, string>();
+				PatchTelemetry.AddCommonProperties(dictionary);
+				dictionary["network_player_count"] = networkPlayerCount.ToString(CultureInfo.InvariantCulture);
+				dictionary["players_in_play_state"] = playersInPlayState.ToString(CultureInfo.InvariantCulture);
+				dictionary["waited_ms"] = waitedMilliseconds.ToString(CultureInfo.InvariantCulture);
+				PatchTelemetry.SendAsync("magicka_patch_network_playstate_wait_delayed", dictionary);
+			}
+			catch
+			{
+			}
+		}
+
+		public static void SendNetworkPlayStateWaitCompleted(int networkPlayerCount, long waitedMilliseconds, int waitIterations, bool delayedEventSent)
+		{
+			try
+			{
+				Dictionary<string, string> dictionary = new Dictionary<string, string>();
+				PatchTelemetry.AddCommonProperties(dictionary);
+				dictionary["network_player_count"] = networkPlayerCount.ToString(CultureInfo.InvariantCulture);
+				dictionary["waited_ms"] = waitedMilliseconds.ToString(CultureInfo.InvariantCulture);
+				dictionary["wait_iterations"] = waitIterations.ToString(CultureInfo.InvariantCulture);
+				dictionary["delayed_event_sent"] = delayedEventSent.ToString().ToLowerInvariant();
+				PatchTelemetry.SendAsync("magicka_patch_network_playstate_wait_completed", dictionary);
+			}
+			catch
+			{
+			}
+		}
+
+		public static void SendNetworkAvatarDisposeException(Exception exception, string currentPlayStateType)
+		{
+			try
+			{
+				Dictionary<string, string> dictionary = new Dictionary<string, string>();
+				PatchTelemetry.AddCommonProperties(dictionary);
+				dictionary["current_play_state_type"] = PatchTelemetry.Safe(currentPlayStateType);
+				if (exception != null)
+				{
+					dictionary["exception_type"] = PatchTelemetry.Safe(exception.GetType().FullName);
+					dictionary["exception_message"] = PatchTelemetry.Safe(exception.Message);
+					dictionary["exception_hash"] = PatchTelemetry.Safe(PatchTelemetry.HashShort(exception.ToString()));
+				}
+				else
+				{
+					dictionary["exception_type"] = "";
+					dictionary["exception_message"] = "";
+					dictionary["exception_hash"] = "unknown";
+				}
+				PatchTelemetry.SendAsync("magicka_patch_network_avatar_dispose_exception", dictionary);
+			}
+			catch
+			{
+			}
 		}
 
 		private const string PostHogApiKey = "phc_vbVuHJdtwsf2gzBY36KcLo8btGZY4D6foFGqtxbkfog8";

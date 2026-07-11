@@ -613,6 +613,7 @@ function Set-ProjectVersion {
     $widgetTestPath = Join-PathChecked $InstallerProject 'test\widget_test.dart'
     $installerReadmePath = Join-PathChecked $InstallerProject 'README.md'
     $updaterReadmePath = Join-PathChecked $UpdaterProject 'README.md'
+    $communityPatchInfoPath = Join-PathChecked $RepoRoot 'docs\injected-source\Magicka.CommunityPatch\CommunityPatchInfo.cs'
 
     Replace-RegexRequired $installerPubspecPath '^\s*version:\s*[^\s#]+' "version: $FullVersion" 'installer pubspec version'
     Replace-RegexRequired $updaterPubspecPath '^\s*version:\s*[^\s#]+' "version: $FullVersion" 'auto-updater pubspec version'
@@ -622,6 +623,7 @@ function Set-ProjectVersion {
     Replace-RegexRequired $localizationPath 'MAGICKA COMMUNITY PATCH \d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?' "MAGICKA COMMUNITY PATCH $SemanticVersion" 'localized installer header version'
     Replace-RegexRequired $widgetTestPath 'MAGICKA COMMUNITY PATCH \d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?' "MAGICKA COMMUNITY PATCH $SemanticVersion" 'widget test header version'
     Replace-RegexRequired $widgetTestPath 'Patch-Update \d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?' "Patch-Update $SemanticVersion" 'widget test localized updater version'
+    Replace-RegexRequired $communityPatchInfoPath 'return\s+"\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?";' "return `"$SemanticVersion`";" 'documented community patch version'
     Replace-RegexRequired $installerReadmePath '^Version:\s+\*\*[^*]+\*\*' "Version: **$SemanticVersion**" 'installer README version'
 
     Replace-RegexIfPresent $installerReadmePath 'v\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?' "v$SemanticVersion" 'installer README release tag examples'

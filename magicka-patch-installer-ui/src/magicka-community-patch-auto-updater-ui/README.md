@@ -26,5 +26,5 @@ To run the updater UI from the parent installer project:
 
 ```powershell
 cd ..\..
-flutter run -d windows -- --offer-pending-update "G:\SteamLibrary\steamapps\common\Magicka" "0.0.20" "C:\path\to\update.zip"
+flutter run -d windows -- --offer-pending-update "G:\SteamLibrary\steamapps\common\Magicka" "0.0.21" "C:\path\to\update.zip"
 ```
