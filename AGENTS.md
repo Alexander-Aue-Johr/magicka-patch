@@ -15,7 +15,7 @@ These instructions apply to the entire repository. When the user asks Codex to c
 
    `powershell -ExecutionPolicy Bypass -File .\scripts\build-release.ps1 -Version <version>`
 
-   The script detects the Steam Magicka directory, copies its modified `Magicka.exe` and `PolygonHead.dll`, updates the executable and Flutter project versions, builds the Windows UI, and creates `release\magicka-community-patch-<version>.zip`.
+   The script detects the Steam Magicka directory, copies its modified `Magicka.exe` and `PolygonHead.dll`, updates the executable and Flutter project versions, copies the versioned `Magicka.exe` back to the Steam directory, builds the Windows UI, and creates `release\magicka-community-patch-<version>.zip`. This round trip keeps the executable used for continued game-patch development on the same version as the repository and release.
 
 2. Verify every tracked product-version reference. At minimum check:
 

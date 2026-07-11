@@ -571,6 +571,28 @@ function Set-ExeVersionString {
     Write-Host "Updated Magicka.exe version: $OldVersion -> $NewVersion" -ForegroundColor DarkGray
 }
 
+function Sync-VersionedExeToMagickaDirectory {
+    param(
+        [Parameter(Mandatory = $true)][string]$RepoRoot,
+        [Parameter(Mandatory = $true)][string]$GameDir
+    )
+
+    $sourcePath = Join-PathChecked $RepoRoot 'Magicka.exe'
+    $destinationPath = Join-PathChecked $GameDir 'Magicka.exe'
+    Assert-File $sourcePath
+    Assert-File $destinationPath
+
+    Copy-Item -LiteralPath $sourcePath -Destination $destinationPath -Force
+
+    $sourceHash = (Get-FileHash -LiteralPath $sourcePath -Algorithm SHA256).Hash
+    $destinationHash = (Get-FileHash -LiteralPath $destinationPath -Algorithm SHA256).Hash
+    if ($sourceHash -ne $destinationHash) {
+        throw "Failed to synchronize versioned Magicka.exe back to $GameDir"
+    }
+
+    Write-Host "Synced versioned Magicka.exe back to Steam Magicka folder" -ForegroundColor DarkGray
+}
+
 function Set-ProjectVersion {
     param(
         [Parameter(Mandatory = $true)][string]$SemanticVersion,
@@ -765,6 +787,10 @@ if (-not [string]::IsNullOrWhiteSpace($Version)) {
         -InstallerProject $installerProject `
         -UpdaterProject $updaterProject `
         -OldExeVersionForPatch $oldExeVersionForPatch
+
+    if (-not $SkipSteamPayloadSync -and -not $SkipExeVersionPatch) {
+        Sync-VersionedExeToMagickaDirectory -RepoRoot $repoRoot -GameDir $resolvedMagickaDir
+    }
     $installerVersion = Read-PubspecVersion $installerPubspec
 }
 
