@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.26] - 2026-07-12
+
+### Fixed
+
+- Skip disposed audio cues in `AudioManager.StopAll()` instead of calling
+  `Cue.Stop()` on them and triggering an `ArgumentException`.
+
+### Added
+
+- Log client-side network-guard diagnostics when an `EntityUpdate` packet is
+  ignored because the client is not ready or because its entity handle is
+  unknown, including play-state and join context for investigating multiplayer
+  failures between levels.
+
 ## [0.0.25] - 2026-07-12
 
 ### Fixed
