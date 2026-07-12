@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.27] - 2026-07-12
+
+### Fixed
+
+- Restore the original `Entity.GetFromHandle()` lookup behavior so registered
+  entity handles are not rejected solely because the entity is marked as
+  disposed during multiplayer play-state transitions.
+
 ## [0.0.26] - 2026-07-12
 
 ### Fixed
