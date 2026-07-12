@@ -20,7 +20,7 @@ void main() {
     ));
     await tester.pump();
 
-    expect(find.text('MAGICKA COMMUNITY PATCH 0.0.23'), findsOneWidget);
-    expect(find.text('Patch-Update 0.0.23'), findsOneWidget);
+    expect(find.text('MAGICKA COMMUNITY PATCH 0.0.24'), findsOneWidget);
+    expect(find.text('Patch-Update 0.0.24'), findsOneWidget);
   });
 }

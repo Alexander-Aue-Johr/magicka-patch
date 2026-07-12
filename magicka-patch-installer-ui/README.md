@@ -1,6 +1,6 @@
 # Magicka Community Patch Installer / Updater
 
-Version: **0.0.23**
+Version: **0.0.24**
 
 This directory contains the Flutter Windows UI for the Magicka Community Patch installer, updater and uninstaller surface.
 
@@ -90,13 +90,13 @@ The files-only release asset must contain a version newer than
 `CommunityPatchInfo.Version`, for example:
 
 ```text
-magicka-community-patch-0.0.23-files-only.zip
+magicka-community-patch-0.0.24-files-only.zip
 ```
 
 Files-only ZIP for manual installation and patch-only updates:
 
 ```text
-magicka-community-patch-0.0.23-files-only.zip
+magicka-community-patch-0.0.24-files-only.zip
 - Magicka.exe
 - PolygonHead.dll
 - patch-settings.ini
@@ -106,7 +106,7 @@ magicka-community-patch-0.0.23-files-only.zip
 Full ZIP when the Flutter tool/runtime should update too:
 
 ```text
-magicka-community-patch-0.0.23-installer.zip
+magicka-community-patch-0.0.24-installer.zip
 - README.txt
 - MagickaPatchInstaller.exe
 - Magicka.exe

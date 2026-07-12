@@ -102,7 +102,7 @@ packages:
       path: "../.."
       relative: true
     source: path
-    version: "0.0.23+23"
+    version: "0.0.24+24"
   matcher:
     dependency: transitive
     description:

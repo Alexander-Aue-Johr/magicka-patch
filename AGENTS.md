@@ -21,6 +21,9 @@ These instructions apply to the entire repository. When the user asks Codex to c
 - Confirm the working tree and preserve user changes. The authoritative patched `Magicka.exe` is stored in the detected Steam Magicka directory, not necessarily in the repository before the build.
 - Require GitHub CLI (`gh`) to be installed and authenticated before publishing a GitHub release.
 - Confirm that the requested version and tag do not already exist locally or on GitHub.
+- Update the root `CHANGELOG.md` with the target version and its user-visible
+  changes before presenting the release for approval. Include it in the same
+  release commit.
 
 ## Build and validation
 
@@ -33,6 +36,7 @@ These instructions apply to the entire repository. When the user asks Codex to c
 2. Verify every tracked product-version reference. At minimum check:
 
    - `Magicka.exe`
+   - `CHANGELOG.md`
    - root `README.md` installer and files-only download links
    - `magicka-patch-installer-ui/pubspec.yaml`
    - `magicka-patch-installer-ui/lib/main.dart`
