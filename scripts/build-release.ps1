@@ -611,6 +611,7 @@ function Set-ProjectVersion {
     $installerMainPath = Join-PathChecked $InstallerProject 'lib\main.dart'
     $localizationPath = Join-PathChecked $InstallerProject 'lib\localization.dart'
     $widgetTestPath = Join-PathChecked $InstallerProject 'test\widget_test.dart'
+    $rootReadmePath = Join-PathChecked $RepoRoot 'README.md'
     $installerReadmePath = Join-PathChecked $InstallerProject 'README.md'
     $updaterReadmePath = Join-PathChecked $UpdaterProject 'README.md'
     $communityPatchInfoPath = Join-PathChecked $RepoRoot 'docs\injected-source\Magicka.CommunityPatch\CommunityPatchInfo.cs'
@@ -624,6 +625,8 @@ function Set-ProjectVersion {
     Replace-RegexRequired $widgetTestPath 'MAGICKA COMMUNITY PATCH \d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?' "MAGICKA COMMUNITY PATCH $SemanticVersion" 'widget test header version'
     Replace-RegexRequired $widgetTestPath 'Patch-Update \d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?' "Patch-Update $SemanticVersion" 'widget test localized updater version'
     Replace-RegexRequired $communityPatchInfoPath 'return\s+"\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?";' "return `"$SemanticVersion`";" 'documented community patch version'
+    Replace-RegexRequired $rootReadmePath 'releases/download/\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?/magicka-community-patch-\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?-installer\.zip' "releases/download/$SemanticVersion/magicka-community-patch-$SemanticVersion-installer.zip" 'root README installer download link'
+    Replace-RegexRequired $rootReadmePath 'releases/download/\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?/magicka-community-patch-\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?-files-only\.zip' "releases/download/$SemanticVersion/magicka-community-patch-$SemanticVersion-files-only.zip" 'root README files-only download link'
     Replace-RegexRequired $installerReadmePath '^Version:\s+\*\*[^*]+\*\*' "Version: **$SemanticVersion**" 'installer README version'
 
     Replace-RegexIfPresent $installerReadmePath 'v\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?' "v$SemanticVersion" 'installer README release tag examples'

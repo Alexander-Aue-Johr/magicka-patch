@@ -2,6 +2,19 @@
 
 These instructions apply to the entire repository. When the user asks Codex to create a release, perform the complete workflow below unless the user explicitly narrows the scope.
 
+## Mandatory user approval gate
+
+- A request to create a release authorizes preparation only. It is not the final
+  approval to publish.
+- Complete the version updates, build, tests, ZIP inspection, hashes, and release
+  diff first. Then show the user a concise summary of all changes and artifacts
+  and explicitly ask for approval to proceed.
+- Stop and wait for an explicit user OK given after that review. Before this OK,
+  do not create the release commit, create or move a tag, push release changes,
+  create a GitHub release, or upload release assets.
+- If any release-related file or artifact changes after approval, show the
+  updated result and obtain a fresh explicit OK before publishing.
+
 ## Release prerequisites
 
 - Work from `main` and pull with rebase so no merge commit is created.
@@ -20,6 +33,7 @@ These instructions apply to the entire repository. When the user asks Codex to c
 2. Verify every tracked product-version reference. At minimum check:
 
    - `Magicka.exe`
+   - root `README.md` installer and files-only download links
    - `magicka-patch-installer-ui/pubspec.yaml`
    - `magicka-patch-installer-ui/lib/main.dart`
    - `magicka-patch-installer-ui/lib/localization.dart`
@@ -32,6 +46,8 @@ These instructions apply to the entire repository. When the user asks Codex to c
 3. Run `flutter test` in `magicka-patch-installer-ui` with the same Flutter installation used by the build script.
 4. Inspect both ZIPs. Confirm the main ZIP contains the patched `Magicka.exe`, installer, updater, Flutter runtime/data, package README, and expected payload. Confirm the files-only ZIP contains exactly `Magicka.exe`, `PolygonHead.dll`, `patch-settings.ini`, and `README.txt`. Record both sizes and SHA-256 hashes.
 5. Review `git diff` and stage only release-related files. Do not commit ignored build output or the ignored `release` directory.
+6. Present the reviewed diff, test result, both ZIP names, sizes, and SHA-256
+   hashes to the user and wait at the mandatory approval gate above.
 
 ## Publish the versioned release
 
@@ -41,16 +57,21 @@ These instructions apply to the entire repository. When the user asks Codex to c
 4. Create a non-draft, non-prerelease GitHub release from that tag. Use concise release notes describing the user-visible fix and installer/package changes.
 5. Upload exactly `release\magicka-community-patch-<version>-installer.zip` and `release\magicka-community-patch-<version>-files-only.zip` as the release assets and verify both asset names and sizes on GitHub.
 
-## Update the latest-download link
+## Update the latest-download links
 
-After the GitHub release and asset exist, update the root `README.md` latest-release link to:
+Before presenting the release diff for approval, update the root `README.md` to
+show both latest-release links:
 
 `https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/<version>/magicka-community-patch-<version>-installer.zip`
 
-Commit this README change separately with message `Update latest release link in README.md` and push `main`. The release tag must remain on the preceding release commit, matching the established repository history.
+`https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/<version>/magicka-community-patch-<version>-files-only.zip`
+
+Include these README changes in the same versioned release commit. Do not create
+a separate post-release README commit. Once the approved release commit, tag,
+and assets are pushed successfully, both links will resolve.
 
 ## Final checks and report
 
 - Verify `main` matches `origin/main`, the tag resolves to the intended release commit, and the working tree is clean.
 - Verify the GitHub release URL and that both ZIP assets are downloadable.
-- Report the release commit, tag, release URL, both asset names, sizes and SHA-256 hashes, test result, and the separate README commit.
+- Report the release commit, tag, release URL, both asset names, sizes and SHA-256 hashes, and test result.
