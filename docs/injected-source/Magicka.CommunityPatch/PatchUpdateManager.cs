@@ -15,17 +15,14 @@ namespace Magicka.CommunityPatch
 		{
 			try
 			{
-				if (PatchSettings.Load().AutoUpdate)
+				if (PatchSettings.Load().CheckForUpdates)
 				{
-					if (File.Exists(PatchSettings.ToolPath))
+					if (Interlocked.Exchange(ref PatchUpdateManager.sCheckStarted, 1) == 0)
 					{
-						if (Interlocked.Exchange(ref PatchUpdateManager.sCheckStarted, 1) == 0)
+						ThreadPool.QueueUserWorkItem(delegate(object state)
 						{
-							ThreadPool.QueueUserWorkItem(delegate(object <p0>)
-							{
-								PatchUpdateManager.CheckWorker();
-							});
-						}
+							PatchUpdateManager.CheckWorker();
+						});
 					}
 				}
 			}
@@ -100,28 +97,34 @@ namespace Magicka.CommunityPatch
 			try
 			{
 				PatchSettings patchSettings = PatchSettings.Load();
-				if (patchSettings.AutoUpdate)
+				if (patchSettings.CheckForUpdates)
 				{
 					string text = PatchUpdateManager.DownloadString(CommunityPatchInfo.LatestReleaseApiUrl, 4500);
-					string text2 = PatchUpdateManager.ExtractJsonString(text, "tag_name");
-					if (!PatchUpdateManager.IsNullOrWhiteSpaceCompat(text2))
+					string text2;
+					string text3 = PatchUpdateManager.FindFilesOnlyAssetUrl(text, out text2);
+					if (!PatchUpdateManager.IsNullOrWhiteSpaceCompat(text2) && !PatchUpdateManager.IsNullOrWhiteSpaceCompat(text3))
 					{
 						text2 = PatchUpdateManager.NormalizeVersion(text2);
 						if (PatchUpdateManager.IsNewerVersion(text2, CommunityPatchInfo.Version))
 						{
-							if (PatchUpdateManager.IsNullOrWhiteSpaceCompat(patchSettings.SkippedVersion) || !PatchUpdateManager.NormalizeVersion(patchSettings.SkippedVersion).Equals(text2, StringComparison.OrdinalIgnoreCase))
+							PatchUpdateManager.SaveAvailableVersion(text2);
+							if (patchSettings.AutoUpdate && File.Exists(PatchSettings.ToolPath) && (PatchUpdateManager.IsNullOrWhiteSpaceCompat(patchSettings.SkippedVersion) || !PatchUpdateManager.NormalizeVersion(patchSettings.SkippedVersion).Equals(text2, StringComparison.OrdinalIgnoreCase)))
 							{
 								Directory.CreateDirectory(PatchSettings.DownloadDirectory);
-								string text3 = PatchUpdateManager.DownloadBestAsset(text, text2);
-								if (!PatchUpdateManager.IsNullOrWhiteSpaceCompat(text3))
+								string text4 = PatchUpdateManager.DownloadFilesOnlyAsset(text3, text2);
+								if (!PatchUpdateManager.IsNullOrWhiteSpaceCompat(text4))
 								{
 									new PatchUpdateManager.PendingUpdate
 									{
 										Version = text2,
-										Source = text3
+										Source = text4
 									}.Save();
 								}
 							}
+						}
+						else
+						{
+							PatchUpdateManager.SaveAvailableVersion(string.Empty);
 						}
 					}
 				}
@@ -131,41 +134,55 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
-		private static string DownloadBestAsset(string releaseJson, string latestVersion)
+		public static string GetAvailableVersion()
+		{
+			try
+			{
+				if (!string.IsNullOrEmpty(PatchUpdateManager.sAvailableVersion))
+				{
+					return PatchUpdateManager.sAvailableVersion;
+				}
+				if (File.Exists(PatchSettings.LatestVersionPath))
+				{
+					string text = PatchUpdateManager.NormalizeVersion(File.ReadAllText(PatchSettings.LatestVersionPath).Trim());
+					if (PatchUpdateManager.IsNewerVersion(text, CommunityPatchInfo.Version))
+					{
+						PatchUpdateManager.sAvailableVersion = text;
+						return text;
+					}
+				}
+			}
+			catch
+			{
+			}
+			return string.Empty;
+		}
+
+		private static void SaveAvailableVersion(string version)
+		{
+			PatchUpdateManager.sAvailableVersion = version ?? string.Empty;
+			try
+			{
+				Directory.CreateDirectory(PatchSettings.CommunityPatchDirectory);
+				File.WriteAllText(PatchSettings.LatestVersionPath, PatchUpdateManager.sAvailableVersion);
+			}
+			catch
+			{
+			}
+		}
+
+		private static string DownloadFilesOnlyAsset(string assetUrl, string latestVersion)
 		{
 			string text = Path.Combine(PatchSettings.DownloadDirectory, PatchUpdateManager.SafeFileName(latestVersion));
 			Directory.CreateDirectory(text);
-			string text2 = PatchUpdateManager.FindAssetUrl(releaseJson, "\\.zip$");
-			if (!string.IsNullOrEmpty(text2))
+			string text2 = Path.Combine(text, "magicka-community-patch-" + PatchUpdateManager.NormalizeVersion(latestVersion) + "-files-only.zip");
+			if (!File.Exists(text2) || new FileInfo(text2).Length == 0L)
 			{
-				string text3 = Path.Combine(text, "magicka-community-patch-" + PatchUpdateManager.SafeFileName(latestVersion) + ".zip");
-				if (!File.Exists(text3) || new FileInfo(text3).Length == 0L)
-				{
-					PatchUpdateManager.DownloadFile(text2, text3, 20000);
-				}
-				if (File.Exists(text3) && new FileInfo(text3).Length > 0L)
-				{
-					return text3;
-				}
+				PatchUpdateManager.DownloadFile(assetUrl, text2, 20000);
 			}
-			string text4 = PatchUpdateManager.FindAssetUrl(releaseJson, "Magicka\\.exe$");
-			string text5 = PatchUpdateManager.FindAssetUrl(releaseJson, "PolygonHead\\.dll$");
-			if (!string.IsNullOrEmpty(text4) && !string.IsNullOrEmpty(text5))
+			if (File.Exists(text2) && new FileInfo(text2).Length > 0L)
 			{
-				string text6 = Path.Combine(text, "Magicka.exe");
-				string text7 = Path.Combine(text, "PolygonHead.dll");
-				if (!File.Exists(text6) || new FileInfo(text6).Length == 0L)
-				{
-					PatchUpdateManager.DownloadFile(text4, text6, 20000);
-				}
-				if (!File.Exists(text7) || new FileInfo(text7).Length == 0L)
-				{
-					PatchUpdateManager.DownloadFile(text5, text7, 20000);
-				}
-				if (File.Exists(text6) && File.Exists(text7))
-				{
-					return text;
-				}
+				return text2;
 			}
 			return string.Empty;
 		}
@@ -221,31 +238,21 @@ namespace Magicka.CommunityPatch
 			return httpWebRequest;
 		}
 
-		private static string ExtractJsonString(string json, string key)
+		private static string FindFilesOnlyAssetUrl(string json, out string version)
 		{
-			if (string.IsNullOrEmpty(json) || string.IsNullOrEmpty(key))
-			{
-				return string.Empty;
-			}
-			Match match = Regex.Match(json, "\\\"" + Regex.Escape(key) + "\\\"\\s*:\\s*\\\"(?<v>(?:\\\\.|[^\\\"])*)\\\"", 1);
-			if (!match.Success)
-			{
-				return string.Empty;
-			}
-			return PatchUpdateManager.UnescapeJson(match.Groups["v"].Value);
-		}
-
-		private static string FindAssetUrl(string json, string nameRegex)
-		{
+			version = string.Empty;
 			if (string.IsNullOrEmpty(json))
 			{
 				return string.Empty;
 			}
-			foreach (object obj in new Regex("\"name\"\\s*:\\s*\"(?<name>(?:\\\\.|[^\"])*)\".{0,5000}?\"browser_download_url\"\\s*:\\s*\"(?<url>(?:\\\\.|[^\"])*)\"", 17).Matches(json))
+			foreach (object obj in new Regex("\"name\"\\s*:\\s*\"(?<name>(?:\\\\.|[^\"])*)\".{0,5000}?\"browser_download_url\"\\s*:\\s*\"(?<url>(?:\\\\.|[^\"])*)\"", RegexOptions.IgnoreCase | RegexOptions.Singleline).Matches(json))
 			{
 				Match match = (Match)obj;
-				if (Regex.IsMatch(PatchUpdateManager.UnescapeJson(match.Groups["name"].Value), nameRegex, 1))
+				string text = PatchUpdateManager.UnescapeJson(match.Groups["name"].Value);
+				Match match2 = Regex.Match(text, "^magicka-community-patch-(?<version>\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z.-]+)?)-files-only\\.zip$", RegexOptions.IgnoreCase);
+				if (match2.Success)
 				{
+					version = match2.Groups["version"].Value;
 					return PatchUpdateManager.UnescapeJson(match.Groups["url"].Value);
 				}
 			}
@@ -386,6 +393,8 @@ namespace Magicka.CommunityPatch
 		}
 
 		private static int sCheckStarted;
+
+		private static string sAvailableVersion = string.Empty;
 
 		private sealed class PendingUpdate
 		{

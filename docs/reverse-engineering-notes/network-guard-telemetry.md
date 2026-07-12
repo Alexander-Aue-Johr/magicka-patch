@@ -22,6 +22,44 @@ The goal is not to hide bugs. The goal is to keep multiplayer sessions alive
 long enough to learn which object is actually missing, disposed, or detached
 from its `PlayState`.
 
+## NetworkClient Authentication Compile Workaround
+
+The `PacketType.Connect` branch must not inline the token-buffer pointer passed
+to `SteamUser.InitiateGameConnection`. dnSpy does not reliably recompile the
+decompiled inline pointer expression when any part of `NetworkClient.ReadMessage`
+is edited.
+
+Keep the connect branch call at this patch site:
+
+```csharp
+NetworkClient.InitiateAuthentication(ref authenticateRequestMessage,
+	connectReplyMessage.ServerID, p2PSessionState,
+	connectReplyMessage.VACSecure);
+```
+
+Keep this helper on `Magicka.Network.NetworkClient`:
+
+```csharp
+private unsafe static void InitiateAuthentication(
+	ref AuthenticateRequestMessage message,
+	SteamID serverID,
+	P2PSessionState sessionState,
+	bool vacSecure)
+{
+	fixed (byte* ptr = &message.Token.Data.FixedElementField)
+	{
+		byte* tokenBuffer = ptr;
+		message.Token.Length = SteamUser.InitiateGameConnection(
+			(void*)tokenBuffer, 1024, serverID,
+			sessionState.RemoteIP, sessionState.RemotePort, vacSecure);
+	}
+}
+```
+
+This is a compile-stability workaround around the original authentication call,
+not a behavior change. Future edits to `NetworkClient.ReadMessage` must preserve
+the helper call.
+
 ## Telemetry Events
 
 Network guards use two event names:
@@ -92,12 +130,14 @@ A persistent telemetry identifier is stored at this path when `%APPDATA%` is wri
 %APPDATA%\MagickaPatch\telemetry_id.txt
 ```
 
-Players can disable telemetry by creating this file in the process working
-directory. For a normal game launch, that is usually next to `Magicka.exe`:
+Telemetry is enabled when the settings file is missing. Players can disable it
+in:
 
 ```text
-telemetry_disabled.txt
+<Magicka>\CommunityPatch\patch-settings.ini
 ```
+
+Set `usage_sharing=false` and `crash_reports=false`.
 
 If the telemetry identifier cannot be stored, the patch uses an ephemeral ID for
 that run. The patch should continue to run if telemetry sending fails.

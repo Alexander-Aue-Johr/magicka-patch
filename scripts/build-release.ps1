@@ -627,7 +627,8 @@ function Set-ProjectVersion {
     Replace-RegexRequired $installerReadmePath '^Version:\s+\*\*[^*]+\*\*' "Version: **$SemanticVersion**" 'installer README version'
 
     Replace-RegexIfPresent $installerReadmePath 'v\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?' "v$SemanticVersion" 'installer README release tag examples'
-    Replace-RegexIfPresent $installerReadmePath 'magicka-community-patch-\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?\.zip' "magicka-community-patch-$SemanticVersion.zip" 'installer README ZIP examples'
+    Replace-RegexIfPresent $installerReadmePath 'magicka-community-patch-\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?-files-only\.zip' "magicka-community-patch-$SemanticVersion-files-only.zip" 'installer README files-only ZIP examples'
+    Replace-RegexIfPresent $installerReadmePath 'magicka-community-patch-\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?-installer\.zip' "magicka-community-patch-$SemanticVersion-installer.zip" 'installer README ZIP examples'
     Replace-RegexIfPresent $updaterReadmePath '"\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?"' "`"$SemanticVersion`"" 'auto-updater README command version example'
 
     foreach ($path in @($installerReadmePath, $updaterReadmePath)) {
@@ -747,6 +748,27 @@ function Assert-ZipEntries {
     }
 }
 
+function Assert-ZipContainsOnly {
+    param(
+        [Parameter(Mandatory = $true)][string]$ZipPath,
+        [Parameter(Mandatory = $true)][string[]]$ExpectedEntries
+    )
+
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    $archive = [System.IO.Compression.ZipFile]::OpenRead($ZipPath)
+    try {
+        $entries = @($archive.Entries | ForEach-Object { $_.FullName -replace '\\', '/' } | Sort-Object)
+        $expected = @($ExpectedEntries | Sort-Object)
+        $difference = @(Compare-Object -ReferenceObject $expected -DifferenceObject $entries)
+        if ($difference.Count -ne 0) {
+            throw "Files-only ZIP contents differ from the expected four files: $($difference | Out-String)"
+        }
+    }
+    finally {
+        $archive.Dispose()
+    }
+}
+
 $scriptDir = Split-Path -Parent $PSCommandPath
 $repoRoot = [System.IO.Path]::GetFullPath((Join-Path $scriptDir '..'))
 $installerProject = Join-PathChecked $repoRoot 'magicka-patch-installer-ui'
@@ -754,6 +776,8 @@ $updaterProject = Join-PathChecked $installerProject 'src\magicka-community-patc
 $installerPubspec = Join-PathChecked $installerProject 'pubspec.yaml'
 $updaterPubspec = Join-PathChecked $updaterProject 'pubspec.yaml'
 $installerMain = Join-PathChecked $installerProject 'lib\main.dart'
+$packageReadme = Join-PathChecked $repoRoot 'release-package\README.txt'
+$packageSettingsTemplate = Join-PathChecked $repoRoot 'release-package\patch-settings.ini'
 
 $installerVersion = Read-PubspecVersion $installerPubspec
 $originalInstallerVersion = $installerVersion
@@ -817,14 +841,17 @@ else {
     $OutputDir = [System.IO.Path]::GetFullPath($OutputDir)
 }
 
-$stageDir = Join-PathChecked $OutputDir "magicka-community-patch-$version$releaseSuffix"
-$zipPath = Join-PathChecked $OutputDir "magicka-community-patch-$version$releaseSuffix.zip"
+$stageDir = Join-PathChecked $OutputDir "magicka-community-patch-${version}-installer$releaseSuffix"
+$zipPath = Join-PathChecked $OutputDir "magicka-community-patch-${version}-installer$releaseSuffix.zip"
+$filesOnlyStageDir = Join-PathChecked $OutputDir "magicka-community-patch-${version}-files-only$releaseSuffix"
+$filesOnlyZipPath = Join-PathChecked $OutputDir "magicka-community-patch-${version}-files-only$releaseSuffix.zip"
 
 Write-Host "Release version: $version ($($installerVersion.Full))" -ForegroundColor Green
 if (-not [string]::IsNullOrWhiteSpace($releaseLocale)) {
     Write-Host "Release locale: $releaseLocale" -ForegroundColor Green
 }
 Write-Host "Output ZIP: $zipPath" -ForegroundColor Green
+Write-Host "Files-only ZIP: $filesOnlyZipPath" -ForegroundColor Green
 
 if ($SkipBuild -and -not [string]::IsNullOrWhiteSpace($Version)) {
     Write-Warning "Version files were updated but -SkipBuild is set. Existing Flutter build artifacts may still contain the old version. Run without -SkipBuild for the final release package."
@@ -844,6 +871,8 @@ $installerExe = Join-PathChecked $installerRelease 'magicka-community-patch-inst
 
 Assert-File (Join-PathChecked $repoRoot 'Magicka.exe')
 Assert-File (Join-PathChecked $repoRoot 'PolygonHead.dll')
+Assert-File $packageReadme
+Assert-File $packageSettingsTemplate
 Assert-File $installerExe
 Assert-File (Join-PathChecked $installerRelease 'flutter_windows.dll')
 Assert-Directory (Join-PathChecked $installerRelease 'data')
@@ -854,13 +883,19 @@ Assert-File (Join-PathChecked $installerRelease 'PolygonHead.dll')
 
 New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
 Remove-PathInside $stageDir $OutputDir
+Remove-PathInside $filesOnlyStageDir $OutputDir
 if (Test-Path -LiteralPath $zipPath) {
     Remove-PathInside $zipPath $OutputDir
 }
+if (Test-Path -LiteralPath $filesOnlyZipPath) {
+    Remove-PathInside $filesOnlyZipPath $OutputDir
+}
 New-Item -ItemType Directory -Force -Path $stageDir | Out-Null
+New-Item -ItemType Directory -Force -Path $filesOnlyStageDir | Out-Null
 
 Copy-Item -LiteralPath (Join-PathChecked $repoRoot 'Magicka.exe') -Destination (Join-PathChecked $stageDir 'Magicka.exe')
 Copy-Item -LiteralPath (Join-PathChecked $repoRoot 'PolygonHead.dll') -Destination (Join-PathChecked $stageDir 'PolygonHead.dll')
+Copy-Item -LiteralPath $packageReadme -Destination (Join-PathChecked $stageDir 'README.txt')
 Copy-Item -LiteralPath $installerExe -Destination (Join-PathChecked $stageDir 'MagickaPatchInstaller.exe')
 Copy-Item -LiteralPath (Join-PathChecked $installerRelease 'flutter_windows.dll') -Destination (Join-PathChecked $stageDir 'flutter_windows.dll')
 Copy-Item -LiteralPath (Join-PathChecked $installerRelease 'data') -Destination (Join-PathChecked $stageDir 'data') -Recurse
@@ -881,12 +916,27 @@ if (-not $SkipAutoUpdaterUi) {
     Copy-Item -LiteralPath (Join-PathChecked $installerRelease 'data') -Destination (Join-PathChecked $updaterStage 'data') -Recurse
 }
 
+Copy-Item -LiteralPath (Join-PathChecked $repoRoot 'Magicka.exe') -Destination (Join-PathChecked $filesOnlyStageDir 'Magicka.exe')
+Copy-Item -LiteralPath (Join-PathChecked $repoRoot 'PolygonHead.dll') -Destination (Join-PathChecked $filesOnlyStageDir 'PolygonHead.dll')
+Copy-Item -LiteralPath $packageReadme -Destination (Join-PathChecked $filesOnlyStageDir 'README.txt')
+$settingsText = Get-Content -LiteralPath $packageSettingsTemplate -Raw
+if ($settingsText -notlike '*{{VERSION}}*') {
+    throw "Settings template does not contain {{VERSION}}: $packageSettingsTemplate"
+}
+$settingsText = $settingsText.Replace('{{VERSION}}', $version)
+[System.IO.File]::WriteAllText(
+    (Join-PathChecked $filesOnlyStageDir 'patch-settings.ini'),
+    $settingsText,
+    (New-Object System.Text.UTF8Encoding($false)))
+
 Compress-Archive -Path (Join-Path $stageDir '*') -DestinationPath $zipPath -CompressionLevel Optimal -Force
+Compress-Archive -Path (Join-Path $filesOnlyStageDir '*') -DestinationPath $filesOnlyZipPath -CompressionLevel Optimal -Force
 
 $requiredEntries = @(
     'MagickaPatchInstaller.exe',
     'Magicka.exe',
     'PolygonHead.dll',
+    'README.txt',
     'flutter_windows.dll',
     'data/flutter_assets/AssetManifest.bin',
     'tools/installer/MagickaPatchInstaller.exe',
@@ -904,8 +954,18 @@ if (-not $SkipAutoUpdaterUi) {
 }
 Assert-ZipEntries $zipPath $requiredEntries
 
+$filesOnlyEntries = @(
+    'Magicka.exe',
+    'PolygonHead.dll',
+    'patch-settings.ini',
+    'README.txt'
+)
+Assert-ZipContainsOnly $filesOnlyZipPath $filesOnlyEntries
+
 $hash = Get-FileHash -LiteralPath $zipPath -Algorithm SHA256
 $zipItem = Get-Item -LiteralPath $zipPath
+$filesOnlyHash = Get-FileHash -LiteralPath $filesOnlyZipPath -Algorithm SHA256
+$filesOnlyZipItem = Get-Item -LiteralPath $filesOnlyZipPath
 $fileCount = (Get-ChildItem -LiteralPath $stageDir -Recurse -File | Measure-Object).Count
 
 Write-Host ""
@@ -915,13 +975,22 @@ Write-Host "  Version: $version"
 Write-Host "  Size: $($zipItem.Length) bytes"
 Write-Host "  Files staged: $fileCount"
 Write-Host "  SHA256: $($hash.Hash)"
+Write-Host ""
+Write-Host "Created files-only package:" -ForegroundColor Green
+Write-Host "  $filesOnlyZipPath"
+Write-Host "  Version: $version"
+Write-Host "  Size: $($filesOnlyZipItem.Length) bytes"
+Write-Host "  Files staged: 4"
+Write-Host "  SHA256: $($filesOnlyHash.Hash)"
 
 if ($KeepStage) {
     Write-Host ""
     Write-Host "Stage directory kept for inspection: $stageDir" -ForegroundColor DarkGray
+    Write-Host "Files-only stage directory kept for inspection: $filesOnlyStageDir" -ForegroundColor DarkGray
 }
 else {
     Remove-PathInside $stageDir $OutputDir
+    Remove-PathInside $filesOnlyStageDir $OutputDir
     Write-Host ""
     Write-Host "Stage directory removed. Use -KeepStage to keep it for inspection." -ForegroundColor DarkGray
 }

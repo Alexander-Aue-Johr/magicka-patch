@@ -160,6 +160,11 @@ function New-ReleaseWorktree {
     New-Item -ItemType Directory -Force -Path $scriptsDir | Out-Null
     Copy-Item -LiteralPath (Join-PathChecked $scriptDir "build-release.ps1") -Destination (Join-PathChecked $scriptsDir "build-release.ps1") -Force
 
+    $releasePackageDir = Join-PathChecked $path "release-package"
+    New-Item -ItemType Directory -Force -Path $releasePackageDir | Out-Null
+    Copy-Item -LiteralPath (Join-PathChecked $repoRoot "release-package\README.txt") -Destination (Join-PathChecked $releasePackageDir "README.txt") -Force
+    Copy-Item -LiteralPath (Join-PathChecked $repoRoot "release-package\patch-settings.ini") -Destination (Join-PathChecked $releasePackageDir "patch-settings.ini") -Force
+
     return $path
 }
 

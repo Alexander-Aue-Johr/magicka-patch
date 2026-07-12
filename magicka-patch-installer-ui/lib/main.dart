@@ -157,7 +157,7 @@ String _option(List<String> args, String key) {
 }
 
 class AppConstants {
-  static const patchVersion = '0.0.21';
+  static const patchVersion = '0.0.22';
   static const settingsDirectoryName = 'CommunityPatch';
   static const settingsFileName = 'patch-settings.ini';
   static const manifestFileName = 'install-manifest.ini';
@@ -271,7 +271,7 @@ class _InstallerScreenState extends State<InstallerScreen>
   bool _previewPatreonHover = false;
   bool _usageSharing = true;
   bool _crashReports = true;
-  bool _autoUpdate = true;
+  bool _checkForUpdates = true;
   bool _patchAlreadyInstalled = false;
   bool _statusInitialized = false;
   String _patchInstallCheckDir = '';
@@ -588,13 +588,13 @@ class _InstallerScreenState extends State<InstallerScreen>
                             child: _TelemetryPanel(
                               usageSharing: _usageSharing,
                               crashReports: _crashReports,
-                              autoUpdate: _autoUpdate,
+                              autoUpdate: _checkForUpdates,
                               onUsageChanged: (value) =>
                                   setState(() => _usageSharing = value),
                               onCrashChanged: (value) =>
                                   setState(() => _crashReports = value),
                               onAutoUpdateChanged: (value) =>
-                                  setState(() => _autoUpdate = value),
+                                  setState(() => _checkForUpdates = value),
                             )),
                         Positioned(
                             left: 250,
@@ -1061,7 +1061,8 @@ class _InstallerScreenState extends State<InstallerScreen>
 version=${AppConstants.patchVersion}
 usage_sharing=$_usageSharing
 crash_reports=$_crashReports
-auto_update=$_autoUpdate
+check_for_updates=$_checkForUpdates
+auto_update=false
 language=${AppStrings.of(context).language.localeTag}
 skipped_version=
 created_utc=${DateTime.now().toUtc().toIso8601String()}
@@ -1471,7 +1472,8 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
       'version': version,
       'usage_sharing': 'true',
       'crash_reports': 'true',
-      'auto_update': 'true',
+      'check_for_updates': 'true',
+      'auto_update': 'false',
       'language': AppStrings.of(context).language.localeTag,
       'skipped_version': '',
       'created_utc': DateTime.now().toUtc().toIso8601String(),
@@ -1496,6 +1498,7 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
 version=${values['version']}
 usage_sharing=${values['usage_sharing']}
 crash_reports=${values['crash_reports']}
+check_for_updates=${values['check_for_updates']}
 auto_update=${values['auto_update']}
 language=${values['language']}
 skipped_version=${values['skipped_version']}
@@ -3718,7 +3721,6 @@ Future<void> _sendPatchTelemetryEvent({
 }) async {
   try {
     if (!await _isUsageSharingEnabled(gameDir)) return;
-    if (await _isPatchTelemetryDisabled(gameDir)) return;
 
     final safeVersion = _safeTelemetryText(patchVersion, 100);
     final eventProperties = <String, Object>{
@@ -3759,17 +3761,12 @@ Future<void> _sendPatchTelemetryEvent({
 
 Future<bool> _isUsageSharingEnabled(String gameDir) async {
   if (gameDir.trim().isEmpty) return false;
-  final values = await _readIniFile(_join(gameDir,
-      AppConstants.settingsDirectoryName, AppConstants.settingsFileName));
+  final settingsPath = _join(gameDir, AppConstants.settingsDirectoryName,
+      AppConstants.settingsFileName);
+  if (!await File(settingsPath).exists()) return true;
+  final values = await _readIniFile(settingsPath);
+  if (!values.containsKey('usage_sharing')) return true;
   return _parseBool(values['usage_sharing']);
-}
-
-Future<bool> _isPatchTelemetryDisabled(String gameDir) async {
-  try {
-    return await File(_join(gameDir, 'telemetry_disabled.txt')).exists();
-  } catch (_) {
-    return true;
-  }
 }
 
 Future<String> _patchTelemetryDistinctId() async {

@@ -54,14 +54,22 @@ If the identifier cannot be stored, the patch uses an ephemeral ID for that run.
 
 ## Opt Out
 
-Create this file in the process working directory. For a normal game launch, that
-is usually next to `Magicka.exe`:
+Telemetry is enabled when `patch-settings.ini` is missing. To opt out, create or
+edit this file:
 
 ```text
-telemetry_disabled.txt
+<Magicka>\CommunityPatch\patch-settings.ini
 ```
 
-When that file exists, telemetry sending returns immediately.
+Set these values:
+
+```ini
+usage_sharing=false
+crash_reports=false
+```
+
+`usage_sharing=false` disables patch telemetry. `crash_reports=false` also keeps
+crash reports disabled if usage sharing is enabled again later.
 
 ## Privacy Direction
 

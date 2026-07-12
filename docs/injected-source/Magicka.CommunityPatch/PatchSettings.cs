@@ -87,6 +87,14 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
+		public static string LatestVersionPath
+		{
+			get
+			{
+				return Path.Combine(PatchSettings.CommunityPatchDirectory, "latest-version.txt");
+			}
+		}
+
 		public static string DownloadDirectory
 		{
 			get
@@ -106,6 +114,10 @@ namespace Magicka.CommunityPatch
 		public static PatchSettings Load()
 		{
 			PatchSettings patchSettings = new PatchSettings();
+			patchSettings.UsageSharing = true;
+			patchSettings.CrashReports = true;
+			patchSettings.CheckForUpdates = true;
+			patchSettings.AutoUpdate = false;
 			patchSettings.Version = CommunityPatchInfo.Version;
 			patchSettings.Language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 			patchSettings.CreatedUtc = string.Empty;
@@ -144,6 +156,10 @@ namespace Magicka.CommunityPatch
 							{
 								patchSettings.AutoUpdate = PatchSettings.ParseBool(text3);
 							}
+							else if (text2.Equals("check_for_updates", StringComparison.OrdinalIgnoreCase))
+							{
+								patchSettings.CheckForUpdates = PatchSettings.ParseBool(text3);
+							}
 							else if (text2.Equals("language", StringComparison.OrdinalIgnoreCase))
 							{
 								patchSettings.Language = text3;
@@ -176,6 +192,7 @@ namespace Magicka.CommunityPatch
 				stringBuilder.AppendLine("version=" + PatchSettings.Safe(this.Version));
 				stringBuilder.AppendLine("usage_sharing=" + this.UsageSharing.ToString().ToLowerInvariant());
 				stringBuilder.AppendLine("crash_reports=" + this.CrashReports.ToString().ToLowerInvariant());
+				stringBuilder.AppendLine("check_for_updates=" + this.CheckForUpdates.ToString().ToLowerInvariant());
 				stringBuilder.AppendLine("auto_update=" + this.AutoUpdate.ToString().ToLowerInvariant());
 				stringBuilder.AppendLine("language=" + PatchSettings.Safe(this.Language));
 				stringBuilder.AppendLine("skipped_version=" + PatchSettings.Safe(this.SkippedVersion));
@@ -218,6 +235,8 @@ namespace Magicka.CommunityPatch
 		public bool UsageSharing;
 
 		public bool CrashReports;
+
+		public bool CheckForUpdates;
 
 		public bool AutoUpdate;
 

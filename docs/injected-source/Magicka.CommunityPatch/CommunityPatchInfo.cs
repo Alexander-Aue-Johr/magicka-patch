@@ -23,7 +23,14 @@ namespace Magicka.CommunityPatch
 		{
 			get
 			{
-				return CommunityPatchInfo.DisplayName + " - " + CommunityPatchInfo.Credits;
+				string text = CommunityPatchInfo.DisplayName + " - " + CommunityPatchInfo.Credits;
+				PatchUpdateManager.CheckForUpdatesInBackground();
+				string availableVersion = PatchUpdateManager.GetAvailableVersion();
+				if (!string.IsNullOrEmpty(availableVersion))
+				{
+					text = text + " - Update available: " + availableVersion;
+				}
+				return text;
 			}
 		}
 
@@ -31,7 +38,7 @@ namespace Magicka.CommunityPatch
 		{
 			get
 			{
-				return "0.0.21";
+				return "0.0.22";
 			}
 		}
 

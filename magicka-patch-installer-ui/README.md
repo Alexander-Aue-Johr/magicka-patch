@@ -1,6 +1,6 @@
 # Magicka Community Patch Installer / Updater
 
-Version: **0.0.21**
+Version: **0.0.22**
 
 This directory contains the Flutter Windows UI for the Magicka Community Patch installer, updater and uninstaller surface.
 
@@ -86,24 +86,28 @@ The game-side updater checks:
 https://api.github.com/repos/Alexander-Aue-Johr/magicka-patch/releases/latest
 ```
 
-The release tag must be newer than `CommunityPatchInfo.Version`, for example:
+The files-only release asset must contain a version newer than
+`CommunityPatchInfo.Version`, for example:
 
 ```text
-v0.0.21
+magicka-community-patch-0.0.22-files-only.zip
 ```
 
-Minimal ZIP for patch-only updates:
+Files-only ZIP for manual installation and patch-only updates:
 
 ```text
-magicka-community-patch-0.0.21.zip
+magicka-community-patch-0.0.22-files-only.zip
 - Magicka.exe
 - PolygonHead.dll
+- patch-settings.ini
+- README.txt
 ```
 
 Full ZIP when the Flutter tool/runtime should update too:
 
 ```text
-magicka-community-patch-0.0.21.zip
+magicka-community-patch-0.0.22-installer.zip
+- README.txt
 - MagickaPatchInstaller.exe
 - Magicka.exe
 - PolygonHead.dll
@@ -127,17 +131,27 @@ magicka-community-patch-0.0.21.zip
 
 Players should start `MagickaPatchInstaller.exe` from the release ZIP root. The root `flutter_windows.dll` and `data\` folder are the runtime files it needs. The updater requires `Magicka.exe` and `PolygonHead.dll`; if `tools\installer\MagickaPatchTool.exe` is present, it silently replaces `MagickaPatchInstaller.exe`, `MagickaPatchTool.exe`, `MagickaPatchUninstaller.exe`, `flutter_windows.dll` and `data\` after the running updater exits.
 
+The files-only ZIP is intended for manual Windows or Linux installation and is
+also the asset used by the game-side release check and optional auto-updater.
+
 ## Game-Side Settings Defaults
 
-If players copy only `Magicka.exe` and `PolygonHead.dll` into the game folder, no installer settings exist. In that portable case everything defaults to off:
+If players copy only `Magicka.exe` and `PolygonHead.dll` into the game folder,
+no installer settings exist. In that portable case telemetry and the online
+release check default to on, while automatic update installation defaults to
+off:
 
 ```text
-usage_sharing=false
-crash_reports=false
+usage_sharing=true
+crash_reports=true
+check_for_updates=true
 auto_update=false
 ```
 
-The installer writes `CommunityPatch\patch-settings.ini` based on the selected checkboxes.
+The installer writes `CommunityPatch\patch-settings.ini` based on the selected
+checkboxes. A manual install can copy the template from the files-only ZIP to
+that same path. Set `usage_sharing=false`, `crash_reports=false`, and
+`check_for_updates=false` to disable telemetry and online release checks.
 
 ## Helper Messages And Feedback
 

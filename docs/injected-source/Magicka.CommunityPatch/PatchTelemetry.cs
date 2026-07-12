@@ -148,16 +148,38 @@ namespace Magicka.CommunityPatch
 
 		private static bool IsDisabled()
 		{
-			bool result;
 			try
 			{
-				result = File.Exists("telemetry_disabled.txt");
+				if (!File.Exists(PatchSettings.SettingsPath))
+				{
+					return false;
+				}
+				return !PatchSettings.Load().UsageSharing;
 			}
 			catch
 			{
-				result = true;
+				return false;
 			}
-			return result;
+		}
+
+		private static bool AreCrashReportsDisabled()
+		{
+			try
+			{
+				if (PatchTelemetry.IsDisabled())
+				{
+					return true;
+				}
+				if (!File.Exists(PatchSettings.SettingsPath))
+				{
+					return false;
+				}
+				return !PatchSettings.Load().CrashReports;
+			}
+			catch
+			{
+				return false;
+			}
 		}
 
 		private static string HashShort(string value)
@@ -282,6 +304,10 @@ namespace Magicka.CommunityPatch
 
 		public static void SendCrash(Exception exception, string threadName, string crashReport)
 		{
+			if (PatchTelemetry.AreCrashReportsDisabled())
+			{
+				return;
+			}
 			string value = (exception != null) ? exception.GetType().Name : "UnknownException";
 			string value2 = (exception != null) ? PatchTelemetry.HashShort(exception.ToString()) : "unknown";
 			PatchTelemetry.SendBlocking("magicka_patch_crash_report_written", new Dictionary<string, string>
