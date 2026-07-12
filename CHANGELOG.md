@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.0.25] - 2026-07-12
+
+### Fixed
+
+- Reset an AI agent when a cached non-player character is deinitialized so it
+  no longer retains stale owner and runtime state between uses.
+- Restore the current non-player character as the agent owner during
+  initialization before the agent is enabled again.
+- Clear a deinitialized missile's owner, target, and collision-target
+  references so expired missiles no longer retain related entities.
+- Pin the server authentication-token buffer inside a dedicated helper so
+  future dnSpy recompilations keep passing the correct buffer to Steam.
+
+### Added
+
+- Log detailed network-guard diagnostics when an `EntityUpdate` packet refers
+  to an unknown entity handle, including the sender's player, avatar, and
+  play-state context for investigating multiplayer failures between levels.
+
 ## [0.0.24] - 2026-07-12
 
 ### Fixed
