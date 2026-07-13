@@ -243,7 +243,7 @@ class _AppStringsDelegate extends LocalizationsDelegate<AppStrings> {
 
 const Map<String, String> _en = <String, String>{
   'appTitle': 'Magicka Community Patch',
-  'appHeader': 'MAGICKA COMMUNITY PATCH 0.0.27',
+  'appHeader': 'MAGICKA COMMUNITY PATCH 0.0.28',
   'appSubtitle': 'Community Installer & Updater',
   'ready': 'Ready.',
   'ok': 'OK',

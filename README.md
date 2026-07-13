@@ -10,8 +10,8 @@
 > 
 > 🚀 **Latest release downloads:**
 >
-> - [Installer](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.27/magicka-community-patch-0.0.27-installer.zip)
-> - [Files only / manual installation](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.27/magicka-community-patch-0.0.27-files-only.zip)
+> - [Installer](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.28/magicka-community-patch-0.0.28-installer.zip)
+> - [Files only / manual installation](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.28/magicka-community-patch-0.0.28-files-only.zip)
 >
 > 🐛 **Report issues:** https://github.com/Alexander-Aue-Johr/magicka-patch/issues
 >

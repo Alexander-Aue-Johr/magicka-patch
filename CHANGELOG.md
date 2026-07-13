@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.0.28] - 2026-07-13
+
+### Fixed
+
+- Restore the original delayed cleanup in `PlayState.OnExit()` so multiplayer
+  level transitions no longer wait on remote player states or race with the
+  next `PlayState`, which could leave player characters without working
+  movement and action updates in the following level.
+
 ## [0.0.27] - 2026-07-12
 
 ### Fixed
