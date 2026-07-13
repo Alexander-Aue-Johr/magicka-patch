@@ -1,5 +1,42 @@
 # Changelog
 
+## [0.0.29] - 2026-07-14
+
+### Fixed
+
+- Prevent stale mouse-selected interactables from crashing after scene teardown
+  by clearing transient keyboard/mouse interaction targets when a scene is
+  destroyed and skipping highlight work once its scene or level model is no
+  longer available.
+- Make scene triggers participate in their existing final-disposal cleanup by
+  implementing `IDisposable`.
+- Preserve `Agent.mOwner` across `Agent.Reset()` so active AI code such as
+  `AddAttackedBy()` cannot encounter the null owner that previously caused
+  multiplayer crashes. Reset now releases the leader and its age, last target,
+  last spell ability, scripted events and their cursor, delay and loop state,
+  and both fuzzy-sort scratch arrays in addition to its existing target,
+  ability, priority-target, path, state, and attacked-by cleanup.
+- Make `Agent.Disable()` always remove the agent from `AIManager` and clear the
+  reusable entity and ability scoring arrays that could otherwise retain up to
+  eight entities and eight abilities from an old scene. If the owner is dead,
+  also release its target stack and ages, next, busy and last spell abilities,
+  priority target, last target, leader, and leader age. Living NPCs temporarily
+  cached for a later scene revisit deliberately retain their gameplay state.
+- Clear both fuzzy-sort scratch arrays after `Agent.ChooseTarget()` has copied
+  its selected outputs, preventing completed target selections from retaining
+  unrelated scene entities or abilities.
+- Change `NonPlayerCharacter.Deinitialize()` to disable its agent before base
+  entity teardown and reset it after equipment deinitialization. This removes
+  external AI-manager roots and stale outbound references at the correct
+  lifecycle boundaries without weakening the NPC/Agent owner relationship.
+
+### Changed
+
+- Rate-limit repeated `entity_update_ignored_not_ready` and
+  `entity_update_unknown_handle` telemetry with independent, bounded
+  exponential backoff, preventing thousands of duplicate reports while
+  retaining diagnostics.
+
 ## [0.0.28] - 2026-07-13
 
 ### Fixed

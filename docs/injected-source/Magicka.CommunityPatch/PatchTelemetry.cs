@@ -373,6 +373,10 @@ namespace Magicka.CommunityPatch
 		{
 			try
 			{
+				if (!NetworkGuardTelemetryBackoff.ShouldSend(reason))
+				{
+					return;
+				}
 				Dictionary<string, string> dictionary = new Dictionary<string, string>();
 				PatchTelemetry.AddCommonProperties(dictionary);
 				dictionary["side"] = PatchTelemetry.Safe(side);
