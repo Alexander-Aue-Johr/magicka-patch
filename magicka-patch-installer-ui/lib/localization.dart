@@ -243,7 +243,7 @@ class _AppStringsDelegate extends LocalizationsDelegate<AppStrings> {
 
 const Map<String, String> _en = <String, String>{
   'appTitle': 'Magicka Community Patch',
-  'appHeader': 'MAGICKA COMMUNITY PATCH 0.0.29',
+  'appHeader': 'MAGICKA COMMUNITY PATCH 0.0.30',
   'appSubtitle': 'Community Installer & Updater',
   'ready': 'Ready.',
   'ok': 'OK',
@@ -349,6 +349,7 @@ const Map<String, String> _en = <String, String>{
   'specialThanks': 'Special Thanks',
   'specialThanksCaps': 'SPECIAL THANKS',
   'supporter': 'SUPPORTER',
+  'prioritySupporter': 'PRIORITY',
 };
 
 final Map<AppLanguage, Map<String, String>> _strings =
@@ -461,6 +462,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
     'specialThanks': 'Besonderer Dank',
     'specialThanksCaps': 'BESONDERER DANK',
     'supporter': 'UNTERSTÜTZER',
+    'prioritySupporter': 'PRIORITÄT',
   },
   AppLanguage.esAR: <String, String>{
     ..._en,
@@ -569,6 +571,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
     'specialThanks': 'Agradecimientos',
     'specialThanksCaps': 'AGRADECIMIENTOS',
     'supporter': 'APOYA',
+    'prioritySupporter': 'PRIORIDAD',
   },
   AppLanguage.frFR: <String, String>{
     ..._en,
@@ -676,6 +679,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
     'specialThanks': 'Remerciements',
     'specialThanksCaps': 'REMERCIEMENTS',
     'supporter': 'SOUTIEN',
+    'prioritySupporter': 'PRIORITÉ',
   },
   AppLanguage.ptBR: <String, String>{
     ..._en,
@@ -782,6 +786,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
     'specialThanks': 'Agradecimentos',
     'specialThanksCaps': 'AGRADECIMENTOS',
     'supporter': 'APOIADOR',
+    'prioritySupporter': 'PRIORIDADE',
   },
   AppLanguage.csCZ: <String, String>{
     ..._en,
@@ -888,6 +893,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
     'specialThanks': 'Poděkování',
     'specialThanksCaps': 'PODĚKOVÁNÍ',
     'supporter': 'PODPOROVATEL',
+    'prioritySupporter': 'PRIORITA',
   },
   AppLanguage.ruRU: <String, String>{
     ..._en,
@@ -994,6 +1000,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
     'specialThanks': 'Благодарности',
     'specialThanksCaps': 'БЛАГОДАРНОСТИ',
     'supporter': 'ПОДДЕРЖКА',
+    'prioritySupporter': 'ПРИОРИТЕТ',
   },
   AppLanguage.ukUA: <String, String>{
     ..._en,
@@ -1100,6 +1107,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
     'specialThanks': 'Подяки',
     'specialThanksCaps': 'ПОДЯКИ',
     'supporter': 'ПІДТРИМКА',
+    'prioritySupporter': 'ПРІОРИТЕТ',
   },
   AppLanguage.jaJP: <String, String>{
     ..._en,
@@ -1196,6 +1204,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
     'specialThanks': 'Special Thanks',
     'specialThanksCaps': 'SPECIAL THANKS',
     'supporter': 'SUPPORTER',
+    'prioritySupporter': '優先支援',
   },
   AppLanguage.koKR: <String, String>{
     ..._en,
@@ -1292,5 +1301,6 @@ final Map<AppLanguage, Map<String, String>> _strings =
     'specialThanks': '감사의 말',
     'specialThanksCaps': '감사의 말',
     'supporter': '후원자',
+    'prioritySupporter': '우선 후원',
   },
 };

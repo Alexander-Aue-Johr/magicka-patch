@@ -15,6 +15,12 @@ This is a transparency compromise: players can inspect what the patch changes
 and what data it may report, while the repository avoids redistributing large
 parts of a closed-source game.
 
+Patch-site notes:
+
+- [Borderless fullscreen loading stability](borderless-fullscreen-loading.md)
+  explains how logical fullscreen is retained while non-exclusive Direct3D 9
+  presentation prevents focus-related device loss during asset loading.
+
 Legal note: this repository is not legal advice. EU Directive 2009/24/EC treats
 computer programs as copyright-protected works and gives rightholders exclusive
 rights over reproduction, translation, adaptation, alteration, and distribution,

@@ -38,7 +38,7 @@ namespace Magicka.CommunityPatch
 		{
 			get
 			{
-				return "0.0.29";
+				return "0.0.30";
 			}
 		}
 
@@ -62,7 +62,7 @@ namespace Magicka.CommunityPatch
 		{
 			get
 			{
-				return "Special Thanks to PurpleHeartE54, Skappnil, Aggravating-Sky8697 and Economics-Simulator";
+				return "Special Thanks to SonofKalas, PurpleHeartE54, Skappnil, Aggravating-Sky8697 and Economics-Simulator";
 			}
 		}
 

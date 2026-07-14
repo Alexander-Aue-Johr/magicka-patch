@@ -9,7 +9,9 @@ for the Magicka Community Patch UI.
 ### Star effect
 
 - Source: https://www.shadertoy.com/view/tllfRX
-- Used by: `shaders/install_star_button.frag`
+- Used by:
+  - `shaders/install_star_button.frag`
+  - `shaders/diamond_edge_star.frag`
 - Notes: simplified into a single UI star/glow runtime effect.
 
 ### Fire sparks

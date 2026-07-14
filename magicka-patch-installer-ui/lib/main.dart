@@ -18,6 +18,10 @@ const String _buildDefaultLocale = String.fromEnvironment('APP_LOCALE');
 String _assetKey(String path) =>
     _assetPackage == null ? path : 'packages/$_assetPackage/$path';
 
+Future<void> _openExternalUrl(String url) async {
+  await Process.run('cmd', <String>['/c', 'start', '', url]);
+}
+
 void main(List<String> args) {
   runMagickaPatchApp(args);
 }
@@ -157,7 +161,7 @@ String _option(List<String> args, String key) {
 }
 
 class AppConstants {
-  static const patchVersion = '0.0.29';
+  static const patchVersion = '0.0.30';
   static const settingsDirectoryName = 'CommunityPatch';
   static const settingsFileName = 'patch-settings.ini';
   static const manifestFileName = 'install-manifest.ini';
@@ -169,6 +173,8 @@ class AppConstants {
   static const magickaSteamAppId = '42910';
   static const patreonUrl =
       'https://www.patreon.com/c/alexander_aue_johr/membership';
+  static const bitesquidModLoaderUrl =
+      'https://steamcommunity.com/sharedfiles/filedetails/?id=3733900153';
   static const postHogApiKey =
       'phc_vbVuHJdtwsf2gzBY36KcLo8btGZY4D6foFGqtxbkfog8';
   static const postHogEndpoint = 'https://eu.i.posthog.com/capture/';
@@ -203,17 +209,30 @@ class SpecialThanksPerson {
     required this.description,
     required this.accent,
     this.avatarAsset,
+    this.featureAsset,
+    this.featureUrl,
     this.supporter = false,
+    this.prioritySupporter = false,
   });
 
   final String name;
   final String description;
   final Color accent;
   final String? avatarAsset;
+  final String? featureAsset;
+  final String? featureUrl;
   final bool supporter;
+  final bool prioritySupporter;
 }
 
 const List<SpecialThanksPerson> _specialThanksPeople = <SpecialThanksPerson>[
+  SpecialThanksPerson(
+    name: 'SonofKalas',
+    description: 'Fix Requests & Priorities Patreon supporter',
+    accent: Color(0xffd99cff),
+    supporter: true,
+    prioritySupporter: true,
+  ),
   SpecialThanksPerson(
     name: 'Aggregating-Sky8697 / pjl234678',
     description:
@@ -226,6 +245,8 @@ const List<SpecialThanksPerson> _specialThanksPeople = <SpecialThanksPerson>[
     description:
         'Helpful feedback and bug hints found during development of the Bitesquid Mod Loader.',
     avatarAsset: 'assets/Skappnil.png',
+    featureAsset: 'assets/bitesquid-mod-loader.jpg',
+    featureUrl: AppConstants.bitesquidModLoaderUrl,
     accent: Color(0xffab4fff),
   ),
   SpecialThanksPerson(
@@ -6893,9 +6914,14 @@ class _SpecialThanksCardState extends State<SpecialThanksCard>
                   left: 14,
                   top: 13,
                   width: 62,
-                  height: 62,
+                  height: person.prioritySupporter ? 70 : 62,
                   child: person.avatarAsset == null
-                      ? const SupporterBadge()
+                      ? person.prioritySupporter
+                          ? Align(
+                              alignment: Alignment.topCenter,
+                              child: PrioritySupporterBadge(active: _hovered),
+                            )
+                          : const SupporterBadge()
                       : DecoratedBox(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
@@ -6955,21 +6981,39 @@ class _SpecialThanksCardState extends State<SpecialThanksCard>
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 2),
                       decoration: BoxDecoration(
-                        border: Border.all(color: const Color(0xffe0a956)),
+                        border: Border.all(
+                            color: person.prioritySupporter
+                                ? const Color(0xffe6b6ff)
+                                : const Color(0xffe0a956)),
                         borderRadius: BorderRadius.circular(4),
-                        color: const Color(0x332a1405),
+                        color: person.prioritySupporter
+                            ? const Color(0x66351050)
+                            : const Color(0x332a1405),
                         boxShadow: _hovered
                             ? <BoxShadow>[
                                 BoxShadow(
-                                    color: const Color(0xffffd897)
+                                    color: (person.prioritySupporter
+                                            ? const Color(0xffe3a3ff)
+                                            : const Color(0xffffd897))
                                         .withValues(alpha: 0.40),
                                     blurRadius: 12)
                               ]
                             : null,
                       ),
-                      child: Text(s.t('supporter'),
-                          style: const TextStyle(
-                              color: Color(0xfff7d897), fontSize: 11)),
+                      child: Text(
+                          s.t(person.prioritySupporter
+                              ? 'prioritySupporter'
+                              : 'supporter'),
+                          style: TextStyle(
+                              color: person.prioritySupporter
+                                  ? const Color(0xffffe8ff)
+                                  : const Color(0xfff7d897),
+                              fontWeight: person.prioritySupporter
+                                  ? FontWeight.w700
+                                  : FontWeight.normal,
+                              letterSpacing:
+                                  person.prioritySupporter ? 0.45 : null,
+                              fontSize: 11)),
                     ),
                   ),
               ],
@@ -6983,10 +7027,14 @@ class _SpecialThanksCardState extends State<SpecialThanksCard>
 
 class SpecialThanksDetailDialog extends StatefulWidget {
   const SpecialThanksDetailDialog(
-      {super.key, required this.person, required this.starProgram});
+      {super.key,
+      required this.person,
+      required this.starProgram,
+      this.openUrl});
 
   final SpecialThanksPerson person;
   final ui.FragmentProgram? starProgram;
+  final Future<void> Function(String url)? openUrl;
 
   @override
   State<SpecialThanksDetailDialog> createState() =>
@@ -6997,19 +7045,43 @@ class _SpecialThanksDetailDialogState extends State<SpecialThanksDetailDialog> {
   Offset _tilt = Offset.zero;
   bool _returningToRest = false;
 
+  Future<void> _openFeature() async {
+    final url = widget.person.featureUrl;
+    if (url == null) return;
+    await (widget.openUrl ?? _openExternalUrl)(url);
+  }
+
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.sizeOf(context);
     const aspect = 360.0 / 116.0;
+    const featureGap = 18.0;
+    final hasFeature =
+        widget.person.featureAsset != null && widget.person.featureUrl != null;
     var width = math.min(media.width - 72, 1120.0);
     var height = width / aspect;
     final maxHeight = math.min(media.height - 96, 430.0);
-    if (height > maxHeight) {
+    var featureWidth = 0.0;
+    var cardWidth = width;
+    if (hasFeature) {
+      featureWidth = math.min(236.0, math.max(176.0, width * 0.24));
+      cardWidth = width - featureWidth - featureGap;
+      height = cardWidth / aspect;
+      if (height > maxHeight) {
+        height = maxHeight;
+        cardWidth = height * aspect;
+        width = cardWidth + featureGap + featureWidth;
+      }
+    } else if (height > maxHeight) {
       height = maxHeight;
       width = height * aspect;
+      cardWidth = width;
     }
     width = math.max(width, 360.0);
-    height = width / aspect;
+    if (!hasFeature) {
+      height = width / aspect;
+      cardWidth = width;
+    }
 
     return Dialog(
       backgroundColor: Colors.transparent,
@@ -7047,14 +7119,34 @@ class _SpecialThanksDetailDialogState extends State<SpecialThanksDetailDialog> {
               SizedBox(
                 width: width,
                 height: height,
-                child: FittedBox(
-                  fit: BoxFit.fill,
-                  child: SizedBox(
-                    width: 360,
-                    height: 116,
-                    child: SpecialThanksCard(
-                        person: widget.person, starProgram: widget.starProgram),
-                  ),
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: cardWidth,
+                      height: height,
+                      child: FittedBox(
+                        fit: BoxFit.fill,
+                        child: SizedBox(
+                          width: 360,
+                          height: 116,
+                          child: SpecialThanksCard(
+                              person: widget.person,
+                              starProgram: widget.starProgram),
+                        ),
+                      ),
+                    ),
+                    if (hasFeature) ...<Widget>[
+                      const SizedBox(width: featureGap),
+                      SizedBox(
+                        width: featureWidth,
+                        height: height,
+                        child: SpecialThanksFeatureLink(
+                          asset: widget.person.featureAsset!,
+                          onTap: () => unawaited(_openFeature()),
+                        ),
+                      ),
+                    ],
+                  ],
                 ),
               ),
               Positioned(
@@ -7080,6 +7172,114 @@ class _SpecialThanksDetailDialogState extends State<SpecialThanksDetailDialog> {
               child: child,
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+class SpecialThanksFeatureLink extends StatefulWidget {
+  const SpecialThanksFeatureLink(
+      {super.key, required this.asset, required this.onTap});
+
+  final String asset;
+  final VoidCallback onTap;
+
+  @override
+  State<SpecialThanksFeatureLink> createState() =>
+      _SpecialThanksFeatureLinkState();
+}
+
+class _SpecialThanksFeatureLinkState extends State<SpecialThanksFeatureLink> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      label: 'Open Bitesquid Mod Loader on Steam Workshop',
+      child: Tooltip(
+        message: 'Open Bitesquid Mod Loader on Steam Workshop',
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          onEnter: (_) => setState(() => _hovered = true),
+          onExit: (_) => setState(() => _hovered = false),
+          child: GestureDetector(
+            key: const ValueKey<String>('skappnil-mod-loader-link'),
+            behavior: HitTestBehavior.opaque,
+            onTap: widget.onTap,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 160),
+              padding: const EdgeInsets.all(9),
+              decoration: BoxDecoration(
+                color: _hovered
+                    ? const Color(0xff241735)
+                    : const Color(0xee101315),
+                border: Border.all(
+                    color: _hovered
+                        ? const Color(0xffd7a5ff)
+                        : const Color(0xff76508f),
+                    width: _hovered ? 1.8 : 1.2),
+                borderRadius: BorderRadius.circular(7),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: const Color(0xffab4fff)
+                        .withValues(alpha: _hovered ? 0.50 : 0.22),
+                    blurRadius: _hovered ? 20 : 10,
+                  ),
+                ],
+              ),
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: Image.asset(
+                        _assetKey(widget.asset),
+                        key: const ValueKey<String>('skappnil-mod-loader-logo'),
+                        fit: BoxFit.contain,
+                        filterQuality: FilterQuality.high,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  const Text(
+                    'Bitesquid Mod Loader',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Color(0xfff7d897),
+                      fontFamily: 'Georgia',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(Icons.open_in_new,
+                          size: 13, color: Color(0xffd7a5ff)),
+                      SizedBox(width: 5),
+                      Flexible(
+                        child: Text(
+                          'Steam Workshop',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Color(0xffead8f7),
+                            decoration: TextDecoration.underline,
+                            decorationColor: Color(0xffd7a5ff),
+                            fontSize: 11.5,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -7505,6 +7705,367 @@ class SupporterBadgePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+class PrioritySupporterBadge extends StatefulWidget {
+  const PrioritySupporterBadge({super.key, required this.active});
+
+  static const Duration sweepDuration = Duration(milliseconds: 5600);
+
+  final bool active;
+
+  @override
+  State<PrioritySupporterBadge> createState() => _PrioritySupporterBadgeState();
+}
+
+class _PrioritySupporterBadgeState extends State<PrioritySupporterBadge>
+    with SingleTickerProviderStateMixin {
+  static final Map<String, Future<ui.FragmentProgram>> _programLoads =
+      <String, Future<ui.FragmentProgram>>{};
+
+  late final AnimationController _controller;
+  ui.FragmentProgram? _edgeStarProgram;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+        vsync: this, duration: PrioritySupporterBadge.sweepDuration);
+    if (widget.active) {
+      _controller.repeat();
+    }
+    _loadEdgeStarProgram();
+  }
+
+  Future<void> _loadEdgeStarProgram() async {
+    final asset = _assetKey('shaders/diamond_edge_star.frag');
+    final future = _programLoads[asset] ??= ui.FragmentProgram.fromAsset(asset);
+    try {
+      final program = await future;
+      if (mounted) setState(() => _edgeStarProgram = program);
+    } catch (_) {
+      if (identical(_programLoads[asset], future)) {
+        _programLoads.remove(asset);
+      }
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant PrioritySupporterBadge oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.active == widget.active) return;
+    if (widget.active) {
+      _controller
+        ..value = 0
+        ..repeat();
+    } else {
+      _controller
+        ..stop()
+        ..value = 0;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        width: 60,
+        height: 70,
+        child: AnimatedBuilder(
+            animation: _controller,
+            builder: (context, _) => CustomPaint(
+                painter: PrioritySupporterBadgePainter(
+                    time: _controller.value,
+                    active: widget.active,
+                    edgeStarProgram: _edgeStarProgram))));
+  }
+}
+
+class PrioritySupporterBadgePainter extends CustomPainter {
+  PrioritySupporterBadgePainter(
+      {required this.time, required this.active, this.edgeStarProgram});
+
+  static const double upperDesignHeight = 62.0;
+  static const double bottomStrokeMargin = 20.0;
+
+  final double time;
+  final bool active;
+  final ui.FragmentProgram? edgeStarProgram;
+
+  @visibleForTesting
+  static List<Offset> diamondVerticesFor(Size size) => <Offset>[
+        Offset(size.width * 0.29, upperDesignHeight * 0.12),
+        Offset(size.width * 0.71, upperDesignHeight * 0.12),
+        Offset(size.width * 0.90, upperDesignHeight * 0.35),
+        Offset(size.width * 0.50, size.height - bottomStrokeMargin),
+        Offset(size.width * 0.10, upperDesignHeight * 0.35),
+      ];
+
+  @visibleForTesting
+  static List<Offset> diamondTableVerticesFor(Size size) => <Offset>[
+        Offset(size.width * 0.40, upperDesignHeight * 0.20),
+        Offset(size.width * 0.60, upperDesignHeight * 0.20),
+        Offset(size.width * 0.67, upperDesignHeight * 0.35),
+        Offset(size.width * 0.33, upperDesignHeight * 0.35),
+      ];
+
+  @visibleForTesting
+  static Offset get causticDirection {
+    const raw = Offset(0.18, -1.0);
+    return raw / raw.distance;
+  }
+
+  @visibleForTesting
+  static double causticBandHalfWidthFor(Size size) =>
+      math.max(size.width, size.height) * 0.30;
+
+  @visibleForTesting
+  static Offset causticCenterFor(Size size, double progress) {
+    final vertices = diamondVerticesFor(size);
+    final direction = causticDirection;
+    double projection(Offset point) =>
+        point.dx * direction.dx + point.dy * direction.dy;
+    final projections = vertices.map(projection);
+    final minProjection = projections.reduce(math.min);
+    final maxProjection = projections.reduce(math.max);
+    final halfWidth = causticBandHalfWidthFor(size);
+    final offscreenMargin = math.max(size.width, size.height) * 0.22;
+    final startProjection = minProjection - halfWidth - offscreenMargin;
+    final endProjection = maxProjection + halfWidth + offscreenMargin;
+    final targetProjection = ui.lerpDouble(
+        startProjection, endProjection, progress.clamp(0.0, 1.0))!;
+    final anchor = Offset(size.width * 0.50, size.height * 0.53);
+    final anchorProjection = projection(anchor);
+    return anchor + direction * (targetProjection - anchorProjection);
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final w = size.width;
+    final h = size.height;
+    final pulse = active ? 0.5 + 0.5 * math.sin(time * math.pi * 2.0) : 0.35;
+
+    final vertices = diamondVerticesFor(size);
+    final topLeft = vertices[0];
+    final topRight = vertices[1];
+    final right = vertices[2];
+    final bottom = vertices[3];
+    final left = vertices[4];
+    final tableVertices = diamondTableVerticesFor(size);
+    final tableTopLeft = tableVertices[0];
+    final tableTopRight = tableVertices[1];
+    final tableBottomRight = tableVertices[2];
+    final tableBottomLeft = tableVertices[3];
+
+    Path facet(List<Offset> points) {
+      final path = Path()..moveTo(points.first.dx, points.first.dy);
+      for (final point in points.skip(1)) {
+        path.lineTo(point.dx, point.dy);
+      }
+      return path..close();
+    }
+
+    final diamond = facet(<Offset>[
+      topLeft,
+      topRight,
+      right,
+      bottom,
+      left,
+    ]);
+
+    // A single brilliant-cut silhouette. The soft glow reuses the same path,
+    // so the badge remains one emblem rather than a stack of rank symbols.
+    canvas.drawPath(
+        diamond,
+        Paint()
+          ..color = const Color(0xffa96dff)
+              .withValues(alpha: active ? 0.24 + pulse * 0.18 : 0.11)
+          ..maskFilter = MaskFilter.blur(BlurStyle.normal, active ? 8 : 4));
+    canvas.drawPath(
+        diamond,
+        Paint()
+          ..shader = ui.Gradient.linear(
+            Offset(w * 0.12, h * 0.10),
+            Offset(w * 0.84, h * 0.90),
+            const <Color>[
+              Color(0xff22447c),
+              Color(0xff4b1b78),
+              Color(0xff170f32),
+            ],
+            const <double>[0.0, 0.48, 1.0],
+          ));
+
+    final facets = <(Path, Color)>[
+      (
+        facet(<Offset>[left, topLeft, tableTopLeft, tableBottomLeft]),
+        const Color(0xff5ddcff),
+      ),
+      (
+        facet(<Offset>[topLeft, topRight, tableTopRight, tableTopLeft]),
+        const Color(0xffae8fff),
+      ),
+      (
+        facet(<Offset>[topRight, right, tableBottomRight, tableTopRight]),
+        const Color(0xffff7bd8),
+      ),
+      (
+        facet(<Offset>[left, tableBottomLeft, bottom]),
+        const Color(0xff244bb2),
+      ),
+      (
+        facet(<Offset>[tableBottomLeft, tableBottomRight, bottom]),
+        const Color(0xff7132a9),
+      ),
+      (
+        facet(<Offset>[tableBottomRight, right, bottom]),
+        const Color(0xffb12c91),
+      ),
+    ];
+    for (final (path, color) in facets) {
+      canvas.drawPath(
+          path, Paint()..color = color.withValues(alpha: active ? 0.48 : 0.34));
+    }
+
+    final table = facet(<Offset>[
+      tableTopLeft,
+      tableTopRight,
+      tableBottomRight,
+      tableBottomLeft,
+    ]);
+    canvas.drawPath(
+        table,
+        Paint()
+          ..shader = ui.Gradient.linear(
+            tableTopLeft,
+            tableBottomRight,
+            <Color>[
+              const Color(0xffe9fdff).withValues(alpha: active ? 0.88 : 0.72),
+              const Color(0xffa779ff).withValues(alpha: active ? 0.72 : 0.58),
+              const Color(0xff4a226f).withValues(alpha: active ? 0.78 : 0.64),
+            ],
+            const <double>[0.0, 0.46, 1.0],
+          ));
+
+    final seamPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.65
+      ..strokeJoin = StrokeJoin.round
+      ..color = const Color(0xffeefaff).withValues(alpha: active ? 0.34 : 0.22);
+    for (final (path, _) in facets) {
+      canvas.drawPath(path, seamPaint);
+    }
+    canvas.drawPath(table, seamPaint);
+
+    if (active) {
+      // This slow, upward-moving caustic has its own cycle and direction. Its
+      // transparent band begins and ends beyond the diamond, so wrapping the
+      // controller can never make the light visibly pop in or out.
+      final direction = causticDirection;
+      final halfWidth = causticBandHalfWidthFor(size);
+      final center = causticCenterFor(size, time);
+      canvas.save();
+      canvas.clipPath(diamond);
+      canvas.drawRect(
+          Offset.zero & size,
+          Paint()
+            ..blendMode = BlendMode.screen
+            ..shader = ui.Gradient.linear(
+              center - direction * halfWidth,
+              center + direction * halfWidth,
+              const <Color>[
+                Color(0x0000e5ff),
+                Color(0x661fffff),
+                Color(0xbbeffeff),
+                Color(0x77ff49ce),
+                Color(0x00ffd56b),
+              ],
+              const <double>[0.0, 0.38, 0.50, 0.62, 1.0],
+            ));
+      canvas.restore();
+    }
+
+    canvas.drawPath(
+        diamond,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = active ? 1.8 : 1.35
+          ..strokeJoin = StrokeJoin.round
+          ..shader = ui.Gradient.linear(
+            left,
+            right,
+            const <Color>[
+              Color(0xff77efff),
+              Color(0xffb98aff),
+              Color(0xffff83d8),
+              Color(0xffffd878),
+            ],
+            const <double>[0.0, 0.34, 0.68, 1.0],
+          ));
+
+    if (active) {
+      _drawDiamondEdgeStar(canvas, Offset.lerp(topLeft, left, 0.00)!, time,
+          0.10, const ui.Color.fromARGB(255, 183, 0, 255));
+      _drawDiamondEdgeStar(canvas, Offset.lerp(topRight, right, 0.34)!, time,
+          0.30, const Color(0xfff3fdff));
+      _drawDiamondEdgeStar(canvas, Offset.lerp(left, bottom, 0.62)!, time, 0.72,
+          const Color(0xffffdfff));
+    }
+  }
+
+  @visibleForTesting
+  static double sparkleEnvelopeFor(double time, double centerTime) {
+    const halfWindow = 0.10;
+    final distance = (time - centerTime).abs();
+    if (distance >= halfWindow) return 0;
+    final x = 1.0 - distance / halfWindow;
+    final smooth = x * x * (3.0 - 2.0 * x);
+    return smooth * smooth;
+  }
+
+  void _drawDiamondEdgeStar(Canvas canvas, Offset center, double time,
+      double centerTime, Color color) {
+    final envelope = sparkleEnvelopeFor(time, centerTime);
+    if (envelope == 0) return;
+    if (edgeStarProgram == null) {
+      canvas.drawCircle(
+          center,
+          0.7 + envelope * 0.55,
+          Paint()
+            ..blendMode = BlendMode.plus
+            ..color = color.withValues(alpha: envelope * 0.88));
+      return;
+    }
+
+    const side = 84.0;
+    final shader = edgeStarProgram!.fragmentShader()
+      ..setFloat(0, side)
+      ..setFloat(1, side)
+      ..setFloat(2, 0.72 + envelope * 0.18)
+      ..setFloat(3, envelope)
+      ..setFloat(4, color.r)
+      ..setFloat(5, color.g)
+      ..setFloat(6, color.b);
+    canvas.save();
+    canvas.translate(center.dx - side * 0.5, center.dy - side * 0.5);
+    canvas.drawRect(
+        const Offset(0, 0) & const Size(side, side),
+        Paint()
+          ..shader = shader
+          ..blendMode = BlendMode.plus);
+    canvas.restore();
+  }
+
+  @override
+  bool shouldRepaint(covariant PrioritySupporterBadgePainter oldDelegate) {
+    return oldDelegate.time != time ||
+        oldDelegate.active != active ||
+        oldDelegate.edgeStarProgram != edgeStarProgram;
+  }
 }
 
 class ThanksCard extends StatelessWidget {

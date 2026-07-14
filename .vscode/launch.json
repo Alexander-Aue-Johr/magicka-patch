@@ -5,11 +5,10 @@
       "name": "Installer UI (choose language)",
       "type": "dart",
       "request": "launch",
-      "program": "lib/main.dart",
+      "program": "${workspaceFolder}/magicka-patch-installer-ui/lib/main.dart",
       "cwd": "${workspaceFolder}/magicka-patch-installer-ui",
-      "args": [
-        "--locale",
-        "${input:installerLanguage}"
+      "toolArgs": [
+        "--dart-define=APP_LOCALE=${input:installerLanguage}"
       ]
     },
     {

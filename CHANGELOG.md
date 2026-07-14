@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.0.30] - 2026-07-14
+
+### Fixed
+
+- Prevent `DeviceLostException` crashes when Magicka is minimized or loses
+  focus during a loading screen. Logical fullscreen now keeps XNA's
+  monitor-sized borderless window while the underlying Direct3D 9 device uses
+  non-exclusive presentation, so loading can continue creating textures,
+  shaders, and other graphics resources after Alt-Tab.
+- Keep Alt-Tab target windows visible by disabling XNA's fullscreen `TopMost`
+  state whenever Magicka is using the new non-exclusive fullscreen
+  presentation.
+
+### Changed
+
+- Fullscreen now operates as borderless windowed presentation internally. The
+  existing fullscreen setting and selected render resolution remain in use,
+  while presentation follows the desktop refresh mode and switching to other
+  applications no longer requires an exclusive-device transition.
+
 ## [0.0.29] - 2026-07-14
 
 ### Fixed

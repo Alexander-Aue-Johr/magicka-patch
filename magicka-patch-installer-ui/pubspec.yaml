@@ -1,7 +1,7 @@
 name: magicka_community_patch_installer_ui
 description: Flutter Windows UI for the Magicka Community Patch installer.
 publish_to: "none"
-version: 0.0.29+29
+version: 0.0.30+30
 
 environment:
   sdk: ">=3.4.0 <4.0.0"
@@ -24,8 +24,10 @@ flutter:
     - assets/pjl234678.png
     - assets/PurpleHeartE54.png
     - assets/Skappnil.png
+    - assets/bitesquid-mod-loader.jpg
   shaders:
     - shaders/flame_button.frag
     - shaders/install_star_button.frag
+    - shaders/diamond_edge_star.frag
     - shaders/patreon_heart_flame.frag
     - shaders/patreon_fire_sparks.frag
