@@ -14,13 +14,21 @@ The guards currently cover these high-risk areas:
 | `Magicka.GameLogic.Entities.MissileEntity` | Drop invalid remote missile events instead of crashing when the missile, target, play state, hit lists, or condition collection are missing. |
 | `Magicka.GameLogic.Spells.SpellEffects.ProjectileSpell` | Guard missile creation when the owner, play state, condition cache, model, or cached missile instance is missing. |
 | `Magicka.GameLogic.Entities.Character.NetworkAction` | Drop unsafe remote grip actions before they dereference missing actors, bodies, grippers, animation controllers, skeletons, or out-of-range grip joints. |
-| `Magicka.Network.NetworkClient` | Validate incoming spawn/entity/missile packets before applying them to local game state. |
-| `Magicka.Network.NetworkServer` | Validate host-side spawn requests and catch last-resort `NullReferenceException` failures during message handling. |
+| `Magicka.Network.NetworkClient` | Route all 21 `Entity.GetFromHandle` call sites through a caller-local usability guard and reject cache-dependent CharacterAction/SpawnPlayer template application when its template is unavailable. |
+| `Magicka.Network.NetworkServer` | Route all 17 `Entity.GetFromHandle` call sites through the same caller-local guard, validate host-side spawn requests, and catch last-resort `NullReferenceException` failures during message handling. |
+| `Magicka.GameLogic.GameStates.PlayState.AddWorldSyncMessage` | Drop `SpawnNPC` WorldSync messages before queueing when their handle is not a usable NPC in the receiving play state. |
 | `Magicka.Rendering.TypingText.Update` | Catch an out-of-range text reveal state, report diagnostic counters, and reveal the rest of the text instead of crashing. |
 
 The goal is not to hide bugs. The goal is to keep multiplayer sessions alive
 long enough to learn which object is actually missing, disposed, or detached
 from its `PlayState`.
+
+`Entity.GetFromHandle` itself deliberately remains unchanged. A resolved entity
+is rejected only inside `NetworkClient` and `NetworkServer` when it is `null`,
+disposed, or detached from its `PlayState`. This preserves valid handles used by
+non-network code and by multiplayer transitions. Damage targets additionally
+require a non-null physics `Body`, covering the disposal window in which
+`mBody` has already been cleared but `IsDisposed` is not yet true.
 
 ## NetworkClient Authentication Compile Workaround
 
@@ -112,12 +120,28 @@ counted over time:
 | `spawn_mine_*` | Mine entity or owner is missing, or the spawned mine has no play state. |
 | `spawn_vortex_*` | Vortex instance, owner, or play state is missing. |
 | `missile_event_*` | Remote missile event references a missing/unusable missile, target, collision target, condition collection, hit list, or damage target. |
+| `character_action_missing_or_unusable_character` | A character action references a missing, disposed, or detached character. |
+| `character_action_template_not_cached` | A character action needs to restore its character template, but the stored template hash is not cached or the reapply did not produce a template. |
+| `spawn_player_missing_gamer_for_template` / `spawn_player_template_not_cached` | A SpawnPlayer packet cannot safely obtain its player's cached avatar template before initialization. |
+| `entity_remove_missing_or_unusable_entity` / `character_die_missing_or_unusable_character` | A remove/death packet references an entity that can no longer be used safely. |
+| `damage_missing_or_unusable_*` | A damage packet references an unusable attacker or a target with no usable entity/body. |
+| `forced_player_status_sync_missing_or_unusable_character` | A forced status-sync request references an unusable character. |
+| `world_sync_spawn_npc_missing_or_unusable_entity` | A SpawnNPC WorldSync message references no usable NPC in the receiving play state and is dropped before entering the delayed action queue. |
 | `network_server_readmessage_*` | Last-resort server-side guard caught an otherwise unhandled null reference while reading a network packet. |
 | `CharacterActionMessage.Grip` reasons | Missing target character, missing body, missing gripper/gripped character, missing animation controller, missing skeleton, or invalid grip joint index. |
 | `text_index_out_of_range` | The typing text reveal cursor moved outside the backing string; the patch reports counters and completes the reveal. |
 
 When a reason code becomes frequent, the next step is to reproduce that specific
 state and replace the guard with a narrower root-cause fix where possible.
+
+## Drop-event resend backoff
+
+`magicka_patch_network_guard_drop` is rate-limited independently for every
+stable reason code. The first event is sent immediately. Repeated events for
+the same reason are then allowed after 1, 2, 4, 8, 16, 32, 64, 128, 256, and
+at most 300 seconds. A quiet interval of at least 120 seconds resets that reason
+to the initial one-second delay. A different reason has its own timer and is
+therefore not suppressed by an unrelated noisy packet path.
 
 ## Player Controls
 

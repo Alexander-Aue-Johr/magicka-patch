@@ -1,5 +1,29 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- Keep the character-selection unload worker compatible with Magicka's CLR 2.0
+  runtime by using the original `Monitor.Enter(object)` lock lowering instead
+  of the unavailable `Monitor.Enter(object, ref bool)` overload.
+- Prevent the rare main-menu `PolygonHead.Text.Append` array overflow when a
+  modified or corrupt core-file installation adds the ` (Modified)` suffix to
+  the Community Patch version text.
+- Resolve `steam_api.dll` relative to the executable and fail with a guided
+  startup dialog when it cannot be opened; also reject trailing
+  `+connect_lobby`, `+connect`, and `+password` options that have no value.
+- Keep the menu usable without legacy Managed DirectInput. Controller scans and
+  controller-list refreshes are disabled after the first assembly-load failure,
+  and one in-game dialog explains that controllers remain unavailable until the
+  bundled DirectX redistributable is installed.
+
+### Changed
+
+- Make the bottom-left Community Patch credit text clickable and show the
+  current `CommunityPatchInfo.PatreonSupporters` list in the game's shared
+  message dialog.
+
 ## [0.0.30] - 2026-07-14
 
 ### Fixed

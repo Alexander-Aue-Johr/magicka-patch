@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Magicka.CommunityPatch
@@ -7,73 +8,63 @@ namespace Magicka.CommunityPatch
 	{
 		private const int InitialDelayMilliseconds = 1000;
 
-		private const int MaximumDelayMilliseconds = 60000;
+		private const int MaximumDelayMilliseconds = 300000;
 
 		private const long QuietResetMilliseconds = 120000L;
 
 		private static readonly object sLock = new object();
 
-		private static Stopwatch sIgnoredNotReadyTimer;
-
-		private static int sIgnoredNotReadyDelayMilliseconds;
-
-		private static Stopwatch sUnknownHandleTimer;
-
-		private static int sUnknownHandleDelayMilliseconds;
+		private static readonly Dictionary<string, BackoffState> sStates = new Dictionary<string, BackoffState>(StringComparer.Ordinal);
 
 		public static bool ShouldSend(string reason)
 		{
-			if (string.Equals(reason, "entity_update_ignored_not_ready", StringComparison.Ordinal))
+			string key = reason ?? string.Empty;
+			lock (NetworkGuardTelemetryBackoff.sLock)
 			{
-				lock (NetworkGuardTelemetryBackoff.sLock)
+				BackoffState backoffState;
+				if (!NetworkGuardTelemetryBackoff.sStates.TryGetValue(key, out backoffState))
 				{
-					return NetworkGuardTelemetryBackoff.ShouldSend(ref NetworkGuardTelemetryBackoff.sIgnoredNotReadyTimer, ref NetworkGuardTelemetryBackoff.sIgnoredNotReadyDelayMilliseconds);
+					NetworkGuardTelemetryBackoff.sStates.Add(key, new BackoffState());
+					return true;
 				}
+				return NetworkGuardTelemetryBackoff.ShouldSend(backoffState);
 			}
-			if (string.Equals(reason, "entity_update_unknown_handle", StringComparison.Ordinal))
-			{
-				lock (NetworkGuardTelemetryBackoff.sLock)
-				{
-					return NetworkGuardTelemetryBackoff.ShouldSend(ref NetworkGuardTelemetryBackoff.sUnknownHandleTimer, ref NetworkGuardTelemetryBackoff.sUnknownHandleDelayMilliseconds);
-				}
-			}
-			return true;
 		}
 
-		private static bool ShouldSend(ref Stopwatch timer, ref int delayMilliseconds)
+		private static bool ShouldSend(BackoffState state)
 		{
-			if (timer == null)
-			{
-				timer = Stopwatch.StartNew();
-				delayMilliseconds = InitialDelayMilliseconds;
-				return true;
-			}
-
-			long elapsedMilliseconds = timer.ElapsedMilliseconds;
-			if (elapsedMilliseconds < (long)delayMilliseconds)
+			long elapsedMilliseconds = state.Timer.ElapsedMilliseconds;
+			if (elapsedMilliseconds < (long)state.DelayMilliseconds)
 			{
 				return false;
 			}
 
-			timer.Reset();
-			timer.Start();
+			state.Timer.Reset();
+			state.Timer.Start();
 			if (elapsedMilliseconds >= QuietResetMilliseconds)
 			{
-				delayMilliseconds = InitialDelayMilliseconds;
+				state.DelayMilliseconds = InitialDelayMilliseconds;
 			}
-			else if (delayMilliseconds <= 0)
+			else if (state.DelayMilliseconds <= 0)
 			{
-				delayMilliseconds = InitialDelayMilliseconds;
+				state.DelayMilliseconds = InitialDelayMilliseconds;
 			}
-			else if (delayMilliseconds >= MaximumDelayMilliseconds / 2)
+			else if (state.DelayMilliseconds >= MaximumDelayMilliseconds / 2)
 			{
-				delayMilliseconds = MaximumDelayMilliseconds;
+				state.DelayMilliseconds = MaximumDelayMilliseconds;
 			}
 			else
 			{
-				delayMilliseconds *= 2;
+				state.DelayMilliseconds *= 2;
 			}
 			return true;
+		}
+
+		private sealed class BackoffState
+		{
+			public readonly Stopwatch Timer = Stopwatch.StartNew();
+
+			public int DelayMilliseconds = InitialDelayMilliseconds;
 		}
 	}
 }

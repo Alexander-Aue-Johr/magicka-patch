@@ -17,9 +17,20 @@ parts of a closed-source game.
 
 Patch-site notes:
 
+- [Startup, controller, version-text, and supporter dialog guards](startup-controller-and-supporter-dialog-guards.md)
+  covers absolute startup file resolution, launch-option bounds checks, the
+  rare modified-installation footer overflow, graceful missing-DirectInput
+  behavior, and the clickable supporter list.
 - [Borderless fullscreen loading stability](borderless-fullscreen-loading.md)
   explains how logical fullscreen is retained while non-exclusive Direct3D 9
   presentation prevents focus-related device loss during asset loading.
+- [Menu content unload guard](menu-content-unload-guard.md) explains how the
+  character-selection texture lifetime follows the `Tome` draw window and its
+  cached render channels instead of only `Tome.CurrentMenu`.
+- [Runtime null and boss ordering guards](runtime-null-and-boss-ordering-guards.md)
+  covers Avatar cache misses, detached player controllers, optional gameplay
+  telemetry, SpawnNPC WorldSync validation, network template-cache validation,
+  and deferred client boss setup.
 
 Legal note: this repository is not legal advice. EU Directive 2009/24/EC treats
 computer programs as copyright-protected works and gives rightholders exclusive
