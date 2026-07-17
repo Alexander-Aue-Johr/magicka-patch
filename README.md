@@ -10,8 +10,13 @@
 > 
 > 🚀 **Latest release downloads:**
 >
-> - [Installer](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.30/magicka-community-patch-0.0.30-installer.zip)
-> - [Files only / manual installation](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.30/magicka-community-patch-0.0.30-files-only.zip)
+> - [Installer](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.31/magicka-community-patch-0.0.31-installer.zip)
+> - [Files only / manual installation](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.31/magicka-community-patch-0.0.31-files-only.zip)
+>
+> Optional experimental Magicka 2-style controller preview:
+>
+> - [Controller preview installer](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.31/magicka-community-patch-controller-preview-0.0.31-installer.zip)
+> - [Controller preview files only](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.31/magicka-community-patch-controller-preview-0.0.31-files-only.zip)
 >
 > 🐛 **Report issues:** https://github.com/Alexander-Aue-Johr/magicka-patch/issues
 >

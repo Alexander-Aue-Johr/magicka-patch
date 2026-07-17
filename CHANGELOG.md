@@ -1,12 +1,35 @@
 # Changelog
 
-## [Unreleased]
+## [0.0.31] - 2026-07-17
 
 ### Fixed
 
-- Keep the character-selection unload worker compatible with Magicka's CLR 2.0
-  runtime by using the original `Monitor.Enter(object)` lock lowering instead
-  of the unavailable `Monitor.Enter(object, ref bool)` overload.
+- Prevent rare crashes while leaving or paging away from character selection by
+  retaining its textures until neither the live menu nor cached render data can
+  still draw them, synchronizing texture unloading with the render thread, and
+  skipping avatar drawing when a required texture is unavailable.
+- Defer client boss activation until its network initialization has completed,
+  including The Machine's network-provided warlock, instead of exposing a
+  partially initialized boss to the normal update path.
+- Prevent multiplayer packets from dereferencing stale entity handles by
+  rejecting missing, disposed, or play-state-detached entities at all 21 client
+  and 17 server lookup sites. Damage targets are also rejected after their
+  physics body has already been torn down.
+- Validate cached character templates before applying network character and
+  player-spawn messages. Missing templates now drop the packet before it can
+  create a template-less character or partially mutate a player's equipment and
+  cached avatar.
+- Drop delayed `SpawnNPC` WorldSync messages unless their handle resolves to a
+  live non-player character belonging to the receiving play state.
+- Treat failed cached-avatar lookups as failed versus revives instead of
+  dereferencing a missing or wrong-type entity.
+- Ignore input-lock operations for controllers whose player has already been
+  detached during dialogue or disconnect teardown.
+- Keep missing level-name data in the optional gameplay telemetry block from
+  preventing an already requested transition into gameplay.
+- Rate-limit every stable network-guard reason independently with bounded
+  exponential backoff, preserving useful diagnostics without flooding
+  telemetry during repeated packet drops.
 - Prevent the rare main-menu `PolygonHead.Text.Append` array overflow when a
   modified or corrupt core-file installation adds the ` (Modified)` suffix to
   the Community Patch version text.
@@ -17,12 +40,81 @@
   controller-list refreshes are disabled after the first assembly-load failure,
   and one in-game dialog explains that controllers remain unavailable until the
   bundled DirectX redistributable is installed.
+- Clear stale authentication-detail text before showing Community Patch dialogs
+  so a previous Paradox error code cannot leak into a DirectInput or supporter
+  message.
 
 ### Changed
 
 - Make the bottom-left Community Patch credit text clickable and show the
   current `CommunityPatchInfo.PatreonSupporters` list in the game's shared
   message dialog.
+- Add `SonofKalas` to the in-game Patreon supporter credits.
+
+### Optional controller preview
+
+- Publish separate, freely available experimental installer and files-only
+  packages containing the work-in-progress Magicka 2-style XInput gameplay
+  scheme. The regular 0.0.31 packages remain fixes-only.
+- Map movement to the left stick, aiming/forward casting to the right stick,
+  area casting to LT/L2, self casting or the staff ability to RB/R1, weapon
+  imbue or melee to RT/R2, and the two element groups to the face buttons with
+  LB/L1 as the modifier.
+- Let an unused LB/L1 tap interact, retain Back/View inventory and D-pad Magick
+  selection, and let R3 clear queued elements in offline games. Multiplayer
+  queue clearing remains disabled because Magicka 1 has no compatible network
+  action for removing an already replicated sequence.
+- Keep Magicka's original controller scheme available through
+  `use_magicka_1_controller_scheme=true` in `patch-settings.ini`.
+
+### Affected files and executable symbols
+
+- `Magicka.exe` - character-selection lifetime:
+  `Magicka.GameLogic.GameStates.Menu.Main.SubMenuCharacterSelect.<OnUnload>b__0_0`,
+  `SubMenuCharacterSelect.DrawAvatar`,
+  `Magicka.GameLogic.UI.Tome.IsMenuReferencedByRenderPipeline`, and
+  `Tome.CanStateDrawOldMenu`.
+- `Magicka.exe` - deferred boss initialization:
+  `Magicka.GameLogic.Entities.Bosses.BossFight.Initialize`, `Start`, `Update`,
+  `NetworkInitialize`, `Clear`, `Reset`, `QueuePendingBossInitialization`,
+  `RemovePendingBossInitialization`, `TryCompletePendingBossInitialization`,
+  `RetryPendingBossInitializations`, and
+  `Magicka.GameLogic.Entities.Bosses.Machine.NetworkInitialize`.
+- `Magicka.exe` - network entity and template validation:
+  `Magicka.Network.NetworkClient.ReadMessage`,
+  `NetworkClient.TryProcessSpawnMissileMessage`,
+  `Magicka.Network.NetworkServer.ReadMessage`,
+  `NetworkServer.TryProcessSpawnMissileMessage`,
+  `Magicka.GameLogic.GameStates.PlayState.AddWorldSyncMessage`,
+  `Magicka.GameLogic.Entities.Character.ReApplyTemplate`,
+  `Character.TryReApplyCachedTemplate`, and
+  `Magicka.CommunityPatch.NetworkEntityHandleGuard`.
+- `Magicka.exe` - avatar, input, and gameplay-start guards:
+  `Magicka.GameLogic.Entities.Avatar.GetFromCache(Player, ushort)`,
+  `Magicka.Levels.Versus.VersusRuleset.RevivePlayer`, the `Controller`
+  overloads of `Magicka.GameLogic.Controls.ControlManager.LockPlayerInput`,
+  `IsPlayerInputLocked`, and `UnlockPlayerInput`, and
+  `SubMenuCharacterSelect.Start`.
+- `Magicka.exe` - startup, menu, DirectInput, and supporter-dialog guards:
+  `Magicka.Program.Main`, `Magicka.GameLogic.UI.Tome..ctor`,
+  `Tome.ControllerMouseAction`, `Magicka.GameLogic.GameStates.Menu.MenuState`,
+  the `SubMenuOptionsControls.UpdateControllers` call sites,
+  `Magicka.WebTools.Paradox.ParadoxPopupUtils.ShowErrorPopup(string, string)`,
+  `Magicka.CommunityPatch.RuntimeCompatibilityGuards`, and
+  `Magicka.CommunityPatch.CommunityPatchInfo.PatreonSupporters`.
+- Documented injected helper sources:
+  `docs/injected-source/Magicka.CommunityPatch/NetworkEntityHandleGuard.cs`,
+  `docs/injected-source/Magicka.CommunityPatch/NetworkGuardTelemetryBackoff.cs`,
+  `docs/injected-source/Magicka.CommunityPatch/RuntimeCompatibilityGuards.cs`,
+  and
+  `docs/injected-source/Magicka.CommunityPatch/CommunityPatchInfo.cs`.
+- Supporter-list mirror: `magicka-patch-installer-ui/supporters.json`.
+- Controller-preview `Magicka.exe` only:
+  `Magicka.CommunityPatch.Magicka2ControllerSupport`,
+  `Magicka.CommunityPatch.PatchSettings`,
+  `Magicka.GameLogic.Controls.XInputController.Update`,
+  `XInputController.GetBoundValuePressed`, and
+  `Magicka.GameLogic.Entities.Avatar.CommunityPatchClearSpellQueue`.
 
 ## [0.0.30] - 2026-07-14
 

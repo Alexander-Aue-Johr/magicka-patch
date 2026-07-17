@@ -38,7 +38,7 @@ namespace Magicka.CommunityPatch
 		{
 			get
 			{
-				return "0.0.30";
+				return "0.0.31";
 			}
 		}
 
@@ -114,7 +114,8 @@ namespace Magicka.CommunityPatch
 				{
 					"Tonno7",
 					"Torsten Caninenberg",
-					"PurpleHeartE54"
+					"PurpleHeartE54",
+					"SonofKalas"
 				};
 			}
 		}
