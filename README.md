@@ -10,13 +10,8 @@
 > 
 > 🚀 **Latest release downloads:**
 >
-> - [Installer](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.31/magicka-community-patch-0.0.31-installer.zip)
-> - [Files only / manual installation](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.31/magicka-community-patch-0.0.31-files-only.zip)
->
-> Optional experimental Magicka 2-style controller preview:
->
-> - [Controller preview installer](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.31/magicka-community-patch-controller-preview-0.0.31-installer.zip)
-> - [Controller preview files only](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.31/magicka-community-patch-controller-preview-0.0.31-files-only.zip)
+> - [Installer](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.32/magicka-community-patch-0.0.32-installer.zip)
+> - [Files only / manual installation](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.32/magicka-community-patch-0.0.32-files-only.zip)
 >
 > 🐛 **Report issues:** https://github.com/Alexander-Aue-Johr/magicka-patch/issues
 >
@@ -32,6 +27,28 @@ This repository contains a massive collection of root-cause stability, memory-ma
 This project is the culmination of weeks of grueling reverse engineering, dnSpy inspection, WinDbg/SOS heap analysis, memory profiling, and endless continuous stress testing. It was built to answer a single question: *Why does this engine slowly collapse, and how do we actually fix it?*
 
 The goal is to preserve the original gameplay experience while completely overhauling the resource lifetime management to ensure rock-solid stability during long play sessions, even at 4K resolution. This README is written specifically for other developers, engineers, and perhaps even the original creators, to document exactly what went wrong under the hood for more than a decade, and how it was finally resolved.
+
+## Controller Support
+
+The Magicka 2-style XInput gameplay scheme is enabled by default. Face buttons
+select the eight elements, with LB/L1 selecting the second group; the left
+stick moves, the right stick aims, LT/L2 area-casts, RB/R1 self-casts or uses
+the staff ability, RT/R2 attacks or imbues the weapon, and an unused LB/L1 tap
+interacts or advances dialog. In controller mode,
+the existing bottom-left element HUD switches from its keyboard rows to four
+wide rectangular X/Y/B/A pairs and dims the inactive normal or LB/L1 group.
+Inactive modifier elements show a compact, smaller `LB`; while LB/L1 is held,
+that label changes to the additional face button. No second display is added
+above the character.
+
+During gameplay, a session with exactly one local player can switch seamlessly
+between XInput and mouse/keyboard: the device receiving fresh input takes
+control and the HUD follows it. Network players do not disable this behavior.
+With two or more local players, the character-selection assignments remain
+fixed so local co-op is unaffected. Set
+`use_magicka_1_controller_scheme=true` in
+`CommunityPatch\patch-settings.ini` to restore Magicka's original controller
+scheme.
 
 ## Source Snapshots for Added Executable Code
 

@@ -97,11 +97,48 @@ namespace Magicka.CommunityPatch
 			{
 				stringBuilder.Append(",");
 				stringBuilder.Append("\"").Append(PatchTelemetry.Json(keyValuePair.Key)).Append("\":");
-				stringBuilder.Append("\"").Append(PatchTelemetry.Json(keyValuePair.Value)).Append("\"");
+				PatchTelemetry.CommunityPatchAppendPropertyValue(stringBuilder, keyValuePair.Key, keyValuePair.Value);
 			}
 			stringBuilder.Append("}");
 			stringBuilder.Append("}");
 			return stringBuilder.ToString();
+		}
+
+		internal static void CommunityPatchRecordKeyboardElementSelection()
+		{
+			Interlocked.Increment(ref PatchTelemetry.sKeyboardElementSelectionCount);
+		}
+
+		internal static void CommunityPatchRecordControllerElementSelection()
+		{
+			Interlocked.Increment(ref PatchTelemetry.sControllerElementSelectionCount);
+		}
+
+		internal static void CommunityPatchAddElementSelectionProperties(Dictionary<string, string> properties)
+		{
+			long keyboard = Interlocked.CompareExchange(ref PatchTelemetry.sKeyboardElementSelectionCount, 0L, 0L);
+			long controller = Interlocked.CompareExchange(ref PatchTelemetry.sControllerElementSelectionCount, 0L, 0L);
+			double total = (double)keyboard + (double)controller;
+			double controllerRatio = total > 0.0 ? (double)controller / total : 0.0;
+			properties["keyboard_element_selection_count"] = keyboard.ToString(CultureInfo.InvariantCulture);
+			properties["controller_element_selection_count"] = controller.ToString(CultureInfo.InvariantCulture);
+			properties["controller_element_selection_ratio"] = controllerRatio.ToString("R", CultureInfo.InvariantCulture);
+		}
+
+		private static void CommunityPatchAppendPropertyValue(StringBuilder builder, string key, string value)
+		{
+			double numericValue;
+			bool numericSessionProperty = key == "keyboard_element_selection_count" ||
+				key == "controller_element_selection_count" ||
+				key == "controller_element_selection_ratio";
+			if (numericSessionProperty &&
+				double.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out numericValue) &&
+				!double.IsNaN(numericValue) && !double.IsInfinity(numericValue))
+			{
+				builder.Append(value);
+				return;
+			}
+			builder.Append("\"").Append(PatchTelemetry.Json(value)).Append("\"");
 		}
 
 		private static string GetDistinctId()
@@ -310,7 +347,7 @@ namespace Magicka.CommunityPatch
 			}
 			string value = (exception != null) ? exception.GetType().Name : "UnknownException";
 			string value2 = (exception != null) ? PatchTelemetry.HashShort(exception.ToString()) : "unknown";
-			PatchTelemetry.SendBlocking("magicka_patch_crash_report_written", new Dictionary<string, string>
+			Dictionary<string, string> properties = new Dictionary<string, string>
 			{
 				{
 					"patch_name",
@@ -348,7 +385,9 @@ namespace Magicka.CommunityPatch
 					"crash_report_length",
 					PatchTelemetry.GetLengthString(crashReport)
 				}
-			}, 1800);
+			};
+			PatchTelemetry.CommunityPatchAddElementSelectionProperties(properties);
+			PatchTelemetry.SendBlocking("magicka_patch_crash_report_written", properties, 1800);
 		}
 
 		private static string SafeReport(string value)
@@ -448,7 +487,7 @@ namespace Magicka.CommunityPatch
 
 		public static void SendGameClosedNormally()
 		{
-			PatchTelemetry.SendBlocking("magicka_patch_game_closed_normally", new Dictionary<string, string>
+			Dictionary<string, string> properties = new Dictionary<string, string>
 			{
 				{
 					"patch_name",
@@ -466,7 +505,9 @@ namespace Magicka.CommunityPatch
 					"os",
 					PatchTelemetry.Safe(Environment.OSVersion.ToString())
 				}
-			}, 1500);
+			};
+			PatchTelemetry.CommunityPatchAddElementSelectionProperties(properties);
+			PatchTelemetry.SendBlocking("magicka_patch_game_closed_normally", properties, 1500);
 		}
 
 		public static void SendTypingTextGuardException(string reason, char[] text, int charIndex, int visibleCharacters, int primitiveCount, float nextChar, float typeSpeed, Exception exception)
@@ -595,6 +636,10 @@ namespace Magicka.CommunityPatch
 		private static readonly object sLock = new object();
 
 		private static string sDistinctId;
+
+		private static long sKeyboardElementSelectionCount;
+
+		private static long sControllerElementSelectionCount;
 
 		private sealed class TelemetrySendState
 		{

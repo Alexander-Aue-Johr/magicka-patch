@@ -1,4 +1,5 @@
 /release
+/.analysis/
 release-build-*.log
 **/windows/flutter/generated_plugin_registrant.*
 **/windows/flutter/generated_plugins.cmake

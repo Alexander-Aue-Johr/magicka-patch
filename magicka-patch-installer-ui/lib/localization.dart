@@ -243,7 +243,7 @@ class _AppStringsDelegate extends LocalizationsDelegate<AppStrings> {
 
 const Map<String, String> _en = <String, String>{
   'appTitle': 'Magicka Community Patch',
-  'appHeader': 'MAGICKA COMMUNITY PATCH 0.0.31',
+  'appHeader': 'MAGICKA COMMUNITY PATCH 0.0.32',
   'appSubtitle': 'Community Installer & Updater',
   'ready': 'Ready.',
   'ok': 'OK',
@@ -283,7 +283,7 @@ const Map<String, String> _en = <String, String>{
       'Event name + patch version. Measures active sessions per version.',
   'eventGameClosed': 'Game closed normally',
   'eventGameClosedBody':
-      'Event name + patch version. Compares normal exits with crashes.',
+      'Keyboard/controller element counts and controller share.',
   'eventPatchInstalled': 'Patch installed',
   'eventPatchInstalledBody':
       'Event name + patch version. Estimates installs and ongoing use.',
@@ -292,7 +292,7 @@ const Map<String, String> _en = <String, String>{
       'Event name + patch version. Confirms auto-update adoption.',
   'eventCrashReport': 'Crash / error report',
   'eventCrashReportBody':
-      'Event, version, and short error details for faster crash fixes.',
+      'Short error details, element counts and controller share.',
   'checkForUpdates': 'Check for updates when the game starts',
   'saveErrorNotes':
       'Save error notes too: <Magicka>\\CommunityPatch\\event-log.jsonl',
@@ -395,7 +395,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
         'Eventname + Patch-Version. Misst aktive Sitzungen je Version.',
     'eventGameClosed': 'Spiel normal beendet',
     'eventGameClosedBody':
-        'Eventname + Patch-Version. Vergleicht normale Exits mit Abstürzen.',
+        'Tastatur-/Controller-Elementzahlen und Controller-Anteil.',
     'eventPatchInstalled': 'Patch installiert',
     'eventPatchInstalledBody':
         'Eventname + Patch-Version. Schätzt Installationen und Nutzung.',
@@ -404,7 +404,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
         'Eventname + Patch-Version. Bestätigt Auto-Update-Nutzung.',
     'eventCrashReport': 'Absturz-/Fehlerbericht',
     'eventCrashReportBody':
-        'Event, Version und kurze Fehlerdetails für schnellere Korrekturen.',
+        'Kurze Fehlerdetails, Elementzahlen und Controller-Anteil.',
     'checkForUpdates': 'Beim Spielstart nach Updates suchen',
     'saveErrorNotes':
         'Fehlernotizen speichern: <Magicka>\\CommunityPatch\\event-log.jsonl',
@@ -505,7 +505,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
         'Nombre del evento + versión. Mide sesiones activas por versión.',
     'eventGameClosed': 'Juego cerrado normalmente',
     'eventGameClosedBody':
-        'Nombre del evento + versión. Compara cierres normales con fallos.',
+        'Conteos de elementos por teclado/mando y proporción del mando.',
     'eventPatchInstalled': 'Patch instalado',
     'eventPatchInstalledBody':
         'Nombre del evento + versión. Estima instalaciones y uso.',
@@ -514,7 +514,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
         'Nombre del evento + versión. Confirma adopción de auto-update.',
     'eventCrashReport': 'Reporte de fallo/error',
     'eventCrashReportBody':
-        'Evento, versión y detalles breves para corregir fallos más rápido.',
+        'Error breve, conteos de elementos y proporción del mando.',
     'checkForUpdates': 'Buscar updates al iniciar el juego',
     'saveErrorNotes':
         'Guardar notas de error: <Magicka>\\CommunityPatch\\event-log.jsonl',
@@ -613,7 +613,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
         'Nom d’événement + version du patch. Mesure les sessions actives.',
     'eventGameClosed': 'Jeu fermé normalement',
     'eventGameClosedBody':
-        'Nom d’événement + version. Compare les fermetures normales aux crashs.',
+        'Nombres d’éléments clavier/manette et part de la manette.',
     'eventPatchInstalled': 'Patch installé',
     'eventPatchInstalledBody':
         'Nom d’événement + version. Estime les installations et l’usage.',
@@ -622,7 +622,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
         'Nom d’événement + version. Confirme l’adoption des mises à jour.',
     'eventCrashReport': 'Rapport crash/erreur',
     'eventCrashReportBody':
-        'Événement, version et bref détail pour corriger plus vite.',
+        'Bref détail, nombres d’éléments et part de la manette.',
     'checkForUpdates': 'Chercher les mises à jour au lancement du jeu',
     'saveErrorNotes':
         'Enregistrer les notes d’erreur : <Magicka>\\CommunityPatch\\event-log.jsonl',
@@ -720,7 +720,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
         'Nome do evento + versão. Mede sessões ativas por versão.',
     'eventGameClosed': 'Jogo fechado normalmente',
     'eventGameClosedBody':
-        'Nome do evento + versão. Compara saídas normais com travamentos.',
+        'Contagens por teclado/controle e proporção do controle.',
     'eventPatchInstalled': 'Patch instalado',
     'eventPatchInstalledBody':
         'Nome do evento + versão. Estima instalações e uso.',
@@ -729,7 +729,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
         'Nome do evento + versão. Confirma adoção do auto-update.',
     'eventCrashReport': 'Relatório de erro',
     'eventCrashReportBody':
-        'Evento, versão e detalhes curtos para corrigir mais rápido.',
+        'Erro breve, contagens de elementos e proporção do controle.',
     'checkForUpdates': 'Verificar updates ao iniciar o jogo',
     'saveErrorNotes':
         'Salvar notas de erro: <Magicka>\\CommunityPatch\\event-log.jsonl',
@@ -827,7 +827,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
         'Název události + verze. Měří aktivní relace podle verzí.',
     'eventGameClosed': 'Hra ukončena normálně',
     'eventGameClosedBody':
-        'Název události + verze. Porovnává normální ukončení a pády.',
+        'Počty prvků z klávesnice/ovladače a podíl ovladače.',
     'eventPatchInstalled': 'Patch nainstalován',
     'eventPatchInstalledBody':
         'Název události + verze. Odhaduje instalace a používání.',
@@ -835,8 +835,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
     'eventAutoUpdateBody':
         'Název události + verze. Potvrzuje používání auto-update.',
     'eventCrashReport': 'Pád / chyba',
-    'eventCrashReportBody':
-        'Událost, verze a krátké detaily pro rychlejší opravy.',
+    'eventCrashReportBody': 'Krátká chyba, počty prvků a podíl ovladače.',
     'checkForUpdates': 'Při spuštění hry kontrolovat aktualizace',
     'saveErrorNotes':
         'Ukládat poznámky k chybám: <Magicka>\\CommunityPatch\\event-log.jsonl',
@@ -934,7 +933,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
         'Имя события + версия патча. Измеряет активные сессии.',
     'eventGameClosed': 'Игра закрыта нормально',
     'eventGameClosedBody':
-        'Имя события + версия. Сравнивает обычные закрытия и сбои.',
+        'Выборы элементов с клавиатуры/геймпада и доля геймпада.',
     'eventPatchInstalled': 'Патч установлен',
     'eventPatchInstalledBody':
         'Имя события + версия. Оценивает установки и использование.',
@@ -942,8 +941,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
     'eventAutoUpdateBody':
         'Имя события + версия. Подтверждает использование автообновления.',
     'eventCrashReport': 'Отчет о сбое',
-    'eventCrashReportBody':
-        'Событие, версия и краткие детали для быстрого исправления.',
+    'eventCrashReportBody': 'Краткая ошибка, выборы элементов и доля геймпада.',
     'checkForUpdates': 'Проверять обновления при запуске игры',
     'saveErrorNotes':
         'Сохранять заметки об ошибках: <Magicka>\\CommunityPatch\\event-log.jsonl',
@@ -1041,7 +1039,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
         'Назва події + версія. Вимірює активні сесії за версіями.',
     'eventGameClosed': 'Гру закрито нормально',
     'eventGameClosedBody':
-        'Назва події + версія. Порівнює нормальні виходи зі збоями.',
+        'Вибори елементів з клавіатури/геймпада та частка геймпада.',
     'eventPatchInstalled': 'Патч встановлено',
     'eventPatchInstalledBody':
         'Назва події + версія. Оцінює встановлення та використання.',
@@ -1050,7 +1048,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
         'Назва події + версія. Підтверджує використання автооновлення.',
     'eventCrashReport': 'Звіт про збій',
     'eventCrashReportBody':
-        'Подія, версія та короткі деталі для швидших виправлень.',
+        'Коротка помилка, вибори елементів і частка геймпада.',
     'checkForUpdates': 'Перевіряти оновлення під час запуску гри',
     'saveErrorNotes':
         'Зберігати нотатки про помилки: <Magicka>\\CommunityPatch\\event-log.jsonl',
@@ -1145,13 +1143,13 @@ final Map<AppLanguage, Map<String, String>> _strings =
     'eventGameStarted': 'ゲーム開始',
     'eventGameStartedBody': 'イベント名 + パッチ版。版ごとのセッションを測定します。',
     'eventGameClosed': '正常終了',
-    'eventGameClosedBody': 'イベント名 + 版。正常終了とクラッシュを比較します。',
+    'eventGameClosedBody': 'キーボード/コントローラーの元素選択数とコントローラー比率。',
     'eventPatchInstalled': 'パッチ導入',
     'eventPatchInstalledBody': 'イベント名 + 版。インストールと利用を推定します。',
     'eventAutoUpdate': '自動更新',
     'eventAutoUpdateBody': 'イベント名 + 版。自動更新の利用を確認します。',
     'eventCrashReport': 'クラッシュ/エラー',
-    'eventCrashReportBody': 'イベント、版、短い詳細で修正を早めます。',
+    'eventCrashReportBody': '短いエラー詳細、元素選択数とコントローラー比率。',
     'checkForUpdates': 'ゲーム起動時に更新を確認',
     'saveErrorNotes': 'エラーノートも保存: <Magicka>\\CommunityPatch\\event-log.jsonl',
     'noPendingUpdate': '保留中の更新が指定されていません。',
@@ -1242,13 +1240,13 @@ final Map<AppLanguage, Map<String, String>> _strings =
     'eventGameStarted': '게임 시작',
     'eventGameStartedBody': '이벤트 이름 + 패치 버전. 버전별 세션을 측정합니다.',
     'eventGameClosed': '정상 종료',
-    'eventGameClosedBody': '이벤트 이름 + 버전. 정상 종료와 충돌을 비교합니다.',
+    'eventGameClosedBody': '키보드/컨트롤러 원소 선택 수와 컨트롤러 비율.',
     'eventPatchInstalled': '패치 설치됨',
     'eventPatchInstalledBody': '이벤트 이름 + 버전. 설치와 사용량을 추정합니다.',
     'eventAutoUpdate': '자동 업데이트',
     'eventAutoUpdateBody': '이벤트 이름 + 버전. 자동 업데이트 사용을 확인합니다.',
     'eventCrashReport': '충돌/오류 보고',
-    'eventCrashReportBody': '이벤트, 버전, 짧은 오류 정보로 더 빠르게 수정합니다.',
+    'eventCrashReportBody': '짧은 오류 정보, 원소 선택 수와 컨트롤러 비율.',
     'checkForUpdates': '게임 시작 시 업데이트 확인',
     'saveErrorNotes': '오류 메모 저장: <Magicka>\\CommunityPatch\\event-log.jsonl',
     'noPendingUpdate': '대기 중인 업데이트가 제공되지 않았습니다.',

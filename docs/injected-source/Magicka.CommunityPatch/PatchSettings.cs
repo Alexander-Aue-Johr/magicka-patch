@@ -118,6 +118,7 @@ namespace Magicka.CommunityPatch
 			patchSettings.CrashReports = true;
 			patchSettings.CheckForUpdates = true;
 			patchSettings.AutoUpdate = false;
+			patchSettings.UseMagicka1ControllerScheme = false;
 			patchSettings.Version = CommunityPatchInfo.Version;
 			patchSettings.Language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
 			patchSettings.CreatedUtc = string.Empty;
@@ -140,7 +141,11 @@ namespace Magicka.CommunityPatch
 						{
 							string text2 = text.Substring(0, num).Trim();
 							string text3 = text.Substring(num + 1).Trim();
-							if (text2.Equals("version", StringComparison.OrdinalIgnoreCase))
+							if (text2.Equals("use_magicka_1_controller_scheme", StringComparison.OrdinalIgnoreCase))
+							{
+								patchSettings.UseMagicka1ControllerScheme = PatchSettings.ParseBool(text3);
+							}
+							else if (text2.Equals("version", StringComparison.OrdinalIgnoreCase))
 							{
 								patchSettings.Version = text3;
 							}
@@ -194,6 +199,7 @@ namespace Magicka.CommunityPatch
 				stringBuilder.AppendLine("crash_reports=" + this.CrashReports.ToString().ToLowerInvariant());
 				stringBuilder.AppendLine("check_for_updates=" + this.CheckForUpdates.ToString().ToLowerInvariant());
 				stringBuilder.AppendLine("auto_update=" + this.AutoUpdate.ToString().ToLowerInvariant());
+				stringBuilder.AppendLine("use_magicka_1_controller_scheme=" + this.UseMagicka1ControllerScheme.ToString().ToLowerInvariant());
 				stringBuilder.AppendLine("language=" + PatchSettings.Safe(this.Language));
 				stringBuilder.AppendLine("skipped_version=" + PatchSettings.Safe(this.SkippedVersion));
 				stringBuilder.AppendLine("created_utc=" + PatchSettings.Safe(this.CreatedUtc));
@@ -239,6 +245,8 @@ namespace Magicka.CommunityPatch
 		public bool CheckForUpdates;
 
 		public bool AutoUpdate;
+
+		public bool UseMagicka1ControllerScheme;
 
 		public string Version;
 

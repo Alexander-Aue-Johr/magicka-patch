@@ -1,6 +1,6 @@
 # Magicka Community Patch Installer / Updater
 
-Version: **0.0.31**
+Version: **0.0.32**
 
 This directory contains the Flutter Windows UI for the Magicka Community Patch installer, updater and uninstaller surface.
 
@@ -90,13 +90,13 @@ The files-only release asset must contain a version newer than
 `CommunityPatchInfo.Version`, for example:
 
 ```text
-magicka-community-patch-0.0.31-files-only.zip
+magicka-community-patch-0.0.32-files-only.zip
 ```
 
 Files-only ZIP for manual installation and patch-only updates:
 
 ```text
-magicka-community-patch-0.0.31-files-only.zip
+magicka-community-patch-0.0.32-files-only.zip
 - Magicka.exe
 - PolygonHead.dll
 - patch-settings.ini
@@ -106,7 +106,7 @@ magicka-community-patch-0.0.31-files-only.zip
 Full ZIP when the Flutter tool/runtime should update too:
 
 ```text
-magicka-community-patch-0.0.31-installer.zip
+magicka-community-patch-0.0.32-installer.zip
 - README.txt
 - MagickaPatchInstaller.exe
 - Magicka.exe
@@ -146,12 +146,16 @@ usage_sharing=true
 crash_reports=true
 check_for_updates=true
 auto_update=false
+use_magicka_1_controller_scheme=false
 ```
 
 The installer writes `CommunityPatch\patch-settings.ini` based on the selected
 checkboxes. A manual install can copy the template from the files-only ZIP to
 that same path. Set `usage_sharing=false`, `crash_reports=false`, and
 `check_for_updates=false` to disable telemetry and online release checks.
+The Magicka 2-style XInput controller scheme is enabled by default. Set
+`use_magicka_1_controller_scheme=true` to restore the original configurable
+controller scheme; installer and updater runs preserve this choice.
 
 ## Helper Messages And Feedback
 
@@ -167,6 +171,10 @@ magicka_patch_game_closed_normally
 ```
 
 Crash helper messages additionally send a shortened, redacted error message and a short error hash.
+The normal-close and crash events also include aggregate process-session counts
+for keyboard/mouse and controller element selections and the controller share
+from 0 to 1. They do not include which elements were selected, their order, or
+player identities.
 
 Feedback messages send only data the player explicitly enters:
 

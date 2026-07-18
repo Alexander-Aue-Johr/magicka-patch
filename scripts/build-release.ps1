@@ -582,9 +582,15 @@ function Sync-VersionedExeToMagickaDirectory {
     Assert-File $sourcePath
     Assert-File $destinationPath
 
+    $sourceHash = (Get-FileHash -LiteralPath $sourcePath -Algorithm SHA256).Hash
+    $destinationHash = (Get-FileHash -LiteralPath $destinationPath -Algorithm SHA256).Hash
+    if ($sourceHash -eq $destinationHash) {
+        Write-Host "Versioned Magicka.exe already matches the Steam Magicka folder" -ForegroundColor DarkGray
+        return
+    }
+
     Copy-Item -LiteralPath $sourcePath -Destination $destinationPath -Force
 
-    $sourceHash = (Get-FileHash -LiteralPath $sourcePath -Algorithm SHA256).Hash
     $destinationHash = (Get-FileHash -LiteralPath $destinationPath -Algorithm SHA256).Hash
     if ($sourceHash -ne $destinationHash) {
         throw "Failed to synchronize versioned Magicka.exe back to $GameDir"

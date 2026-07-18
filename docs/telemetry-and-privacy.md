@@ -14,8 +14,8 @@ advertising, or player profiling.
 | `magicka_patch_installed` | The installer successfully installs the patch. |
 | `magicka_patch_auto_update` | The auto-updater successfully applies a prepared update. |
 | `magicka_patch_start` | The patched game starts. |
-| `magicka_patch_game_closed_normally` | The patched game exits through the normal shutdown path. |
-| `magicka_patch_crash_report_written` | The patch writes a crash report. |
+| `magicka_patch_game_closed_normally` | The patched game exits through the normal shutdown path and reports aggregate input-selection totals for that process session. |
+| `magicka_patch_crash_report_written` | The patch writes a crash report and reports aggregate input-selection totals collected before the crash. |
 | `magicka_patch_network_guard_drop` | A guard ignored an unsafe network action that could otherwise crash the game. |
 | `magicka_patch_network_guard_exception` | A guarded network path caught a null-reference exception and reported a summary. |
 | `magicka_patch_typing_text_guard_exception` | The typing text guard caught an out-of-range text reveal state and skipped to the end of the text. |
@@ -35,6 +35,20 @@ exception metadata. They do not include the full text.
 
 Crash events may include exception type, exception hash, thread name, and the
 crash report text written by the patch.
+
+Normal-shutdown and crash events also include three aggregate process-session
+fields:
+
+| Field | Meaning |
+| --- | --- |
+| `keyboard_element_selection_count` | Number of element selections made through keyboard or mouse bindings. |
+| `controller_element_selection_count` | Number of element selections made through the Magicka 2 XInput scheme or the legacy XInput/DirectInput scheme. |
+| `controller_element_selection_ratio` | Controller selections divided by all keyboard/mouse and controller selections. `1` means all controller, `0` means all keyboard/mouse; it is `0` if no element was selected. |
+
+These three values are sent as JSON numbers. They do not identify which
+elements were selected, their order, an individual local player, or a remote
+network player. They remain only in process memory when telemetry is disabled
+and are discarded when the process exits.
 
 ## Storage and Endpoint
 

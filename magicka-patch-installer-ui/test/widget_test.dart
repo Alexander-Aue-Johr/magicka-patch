@@ -8,6 +8,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -23,10 +24,167 @@ void main() {
     ));
     await tester.pump();
 
-    expect(find.text('MAGICKA COMMUNITY PATCH 0.0.31'), findsOneWidget);
-    expect(find.text('Patch-Update 0.0.31'), findsOneWidget);
+    expect(find.text('MAGICKA COMMUNITY PATCH 0.0.32'), findsOneWidget);
+    expect(find.text('Patch-Update 0.0.32'), findsOneWidget);
     expect(find.text('SonofKalas'), findsWidgets);
     expect(find.byType(PrioritySupporterBadge), findsWidgets);
+  });
+
+  testWidgets('installer subtitle stays above its status line',
+      (WidgetTester tester) async {
+    await tester.binding.setSurfaceSize(const Size(1605, 949));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    await tester.pumpWidget(MaterialApp(
+      locale: const Locale('de', 'DE'),
+      supportedLocales: AppLanguage.supportedLocales,
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+        AppStrings.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      home: const InstallerScreen(detectGameOnStart: false),
+    ));
+    await tester.pump();
+
+    final subtitle =
+        tester.getRect(find.byKey(const ValueKey('installer-header-subtitle')));
+    final status =
+        tester.getRect(find.byKey(const ValueKey('installer-status-text')));
+    expect(subtitle.bottom, lessThanOrEqualTo(status.top));
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('priority supporter description stays above its badge',
+      (WidgetTester tester) async {
+    const person = SpecialThanksPerson(
+      name: 'SonofKalas',
+      description: 'Fix Requests & Priorities Patreon supporter',
+      accent: Color(0xffd99cff),
+      supporter: true,
+      prioritySupporter: true,
+    );
+
+    Future<void> pumpCard(Size size) async {
+      await tester.pumpWidget(MaterialApp(
+        locale: const Locale('de', 'DE'),
+        supportedLocales: AppLanguage.supportedLocales,
+        localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+          AppStrings.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        home: Center(
+          child: SizedBox(
+            width: size.width,
+            height: size.height,
+            child: const SpecialThanksCard(person: person, starProgram: null),
+          ),
+        ),
+      ));
+      await tester.pump();
+    }
+
+    for (final size in const <Size>[Size(312, 90), Size(360, 116)]) {
+      await pumpCard(size);
+      final description = tester.getRect(
+          find.byKey(const ValueKey('special-thanks-description-SonofKalas')));
+      final badge = tester.getRect(
+          find.byKey(const ValueKey('special-thanks-badge-SonofKalas')));
+      expect(description.bottom, lessThanOrEqualTo(badge.top));
+      expect(
+          tester
+              .renderObject<RenderParagraph>(find.descendant(
+                of: find.byKey(
+                    const ValueKey('special-thanks-description-SonofKalas')),
+                matching: find.text(person.description),
+              ))
+              .didExceedMaxLines,
+          isFalse);
+      expect(tester.takeException(), isNull);
+    }
+  });
+
+  testWidgets('button and localized event-card copy fits without ellipses',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(
+      home: Center(
+        child: SizedBox(
+          width: 195,
+          height: 34,
+          child: FlameButton(
+            program: null,
+            label: 'Automatisch finden',
+            icon: Icons.search,
+            accent: const Color(0xff3f9fff),
+            overlayIcon: true,
+            effects: false,
+            onTap: () {},
+          ),
+        ),
+      ),
+    ));
+    await tester.pump();
+    expect(
+        tester
+            .renderObject<RenderParagraph>(find.text('Automatisch finden'))
+            .didExceedMaxLines,
+        isFalse);
+
+    for (final language in AppLanguage.valuesInMenuOrder) {
+      final strings = AppStrings(language);
+      final samples = <(String, String)>[
+        (
+          strings.t('eventGameClosed'),
+          strings.t('eventGameClosedBody'),
+        ),
+        (
+          strings.t('eventCrashReport'),
+          strings.t('eventCrashReportBody'),
+        ),
+      ];
+      for (final sample in samples) {
+        await tester.pumpWidget(MaterialApp(
+          locale: language.locale,
+          supportedLocales: AppLanguage.supportedLocales,
+          localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+            AppStrings.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          home: Center(
+            child: SizedBox(
+              width: 174,
+              height: 112,
+              child: Row(children: <Widget>[
+                EventCard(
+                    icon: Icons.warning_amber_rounded,
+                    title: sample.$1,
+                    body: sample.$2,
+                    accent: const Color(0xffd63a20)),
+              ]),
+            ),
+          ),
+        ));
+        await tester.pump();
+        expect(
+            tester
+                .renderObject<RenderParagraph>(find.text(sample.$1))
+                .didExceedMaxLines,
+            isFalse,
+            reason: '${language.localeTag} event title: ${sample.$1}');
+        expect(
+            tester
+                .renderObject<RenderParagraph>(find.text(sample.$2))
+                .didExceedMaxLines,
+            isFalse,
+            reason: '${language.localeTag} event body: ${sample.$2}');
+        expect(tester.takeException(), isNull);
+      }
+    }
   });
 
   testWidgets('Skappnil detail links the Bitesquid Mod Loader',

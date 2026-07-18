@@ -161,7 +161,7 @@ String _option(List<String> args, String key) {
 }
 
 class AppConstants {
-  static const patchVersion = '0.0.31';
+  static const patchVersion = '0.0.32';
   static const settingsDirectoryName = 'CommunityPatch';
   static const settingsFileName = 'patch-settings.ini';
   static const manifestFileName = 'install-manifest.ini';
@@ -271,7 +271,9 @@ const List<SpecialThanksPerson> _specialThanksPeople = <SpecialThanksPerson>[
 ];
 
 class InstallerScreen extends StatefulWidget {
-  const InstallerScreen({super.key});
+  const InstallerScreen({super.key, this.detectGameOnStart = true});
+
+  final bool detectGameOnStart;
 
   @override
   State<InstallerScreen> createState() => _InstallerScreenState();
@@ -306,7 +308,7 @@ class _InstallerScreenState extends State<InstallerScreen>
       ..repeat();
     _pathController.addListener(_handlePathChanged);
     _loadShader();
-    _detectQuick();
+    if (widget.detectGameOnStart) _detectQuick();
   }
 
   @override
@@ -563,11 +565,18 @@ class _InstallerScreenState extends State<InstallerScreen>
                                   size: 15),
                               const SizedBox(width: 7),
                               Expanded(
-                                  child: Text(_status,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                          color: Color(0xffbeb19b),
-                                          fontSize: 13)))
+                                  child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                alignment: Alignment.centerLeft,
+                                child: Text(_status,
+                                    key:
+                                        const ValueKey('installer-status-text'),
+                                    maxLines: 1,
+                                    softWrap: false,
+                                    style: const TextStyle(
+                                        color: Color(0xffbeb19b),
+                                        fontSize: 13)),
+                              ))
                             ])),
                         Positioned(
                             left: 250,
@@ -1077,6 +1086,9 @@ class _InstallerScreenState extends State<InstallerScreen>
   Future<void> _writeSettings(String gameDir) async {
     final path = _join(gameDir, AppConstants.settingsDirectoryName,
         AppConstants.settingsFileName);
+    final existingSettings = await _readIniFile(path);
+    final useMagicka1ControllerScheme =
+        _parseBool(existingSettings['use_magicka_1_controller_scheme']);
     await File(path).writeAsString('''
 [MagickaCommunityPatch]
 version=${AppConstants.patchVersion}
@@ -1084,6 +1096,7 @@ usage_sharing=$_usageSharing
 crash_reports=$_crashReports
 check_for_updates=$_checkForUpdates
 auto_update=false
+use_magicka_1_controller_scheme=$useMagicka1ControllerScheme
 language=${AppStrings.of(context).language.localeTag}
 skipped_version=
 created_utc=${DateTime.now().toUtc().toIso8601String()}
@@ -1495,21 +1508,16 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
       'crash_reports': 'true',
       'check_for_updates': 'true',
       'auto_update': 'false',
+      'use_magicka_1_controller_scheme': 'false',
       'language': AppStrings.of(context).language.localeTag,
       'skipped_version': '',
       'created_utc': DateTime.now().toUtc().toIso8601String(),
       'event_log':
           '${AppConstants.settingsDirectoryName}\\${AppConstants.eventLogFileName}',
     };
-    if (await file.exists()) {
-      final lines = await file.readAsLines();
-      for (final raw in lines) {
-        final index = raw.indexOf('=');
-        if (index <= 0) continue;
-        final key = raw.substring(0, index).trim();
-        final value = raw.substring(index + 1).trim();
-        if (values.containsKey(key)) values[key] = value;
-      }
+    final existingSettings = await _readIniFile(settingsPath);
+    for (final entry in existingSettings.entries) {
+      if (values.containsKey(entry.key)) values[entry.key] = entry.value;
     }
     values['version'] = version;
     values['skipped_version'] = '';
@@ -1521,6 +1529,7 @@ usage_sharing=${values['usage_sharing']}
 crash_reports=${values['crash_reports']}
 check_for_updates=${values['check_for_updates']}
 auto_update=${values['auto_update']}
+use_magicka_1_controller_scheme=${values['use_magicka_1_controller_scheme']}
 language=${values['language']}
 skipped_version=${values['skipped_version']}
 created_utc=${values['created_utc']}
@@ -4870,15 +4879,20 @@ class _FlameButtonState extends State<FlameButton>
                         left: widget.overlayIcon ? 54 : 88, right: 16, top: 1),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(widget.label,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: Color(0xfff7d897),
-                              fontSize: 16,
-                              fontFamily: 'Georgia',
-                              shadows: <Shadow>[
-                                Shadow(color: Colors.black, blurRadius: 3)
-                              ])),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(widget.label,
+                            maxLines: 1,
+                            softWrap: false,
+                            style: const TextStyle(
+                                color: Color(0xfff7d897),
+                                fontSize: 16,
+                                fontFamily: 'Georgia',
+                                shadows: <Shadow>[
+                                  Shadow(color: Colors.black, blurRadius: 3)
+                                ])),
+                      ),
                     ),
                   ),
                   if (effectiveHovered)
@@ -6184,27 +6198,51 @@ class _Header extends StatelessWidget {
     final s = AppStrings.of(context);
     return SizedBox(
       width: 760,
+      height: 60,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(s.t('appHeader'),
-              style: const TextStyle(
-                  color: Color(0xfff7d897),
-                  fontFamily: 'Georgia',
-                  fontSize: 37,
-                  letterSpacing: 0,
-                  shadows: <Shadow>[
-                    Shadow(
-                        color: Colors.black,
-                        offset: Offset(2, 2),
-                        blurRadius: 2)
-                  ])),
+          SizedBox(
+            width: 760,
+            height: 39,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Text(s.t('appHeader'),
+                  maxLines: 1,
+                  softWrap: false,
+                  style: const TextStyle(
+                      color: Color(0xfff7d897),
+                      fontFamily: 'Georgia',
+                      fontSize: 37,
+                      height: 1.05,
+                      letterSpacing: 0,
+                      shadows: <Shadow>[
+                        Shadow(
+                            color: Colors.black,
+                            offset: Offset(2, 2),
+                            blurRadius: 2)
+                      ])),
+            ),
+          ),
           const SizedBox(height: 2),
-          Text(s.t('appSubtitle'),
-              style: const TextStyle(
-                  color: Color(0xffeedfc4),
-                  fontFamily: 'Georgia',
-                  fontSize: 18)),
+          SizedBox(
+            width: 760,
+            height: 19,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Text(s.t('appSubtitle'),
+                  key: const ValueKey('installer-header-subtitle'),
+                  maxLines: 1,
+                  softWrap: false,
+                  style: const TextStyle(
+                      color: Color(0xffeedfc4),
+                      fontFamily: 'Georgia',
+                      fontSize: 18,
+                      height: 1.05)),
+            ),
+          ),
         ],
       ),
     );
@@ -6570,6 +6608,75 @@ class ArcaneIconBadge extends StatelessWidget {
   }
 }
 
+class _AutoFitText extends StatelessWidget {
+  const _AutoFitText({
+    super.key,
+    required this.text,
+    required this.style,
+    required this.maxLines,
+    required this.minFontSize,
+  });
+
+  final String text;
+  final TextStyle style;
+  final int maxLines;
+  final double minFontSize;
+
+  static final Map<Object, double> _fontSizeCache = <Object, double>{};
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(builder: (context, constraints) {
+      final effectiveStyle = DefaultTextStyle.of(context).style.merge(style);
+      final maxFontSize = effectiveStyle.fontSize ?? minFontSize;
+      final textDirection = Directionality.of(context);
+      final textScaler = MediaQuery.textScalerOf(context);
+      final locale = Localizations.maybeLocaleOf(context);
+      final cacheKey = (
+        text,
+        constraints.maxWidth,
+        constraints.maxHeight,
+        maxLines,
+        maxFontSize,
+        minFontSize,
+        textDirection,
+        textScaler,
+        locale?.toLanguageTag(),
+        effectiveStyle,
+      );
+      var fittedFontSize = _fontSizeCache[cacheKey];
+      if (fittedFontSize == null) {
+        fittedFontSize = maxFontSize;
+        for (var candidate = maxFontSize;
+            candidate >= minFontSize;
+            candidate -= 0.25) {
+          final painter = TextPainter(
+            text: TextSpan(
+                text: text,
+                style: effectiveStyle.copyWith(fontSize: candidate)),
+            maxLines: maxLines,
+            textDirection: textDirection,
+            textScaler: textScaler,
+            locale: locale,
+          )..layout(maxWidth: constraints.maxWidth);
+          final fits = !painter.didExceedMaxLines &&
+              painter.height <= constraints.maxHeight + 0.01;
+          painter.dispose();
+          fittedFontSize = candidate;
+          if (fits) break;
+        }
+        _fontSizeCache[cacheKey] = fittedFontSize!;
+      }
+      return Text(
+        text,
+        maxLines: maxLines,
+        overflow: TextOverflow.ellipsis,
+        style: effectiveStyle.copyWith(fontSize: fittedFontSize),
+      );
+    });
+  }
+}
+
 class EventCard extends StatelessWidget {
   const EventCard(
       {super.key,
@@ -6599,30 +6706,32 @@ class EventCard extends StatelessWidget {
               child: ArcaneIconBadge(icon: icon, accent: accent),
             ),
             Positioned(
-                left: 64,
+                left: 58,
                 top: 15,
-                right: 12,
+                right: 6,
                 height: 42,
-                child: Text(title,
+                child: _AutoFitText(
+                    text: title,
                     maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
+                    minFontSize: 8,
                     style: const TextStyle(
                         color: Color(0xfff7d897),
                         fontFamily: 'Georgia',
                         fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                        fontSize: 13,
                         height: 1.05))),
             Positioned(
-                left: 16,
-                top: 62,
-                right: 14,
-                bottom: 11,
-                child: Text(body,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
+                left: 10,
+                top: 58,
+                right: 8,
+                bottom: 8,
+                child: _AutoFitText(
+                    text: body,
+                    maxLines: 5,
+                    minFontSize: 8,
                     style: const TextStyle(
                         color: Color(0xffeedfc4),
-                        fontSize: 11.5,
+                        fontSize: 10.5,
                         height: 1.08))),
           ],
         ),
@@ -6950,72 +7059,83 @@ class _SpecialThanksCardState extends State<SpecialThanksCard>
                           active: _hovered)),
                 Positioned(
                   left: 88,
-                  top: 12,
-                  right: 12,
-                  child: Text(person.name,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          color: Color(0xfff7d897),
-                          fontFamily: 'Georgia',
-                          fontSize: 17)),
-                ),
-                Positioned(
-                  left: 88,
-                  top: 39,
+                  top: 9,
                   right: 13,
-                  bottom: person.supporter ? 24 : 10,
-                  child: Text(person.description,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          color: Color(0xffeedfc4),
-                          fontSize: 12.5,
-                          height: 1.12)),
-                ),
-                if (person.supporter)
-                  Positioned(
-                    left: 88,
-                    bottom: 8,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 2),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: person.prioritySupporter
-                                ? const Color(0xffe6b6ff)
-                                : const Color(0xffe0a956)),
-                        borderRadius: BorderRadius.circular(4),
-                        color: person.prioritySupporter
-                            ? const Color(0x66351050)
-                            : const Color(0x332a1405),
-                        boxShadow: _hovered
-                            ? <BoxShadow>[
-                                BoxShadow(
-                                    color: (person.prioritySupporter
-                                            ? const Color(0xffe3a3ff)
-                                            : const Color(0xffffd897))
-                                        .withValues(alpha: 0.40),
-                                    blurRadius: 12)
-                              ]
-                            : null,
+                  bottom: 4,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(person.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              color: Color(0xfff7d897),
+                              fontFamily: 'Georgia',
+                              fontSize: 17)),
+                      const SizedBox(height: 2),
+                      Expanded(
+                        child: _AutoFitText(
+                            text: person.description,
+                            key: ValueKey(
+                                'special-thanks-description-${person.name}'),
+                            maxLines: 3,
+                            minFontSize: 10,
+                            style: const TextStyle(
+                                color: Color(0xffeedfc4),
+                                fontSize: 12.5,
+                                height: 1.12)),
                       ),
-                      child: Text(
-                          s.t(person.prioritySupporter
-                              ? 'prioritySupporter'
-                              : 'supporter'),
-                          style: TextStyle(
+                      if (person.supporter) ...<Widget>[
+                        const SizedBox(height: 2),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            key:
+                                ValueKey('special-thanks-badge-${person.name}'),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 2),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: person.prioritySupporter
+                                      ? const Color(0xffe6b6ff)
+                                      : const Color(0xffe0a956)),
+                              borderRadius: BorderRadius.circular(4),
                               color: person.prioritySupporter
-                                  ? const Color(0xffffe8ff)
-                                  : const Color(0xfff7d897),
-                              fontWeight: person.prioritySupporter
-                                  ? FontWeight.w700
-                                  : FontWeight.normal,
-                              letterSpacing:
-                                  person.prioritySupporter ? 0.45 : null,
-                              fontSize: 11)),
-                    ),
+                                  ? const Color(0x66351050)
+                                  : const Color(0x332a1405),
+                              boxShadow: _hovered
+                                  ? <BoxShadow>[
+                                      BoxShadow(
+                                          color: (person.prioritySupporter
+                                                  ? const Color(0xffe3a3ff)
+                                                  : const Color(0xffffd897))
+                                              .withValues(alpha: 0.40),
+                                          blurRadius: 12)
+                                    ]
+                                  : null,
+                            ),
+                            child: Text(
+                                s.t(person.prioritySupporter
+                                    ? 'prioritySupporter'
+                                    : 'supporter'),
+                                style: TextStyle(
+                                    color: person.prioritySupporter
+                                        ? const Color(0xffffe8ff)
+                                        : const Color(0xfff7d897),
+                                    fontWeight: person.prioritySupporter
+                                        ? FontWeight.w700
+                                        : FontWeight.normal,
+                                    letterSpacing:
+                                        person.prioritySupporter ? 0.45 : null,
+                                    fontSize: 11)),
+                          ),
+                        ),
+                         const SizedBox(height: 6),
+
+                      ],
+                    ],
                   ),
+                ),
               ],
             ),
           ),

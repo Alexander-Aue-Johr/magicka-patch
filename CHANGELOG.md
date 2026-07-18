@@ -1,5 +1,95 @@
 # Changelog
 
+## [0.0.32] - 2026-07-18
+
+### Added
+
+- Enable the Magicka 2-style XInput gameplay scheme by default in the normal
+  Community Patch packages. Magicka's original controller scheme remains
+  available with `use_magicka_1_controller_scheme=true` in
+  `patch-settings.ini`.
+- Let a session with exactly one local player move seamlessly between XInput
+  and mouse/keyboard during gameplay. Fresh input takes ownership, while
+  remote network players do not block the handoff.
+- Preserve local co-op input ownership: when two or more local players are
+  connected, the devices assigned in character selection remain fixed and the
+  automatic handoff is disabled.
+- Reuse the existing bottom-left `KeyboardHUD` for XInput. Controller mode
+  arranges the eight existing element icons as four rectangular pairs
+  matching the Magicka 2 face-button layout.
+- Add aggregate per-session element-selection telemetry to the existing normal
+  shutdown and crash events. Separate keyboard/mouse and controller counters
+  plus the controller share are emitted as JSON numbers; individual elements,
+  their order, and player identities are not recorded by these counters.
+
+### Fixed
+
+- Prevent the installer subtitle from overlapping its status line when the
+  header uses wider font metrics or Windows display scaling.
+- Keep supporter descriptions above their supporter/priority badge in both the
+  scrolling banner and detail cards. Long button labels and German telemetry
+  card copy now scale to the available space instead of ending in ellipses.
+- Remove the release-candidate controller overlay that kept the world-space
+  `SpellWheel` expanded above the character. The original `SpellWheel` methods
+  are unchanged in the corrected executable.
+- Re-evaluate the HUD owner after character selection assigns a player, so the
+  first gameplay frame already uses the controller layout without requiring a
+  second button press.
+- Stop A/B/X/Y element presses from also firing Magicka's legacy gameplay
+  actions. An unused LB/L1 tap remains the dedicated interaction, dialog
+  advance, and cutscene-skip input; LB/L1 combinations do not trigger it, even
+  when the face button was already held before LB/L1. Persistent popup controls
+  keep their original A/B/X/Y menu bindings.
+- Keep `ParadoxAccountSaveData` alive after leaving the menu while global
+  Paradox account requests may still complete. It is now destroyed only during
+  application shutdown, after the logic thread has stopped and
+  `ParadoxServices` has been disposed, preventing delayed startup callbacks
+  from dereferencing a missing scoped singleton.
+- Trigger the existing 0.125-second bottom-left element-icon flash for the
+  Magicka 2-style controller buttons. The controller path notifies the HUD
+  directly, avoiding a new global element cooldown that could interfere with
+  mixed keyboard/controller local co-op.
+
+### Changed
+
+- Promote the formerly separate 0.0.31 controller preview into the regular
+  installer and files-only packages; separate preview assets are no longer
+  needed.
+- Preserve `use_magicka_1_controller_scheme` when the installer or auto-updater
+  rewrites `CommunityPatch\patch-settings.ini`.
+- Neutralize held movement, casting, attacking, special-action, and blocking
+  state before an input-device handoff so releases cannot remain stuck on the
+  detached controller.
+- Ignore takeover attempts while gameplay input is limited or player-locked,
+  while the previous controller is temporarily inverted, or when the game is
+  unfocused.
+- Keep DirectInput controllers on Magicka's legacy assignment path; only
+  XInput and mouse/keyboard participate in automatic ownership handoff.
+
+### Affected files and executable symbols
+
+- `Magicka.exe`: new
+  `Magicka.CommunityPatch.HybridInputSupport`; existing
+  `Magicka.CommunityPatch.Magicka2ControllerSupport` and controller-aware
+  `PatchSettings` promoted to the normal release.
+- `Magicka.exe`: `Magicka.GameLogic.Controls.ControlManager.HandleInput`,
+  `Magicka.GameLogic.Controls.XInputController.GetBoundValuePressed`,
+  `Magicka.GameLogic.UI.KeyboardHUD.Update`,
+  `KeyboardHUD.UpdateControls`, and
+  `KeyboardHUD.RenderData.Draw`/`DrawIcon`. `SpellWheel` is no longer patched.
+- `Magicka.exe`: `Magicka.GameLogic.GameStates.MenuState.OnExit` and
+  `Magicka.Game.EndRun` move `ParadoxAccountSaveData` cleanup from menu exit to
+  process shutdown.
+- Controller-preview patch sites retained in the normal executable:
+  `Magicka.GameLogic.Controls.XInputController.Update` and
+  `Magicka.GameLogic.Entities.Avatar.CommunityPatchClearSpellQueue`.
+- Documented injected source snapshots:
+  `docs/injected-source/Magicka.CommunityPatch/HybridInputSupport.cs`,
+  `Magicka2ControllerSupport.cs`, and `PatchSettings.cs`.
+- Settings and package documentation:
+  `release-package/patch-settings.ini`, `release-package/README.txt`, root
+  `README.md`, and the Flutter installer/updater settings writer.
+
 ## [0.0.31] - 2026-07-17
 
 ### Fixed
