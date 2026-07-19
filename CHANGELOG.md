@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.0.33] - 2026-07-18
+
+### Fixed
+
+- Clear active spell and ability effects before disposing gameplay entities,
+  spell-effect caches, and magick singletons when leaving a level. This
+  prevents a LoaderThread crash when `SummonDeath.OnRemove()` tries to kill its
+  summoned entity after `SummonDeath.Dispose()` has already cleared it.
+
 ## [0.0.32] - 2026-07-18
 
 ### Added
