@@ -324,6 +324,7 @@ function Resolve-ReleaseLocale {
         'fr-FR',
         'pt-BR',
         'ko-KR',
+        'zh-CN',
         'cs-CZ'
     )
 

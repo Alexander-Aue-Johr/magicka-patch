@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.0.34] - 2026-07-20
+
+### Fixed
+
+- Restore Grease's per-cast removal path so every completed cast stops its
+  spray effect and audio cue before returning the reusable ability instance to
+  the cache. This prevents grease visuals from remaining active after later
+  casts reuse an instance that was previously disposed.
+
 ## [0.0.33] - 2026-07-18
 
 ### Fixed

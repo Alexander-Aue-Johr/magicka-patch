@@ -16,6 +16,19 @@ import 'package:magicka_community_patch_installer_ui/localization.dart';
 import 'package:magicka_community_patch_installer_ui/main.dart';
 
 void main() {
+  test('simplified Chinese locale resolves from system and command line', () {
+    final systemSelection =
+        resolveAppLocaleSelection(const <String>[], const Locale('zh', 'CN'));
+    expect(systemSelection.language, AppLanguage.zhCN);
+    expect(systemSelection.source, 'system');
+
+    final commandLineSelection = resolveAppLocaleSelection(
+        const <String>['--locale', '简体中文'], const Locale('en', 'US'));
+    expect(commandLineSelection.language, AppLanguage.zhCN);
+    expect(commandLineSelection.source, 'command_line');
+    expect(AppStrings(AppLanguage.zhCN).t('installPatch'), '安装补丁');
+  });
+
   testWidgets('installer app smoke test', (WidgetTester tester) async {
     await tester.pumpWidget(MagickaPatchApp(
       forceUpdater: true,
@@ -24,9 +37,12 @@ void main() {
     ));
     await tester.pump();
 
-    expect(find.text('MAGICKA COMMUNITY PATCH 0.0.33'), findsOneWidget);
-    expect(find.text('Patch-Update 0.0.33'), findsOneWidget);
+    expect(find.text('MAGICKA COMMUNITY PATCH 0.0.34'), findsOneWidget);
+    expect(find.text('Patch-Update 0.0.34'), findsOneWidget);
     expect(find.text('SonofKalas'), findsWidgets);
+    expect(find.text('莎德娜丝（Sadness）'), findsWidgets);
+    expect(find.text('Extensive bug reports, playtesting & screen sharing'),
+        findsWidgets);
     expect(find.byType(PrioritySupporterBadge), findsWidgets);
   });
 

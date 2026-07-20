@@ -161,7 +161,7 @@ String _option(List<String> args, String key) {
 }
 
 class AppConstants {
-  static const patchVersion = '0.0.33';
+  static const patchVersion = '0.0.34';
   static const settingsDirectoryName = 'CommunityPatch';
   static const settingsFileName = 'patch-settings.ini';
   static const manifestFileName = 'install-manifest.ini';
@@ -255,6 +255,12 @@ const List<SpecialThanksPerson> _specialThanksPeople = <SpecialThanksPerson>[
     avatarAsset: 'assets/PurpleHeartE54.png',
     accent: Color(0xff80caff),
     supporter: true,
+  ),
+  SpecialThanksPerson(
+    name: '莎德娜丝（Sadness）',
+    description: 'Extensive bug reports, playtesting & screen sharing',
+    avatarAsset: 'assets/Sadness.jpg',
+    accent: Color(0xff8fc8e8),
   ),
   SpecialThanksPerson(
     name: 'Torsten Caninenberg',
@@ -7130,8 +7136,7 @@ class _SpecialThanksCardState extends State<SpecialThanksCard>
                                     fontSize: 11)),
                           ),
                         ),
-                         const SizedBox(height: 6),
-
+                        const SizedBox(height: 6),
                       ],
                     ],
                   ),

@@ -28,6 +28,7 @@ enum AppLanguage {
   frFR('France', 'fr', 'FR', 'fr-FR'),
   ptBR('Brazil', 'pt', 'BR', 'pt-BR'),
   koKR('South Korea', 'ko', 'KR', 'ko-KR'),
+  zhCN('China', 'zh', 'CN', 'zh-CN'),
   csCZ('Czechia', 'cs', 'CZ', 'cs-CZ');
 
   const AppLanguage(
@@ -50,6 +51,7 @@ enum AppLanguage {
     frFR,
     ptBR,
     koKR,
+    zhCN,
     csCZ,
   ];
 
@@ -178,6 +180,12 @@ AppLanguage? _languageFromToken(String? value) {
     case 'korea':
     case 'korean':
       return AppLanguage.koKR;
+    case 'china':
+    case 'chinese':
+    case '中文':
+    case '简体中文':
+    case 'simplified-chinese':
+      return AppLanguage.zhCN;
     case 'czechia':
     case 'czech':
       return AppLanguage.csCZ;
@@ -243,7 +251,7 @@ class _AppStringsDelegate extends LocalizationsDelegate<AppStrings> {
 
 const Map<String, String> _en = <String, String>{
   'appTitle': 'Magicka Community Patch',
-  'appHeader': 'MAGICKA COMMUNITY PATCH 0.0.33',
+  'appHeader': 'MAGICKA COMMUNITY PATCH 0.0.34',
   'appSubtitle': 'Community Installer & Updater',
   'ready': 'Ready.',
   'ok': 'OK',
@@ -355,6 +363,104 @@ const Map<String, String> _en = <String, String>{
 final Map<AppLanguage, Map<String, String>> _strings =
     <AppLanguage, Map<String, String>>{
   AppLanguage.enUS: _en,
+  AppLanguage.zhCN: <String, String>{
+    ..._en,
+    'appTitle': 'Magicka 社区补丁',
+    'appHeader': 'MAGICKA 社区补丁 0.0.34',
+    'appSubtitle': '社区安装器与更新器',
+    'ready': '已就绪。',
+    'ok': '确定',
+    'close': '关闭',
+    'cancel': '取消',
+    'browse': '浏览...',
+    'findAutomatically': '自动查找',
+    'startGame': '启动游戏',
+    'installPatch': '安装补丁',
+    'sendFeedback': '发送反馈',
+    'supportOnPatreon': '在 Patreon 上支持',
+    'gameFolder': '游戏文件夹',
+    'patchAlreadyInstalled': '补丁 {version} 已安装。',
+    'detectedFolder': '已检测到文件夹：{folder}',
+    'invalidMagickaFolder': '该文件夹似乎不是 Magicka 的 Steam 文件夹。',
+    'searchingSteamLibraries': '正在搜索 Steam 库...',
+    'thePatchWasInstalled': '补丁已安装。',
+    'installFailed': '安装失败：{error}',
+    'magickaWasNotStarted': 'Magicka 未启动。',
+    'magickaWasStarted': 'Magicka 已启动。',
+    'couldNotStartMagicka': '无法启动 Magicka：{error}',
+    'feedbackTitle': '发送反馈',
+    'feedbackName': '名称（可选）',
+    'feedbackSubject': '主题（可选）',
+    'feedbackMessage': '消息',
+    'feedbackSend': '发送',
+    'feedbackSent': '反馈已发送。',
+    'feedbackNotSent': '无法发送反馈。',
+    'feedbackThankYou': '谢谢，您的反馈已发送。',
+    'feedbackFailed': '目前无法发送反馈。',
+    'telemetryIntroTitle': '发送匿名崩溃和使用数据以帮助改进补丁',
+    'telemetryIntroBody': '不会发送个人数据。启用后，仅会共享以下事件：',
+    'eventGameStarted': '游戏已启动',
+    'eventGameStartedBody': '事件名称 + 补丁版本，用于统计各版本的活跃会话。',
+    'eventGameClosed': '游戏正常关闭',
+    'eventGameClosedBody': '键盘/手柄元素选择次数及手柄占比。',
+    'eventPatchInstalled': '补丁已安装',
+    'eventPatchInstalledBody': '事件名称 + 补丁版本，用于估算安装量和持续使用情况。',
+    'eventAutoUpdate': '自动更新',
+    'eventAutoUpdateBody': '事件名称 + 补丁版本，用于确认自动更新的使用情况。',
+    'eventCrashReport': '崩溃/错误报告',
+    'eventCrashReportBody': '简短错误信息、元素选择次数及手柄占比。',
+    'checkForUpdates': '游戏启动时检查更新',
+    'saveErrorNotes': '同时保存错误记录：<Magicka>\\CommunityPatch\\event-log.jsonl',
+    'noPendingUpdate': '未提供待处理的更新。',
+    'patchReady': '补丁 {version} 已准备就绪。',
+    'preparingUpdate': '正在准备更新...',
+    'patchInstalled': '补丁 {version} 已安装。',
+    'updateFailed': '更新失败：{error}',
+    'updateTitle': '补丁更新 {version}',
+    'updateBody':
+        '已准备好 Magicka 社区补丁更新。它将替换 Magicka.exe 和 PolygonHead.dll，保留当前设置，并将之前的补丁文件保存为备份。',
+    'updating': '正在更新...',
+    'updatePatch': '更新补丁',
+    'uninstallInitialStatus': '已准备好卸载补丁。',
+    'uninstallPatch': '卸载补丁',
+    'uninstallTitle': '卸载补丁',
+    'uninstallBody': '从备份中恢复原始 Magicka 文件，并删除社区补丁工具文件。',
+    'uninstallConfirmTitle': '卸载补丁？',
+    'uninstallConfirmBody':
+        '这将从备份中恢复原始 Magicka.exe 和 PolygonHead.dll。\n\n文件夹：\n{folder}',
+    'uninstallConfirmButton': '卸载',
+    'restoringOriginalFiles': '正在恢复原始文件...',
+    'thePatchWasRemoved': '补丁已卸载。',
+    'uninstallFailed': '卸载失败：{error}',
+    'removing': '正在删除...',
+    'readyToPlay': '可以开始游戏',
+    'startMagickaNow': '现在启动 Magicka？',
+    'startMagickaBody': '您可以立即启动已打补丁的游戏，也可以关闭此窗口，稍后从 Steam 启动。',
+    'directXMissingTitle': '缺少必需的 DirectX 组件',
+    'directXUnavailableHeading': 'Managed DirectX 1.1 不可用',
+    'directXUnavailableBody': 'Magicka 需要较旧的 Microsoft DirectX 组件才能正常启动。',
+    'directXInstallerNotFound': '未找到安装程序',
+    'directXInstallerNotFoundBody':
+        '该组件尚未安装，且在 Magicka 文件夹中未找到 DirectX 安装程序。请在 Steam 中验证 Magicka 游戏文件，然后再次启动游戏。',
+    'directXInstallHeading': '安装随附的 DirectX 可再分发组件',
+    'directXInstallBody': 'Magicka 需要 Managed DirectX 1.1，当前 Windows 系统尚未安装。',
+    'directXSetupFound': '已找到 Steam 可再分发软件包',
+    'directXSetupFoundBody':
+        '您的 Steam 版 Magicka 附带的官方 DirectX 安装程序可以安装缺失的组件。Windows 可能会请求管理员权限。',
+    'installDirectX': '安装 DirectX',
+    'notNow': '暂不',
+    'directXIncompleteTitle': 'DirectX 安装未完成',
+    'directXIncompleteHeading': 'Managed DirectX 仍不可用',
+    'directXIncompleteBody': '安装程序完成后仍未检测到所需组件。',
+    'directXInstallDidNotComplete': '安装未完成',
+    'directXInstallDidNotCompleteBody':
+        '安装可能已取消或失败。请先从 Steam 启动一次 Magicka，或在 Steam 中验证游戏文件，然后重试。',
+    'directXSection': 'DIRECTX 可再分发组件',
+    'specialThanks': '特别感谢',
+    'specialThanksCaps': '特别感谢',
+    'supporter': '支持者',
+    'prioritySupporter': '优先支持',
+  },
   AppLanguage.deDE: <String, String>{
     ..._en,
     'ready': 'Bereit.',
