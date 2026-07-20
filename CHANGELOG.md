@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.35] - 2026-07-20
+
+### Fixed
+
+- Re-enable the standard HUD whenever a new gameplay session is initialized.
+  This restores charged-element indicators in multiplayer Challenge mode after
+  leaving one session and loading another map without restarting the game.
+
 ## [0.0.34] - 2026-07-20
 
 ### Fixed
