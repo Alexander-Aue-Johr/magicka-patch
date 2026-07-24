@@ -161,7 +161,7 @@ String _option(List<String> args, String key) {
 }
 
 class AppConstants {
-  static const patchVersion = '0.0.35';
+  static const patchVersion = '0.0.36';
   static const settingsDirectoryName = 'CommunityPatch';
   static const settingsFileName = 'patch-settings.ini';
   static const manifestFileName = 'install-manifest.ini';

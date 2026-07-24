@@ -251,7 +251,7 @@ class _AppStringsDelegate extends LocalizationsDelegate<AppStrings> {
 
 const Map<String, String> _en = <String, String>{
   'appTitle': 'Magicka Community Patch',
-  'appHeader': 'MAGICKA COMMUNITY PATCH 0.0.35',
+  'appHeader': 'MAGICKA COMMUNITY PATCH 0.0.36',
   'appSubtitle': 'Community Installer & Updater',
   'ready': 'Ready.',
   'ok': 'OK',
@@ -366,7 +366,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
   AppLanguage.zhCN: <String, String>{
     ..._en,
     'appTitle': 'Magicka 社区补丁',
-    'appHeader': 'MAGICKA 社区补丁 0.0.35',
+    'appHeader': 'MAGICKA 社区补丁 0.0.36',
     'appSubtitle': '社区安装器与更新器',
     'ready': '已就绪。',
     'ok': '确定',

@@ -1,5 +1,33 @@
 # Changelog
 
+## [0.0.36] - 2026-07-24
+
+### Fixed
+
+- Cache PolygonHead's implicit default `DepthStencilBuffer` wrapper for the
+  lifetime of its `GraphicsDevice`, refresh it only after a successful device
+  reset, and reuse it from both `RenderManager.RenderScene` and Magicka's sway
+  render path. This removes the continuous XNA 3.1
+  `GC.ReRegisterForFinalize` path caused by requesting the same native wrapper
+  every frame.
+- Cache the seven stable `RenderManager` render-target texture wrappers
+  alongside their owning `RenderTarget2D` objects. The caches are cleared
+  before the old targets are disposed and populated lazily at each target's
+  first original, valid `GetTexture()` use after resolve/unbind. This avoids
+  both invalid eager retrieval and repeated per-frame wrapper retrievals
+  without extending resource lifetimes.
+- Subscribe Magicka's graphics reset and device-settings handlers before the
+  constructor's initial `ApplyChanges()` call, and request
+  `RenderTargetUsage.PreserveContents` for the back buffer during device
+  preparation.
+- Explicitly clear the preserved implicit back buffer before scene pre-render
+  work, including depth and stencil when supported, then retain the existing
+  post-pre-render depth-buffer restoration required after Tome shadow
+  rendering.
+- Replace Tome shadow rendering's `Clear(Color)` overload with an explicit
+  target-and-depth clear so XNA does not need to infer the active depth-buffer
+  clear behavior.
+
 ## [0.0.35] - 2026-07-20
 
 ### Fixed
