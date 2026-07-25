@@ -1,0 +1,9 @@
+**/bin/
+**/obj/
+artifacts/
+build/
+payload-staging-*/
+payload-previous-*/
+symbols/
+*.tmp
+*.user
