@@ -19,6 +19,7 @@ advertising, or player profiling.
 | `magicka_patch_network_guard_drop` | A guard ignored an unsafe network action that could otherwise crash the game. |
 | `magicka_patch_network_guard_exception` | A guarded network path caught a null-reference exception and reported a summary. |
 | `magicka_patch_typing_text_guard_exception` | The typing text guard caught an out-of-range text reveal state and skipped to the end of the text. |
+| `magicka_patch_khan_killplane_fallback` | Kahn fell through the battlefield kill plane and the patch started his existing defeat dialog trigger so the cutscene could continue. |
 
 ## Data Sent
 

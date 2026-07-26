@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.0.38] - 2026-07-26
+
+### Fixed
+
+- Continue Kahn's defeat sequence when the battlefield kill plane terminates
+  him before his scripted animation can start the death dialog. The executable
+  now detects only this `#boss_n06` termination state and invokes the level's
+  existing dialog trigger without modifying the level XML or its multiplayer
+  content hash.
+
+### Telemetry
+
+- Emit `magicka_patch_khan_killplane_fallback` when the targeted Kahn fallback
+  actually runs. The event follows the existing usage-sharing opt-out and
+  contains no additional gameplay or player fields.
+
 ## [0.0.37] - 2026-07-26
 
 ### Fixed
