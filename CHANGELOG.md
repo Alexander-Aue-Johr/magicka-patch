@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.0.39] - 2026-07-26
+
+### Fixed
+
+- Prevent a defeated enemy from awarding its Challenge score twice. A lethal
+  direct-damage result could award score in
+  `StatisticsManager.InternalDamageEvent`, followed by a second award from the
+  normal death processing in `StatisticsManager.AddKillEvent`; delayed status
+  kills often reached only one of these paths.
+- Route both existing `SurvivalRuleset.AddScore` patch sites through a shared
+  per-enemy-life credit guard on `NonPlayerCharacter`. The guard resets in
+  `NonPlayerCharacter.Initialize` when a pooled enemy is reused and does not
+  depend on entity deactivation. Existing damage, death, and statistics
+  processing remains unchanged.
+
 ## [0.0.38] - 2026-07-26
 
 ### Fixed
