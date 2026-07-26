@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.37] - 2026-07-26
+
+### Fixed
+
+- Clear `GiveOrder.sPlayState` in `GiveOrder.DisposeCache()` so the old static
+  game state no longer keeps the scene alive across unloads.
+- Add `TextBox.ReleaseLevelReferences()`, add
+  `DialogManager.ResetForLevelUnload()`, and call the reset from
+  `PlayState.Dispose()` so dialog and textbox references are released during
+  level unload.
+- Add dispose cleanup for `Entity`, `Character`, `NonPlayerCharacter`, and
+  `Avatar`, plus `Avatar.ClearCache()`, to break lingering object references
+  during unload.
+
 ## [0.0.36] - 2026-07-24
 
 ### Fixed
