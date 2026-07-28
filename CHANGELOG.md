@@ -1,5 +1,37 @@
 # Changelog
 
+## [0.0.40] - 2026-07-28
+
+### Fixed
+
+- Make character selection respond consistently to the currently used input
+  device. A single offline player can leave with controller B or keyboard
+  Escape, while players can still be removed individually when changing the
+  local keyboard/controller setup.
+- Preserve mixed local co-op joining: after a controller player joins, another
+  player can still join an available slot with mouse and keyboard, and input
+  focus switches seamlessly between keyboard/mouse and controller navigation.
+- Make controller B on the root main menu follow the same exit-dialog path as
+  keyboard Escape, including the normal menu transition instead of bypassing
+  the existing dialog flow.
+- Prevent content-unload crashes when a released asset object or its reference
+  name is null. Only the invalid dictionary removal is skipped; the remaining
+  cleanup continues normally.
+- Prevent keyboard/mouse interaction scans from dereferencing missing avatar,
+  play-state, level, scene, or trigger state during gameplay teardown.
+- Expire an orphaned Grow effect safely when its owner has already been
+  removed.
+- Allocate a replacement `SpraySpell` when its reusable-object cache is null
+  or empty instead of indexing outside the collection.
+
+### Telemetry
+
+- Emit rate-limited diagnostic events when one of the new runtime guards is
+  used. Events identify the guard reason, affected collection, and general
+  object type. The content-unload event includes the internal asset name only
+  when that name is available. Telemetry remains subject to the existing
+  usage-sharing opt-out.
+
 ## [0.0.39] - 2026-07-26
 
 ### Fixed
@@ -125,9 +157,6 @@
 
 - Prevent the installer subtitle from overlapping its status line when the
   header uses wider font metrics or Windows display scaling.
-- Keep supporter descriptions above their supporter/priority badge in both the
-  scrolling banner and detail cards. Long button labels and German telemetry
-  card copy now scale to the available space instead of ending in ellipses.
 - Remove the release-candidate controller overlay that kept the world-space
   `SpellWheel` expanded above the character. The original `SpellWheel` methods
   are unchanged in the corrected executable.
@@ -230,15 +259,7 @@
   and one in-game dialog explains that controllers remain unavailable until the
   bundled DirectX redistributable is installed.
 - Clear stale authentication-detail text before showing Community Patch dialogs
-  so a previous Paradox error code cannot leak into a DirectInput or supporter
-  message.
-
-### Changed
-
-- Make the bottom-left Community Patch credit text clickable and show the
-  current `CommunityPatchInfo.PatreonSupporters` list in the game's shared
-  message dialog.
-- Add `SonofKalas` to the in-game Patreon supporter credits.
+  so a previous Paradox error code cannot leak into a DirectInput message.
 
 ### Optional controller preview
 
@@ -284,20 +305,17 @@
   overloads of `Magicka.GameLogic.Controls.ControlManager.LockPlayerInput`,
   `IsPlayerInputLocked`, and `UnlockPlayerInput`, and
   `SubMenuCharacterSelect.Start`.
-- `Magicka.exe` - startup, menu, DirectInput, and supporter-dialog guards:
+- `Magicka.exe` - startup, menu, and DirectInput guards:
   `Magicka.Program.Main`, `Magicka.GameLogic.UI.Tome..ctor`,
   `Tome.ControllerMouseAction`, `Magicka.GameLogic.GameStates.Menu.MenuState`,
   the `SubMenuOptionsControls.UpdateControllers` call sites,
   `Magicka.WebTools.Paradox.ParadoxPopupUtils.ShowErrorPopup(string, string)`,
-  `Magicka.CommunityPatch.RuntimeCompatibilityGuards`, and
-  `Magicka.CommunityPatch.CommunityPatchInfo.PatreonSupporters`.
+  and `Magicka.CommunityPatch.RuntimeCompatibilityGuards`.
 - Documented injected helper sources:
   `docs/injected-source/Magicka.CommunityPatch/NetworkEntityHandleGuard.cs`,
   `docs/injected-source/Magicka.CommunityPatch/NetworkGuardTelemetryBackoff.cs`,
-  `docs/injected-source/Magicka.CommunityPatch/RuntimeCompatibilityGuards.cs`,
   and
-  `docs/injected-source/Magicka.CommunityPatch/CommunityPatchInfo.cs`.
-- Supporter-list mirror: `magicka-patch-installer-ui/supporters.json`.
+  `docs/injected-source/Magicka.CommunityPatch/RuntimeCompatibilityGuards.cs`.
 - Controller-preview `Magicka.exe` only:
   `Magicka.CommunityPatch.Magicka2ControllerSupport`,
   `Magicka.CommunityPatch.PatchSettings`,

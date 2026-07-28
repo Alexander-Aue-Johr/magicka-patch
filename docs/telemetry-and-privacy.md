@@ -20,6 +20,10 @@ advertising, or player profiling.
 | `magicka_patch_network_guard_exception` | A guarded network path caught a null-reference exception and reported a summary. |
 | `magicka_patch_typing_text_guard_exception` | The typing text guard caught an out-of-range text reveal state and skipped to the end of the text. |
 | `magicka_patch_khan_killplane_fallback` | Kahn fell through the battlefield kill plane and the patch started his existing defeat dialog trigger so the cutscene could continue. |
+| `magicka_patch_content_unload_guard` | Content cleanup encountered an asset object that was already null and safely skipped the invalid dictionary removal. |
+| `magicka_patch_interactable_guard` | Keyboard/mouse interaction scanning encountered missing play-state, level, scene, or trigger state during teardown. |
+| `magicka_patch_grow_owner_guard` | An active Grow effect no longer had an owner and was safely expired. |
+| `magicka_patch_spray_cache_guard` | A spray spell was requested while its object cache was null or empty, so a replacement was allocated. |
 
 ## Data Sent
 
@@ -33,6 +37,11 @@ persona name when the game exposes them to the patched code.
 
 Typing text guard events include text length, a text hash, reveal counters, and
 exception metadata. They do not include the full text.
+
+Runtime guard events include a guard reason, the affected collection, the
+general object type, and a short technical description. The content-unload
+event includes the internal game asset name only when that name is non-empty.
+Repeated events of the same reason are rate-limited with exponential backoff.
 
 Crash events may include exception type, exception hash, thread name, and the
 crash report text written by the patch.

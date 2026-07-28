@@ -464,6 +464,36 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
+		public static void SendRuntimeGuard(string eventName, string guard, string collection, string objectType, string details, string assetName)
+		{
+			try
+			{
+				PatchTelemetry.SendRuntimeGuardCore(eventName, guard, collection, objectType, details, assetName);
+			}
+			catch
+			{
+			}
+		}
+
+		private static void SendRuntimeGuardCore(string eventName, string guard, string collection, string objectType, string details, string assetName)
+		{
+			if (!NetworkGuardTelemetryBackoff.ShouldSend(guard))
+			{
+				return;
+			}
+			Dictionary<string, string> dictionary = new Dictionary<string, string>();
+			PatchTelemetry.AddCommonProperties(dictionary);
+			dictionary["guard"] = PatchTelemetry.Safe(guard);
+			dictionary["collection"] = PatchTelemetry.Safe(collection);
+			dictionary["object_type"] = PatchTelemetry.Safe(objectType);
+			dictionary["details"] = PatchTelemetry.SafeLong(details);
+			if (!string.IsNullOrEmpty(assetName))
+			{
+				dictionary["asset_name"] = PatchTelemetry.Safe(assetName);
+			}
+			PatchTelemetry.SendAsync(eventName, dictionary);
+		}
+
 		private static void AddCommonProperties(Dictionary<string, string> properties)
 		{
 			properties["patch_name"] = CommunityPatchInfo.Name;

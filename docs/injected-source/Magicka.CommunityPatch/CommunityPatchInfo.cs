@@ -38,7 +38,7 @@ namespace Magicka.CommunityPatch
 		{
 			get
 			{
-				return "0.0.39";
+				return "0.0.40";
 			}
 		}
 
@@ -62,7 +62,7 @@ namespace Magicka.CommunityPatch
 		{
 			get
 			{
-				return "Special Thanks to SonofKalas, PurpleHeartE54, Skappnil, Aggravating-Sky8697 and Economics-Simulator";
+				return "Special Thanks to SonofKalas, Sadness, PurpleHeartE54, Skappnil, Aggravating-Sky8697 and Economics-Simulator";
 			}
 		}
 
@@ -112,10 +112,11 @@ namespace Magicka.CommunityPatch
 			{
 				return new string[]
 				{
+					"SonofKalas",
+					"Sadness",
 					"Tonno7",
 					"Torsten Caninenberg",
-					"PurpleHeartE54",
-					"SonofKalas"
+					"PurpleHeartE54"
 				};
 			}
 		}
