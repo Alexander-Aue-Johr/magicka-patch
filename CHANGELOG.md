@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.0.41] - 2026-07-28
+
+### Fixed
+
+- Allow custom Equipment and Magick packs to remain selectable in the Tome's
+  **Allowed Drops** menu whenever Magicka's existing custom-content policy
+  permits them: offline or in an online session without VAC protection.
+- Fix the inconsistent license handling that caused custom content to black
+  out pack slots. Modified equipment assets fail the official content-hash
+  lookup and receive `License.Custom`; the original
+  `ItemPack`/`MagickPack` setters and `DrawPacksList` accepted only
+  `License.Yes`, so affected packs were forcibly disabled and drawn as locked.
+- Use one shared license decision in the pack `License` and `Enabled` setters
+  and in the Equipment/Magicks thumbnail checks. `License.Custom` now follows
+  the existing offline/non-VAC rule, while `License.No` remains locked so
+  missing or unowned DLC is never enabled.
+
 ## [0.0.40] - 2026-07-28
 
 ### Fixed
