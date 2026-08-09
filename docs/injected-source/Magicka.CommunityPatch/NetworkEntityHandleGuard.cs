@@ -5,6 +5,9 @@ namespace Magicka.CommunityPatch
 {
 	internal static class NetworkEntityHandleGuard
 	{
+		// Resolve deliberately accepts allocated inactive entities. Spawn messages
+		// use those handles before Initialize/AddEntity. Normal action packets must
+		// use NetworkLifecycleCompatibility.ResolveActive instead.
 		internal static Entity Resolve(int handle, string side, string reason, bool emitTelemetry)
 		{
 			Entity entity = Entity.GetFromHandle(handle);
@@ -22,7 +25,7 @@ namespace Magicka.CommunityPatch
 
 		internal static Entity ResolveDamageTarget(int handle, string side, string reason, bool emitTelemetry)
 		{
-			Entity entity = NetworkEntityHandleGuard.Resolve(handle, side, reason, emitTelemetry);
+			Entity entity = NetworkLifecycleCompatibility.ResolveActive(handle, side, reason, emitTelemetry);
 			if (entity == null)
 			{
 				return null;

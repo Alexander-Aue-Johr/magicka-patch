@@ -14,6 +14,7 @@ namespace Magicka.CommunityPatch
 	{
 		public static void SendStartup()
 		{
+			AnimationClipCompatibility.InitializeSession();
 			PatchTelemetry.SendAsync("magicka_patch_start", new Dictionary<string, string>
 			{
 				{
@@ -35,7 +36,7 @@ namespace Magicka.CommunityPatch
 			});
 		}
 
-		private static void SendAsync(string eventName, Dictionary<string, string> properties)
+		internal static void SendAsync(string eventName, Dictionary<string, string> properties)
 		{
 			if (PatchTelemetry.IsDisabled())
 			{
@@ -494,7 +495,7 @@ namespace Magicka.CommunityPatch
 			PatchTelemetry.SendAsync(eventName, dictionary);
 		}
 
-		private static void AddCommonProperties(Dictionary<string, string> properties)
+		internal static void AddCommonProperties(Dictionary<string, string> properties)
 		{
 			properties["patch_name"] = CommunityPatchInfo.Name;
 			properties["patch_version"] = PatchTelemetry.GetPatchVersion();

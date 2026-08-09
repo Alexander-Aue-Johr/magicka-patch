@@ -24,6 +24,7 @@ advertising, or player profiling.
 | `magicka_patch_interactable_guard` | Keyboard/mouse interaction scanning encountered missing play-state, level, scene, or trigger state during teardown. |
 | `magicka_patch_grow_owner_guard` | An active Grow effect no longer had an owner and was safely expired. |
 | `magicka_patch_spray_cache_guard` | A spray spell was requested while its object cache was null or empty, so a replacement was allocated. |
+| `magicka_patch_animation_clip_missing` | A character or animated-physics asset referred to an animation clip key that its skinned model does not contain. The invalid slot was left empty so loading could continue. |
 
 ## Data Sent
 
@@ -34,6 +35,10 @@ Network guard events may also include the guarded subsystem, packet type, reason
 code, short diagnostic details, and hashes used to group similar failures.
 Some multiplayer guard events can include the remote sender's Steam ID and Steam
 persona name when the game exposes them to the patched code.
+Central entity-lifecycle events do not receive sender identity. Their details
+are limited to numeric entity handles and template hashes, play-state
+initialization and WorldSync flags, entity type, and active/disposed state.
+Network guard reasons use the existing per-reason exponential backoff.
 
 Typing text guard events include text length, a text hash, reveal counters, and
 exception metadata. They do not include the full text.
@@ -42,6 +47,16 @@ Runtime guard events include a guard reason, the affected collection, the
 general object type, and a short technical description. The content-unload
 event includes the internal game asset name only when that name is non-empty.
 Repeated events of the same reason are rate-limited with exponential backoff.
+
+Missing-animation events include the internal asset name, missing clip key,
+animation enum name and numeric value, the number of clips available in the
+model, the event's unique index for the current process session, and the
+per-session event limit. At game startup the patch initializes a process-local,
+thread-safe set of already reported `(asset name, clip key, animation name,
+animation value)` combinations. An exact combination is reported at most once,
+and no more than 16 unique missing-animation events are sent during one game
+process. The set is held only in memory and is discarded when Magicka exits.
+The next game start begins with an empty set.
 
 Crash events may include exception type, exception hash, thread name, and the
 crash report text written by the patch.

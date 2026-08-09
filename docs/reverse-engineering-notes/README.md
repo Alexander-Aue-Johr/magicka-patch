@@ -17,13 +17,19 @@ parts of a closed-source game.
 
 Patch-site notes:
 
+- [In-game UI render scaling](in-game-ui-render-scaling.md) explains the
+  virtual gameplay-GUI render target, render-thread-only size accessors,
+  pre-rendered position conversion, contextual notifier alignment, and menu
+  mouse-coordinate handling.
+- [Missing animation clip compatibility guard](animation-clip-missing-key-guard.md)
 - [Startup, controller, version-text, and supporter dialog guards](startup-controller-and-supporter-dialog-guards.md)
   covers absolute startup file resolution, launch-option bounds checks, the
   rare modified-installation footer overflow, graceful missing-DirectInput
   behavior, and the clickable supporter list.
 - [Borderless fullscreen loading stability](borderless-fullscreen-loading.md)
   explains how logical fullscreen is retained while non-exclusive Direct3D 9
-  presentation prevents focus-related device loss during asset loading.
+  presentation prevents focus-related device loss during asset loading and
+  how mouse coordinates stay aligned at non-native render resolutions.
 - [Menu content unload guard](menu-content-unload-guard.md) explains how the
   character-selection texture lifetime follows the `Tome` draw window and its
   cached render channels instead of only `Tome.CurrentMenu`.

@@ -65,3 +65,19 @@ the selected application to appear immediately.
 This prevents the focus-related failure. It does not claim to eliminate device
 loss caused by a graphics-driver reset, display reconfiguration, or hardware
 failure.
+
+## Mouse coordinates at non-native render resolutions
+
+The borderless window remains monitor-sized even when Magicka renders to a
+smaller selected backbuffer. `Mouse.GetState()` reports physical client
+coordinates, whereas menu hit testing and gameplay picking expect coordinates
+in the logical backbuffer. Both samples in `Magicka.Game.Draw` are therefore
+routed through `MouseInputCompatibility.ScaleToLogicalResolution` before they
+are stored in `Game.mMouseState`.
+
+The transformation applies only while the saved fullscreen setting is enabled
+and the actual presentation device is non-exclusive. It scales X and Y from
+the WinForms client size to `PresentationParameters.BackBufferWidth` and
+`BackBufferHeight`, preserving all mouse buttons and the scroll-wheel value.
+Matching resolutions and windowed or exclusive presentation return the
+original state unchanged.

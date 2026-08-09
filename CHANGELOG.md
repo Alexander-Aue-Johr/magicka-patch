@@ -1,5 +1,115 @@
 # Changelog
 
+## [0.0.42] - 2026-08-10
+
+### Fixed
+
+- Allow client `TriggerActionMessage`s during normal `PlayState` scene
+  initialization instead of dropping the entire packet class until
+  `Initialized` or `WorldSync` becomes true. This restores fixed NPC spawns and
+  related scene/animation triggers used by Dark Power and other scripted
+  multiplayer maps.
+- Render gameplay GUI with a configurable virtual layout size over the native
+  scene when a `PlayState` uses a backbuffer of at least 2560x1440. The GUI is
+  rasterized into a native-resolution UI target, so 200% scaling at
+  3840x2160 uses a 1920x1080 layout while retaining 4K text and edge detail
+  instead of enlarging a lower-resolution UI image.
+  The completed scene is copied into the UI target before GUI drawing, and the
+  resulting opaque image is copied back without a second alpha blend. This
+  preserves the original strength of translucent black menu dimming, dialog
+  backgrounds, and shadows instead of making them appear washed out.
+  The in-game graphics menu now opens a scrollable `UI Scale` selector with
+  `Off` and 25-percent steps from `125%` through `400%`. Selecting a value
+  closes the selector and runs the resolution menu's existing UI refresh path,
+  preventing mixed old/new virtual coordinates; the value persists in
+  `CommunityPatch/ui-scale.ini`. This enlarges the spell HUD, paused in-game
+  menu, dialog/subtitle text, and cutscene text. Added
+  `InGameUiRenderScale.Begin`, `End`,
+  `SetEnabled`, `SetScale`, `GetScaleFactor`, and `ShouldScale`; changed
+  `InGameMenuOptionsGraphics..ctor`, `IControllerSelect`,
+  `IGetHighlightedButtonName`, `OnEnter`, and `UpdatePositions`; extended
+  `InGameMenuOptionsResolution.OnEnter`, `IControllerSelect`,
+  `IControllerBack`, and `OnExit` to host and apply the scale list; changed
+  `RenderManager.RenderScene` and
+  `Game.Draw`; and added virtual-size/mouse handling to `InGameMenu`'s
+  constructor, `Show`, `UpdateAllPositions`, `MouseMove`, `MouseDown`,
+  `MouseUp`, and `MouseScroll`. `InventoryBox.RenderData.Draw` now also updates
+  its textbox effect with the virtual UI size so the Tab weapon/staff panel and
+  its contents stay aligned. `TextBox.RenderData.Draw`,
+  `CutsceneText.CutSceneRenderData.Draw`, `IconRenderer.RenderData.Draw`,
+  `SpellWheel.RenderData.Draw`, and `NotifierButton.RenderData.Draw` convert
+  their pre-rendered native projections to virtual UI coordinates, keeping
+  dialogue/cutscene text, player spell icons, and contextual prompts such as
+  `Pick Up` aligned. The notifier conversion preserves its post-projection
+  layout offset so its background, key icon, text, and anchor scale together,
+  and restores the cached native position after every draw so repeated GUI
+  passes cannot rescale it again or leave duplicate prompts toward the
+  upper-left corner.
+  `RenderManager.mSize` and `mGUIScale` are no longer mutated during
+  `DrawGui`; the changed `RenderManager.get_ScreenSize` and `get_GUIScale`
+  accessors now return virtual values only to the active RenderThread UI pass.
+  The LogicThread therefore always receives native coordinates, preventing
+  interactive cursor icons from flickering and `Mouse.SetPosition` from
+  warping the cursor to a half-scaled location.
+- Scale physical mouse coordinates back to the selected render resolution in
+  borderless fullscreen mode. UI hover/click hit testing and gameplay mouse
+  picking now remain aligned with the visible operating-system cursor when the
+  game renders below the monitor's native resolution.
+- Keep loading character and animated-physics templates when an asset refers to
+  an animation clip key that is absent from its skinned model. Invalid clip
+  slots are left empty and animation playback falls back safely to `idle` when
+  available.
+- Avoid a follow-up null-reference crash when the requested animation and the
+  `idle` fallback are both unavailable; the animation request is ignored
+  instead.
+- Prevent network trigger actions from initializing an NPC with a missing
+  `CharacterTemplate`, overwriting an already-active spawn slot, or running
+  during incomplete play-state initialization outside the WorldSync path.
+- Treat an entity handle as usable for normal network actions only while that
+  entity is still present in the current play state's `EntityManager`, so late
+  action, damage, remove, and missile packets cannot target deinitialized
+  pooled entities.
+- Let `Character.Initialize` finish safely when a valid template has no usable
+  default `idle` animation instead of dereferencing an empty animation slot.
+
+### Telemetry
+
+- Emit `magicka_patch_animation_clip_missing` once per unique asset, clip key,
+  animation name, and animation value during a game process. At most 16 such
+  events are sent per launch.
+- Report rejected lifecycle and SpawnNPC packets through the rate-limited
+  `magicka_patch_network_guard_drop` event, including only
+  handles, template hashes, lifecycle flags, and entity type information.
+
+### Technical changes
+
+- Changed `AnimationClipAction..ctor`, `CharacterTemplate.Read`, and
+  `PhysicsEntityTemplate.Read` to use a non-throwing clip lookup and leave
+  invalid animation slots empty.
+- Changed `Character.Initialize`, `Character.GoToAnimation`,
+  `Character.ForceAnimation`, `AnimatedPhysicsEntity.GoToAnimation`, and
+  `AnimatedPhysicsEntity.ForceAnimation` to validate animation-set and
+  animation indices and to tolerate a missing default `idle` action.
+- Changed `Trigger.NetworkAction(TriggerActionMessage&)` to validate received
+  trigger actions before dispatch, including play-state readiness, spawn-slot
+  lifecycle, cached templates, and active primary or secondary entity handles.
+  This closes the confirmed path where `Trigger.SpawnNPC` could pass a null
+  result from `CharacterTemplate.GetCachedTemplate` through
+  `NonPlayerCharacter.Initialize` into `Character.Initialize`.
+- Changed `NetworkEntityHandleGuard.Resolve` and `ResolveDamageTarget` to route
+  normal network references through active-entity validation. A normal handle
+  is active only when its entity exists, is not disposed, belongs to the
+  current `PlayState`, and is contained in that state's `EntityManager`.
+- Changed `PatchTelemetry.SendStartup` to initialize the per-process missing
+  animation deduplication state.
+- Added `AnimationClipCompatibility.InitializeSession`,
+  `TryGetAnimationAction`, and `ReportMissingClip` for bounded missing-clip
+  recovery and telemetry.
+- Added `NetworkLifecycleCompatibility.ResolveActive` and
+  `CanProcessTriggerAction`, with internal validation helpers for active
+  entities, reserved spawn slots, cached templates, entity types, and
+  rate-limited packet-drop reporting.
+
 ## [0.0.41] - 2026-07-28
 
 ### Fixed

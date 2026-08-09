@@ -515,6 +515,58 @@ public static class ReleaseByteSearch {
 '@
 }
 
+function Read-AllBytesWithRetry {
+    param([Parameter(Mandatory = $true)][string]$Path)
+
+    for ($attempt = 1; $attempt -le 20; $attempt++) {
+        try {
+            return [System.IO.File]::ReadAllBytes($Path)
+        }
+        catch [System.IO.IOException] {
+            if ($attempt -eq 20) {
+                throw
+            }
+            Start-Sleep -Milliseconds 250
+        }
+    }
+}
+
+function Write-AllBytesWithRetry {
+    param(
+        [Parameter(Mandatory = $true)][string]$Path,
+        [Parameter(Mandatory = $true)][byte[]]$Bytes
+    )
+
+    for ($attempt = 1; $attempt -le 20; $attempt++) {
+        try {
+            [System.IO.File]::WriteAllBytes($Path, $Bytes)
+            return
+        }
+        catch [System.IO.IOException] {
+            if ($attempt -eq 20) {
+                throw
+            }
+            Start-Sleep -Milliseconds 250
+        }
+    }
+}
+
+function Get-FileHashWithRetry {
+    param([Parameter(Mandatory = $true)][string]$Path)
+
+    for ($attempt = 1; $attempt -le 20; $attempt++) {
+        try {
+            return Get-FileHash -LiteralPath $Path -Algorithm SHA256 -ErrorAction Stop
+        }
+        catch {
+            if ($attempt -eq 20) {
+                throw
+            }
+            Start-Sleep -Milliseconds 250
+        }
+    }
+}
+
 function Set-ExeVersionString {
     param(
         [Parameter(Mandatory = $true)][string]$Path,
@@ -527,7 +579,7 @@ function Set-ExeVersionString {
     }
 
     Initialize-ByteSearchType
-    $bytes = [System.IO.File]::ReadAllBytes($Path)
+    $bytes = Read-AllBytesWithRetry $Path
     $oldBytes = [System.Text.Encoding]::Unicode.GetBytes($OldVersion)
     $newBytes = [System.Text.Encoding]::Unicode.GetBytes($NewVersion)
     $oldCount = [ReleaseByteSearch]::Count($bytes, $oldBytes)
@@ -561,9 +613,9 @@ function Set-ExeVersionString {
 
     $offset = [ReleaseByteSearch]::IndexOf($bytes, $oldBytes)
     [System.Array]::Copy($newBytes, 0, $bytes, $offset, $newBytes.Length)
-    [System.IO.File]::WriteAllBytes($Path, $bytes)
+    Write-AllBytesWithRetry $Path $bytes
 
-    $verifyBytes = [System.IO.File]::ReadAllBytes($Path)
+    $verifyBytes = Read-AllBytesWithRetry $Path
     $verifyCount = [ReleaseByteSearch]::Count($verifyBytes, $newBytes)
     if ($verifyCount -ne 1) {
         throw "Version patch verification failed for $Path. Expected one '$NewVersion', found $verifyCount."
@@ -583,8 +635,8 @@ function Sync-VersionedExeToMagickaDirectory {
     Assert-File $sourcePath
     Assert-File $destinationPath
 
-    $sourceHash = (Get-FileHash -LiteralPath $sourcePath -Algorithm SHA256).Hash
-    $destinationHash = (Get-FileHash -LiteralPath $destinationPath -Algorithm SHA256).Hash
+    $sourceHash = (Get-FileHashWithRetry $sourcePath).Hash
+    $destinationHash = (Get-FileHashWithRetry $destinationPath).Hash
     if ($sourceHash -eq $destinationHash) {
         Write-Host "Versioned Magicka.exe already matches the Steam Magicka folder" -ForegroundColor DarkGray
         return
@@ -592,7 +644,7 @@ function Sync-VersionedExeToMagickaDirectory {
 
     Copy-Item -LiteralPath $sourcePath -Destination $destinationPath -Force
 
-    $destinationHash = (Get-FileHash -LiteralPath $destinationPath -Algorithm SHA256).Hash
+    $destinationHash = (Get-FileHashWithRetry $destinationPath).Hash
     if ($sourceHash -ne $destinationHash) {
         throw "Failed to synchronize versioned Magicka.exe back to $GameDir"
     }
@@ -972,9 +1024,9 @@ $filesOnlyEntries = @(
 )
 Assert-ZipContainsOnly $filesOnlyZipPath $filesOnlyEntries
 
-$hash = Get-FileHash -LiteralPath $zipPath -Algorithm SHA256
+$hash = Get-FileHashWithRetry $zipPath
 $zipItem = Get-Item -LiteralPath $zipPath
-$filesOnlyHash = Get-FileHash -LiteralPath $filesOnlyZipPath -Algorithm SHA256
+$filesOnlyHash = Get-FileHashWithRetry $filesOnlyZipPath
 $filesOnlyZipItem = Get-Item -LiteralPath $filesOnlyZipPath
 $fileCount = (Get-ChildItem -LiteralPath $stageDir -Recurse -File | Measure-Object).Count
 
