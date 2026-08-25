@@ -5,8 +5,10 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -14,8 +16,206 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:magicka_community_patch_installer_ui/localization.dart';
 import 'package:magicka_community_patch_installer_ui/main.dart';
+import 'package:magicka_community_patch_installer_ui/original_game_files.dart';
 
 void main() {
+  test('Steam validation URI targets the Magicka app', () {
+    expect(AppConstants.magickaSteamValidationUrl, 'steam://validate/42910');
+  });
+
+  test('Linux Steam candidates cover native, Flatpak and compatibility paths',
+      () {
+    final candidates = linuxSteamDirectoryCandidates(const <String, String>{
+      'HOME': '/home/player',
+      'XDG_DATA_HOME': '/home/player/.data',
+      'STEAM_COMPAT_CLIENT_INSTALL_PATH': '/opt/custom-steam',
+    });
+
+    expect(candidates, contains('/opt/custom-steam'));
+    expect(candidates, contains('/home/player/.data/Steam'));
+    expect(candidates, contains('/home/player/.local/share/Steam'));
+    expect(candidates, contains('/home/player/.steam/steam'));
+    expect(
+      candidates,
+      contains(
+        '/home/player/.var/app/com.valvesoftware.Steam/.local/share/Steam',
+      ),
+    );
+  });
+
+  test('platform path joining normalizes embedded separators', () {
+    expect(
+      joinPathForPlatform(
+        '/home/player/',
+        r'.local\share\Steam',
+        c: r'steamapps\common\Magicka',
+        windowsPaths: false,
+      ),
+      '/home/player/.local/share/Steam/steamapps/common/Magicka',
+    );
+    expect(
+      joinPathForPlatform(
+        r'C:\Steam\',
+        'steamapps/common',
+        c: 'Magicka',
+        windowsPaths: true,
+      ),
+      r'C:\Steam\steamapps\common\Magicka',
+    );
+  });
+
+  test('Steam library VDF resolves Magicka from an additional library',
+      () async {
+    final root = await Directory.systemTemp.createTemp('magicka_steam_');
+    addTearDown(() async {
+      if (await root.exists()) await root.delete(recursive: true);
+    });
+    String linuxPath(String path) => path.replaceAll(r'\', '/');
+
+    final steam = Directory('${root.path}${Platform.pathSeparator}Steam');
+    final library =
+        Directory('${root.path}${Platform.pathSeparator}SteamLibrary');
+    final game = Directory(
+      '${library.path}${Platform.pathSeparator}steamapps'
+      '${Platform.pathSeparator}common${Platform.pathSeparator}Magicka',
+    );
+    await Directory(
+      '${steam.path}${Platform.pathSeparator}steamapps',
+    ).create(recursive: true);
+    await game.create(recursive: true);
+    await File(
+      '${steam.path}${Platform.pathSeparator}steamapps'
+      '${Platform.pathSeparator}libraryfolders.vdf',
+    ).writeAsString('''
+"libraryfolders"
+{
+  "1"
+  {
+    "path" "${linuxPath(library.path)}"
+  }
+}
+''');
+    await File(
+      '${library.path}${Platform.pathSeparator}steamapps'
+      '${Platform.pathSeparator}appmanifest_42910.acf',
+    ).writeAsString('''
+"AppState"
+{
+  "appid" "42910"
+  "installdir" "Magicka"
+}
+''');
+    await File('${game.path}${Platform.pathSeparator}Magicka.exe')
+        .writeAsBytes(const <int>[1]);
+    await File('${game.path}${Platform.pathSeparator}steam_api.dll')
+        .writeAsBytes(const <int>[1]);
+
+    final result = await findSteamAppDirectory(
+      steamDirectories: <String>[linuxPath(steam.path)],
+      appId: '42910',
+      fallbackInstallDirectory: 'Magicka',
+      windowsPaths: false,
+      isValidDirectory: (path) =>
+          File('$path/Magicka.exe').existsSync() &&
+          File('$path/steam_api.dll').existsSync(),
+    );
+
+    expect(result, linuxPath(game.path));
+  });
+
+  test('verified live originals are preserved in the canonical backup folder',
+      () async {
+    final root = await Directory.systemTemp.createTemp('magicka_originals_');
+    addTearDown(() async {
+      if (await root.exists()) await root.delete(recursive: true);
+    });
+    final game = Directory('${root.path}${Platform.pathSeparator}Magicka');
+    final backup = Directory(
+        '${game.path}${Platform.pathSeparator}CommunityPatch${Platform.pathSeparator}backup');
+    await game.create(recursive: true);
+
+    final magickaBytes = utf8.encode('official Magicka executable');
+    final polygonBytes = utf8.encode('official PolygonHead library');
+    final magickaSpec = OriginalGameFileSpec(
+      fileName: 'Magicka.exe',
+      size: magickaBytes.length,
+      sha256: sha256.convert(magickaBytes).toString(),
+    );
+    final polygonSpec = OriginalGameFileSpec(
+      fileName: 'PolygonHead.dll',
+      size: polygonBytes.length,
+      sha256: sha256.convert(polygonBytes).toString(),
+    );
+    await File('${game.path}${Platform.pathSeparator}Magicka.exe')
+        .writeAsBytes(magickaBytes);
+    await File('${game.path}${Platform.pathSeparator}PolygonHead.dll')
+        .writeAsBytes(polygonBytes);
+
+    final store = OriginalGameFileStore(
+      magickaSpec: magickaSpec,
+      polygonHeadSpec: polygonSpec,
+    );
+    final resolved = await store.resolve(
+      gameDirectory: game.path,
+      backupDirectory: backup.path,
+    );
+
+    expect(resolved.complete, isTrue);
+    expect(resolved.magicka,
+        '${backup.path}${Platform.pathSeparator}Magicka.exe.original');
+    expect(resolved.polygonHead,
+        '${backup.path}${Platform.pathSeparator}PolygonHead.dll.original');
+    expect(await store.matches(resolved.magicka!, magickaSpec), isTrue);
+    expect(await store.matches(resolved.polygonHead!, polygonSpec), isTrue);
+  });
+
+  test('invalid original backup is preserved and never accepted', () async {
+    final root = await Directory.systemTemp.createTemp('magicka_backups_');
+    addTearDown(() async {
+      if (await root.exists()) await root.delete(recursive: true);
+    });
+    final game = Directory('${root.path}${Platform.pathSeparator}Magicka');
+    final backup = Directory(
+        '${game.path}${Platform.pathSeparator}CommunityPatch${Platform.pathSeparator}backup');
+    await backup.create(recursive: true);
+
+    final magickaBytes = utf8.encode('official executable');
+    final polygonBytes = utf8.encode('official library');
+    final magickaSpec = OriginalGameFileSpec(
+      fileName: 'Magicka.exe',
+      size: magickaBytes.length,
+      sha256: sha256.convert(magickaBytes).toString(),
+    );
+    final polygonSpec = OriginalGameFileSpec(
+      fileName: 'PolygonHead.dll',
+      size: polygonBytes.length,
+      sha256: sha256.convert(polygonBytes).toString(),
+    );
+    final invalid = File(
+        '${backup.path}${Platform.pathSeparator}Magicka.exe.original');
+    await invalid.writeAsString('previous patched executable');
+    await File('${game.path}${Platform.pathSeparator}Magicka.exe.backup')
+        .writeAsBytes(magickaBytes);
+    await File('${game.path}${Platform.pathSeparator}PolygonHead.dll')
+        .writeAsString('patched library');
+
+    final store = OriginalGameFileStore(
+      magickaSpec: magickaSpec,
+      polygonHeadSpec: polygonSpec,
+    );
+    final resolved = await store.resolve(
+      gameDirectory: game.path,
+      backupDirectory: backup.path,
+      manifestMagickaPath: invalid.path,
+    );
+
+    expect(resolved.magicka,
+        '${backup.path}${Platform.pathSeparator}Magicka.exe.original.1');
+    expect(resolved.polygonHead, isNull);
+    expect(await invalid.readAsString(), 'previous patched executable');
+    expect(await store.matches(resolved.magicka!, magickaSpec), isTrue);
+  });
+
   test('simplified Chinese locale resolves from system and command line', () {
     final systemSelection =
         resolveAppLocaleSelection(const <String>[], const Locale('zh', 'CN'));
@@ -37,8 +237,8 @@ void main() {
     ));
     await tester.pump();
 
-    expect(find.text('MAGICKA COMMUNITY PATCH 0.0.42'), findsOneWidget);
-    expect(find.text('Patch-Update 0.0.42'), findsOneWidget);
+    expect(find.text('MAGICKA COMMUNITY PATCH 0.0.43'), findsOneWidget);
+    expect(find.text('Patch-Update 0.0.43'), findsOneWidget);
     expect(find.text('SonofKalas'), findsWidgets);
     expect(find.text('莎德娜丝（Sadness）'), findsWidgets);
     expect(find.text('Extensive bug reports, playtesting & screen sharing'),

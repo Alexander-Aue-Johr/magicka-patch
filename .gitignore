@@ -1,4 +1,5 @@
 /release
+/tmp/
 /.analysis/
 release-build-*.log
 **/windows/flutter/generated_plugin_registrant.*

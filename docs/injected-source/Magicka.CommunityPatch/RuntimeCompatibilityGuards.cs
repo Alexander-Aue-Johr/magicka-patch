@@ -20,6 +20,39 @@ namespace Magicka.CommunityPatch
 
 		private static int sDirectInputWarningPending;
 
+		private static int sParadoxStorePriceUpdatePending;
+
+		public static void QueueParadoxStorePriceUpdate(Action update)
+		{
+			if (update == null)
+			{
+				return;
+			}
+			if (Interlocked.CompareExchange(ref sParadoxStorePriceUpdatePending, 1, 0) != 0)
+			{
+				return;
+			}
+
+			if (!ThreadPool.QueueUserWorkItem(RunParadoxStorePriceUpdate, update))
+			{
+				Interlocked.Exchange(ref sParadoxStorePriceUpdatePending, 0);
+			}
+		}
+
+		private static void RunParadoxStorePriceUpdate(object state)
+		{
+			try
+			{
+				((Action)state)();
+			}
+			catch (Exception)
+			{
+				// A failed legacy store request must not terminate a ThreadPool thread.
+			}
+
+			Interlocked.Exchange(ref sParadoxStorePriceUpdatePending, 0);
+		}
+
 		public static Stream OpenSteamApi()
 		{
 			try

@@ -1,6 +1,6 @@
 # Magicka Community Patch Installer / Updater
 
-Version: **0.0.42**
+Version: **0.0.43**
 
 This directory contains the Flutter Windows UI for the Magicka Community Patch installer, updater and uninstaller surface.
 
@@ -78,6 +78,31 @@ CommunityPatch\
 
 `MagickaPatchInstaller.exe` is the player-facing installer. `MagickaPatchTool.exe` is the internal auto-update entry point used by the patched game, and `MagickaPatchUninstaller.exe` opens the uninstall UI.
 
+## Original-file recovery
+
+Before replacing or restoring `Magicka.exe` and `PolygonHead.dll`, the installer
+verifies candidate original files by size and SHA-256 against the supported
+Steam build. It searches the install manifest, `CommunityPatch\backup`, plausible
+manual backups next to the game executable, and finally the currently installed
+game files. Verified originals found outside the backup directory are copied to
+`CommunityPatch\backup` first. Files that merely have an original-looking name
+but do not match the catalog are never used as restore backups.
+
+If either original cannot be found, the installer explains that Steam validation
+can also replace other modified game files and asks for confirmation before
+opening:
+
+```text
+steam://validate/42910
+```
+
+After Steam finishes, the player selects **Check again**. Installation or
+uninstallation continues only when both official files have been verified and
+saved. Cancelling prevents the Community Patch from replacing files, although
+Steam may already have restored official files. The Steam URI is a convenience
+integration; players can still start file validation manually from Magicka's
+Steam properties if protocol handling is unavailable.
+
 ## Auto-Update Release ZIP
 
 The game-side updater checks:
@@ -90,13 +115,13 @@ The files-only release asset must contain a version newer than
 `CommunityPatchInfo.Version`, for example:
 
 ```text
-magicka-community-patch-0.0.42-files-only.zip
+magicka-community-patch-0.0.43-files-only.zip
 ```
 
 Files-only ZIP for manual installation and patch-only updates:
 
 ```text
-magicka-community-patch-0.0.42-files-only.zip
+magicka-community-patch-0.0.43-files-only.zip
 - Magicka.exe
 - PolygonHead.dll
 - patch-settings.ini
@@ -106,7 +131,7 @@ magicka-community-patch-0.0.42-files-only.zip
 Full ZIP when the Flutter tool/runtime should update too:
 
 ```text
-magicka-community-patch-0.0.42-installer.zip
+magicka-community-patch-0.0.43-installer.zip
 - README.txt
 - MagickaPatchInstaller.exe
 - Magicka.exe

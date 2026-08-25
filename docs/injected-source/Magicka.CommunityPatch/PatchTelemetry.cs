@@ -327,6 +327,10 @@ namespace Magicka.CommunityPatch
 				PatchTelemetry.TelemetrySendState telemetrySendState = stateObject as PatchTelemetry.TelemetrySendState;
 				if (telemetrySendState != null)
 				{
+					if (telemetrySendState.EventName == "magicka_patch_start")
+					{
+						OriginalBackupAudit.AddTelemetryProperties(telemetrySendState.Properties);
+					}
 					PatchTelemetry.SendBlocking(telemetrySendState.EventName, telemetrySendState.Properties, telemetrySendState.TimeoutMs);
 				}
 			}

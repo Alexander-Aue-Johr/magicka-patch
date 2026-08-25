@@ -251,7 +251,7 @@ class _AppStringsDelegate extends LocalizationsDelegate<AppStrings> {
 
 const Map<String, String> _en = <String, String>{
   'appTitle': 'Magicka Community Patch',
-  'appHeader': 'MAGICKA COMMUNITY PATCH 0.0.42',
+  'appHeader': 'MAGICKA COMMUNITY PATCH 0.0.43',
   'appSubtitle': 'Community Installer & Updater',
   'ready': 'Ready.',
   'ok': 'OK',
@@ -268,6 +268,19 @@ const Map<String, String> _en = <String, String>{
   'detectedFolder': 'Detected folder: {folder}',
   'invalidMagickaFolder': 'This does not look like the Magicka Steam folder.',
   'searchingSteamLibraries': 'Searching Steam libraries...',
+  'originalFilesRequiredTitle': 'Original Magicka files required',
+  'originalFilesRequiredBody':
+      'No verified original backup of Magicka.exe and PolygonHead.dll was found. To keep this operation reversible, the installer must obtain the official files before it continues.\n\nSteam file validation scans the complete Magicka installation and may also replace other modified game files. Close Magicka before continuing.\n\nOpen Steam file validation now?',
+  'validateWithSteam': 'Validate with Steam',
+  'steamValidationStartedTitle': 'Steam validation started',
+  'steamValidationStartedBody':
+      'Wait until Steam reports that Magicka file validation is complete, then select Check again. If Steam did not open, start Verify integrity of game files from Magicka\'s Steam properties. The installer continues only after both official files have been verified and safely backed up.',
+  'steamValidationNotReadyTitle': 'Original files not restored yet',
+  'steamValidationNotReadyBody':
+      'Steam has not finished validation yet, or the restored files do not match the supported Magicka Steam build. Wait for Steam to finish and then check again.',
+  'checkOriginalFilesAgain': 'Check again',
+  'originalFileRecoveryCancelled':
+      'Operation stopped. The Community Patch did not replace any game files.',
   'thePatchWasInstalled': 'The patch was installed.',
   'installFailed': 'Install failed: {error}',
   'magickaWasNotStarted': 'Magicka was not started.',
@@ -478,6 +491,20 @@ final Map<AppLanguage, Map<String, String>> _strings =
     'detectedFolder': 'Gefundener Ordner: {folder}',
     'invalidMagickaFolder': 'Das sieht nicht wie der Magicka-Steam-Ordner aus.',
     'searchingSteamLibraries': 'Steam-Bibliotheken werden durchsucht...',
+    'originalFilesRequiredTitle': 'Originale Magicka-Dateien erforderlich',
+    'originalFilesRequiredBody':
+        'Es wurde kein verifiziertes Original-Backup von Magicka.exe und PolygonHead.dll gefunden. Damit der Vorgang rückgängig gemacht werden kann, muss der Installer zunächst die offiziellen Dateien beschaffen.\n\nDie Steam-Dateiprüfung untersucht die gesamte Magicka-Installation und kann auch andere veränderte Spieldateien ersetzen. Beende Magicka, bevor du fortfährst.\n\nSoll die Steam-Dateiprüfung jetzt geöffnet werden?',
+    'validateWithSteam': 'Mit Steam überprüfen',
+    'steamValidationStartedTitle': 'Steam-Dateiprüfung gestartet',
+    'steamValidationStartedBody':
+        'Warte, bis Steam meldet, dass die Prüfung der Magicka-Dateien abgeschlossen ist, und klicke dann auf „Erneut prüfen“. Falls Steam nicht geöffnet wurde, starte „Dateien auf Fehler überprüfen“ in den Steam-Eigenschaften von Magicka. Der Installer fährt erst fort, nachdem beide offiziellen Dateien verifiziert und sicher gebackupt wurden.',
+    'steamValidationNotReadyTitle':
+        'Originaldateien noch nicht wiederhergestellt',
+    'steamValidationNotReadyBody':
+        'Steam hat die Prüfung noch nicht beendet oder die wiederhergestellten Dateien entsprechen nicht dem unterstützten Magicka-Steam-Build. Warte auf den Abschluss in Steam und prüfe dann erneut.',
+    'checkOriginalFilesAgain': 'Erneut prüfen',
+    'originalFileRecoveryCancelled':
+        'Vorgang beendet. Der Community Patch hat keine Spieldateien ersetzt.',
     'thePatchWasInstalled': 'Der Patch wurde installiert.',
     'installFailed': 'Installation fehlgeschlagen: {error}',
     'magickaWasNotStarted': 'Magicka wurde nicht gestartet.',

@@ -1,0 +1,151 @@
+name: Prepare Windows release artifacts
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - actions/windows-release-*
+
+permissions:
+  contents: read
+
+concurrency:
+  group: prepare-windows-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build and verify Windows release ZIPs
+    runs-on: windows-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Check out the requested revision
+        uses: actions/checkout@v7
+
+      - name: Read the prepared release version
+        id: version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $pubspec = Get-Content -LiteralPath 'magicka-patch-installer-ui/pubspec.yaml'
+          $line = $pubspec | Where-Object { $_ -match '^version:\s*([^\s#]+)' } | Select-Object -First 1
+          if ($null -eq $line -or $line -notmatch '^version:\s*([^\s#]+)') {
+            throw 'Could not read the installer version from pubspec.yaml.'
+          }
+
+          $fullVersion = $Matches[1]
+          $semanticVersion = ($fullVersion -split '\+')[0]
+          if ($semanticVersion -notmatch '^\d+\.\d+\.\d+$') {
+            throw "Unsupported release version: $fullVersion"
+          }
+
+          "full=$fullVersion" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "semantic=$semanticVersion" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Install verified Flutter 3.44.9 SDK
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $ProgressPreference = 'SilentlyContinue'
+          $archive = Join-Path $env:RUNNER_TEMP 'flutter_windows_3.44.9-stable.zip'
+          $url = 'https://storage.googleapis.com/flutter_infra_release/releases/stable/windows/flutter_windows_3.44.9-stable.zip'
+          $expectedHash = '8ef1107d226654736755bc51b969d6bd46787ff0241650f942e774fb0ca7d0ac'
+
+          Invoke-WebRequest -Uri $url -OutFile $archive
+          $actualHash = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($actualHash -ne $expectedHash) {
+            throw "Flutter SDK hash mismatch. Expected $expectedHash, got $actualHash."
+          }
+
+          Expand-Archive -LiteralPath $archive -DestinationPath $env:RUNNER_TEMP
+          $flutter = Join-Path $env:RUNNER_TEMP 'flutter/bin/flutter.bat'
+          if (-not (Test-Path -LiteralPath $flutter -PathType Leaf)) {
+            throw "Flutter executable was not extracted: $flutter"
+          }
+
+          "FLUTTER_BIN=$flutter" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          (Split-Path -Parent $flutter) | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          & $flutter config --no-analytics
+          & $flutter --version
+
+      - name: Verify Windows build toolchain
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          & $env:FLUTTER_BIN doctor -v
+
+      - name: Build both release ZIPs
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass `
+            -File '.\scripts\build-release.ps1' `
+            -Version '${{ steps.version.outputs.semantic }}' `
+            -Flutter $env:FLUTTER_BIN `
+            -SkipSteamPayloadSync `
+            -SkipExeVersionPatch
+          if ($LASTEXITCODE -ne 0) {
+            throw "build-release.ps1 failed with exit code $LASTEXITCODE."
+          }
+
+      - name: Analyze and test the Flutter installer
+        working-directory: magicka-patch-installer-ui
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          & $env:FLUTTER_BIN analyze --no-pub
+          & $env:FLUTTER_BIN test --no-pub
+
+      - name: Reject generated source changes
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          git diff --exit-code
+          if ($LASTEXITCODE -ne 0) {
+            throw 'The Windows build changed tracked source files.'
+          }
+
+      - name: Inspect and summarize release artifacts
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $version = '${{ steps.version.outputs.semantic }}'
+          $expectedNames = @(
+            "magicka-community-patch-$version-installer.zip",
+            "magicka-community-patch-$version-files-only.zip"
+          )
+          $artifacts = @(Get-ChildItem -LiteralPath 'release' -Filter '*.zip' -File)
+          $actualNames = @($artifacts.Name | Sort-Object)
+          $difference = @(Compare-Object -ReferenceObject ($expectedNames | Sort-Object) -DifferenceObject $actualNames)
+          if ($difference.Count -ne 0) {
+            throw "Unexpected release ZIP set: $($difference | Out-String)"
+          }
+
+          $summary = @(
+            "## Prepared Windows release $version",
+            '',
+            '| Artifact | Size (bytes) | SHA-256 |',
+            '| --- | ---: | --- |'
+          )
+          foreach ($artifact in ($artifacts | Sort-Object Name)) {
+            $hash = (Get-FileHash -LiteralPath $artifact.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+            $summary += "| $($artifact.Name) | $($artifact.Length) | ``$hash`` |"
+          }
+          $summary += @(
+            '',
+            'The ZIPs are workflow artifacts only. No commit, tag, GitHub release, or release asset was created.',
+            'Artifact retention is one day unless it is deleted earlier after download.'
+          )
+          $summary | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Encoding utf8 -Append
+
+      - name: Upload the verified ZIPs temporarily
+        uses: actions/upload-artifact@v7
+        with:
+          name: magicka-community-patch-${{ steps.version.outputs.semantic }}-windows-release
+          path: |
+            release/magicka-community-patch-${{ steps.version.outputs.semantic }}-installer.zip
+            release/magicka-community-patch-${{ steps.version.outputs.semantic }}-files-only.zip
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 1

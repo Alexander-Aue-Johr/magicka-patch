@@ -13,7 +13,7 @@ advertising, or player profiling.
 | --- | --- |
 | `magicka_patch_installed` | The installer successfully installs the patch. |
 | `magicka_patch_auto_update` | The auto-updater successfully applies a prepared update. |
-| `magicka_patch_start` | The patched game starts. |
+| `magicka_patch_start` | The patched game starts. When telemetry is enabled, its background telemetry worker also audits locally available original-file backups. |
 | `magicka_patch_game_closed_normally` | The patched game exits through the normal shutdown path and reports aggregate input-selection totals for that process session. |
 | `magicka_patch_crash_report_written` | The patch writes a crash report and reports aggregate input-selection totals collected before the crash. |
 | `magicka_patch_network_guard_drop` | A guard ignored an unsafe network action that could otherwise crash the game. |
@@ -30,6 +30,16 @@ advertising, or player profiling.
 
 Common fields include the patch version, game version, operating system, event
 name, and a generated telemetry identifier.
+
+Startup events include an original-backup audit for the Steam files targeted by
+the patch. The audit checks the installer manifest, files below
+`CommunityPatch\backup`, and plausible manually named backup files next to the
+game executable. It compares file size and the known SHA-256 hash in the
+background telemetry worker. The startup and render threads do not wait for the
+audit. The event reports only the audit schema, Steam build catalog, the status
+of each required file (`verified`, `unverified`, `missing`, or `audit_failed`),
+and a combined status. Local paths, file names, file contents, and hashes are
+not submitted. When telemetry is disabled, the audit is not run.
 
 Network guard events may also include the guarded subsystem, packet type, reason
 code, short diagnostic details, and hashes used to group similar failures.

@@ -11,6 +11,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
 import 'localization.dart';
+import 'original_game_files.dart';
 
 String? _assetPackage;
 const String _buildDefaultLocale = String.fromEnvironment('APP_LOCALE');
@@ -161,7 +162,7 @@ String _option(List<String> args, String key) {
 }
 
 class AppConstants {
-  static const patchVersion = '0.0.42';
+  static const patchVersion = '0.0.43';
   static const settingsDirectoryName = 'CommunityPatch';
   static const settingsFileName = 'patch-settings.ini';
   static const manifestFileName = 'install-manifest.ini';
@@ -171,6 +172,8 @@ class AppConstants {
   static const uninstallerFileName = 'MagickaPatchUninstaller.exe';
   static const uninstallerCommandFileName = 'uninstall_magicka_patch.cmd';
   static const magickaSteamAppId = '42910';
+  static const magickaSteamValidationUrl =
+      'steam://validate/$magickaSteamAppId';
   static const patreonUrl =
       'https://www.patreon.com/c/alexander_aue_johr/membership';
   static const bitesquidModLoaderUrl =
@@ -455,24 +458,23 @@ class _InstallerScreenState extends State<InstallerScreen>
 
       final existingManifest = await _readIniFile(
           _join(communityDir.path, AppConstants.manifestFileName));
-      var magickaBackup =
-          existingManifest['original_magicka_backup']?.trim() ?? '';
-      var polygonBackup =
-          existingManifest['original_polygonhead_backup']?.trim() ?? '';
-      if (magickaBackup.isEmpty || !File(magickaBackup).existsSync()) {
-        magickaBackup =
-            await _findOriginalBackupFile(backupDir.path, 'Magicka.exe') ??
-                await _backupIfExists(gameDir, backupDir.path, 'Magicka.exe');
-      }
-      if (polygonBackup.isEmpty || !File(polygonBackup).existsSync()) {
-        polygonBackup = await _findOriginalBackupFile(
-                backupDir.path, 'PolygonHead.dll') ??
-            await _backupIfExists(gameDir, backupDir.path, 'PolygonHead.dll');
+      final originalBackups = await _ensureVerifiedOriginalBackups(
+        context,
+        gameDirectory: gameDir,
+        backupDirectory: backupDir.path,
+        manifest: existingManifest,
+      );
+      if (originalBackups == null) {
+        if (mounted) {
+          setState(() => _status = s.t('originalFileRecoveryCancelled'));
+        }
+        return;
       }
       await _writePayload(gameDir, 'Magicka.exe');
       await _writePayload(gameDir, 'PolygonHead.dll');
       await _writeSettings(gameDir);
-      await _writeManifest(gameDir, magickaBackup, polygonBackup);
+      await _writeManifest(
+          gameDir, originalBackups.magicka!, originalBackups.polygonHead!);
       await _installTools(gameDir);
       await _sendPatchTelemetryEvent(
         eventName: AppConstants.telemetryEventInstalled,
@@ -922,6 +924,8 @@ class _InstallerScreenState extends State<InstallerScreen>
     final steamFound = await _findMagickaDirectoryFromSteam();
     if (steamFound != null) return steamFound;
 
+    if (!Platform.isWindows) return null;
+
     final candidates = <String>[
       _join(
           Platform.environment['ProgramFiles(x86)'] ??
@@ -948,50 +952,26 @@ class _InstallerScreenState extends State<InstallerScreen>
 
   Future<String?> _findMagickaDirectoryFromSteam() async {
     final steamDirs = await _findSteamDirectories();
-    final libraryDirs = <String>[];
-    for (final steamDir in steamDirs) {
-      _addUniquePath(libraryDirs, steamDir);
-      final libraryFile =
-          File(_join(steamDir, r'steamapps\libraryfolders.vdf'));
-      if (!await libraryFile.exists()) continue;
-      try {
-        final values = _readValveKeyValues(await libraryFile.readAsString());
-        for (final path in values['path'] ?? const <String>[]) {
-          _addUniquePath(libraryDirs, path);
-        }
-        values.forEach((key, paths) {
-          if (int.tryParse(key) == null) return;
-          for (final path in paths) {
-            if (path.contains('\\') || path.contains('/')) {
-              _addUniquePath(libraryDirs, path);
-            }
-          }
-        });
-      } catch (_) {}
-    }
-
-    for (final libraryDir in libraryDirs) {
-      final manifest = File(_join(libraryDir, 'steamapps',
-          'appmanifest_${AppConstants.magickaSteamAppId}.acf'));
-      if (await manifest.exists()) {
-        try {
-          final values = _readValveKeyValues(await manifest.readAsString());
-          for (final installDir in values['installdir'] ?? const <String>[]) {
-            final candidate =
-                _join(libraryDir, 'steamapps', _join('common', installDir));
-            if (_isValidMagickaDirectory(candidate)) return candidate;
-          }
-        } catch (_) {}
-      }
-
-      final candidate = _join(libraryDir, r'steamapps\common\Magicka');
-      if (_isValidMagickaDirectory(candidate)) return candidate;
-    }
-    return null;
+    return findSteamAppDirectory(
+      steamDirectories: steamDirs,
+      appId: AppConstants.magickaSteamAppId,
+      fallbackInstallDirectory: 'Magicka',
+      windowsPaths: Platform.isWindows,
+      isValidDirectory: _isValidMagickaDirectory,
+    );
   }
 
   Future<List<String>> _findSteamDirectories() async {
     final dirs = <String>[];
+    if (Platform.isLinux) {
+      for (final candidate
+          in linuxSteamDirectoryCandidates(Platform.environment)) {
+        _addUniquePath(dirs, candidate);
+      }
+      return dirs.where((dir) => Directory(dir).existsSync()).toList();
+    }
+    if (!Platform.isWindows) return dirs;
+
     final envProgramFilesX86 =
         Platform.environment['ProgramFiles(x86)'] ?? r'C:\Program Files (x86)';
     final envProgramFiles =
@@ -1035,20 +1015,6 @@ class _InstallerScreenState extends State<InstallerScreen>
     if (path.isEmpty) return false;
     return File(_join(path, 'Magicka.exe')).existsSync() &&
         File(_join(path, 'steam_api.dll')).existsSync();
-  }
-
-  Future<String> _backupIfExists(
-      String gameDir, String backupDir, String fileName) async {
-    final source = File(_join(gameDir, fileName));
-    if (!source.existsSync()) return '';
-    var destination = File(_join(backupDir, '$fileName.original'));
-    var index = 1;
-    while (destination.existsSync()) {
-      destination = File(_join(backupDir, '$fileName.original.$index'));
-      index++;
-    }
-    await source.copy(destination.path);
-    return destination.path;
   }
 
   Future<void> _writePayload(String gameDir, String fileName) async {
@@ -1979,8 +1945,12 @@ class _UninstallerScreenState extends State<UninstallerScreen>
     });
 
     try {
-      await _uninstallPatch(_gameDir);
+      final removed = await _uninstallPatch(_gameDir);
       if (!mounted) return;
+      if (!removed) {
+        setState(() => _status = s.t('originalFileRecoveryCancelled'));
+        return;
+      }
       setState(() {
         _removed = true;
         _status = s.t('thePatchWasRemoved');
@@ -1995,25 +1965,23 @@ class _UninstallerScreenState extends State<UninstallerScreen>
     }
   }
 
-  Future<void> _uninstallPatch(String gameDir) async {
+  Future<bool> _uninstallPatch(String gameDir) async {
     final communityDir =
         Directory(_join(gameDir, AppConstants.settingsDirectoryName));
     final backupDir = _join(communityDir.path, 'backup');
     final manifest = await _readIniFile(
         _join(communityDir.path, AppConstants.manifestFileName));
-    final magickaBackup = await _findOriginalBackupFile(
-        backupDir, 'Magicka.exe', manifest['original_magicka_backup']);
-    final polygonBackup = await _findOriginalBackupFile(
-        backupDir, 'PolygonHead.dll', manifest['original_polygonhead_backup']);
+    final originalBackups = await _ensureVerifiedOriginalBackups(
+      context,
+      gameDirectory: gameDir,
+      backupDirectory: backupDir,
+      manifest: manifest,
+    );
+    if (originalBackups == null) return false;
 
-    if (magickaBackup == null || polygonBackup == null) {
-      throw FileSystemException(
-          'Original backup files were not found. Cannot safely restore the unpatched game.',
-          backupDir);
-    }
-
-    await File(magickaBackup).copy(_join(gameDir, 'Magicka.exe'));
-    await File(polygonBackup).copy(_join(gameDir, 'PolygonHead.dll'));
+    await File(originalBackups.magicka!).copy(_join(gameDir, 'Magicka.exe'));
+    await File(originalBackups.polygonHead!)
+        .copy(_join(gameDir, 'PolygonHead.dll'));
 
     await _deleteIfExists(_join(gameDir, AppConstants.installerFileName));
     await _deleteIfExists(_join(gameDir, AppConstants.toolFileName));
@@ -2026,6 +1994,7 @@ class _UninstallerScreenState extends State<UninstallerScreen>
     } catch (_) {}
 
     await _scheduleToolCleanup(gameDir);
+    return true;
   }
 
   Future<void> _scheduleToolCleanup(String gameDir) async {
@@ -3864,19 +3833,191 @@ String _newTelemetryId() {
 }
 
 String _join(String a, String b, [String? c]) {
-  final first =
-      a.endsWith(r'\') || a.endsWith('/') ? a.substring(0, a.length - 1) : a;
-  final second = b.startsWith(r'\') || b.startsWith('/') ? b.substring(1) : b;
-  if (c == null) return '$first\\$second';
-  return _join('$first\\$second', c);
+  return joinPathForPlatform(
+    a,
+    b,
+    c: c,
+    windowsPaths: Platform.isWindows,
+  );
 }
 
 void _addUniquePath(List<String> paths, String path) {
-  final normalized = path.trim().replaceAll('/', '\\');
+  _addUniquePathForPlatform(paths, path, windowsPaths: Platform.isWindows);
+}
+
+String joinPathForPlatform(
+  String a,
+  String b, {
+  String? c,
+  required bool windowsPaths,
+}) {
+  final separator = windowsPaths ? r'\' : '/';
+  String normalize(String value) =>
+      value.trim().replaceAll(windowsPaths ? '/' : r'\', separator);
+  String trimEnd(String value) {
+    while (value.length > 1 && value.endsWith(separator)) {
+      value = value.substring(0, value.length - 1);
+    }
+    return value;
+  }
+
+  String trimStart(String value) {
+    while (value.startsWith(separator)) {
+      value = value.substring(1);
+    }
+    return value;
+  }
+
+  final first = trimEnd(normalize(a));
+  final second = trimStart(normalize(b));
+  final joined = '$first$separator$second';
+  if (c == null) return joined;
+  return joinPathForPlatform(
+    joined,
+    c,
+    windowsPaths: windowsPaths,
+  );
+}
+
+List<String> linuxSteamDirectoryCandidates(Map<String, String> environment) {
+  final paths = <String>[];
+  void add(String path) {
+    _addUniquePathForPlatform(paths, path, windowsPaths: false);
+  }
+
+  final home = environment['HOME']?.trim() ?? '';
+  final xdgDataHome = environment['XDG_DATA_HOME']?.trim() ?? '';
+  final compatClient =
+      environment['STEAM_COMPAT_CLIENT_INSTALL_PATH']?.trim() ?? '';
+  if (compatClient.isNotEmpty) add(compatClient);
+  if (xdgDataHome.isNotEmpty) {
+    add(joinPathForPlatform(
+      xdgDataHome,
+      'Steam',
+      windowsPaths: false,
+    ));
+  }
+  if (home.isNotEmpty) {
+    add(joinPathForPlatform(
+      home,
+      '.local/share/Steam',
+      windowsPaths: false,
+    ));
+    add(joinPathForPlatform(
+      home,
+      '.steam/steam',
+      windowsPaths: false,
+    ));
+    add(joinPathForPlatform(
+      home,
+      '.steam/root',
+      windowsPaths: false,
+    ));
+    add(joinPathForPlatform(
+      home,
+      '.var/app/com.valvesoftware.Steam/.local/share/Steam',
+      windowsPaths: false,
+    ));
+    add(joinPathForPlatform(
+      home,
+      'snap/steam/common/.local/share/Steam',
+      windowsPaths: false,
+    ));
+  }
+  return paths;
+}
+
+Future<String?> findSteamAppDirectory({
+  required List<String> steamDirectories,
+  required String appId,
+  required String fallbackInstallDirectory,
+  required bool windowsPaths,
+  required bool Function(String path) isValidDirectory,
+}) async {
+  final libraryDirectories = <String>[];
+  for (final steamDirectory in steamDirectories) {
+    _addUniquePathForPlatform(
+      libraryDirectories,
+      steamDirectory,
+      windowsPaths: windowsPaths,
+    );
+    final libraryFile = File(joinPathForPlatform(
+      steamDirectory,
+      r'steamapps\libraryfolders.vdf',
+      windowsPaths: windowsPaths,
+    ));
+    if (!await libraryFile.exists()) continue;
+    try {
+      final values = _readValveKeyValues(await libraryFile.readAsString());
+      for (final path in values['path'] ?? const <String>[]) {
+        _addUniquePathForPlatform(
+          libraryDirectories,
+          path,
+          windowsPaths: windowsPaths,
+        );
+      }
+      values.forEach((key, paths) {
+        if (int.tryParse(key) == null) return;
+        for (final path in paths) {
+          if (path.contains(r'\') || path.contains('/')) {
+            _addUniquePathForPlatform(
+              libraryDirectories,
+              path,
+              windowsPaths: windowsPaths,
+            );
+          }
+        }
+      });
+    } catch (_) {}
+  }
+
+  for (final libraryDirectory in libraryDirectories) {
+    final manifest = File(joinPathForPlatform(
+      libraryDirectory,
+      'steamapps',
+      c: 'appmanifest_$appId.acf',
+      windowsPaths: windowsPaths,
+    ));
+    if (await manifest.exists()) {
+      try {
+        final values = _readValveKeyValues(await manifest.readAsString());
+        for (final installDirectory
+            in values['installdir'] ?? const <String>[]) {
+          final candidate = joinPathForPlatform(
+            libraryDirectory,
+            'steamapps/common',
+            c: installDirectory,
+            windowsPaths: windowsPaths,
+          );
+          if (isValidDirectory(candidate)) return candidate;
+        }
+      } catch (_) {}
+    }
+
+    final candidate = joinPathForPlatform(
+      libraryDirectory,
+      'steamapps/common',
+      c: fallbackInstallDirectory,
+      windowsPaths: windowsPaths,
+    );
+    if (isValidDirectory(candidate)) return candidate;
+  }
+  return null;
+}
+
+void _addUniquePathForPlatform(
+  List<String> paths,
+  String path, {
+  required bool windowsPaths,
+}) {
+  final normalized = path
+      .trim()
+      .replaceAll(windowsPaths ? '/' : r'\', windowsPaths ? r'\' : '/');
   if (normalized.isEmpty) return;
-  final comparable = normalized.toLowerCase();
+  final comparable = windowsPaths ? normalized.toLowerCase() : normalized;
   for (final existing in paths) {
-    if (existing.toLowerCase() == comparable) return;
+    final existingComparable = windowsPaths ? existing.toLowerCase() : existing;
+    if (existingComparable == comparable) return;
   }
   paths.add(normalized);
 }
@@ -3968,33 +4109,90 @@ Future<void> _deleteIfExists(String path) async {
   } catch (_) {}
 }
 
-Future<String?> _findOriginalBackupFile(String backupDir, String fileName,
-    [String? manifestPath]) async {
-  final manifestValue = manifestPath?.trim() ?? '';
-  if (manifestValue.isNotEmpty && await File(manifestValue).exists()) {
-    return manifestValue;
-  }
+Future<OriginalBackupFiles?> _ensureVerifiedOriginalBackups(
+  BuildContext context, {
+  required String gameDirectory,
+  required String backupDirectory,
+  required Map<String, String> manifest,
+  OriginalGameFileStore store = const OriginalGameFileStore(),
+  Future<void> Function(String url)? openUrl,
+}) async {
+  Future<OriginalBackupFiles> resolve() => store.resolve(
+        gameDirectory: gameDirectory,
+        backupDirectory: backupDirectory,
+        manifestMagickaPath: manifest['original_magicka_backup'],
+        manifestPolygonHeadPath: manifest['original_polygonhead_backup'],
+      );
 
-  final direct = File(_join(backupDir, '$fileName.original'));
-  if (await direct.exists()) return direct.path;
+  var backups = await resolve();
+  if (backups.complete) return backups;
+  if (!context.mounted) return null;
 
-  final directory = Directory(backupDir);
-  if (!await directory.exists()) return null;
-  final candidates = <String>[];
-  await for (final entity
-      in directory.list(recursive: false, followLinks: false)) {
-    if (entity is! File) continue;
-    final parts = entity.path
-        .split(RegExp(r'[\\/]+'))
-        .where((part) => part.isNotEmpty)
-        .toList();
-    final name = parts.isEmpty ? '' : parts.last.toLowerCase();
-    if (name.startsWith('$fileName.original'.toLowerCase())) {
-      candidates.add(entity.path);
-    }
+  final strings = AppStrings.of(context);
+  final confirmed = await showDialog<bool>(
+        context: context,
+        barrierDismissible: false,
+        builder: (dialogContext) => AlertDialog(
+          backgroundColor: const Color(0xff101315),
+          title: Text(strings.t('originalFilesRequiredTitle')),
+          content: SizedBox(
+            width: 520,
+            child: Text(strings.t('originalFilesRequiredBody')),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, false),
+              child: Text(strings.t('cancel')),
+            ),
+            FilledButton.icon(
+              onPressed: () => Navigator.pop(dialogContext, true),
+              icon: const Icon(Icons.verified_rounded, size: 18),
+              label: Text(strings.t('validateWithSteam')),
+            ),
+          ],
+        ),
+      ) ??
+      false;
+  if (!confirmed) return null;
+
+  await (openUrl ?? _openExternalUrl)(AppConstants.magickaSteamValidationUrl);
+  var validationWasNotReady = false;
+  while (context.mounted) {
+    final checkAgain = await showDialog<bool>(
+          context: context,
+          barrierDismissible: false,
+          builder: (dialogContext) => AlertDialog(
+            backgroundColor: const Color(0xff101315),
+            title: Text(strings.t(validationWasNotReady
+                ? 'steamValidationNotReadyTitle'
+                : 'steamValidationStartedTitle')),
+            content: SizedBox(
+              width: 520,
+              child: Text(strings.t(validationWasNotReady
+                  ? 'steamValidationNotReadyBody'
+                  : 'steamValidationStartedBody')),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext, false),
+                child: Text(strings.t('cancel')),
+              ),
+              FilledButton.icon(
+                onPressed: () => Navigator.pop(dialogContext, true),
+                icon: const Icon(Icons.refresh_rounded, size: 18),
+                label: Text(strings.t('checkOriginalFilesAgain')),
+              ),
+            ],
+          ),
+        ) ??
+        false;
+    if (!checkAgain) return null;
+
+    backups = await resolve();
+    if (backups.complete) return backups;
+    validationWasNotReady = true;
   }
-  candidates.sort();
-  return candidates.isEmpty ? null : candidates.first;
+  return null;
 }
 
 Future<void> _copyDirectory(Directory source, Directory destination) async {

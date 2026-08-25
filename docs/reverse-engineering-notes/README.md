@@ -17,6 +17,10 @@ parts of a closed-source game.
 
 Patch-site notes:
 
+- [Paradox store price render-thread hang](paradox-store-price-render-thread-hang.md)
+  documents the reproducible 100-second intro-to-loading pause, the staged
+  render-thread diagnosis, the obsolete HTTP endpoint, and the asynchronous
+  price-refresh guard.
 - [In-game UI render scaling](in-game-ui-render-scaling.md) explains the
   virtual gameplay-GUI render target, render-thread-only size accessors,
   pre-rendered position conversion, contextual notifier alignment, and menu

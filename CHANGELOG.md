@@ -1,5 +1,41 @@
 # Changelog
 
+## [0.0.43] - 2026-08-26
+
+### Fixed
+
+- Prevent the campaign transition from blocking for roughly 100 seconds after
+  the intro is skipped while legacy Paradox store prices are requested. The
+  price refresh now runs on a guarded ThreadPool worker instead of the render
+  thread, and the obsolete offers endpoint uses HTTPS. Prices are still applied
+  if the background requests eventually succeed.
+
+### Installer
+
+- Fix automatic Magicka discovery in Linux builds by using native path
+  separators and searching native Steam, Flatpak, Snap, and Proton client
+  locations, including additional libraries from `libraryfolders.vdf`.
+- Verify original `Magicka.exe` and `PolygonHead.dll` backups by size and
+  SHA-256 before using them for installation or uninstallation. Invalid files
+  with backup-looking names are preserved but never treated as originals.
+- When verified originals are unavailable, offer to open Magicka's Steam file
+  validation with `steam://validate/42910`. The installer waits for the player
+  to confirm completion, verifies both restored files, and saves them under
+  `CommunityPatch\backup` before continuing.
+
+### Telemetry
+
+- Add an optional startup backup audit to measure whether players already have
+  usable original-file backups for a future local patcher. The audit runs only
+  on the background telemetry worker when usage sharing is enabled and reports
+  status values only; it does not submit paths, file names, contents, or hashes.
+
+### Documentation
+
+- Document the reproduction and staged diagnosis of the Paradox store
+  render-thread hang, including the confirmed blocking call path and the final
+  asynchronous patch behavior.
+
 ## [0.0.42] - 2026-08-10
 
 ### Fixed
