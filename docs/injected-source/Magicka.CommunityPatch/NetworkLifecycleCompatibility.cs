@@ -126,6 +126,63 @@ namespace Magicka.CommunityPatch
 					message.Bool2));
 		}
 
+		internal static void ReportIncomingSpawnAgainstActiveHandle(
+			ref TriggerActionMessage message)
+		{
+			try
+			{
+			switch (message.ActionType)
+			{
+			case TriggerActionType.SpawnNPC:
+			case TriggerActionType.SpawnLuggage:
+			case TriggerActionType.SpawnElemental:
+			case TriggerActionType.SpawnItem:
+			case TriggerActionType.SpawnMagick:
+			case TriggerActionType.SpawnDamageablePhysicsEntity:
+			case TriggerActionType.SpawnGrease:
+			case TriggerActionType.SpawnTornado:
+				break;
+			default:
+				return;
+			}
+
+			PlayState playState = PlayState.RecentPlayState;
+			Entity entity = message.Handle < 0 ? null : Entity.GetFromHandle(message.Handle);
+			if (entity == null || entity.IsDisposed || playState == null ||
+				entity.PlayState != playState || playState.EntityManager == null ||
+				!playState.EntityManager.Contains(entity))
+			{
+				return;
+			}
+
+			Character character = entity as Character;
+			NonPlayerCharacter npc = entity as NonPlayerCharacter;
+			int currentTemplate = character == null ? 0 : character.Type;
+			string entityType = entity.GetType().FullName;
+			string actionType = message.ActionType.ToString();
+			PatchTelemetry.SendNetworkDiagnostic(
+				"client",
+				"EntityHandleReuse",
+				"entity_handle_active_spawn_observed",
+				actionType + "|" + entityType,
+				string.Format(
+					"actionType={0}; handle={1}; entityType={2}; currentId={3}; incomingId={4}; currentTemplate={5}; incomingTemplate={6}; npcDead={7}; sameId={8}; sameTemplate={9}",
+					actionType,
+					message.Handle,
+					entityType,
+					entity.UniqueID,
+					message.Id,
+					currentTemplate,
+					message.Template,
+					npc != null && npc.Dead,
+					entity.UniqueID == message.Id,
+					currentTemplate != 0 && currentTemplate == message.Template));
+			}
+			catch
+			{
+			}
+		}
+
 		internal static void ReportHotjoinBroadcastContinue(ISendable sendable, int syncingClientIndex, int clientCount)
 		{
 			int laterClientCount = clientCount - syncingClientIndex - 1;
