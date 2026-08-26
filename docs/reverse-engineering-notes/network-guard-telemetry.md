@@ -123,6 +123,7 @@ counted over time:
 | `spawn_mine_*` | Mine entity or owner is missing, or the spawned mine has no play state. |
 | `spawn_vortex_*` | Vortex instance, owner, or play state is missing. |
 | `missile_event_*` | Remote missile event references a missing/unusable missile, target, collision target, condition collection, hit list, or damage target. |
+| `missile_event_collision_target_unusable_missile_killed` | The collision target was unavailable, so target-dependent effects were skipped and the consumed missile was removed locally. |
 | `character_action_missing_or_unusable_character` | A character action references a missing, disposed, or detached character. |
 | `character_action_template_not_cached` | A character action needs to restore its character template, but the stored template hash is not cached or the reapply did not produce a template. |
 | `spawn_player_missing_gamer_for_template` / `spawn_player_template_not_cached` | A SpawnPlayer packet cannot safely obtain its player's cached avatar template before initialization. |
