@@ -18,7 +18,7 @@ namespace Magicka.CommunityPatch
 
 		private const float TriggerThreshold = 0.5f;
 
-		private static readonly bool sEnabled = !PatchSettings.Load().UseMagicka1ControllerScheme;
+		private static bool sEnabled = !PatchSettings.Load().UseMagicka1ControllerScheme;
 
 		private static readonly bool[] sAimActive = new bool[4];
 
@@ -31,6 +31,31 @@ namespace Magicka.CommunityPatch
 		internal static bool IsEnabled()
 		{
 			return sEnabled;
+		}
+
+		internal static void SetEnabled(bool enabled)
+		{
+			if (sEnabled == enabled)
+			{
+				return;
+			}
+			sEnabled = enabled;
+			ResetRuntimeState();
+			HybridInputSupport.ControllerModeChanged();
+			PatchSettings patchSettings = PatchSettings.Load();
+			patchSettings.UseMagicka1ControllerScheme = !enabled;
+			patchSettings.Save();
+		}
+
+		private static void ResetRuntimeState()
+		{
+			for (int i = 0; i < sAimActive.Length; i++)
+			{
+				sAimActive[i] = false;
+				sLastAim[i] = Vector2.Zero;
+				sModifierUsed[i] = false;
+				sTriggerMagick[i] = false;
+			}
 		}
 
 		internal static bool Pressed(GamePadState current, GamePadState previous, Buttons button)

@@ -177,6 +177,19 @@ namespace Magicka.CommunityPatch
 			sHudLabelMode = -1;
 		}
 
+		internal static void ControllerModeChanged()
+		{
+			foreach (Player player in Game.Instance.ConnectedPlayers)
+			{
+				if (!player.IsNetworkGamer && player.Controller is XInputController)
+				{
+					Neutralize(player.Avatar);
+				}
+			}
+			sControllerHudMode = Magicka2ControllerSupport.IsEnabled() && sHudPadIndex >= 0;
+			sHudLabelMode = -1;
+		}
+
 		// Controller HUD fine tuning. "position" selects one of DrawIcon's four
 		// 50-pixel X slots. xOffset/yOffset then move the complete existing texture
 		// group (shadow, element icon, and key-label background). Positive X moves
