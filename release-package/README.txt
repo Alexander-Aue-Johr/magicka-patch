@@ -26,7 +26,9 @@ Controller scheme
 Default XInput gameplay controls:
 
   Left stick       Move
-  Right stick      Aim / cast a queued spell forward
+  Right stick      Aim / cast a queued spell forward; force push with no spell
+  L3 or D-pad right
+                   Strengthen the force field in the aimed direction
   LT / L2          Area cast
   RB / R1          Self cast / staff ability
   RT / R2          Weapon imbue / melee attack
@@ -60,11 +62,16 @@ original configurable controls.
 R3 does nothing in multiplayer because Magicka 1 cannot safely remove an
 already-replicated element queue from every peer.
 
-To use Magicka's original controller scheme instead, set:
+The controller scheme can be changed while playing under:
+
+  Pause menu > Options > Controls > Controller Mode
+
+The change takes effect immediately. To select Magicka's original controller
+scheme manually instead, set:
 
   use_magicka_1_controller_scheme=true
 
-Restart Magicka after changing this value.
+Restart Magicka after changing the file manually.
 
 To disable telemetry and online update checks
 ---------------------------------------------

@@ -58,9 +58,9 @@ report, decompiler directory, CSV, or proposed diff.
    supports closing them.
 
 Create and update issues through an authenticated GitHub CLI or the GitHub REST
-API. Read the final issue body back from GitHub after each write. Do not publish
-an issue that contains local paths, credentials, draft commentary, or claims
-that are not supported by the code or supplied telemetry.
+API. Read the final issue body or comment back from GitHub after each write. Do
+not publish an issue that contains local paths, credentials, draft commentary,
+or claims that are not supported by the code or supplied telemetry.
 
 ### Telemetry design
 
@@ -91,10 +91,13 @@ that are not supported by the code or supplied telemetry.
 - Keep readable C# equivalents of injected helpers under
   `docs/injected-source/`. When original Magicka methods change at IL level,
   record a focused C# diff for review when requested.
-- Compare the finished assembly with the exact pre-change assembly by metadata
-  token. Confirm that only the intended existing methods changed and only the
-  intended helper methods or fields were added. Reject accidental assembly
-  references, CLR 4 references, decompiler noise, and unrelated metadata edits.
+- Compare the finished assembly with the exact pre-change assembly. Match
+  existing definitions by stable type, field, and method signature, then inspect
+  their metadata and bodies. Added members can renumber later metadata tokens,
+  so token-number changes alone are not behavioral changes. Confirm that only
+  the intended existing methods changed and only the intended helper methods or
+  fields were added. Reject accidental assembly references, CLR 4 references,
+  decompiler noise, and unrelated metadata edits.
 - Verify the PE/CLI metadata and inspect the final IL around every patched
   branch. A successful decompilation is useful, but it does not replace the
   token comparison and focused IL review.
@@ -110,8 +113,9 @@ that are not supported by the code or supplied telemetry.
   do not create the release commit, create or move a tag, push to `main`, create
   a GitHub release, or upload release assets. An ephemeral
   `actions/windows-release-*` branch may be pushed before approval only to build
-  the requested Windows artifacts. Delete that branch and its workflow artifact
-  after downloading the ZIPs.
+  the requested Windows artifacts. The temporary build-snapshot commit must stay
+  off `main` and is not the release commit. Delete that branch and its workflow
+  artifact after downloading the ZIPs.
 - If any release-related file or artifact changes after approval, show the
   updated result and obtain a fresh explicit OK before publishing.
 
@@ -158,7 +162,8 @@ changed version reference before starting platform builds.
 
    - `Magicka.exe`
    - `CHANGELOG.md`
-   - root `README.md` installer and files-only download links
+   - root `README.md` Windows installer, Linux installer when present, and
+     files-only download links
    - `magicka-patch-installer-ui/pubspec.yaml`
    - `magicka-patch-installer-ui/lib/main.dart`
    - `magicka-patch-installer-ui/lib/localization.dart`
@@ -219,23 +224,31 @@ version used for release validation:
 2. Create an annotated tag named exactly `<version>` with message `Release <version>`.
 3. Push `main`, then push the tag. Do not force-push and do not create merge commits.
 4. Create a non-draft, non-prerelease GitHub release from that tag. Use concise release notes describing the user-visible fix and installer/package changes.
-5. Upload exactly `release\magicka-community-patch-<version>-installer.zip` and `release\magicka-community-patch-<version>-files-only.zip` as the release assets and verify both asset names and sizes on GitHub.
+5. Upload `release\magicka-community-patch-<version>-installer.zip` and
+   `release\magicka-community-patch-<version>-files-only.zip`. When a Linux
+   installer was prepared for the release, also upload
+   `release/magicka-community-patch-<version>-linux-installer.zip`. Verify all
+   uploaded asset names and sizes on GitHub.
 
 ## Update the latest-download links
 
 Before presenting the release diff for approval, update the root `README.md` to
-show both latest-release links:
+show the Windows installer and files-only links. Add the Linux installer link
+when that package is part of the release:
 
 `https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/<version>/magicka-community-patch-<version>-installer.zip`
 
 `https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/<version>/magicka-community-patch-<version>-files-only.zip`
 
+`https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/<version>/magicka-community-patch-<version>-linux-installer.zip`
+
 Include these README changes in the same versioned release commit. Do not create
 a separate post-release README commit. Once the approved release commit, tag,
-and assets are pushed successfully, both links will resolve.
+and assets are pushed successfully, all listed links will resolve.
 
 ## Final checks and report
 
 - Verify `main` matches `origin/main`, the tag resolves to the intended release commit, and the working tree is clean.
-- Verify the GitHub release URL and that both ZIP assets are downloadable.
-- Report the release commit, tag, release URL, both asset names, sizes and SHA-256 hashes, and test result.
+- Verify the GitHub release URL and that every prepared ZIP asset is downloadable.
+- Report the release commit, tag, release URL, all asset names, sizes and SHA-256
+  hashes, and test result.

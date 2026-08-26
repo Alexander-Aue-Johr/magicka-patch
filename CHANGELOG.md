@@ -1,5 +1,53 @@
 # Changelog
 
+## [0.0.44] - 2026-08-26
+
+### Fixed
+
+- Add an in-game Controls menu for switching between Magicka's original
+  controller scheme and the Community Patch's Magicka 2-style scheme without
+  restarting the game.
+- Restore empty-queue force push in the Magicka 2-style scheme. Force fields can
+  now be strengthened with either left-stick click or D-pad right, while
+  right-stick click continues to clear the spell queue.
+- Apply tutorial element availability to the Magicka 2-style HUD and element
+  buttons. Switching from the controller to mouse and keyboard now preserves
+  the elements already unlocked by the tutorial.
+- Accept the active cache entries that Magicka deliberately reuses for item,
+  elemental, grease, tornado, and dead-NPC spawn packets. The 0.0.42 guard
+  still rejects live NPC replacement and incompatible entity types.
+- Remove a consumed missile locally when its collision target no longer exists.
+  Target-dependent damage remains skipped, but the projectile and its particle
+  effect no longer stay in the scene.
+- Resolve forced player-status synchronization by player ID and sender, and
+  build compact response arrays when player slots contain gaps.
+- Continue a server broadcast after queueing a cacheable packet for a syncing
+  player, so later live clients receive the same packet.
+- Replicate the necromancer staff's undead-summon flag to clients through an
+  existing unused `SpawnNPC` field. The packet layout remains unchanged for
+  mixed patch versions.
+- Reject NPC, luggage, elemental, item, magick, physics, grease, and tornado
+  spawn actions on a client when their sender is not the connected server.
+
+### Telemetry
+
+- Add bounded, exponentially rate-limited validation events for recovered
+  spawn reuse, missile cleanup, forced status sync, hotjoin broadcasts, and
+  undead summons. A repeated event reports how many matching events were
+  skipped since the previous send.
+- Add diagnostics for active handle reuse and stale damage attackers. These
+  record the state needed for the next correction without changing uncertain
+  gameplay behavior.
+- Record non-server TriggerAction types that are not yet assigned server or
+  peer authority. Known host-owned spawn actions are blocked immediately.
+
+### Installer
+
+- Add the Linux desktop runner and a complete Linux installer package alongside
+  the Windows installer and files-only package.
+- Keep the separate Linux download link unchanged when the Windows release
+  script updates versioned README links.
+
 ## [0.0.43] - 2026-08-26
 
 ### Fixed
