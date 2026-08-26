@@ -104,6 +104,28 @@ namespace Magicka.CommunityPatch
 			return message;
 		}
 
+		internal static void ReportUndeadSummonState(
+			ref TriggerActionMessage message,
+			string side)
+		{
+			if (!message.Bool2)
+			{
+				return;
+			}
+
+			PatchTelemetry.SendNetworkDiagnostic(
+				side,
+				"SpawnNPC",
+				side == "server" ? "summon_undead_state_sent" : "summon_undead_state_applied",
+				message.Template.ToString(),
+				string.Format(
+					"template={0}; handle={1}; masterHandle={2}; undeadFlag={3}",
+					message.Template,
+					message.Handle,
+					message.Scene,
+					message.Bool2));
+		}
+
 		internal static void ReportHotjoinBroadcastContinue(ISendable sendable, int syncingClientIndex, int clientCount)
 		{
 			int laterClientCount = clientCount - syncingClientIndex - 1;
