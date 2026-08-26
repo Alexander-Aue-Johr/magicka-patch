@@ -131,6 +131,7 @@ counted over time:
 | `damage_missing_or_unusable_*` | A damage packet references an unusable attacker or a target with no usable entity/body. |
 | `forced_player_status_sync_invalid_player_id_or_sender` | A forced status-sync request has no matching player/avatar or came from another player's client. |
 | `forced_player_status_sync_player_resolved` / `forced_player_status_sync_response_built` | A valid forced-sync request resolved its player and produced a populated response. |
+| `hotjoin_broadcast_continued` | A cacheable packet was queued for a syncing player and still sent to later live clients. |
 | `world_sync_spawn_npc_missing_or_unusable_entity` | A SpawnNPC WorldSync message references no usable NPC in the receiving play state and is dropped before entering the delayed action queue. |
 | `network_server_readmessage_*` | Last-resort server-side guard caught an otherwise unhandled null reference while reading a network packet. |
 | `CharacterActionMessage.Grip` reasons | Missing target character, missing body, missing gripper/gripped character, missing animation controller, missing skeleton, or invalid grip joint index. |

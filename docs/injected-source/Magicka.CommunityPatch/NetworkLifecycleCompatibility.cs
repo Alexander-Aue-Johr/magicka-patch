@@ -104,6 +104,27 @@ namespace Magicka.CommunityPatch
 			return message;
 		}
 
+		internal static void ReportHotjoinBroadcastContinue(ISendable sendable, int syncingClientIndex, int clientCount)
+		{
+			int laterClientCount = clientCount - syncingClientIndex - 1;
+			if (sendable == null || laterClientCount <= 0)
+			{
+				return;
+			}
+
+			string packetType = sendable.PacketType.ToString();
+			PatchTelemetry.SendNetworkDiagnostic(
+				"server",
+				"HotjoinBroadcast",
+				"hotjoin_broadcast_continued",
+				packetType,
+				string.Format(
+					"packetType={0}; syncingClientIndex={1}; laterClientCount={2}",
+					packetType,
+					syncingClientIndex,
+					laterClientCount));
+		}
+
 		internal static bool CanProcessTriggerAction(ref TriggerActionMessage message)
 		{
 			PlayState playState = PlayState.RecentPlayState;
