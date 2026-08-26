@@ -131,7 +131,8 @@ namespace Magicka.CommunityPatch
 			double numericValue;
 			bool numericSessionProperty = key == "keyboard_element_selection_count" ||
 				key == "controller_element_selection_count" ||
-				key == "controller_element_selection_ratio";
+				key == "controller_element_selection_ratio" ||
+				key == "skipped_count";
 			if (numericSessionProperty &&
 				double.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out numericValue) &&
 				!double.IsNaN(numericValue) && !double.IsInfinity(numericValue))
@@ -417,7 +418,8 @@ namespace Magicka.CommunityPatch
 		{
 			try
 			{
-				if (!NetworkGuardTelemetryBackoff.ShouldSend(reason))
+				int suppressedCount;
+				if (!NetworkGuardTelemetryBackoff.TryBeginSend(reason, string.Empty, out suppressedCount))
 				{
 					return;
 				}
@@ -430,7 +432,33 @@ namespace Magicka.CommunityPatch
 				dictionary["reason"] = PatchTelemetry.Safe(reason);
 				dictionary["details"] = PatchTelemetry.SafeLong(details);
 				dictionary["details_hash"] = PatchTelemetry.Safe(PatchTelemetry.HashShort(details));
+				dictionary["skipped_count"] = suppressedCount.ToString(CultureInfo.InvariantCulture);
 				PatchTelemetry.SendAsync("magicka_patch_network_guard_drop", dictionary);
+			}
+			catch
+			{
+			}
+		}
+
+		public static void SendNetworkDiagnostic(string side, string subsystem, string reason, string similarityKey, string details)
+		{
+			try
+			{
+				int suppressedCount;
+				if (!NetworkGuardTelemetryBackoff.TryBeginSend(reason, similarityKey, out suppressedCount))
+				{
+					return;
+				}
+				Dictionary<string, string> dictionary = new Dictionary<string, string>();
+				PatchTelemetry.AddCommonProperties(dictionary);
+				dictionary["side"] = PatchTelemetry.Safe(side);
+				dictionary["subsystem"] = PatchTelemetry.Safe(subsystem);
+				dictionary["reason"] = PatchTelemetry.Safe(reason);
+				dictionary["similarity_key"] = PatchTelemetry.Safe(similarityKey);
+				dictionary["details"] = PatchTelemetry.SafeLong(details);
+				dictionary["details_hash"] = PatchTelemetry.Safe(PatchTelemetry.HashShort(details));
+				dictionary["skipped_count"] = suppressedCount.ToString(CultureInfo.InvariantCulture);
+				PatchTelemetry.SendAsync("magicka_patch_network_diagnostic", dictionary);
 			}
 			catch
 			{

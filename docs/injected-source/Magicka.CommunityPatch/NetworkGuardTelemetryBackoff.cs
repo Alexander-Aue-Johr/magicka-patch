@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -16,29 +17,46 @@ namespace Magicka.CommunityPatch
 
 		private static readonly Dictionary<string, BackoffState> sStates = new Dictionary<string, BackoffState>(StringComparer.Ordinal);
 
+		private static Hashtable sCountedStates;
+
 		public static bool ShouldSend(string reason)
 		{
-			string key = reason ?? string.Empty;
+			int suppressedCount;
+			return NetworkGuardTelemetryBackoff.TryBeginSend(reason, string.Empty, out suppressedCount);
+		}
+
+		public static bool TryBeginSend(string reason, string similarityKey, out int suppressedCount)
+		{
+			string key = (reason ?? string.Empty) + "|" + (similarityKey ?? string.Empty);
 			lock (NetworkGuardTelemetryBackoff.sLock)
 			{
-				BackoffState backoffState;
-				if (!NetworkGuardTelemetryBackoff.sStates.TryGetValue(key, out backoffState))
+				if (NetworkGuardTelemetryBackoff.sCountedStates == null)
 				{
-					NetworkGuardTelemetryBackoff.sStates.Add(key, new BackoffState());
+					NetworkGuardTelemetryBackoff.sCountedStates = new Hashtable();
+				}
+				BackoffState backoffState = NetworkGuardTelemetryBackoff.sCountedStates[key] as BackoffState;
+				if (backoffState == null)
+				{
+					NetworkGuardTelemetryBackoff.sCountedStates[key] = new BackoffState();
+					suppressedCount = 0;
 					return true;
 				}
-				return NetworkGuardTelemetryBackoff.ShouldSend(backoffState);
+				return NetworkGuardTelemetryBackoff.TryBeginSend(backoffState, out suppressedCount);
 			}
 		}
 
-		private static bool ShouldSend(BackoffState state)
+		private static bool TryBeginSend(BackoffState state, out int suppressedCount)
 		{
 			long elapsedMilliseconds = state.Timer.ElapsedMilliseconds;
 			if (elapsedMilliseconds < (long)state.DelayMilliseconds)
 			{
+				state.SuppressedCount++;
+				suppressedCount = 0;
 				return false;
 			}
 
+			suppressedCount = state.SuppressedCount;
+			state.SuppressedCount = 0;
 			state.Timer.Reset();
 			state.Timer.Start();
 			if (elapsedMilliseconds >= QuietResetMilliseconds)
@@ -65,6 +83,8 @@ namespace Magicka.CommunityPatch
 			public readonly Stopwatch Timer = Stopwatch.StartNew();
 
 			public int DelayMilliseconds = InitialDelayMilliseconds;
+
+			public int SuppressedCount;
 		}
 	}
 }

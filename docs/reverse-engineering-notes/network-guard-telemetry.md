@@ -76,6 +76,7 @@ Network guards use two event names:
 | --- | --- |
 | `magicka_patch_network_guard_drop` | A malformed or unsafe network action was ignored before it could crash the game. |
 | `magicka_patch_network_guard_exception` | A guarded path still hit a `NullReferenceException`; the exception was caught and summarized. |
+| `magicka_patch_network_diagnostic` | A valid but unusual network path was processed and recorded for later validation. |
 | `magicka_patch_typing_text_guard_exception` | The typing text guard caught an invalid reveal index and forced the text to a completed state. |
 
 Crash-report telemetry may also emit `magicka_patch_crash_report_written` when a
@@ -98,6 +99,8 @@ Network guard events include:
 | `reason` | Stable reason code for grouping failures. |
 | `details` | Short diagnostic context, truncated by the telemetry helper. |
 | `details_hash` | Short hash of the diagnostic context for grouping similar failures. |
+| `similarity_key` | Bounded category used to rate-limit similar diagnostic events together. |
+| `skipped_count` | Number of matching events suppressed since the previous event in the same category. |
 | `exception_type` | Exception type for guarded exception events. |
 | `exception_message` | Exception message for guarded exception events. |
 | `exception_hash` | Short hash of the full exception string. |
@@ -142,6 +145,10 @@ the same reason are then allowed after 1, 2, 4, 8, 16, 32, 64, 128, 256, and
 at most 300 seconds. A quiet interval of at least 120 seconds resets that reason
 to the initial one-second delay. A different reason has its own timer and is
 therefore not suppressed by an unrelated noisy packet path.
+
+Diagnostic events use the same backoff with a bounded similarity key. The next
+event includes `skipped_count`, so the server receives the suppressed volume
+without receiving every repeated event.
 
 ## Player Controls
 

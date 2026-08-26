@@ -217,12 +217,44 @@ namespace Magicka.CommunityPatch
 
 		private static bool IsReservedForSpawn(Entity entity, PlayState playState)
 		{
-			return entity != null &&
-				!entity.IsDisposed &&
-				playState != null &&
-				entity.PlayState == playState &&
-				playState.EntityManager != null &&
-				!playState.EntityManager.Contains(entity);
+			if (entity == null || entity.IsDisposed || playState == null ||
+				entity.PlayState != playState || playState.EntityManager == null)
+			{
+				return false;
+			}
+
+			if (!playState.EntityManager.Contains(entity))
+			{
+				return true;
+			}
+
+			string typeName = entity.GetType().FullName;
+			if (typeName == "Magicka.GameLogic.Entities.Items.Item" ||
+				typeName == "Magicka.GameLogic.Entities.ElementalEgg" ||
+				typeName == "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Grease+GreaseField" ||
+				typeName == "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.TornadoEntity")
+			{
+				ReportActiveReuse(entity, playState, typeName);
+				return true;
+			}
+
+			NonPlayerCharacter nonPlayerCharacter = entity as NonPlayerCharacter;
+			if (nonPlayerCharacter == null || !nonPlayerCharacter.Dead)
+			{
+				return false;
+			}
+			ReportActiveReuse(entity, playState, typeName);
+			return true;
+		}
+
+		private static void ReportActiveReuse(Entity entity, PlayState playState, string typeName)
+		{
+			PatchTelemetry.SendNetworkDiagnostic(
+				"client",
+				"TriggerAction",
+				"trigger_action_active_slot_reused",
+				typeName,
+				BuildDetails(entity.Handle, 0, playState, entity));
 		}
 
 		private static void ReportDrop(
