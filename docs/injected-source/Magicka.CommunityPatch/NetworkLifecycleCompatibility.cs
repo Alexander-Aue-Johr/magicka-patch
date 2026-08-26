@@ -227,6 +227,56 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
+		internal static bool CanProcessTriggerActionFrom(
+			ref TriggerActionMessage message,
+			SteamID sender,
+			SteamID serverId)
+		{
+			if (sender.Equals(serverId))
+			{
+				return true;
+			}
+
+			bool requiresServer;
+			switch (message.ActionType)
+			{
+			case TriggerActionType.SpawnNPC:
+			case TriggerActionType.SpawnLuggage:
+			case TriggerActionType.SpawnElemental:
+			case TriggerActionType.SpawnItem:
+			case TriggerActionType.SpawnMagick:
+			case TriggerActionType.SpawnDamageablePhysicsEntity:
+			case TriggerActionType.SpawnGrease:
+			case TriggerActionType.SpawnTornado:
+				requiresServer = true;
+				break;
+			default:
+				requiresServer = false;
+				break;
+			}
+
+			string actionType = message.ActionType.ToString();
+			if (requiresServer)
+			{
+				PatchTelemetry.SendNetworkGuardDrop(
+					"client",
+					"TriggerAction",
+					string.Empty,
+					string.Empty,
+					"trigger_action_sender_is_not_server",
+					"actionType=" + actionType);
+				return false;
+			}
+
+			PatchTelemetry.SendNetworkDiagnostic(
+				"client",
+				"TriggerActionAuthority",
+				"trigger_action_non_server_sender_observed",
+				actionType,
+				"actionType=" + actionType);
+			return true;
+		}
+
 		internal static void ReportHotjoinBroadcastContinue(ISendable sendable, int syncingClientIndex, int clientCount)
 		{
 			int laterClientCount = clientCount - syncingClientIndex - 1;
