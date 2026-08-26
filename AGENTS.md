@@ -1,6 +1,103 @@
-# Codex release instructions
+# Codex repository instructions
 
-These instructions apply to the entire repository. When the user asks Codex to create a release, perform the complete workflow below unless the user explicitly narrows the scope.
+These instructions apply to the entire repository. When the user asks Codex to
+create a release, perform the complete release workflow below unless the user
+explicitly narrows the scope.
+
+## Writing style
+
+Use clear adult technical language in documentation, issues, release notes,
+comments, and explanations.
+
+- Write as a maintainer who knows the project. Do not sound like an investigator
+  reporting on somebody else's work.
+- State the result directly. Describe how it was discovered only when that
+  information is needed to reproduce or verify the result.
+- Prefer a release version over a commit hash. Mention a commit only when the
+  commit itself is useful for reviewing, linking, or bisecting a change.
+- Avoid forensic or evidentiary phrases such as "Git history places",
+  "demonstrably", "the evidence confirms", "independently demonstrated", and
+  "the investigation revealed".
+- Do not repeat a distinction that is already clear. For example, "added in
+  Community Patch 0.0.42" already says that the change is not part of the
+  original game.
+- Explain one important causal step per sentence. Use concrete subjects and
+  verbs, especially when describing failures and fixes.
+- Let technical accuracy create the professional tone. Do not make a sentence
+  sound formal merely to signal expertise.
+- Keep the reader at eye level. Avoid both unnecessary explanation of obvious
+  conclusions and patronizingly simplified language.
+- Prefer concise causal descriptions such as: "The guard prevents a crash, but
+  also skips projectile cleanup."
+
+## Issue-driven patch workflow
+
+Use one GitHub issue for one independently reviewable problem. The issue must
+contain everything needed to understand the problem; do not refer to a local
+report, decompiler directory, CSV, or proposed diff.
+
+1. Compare the current Community Patch with the original Magicka assembly.
+   State whether the faulty behavior belongs to Magicka, to the patch, or to an
+   interaction between both. Give the first affected patch version when it is
+   useful to players or maintainers.
+2. Describe the failing state and its consequence in direct language. Include
+   exact telemetry reason codes and representative examples when available.
+3. Propose the smallest fix that preserves packet compatibility and existing
+   game behavior outside the failing path.
+4. If the current code and telemetry are sufficient, implement the fix and add
+   narrowly scoped validation telemetry when runtime confirmation is still
+   useful. If the cause is uncertain, add diagnostic telemetry only.
+5. Make one commit per issue and include the issue number in the subject. Do not
+   combine unrelated fixes merely because they share a class or executable.
+6. When new telemetry is supplied later, compare the old and new reason codes,
+   recovered actions, remaining drops, affected versions, and time span. Either
+   implement the fix or refine the telemetry. Repeat until the issue has a
+   validated fix.
+7. Update the issue with the implemented behavior, telemetry reason codes, and
+   validation still required. Keep uncertain issues open until the runtime data
+   supports closing them.
+
+Create and update issues through an authenticated GitHub CLI or the GitHub REST
+API. Read the final issue body back from GitHub after each write. Do not publish
+an issue that contains local paths, credentials, draft commentary, or claims
+that are not supported by the code or supplied telemetry.
+
+### Telemetry design
+
+- Collect only fields that distinguish competing explanations or verify the
+  fix. Prefer stable types, enum values, state flags, and bounded categories.
+- Do not use raw handles, object IDs, timestamps, free text, player names, or
+  Steam IDs as rate-limit keys. They create unbounded cardinality and may expose
+  identifiers. They may appear in short diagnostic details only when necessary.
+- Send the first event immediately. Rate-limit repeats per reason and bounded
+  similarity key with exponential backoff. The next emitted event must include
+  `skipped_count`, the number suppressed since the previous event in that
+  category.
+- A high-frequency path needs a per-session cap or timed backoff before it can
+  ship. Telemetry must never block gameplay, throw into game code, or turn one
+  remote packet into one network request indefinitely.
+- Use a recovery event when the patch safely completes an action that used to
+  be dropped. Use a drop event when the action is still rejected. Use a
+  diagnostic event when behavior is unchanged and more context is needed.
+- Keep event names and reason codes stable across releases so a later export can
+  compare versions. Document new fields and reason codes in
+  `docs/reverse-engineering-notes/network-guard-telemetry.md`.
+
+### Managed assembly changes
+
+- Back up the input executable before patching it. Work under the ignored
+  `tmp/` directory and keep generated decompiler output, probes, replacement
+  assemblies, and intermediate executables there.
+- Keep readable C# equivalents of injected helpers under
+  `docs/injected-source/`. When original Magicka methods change at IL level,
+  record a focused C# diff for review when requested.
+- Compare the finished assembly with the exact pre-change assembly by metadata
+  token. Confirm that only the intended existing methods changed and only the
+  intended helper methods or fields were added. Reject accidental assembly
+  references, CLR 4 references, decompiler noise, and unrelated metadata edits.
+- Verify the PE/CLI metadata and inspect the final IL around every patched
+  branch. A successful decompilation is useful, but it does not replace the
+  token comparison and focused IL review.
 
 ## Mandatory user approval gate
 
@@ -10,28 +107,52 @@ These instructions apply to the entire repository. When the user asks Codex to c
   diff first. Then show the user a concise summary of all changes and artifacts
   and explicitly ask for approval to proceed.
 - Stop and wait for an explicit user OK given after that review. Before this OK,
-  do not create the release commit, create or move a tag, push release changes,
-  create a GitHub release, or upload release assets.
+  do not create the release commit, create or move a tag, push to `main`, create
+  a GitHub release, or upload release assets. An ephemeral
+  `actions/windows-release-*` branch may be pushed before approval only to build
+  the requested Windows artifacts. Delete that branch and its workflow artifact
+  after downloading the ZIPs.
 - If any release-related file or artifact changes after approval, show the
   updated result and obtain a fresh explicit OK before publishing.
 
 ## Release prerequisites
 
 - Work from `main` and pull with rebase so no merge commit is created.
-- Confirm the working tree and preserve user changes. The authoritative patched `Magicka.exe` is stored in the detected Steam Magicka directory, not necessarily in the repository before the build.
-- Require GitHub CLI (`gh`) to be installed and authenticated before publishing a GitHub release.
+- Confirm the working tree and preserve user changes. Decide explicitly whether
+  the repository or the detected Steam directory contains the authoritative
+  patched `Magicka.exe`. Never let the build script replace a newly patched
+  repository executable with an older game-directory copy. Use
+  `-SkipSteamPayloadSync` when the repository copy is authoritative.
+- Require an authenticated GitHub CLI or GitHub API client before publishing a
+  GitHub release.
 - Confirm that the requested version and tag do not already exist locally or on GitHub.
 - Update the root `CHANGELOG.md` with the target version and its user-visible
   changes before presenting the release for approval. Include it in the same
   release commit.
 
-## Build and validation
+## Version preparation
+
+Use `scripts/build-release.ps1 -Version <version>` on Windows to update the
+tracked version references. When that script cannot run on the current host,
+apply the same replacements listed in `Set-ProjectVersion` and patch the one
+UTF-16 version string in `Magicka.exe`. When the repository payload is
+authoritative, use `-SkipSteamPayloadSync`. Do not use `-SkipExeVersionPatch`
+for this preparation; the shipped executable and documented source must receive
+the target version. Add the new section to `CHANGELOG.md` and inspect every
+changed version reference before starting platform builds.
+
+## Windows build and validation
 
 1. Run the repository build script from the repository root:
 
-   `powershell -ExecutionPolicy Bypass -File .\scripts\build-release.ps1 -Version <version>`
+   `powershell -ExecutionPolicy Bypass -File .\scripts\build-release.ps1 -Version <version> -SkipSteamPayloadSync`
 
-   The script detects the Steam Magicka directory, copies its modified `Magicka.exe` and `PolygonHead.dll`, updates the executable, documented patch source, and Flutter project versions, copies the versioned `Magicka.exe` back to the Steam directory, builds the Windows UI, and creates both `release\magicka-community-patch-<version>-installer.zip` and `release\magicka-community-patch-<version>-files-only.zip`. This round trip keeps the executable used for continued game-patch development on the same version as the repository and release.
+   This form keeps the repository payload, updates the executable, documented
+   patch source, and Flutter project versions, builds the Windows UI, and
+   creates both `release\magicka-community-patch-<version>-installer.zip` and
+   `release\magicka-community-patch-<version>-files-only.zip`. Omit
+   `-SkipSteamPayloadSync` only when the detected Steam directory was explicitly
+   chosen as the authoritative patched payload.
 
 2. Verify every tracked product-version reference. At minimum check:
 
@@ -47,11 +168,50 @@ These instructions apply to the entire repository. When the user asks Codex to c
    - its `pubspec.lock` and README
    - `docs/injected-source/Magicka.CommunityPatch/CommunityPatchInfo.cs`
 
-3. Run `flutter test` in `magicka-patch-installer-ui` with the same Flutter installation used by the build script.
+3. Run `flutter analyze --no-pub` and `flutter test --no-pub` in
+   `magicka-patch-installer-ui` with the same Flutter installation used by the
+   build script.
 4. Inspect both ZIPs. Confirm the main ZIP contains the patched `Magicka.exe`, installer, updater, Flutter runtime/data, package README, and expected payload. Confirm the files-only ZIP contains exactly `Magicka.exe`, `PolygonHead.dll`, `patch-settings.ini`, and `README.txt`. Record both sizes and SHA-256 hashes.
 5. Review `git diff` and stage only release-related files. Do not commit ignored build output or the ignored `release` directory.
 6. Present the reviewed diff, test result, both ZIP names, sizes, and SHA-256
    hashes to the user and wait at the mandatory approval gate above.
+
+### Windows build through GitHub Actions
+
+Use `.github/workflows/prepare-windows-release.yml` when Windows is not
+available locally. The workflow installs the pinned Flutter SDK, builds both
+ZIPs, runs analyze and tests, rejects generated source changes, and retains one
+artifact for one day.
+
+1. Finish and review the versioned source changes locally.
+2. Push the current revision to a unique branch named
+   `actions/windows-release-<version>-<suffix>`. Do not push it to `main`.
+3. Wait for `Prepare Windows release artifacts` to succeed. Read the job logs
+   if it fails; do not accept a merely completed workflow with a failed job.
+4. Download and extract the artifact. Verify the two ZIP names, contents,
+   sizes, and SHA-256 hashes locally.
+5. Delete the workflow artifact through the GitHub API, then delete the remote
+   ephemeral branch. Confirm both are gone. Do not delete the workflow run,
+   because its logs are useful build evidence and do not contain release files.
+
+Do not place a token in a command, file, URL, log, or issue. Use the configured
+Git credential helper or an authenticated GitHub CLI/API client.
+
+## Linux installer build
+
+The PowerShell packaging script builds a Windows Flutter runner. Build the Linux
+runner separately from `magicka-patch-installer-ui` with the same pinned Flutter
+version used for release validation:
+
+1. Run `flutter pub get`, `flutter analyze --no-pub`, `flutter test --no-pub`,
+   and `flutter build linux --release`.
+2. Package the complete `build/linux/x64/release/bundle` directory. Do not copy
+   only the executable; the `lib` and `data` directories are required.
+3. Add the repository `Magicka.exe`, `PolygonHead.dll`, and package README only
+   if the Linux package is intended to install the patch directly. Keep the
+   package layout consistent with the Windows installer where practical.
+4. Store generated archives under ignored `release/`, record size and SHA-256,
+   and inspect the archive before presenting it for approval.
 
 ## Publish the versioned release
 
