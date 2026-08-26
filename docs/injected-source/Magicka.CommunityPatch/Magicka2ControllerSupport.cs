@@ -195,6 +195,11 @@ namespace Magicka.CommunityPatch
 			{
 				avatar.CommunityPatchClearSpellQueue();
 			}
+			if (Pressed(current, previous, Buttons.LeftStick) ||
+				Pressed(current, previous, Buttons.DPadRight))
+			{
+				avatar.Boost();
+			}
 			if (Pressed(current, previous, Buttons.Back))
 			{
 				avatar.CheckInventory();
@@ -268,14 +273,7 @@ namespace Magicka.CommunityPatch
 			if (active)
 			{
 				SetAimDirection(avatar, sLastAim[playerIndex]);
-				if (avatar.CastButton(CastType.Force) || (avatar.SpellQueue.Count > 0 && !avatar.ChantingMagick))
-				{
-					avatar.ForcePressed();
-				}
-				else
-				{
-					avatar.ForceReleased();
-				}
+				avatar.ForcePressed();
 			}
 			else
 			{
