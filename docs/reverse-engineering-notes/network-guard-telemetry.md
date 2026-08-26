@@ -134,6 +134,7 @@ counted over time:
 | `hotjoin_broadcast_continued` | A cacheable packet was queued for a syncing player and still sent to later live clients. |
 | `summon_undead_state_sent` / `summon_undead_state_applied` | A necromancer-staff SpawnNPC packet carried the undead flag from the host and the client applied it. The template ID is the bounded similarity key. |
 | `entity_handle_active_spawn_observed` | A spawn packet addressed an already active handle. The event compares the current and incoming type, template, and unique ID before the spawn guard decides whether reuse is valid. |
+| `damage_missing_attacker_context` | A valid damage target was not updated because its attacker handle was stale. The diagnostic includes target type/state, elements, magnitude, damage features, and message age. |
 | `world_sync_spawn_npc_missing_or_unusable_entity` | A SpawnNPC WorldSync message references no usable NPC in the receiving play state and is dropped before entering the delayed action queue. |
 | `network_server_readmessage_*` | Last-resort server-side guard caught an otherwise unhandled null reference while reading a network packet. |
 | `CharacterActionMessage.Grip` reasons | Missing target character, missing body, missing gripper/gripped character, missing animation controller, missing skeleton, or invalid grip joint index. |

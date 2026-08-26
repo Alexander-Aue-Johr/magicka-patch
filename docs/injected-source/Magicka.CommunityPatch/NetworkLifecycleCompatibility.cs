@@ -183,6 +183,50 @@ namespace Magicka.CommunityPatch
 			}
 		}
 
+		internal static void ReportMissingDamageAttacker(
+			ref DamageRequestMessage message,
+			Entity attacker,
+			IDamageable target,
+			string side)
+		{
+			if (attacker != null || target == null)
+			{
+				return;
+			}
+
+			try
+			{
+				Entity rawAttacker = Entity.GetFromHandle(message.AttackerHandle);
+				PlayState playState = PlayState.RecentPlayState;
+				double messageAge = playState == null ? -1.0 : playState.PlayTime - message.TimeStamp;
+				string targetType = target.GetType().FullName;
+				string elements = message.Damage.GetAllElements().ToString();
+				string damageFeatures = side == "server" ? "7" : "6";
+				PatchTelemetry.SendNetworkDiagnostic(
+					side,
+					"DamageRequest",
+					"damage_missing_attacker_context",
+					side + "|" + targetType + "|" + elements,
+					string.Format(
+						"attackerHandle={0}; attackerType={1}; attackerDisposed={2}; targetHandle={3}; targetType={4}; targetDead={5}; targetBodyNull={6}; elements={7}; totalMagnitude={8}; damageFeatures={9}; messageTimestamp={10}; messageAge={11}",
+						message.AttackerHandle,
+						rawAttacker == null ? "<null>" : rawAttacker.GetType().FullName,
+						rawAttacker != null && rawAttacker.IsDisposed,
+						message.TargetHandle,
+						targetType,
+						target.Dead,
+						target.Body == null,
+						elements,
+						message.Damage.GetTotalMagnitude(),
+						damageFeatures,
+						message.TimeStamp,
+						messageAge));
+			}
+			catch
+			{
+			}
+		}
+
 		internal static void ReportHotjoinBroadcastContinue(ISendable sendable, int syncingClientIndex, int clientCount)
 		{
 			int laterClientCount = clientCount - syncingClientIndex - 1;
