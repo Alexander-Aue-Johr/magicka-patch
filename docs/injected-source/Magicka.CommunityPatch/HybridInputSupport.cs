@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Magicka.CoreFramework.CoreGame;
 using Magicka.GameLogic;
 using Magicka.GameLogic.Controls;
 using Magicka.GameLogic.Entities;
 using Magicka.GameLogic.GameStates;
 using Magicka.GameLogic.UI;
+using Magicka.Graphics;
+using Magicka.Misc;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using PolygonHead;
@@ -75,6 +78,11 @@ namespace Magicka.CommunityPatch
 
 		internal static void Update(List<XInputController> controllers, KeyboardMouseController keyboard)
 		{
+			if (Magicka2ControllerSupport.IsEnabled() &&
+				GameStateManager.Instance.CurrentState is PlayState)
+			{
+				SynchronizeElementAvailability();
+			}
 			KeyboardState currentKeyboard = Game.Instance.KeyboardState;
 			MouseState currentMouse = Game.Instance.MouseState;
 			bool focused = Game.Instance.Focused;
@@ -466,6 +474,10 @@ namespace Magicka.CommunityPatch
 			{
 				return false;
 			}
+			if (candidate is KeyboardMouseController)
+			{
+				SynchronizeElementAvailability();
+			}
 			Neutralize(localPlayer.Avatar);
 			previousController.Clear();
 			candidate.Clear();
@@ -475,6 +487,14 @@ namespace Magicka.CommunityPatch
 			ControlManager.LastActiveController = candidate;
 			Game.Instance.IsMouseVisible = candidate is KeyboardMouseController;
 			return true;
+		}
+
+		private static void SynchronizeElementAvailability()
+		{
+			ElementManager elementManager = Singleton<ElementManager>.Instance;
+			Elements enabled = TutorialManager.Instance.EnabledElements & Elements.Basic;
+			elementManager.Enable(enabled);
+			elementManager.Disable((~enabled) & Elements.Basic);
 		}
 
 		private static void Neutralize(Avatar avatar)

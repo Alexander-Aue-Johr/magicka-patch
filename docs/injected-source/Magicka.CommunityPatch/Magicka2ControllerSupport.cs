@@ -2,6 +2,7 @@ using Magicka.CoreFramework.CoreGame;
 using Magicka.CoreFramework.GameSystem.HUDCustomisation;
 using Magicka.GameLogic.Entities;
 using Magicka.GameLogic.Spells;
+using Magicka.Graphics;
 using Magicka.Misc;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -100,6 +101,11 @@ namespace Magicka.CommunityPatch
 			PatchTelemetry.CommunityPatchRecordControllerElementSelection();
 		}
 
+		private static bool CanSelectElement(Elements element)
+		{
+			return TutorialManager.Instance.IsElementEnabled(element);
+		}
+
 		internal static ButtonChar NotifierButton(ButtonChar legacyButton)
 		{
 			return sEnabled ? ButtonChar.None : legacyButton;
@@ -135,12 +141,12 @@ namespace Magicka.CommunityPatch
 			{
 				if (aPressed)
 				{
-					if (modifierDown)
+					if (modifierDown && CanSelectElement(Elements.Cold))
 					{
 						avatar.ConjureCold();
 						CommunityPatchControllerElementSelected(Elements.Cold);
 					}
-					else
+					else if (!modifierDown && CanSelectElement(Elements.Fire))
 					{
 						avatar.ConjureFire();
 						CommunityPatchControllerElementSelected(Elements.Fire);
@@ -148,12 +154,12 @@ namespace Magicka.CommunityPatch
 				}
 				if (bPressed)
 				{
-					if (modifierDown)
+					if (modifierDown && CanSelectElement(Elements.Shield))
 					{
 						avatar.ConjureShield();
 						CommunityPatchControllerElementSelected(Elements.Shield);
 					}
-					else
+					else if (!modifierDown && CanSelectElement(Elements.Earth))
 					{
 						avatar.ConjureEarth();
 						CommunityPatchControllerElementSelected(Elements.Earth);
@@ -161,12 +167,12 @@ namespace Magicka.CommunityPatch
 				}
 				if (xPressed)
 				{
-					if (modifierDown)
+					if (modifierDown && CanSelectElement(Elements.Water))
 					{
 						avatar.ConjureWater();
 						CommunityPatchControllerElementSelected(Elements.Water);
 					}
-					else
+					else if (!modifierDown && CanSelectElement(Elements.Lightning))
 					{
 						avatar.ConjureLightning();
 						CommunityPatchControllerElementSelected(Elements.Lightning);
@@ -174,12 +180,12 @@ namespace Magicka.CommunityPatch
 				}
 				if (yPressed)
 				{
-					if (modifierDown)
+					if (modifierDown && CanSelectElement(Elements.Life))
 					{
 						avatar.ConjureLife();
 						CommunityPatchControllerElementSelected(Elements.Life);
 					}
-					else
+					else if (!modifierDown && CanSelectElement(Elements.Arcane))
 					{
 						avatar.ConjureArcane();
 						CommunityPatchControllerElementSelected(Elements.Arcane);
