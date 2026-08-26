@@ -129,7 +129,8 @@ counted over time:
 | `spawn_player_missing_gamer_for_template` / `spawn_player_template_not_cached` | A SpawnPlayer packet cannot safely obtain its player's cached avatar template before initialization. |
 | `entity_remove_missing_or_unusable_entity` / `character_die_missing_or_unusable_character` | A remove/death packet references an entity that can no longer be used safely. |
 | `damage_missing_or_unusable_*` | A damage packet references an unusable attacker or a target with no usable entity/body. |
-| `forced_player_status_sync_missing_or_unusable_character` | A forced status-sync request references an unusable character. |
+| `forced_player_status_sync_invalid_player_id_or_sender` | A forced status-sync request has no matching player/avatar or came from another player's client. |
+| `forced_player_status_sync_player_resolved` / `forced_player_status_sync_response_built` | A valid forced-sync request resolved its player and produced a populated response. |
 | `world_sync_spawn_npc_missing_or_unusable_entity` | A SpawnNPC WorldSync message references no usable NPC in the receiving play state and is dropped before entering the delayed action queue. |
 | `network_server_readmessage_*` | Last-resort server-side guard caught an otherwise unhandled null reference while reading a network packet. |
 | `CharacterActionMessage.Grip` reasons | Missing target character, missing body, missing gripper/gripped character, missing animation controller, missing skeleton, or invalid grip joint index. |

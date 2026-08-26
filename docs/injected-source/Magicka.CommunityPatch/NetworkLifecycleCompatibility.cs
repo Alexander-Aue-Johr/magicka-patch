@@ -1,7 +1,10 @@
 using System;
+using Magicka.GameLogic;
 using Magicka.GameLogic.Entities;
 using Magicka.GameLogic.GameStates;
+using Magicka.Gamers;
 using Magicka.Network;
+using SteamWrapper;
 
 namespace Magicka.CommunityPatch
 {
@@ -26,6 +29,79 @@ namespace Magicka.CommunityPatch
 				ReportDrop(side, "EntityHandle", reason, handle, 0, playState, entity);
 			}
 			return null;
+		}
+
+		internal static Entity ResolveForcedSyncAvatar(int playerId, SteamID sender)
+		{
+			Player[] players = Game.Instance.Players;
+			for (int i = 0; i < players.Length; i++)
+			{
+				Player player = players[i];
+				if (player == null || player.ID != playerId)
+				{
+					continue;
+				}
+
+				Avatar avatar = player.Avatar;
+				NetworkGamer networkGamer = player.Gamer as NetworkGamer;
+				if (avatar != null && networkGamer != null && networkGamer.ClientID.Equals(sender))
+				{
+					PatchTelemetry.SendNetworkDiagnostic(
+						"server",
+						"ForcedPlayerStatusSync",
+						"forced_player_status_sync_player_resolved",
+						"valid_player",
+						string.Format("playerId={0}", playerId));
+					return avatar;
+				}
+				break;
+			}
+
+			PatchTelemetry.SendNetworkGuardDrop(
+				"server",
+				"RequestForcedPlayerStatusSync",
+				string.Empty,
+				string.Empty,
+				"forced_player_status_sync_invalid_player_id_or_sender",
+				string.Format("playerId={0}", playerId));
+			return null;
+		}
+
+		internal static ForceSyncPlayerStatusesMessage BuildForcedSyncPlayerStatuses()
+		{
+			Player[] players = Game.Instance.Players;
+			int count = 0;
+			for (int i = 0; i < players.Length; i++)
+			{
+				Player player = players[i];
+				if (player != null && player.Avatar != null && player.Gamer is NetworkGamer)
+				{
+					count++;
+				}
+			}
+
+			ForceSyncPlayerStatusesMessage message = default(ForceSyncPlayerStatusesMessage);
+			message.numPlayers = (short)count;
+			message.playerUpdateMessages = new EntityUpdateMessage[count];
+			int writeIndex = 0;
+			for (int i = 0; i < players.Length; i++)
+			{
+				Player player = players[i];
+				if (player == null || player.Avatar == null || !(player.Gamer is NetworkGamer))
+				{
+					continue;
+				}
+				player.Avatar.GetNetworkUpdate(out message.playerUpdateMessages[writeIndex], NetworkState.Server, 1f);
+				message.playerUpdateMessages[writeIndex].Handle = (ushort)player.ID;
+				writeIndex++;
+			}
+			PatchTelemetry.SendNetworkDiagnostic(
+				"server",
+				"ForcedPlayerStatusSync",
+				"forced_player_status_sync_response_built",
+				count.ToString(),
+				string.Format("playerCount={0}; writtenCount={1}", count, writeIndex));
+			return message;
 		}
 
 		internal static bool CanProcessTriggerAction(ref TriggerActionMessage message)
