@@ -1,5 +1,50 @@
 # Changelog
 
+## [0.0.45] - 2026-08-27
+
+### Fixed
+
+- Grow full entity collections while preserving their existing entries and
+  order. This removes the fixed 512-entry limit from the affected collection
+  paths without changing their initial allocation.
+- Continue when a supported entity or spell-effect pool is temporarily empty
+  by constructing one additional instance. Normal pool reuse remains
+  unchanged.
+
+### Languages
+
+- Add Simplified Chinese as an optional extra language in the Windows and Linux
+  installers. The language action uses the existing install-options panel and
+  opens a reusable selection dialog for further language packages. If an
+  unselected package matches the system locale, the installer asks once when
+  installation starts. The installer writes only `Content/Languages/zho`,
+  backs up an existing Chinese language directory, and restores it during
+  uninstallation.
+- Complete all 42 current localization tables with the supplied translations
+  and English fallback text for rows that do not yet have a Chinese
+  translation.
+- Use compact 1024×1024 atlases for the five main Chinese UI fonts and include
+  the additional printable characters required by the completed tables.
+
+### Telemetry
+
+- When usage sharing is enabled, inspect stale objects after leaving a level
+  once per session. The Windows CLR diagnostic reports bounded managed
+  reference paths; Wine Mono reports bounded survivor groups. No objects are
+  registered when usage sharing is disabled.
+- Record bounded `magicka_patch_cache_expand` events when an empty pool needs
+  an additional instance. Repeated events use exponential backoff and report
+  the number skipped since the previous event.
+- Apply the same bounded backoff to runtime collection-guard events.
+- Record `magicka_patch_language_installed` with the selected language,
+  installer surface, selection source, and existing-directory state when usage
+  sharing is enabled.
+
+### Development
+
+- Add a reproducible command-line tool for inspecting, exporting, editing,
+  packing, optimizing, and verifying Magicka bitmap-font XNB files.
+
 ## [0.0.44] - 2026-08-26
 
 ### Fixed
