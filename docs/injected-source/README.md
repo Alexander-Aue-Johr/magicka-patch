@@ -1,6 +1,8 @@
-# Injected Magicka.exe Source Snapshots
+# Injected Managed Source Snapshots
 
-This directory documents C# classes that were added to the patched `Magicka.exe`.
+This directory documents C# classes added to the patched managed assemblies,
+including the small GC diagnostics runtime loaded by `Magicka.exe` and
+`PolygonHead.dll`.
 
 These files are provided for transparency and review. They are not a complete
 buildable source tree for Magicka, and this repository does not contain the

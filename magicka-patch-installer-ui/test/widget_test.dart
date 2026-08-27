@@ -39,6 +39,39 @@ Future<Directory> _createChinesePayload(Directory root) async {
   return payload;
 }
 
+Future<Directory> _createGcDiagnosticsPayload(Directory root) async {
+  final payload = Directory(
+      '${root.path}${Platform.pathSeparator}payload${Platform.pathSeparator}gc-diagnostics');
+  await payload.create(recursive: true);
+  for (final name in const <String>[
+    'Magicka.GcAnalyzer.exe',
+    'Magicka.GcAnalyzer.exe.config',
+    'Microsoft.Bcl.AsyncInterfaces.dll',
+    'Microsoft.Diagnostics.NETCore.Client.dll',
+    'Microsoft.Diagnostics.Runtime.dll',
+    'Microsoft.Extensions.Configuration.Abstractions.dll',
+    'Microsoft.Extensions.Configuration.Binder.dll',
+    'Microsoft.Extensions.Configuration.dll',
+    'Microsoft.Extensions.DependencyInjection.Abstractions.dll',
+    'Microsoft.Extensions.Logging.Abstractions.dll',
+    'Microsoft.Extensions.Logging.dll',
+    'Microsoft.Extensions.Options.dll',
+    'Microsoft.Extensions.Primitives.dll',
+    'System.Buffers.dll',
+    'System.Collections.Immutable.dll',
+    'System.Memory.dll',
+    'System.Numerics.Vectors.dll',
+    'System.Runtime.CompilerServices.Unsafe.dll',
+    'System.Threading.Tasks.Extensions.dll',
+    'LICENSE-MIT.txt',
+    'THIRD_PARTY_NOTICES.txt',
+  ]) {
+    await File('${payload.path}${Platform.pathSeparator}$name')
+        .writeAsString(name);
+  }
+  return payload;
+}
+
 void main() {
   test('Steam validation URI targets the Magicka app', () {
     expect(AppConstants.magickaSteamValidationUrl, 'steam://validate/42910');
@@ -271,6 +304,34 @@ void main() {
     expect(
         suggestedOptionalLanguageCodesForSystemLocale(const Locale('de', 'DE')),
         isEmpty);
+  });
+
+  test('GC diagnostics payload installs under CommunityPatch', () async {
+    final root = await Directory.systemTemp.createTemp('magicka_gc_payload_');
+    addTearDown(() async {
+      if (await root.exists()) await root.delete(recursive: true);
+    });
+    final payload = await _createGcDiagnosticsPayload(root);
+    final game = Directory('${root.path}${Platform.pathSeparator}game');
+    await game.create(recursive: true);
+
+    await installGcDiagnostics(
+      gameDirectory: game.path,
+      payloadDirectory: payload,
+    );
+
+    final installed = Directory(
+        '${game.path}${Platform.pathSeparator}CommunityPatch${Platform.pathSeparator}GcDiagnostics');
+    expect(
+        await File(
+                '${installed.path}${Platform.pathSeparator}Magicka.GcAnalyzer.exe')
+            .exists(),
+        isTrue);
+    expect(
+        await File(
+                '${installed.path}${Platform.pathSeparator}Microsoft.Diagnostics.Runtime.dll')
+            .exists(),
+        isTrue);
   });
 
   test('optional Chinese install backs up and restores an existing zho folder',

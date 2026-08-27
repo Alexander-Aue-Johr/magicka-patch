@@ -690,8 +690,10 @@ class _InstallerScreenState extends State<InstallerScreen>
               existingManifest: existingManifest,
             )
           : OptionalLanguageInstallResult.fromManifest(existingManifest);
-      await _writePayload(gameDir, 'Magicka.exe');
       await _writePayload(gameDir, 'PolygonHead.dll');
+      await _writePayload(gameDir, 'Magicka.GcDiagnostics.dll');
+      await installGcDiagnostics(gameDirectory: gameDir);
+      await _writePayload(gameDir, 'Magicka.exe');
       await _writeSettings(gameDir);
       await _writeManifest(
         gameDir,
@@ -1513,9 +1515,15 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
     try {
       final magicka = await _findFile(payloadDir, 'Magicka.exe');
       final polygon = await _findFile(payloadDir, 'PolygonHead.dll');
-      if (magicka == null || polygon == null) {
+      final gcRuntime =
+          await _findFile(payloadDir, 'Magicka.GcDiagnostics.dll');
+      final gcAnalyzer = await _findDirectory(payloadDir, 'gc-diagnostics');
+      if (magicka == null ||
+          polygon == null ||
+          gcRuntime == null ||
+          gcAnalyzer == null) {
         throw const FormatException(
-            'The update package does not contain Magicka.exe and PolygonHead.dll.');
+            'The update package does not contain the complete game payload.');
       }
 
       final backupDir = Directory(_join(
@@ -1527,9 +1535,17 @@ class _AutoUpdaterScreenState extends State<AutoUpdaterScreen>
           _join(backupDir.path, 'Magicka.exe'));
       await _copyIfExists(_join(command.gameDir, 'PolygonHead.dll'),
           _join(backupDir.path, 'PolygonHead.dll'));
+      await _copyIfExists(_join(command.gameDir, 'Magicka.GcDiagnostics.dll'),
+          _join(backupDir.path, 'Magicka.GcDiagnostics.dll'));
 
-      await File(magicka).copy(_join(command.gameDir, 'Magicka.exe'));
       await File(polygon).copy(_join(command.gameDir, 'PolygonHead.dll'));
+      await File(gcRuntime)
+          .copy(_join(command.gameDir, 'Magicka.GcDiagnostics.dll'));
+      final gcTarget = Directory(_join(command.gameDir,
+          AppConstants.settingsDirectoryName, 'GcDiagnostics'));
+      if (await gcTarget.exists()) await gcTarget.delete(recursive: true);
+      await _copyDirectory(Directory(gcAnalyzer), gcTarget);
+      await File(magicka).copy(_join(command.gameDir, 'Magicka.exe'));
       final toolUpdateStaged =
           await _stageOptionalToolUpdate(payloadDir, command.gameDir);
       await _updatePatchSettings(command.gameDir, _displayVersion(command));
@@ -2235,6 +2251,7 @@ class _UninstallerScreenState extends State<UninstallerScreen>
 
     await _deleteIfExists(_join(gameDir, AppConstants.installerFileName));
     await _deleteIfExists(_join(gameDir, AppConstants.toolFileName));
+    await _deleteIfExists(_join(gameDir, 'Magicka.GcDiagnostics.dll'));
     await _deleteIfExists(
         _join(gameDir, AppConstants.uninstallerCommandFileName));
 
@@ -4523,6 +4540,73 @@ Future<OptionalLanguageInstallResult> installOptionalSimplifiedChinese({
     hadExistingDirectory: hadExisting,
     originalBackupDirectory: originalBackup,
   );
+}
+
+Future<void> installGcDiagnostics({
+  required String gameDirectory,
+  Directory? payloadDirectory,
+}) async {
+  final source = payloadDirectory ?? await _findGcDiagnosticsPayload();
+  if (source == null || !await _isCompleteGcDiagnosticsPayload(source)) {
+    throw FileSystemException(
+      'The GC diagnostics payload is missing or incomplete.',
+      source?.path ?? 'gc-diagnostics',
+    );
+  }
+
+  final target = Directory(
+    _join(gameDirectory, AppConstants.settingsDirectoryName, 'GcDiagnostics'),
+  );
+  if (await target.exists()) await target.delete(recursive: true);
+  await _copyDirectory(source, target);
+}
+
+Future<Directory?> _findGcDiagnosticsPayload() async {
+  final executableDirectory = File(Platform.resolvedExecutable).parent.path;
+  final candidates = <Directory>[
+    Directory(_join(executableDirectory, 'gc-diagnostics')),
+    Directory(_join(executableDirectory, '..', 'gc-diagnostics')),
+    Directory(_join(executableDirectory, r'data\flutter_assets\assets\payload',
+        'gc-diagnostics')),
+    Directory(_join(Directory.current.path, 'gc-diagnostics')),
+    Directory(
+        _join(Directory.current.path, 'release-package', 'gc-diagnostics')),
+  ];
+  for (final candidate in candidates) {
+    if (await _isCompleteGcDiagnosticsPayload(candidate)) return candidate;
+  }
+  return null;
+}
+
+Future<bool> _isCompleteGcDiagnosticsPayload(Directory directory) async {
+  if (!await directory.exists()) return false;
+  const required = <String>[
+    'Magicka.GcAnalyzer.exe',
+    'Magicka.GcAnalyzer.exe.config',
+    'Microsoft.Bcl.AsyncInterfaces.dll',
+    'Microsoft.Diagnostics.NETCore.Client.dll',
+    'Microsoft.Diagnostics.Runtime.dll',
+    'Microsoft.Extensions.Configuration.Abstractions.dll',
+    'Microsoft.Extensions.Configuration.Binder.dll',
+    'Microsoft.Extensions.Configuration.dll',
+    'Microsoft.Extensions.DependencyInjection.Abstractions.dll',
+    'Microsoft.Extensions.Logging.Abstractions.dll',
+    'Microsoft.Extensions.Logging.dll',
+    'Microsoft.Extensions.Options.dll',
+    'Microsoft.Extensions.Primitives.dll',
+    'System.Buffers.dll',
+    'System.Collections.Immutable.dll',
+    'System.Memory.dll',
+    'System.Numerics.Vectors.dll',
+    'System.Runtime.CompilerServices.Unsafe.dll',
+    'System.Threading.Tasks.Extensions.dll',
+    'LICENSE-MIT.txt',
+    'THIRD_PARTY_NOTICES.txt',
+  ];
+  for (final fileName in required) {
+    if (!await File(_join(directory.path, fileName)).exists()) return false;
+  }
+  return true;
 }
 
 Future<void> restoreOptionalSimplifiedChinese({
@@ -6974,6 +7058,12 @@ class _TelemetryPanel extends StatelessWidget {
                   title: s.t('eventCrashReport'),
                   body: s.t('eventCrashReportBody'),
                   accent: const Color(0xffd63a20)),
+              const SizedBox(width: 11),
+              EventCard(
+                  icon: Icons.memory_rounded,
+                  title: s.t('eventMemoryDiagnostics'),
+                  body: s.t('eventMemoryDiagnosticsBody'),
+                  accent: const Color(0xffffa34f)),
             ]),
             const Spacer(),
             Row(children: <Widget>[

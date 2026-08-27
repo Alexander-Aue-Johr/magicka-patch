@@ -1,0 +1,21 @@
+The GC retention analyzer includes the following MIT-licensed .NET libraries:
+
+Microsoft.Diagnostics.Runtime 2.2.332302
+Microsoft.Diagnostics.NETCore.Client 0.2.251802
+Microsoft.Bcl.AsyncInterfaces 1.1.0
+Microsoft.Extensions.Configuration 2.1.1
+Microsoft.Extensions.Configuration.Abstractions 2.1.1
+Microsoft.Extensions.Configuration.Binder 2.1.1
+Microsoft.Extensions.DependencyInjection.Abstractions 2.1.1
+Microsoft.Extensions.Logging 2.1.1
+Microsoft.Extensions.Logging.Abstractions 2.1.1
+Microsoft.Extensions.Options 2.1.1
+Microsoft.Extensions.Primitives 2.1.1
+System.Buffers 4.5.1
+System.Collections.Immutable 5.0.0
+System.Memory 4.5.4
+System.Numerics.Vectors 4.5.0
+System.Runtime.CompilerServices.Unsafe 5.0.0
+System.Threading.Tasks.Extensions 4.5.2
+
+The shared license text is included as LICENSE-MIT.txt.

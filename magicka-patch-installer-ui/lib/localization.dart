@@ -328,6 +328,9 @@ const Map<String, String> _en = <String, String>{
   'eventCrashReport': 'Crash / error report',
   'eventCrashReportBody':
       'Short error details, element counts and controller share.',
+  'eventMemoryDiagnostics': 'Memory diagnostics',
+  'eventMemoryDiagnosticsBody':
+      'Once per session: stale object types and, when available, reference paths.',
   'checkForUpdates': 'Check for updates when the game starts',
   'saveErrorNotes':
       'Save error notes too: <Magicka>\\CommunityPatch\\event-log.jsonl',

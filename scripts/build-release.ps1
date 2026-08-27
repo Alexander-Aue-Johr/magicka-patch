@@ -230,9 +230,16 @@ function Copy-ReleasePayloadToDirectory {
     )
 
     Assert-Directory $DestinationDir
-    foreach ($fileName in @('Magicka.exe', 'PolygonHead.dll')) {
+    foreach ($fileName in @('Magicka.exe', 'PolygonHead.dll', 'Magicka.GcDiagnostics.dll')) {
         Copy-Item -LiteralPath (Join-PathChecked $RepoRoot $fileName) -Destination (Join-PathChecked $DestinationDir $fileName) -Force
     }
+    $diagnosticsSource = Join-PathChecked $RepoRoot 'release-package\gc-diagnostics'
+    Assert-Directory $diagnosticsSource
+    $diagnosticsTarget = Join-PathChecked $DestinationDir 'gc-diagnostics'
+    if (Test-Path -LiteralPath $diagnosticsTarget) {
+        Remove-PathInside $diagnosticsTarget $DestinationDir
+    }
+    Copy-Item -LiteralPath $diagnosticsSource -Destination $diagnosticsTarget -Recurse -Force
     $languageSource = Join-PathChecked $RepoRoot 'release-package\optional-languages\zho'
     Assert-Directory $languageSource
     $languageParent = Join-PathChecked $DestinationDir 'optional-languages'
@@ -943,6 +950,35 @@ $installerExe = Join-PathChecked $installerRelease 'magicka-community-patch-inst
 
 Assert-File (Join-PathChecked $repoRoot 'Magicka.exe')
 Assert-File (Join-PathChecked $repoRoot 'PolygonHead.dll')
+Assert-File (Join-PathChecked $repoRoot 'Magicka.GcDiagnostics.dll')
+$gcDiagnosticsDirectory = Join-PathChecked $repoRoot 'release-package\gc-diagnostics'
+Assert-Directory $gcDiagnosticsDirectory
+$requiredGcDiagnosticsFiles = @(
+    'Magicka.GcAnalyzer.exe',
+    'Magicka.GcAnalyzer.exe.config',
+    'Microsoft.Bcl.AsyncInterfaces.dll',
+    'Microsoft.Diagnostics.NETCore.Client.dll',
+    'Microsoft.Diagnostics.Runtime.dll',
+    'Microsoft.Extensions.Configuration.Abstractions.dll',
+    'Microsoft.Extensions.Configuration.Binder.dll',
+    'Microsoft.Extensions.Configuration.dll',
+    'Microsoft.Extensions.DependencyInjection.Abstractions.dll',
+    'Microsoft.Extensions.Logging.Abstractions.dll',
+    'Microsoft.Extensions.Logging.dll',
+    'Microsoft.Extensions.Options.dll',
+    'Microsoft.Extensions.Primitives.dll',
+    'System.Buffers.dll',
+    'System.Collections.Immutable.dll',
+    'System.Memory.dll',
+    'System.Numerics.Vectors.dll',
+    'System.Runtime.CompilerServices.Unsafe.dll',
+    'System.Threading.Tasks.Extensions.dll',
+    'LICENSE-MIT.txt',
+    'THIRD_PARTY_NOTICES.txt'
+)
+foreach ($fileName in $requiredGcDiagnosticsFiles) {
+    Assert-File (Join-PathChecked $gcDiagnosticsDirectory $fileName)
+}
 Assert-File $packageReadme
 Assert-File $packageSettingsTemplate
 Assert-File $installerExe
@@ -952,6 +988,8 @@ Assert-Directory (Join-PathChecked $installerRelease 'data')
 Copy-ReleasePayloadToDirectory -RepoRoot $repoRoot -DestinationDir $installerRelease
 Assert-File (Join-PathChecked $installerRelease 'Magicka.exe')
 Assert-File (Join-PathChecked $installerRelease 'PolygonHead.dll')
+Assert-File (Join-PathChecked $installerRelease 'Magicka.GcDiagnostics.dll')
+Assert-Directory (Join-PathChecked $installerRelease 'gc-diagnostics')
 
 New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
 Remove-PathInside $stageDir $OutputDir
@@ -967,6 +1005,8 @@ New-Item -ItemType Directory -Force -Path $filesOnlyStageDir | Out-Null
 
 Copy-Item -LiteralPath (Join-PathChecked $repoRoot 'Magicka.exe') -Destination (Join-PathChecked $stageDir 'Magicka.exe')
 Copy-Item -LiteralPath (Join-PathChecked $repoRoot 'PolygonHead.dll') -Destination (Join-PathChecked $stageDir 'PolygonHead.dll')
+Copy-Item -LiteralPath (Join-PathChecked $repoRoot 'Magicka.GcDiagnostics.dll') -Destination (Join-PathChecked $stageDir 'Magicka.GcDiagnostics.dll')
+Copy-Item -LiteralPath (Join-PathChecked $repoRoot 'release-package\gc-diagnostics') -Destination (Join-PathChecked $stageDir 'gc-diagnostics') -Recurse -Force
 Copy-Item -LiteralPath $packageReadme -Destination (Join-PathChecked $stageDir 'README.txt')
 Copy-Item -LiteralPath (Join-PathChecked $repoRoot 'release-package\optional-languages') -Destination (Join-PathChecked $stageDir 'optional-languages') -Recurse -Force
 Copy-Item -LiteralPath $installerExe -Destination (Join-PathChecked $stageDir 'MagickaPatchInstaller.exe')
@@ -991,6 +1031,8 @@ if (-not $SkipAutoUpdaterUi) {
 
 Copy-Item -LiteralPath (Join-PathChecked $repoRoot 'Magicka.exe') -Destination (Join-PathChecked $filesOnlyStageDir 'Magicka.exe')
 Copy-Item -LiteralPath (Join-PathChecked $repoRoot 'PolygonHead.dll') -Destination (Join-PathChecked $filesOnlyStageDir 'PolygonHead.dll')
+Copy-Item -LiteralPath (Join-PathChecked $repoRoot 'Magicka.GcDiagnostics.dll') -Destination (Join-PathChecked $filesOnlyStageDir 'Magicka.GcDiagnostics.dll')
+Copy-Item -LiteralPath (Join-PathChecked $repoRoot 'release-package\gc-diagnostics') -Destination (Join-PathChecked $filesOnlyStageDir 'gc-diagnostics') -Recurse -Force
 Copy-Item -LiteralPath $packageReadme -Destination (Join-PathChecked $filesOnlyStageDir 'README.txt')
 $settingsText = Get-Content -LiteralPath $packageSettingsTemplate -Raw
 if ($settingsText -notlike '*{{VERSION}}*') {
@@ -1009,6 +1051,7 @@ $requiredEntries = @(
     'MagickaPatchInstaller.exe',
     'Magicka.exe',
     'PolygonHead.dll',
+    'Magicka.GcDiagnostics.dll',
     'README.txt',
     'optional-languages/zho/UI.loctable.xml',
     'optional-languages/zho/Font/Maiandra14.xnb',
@@ -1021,6 +1064,9 @@ $requiredEntries = @(
     'tools/installer/flutter_windows.dll',
     'tools/installer/data/flutter_assets/AssetManifest.bin'
 )
+$requiredEntries += @($requiredGcDiagnosticsFiles | ForEach-Object {
+        'gc-diagnostics/' + $_
+    })
 if (-not $SkipAutoUpdaterUi) {
     $requiredEntries += @(
         'tools/auto-updater/MagickaPatchAutoUpdater.exe',
@@ -1033,9 +1079,13 @@ Assert-ZipEntries $zipPath $requiredEntries
 $filesOnlyEntries = @(
     'Magicka.exe',
     'PolygonHead.dll',
+    'Magicka.GcDiagnostics.dll',
     'patch-settings.ini',
     'README.txt'
 )
+$filesOnlyEntries += @($requiredGcDiagnosticsFiles | ForEach-Object {
+        'gc-diagnostics/' + $_
+    })
 Assert-ZipContainsOnly $filesOnlyZipPath $filesOnlyEntries
 
 $hash = Get-FileHashWithRetry $zipPath
@@ -1056,7 +1106,7 @@ Write-Host "Created files-only package:" -ForegroundColor Green
 Write-Host "  $filesOnlyZipPath"
 Write-Host "  Version: $version"
 Write-Host "  Size: $($filesOnlyZipItem.Length) bytes"
-Write-Host "  Files staged: 4"
+Write-Host "  Files staged: $($filesOnlyEntries.Count)"
 Write-Host "  SHA256: $($filesOnlyHash.Hash)"
 
 if ($KeepStage) {

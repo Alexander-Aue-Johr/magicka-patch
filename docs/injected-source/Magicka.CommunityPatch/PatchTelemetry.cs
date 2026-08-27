@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Magicka.GcDiagnostics;
 
 namespace Magicka.CommunityPatch
 {
@@ -14,6 +15,7 @@ namespace Magicka.CommunityPatch
 	{
 		public static void SendStartup()
 		{
+			PatchTelemetry.ConfigureGcRetentionDiagnostics();
 			AnimationClipCompatibility.InitializeSession();
 			PatchTelemetry.SendAsync("magicka_patch_start", new Dictionary<string, string>
 			{
@@ -34,6 +36,22 @@ namespace Magicka.CommunityPatch
 					PatchTelemetry.Safe(Environment.OSVersion.ToString())
 				}
 			});
+		}
+
+		private static void ConfigureGcRetentionDiagnostics()
+		{
+			try
+			{
+				string analyzerPath = Path.Combine(
+					PatchSettings.CommunityPatchDirectory,
+					Path.Combine("GcDiagnostics", "Magicka.GcAnalyzer.exe"));
+				RetentionRegistry.Configure(
+					!PatchTelemetry.IsDisabled(),
+					analyzerPath);
+			}
+			catch
+			{
+			}
 		}
 
 		internal static void SendAsync(string eventName, Dictionary<string, string> properties)
@@ -132,6 +150,13 @@ namespace Magicka.CommunityPatch
 			bool numericSessionProperty = key == "keyboard_element_selection_count" ||
 				key == "controller_element_selection_count" ||
 				key == "controller_element_selection_ratio" ||
+				key == "candidate_count" ||
+				key == "resolved_count" ||
+				key == "finding_count" ||
+				key == "analyzer_exit_code" ||
+				key == "tracked_count" ||
+				key == "watch_limit" ||
+				key == "dropped_watch_count" ||
 				key == "skipped_count";
 			if (numericSessionProperty &&
 				double.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out numericValue) &&

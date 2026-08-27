@@ -49,6 +49,8 @@ The Flutter Windows build copies the repo-root payload files next to the generat
 ```text
 build\windows\x64\runner\Release\Magicka.exe
 build\windows\x64\runner\Release\PolygonHead.dll
+build\windows\x64\runner\Release\Magicka.GcDiagnostics.dll
+build\windows\x64\runner\Release\gc-diagnostics\
 ```
 
 Release installer packages also contain `optional-languages\zho`. The
@@ -58,8 +60,9 @@ language. The action is part of the installer options panel. When an unselected
 optional language matches the system locale, installation asks once whether to
 include it. Further language packages can be added to the same dialog.
 
-The auto-updater continues to consume the files-only ZIP. It does not
-install optional language packages or start another language download.
+The auto-updater continues to consume the files-only ZIP. It installs the GC
+diagnostic runtime with the patched executable. It does not install optional
+language packages or start another language download.
 
 The installer also accepts these fallback locations while developing:
 
@@ -134,6 +137,8 @@ Files-only ZIP for manual installation and patch-only updates:
 magicka-community-patch-0.0.44-files-only.zip
 - Magicka.exe
 - PolygonHead.dll
+- Magicka.GcDiagnostics.dll
+- gc-diagnostics\
 - patch-settings.ini
 - README.txt
 ```
@@ -146,6 +151,8 @@ magicka-community-patch-0.0.44-installer.zip
 - MagickaPatchInstaller.exe
 - Magicka.exe
 - PolygonHead.dll
+- Magicka.GcDiagnostics.dll
+- gc-diagnostics\
 - flutter_windows.dll
 - data\
   - flutter_assets\
@@ -164,17 +171,17 @@ magicka-community-patch-0.0.44-installer.zip
       - flutter_assets\
 ```
 
-Players should start `MagickaPatchInstaller.exe` from the release ZIP root. The root `flutter_windows.dll` and `data\` folder are the runtime files it needs. The updater requires `Magicka.exe` and `PolygonHead.dll`; if `tools\installer\MagickaPatchTool.exe` is present, it silently replaces `MagickaPatchInstaller.exe`, `MagickaPatchTool.exe`, `MagickaPatchUninstaller.exe`, `flutter_windows.dll` and `data\` after the running updater exits.
+Players should start `MagickaPatchInstaller.exe` from the release ZIP root. The root `flutter_windows.dll` and `data\` folder are the runtime files it needs. The updater requires `Magicka.exe`, `PolygonHead.dll`, `Magicka.GcDiagnostics.dll`, and `gc-diagnostics\`; if `tools\installer\MagickaPatchTool.exe` is present, it silently replaces `MagickaPatchInstaller.exe`, `MagickaPatchTool.exe`, `MagickaPatchUninstaller.exe`, `flutter_windows.dll` and `data\` after the running updater exits.
 
 The files-only ZIP is intended for manual Windows or Linux installation and is
 also the asset used by the game-side release check and optional auto-updater.
 
 ## Game-Side Settings Defaults
 
-If players copy only `Magicka.exe` and `PolygonHead.dll` into the game folder,
-no installer settings exist. In that portable case telemetry and the online
-release check default to on, while automatic update installation defaults to
-off:
+Manual installs must copy `Magicka.exe`, `PolygonHead.dll`,
+`Magicka.GcDiagnostics.dll`, and the diagnostic directory listed in the
+files-only README. Without installer settings, telemetry and the online release
+check default to on, while automatic update installation defaults to off:
 
 ```text
 usage_sharing=true

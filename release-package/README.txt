@@ -4,8 +4,12 @@ Magicka Community Patch - manual installation
 1. Close Magicka.
 2. Open the Magicka installation directory (the folder containing Magicka.exe).
 3. Back up the existing Magicka.exe and PolygonHead.dll.
-4. Copy Magicka.exe and PolygonHead.dll from this ZIP into that directory and
-   replace the existing files.
+4. Copy Magicka.exe, PolygonHead.dll, and Magicka.GcDiagnostics.dll from this
+   ZIP into that directory and replace the existing files.
+5. Copy the gc-diagnostics directory into CommunityPatch and rename it to
+   GcDiagnostics:
+
+     <Magicka>\CommunityPatch\GcDiagnostics
 
 Optional language packages
 ---------------------------
@@ -98,6 +102,9 @@ set these values:
 
 usage_sharing=false disables patch telemetry. crash_reports=false also keeps
 crash reports disabled if telemetry is enabled again later.
+
+GC retention tracking is part of usage telemetry. When usage_sharing=false,
+the game does not create its diagnostic registry, timer, or weak handles.
 
 check_for_updates=false disables the GitHub release check. auto_update=false
 keeps automatic downloading and installation disabled. The files-only package

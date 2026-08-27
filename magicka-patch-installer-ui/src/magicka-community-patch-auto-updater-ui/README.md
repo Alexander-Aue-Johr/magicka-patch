@@ -13,9 +13,9 @@ Expected updater arguments:
 ```
 
 The screen waits for the optional process id, extracts a prepared zip package
-or uses a prepared directory, copies `Magicka.exe` and `PolygonHead.dll` into
-the Magicka folder, keeps the current settings, and removes
-`CommunityPatch/pending-update.ini`.
+or uses a prepared directory, installs `Magicka.exe`, `PolygonHead.dll`,
+`Magicka.GcDiagnostics.dll`, and the GC analyzer, keeps the current settings,
+and removes `CommunityPatch/pending-update.ini`.
 
 For release packages, `scripts/build-release.ps1` builds the parent installer
 Windows app and copies that runner as `MagickaPatchAutoUpdater.exe`. The updater

@@ -176,7 +176,12 @@ changed version reference before starting platform builds.
 3. Run `flutter analyze --no-pub` and `flutter test --no-pub` in
    `magicka-patch-installer-ui` with the same Flutter installation used by the
    build script.
-4. Inspect both ZIPs. Confirm the main ZIP contains the patched `Magicka.exe`, installer, updater, Flutter runtime/data, package README, and expected payload. Confirm the files-only ZIP contains exactly `Magicka.exe`, `PolygonHead.dll`, `patch-settings.ini`, and `README.txt`. Record both sizes and SHA-256 hashes.
+4. Inspect both ZIPs. Confirm the main ZIP contains the patched `Magicka.exe`,
+   `PolygonHead.dll`, `Magicka.GcDiagnostics.dll`, `gc-diagnostics/`, installer,
+   updater, Flutter runtime/data, package README, and expected payload. Confirm
+   the files-only ZIP contains those three managed payload files,
+   `gc-diagnostics/`, `patch-settings.ini`, and `README.txt`. Record both sizes
+   and SHA-256 hashes.
 5. Review `git diff` and stage only release-related files. Do not commit ignored build output or the ignored `release` directory.
 6. Present the reviewed diff, test result, both ZIP names, sizes, and SHA-256
    hashes to the user and wait at the mandatory approval gate above.
