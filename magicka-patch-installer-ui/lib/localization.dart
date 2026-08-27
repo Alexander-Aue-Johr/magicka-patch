@@ -261,6 +261,20 @@ const Map<String, String> _en = <String, String>{
   'findAutomatically': 'Find automatically',
   'startGame': 'Start game',
   'installPatch': 'Install patch',
+  'optionalLanguages': 'Languages...',
+  'optionalLanguagesNoneSelected': 'No additional language selected',
+  'optionalLanguagesSelected': 'Selected: {languages}',
+  'optionalLanguagesDialogTitle': 'Install language files',
+  'optionalLanguagesDialogBody':
+      'Select the additional languages to install with the patch. Existing game languages are not replaced.',
+  'simplifiedChinese': 'Simplified Chinese',
+  'simplifiedChineseBody': 'Adds Simplified Chinese as Content/Languages/zho.',
+  'applySelection': 'Apply',
+  'systemLanguageSuggestionTitle': 'Install your system language?',
+  'systemLanguageSuggestionBody':
+      'Your system language matches {languages}, which is available as an optional Magicka language. Install it with this patch?',
+  'no': 'No',
+  'yesInstallLanguage': 'Yes, install language',
   'sendFeedback': 'Send feedback',
   'supportOnPatreon': 'Support on Patreon',
   'gameFolder': 'Game folder',
@@ -307,7 +321,7 @@ const Map<String, String> _en = <String, String>{
       'Keyboard/controller element counts and controller share.',
   'eventPatchInstalled': 'Patch installed',
   'eventPatchInstalledBody':
-      'Event name + patch version. Estimates installs and ongoing use.',
+      'Patch/language installs: version, language code and source.',
   'eventAutoUpdate': 'Auto update',
   'eventAutoUpdateBody':
       'Event name + patch version. Confirms auto-update adoption.',
@@ -389,6 +403,19 @@ final Map<AppLanguage, Map<String, String>> _strings =
     'findAutomatically': '自动查找',
     'startGame': '启动游戏',
     'installPatch': '安装补丁',
+    'optionalLanguages': '语言...',
+    'optionalLanguagesNoneSelected': '未选择附加语言',
+    'optionalLanguagesSelected': '已选择：{languages}',
+    'optionalLanguagesDialogTitle': '安装语言文件',
+    'optionalLanguagesDialogBody': '选择要随补丁安装的附加语言。现有游戏语言不会被替换。',
+    'simplifiedChinese': '简体中文',
+    'simplifiedChineseBody': '将简体中文添加到 Content/Languages/zho。',
+    'applySelection': '应用',
+    'systemLanguageSuggestionTitle': '安装系统语言？',
+    'systemLanguageSuggestionBody':
+        '您的系统语言与可选的 Magicka 语言 {languages} 相匹配。是否随此补丁一起安装？',
+    'no': '否',
+    'yesInstallLanguage': '是，安装语言',
     'sendFeedback': '发送反馈',
     'supportOnPatreon': '在 Patreon 上支持',
     'gameFolder': '游戏文件夹',
@@ -417,7 +444,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
     'eventGameClosed': '游戏正常关闭',
     'eventGameClosedBody': '键盘/手柄元素选择次数及手柄占比。',
     'eventPatchInstalled': '补丁已安装',
-    'eventPatchInstalledBody': '事件名称 + 补丁版本，用于估算安装量和持续使用情况。',
+    'eventPatchInstalledBody': '补丁/语言安装：版本、语言代码和安装来源。',
     'eventAutoUpdate': '自动更新',
     'eventAutoUpdateBody': '事件名称 + 补丁版本，用于确认自动更新的使用情况。',
     'eventCrashReport': '崩溃/错误报告',
@@ -477,6 +504,21 @@ final Map<AppLanguage, Map<String, String>> _strings =
   AppLanguage.deDE: <String, String>{
     ..._en,
     'ready': 'Bereit.',
+    'optionalLanguages': 'Sprachen...',
+    'optionalLanguagesNoneSelected': 'Keine zusätzliche Sprache ausgewählt',
+    'optionalLanguagesSelected': 'Ausgewählt: {languages}',
+    'optionalLanguagesDialogTitle': 'Sprachdateien installieren',
+    'optionalLanguagesDialogBody':
+        'Wähle zusätzliche Sprachen aus, die mit dem Patch installiert werden sollen. Vorhandene Spielsprachen werden nicht ersetzt.',
+    'simplifiedChinese': 'Vereinfachtes Chinesisch',
+    'simplifiedChineseBody':
+        'Fügt vereinfachtes Chinesisch als Content/Languages/zho hinzu.',
+    'applySelection': 'Übernehmen',
+    'systemLanguageSuggestionTitle': 'Systemsprache installieren?',
+    'systemLanguageSuggestionBody':
+        'Deine Systemsprache entspricht der optional verfügbaren Magicka-Sprache {languages}. Soll sie mit diesem Patch installiert werden?',
+    'no': 'Nein',
+    'yesInstallLanguage': 'Ja, Sprache installieren',
     'ok': 'OK',
     'close': 'Schließen',
     'cancel': 'Abbrechen',
@@ -531,7 +573,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
         'Tastatur-/Controller-Elementzahlen und Controller-Anteil.',
     'eventPatchInstalled': 'Patch installiert',
     'eventPatchInstalledBody':
-        'Eventname + Patch-Version. Schätzt Installationen und Nutzung.',
+        'Patch-/Sprachinstallation: Version, Sprachcode und Quelle.',
     'eventAutoUpdate': 'Auto-Update',
     'eventAutoUpdateBody':
         'Eventname + Patch-Version. Bestätigt Auto-Update-Nutzung.',
@@ -641,7 +683,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
         'Conteos de elementos por teclado/mando y proporción del mando.',
     'eventPatchInstalled': 'Patch instalado',
     'eventPatchInstalledBody':
-        'Nombre del evento + versión. Estima instalaciones y uso.',
+        'Instalación de patch/idioma: versión, código y origen.',
     'eventAutoUpdate': 'Actualización auto',
     'eventAutoUpdateBody':
         'Nombre del evento + versión. Confirma adopción de auto-update.',
@@ -749,7 +791,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
         'Nombres d’éléments clavier/manette et part de la manette.',
     'eventPatchInstalled': 'Patch installé',
     'eventPatchInstalledBody':
-        'Nom d’événement + version. Estime les installations et l’usage.',
+        'Installation patch/langue : version, code langue et source.',
     'eventAutoUpdate': 'Mise à jour auto',
     'eventAutoUpdateBody':
         'Nom d’événement + version. Confirme l’adoption des mises à jour.',
@@ -856,7 +898,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
         'Contagens por teclado/controle e proporção do controle.',
     'eventPatchInstalled': 'Patch instalado',
     'eventPatchInstalledBody':
-        'Nome do evento + versão. Estima instalações e uso.',
+        'Instalação de patch/idioma: versão, código e origem.',
     'eventAutoUpdate': 'Atualização auto',
     'eventAutoUpdateBody':
         'Nome do evento + versão. Confirma adoção do auto-update.',
@@ -963,7 +1005,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
         'Počty prvků z klávesnice/ovladače a podíl ovladače.',
     'eventPatchInstalled': 'Patch nainstalován',
     'eventPatchInstalledBody':
-        'Název události + verze. Odhaduje instalace a používání.',
+        'Instalace patche/jazyka: verze, kód jazyka a zdroj.',
     'eventAutoUpdate': 'Auto update',
     'eventAutoUpdateBody':
         'Název události + verze. Potvrzuje používání auto-update.',
@@ -1069,7 +1111,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
         'Выборы элементов с клавиатуры/геймпада и доля геймпада.',
     'eventPatchInstalled': 'Патч установлен',
     'eventPatchInstalledBody':
-        'Имя события + версия. Оценивает установки и использование.',
+        'Установка патча/языка: версия, код языка и источник.',
     'eventAutoUpdate': 'Автообновление',
     'eventAutoUpdateBody':
         'Имя события + версия. Подтверждает использование автообновления.',
@@ -1175,7 +1217,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
         'Вибори елементів з клавіатури/геймпада та частка геймпада.',
     'eventPatchInstalled': 'Патч встановлено',
     'eventPatchInstalledBody':
-        'Назва події + версія. Оцінює встановлення та використання.',
+        'Встановлення патча/мови: версія, код мови та джерело.',
     'eventAutoUpdate': 'Автооновлення',
     'eventAutoUpdateBody':
         'Назва події + версія. Підтверджує використання автооновлення.',
@@ -1278,7 +1320,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
     'eventGameClosed': '正常終了',
     'eventGameClosedBody': 'キーボード/コントローラーの元素選択数とコントローラー比率。',
     'eventPatchInstalled': 'パッチ導入',
-    'eventPatchInstalledBody': 'イベント名 + 版。インストールと利用を推定します。',
+    'eventPatchInstalledBody': 'パッチ/言語の導入: 版、言語コード、導入元。',
     'eventAutoUpdate': '自動更新',
     'eventAutoUpdateBody': 'イベント名 + 版。自動更新の利用を確認します。',
     'eventCrashReport': 'クラッシュ/エラー',
@@ -1375,7 +1417,7 @@ final Map<AppLanguage, Map<String, String>> _strings =
     'eventGameClosed': '정상 종료',
     'eventGameClosedBody': '키보드/컨트롤러 원소 선택 수와 컨트롤러 비율.',
     'eventPatchInstalled': '패치 설치됨',
-    'eventPatchInstalledBody': '이벤트 이름 + 버전. 설치와 사용량을 추정합니다.',
+    'eventPatchInstalledBody': '패치/언어 설치: 버전, 언어 코드, 설치 경로.',
     'eventAutoUpdate': '자동 업데이트',
     'eventAutoUpdateBody': '이벤트 이름 + 버전. 자동 업데이트 사용을 확인합니다.',
     'eventCrashReport': '충돌/오류 보고',

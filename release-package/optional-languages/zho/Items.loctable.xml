@@ -1,0 +1,2921 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="staffs">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">香草巫师小法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Basic Wizard's Staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Basic Wizard's Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff01d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">记住法杖是用来施法！
+而不是搅拌香草咖啡的！
+#PA;无
+#AA;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Staff is the most important part of a Wizard's arsenal. It grants you the power to direct spells. #PA;None #AA;None</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Staff is the most important part of a Wizard's arsenal. It grants you the power to direct spells. #PA;None #AA;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff02</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">护盾法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shield Staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shield Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff02d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">出色的防守就是最好的进攻
+#PA;提升护盾效果
+#AA;释放一个护盾</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">playing off the (sport) slogan "a good offense is the best defense"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sometimes a good defense is the best defence. #PA;Increase the rate at which shields are boosted #AA;Immediately casts a self shield</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff03</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">节曲法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gnarled Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff03d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">来自敌方术士的恩惠
+#PA;使持有者免疫中毒
+#AA;召唤树精</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The herbalist's wet dream. #PA;Makes the owner immune to poison #AA;Summon Tree Spirit</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff04</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">冰冻法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Frost Staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Frost Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff04d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">小心副作用,包括冻伤，
+体温过低，还有发烧感冒。
+#PA;冰冻免疫光环
+#AA;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Side effects may include frostburn, hypothermia, and the common cold. #PA;Cold Immunity Aura #AA;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff05</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">死灵法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of the Dead</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of the Dead</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff05d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">拥有死灵法杖在手，成为快乐僵尸之友。
+#PA;
+复活范围光环内的亡灵
+#AA;召唤亡灵</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">With the staff of the dead you don't have to worry about killing your friends. #PA;Calls up undead friends #AA;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff06</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">战争法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of War</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of War</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff06d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这个法杖特别为战斗设计，旨在帮
+助持有者获得多一点点的存活时间。
+#PA;物理攻击免疫光环
+以及双倍生命值
+#AA;奥术魔法弹</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The staff was specially crafted for warfare, and is designed to help the wielder survive just a little bit longer. #PA;Physical Resistance Aura. #PA;Double wielder's maximum hit points #AA;Arcane Bolt</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff07</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">仇恨镰刀</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Scythe of Malevolence</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff07d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这是一把带着死神诅咒的镰刀
+会使持有者的肌肤一片片撕裂。
+#PA;生命魔法抵抗
+#AA;喷溅毒液</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The scythe has a terrible curse which makes the skin of its victims tear apart in a poxy manner. #PA;Life Resistance #AA;Poison Spray</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff08</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">巨魔之王的权杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sceptre of the Troll King</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sceptre of the Troll King</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff08d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">属于巨魔之王的古老而迷人的权杖，
+貌似遗失了很久。
+#PA;
+使敌人对持有者的攻击性减弱
+#AA;魅惑目标</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The long-lost sceptre of the ancient and charming troll king. #PA;Makes enemies less likely to attack the wielder #AA;Charm target</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff09</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哥布林法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff09d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">想长寿吗？快用哥布林法杖吧！
+叽叽叽！
+#PA;增加物理抵抗
+#AA;免疫所有伤害
+（只是暂时的）</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Wizards tend to use this staff to lengthen their lifespan -- which isn't very long to begin with. #PA;Increased Physical Resistance #AA;Temporary Damage Immunity</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff10</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">格格巫的法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Aristo-Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff10d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">胜者为王败者为寇，这根古老而残
+破的法杖只愿意跟着前者走。
+#PA;抵抗所有元素
+#AA;瞬间传送</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The goblin lord kept this relic safe for many a year, until it finally slipped from his grasp… his cold, dead grasp. #PA;Resistance to all elements #AA;Teleport</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff11</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">恶魔的断臂</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Daemon Arm</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff11d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">从某只恶魔身上掉下来的断臂，
+它拥有无尽的神秘力量。
+#PA;
+光束类法术持续时间无限
+#AA;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The severed arm of a daemon lord. It holds unlimited arcane power. #PA;Beam spells have unlimited duration #AA;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff12</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">弗拉德的金属护手</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad's Gauntlet</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad's Gauntlet</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff12d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">它赋予持有者近乎于吸血鬼的力量！
+#PA;生命魔法从此伤害你！
+奥术魔法免疫
+#AA;
+从最近目标吸取生命</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It grants the wearer almost vampiric powers! #PA;Inverses damage taken from Life #PA;Arcane Immunity #AA;Restore life by draining whoever is closest</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff13</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">生命法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of Life</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of Life</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff13d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">生命法杖是一个奇特的物品：
+看着像从土壤中自然生长出来的。
+#PA;范围再生光环
+#AA;复活同伴玩家</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">originally found "concealed", growing in a garden row.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The staff of life is a peculiar item: it seems to spontaneously grow in gardens. #PA;Regeneration Aura #AA;Revive</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff14</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">紧急传送法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Rod of Emergency Teleport</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Rod of Emergency Teleport</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff14d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">在紧急情况下非常有用，可以使你
+脱离自身所处的不利环境到安全一
+些的地方去。
+#PA;无
+#AA;
+传送持有者至随机位置</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Useful in emergency situations, when anywhere is better than where you currently are. #PA;None #AA;Teleports the user to a random location</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff15</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">火焰之杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of Fire</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of Fire</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff15d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">“穿越火焰”100%保证。
+(福娃欢欢，我就喜欢)
+#PA;火系抵抗
+#AA;
+火系范围免疫光环</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Through the fire and flames" -- 100% guaranteed. (The staff, that is.) #PA;Fire Resistance #AA;Fire Immunity Aura</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff16</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">某科学的电磁叉</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tesla Staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tesla Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff16d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">“只有我的超远程电磁炮才能狠
+狠地激射至无尽的天边……”
+这根叉叉会自己唱歌？
+#PA;增加放电范围
+#AA;电磁炮</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">haphazardous is a joke word</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lightning staves are rarely used in the field, due to their haphazardous nature. #PA;Increased lightning range #AA;Lightning bolt</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff17</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">反击之杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of Deflection</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff17d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">远程好远程妙…遇到反射就乱套
+#PA;无
+#AA;
+反射范围光环</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A staff specially devised for combating enemies who favor missile weapons. #PA;None #AA;Deflect Aura</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff18</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">白袍巫师之杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of the White Wizard</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of the White Wizard</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff18d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">白袍巫师曾经是个灰袍。因同伴们
+的强烈要求，他再一次回到了中原
+大地协助他们作战，随后领了便当。
+#PA;增加光照半径
+#AA;恐惧</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The white wizard was once a different color, but returned to Midgård once again to aid his fellow wizards in their quest. Then subseqently died. #PA;Increased light radius #AA;Fear-causing light</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff19</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">隐形之杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of Invisibility</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of Invisibility</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff19d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">卖给刺客应该会有个好价钱
+#PA;无
+#AA;隐形术</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Many have seen a use in being invisible. Once upon a time, the oldest and greediest wizards of the Order crafted this staff in secrecy. #PA;None #AA;Invisibility</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff20</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">雷神之杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Righteous Rod of Runes</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff20d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">矮人祭祀还有大厨们使用的擀面杖，
+哦不，是法杖。
+#PA;闪电范围免疫光环
+#AA;
+闪电范围攻击光环</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A staff used by the dwarven priests of Galdrhöll. #PA;Lightning Immunity Aura #AA;Lightning Damage Aura</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff21</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">神马都+1的法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff +1</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff21d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">曾经有一名巫师打造了一个法杖来
+增强自身的魔法，想借此超越他人
+#PA;所有魔法伤害+1
+#AA;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Once there was a wizard that forged a staff to increase the powers of his spells, to gain the edge over his "peers". #PA;Adds one to all spell damage #AA;None</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="weapons">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">很钝的小剑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Blunt Blade</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Blunt Blade</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon01d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">为了避免发生意外，当权者发布了
+刀具管制令，所有刀刃都被钝
+化了。
+#DMG;低物理伤害
+#SP;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">All blades in the Order of Magick have been blunted, so as to avoid accidents. #DMG;Low Physical #SP;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon02</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">M60</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">M60</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">M60</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon02d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">由若干可拆卸部分构成的奇怪装置，
+对于一部魔幻游戏来说太超前啦。
+#DMG;近距离挥动低物理伤害
+#SP;快速，远程高伤害</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A strange contraption with several moving parts. Far too advanced to be part of a fantasy game. #DMG;Low Physical #SP;Fast, Ranged</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon03</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">反恐精英专业小刀</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Knife of Counter-Striking</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Knife of Counter-Striking</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon03d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一把精心制作的战斗用刀，
+……似乎在哪儿见过！
+#DMG;低物理伤害
+#SP;快速, 增加移动速度</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A finely crafted combat knife. #DMG;Low Physical #SP;Fast, Increases Movement Speed</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon04</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">石中剑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Excalibur</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Excalibur</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon04d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">亚瑟王的咖喱棒，很出名哟！呃还
+带着石头…
+#DMG;中物理伤害
+#SP;慢速, 击倒</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The famous sword in the stone – complete with stone. #DMG;Medium Physical #SP;Slow, Knockdown</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon05</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">刺针</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">a joke on Bilbo Baggins' blade, Sting. (Lord of the Rings)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Stung</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon05d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">大师打造的精灵之刃。
+#DMG;中物理伤害
+#SP;快速，当敌人接近时发光
+(喂喂真的吗)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A masterly crafted elven blade. #DMG;Medium Physical #SP;Fast, Glows when enemies are near</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon06</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">武士刀</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Exotic Blade</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Exotic Blade</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon06d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一把来自东洋的快刀，刀把上
+刻着这样的文字“独一无二”
+#DMG;中物理伤害
+#SP;快速，穿甲</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Highlander reference</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A curved exotic blade from the far east. The words "There can be only one" are inscribed on its hilt. #DMG;Medium Physical #SP;Fast, Armor Piercing</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon07</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">奥术激光剑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Arcane Saber</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon07d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">它很轻，挥动迅捷，能够烧穿几乎
+所有物质。
+#DMG;高奥术伤害
+#SP;快速</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It is very light, can be swung very quickly, and burns through almost any material. #DMG;High Arcane #SP;Fast</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon08</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">幻影指环</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ring of the Phantom</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ring of the Phantom</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon08d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一只骷髅形状的戒指。这家伙在肉
+搏战中一定能留下印记。
+#DMG;低物理伤害
+#SP;击倒</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A skull-shaped ring. This puppy could really leave a mark if it were used in a fist fight. #DMG;Low Physical Damage #SP;Knockdown</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon09</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">火焰之刃</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Blade of Surt</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Blade of Surt</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon09d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">如果没有一把火焰剑，这还能叫做
+魔幻游戏么？
+#DMG;中物理伤害和火焰伤害
+#SP;引燃目标</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">What kind of fantasy game would this be if it didn't include a flaming sword? #DMG;Medium Physical &amp; Fire Damage #SP;Ignites target</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon10</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">雪花之剑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Blade of Chill</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Blade of Chill</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon10d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这把需要在暴风雪中打磨的剑
+在铸造时一定是困难重重。
+#DMG;中物理伤害和雪系伤害
+#SP;慢速，在持有者面前制造雪系冲击</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Crafted in a blizzard, this sword must have been a hassle to forge. #DMG;Medium Physical and Cold #SP;Slow, Creates a cold blast in front of the wielder</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon11</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">冰霜砍刀</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Frost Cleaver</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Frost Cleaver</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon11d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">“泛着蓝光的兵刃会让持有者的心
+跟着一同变冷，从此不再爱人…”
+—这都写得啥跟啥？
+#DMG;中物理伤害
+#SP;冻结目标</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The blades of the goblin captains are as cold as their hearts… So very cold... #DMG;Medium Physical #SP;Freezes its target</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The blades of the goblin captains are as cold as their hearts… So very cold... #DMG;Medium Physical #SP;Freezes its target</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon12</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">诅咒之刃</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cursed Blade</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cursed Blade</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon12d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一把带着邪恶病毒的刀，
+用360是杀不掉的。
+#DMG;中物理伤害和剧毒伤害
+#SP;慢速, 击中时释放毒素</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A blade ridden with disease, and a wicked conscience of its own. #DMG;Medium Physical and Poison #SP;Slow, Poisons on hit</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon13</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">神圣分割者</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Holy Divider</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Holy Divider</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon13d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">由强悍的矮人制造，
+能把人切成两半。
+不会无缘无故交给你的。
+#DMG;高物理伤害
+#SP;慢速, 穿甲</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A blade which can cleave a man in two, forged by a very tenacious dwarf. Given away for no apparent reason. #DMG;High Physical #SP;Slow, Armour Piercing</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon14</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">斩裂之提尔锋</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">tyr is the norse god</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tyrfing</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon14d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这是一把永远能击中目标的神剑。
+#DMG;中物理伤害
+#SP;永远命中，试试就知</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A sword that, according to legend, always hits its target. #DMG;Medium Physical #SP;Always hits</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon15</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">战锤</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Warhammer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Warhammer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon15d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一把充满暗黑力量的坚实战锤。
+#DMG;中物理伤害
+#SP;击退目标</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A powerful hammer of the dark and gritty sort. #DMG;Medium Physical #SP;Pushes target back</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A powerful hammer of the dark and gritty sort. #DMG;Medium Physical #SP;Pushes target back</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon16</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">雷神之锤</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mjölner</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mjölner</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon16d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">充满了闪电力量的锤子。
+#DMG;中物理伤害
+#SP;慢速, 击中时闪电打击目标</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A hammer infused with the power of thunder. #DMG;Medium Physical #SP;Slow, Lightning strikes target on hit</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon17</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">奥丁神枪</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gungnir</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gungnir</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon17d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">投掷出去并且总能返回主人身边的
+矛，就像其他北欧神话里的投掷
+武器一样。
+#DMG;中物理伤害
+#SP;慢速, 远程, 穿甲</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A spear that can be thrown but always returns to its owner. – Like all other thrown weapons in Norse mythology. #DMG;Medium Physical #SP;Slow, Ranged, Armour Piercing</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon18</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">金牌之斧</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Axe of the Dwarf Champion</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Axe of the Dwarf Champion</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon18d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">矮人出品，冠军必备。
+#DMG;高物理伤害
+#SP;慢速</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Made by champions -- for champions. #DMG;High Physical #SP;Slow</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon19</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一串烤好的香肠</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sausage on stick</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sausage on stick</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon19d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">乍看它就像一根普通的棍子。但这
+根棍子上穿着十分美味的香肠。
+#DMG;低物理伤害
+#SP;快速,吸引敌人攻击</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">At first glance, it just looks like an ordinary stick. But this baby comes equipped with a very tasty-looking sausage. #DMG;Low Physical #SP;Fast, Makes enemies more likely to attack you</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon20</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">屠龙剑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gram</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gram</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon20d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一把精致的剑，最适于屠龙…
+附近有龙吗？
+#DMG;中物理伤害
+#SP;能够杀死龙哦</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A well-crafted sword, perfect for slaying dragons... Wonder if there are any nearby? #DMG;Medium Physical #SP;Dragon Slayer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon21</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">大师之剑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sword of the Masters</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sword of the Masters</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon21d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">有些人把它叫做“诛恶者”
+一把内含奥术力量的古代之剑。
+#DMG;中物理伤害
+#SP;生命全满时放出奥术</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Known by some as "The Bane of Evil" -- an ancient sword which contains arcane power. #DMG;Medium Physical #SP;Shoots Arcane when wielder is at full health</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon22</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">斧头</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Captain's Axe</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon22d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">只是一把斧头，但也许比巫师们配
+备的钝剑要好
+#DMG;中物理伤害
+#SP;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">An axe of good quality, at least in comparison with the blunt blades of the Wizard Order. #DMG;Medium Physical #SP;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon23</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">锋利之刃</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sharp Blade</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon23d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">在巫师城堡偶尔能找到一把利剑，
+一般情况下应该立即磨钝的，
+不过……
+#DMG;中物理伤害
+#SP;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Every now and then, a sharp blade is found in Castle Aldrheim. Regulation states that it should immediatly be handed over for blunting. #DMG;Medium Physical #SP;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon24</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">撬棍</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Crowbar</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon24d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">能撬开…比如盔甲。
+#DMG;低物理伤害
+#SP;快速, 穿甲</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"The Magick Swan": an excellent choice for prying things open. Things like armor. #DMG;Low Physical #SP;Fast, Armor Piercing</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon25</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">精品哥布林短剑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">High Quality Goblin Dirk</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon25d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一般哥布林制造的装备不值得大家
+上心，不过这些高层哥布林用的
+好玩意是个例外。
+#DMG;低物理伤害
+#SP;快速</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin-crafted equipment generally isn't worth bothering with. There are however some exceptions, like these fine pieces, prized by goblin commanders. #DMG;Low Physical #SP;Fast</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon26</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">莫瑞亚之刃</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Morgul-blade</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon26d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">由上古时期的传奇人物制造。
+#DMG;低物理伤害
+#SP;毒伤害</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A magical dagger forged by Men in times long forgotten. #DMG;Low Physical #SP;Poison</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon27</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">天空之矛</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Skyward Spear</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon27d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">拥有强大的破空之闪光，由长风海
+岸曾经存在的德鲁伊制造.
+#DMG;中物理伤害和闪电伤害
+#SP;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A sparkling spear enchanted with the power of thunder, by the druids of Hálöndin in the days of yore. #DMG; Medium Physical and Lightning #SP;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon28</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">海洋之矛</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Seaward Spear</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon28d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">拥有汹涌的潮汐之拍劲，由长风海
+岸曾经存在的德鲁伊制造。
+#DMG; 中物理伤害
+#SP;击退, 潮湿目标</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A sparkling spear enchanted with the power of the ocean, by the druids of Hálöndin in the days of yore. #DMG; Medium Physical #SP;Pushes target back, Wets target</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon29</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">大地之锤</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mace of the Earth</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon29d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">拥有开山辟地之震势，由长风海岸
+曾经存在的德鲁伊制造。
+#DMG;高物理伤害
+#SP;慢速, 击退目标</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A heavy mace enchanted with the power of the mountains, by the druids of Hálöndin in the days of yore. #DMG;High Physical #SP;Slow, Pushes target back</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon30</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">融心之锤</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mace of the Molten Core</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon30d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">拥有融解万物的热能，由长风海岸
+曾经存在的德鲁伊制造。
+#DMG;高物理伤害
+#SP;慢速, 使目标着火</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A heavy mace enchanted with the power of searing flame, by the druids of Hálöndin in the days of yore #DMG;High Physical #SP;Slow, Sets target on fire</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon31</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">雷之刃</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Thunderblade</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon31d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一把简单的带着闪电力量的刀。
+由术士制造并交给半兽人，
+代表了二者间结盟的信物。
+#DMG;中物理伤害和闪电伤害
+#SP;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A simple blade infused with the power of lightning. A token of trust, given to the orcs by the warlocks. #DMG;Medium Physical and Lightning #SP;None</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="magicks">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_blizzard</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">暴风雪</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Blizzard</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Blizzard</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_blizzardD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">想体验“敌不动我动”的绝佳境地吗？
+现在你的愿望可以实现啦！
+待到念咒空中摇，我召唤后你躲好。
+冲天风暴透心凉，满屏尽带雪花飘。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Everyone longs for a cool breeze on those warm summer days. Now you can have your wish – and more! – with a powerful, refreshing blizzard. Guaranteed to chill even the warmest of beverages.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_charm</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">魅惑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Charm</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Charm</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_charmD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">与人打交道的终极魔法，
+只对意志薄弱的家伙起作用。
+顺带一提，它们数量可观。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The ultimate magick for having your way with people. Only works on the weak-minded, which, by the way, is a rather sizable number.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_conflagration</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">烈焰气波</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Conflagration</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Conflagration</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_conflagrationD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">感觉像气波功？
+用它的热浪，
+你可以点燃大量的敌人，
+或者大量的香肠.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Feeling like spontaneously combusting things? With this heat wave, you can torch large hordes of enemies -- or truly vast quantities of sausages.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_nullify</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">超级净化</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Nullify</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_nullifyD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">洗去烦人的污点，
+法术和状态效果，
+更多洁净更多欢乐，
+我就喜欢！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Removes bothersome stains, spells and status effects. Nullify is 42% more effective than other leading brands!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_fear</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">恐惧</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fear</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fear</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_fearD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">发出冷彻灵魂的号叫，
+把最强的敌人吓跑。
+这玩意能使你的主角光环大亮，
+珍爱生命，拒绝配角，远离便当。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Unleash a soul-chilling howl that scares off even the most hardened foe. This baby will make your black-metal-band so famous that you might even be able to quit your day job.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Unleash a soul-chilling howl that scares off even the most hardened foe. This baby will make your black-metal-band so famous that you might even be able to quit your day job.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_grease</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">油腻</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Grease</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Grease</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_greaseD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">用奶酪般油滑的易燃物
+浇灌附近的花花草草，别黏到小朋友了。
+尝一下，恩呃，有“中奖”的味道。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Coats the immediate area with a greasy,  highly flammable, slippery, cheese-like substance. The smell is a bonus.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Coats the immediate area with a greasy,  highly flammable, slippery, cheese-like substance. The smell is a bonus.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_haste</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">加速魔法</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Haste</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Haste</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_hasteD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">当危险出现时，
+这个魔法能让你轻松地英勇逃离。
+跟范老师比一下谁更快！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Monty Python Ref.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">When danger rears its ugly head, this magick makes it a lot easier to bravely run away.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_invisibility</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">隐身</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Invisibility</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Invisibility</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_invisibilityD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你拥有了一双隐形的翅膀。
+关键时刻可以令自己从对手眼前消失，远离尴尬的境地。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The power of invisibility has long been associated with  shiny jewelry, hairy feet, and cowardice. This magick hides the caster from the eyes of his foes, and allows him to make a quick exit from an awkward situation.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The power of invisibility has long been associated with  shiny jewelry, hairy feet, and cowardice. This magick hides the caster from the eyes of his foes, and allows him to make a quick exit from an awkward situation.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_meteors</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">流星陨石雨</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Meteor Shower</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Meteor Shower</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_meteorsD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">数星星一颗两颗三颗四颗连成线…
+…哦不，快跑！FDFQDF</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">In certain situations you just want to go out with a blast – or even several blasts – raining down from the sky in the form of fiery rocks.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">In certain situations you just want to go out with a blast – or even several blasts – raining down from the sky in the form of fiery rocks.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_rain</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">降雨</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Rain</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Rain</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_rainD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">不需要祈雨就能召唤雨神，
+人行道乐了，下水道哭了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Call upon the rain Gods without having to resort to dancing. Makes crops happy and lava streams sad.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Call upon the rain Gods without having to resort to dancing. Makes crops happy and lava streams sad.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_revive</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哇复活啦</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Revive</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_reviveD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">当你的玩家基友一个个挂掉，
+也许你会想要复活他们…
+只需“哇”一声，就能让他
+们从地底蹦出来，代替你承受伤害。
+ 当然，他们也想这样回敬你。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">As your friends drop dead one by one, you might wish to revive them so the enemy might attack them instead of you. Plus, they might even return the favor someday.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_sDeath</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">死神来了</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Summon Death</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Summon Death</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_sDeathD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这个法术很给力，
+能够召唤死神领域的领主来帮助你。
+但要小心，这位收割者喜怒无常，
+喜欢勾走离他最近的家伙。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It is a powerful ability indeed, to call upon the aid of he who controls the ethereal realm. Be cautious though, for the reaper will claim whoever nearby is closest to death.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_sElemental</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">召唤元素</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Summon Elemental</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Summon Elemental</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_sElementalD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">让施法者召唤出百变的元素精怪，
+你用啥魔法碰它们，
+它们就会变成啥属性。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The caster summons an elemental from the ethereal realm which will asume the form of the first element it comes into contact with.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The caster summons an elemental from the ethereal realm which will asume the form of the first element it comes into contact with.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_sPhoenix</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">凤凰传奇</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Summon Phoenix</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Summon Phoenix</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_sPhoenixD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">召唤稀有而傲娇的凤凰，
+它会直冲地面，横扫战场，
+飞舞的火焰将成为新生的摇篮。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The rare and proud phoenix sweeps over the battlefield, and as it perishes in flame, it revives all fallen wizards in its fiery blast.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The rare and proud phoenix sweeps over the battlefield, and as it perishes in flame, it revives all fallen wizards in its fiery blast.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_sUndead</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">召唤僵尸</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Raise Dead</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Raise Dead</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_sUndeadD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">让施法者召唤僵尸帮助战斗，
+完全蔑视死神的权威。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Showing total disregard for the permanence of death, the caster calls upon the deceased to aid him in battle.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Showing total disregard for the permanence of death, the caster calls upon the deceased to aid him in battle.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_teleport</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">瞬间移动</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Teleport</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Teleport</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_teleportD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">急着赶路？被烦人的屏障挡住？
+瞬间移动让你以光速旅行。
+从此不用再搭11路啦！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">In a hurry to get somewhere? That pesky barrier blocking your way? Teleportation is the key to lightning-fast travel. Don't want to strain those legs now, do you?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_thunderb</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">雷击术</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Thunder Bolt</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Thunder Bolt</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_thunderbD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">有些人认为这是雷神的把戏。
+其他人认为这是科学。
+不管怎样，当这个巨大的光束带给
+你的敌人(和朋友！) 灭顶之灾时，
+他们都该跑着找掩护！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Some believe it's the work of Thor. Others believe it's science. Either way, your enemies (and friends!) will be running for cover, when this massive lightning bolt blasts them to oblivion.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_thunders</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">超级无敌霹雳雷暴雨</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Thunder Storm</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Thunder Storm</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_thundersD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">带大家体验2012震撼的末日效果，
+当然也包括你自己。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Same old weather lost its intrigue? The creators of 'Rain' and 'Thunderbolt' now bring you the all-new Magick: 'Thunder Storm'! A combination of rain and multiple thunder bolts makes this the ideal spell for destroy everything in the vicinity, including yourself!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Same old weather lost its intrigue? The creators of 'Rain' and 'Thunderbolt' now bring you the all-new Magick: 'Thunder Storm'! A combination of rain and multiple thunder bolts makes this the ideal spell for destroy everything in the vicinity, including yourself!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_tornado</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">龙卷风</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tornado</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tornado</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_tornadoD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">召唤绝对变态螺旋扭动体，自带方向感！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Summons absolutely insane weather – with a twist!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_vortex</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">黑洞漩涡</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vortex</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vortex</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_vortexD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">当你想搞破坏时，使用黑洞漩涡法术
+绝对是明智之选！它能制造一个把所有
+东西都吞进去的神秘漩涡。这吸力
+是如此之强，以至于所有接近的东西
+都会被撕成碎片！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sometimes you just want to tear reality a new one. With Vortex magick you can! This spell creates a singularity that sucks everything into its infinite center. The forces involved are so strong that anything that approaches will be torn to shreds.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sometimes you just want to tear reality a new one. With Vortex magick you can! This spell creates a singularity that sucks everything into its infinite center. The forces involved are so strong that anything that approaches will be torn to shreds.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_corporealize</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">虚空领域实体化</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Corporealize</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_corporealizeD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">如果你的附近……有奇怪的东西……用这个法术能把虚空的怪物
+扯进现实空间。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">If there's something strange... in your neighborhood... just use this magick to draw those ethereal creatures in to the corporeal realm.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_timewarp</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">时间慢速</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Time Warp</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_timewarpD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">感觉时间不够用？
+这个法术能够让你减速时间，
+慢慢体味那些珍贵的时刻。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ever feel like your time is running out? This Magick enables you to slow down the flow of time so you can really savor those precious final moments.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_88mph</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">时速88公里大冲刺(穿越时空)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Time Flux</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_88mphD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">当你不小心犯了错，
+最简而有效的解决办法，
+就是回到过去改变它！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">When mistakes are made, the simplest and most logical thing to do is just to rewind history. This Magick takes you all the way back to #Location_WC; where it all began!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_shrink</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">拉扯</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shrink</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shrink</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_shrinkD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一把扯过来！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ShrinkD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ShrinkD</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_grow</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">成长</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Grow</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Grow</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_growD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">GrowD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">GrowD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">GrowD</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_etherealize</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">灵化</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Etherealize</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Etherealize</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_etherealizeD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">EtherealizeD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">EtherealizeD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">EtherealizeD</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_polymorph</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">多态</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Polymorph</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Polymorph</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_polymorphD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">PolymorphD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">PolymorphD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">PolymorphD</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_earthquake</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">地震</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Earthquake</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Earthquake</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_earthquakeD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">震一震，乐一乐！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">EarthquakeD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">EarthquakeD</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="misc">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_PICK_UP</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你得到了#1;！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#1; will be replaced with an item</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You obtained #1;!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MAGICK_PICK_UP</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你学会了#1;！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">rephrased. #1; will be replaced with a magick</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You learned #1;!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PA</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]被动技: [/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Passive Ability: [/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#AA</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]主动技(鼠中键): [/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Active Ability: [/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SP</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]特点: [/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Special: [/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DMG</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]伤害类型: [/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Damage Type: [/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Specab_SS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">激活自身护盾</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Self Shield</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Specab_Root</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">召唤树精</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Root</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Specab_Arcane</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">奥术弹</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Arcane Bolt</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Specab_Poison</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">剧毒</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Poison</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Specab_Charm</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">魅惑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Charm</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Specab_Immunity</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">物理免疫</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Invulnerability</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Specab_Drain</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">吸取生命</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Life Drain</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Specab_ETeleport</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">紧急瞬移</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Emergency Teleport</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Specab_Fire_im</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">火焰范围免疫光环</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fire Immunity Aura</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Specab_lightbolt</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">发射电磁炮</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lightning Bolt</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#specab_deflect</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">反射范围光环</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Deflect Aura</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#specab_Fear</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">恐惧</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fear</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#specab_lig_au</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">闪电攻击范围光环</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lightning Aura</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

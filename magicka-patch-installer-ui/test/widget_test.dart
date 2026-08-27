@@ -18,6 +18,27 @@ import 'package:magicka_community_patch_installer_ui/localization.dart';
 import 'package:magicka_community_patch_installer_ui/main.dart';
 import 'package:magicka_community_patch_installer_ui/original_game_files.dart';
 
+Future<Directory> _createChinesePayload(Directory root) async {
+  final payload = Directory(
+      '${root.path}${Platform.pathSeparator}payload${Platform.pathSeparator}zho');
+  final font = Directory('${payload.path}${Platform.pathSeparator}Font');
+  await font.create(recursive: true);
+  await File('${font.path}${Platform.pathSeparator}Maiandra14.xnb')
+      .writeAsString('font-14');
+  await File('${font.path}${Platform.pathSeparator}MenuTitle.xnb')
+      .writeAsString('font-title');
+  final names = <String>[
+    'UI.loctable.xml',
+    'Camp_Generic.loctable.xml',
+    ...List<String>.generate(40, (index) => 'Test_$index.loctable.xml'),
+  ];
+  for (final name in names) {
+    await File('${payload.path}${Platform.pathSeparator}$name')
+        .writeAsString('<Workbook><Worksheet><Table /></Worksheet></Workbook>');
+  }
+  return payload;
+}
+
 void main() {
   test('Steam validation URI targets the Magicka app', () {
     expect(AppConstants.magickaSteamValidationUrl, 'steam://validate/42910');
@@ -191,8 +212,8 @@ void main() {
       size: polygonBytes.length,
       sha256: sha256.convert(polygonBytes).toString(),
     );
-    final invalid = File(
-        '${backup.path}${Platform.pathSeparator}Magicka.exe.original');
+    final invalid =
+        File('${backup.path}${Platform.pathSeparator}Magicka.exe.original');
     await invalid.writeAsString('previous patched executable');
     await File('${game.path}${Platform.pathSeparator}Magicka.exe.backup')
         .writeAsBytes(magickaBytes);
@@ -227,6 +248,132 @@ void main() {
     expect(commandLineSelection.language, AppLanguage.zhCN);
     expect(commandLineSelection.source, 'command_line');
     expect(AppStrings(AppLanguage.zhCN).t('installPatch'), '安装补丁');
+  });
+
+  test('system language suggestions distinguish simplified Chinese', () {
+    expect(
+        suggestedOptionalLanguageCodesForSystemLocale(const Locale('zh', 'CN')),
+        <String>{'zho'});
+    expect(
+        suggestedOptionalLanguageCodesForSystemLocale(const Locale('zh', 'SG')),
+        <String>{'zho'});
+    expect(
+        suggestedOptionalLanguageCodesForSystemLocale(
+            const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans')),
+        <String>{'zho'});
+    expect(
+        suggestedOptionalLanguageCodesForSystemLocale(const Locale('zh', 'TW')),
+        isEmpty);
+    expect(
+        suggestedOptionalLanguageCodesForSystemLocale(
+            const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant')),
+        isEmpty);
+    expect(
+        suggestedOptionalLanguageCodesForSystemLocale(const Locale('de', 'DE')),
+        isEmpty);
+  });
+
+  test('optional Chinese install backs up and restores an existing zho folder',
+      () async {
+    final root = await Directory.systemTemp.createTemp('magicka_zho_existing_');
+    addTearDown(() async {
+      if (await root.exists()) await root.delete(recursive: true);
+    });
+    final payload = await _createChinesePayload(root);
+    final game = Directory('${root.path}${Platform.pathSeparator}game');
+    final english = Directory(
+        '${game.path}${Platform.pathSeparator}Content${Platform.pathSeparator}Languages${Platform.pathSeparator}eng');
+    final chinese = Directory(
+        '${game.path}${Platform.pathSeparator}Content${Platform.pathSeparator}Languages${Platform.pathSeparator}zho');
+    final backup = Directory(
+        '${game.path}${Platform.pathSeparator}CommunityPatch${Platform.pathSeparator}backup');
+    await english.create(recursive: true);
+    await chinese.create(recursive: true);
+    await File('${english.path}${Platform.pathSeparator}keep.txt')
+        .writeAsString('english');
+    await File('${chinese.path}${Platform.pathSeparator}user.txt')
+        .writeAsString('original Chinese files');
+
+    final result = await installOptionalSimplifiedChinese(
+      gameDirectory: game.path,
+      backupDirectory: backup.path,
+      existingManifest: const <String, String>{},
+      payloadDirectory: payload,
+      now: DateTime.utc(2026, 8, 27),
+    );
+
+    expect(result.installed, isTrue);
+    expect(result.hadExistingDirectory, isTrue);
+    expect(
+        await File('${chinese.path}${Platform.pathSeparator}UI.loctable.xml')
+            .exists(),
+        isTrue);
+    expect(
+        await File('${chinese.path}${Platform.pathSeparator}user.txt').exists(),
+        isFalse);
+    expect(
+        await File(
+                '${result.originalBackupDirectory}${Platform.pathSeparator}user.txt')
+            .readAsString(),
+        'original Chinese files');
+    expect(
+        await File('${english.path}${Platform.pathSeparator}keep.txt')
+            .readAsString(),
+        'english');
+
+    await restoreOptionalSimplifiedChinese(
+      gameDirectory: game.path,
+      manifest: <String, String>{
+        'simplified_chinese_installed': 'true',
+        'simplified_chinese_had_existing': 'true',
+        'original_simplified_chinese_backup': result.originalBackupDirectory,
+      },
+    );
+    expect(
+        await File('${chinese.path}${Platform.pathSeparator}user.txt')
+            .readAsString(),
+        'original Chinese files');
+    expect(
+        await File('${chinese.path}${Platform.pathSeparator}UI.loctable.xml')
+            .exists(),
+        isFalse);
+    expect(
+        await File('${english.path}${Platform.pathSeparator}keep.txt')
+            .readAsString(),
+        'english');
+  });
+
+  test('optional Chinese uninstall removes a newly created zho folder',
+      () async {
+    final root = await Directory.systemTemp.createTemp('magicka_zho_clean_');
+    addTearDown(() async {
+      if (await root.exists()) await root.delete(recursive: true);
+    });
+    final payload = await _createChinesePayload(root);
+    final game = Directory('${root.path}${Platform.pathSeparator}game');
+    final backup = Directory(
+        '${game.path}${Platform.pathSeparator}CommunityPatch${Platform.pathSeparator}backup');
+    final result = await installOptionalSimplifiedChinese(
+      gameDirectory: game.path,
+      backupDirectory: backup.path,
+      existingManifest: const <String, String>{},
+      payloadDirectory: payload,
+    );
+    expect(result.hadExistingDirectory, isFalse);
+
+    await restoreOptionalSimplifiedChinese(
+      gameDirectory: game.path,
+      manifest: const <String, String>{
+        'simplified_chinese_installed': 'true',
+        'simplified_chinese_had_existing': 'false',
+        'original_simplified_chinese_backup': '',
+      },
+    );
+    expect(
+        await Directory(
+                '${game.path}${Platform.pathSeparator}Content${Platform.pathSeparator}Languages${Platform.pathSeparator}zho')
+            .exists(),
+        isFalse);
   });
 
   testWidgets('installer app smoke test', (WidgetTester tester) async {
@@ -269,6 +416,151 @@ void main() {
     final status =
         tester.getRect(find.byKey(const ValueKey('installer-status-text')));
     expect(subtitle.bottom, lessThanOrEqualTo(status.top));
+    expect(find.byKey(const ValueKey('optional-languages-button')),
+        findsOneWidget);
+    final optionsPanel = find.byKey(const ValueKey('installer-options-panel'));
+    final languageButton =
+        find.byKey(const ValueKey('optional-languages-button'));
+    expect(find.descendant(of: optionsPanel, matching: languageButton),
+        findsOneWidget);
+    final panelRect = tester.getRect(optionsPanel);
+    final buttonRect = tester.getRect(languageButton);
+    final panelScale = panelRect.width / 946;
+    expect(buttonRect.left, closeTo(panelRect.left + 16 * panelScale, 0.5));
+    expect(buttonRect.top, greaterThan(panelRect.center.dy));
+    expect(buttonRect.bottom, closeTo(panelRect.bottom - 21 * panelScale, 0.5));
+    final styledButton = tester.widget<FlameButton>(languageButton);
+    expect(styledButton.overlayIcon, isTrue);
+    expect(styledButton.effects, isFalse);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('optional language button opens a reusable language list',
+      (WidgetTester tester) async {
+    await tester.binding.setSurfaceSize(const Size(1605, 949));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+
+    await tester.pumpWidget(MaterialApp(
+      locale: const Locale('en', 'US'),
+      supportedLocales: AppLanguage.supportedLocales,
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+        AppStrings.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      home: const InstallerScreen(detectGameOnStart: false),
+    ));
+    await tester.pump();
+
+    expect(find.text('No additional language selected'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('optional-languages-button')));
+    await tester.pump(const Duration(milliseconds: 300));
+
+    expect(find.text('Install language files'), findsOneWidget);
+    expect(find.byKey(const ValueKey('optional-language-zho')), findsOneWidget);
+    expect(find.text('Simplified Chinese'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('optional-language-zho')));
+    await tester.pump();
+    expect(
+        tester
+            .widget<CheckboxListTile>(
+                find.byKey(const ValueKey('optional-language-zho')))
+            .value,
+        isTrue);
+
+    await tester.tap(find.byKey(const ValueKey('apply-optional-languages')));
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.text('Selected: Simplified Chinese'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('optional-languages-button')));
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(
+        tester
+            .widget<CheckboxListTile>(
+                find.byKey(const ValueKey('optional-language-zho')))
+            .value,
+        isTrue);
+    await tester.tap(find.byKey(const ValueKey('cancel-optional-languages')));
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('install offers a matching unselected system language',
+      (WidgetTester tester) async {
+    tester.binding.platformDispatcher.localeTestValue =
+        const Locale('zh', 'CN');
+    addTearDown(() => tester.binding.platformDispatcher.clearLocaleTestValue());
+    late BuildContext promptContext;
+
+    await tester.pumpWidget(MaterialApp(
+      locale: const Locale('en', 'US'),
+      supportedLocales: AppLanguage.supportedLocales,
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+        AppStrings.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      home: Builder(builder: (context) {
+        promptContext = context;
+        return const SizedBox();
+      }),
+    ));
+    await tester.pump();
+    final result = offerSystemLanguageIfAvailable(
+      promptContext,
+      const <String>{},
+      systemLocale: const Locale('zh', 'CN'),
+    );
+    await tester.pump(const Duration(milliseconds: 300));
+
+    expect(find.byKey(const ValueKey('system-language-suggestion')),
+        findsOneWidget);
+    expect(find.text('Install your system language?'), findsOneWidget);
+    expect(
+        find.byKey(const ValueKey('accept-system-language')), findsOneWidget);
+    expect(
+        find.byKey(const ValueKey('decline-system-language')), findsOneWidget);
+    expect(tester.takeException(), isNull);
+
+    await tester.tap(find.byKey(const ValueKey('decline-system-language')));
+    await tester.pumpAndSettle();
+    expect(await result, isEmpty);
+  });
+
+  testWidgets('install does not re-offer an already selected system language',
+      (WidgetTester tester) async {
+    tester.binding.platformDispatcher.localeTestValue =
+        const Locale('zh', 'CN');
+    addTearDown(() => tester.binding.platformDispatcher.clearLocaleTestValue());
+    late BuildContext promptContext;
+
+    await tester.pumpWidget(MaterialApp(
+      locale: const Locale('en', 'US'),
+      supportedLocales: AppLanguage.supportedLocales,
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+        AppStrings.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      home: Builder(builder: (context) {
+        promptContext = context;
+        return const SizedBox();
+      }),
+    ));
+    await tester.pump();
+    final result = await offerSystemLanguageIfAvailable(
+      promptContext,
+      const <String>{'zho'},
+      systemLocale: const Locale('zh', 'CN'),
+    );
+
+    expect(
+        find.byKey(const ValueKey('system-language-suggestion')), findsNothing);
+    expect(result, isEmpty);
     expect(tester.takeException(), isNull);
   });
 

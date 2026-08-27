@@ -1,0 +1,1023 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="Dia">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_inn</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你好(空格键跳过)[P=1]欢迎来到#Location_HV;！
+不巧的是#Her_King;今天没法抽出时间会见你们。
+先在这间旅馆住一晚，明日再安排。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Welcome to Havindr. Unfortunately, the King cannot meet with you today. …." Admiral Agnar greets the heroes. This happens a little later in the mission. These lines are not in strict chronological order.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Halt![P=1] Welcome to #Location_HV;! Unfortunately #Her_King; cannot meet with you today. I have been sent to accompany you to this inn, where you may rest the night.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_airship0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你看到外面那艘巨大的飞船了么？
+你能想象一个面色苍白的黑发瘦高男子走出那堆残骸却安然无恙吗？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Did you see that huge airship outside? Can you imagine that a tall pale man in long black hair walked unscathed out of that wreckage?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_airship1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我能。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I sure can.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_bitter1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">现在是危急时刻。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">These are desperate times.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_bitter2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦，我感觉每天的生活就像“被围观的巫师”一样，
+你不能反抗，就好好享受吧。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oh, I'm sure life is just as harsh back in that warm, safe castle of yours.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_weather1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">看！[P=1] 2012年的第一场雪！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">townspeople chatter</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Look![P=1] The first snow!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_weather2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">据说山姆大叔家里有个小孩发疯了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">townspeople chatter</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Winter came fast this year.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_bathrobes1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你已经是个巫师了？变点奶粉来发发财？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">townspeople chatter</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You're really a wizard?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_bathrobes2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">来给我表演个[P=1]点石成盐什么的！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">this text has been revised.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Come on then[P=1] -- show me a card trick or something!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_bathrobes3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我知道你觉得你很犀利，但还是让我给你个忠告：
+千万别穿着浴袍坐高铁！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">townspeople chatter</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I'm sure you think you're "all that", but let me give you a word of advice: running around downtown in your bathrobe is likely to get you into trouble.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_soldierleft1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">啊，你终于来了！快穿过这扇大门。
+#Her_agnar;在等着你呢。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">please check that the capitalization works as intended. This is the lowercase form, but it starts a sentence.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ah, you're finally here! Just go through the gates here. #Her_agnar; is waiting for you.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_soldierleft2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你还想让我多说什么？
+你户口本没掉，欢迎入境。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">guard2's second greeting</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">What more do you want me to say? You're clear for entry.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_soldierright</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Zzzzz...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">guard 3 is sleeping at his post</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Zzzzz...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_rally</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这城市正在被攻击！快点，去#Her_King;的皇宫！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">after the attack begins, the guard gives instructions: get to the king's hall. (#Her_King; = "the King"; see the names loctable for all the name mappings.)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The city is under siege. Quick, to #Her_King;'s Hall!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_vlad_appear0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你居然在这！[P=1]
+那之前出现在…[P=1]难道…[P=1]算了！八成是冒牌货。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">He sees that the wizards he defeated in his home-town were actually the "imposters" and not really the heroes</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You![P=1] …[P=1]I see now…[P=1] No Matter!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_vlad_appear1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">敌人有点古怪，狡猾的术士居然会跟愚蠢的
+兽人结成盟友。总之保护好你自己！我会前往东门，
+那里正在进行混战，肯定会有一些能让我吸…
+呃，对了，现在你必须前去会见#Her_King;。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There is something afoot -- There are warlocks amongst he orcish ranks. Be on your guard! I will go to the eastern gate. The fierce battles there will certainly give me something to sink my teeth into. Ehh... yes. While you, on the other hand, must hurry to #Her_King;.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_market1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这是个陷阱！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Star wars reference</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">IT'S A TRAP!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_flee</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">救命！兽人！他们遍地都是！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Help! Orcs! They're everywhere!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_first_warlock</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哈[P=.5]哈[P=.5]哈[P=.5]哈[P=.5]哈！
+你永远赶不及拯救你们的#Her_king;！[P=.5]
+说起赶时间……是时候轮到你赶着去—投胎啦！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">HA[P=.5]HA[P=.5]HA[P=.5]HA[P=.5]HA! You will never save #Her_king; in time.[P=.5] And speaking of time... -- It's time for you -- to DIE!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_castlegate1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">那些兽人绑走了#Her_King;并从里面反锁了大门。
+[P=1]……我们忘记带破门而入的工具了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">the guard is outside the castle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Orcs have taken #Her_King; and barricaded the doors from the inside.[P=1] And as if that wasn't enough, we plum forgot our battering ram.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_castlegate1b</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">幸运的是我们正好收到了来自#Location_Dunderhead;的货物，
+里面装有猛烈的火药，还有一条很长的导火线！[P=1]
+因此我们打算把门炸开！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Luckily we just received a shipment from #Location_Dunderhead; containing black powder and a nice, long fuse![P=1] So we're going to blow the door open!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_castlegate2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">兽人来袭！[P=.5]防御阵型！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Announcing a coming wave of orcs!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ORCS![P=.5] Defensive Positions!...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_machine_intro1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">…哦，尊敬的国王[P=2]，可以请你去死吗？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">the enemy boss makes a James Bond reference</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">...No Mr. King [P=2] – I expect you to die!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_machine_intro2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哈！只是路过的流浪魔法使，
+哎？来看你们高贵的国王怎么死？
+哈哈！没人能阻止[P=1]#Boss_N04;！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">enemy boss taunt</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ha! Petty street magicians, eh? Come to watch your precious king die? Nothing can stop [P=1]#Boss_N04;!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_machine1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">再蹬快点！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">enemy boss tells his minion to peddle faster the bicycle of doom</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pedal Faster!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_machine2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">快爱爱爱爱点！！！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">enemy boss tells his minion to peddle faster the bicycle of doom</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">FAAAAAAA-STER!!!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_machine3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">杀了他！！！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">enemy boss yelling at minions</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">KILL HIM!!!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_machine_dead</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">擦！看来得我自己干了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">minions of enemy boss have been destroyed</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bah! Looks like I'll have to deal with you myself!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_king_saved0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这就是一个狂妄自大的术士
+敢在国王面前卖弄的下场！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">this text has been revised.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">That's how a king deals with pesky warlocks!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_king_saved1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">兽人领主，#Boss_N06;……只是一个有勇无谋的老匹夫，
+肯定料不到我们这么快就能反击。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">this text has been revised.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The orc warlord, #Boss_N06;, is more of a warrior than he is a leader of armies. He would never anticipate a counter-attack.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_king_saved2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">将军，整备大部队！进军#Location_BF;。[P=1]
+我们要为反抗兽人的侵略而战斗！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">this text has been revised.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Captains, prepare the army! We march for #Location_BF;.[P=1] We march for WAAAR!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_otherside1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">嗨，那边的！路被堵住了，
+你必须穿过小旅社才能到达这边。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hey, over here! The road is completely blocked, you have to go through the inn to get here.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_otherside2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">干得好，你最好继续前进，去帮助其他的战士。
+我，我会…[P=1]一直在这儿守着。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Nice going, you better keep moving and help the other soldiers. I'll just… [P=0.5]wait here.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_freedom1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#Boss_N05;攻破了我们的城墙！
+在它毁灭我们的城市之前必须阻止它！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"The Town Grinder has broken through…" "FOR FREEDOM" must be a movie quote… I don't remember which one. Mel Gibson in The Patriot?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#Boss_N05; has broken through our walls! We have to stop it before it destroys the entire city.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_freedom2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">就是现在！为了#Location_HV;！！[P=1.5]
+为了自日日日日由！！！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">this text has been revised.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There it is! For #Location_HV;![P=1.5] FREEEEEDOM!!!!!!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_Text_GO</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">游戏结束了，伙计，
+该回家吃饭了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Guard panicks. Quote from the film "Alien 2"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Game over man! It's game over!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="POI">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_PoI_innhole</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这座城市快要被轰杀至渣了……</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A fiery projectile just crashed through the wall, waking the heroes.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This city is really going down the tubes...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_PoI_innbed</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">没时间睡觉啦，赶快打起精神救城！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">time to leave the hotel and go battle the monsters who are roaming Havindr.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This is no time to sleep. The world needs a savin'!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_PoI_market1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">全部都是…豆腐……</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">a pile of garbage on the ground. Bizarrely enough, it's tofu.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's all... tofu....</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_PoI_market2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">瓷器……以这么诡异的方式被找到，真是奇怪的感觉。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">a pile of garbage on the ground. It's porcelain.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Porcelain... It's strange that some people find it so creepy.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_PoI_house</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这房子堵住了去路。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The house is blocking the way.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The house is blocking the way.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HV_PoI_fax</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哇！钻出一个大……炮！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A giant cannon. With inegrated fax machine.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wow! A cannon with an integrated fax modem.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#POI_Horse1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这只是只马，真，真的马。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">in fact it's a strange wooden horse. The joke is that the developers didn't model realistic horses, but they are pretending that there's nothing amiss.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's just a typical horse.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#POI_Horse2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">好马！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Good Horsie!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Good Horsie!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#POI_Horse3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">驾！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Giddyup!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Giddyup!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#POI_Airship</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">看来哥布林开飞机的技术并不怎么样啊！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblins certainly don't seem to make good pilots!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblins certainly don't seem to make good pilots!</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

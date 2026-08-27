@@ -1,0 +1,1455 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="Staves">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_staff01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">北极跳跃</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">North Pole Vault</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_staff01d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一个有固定跳跃范围的撑杆，以防止参与者感到不适
+#PA;没有
+#AA;北方跳跃</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Teleports wielder and then performs an area cold spell. Description is another joke on how illogical and "missing the point" that the wizarding sports events are.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A vaulting pole with standardized jumping range to protect the participants from feelings of inadequacy. #PA;None #AA;North Vault</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_staff02</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">永恒繁荣法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Name is a joke on "cheaters never prosper".</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of Eternal Prosperity</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_staff02d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">如果你把所有目击者都杀光这就不算作弊了。
+注：可能有副作用
+#PA;没有
+#AA;性能增强</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Casts a spell that buffs the wielder for a time after which the caster will become weakened with withdrawal. Description is a simple "it's not cheating if..." joke.  "Performance enhancement" is the idiom for steroids and other "performance enhancing" drugs used by atheletes.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's not cheating if you kill all the witnesses. Note: May cause side effects. #PA;None #AA;Performance Enchantment</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_staff03</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">萨美修斯的手持装置</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Holding Apparatus of Saumetheus</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_staff03d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">萨美修斯本人使用这个装置
+从泽维留斯那里带来了永远炙口的辣酱，
+因为这是世界上唯一能够驾驭传说辣酱，
+不让它变质的东西。
+#PA;提升你和附近伙伴的寒冰法术，提升火焰抗性
+#AA;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Simple staff, the only thing that can hold the olympick event's symbol the "Incessantly Sizzling Spicy Sausage". That extremely strong chilli sausage is never a part of the game mechanic and is just a fun backstory element. Saumetheus = Prometheus, Zovilleus = Zeus + Scoville (of the "strong taste" scale)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Saumetheus himself used this apparatus to borrow the Incessantly Sizzling Spicy Sausage from Zovilleus, as it is the only thing that can hold the legendary spicy sausage without disintegrating. #PA;Boosts the Cold Spells of you and any nearby allies, Boosts Fire Resistance #AA;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Weapons">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_weapon01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">加湿器</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">pistol</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Humidity Dispenser</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_weapon01d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">噢，湿度！
+#DMG;没有
+#SP;远程，潮湿</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ranged weapon that makes targets wet. Description is a pun/wordplay on "humiliation" or "humanity"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oh, the humidiation! #DMG;None #SP;Ranged, Humidity</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_weapon02</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">滑膛潜艇</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">rifle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Musketball Dunker</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_weapon02d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">滑膛弹是一道冲击波！……后面连接着一大串冲击波！
+#DMG;爆炸力很强
+#SP;远程，造成群体伤害</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shoots a ball that breaks on impact into a cluster of bombs that blow after a few seconds. Description is a wordplay on being fun ("a blast") and actually explosive blasts. Name is a wordplay on "basketball" and "musket".</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Musketball is a blast! ...followed by a whole bunch of blasts! #DMG;Strong Explosive #SP;Ranged, Bomblet Cluster</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_weapon03</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">小泽维留斯</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">thrown (arc, artillery)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Zovilleus Junior</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_weapon03d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">有它哥哥一点儿影子
+#DMG;严重的火焰伤害
+#SP;灼热大炮</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A barely survivable shadow of its big brother. #DMG;Heavy Fire Damage #SP;Sizzling Artillery</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_weapon04</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哑铃</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">thrown (straight line)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dumbbells</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_weapon04d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">大分部被这个击中的人都会变傻，除了我
+#DMG;中等物理伤害
+#SP;远程，迷惑目标</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Throws dumbbells. The description is a joke on bad grammar from becoming stupid after having been hit by the dumbbell.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Most people that ever got hit by one got real stupid, except I. #DMG;Medium Physical #SP;Ranged, Confuses target</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_weapon05</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">磁力回弹球</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">punch</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pelota Magtecka</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_weapon05d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">带有尖刺的关节和球，它比它的名字有趣多了
+#DMG;极大的物理伤害
+#SP;近程，远程皆可</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The weapon is a spiked glove that both hits in melee and launches a ball as a weapon. The description is a "vague" under-the-belt joke. The name is Magicka's version of "Pelota Mixteca", an old Mexican sport.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Spiked knuckles and balls. It's much more fun than it sounds. #DMG;Strong Physical #SP;Both melee and ranged</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_weapon06</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">水瓶</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">thrust</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Water Bottle</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_weapon06d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">含浓缩碳酸湿气！
+#DMG;中等物理伤害
+#SP;使目标变得潮湿</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A simple water bottle that is flung (melee) and makes targets in front of you wet. Description is a joke on how "exotic" water is to Wizards, and how convoluted things are in the Magicka wizarding world.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Concentrated de-carbonated dampness contained within! #DMG;Medium Physical #SP;Makes target wet</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_weapon07</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">11号火箭</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">slash</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elevennis Racket</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WOOT_item_weapon07d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">11号整整比9号强大两倍，也要好两倍
+#DMG;中等物理伤害
+#SP;震退敌人</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A simple melee tennis racket. Description and name is a wordplay and illogical math joke on the "TEN" in tennis.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elevennis is a full two greater than ninennis, and thus twice as good. #DMG;Medium Physical #SP;Knockback</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Maps">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_bout_of_madness</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">疯狂回合制</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pun on the movie 300's line "this is madness" where someone gets kicked into a hole.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bout of Madness</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_bout_of_madnessD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">观众们喜欢传统而又疯狂的回合制，
+尤其是成堆的尸体被推入井中。
+把洞填满来赢得你的奖励！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There are 4 large holes on the map into which units (enemies and players) can fall. If enough fall in, the hole will close for a few moments and become traversable, until it finally opens again. When a hole closes, rewards will spawn in the middle of the map.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The audience loves a good old bout of madness, especially when tons of bodies are shoved into pits. Fill the holes and receive your reward!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_elemental_roulette</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">元素轮盘</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elemental Roulette</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_elemental_rouletteD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">如果你能掌握所有元素的话
+你就是个专家了，
+但只有当你在使用其中几个的情况下存活下来时，
+你才是个真正的大师！（这名号不是给胆小鬼的！）</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Each wave that passes will enable/disable different predetermined elements. Some wave might, for example, only allow healing and water to be cast, and so on.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You're an expert if you can handle all of the elements, but you're not a true master until you've survived an onslaught using only a few! (NOT for the faint of heart!)</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_eye_sockey_rink</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">眼睛曲棍球场</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wordplay on "Ice Hockey Rink".</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Eye Sockey Rink</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_eye_sockey_rinkD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一个古老而又需要智慧的游戏，
+你得从几对低等巫师的攻击中存活下来……
+他们会攻击你的眼睛……很准！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The floor is slippery ice that can be melted, under which is very shallow water, making units standing in it wet (but capable of moving without slipping).</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">An ancient and tricky sport where you need to survive teams of inferior wizards trying to sock you... in the eye... on ice!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VERSUS_elemental_roulette</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">元素轮盘</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elemental Roulette</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VERSUS_elemental_rouletteD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">分辨出冠军选手和炮灰，
+适应元素猛烈波动的竞技场！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Only 3 out of 8 elements are active at any one time and change randomly every 30 or so seconds.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Separating the champions from the cannon fodder. Adapt quickly in an arena where the elements fluctuate wildly!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VERSUS_diamond_ring</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">钻戒</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Diamond Ring</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VERSUS_diamond_ringD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">传统而又简单，让大地被你对手的鲜血染红吧！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Simple map shaped like a diamond. The name is a pun on "boxing ring" and the diamond shape of the map.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Traditional and simple. Make the ground sparkle with the ruby red blood of your opponents!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VERSUS_halls_of_moisture</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">不可拒绝湿度的游泳池</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pool of Undeniable Moisture</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VERSUS_halls_of_moistureD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">难道这是一个奇葩的竞技场，
+或者巫师们本来就能游泳。
+自然情况下是不行的，
+你也许需要站着静静思考一会儿</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The map's floor is comprised out of 9 platforms that randomly sink into deep water, drowning wizards that happen to fall in.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Were this some other arena, or if wizards could indeed swim -- which naturally they cannot -- you might have time to stand still for a moment and think.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VERSUS_prize_podium</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">领奖台</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Prize Podium</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VERSUS_prize_podiumD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你战斗到了最后，差点就一无所获。
+那么，按照惯例，只有一人能拿起那杯……
+冰镇安魂奶！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A simple arena where nothing special happens. It's the wizard world's prize podium with 4 platforms each representing the winners rankings, and in the middle of the map is a large trophy.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You've fought your way to the end and almost broken into a sweat doing so. Now, as tradition dictates there can be only one holding the cup... of ice-cold soothing milk!</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Packs">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_SPORTING_GOODS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]运动物品[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sports related item pack</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Sporting Goods[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_SPORTING_GOODSD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#WOOT_item_weapon01;
+-#WOOT_item_weapon02;
+-#WOOT_item_weapon03;
+-#WOOT_item_weapon04;
+-#WOOT_item_weapon05;
+-#WOOT_item_weapon06;
+-#WOOT_item_weapon07;
+-#WOOT_item_staff01;
+-#WOOT_item_staff02;
+-#WOOT_item_staff03;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#WOOT_item_weapon01; -#WOOT_item_weapon02; -#WOOT_item_weapon03; -#WOOT_item_weapon04; -#WOOT_item_weapon05; -#WOOT_item_weapon06; -#WOOT_item_weapon07; -#WOOT_item_staff01; -#WOOT_item_staff02; -#WOOT_item_staff03;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MPACK_ATHLETIC_TECHNIQUES</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]运动技巧[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sports related magick pack</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Athletic Techniques[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MPACK_ATHLETIC_TECHNIQUESD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#magick_wave;
+-#magick_performance;
+-#magick_judgementspray;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#magick_wave; -#magick_performance; -#magick_judgementspray;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Enemies">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_WOOT_Goblin_Archer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哥布林烟火狙击手</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Archer that fires very far and with fire splash damage effect (to melt ice on Eye Sockey Rink)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Pyrotechnical Sniper</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_WOOT_Arcane_Elemental</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">不稳定的奥数元素</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">These elementals are similar to the ordinary elementals but have less health and actually yield points when killed.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Unstable Arcane Elemental</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_WOOT_Cold_Elemental</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">不稳定的寒冰元素</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">They also blow up in an area effect when killed.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Unstable Cold Elemental</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_WOOT_Fire_Elemental</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">不稳定的火焰元素</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Unstable Fire Elemental</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Unstable Fire Elemental</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_WOOT_Life_Elemental</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">不稳定的生命元素</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Unstable Life Elemental</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Unstable Life Elemental</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_WOOT_Lightning_Elemental</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">不稳定的闪电元素</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Unstable Lightning Elemental</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Unstable Lightning Elemental</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_WOOT_Water_Elemental</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">不稳定的水元素</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Unstable Water Elemental</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Unstable Water Elemental</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_WOOT_Panicking_Functionary</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">恐慌的小官</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sports functionaries (civilians) running around in panic, used in the sports events of WOOT. Mainly used in "Eye Sockey Rink" after the monsters have crashed the event.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Panicking Functionary</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_WOOT_Goblin_Warlock</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">暴怒哥布林术士</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A fast Goblin Warlock that casts Nullify among other things.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Enraged Goblin Warlock</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="magicks">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_wave</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">波次</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Wave</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_waveD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">新一波开始！把你面前的参与者们全部射到空中！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Causes a row of rocks to protrude from the ground in front of the caster like a "wave", sending anything in its path flying up into the air.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Start the wave! Help everyone in front of you participate by launching them into the air!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_performance</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">能力魔法</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Again, "Performance enhancement" is the idiom for steroids and other "performance enhancing" drugs used by atheletes.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Performance Enchantment</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_performanceD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">向你的静脉注射最无法察觉的魔法！
+可能引起的副作用：牙龈痒，虚弱，随后甚至有猝死的危险</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Makes the player stronger for a while and then (always) followed by "withdrawal", making him weaker for a while.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Infuse your veins with mostly undetectable magick! Possible side effects: Itching gums and weakness, potentially followed by severe death.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_judgementspray</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">天罚喷洒</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Spray of Judgment</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_judgementsprayD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">放出一条吞噬虫，它能钻进敌人盔甲和皮肤，
+以他们灵魂为食，除非敌人先找到了一面墙</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Spawns a swarm of projectiles that home in on enemies.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Release a swarm of devourers that will find their way through armor and skin alike and feast on the souls of your enemies. Unless they find a wall first.</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

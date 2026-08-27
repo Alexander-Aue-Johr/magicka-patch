@@ -1,0 +1,498 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="Additional">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#STATUS_P01_INITIALIZING</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">正在初始化</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Initializing</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Initializing</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#STATUS_P01_CONNECTING</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">连接中</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Connecting</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Connecting</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#STATUS_P01_AUTHENTICATING</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">正在验证</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Authenticating</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Authenticating</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#STATUS_P01_CONNECTED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">已连接</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Connected</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Connected</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ERROR_P01_UNKNOWN</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">未知错误</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Unknown Error</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Unknown Error</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ERROR_P01_SERVERFULL</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">人数已满</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Game is full</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Game is full</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ERROR_P01_AUTHFAIL</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">验证失败,稍后尝试</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Authentication Failed</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Authenication Failed</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ERROR_P01_INPROGRESS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">游戏已经开始</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Game is already in progress</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Game is already in progress</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ERROR_P01_VERSION</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">内容不符,无法连接</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Incompatible version</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Incompatible version</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ERROR_P01_PASSWORD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">密码错误</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wrong password</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wrong password</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ERROR_P01_NO_GAMER</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">没有选择人物</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">No gamer selected</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">No gamer selected</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SETTINGS_P01_PASSWORD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">密码</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Password</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Password</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SETTINGS_P01_VISIBILITY</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">可见</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Visibility</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Visibility</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SETTINGS_P01_PRIVATE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">朋友 &amp; LAN</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Friends &amp; LAN</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Friends &amp; LAN</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SETTINGS_P01_PUBLIC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">公开</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Public</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Public</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ERROR_P01_GAMESTARTED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">游戏已开始,你未参与</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Game started without you</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Game started without you.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ERROR_P01_TIMEOUT</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">连接超时,请重新尝试</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Request timed out</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Request timed out</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SETTINGS_P01_SHOW</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">显示</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Show</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Show</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SETTINGS_P01_HIDE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">隐藏</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hide</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hide</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ERROR_P01_MISMATCH</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">内容不符,无法连接</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The requesting client does not have the same content the server has. (This may be a level or scripts or models)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Content mismatch</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CREDITS_SKIP</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">跳过制作人员名单</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Skip credits</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Skip credits</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CTRL_MOVE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">移动</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Move</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Move</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MOUSE_LEFT</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">鼠标左键</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mouse Left</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mouse Left</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MOUSE_MIDDLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">鼠标中键</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mouse Middle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mouse Middle</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MOUSE_RIGHT</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">鼠标右键</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mouse Right</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mouse Right</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MOUSE_4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">鼠标 4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mouse 4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mouse 4</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MOUSE_5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">鼠标 5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mouse 5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mouse 5</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MOUSE_SCROLL_UP</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">鼠标滚轮向上</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Scroll Up</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Scroll Up</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MOUSE_SCROLL_DOWN</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">鼠标滚轮向下</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Scroll Down</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Scroll Down</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#NOTICE_MOD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你的魔能内容存在自定义修改，
+所以成就，在线积分以及
+VAC防作弊不能使用。
+如果不是故意为之，
+请重新使用Steam打开游戏，
+祝游戏开心</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Not shown to the avarage player. Only appears if one or more shared game files do not pass a hash-sum check.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You are running a modified version of Magicka. Achievements, online leaderboards and VAC protected online games have been disabled. If this was not intentional, validate your game cache using the Steam client and restart the game. Otherwise, happy modding.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#NOTICE_MOD_CAMPAIGN</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">剧情内容存在自定义修改，
+所以成就，在线积分以及
+VAC防作弊不能使用。
+如果不是故意为之，
+请重新使用Steam打开游戏，
+祝游戏开心！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shown when starting an adventure when the adventure does not pass the hash-sum check.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This adventure is modified. Achievements and VAC protected online games are not available. If this was not intentional, validate your game cache using the Steam client and restart the game. Otherwise, happy modding.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#NOTICE_MOD_CAMPAIGN_VAC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">剧情内容存在自定义修改，无法使用VAC防作弊功能。
+如果不是故意为之，
+请重新使用Steam打开游戏，
+关闭VAC防作弊，祝游戏开心！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shown when trying to start hosting a game with VAC on and the campaign does not pass the hash-sum check.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Your adventure is modified and can not be used in a VAC protected game. If this was not intentional, validate your game cache using the Steam client and restart the game. Otherwise, turn off VAC and happy modding.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#NOTICE_MOD_CONTENT</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你现在使用的是自定义或者非官方内容。
+所以成就，在线积分以及
+VAC防作弊不能使用。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shown when selecting a custom level or avatar.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This is modified or custom content. Achievements, VAC protected games and online leaderboards will not be available while using this content.</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

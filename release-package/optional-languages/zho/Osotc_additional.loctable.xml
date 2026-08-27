@@ -1,0 +1,2696 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="Item Pack Too">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_GADGETS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]奇怪的小配件[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Futuristic James Bond / Men in Black / Sci-Fi / Improbable Gadgets.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Peculiar Gadgets[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_GADGETSD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#item_gadget_weapon01;
+-#item_gadget_weapon02;
+-#item_gadget_weapon03;
+-#item_gadget_weapon04;
+-#item_gadget_weapon05;
+-#item_gadget_weapon06;
+-#item_gadget_weapon07;
+-#item_gadget_staff01;
+-#item_gadget_staff02;
+-#item_gadget_staff03;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#item_gadget_weapon01; -#item_gadget_weapon02; -#item_gadget_weapon03; -#item_gadget_weapon04; -#item_gadget_weapon05; -#item_gadget_weapon06; -#item_gadget_weapon07; -#item_gadget_staff01; -#item_gadget_staff02; -#item_gadget_staff03;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_HEIRLOOMS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]传家宝[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Passed from generation to generation. Old and ancient stuff. Dusty and previously owned by living legends and other very old people.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Heirlooms[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_HEIRLOOMSD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#item_heirloom_weapon01;
+-#item_heirloom_weapon02;
+-#item_heirloom_weapon03;
+-#item_heirloom_weapon04;
+-#item_heirloom_weapon05;
+-#item_heirloom_weapon06;
+-#item_heirloom_staff01;
+-#item_heirloom_staff02;
+-#item_heirloom_staff04;
+-#item_heirloom_staff05;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#item_heirloom_weapon01; -#item_heirloom_weapon02; -#item_heirloom_weapon03; -#item_heirloom_weapon04; -#item_heirloom_weapon05; -#item_heirloom_weapon06; -#item_heirloom_staff01; -#item_heirloom_staff02; -#item_heirloom_staff04; -#item_heirloom_staff05;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_musician_force_push</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">推搡一回</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The inverse of "Tractor pull", which already exists in Magicka. </Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Force Push</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Gadget Item P">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_weapon01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">打了就跑2012</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">melee weapon. In English, the name rhymes and sounds like a college class (Chemistry 201, for example).</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hit'n'Run 200</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_weapon01d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">矮人出品，必属精品，
+电动开关设计好温馨
+#DMG;低物理伤害
+#SP;打了就跑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">hit the target with a garbage collector claw, inflict some damage and teleports player at the same time</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This marriage of modern dwarven magicks and an electronically controlled claw allows you to be both mildly annoying and safe. #DMG;Low Physical #SP;Hit and Run</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_weapon02</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">给糖不捣蛋</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">melee. Diplomacy+domination. Makes friends by healing (a diplomatic thing to do), but dominates by charming.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Diplomaton</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_weapon02d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">自然而然地...你们就是“伙伴”了
+#DMG;治疗目标
+#SP;魅惑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">charms and heals target</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Makes and nurtures friendships. #DMG;Heals Target #SP;Charm</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_weapon03</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">亿万小虫发生器</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">melee</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Nanolice Applicator</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_weapon03d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">在对手的脑门上制造亿万只小虫
+#DMG;低物理伤害
+#SP;小虫能引起恐慌</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">damages target and inflicts "fear". "apply directly to the forehead" is a reference to the HeadOn internet meme.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Applies nano-magick lice directly to your enemy's forehead. #DMG;Low Physical #SP;Lice-Induced Panic</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_weapon04</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">遥控打火机</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ranged</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Remote Lighter</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_weapon04d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">慵懒纵火者的得力助手
+#DMG;低火系伤害
+#SP;燃烧</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">fires a glob of fire that ignites things</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The lazy arsonist's best friend. #DMG;Low Fire #SP;Burn</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_weapon05</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">造些冰柱</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ranged. Crowd-icicle.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Crowdcicle</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_weapon05d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">为了能在夏季举办冬运会而设计，
+不过很快就被应用于防爆和外科手术
+#DMG;低寒冷伤害
+#SP;冰冻</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">fires a ball of ice that chills targets in an area on impact</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Designed for the annual summertime winter games, but was quickly adopted by both law enforcement and Surgeons Without Sanity. #DMG;Low Cold #SP;Freeze</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_weapon06</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">巨魔吹风机</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ranged</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Troll Hair Dryer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_weapon06d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">它的前一个拥有者绝不是森林巨魔，
+绝不...
+#DMG;无
+#SP;推搡</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">a big rifle that pushes things away</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Its former owner was definitely not a Forest Troll, anyway. #DMG;None #SP;Push</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_weapon07</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">故障的末日审判设备</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ranged</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Malfunctioning Doomsday Device</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_weapon07d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">用于制造大范围毁灭效果的装置
+#DMG;威力无穷的火箭
+#SP;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">launches a ball/rocket that inflicts healing in an area on impact. The rocket itself can, theoretically, inflict direct physical damage to its target; but mostly it just heals the enemy. The joke is that the description does not mention that it's useless for damaging your enemy (except to say it's malfunctioning). Instead the description says what it's *supposed* to do, and says that the rockets are *powerful*, without mentioning what that power is.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Designed to inflict devastating damage across a large area. #DMG;Extremely Powerful Rockets #SP;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_staff01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">实用矮人大棒</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">staff, but something like a construction worker's utility belt.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarven Utility Stick</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_staff01d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">适合任何人使用,如抽脂医师,
+专业酒驾人士等...
+#PA;增强物理和闪电抵抗
+#AA;油腻</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">casts "grease"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fitted with pouches and compartments for all kinds of things technical. Also serves as a grease dispenser and a somewhat impractical screwdriver. #PA;Increases Physical and Lightning Resistances #AA;Grease</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_staff02</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">裂变杆</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fission Rod</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_staff02d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">长期暴露在放射源下
+可能会死得很滑稽哦.
+#PA;加强闪电法术伤害
+#AA;消除热源</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Purge heat simply launches a fire bolt, the idea being that the rod is releasing its energy, like in a nuclear reactor. "severe death" is meant to be an amusingly redundant hyperbole.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Prolonged exposure to active components may cause severe death. #PA;Increased Lightning Spell Damage #AA;Purge Heat</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_staff03</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">融合杆</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fusion Rod</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_gadget_staff03d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">无法反抗，无法对抗，
+只有一种可能…
+#PA;加强奥术法术伤害
+#AA;拉扯</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">casts "inverse push" or tractor beam. In experimental physics, a fusion engine has never been achieved, and may not be feasible. Hence probably impossible, or to make it amusing "probably not probable". "Improbability" is a slight hint to Hitchhiker's guide's "improbability drive".</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Probably improbable. #PA;Increases Arcane Spell Damage #AA;Pull</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Heirloom Item">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_weapon01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">狩猎驼鹿战利品</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">melee. A moose antler.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Moose Hunting Trophy</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_weapon01d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">不仅仅可以挂在墙上……
+还能拿在手里,化在舌尖
+#DMG;中物理伤害
+#SP;慢速,击退</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">slow melee thrust weapon that inflicts heavy damage and knockback</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Having been previously affixed to a wall it is now majestically affixed to your hand. (Originally affixed to a moose.) #DMG;Medium Physical #SP;Slow, Knockback</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_weapon02</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">假牙</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">melee</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Dentures</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_weapon02d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">睹物思人,犹记那年祖母的微笑…
+#DMG;低物理伤害
+#SP;中毒</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">punching or slashing weapon that inflicts low physical damage and poison</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A set of teeth with huge, hollow fangs stained with blood. It fondly calls granny's smile to mind. #DMG;Low Physical #SP;Poison</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_weapon03</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">装饰用的战刀</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">melee</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ornamental War Sabre</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_weapon03d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">某场战争的遗留物,没人用过
+#DMG;中物理伤害
+#SP;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">simple and fast thrust weapon that increases wielder's movement speed slightly</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A relic from a war in which it was never used. #DMG;Medium Physical #SP;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_weapon04</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">燧发枪先生</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ranged</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mr. Flintlock</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_weapon04d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">已经锈透的老爷枪,威力貌似不错
+#DMG;高物理伤害
+#SP;非常慢</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">simple, very slow but very powerful rifle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Its clockwork ramrod contraption rusted through long ago. Complete with oaken rolliche compartments. #DMG;High Physical #SP;Very Slow</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_weapon05</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">继承的部分身体</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ranged</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Inherited Body Parts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_weapon05d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">唔,俗话说千万别浪费“生命”…
+#DMG;低奥术伤害
+#SP;中毒,溅射</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">throws body parts that on impact inflict arcane damage and fear. It "throws" the opposite of Life -- arcane spells and dead parts.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Well, they say never to throw your LIFE away, so... #DMG;Low Arcane #SP;Poison Splash</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_weapon06</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">祖母的手枪</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ranged. Play on grandfather clock</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Grandmother Glock</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_weapon06d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我曾经和你一样是个冒险者...
+#DMG;中物理伤害
+#SP;穿甲弹</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">simple fast-firing rifle (a glock with attached stock and flashlight). Magazine - the kind that holds bullets.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Remarkably well taken care of despite evident age and use. Comes with a small knitted pouch with extra mags and warm socks. #DMG;Medium Physical #SP;Armor Piercing</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_staff01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">记忆错乱</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mixed Memories</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_staff01d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">到底是反抗还是对抗啊
+尼玛我分不清了！
+#PA;增强生命法术,消耗生命
+#AA;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">greatly increases player health and Life spells but constantly drains the player's health</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Invokes images of both good and bad times past. #PA;Boosts Life spells and Health but Constantly Drains health #AA;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_staff02</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">祖父的时钟</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Grandfather Clock</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_staff02d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">直到我的膝盖中了一箭...
+#PA;扭曲时间,减少所有抗性
+#AA;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">doubles the player's movement speed and vulnerabilities</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The weight of it halves the speed of your stride but its power makes the rest of the world only a fourth as fast as normal. #PA;Warps Time but Decreases All Resistances #AA;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_staff03</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我爸是李刚</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">staff. Refrernce to Judge Dredd</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Dreadful Judge</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_staff03d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">代表太阳逮捕你，我就是王法！
+#PA;无
+#AA;捕获陷阱</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">either fires a glob that on impact erects a shield bubble OR erects a shield bubble around the player and then teleports the player away. Sentence = legal sentence/punishment</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Impose your very own law with portable dungeons! #PA;None #AA;Entrapment</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_staff04</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">带雨伞的拐杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Umbrella Walking Cane</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_staff04d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">老人家出门再也不怕下雨和卖拐了
+#PA;获得水系免疫,大地抵抗
+但是会削弱水系法术
+#AA;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's too old to bother unfolding, but due to its sheer stubbornness it works perfectly well nevertheless. #PA;Water Immunity and Earth Resistance, but Weaker Water spells #AA;None</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's too old to bother unfolding, but due to its sheer stubbornness it works perfectly well nevertheless. #PA;Water Immunity and Earth Resistance, but Weaker Water spells #AA;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_staff05</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">导师魔杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Teacher's Stick</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_heirloom_staff05d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">还记得那些年被抽打的愉悦吗?
+#PA;轻微增强所有法术
+#AA;净化(都安静!坐直了!)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A teacher's stick with a suitable Nullify-spell ("Quiet! Stop it!")</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Adorned with countless dents in the shape of small fingers. #PA;Slight Boost to All Spells #AA;Nullify (Be quiet! Sit still!)</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Musician Robe">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Metal</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">重金属巫师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">heavy metal - as in the style of music</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Heavy Metal Robe</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_MetalD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"节操？节操是神马,有化肥好吃吗?"
+- 或北漂或南下的乡村巫师
+- 其实你想说的是"节奏"吧？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to AC-DC's song "Highway to Hell"  (the line is "Don't need reason, don't need rhyme"). Going south = going to hell.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Rhymes? Hah! I don't need no rhymes." - An angry musician migrating South</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_musician_staff01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">麦克风法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A staff with a mic attached in one end. "The last stand" is a common English idiom (taking a final stand, etc.).</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Last (Mic) Stand</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_musician_staff01d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">法杖的一头粘着一枚巨大的麦克风
+"农业重金属,乡村杀马特"
+#PA;增强闪电法术
+#AA;魅惑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Puts the "sin" in "sing". #PA;Boosts Lightning spells #AA;Charm</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_musician_weapon01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">吉他克斯</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Guitar axe</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Guitaxe</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_musician_weapon01d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一切为了粗暴艺术
+"农业重金属,乡村杀马特"
+#DMG;高物理,闪电伤害
+#SP;慢速</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">trashing, as in violently slamming (and usually breaking) the guitar into the ground.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Designed with both trashing and fighting in mind. #DMG;High Physical and Lightning #SP;Slow</Data>
+          </Cell>
+        </Row>
+        <Row/>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Drummer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">部落鼓手巫师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tribal Drummer Robe</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tribal Drummer Robe</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_DrummerD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">砰砰砰！啪啪啪！
+- 曾经手持大锤,性格孤僻</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to M.C. Hammer's rap song "Can't Touch This". The word "hammered" (which also means "highly intoxicated") reinforces the joke.  "once upon a time" is refering to the line "hammer time".</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Nothing can come in contact with me! - A hammered wizard, once upon a time</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_musician_staff02</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">梆梆鼓</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A long bongo drum</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bongo Drum</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_musician_staff02d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">此鼓只应天上有,人间能得几回闻
+#PA;大地抵抗
+#AA;范围击退</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A very thick hollow staff with a stretched skin covering one end. #PA;Earth Resistance #AA;Area Knockback</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_musician_weapon02</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">重低音鼓槌</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bass Drum Beater</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_musician_weapon02d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">有了它,啥都可以当鼓敲！
+#DMG;中物理伤害
+#SP;打昏</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">With this, everything's a drum! #DMG;Medium Physical #SP;Stun</Data>
+          </Cell>
+        </Row>
+        <Row/>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Jazz</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">萨克斯管巫师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to "Epic Sax Guy", an internet meme</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Epic Sax Robe</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_JazzD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这儿真是个好地方…不过我想回家！
+- “哦,回诶家,回诶诶家……”
+- 说着说着就唱了起来</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to "What a Wonderful World" by Louie Armstrong. "strong arms" = armstrong.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This is quite a great place. - A pondering wizard with strong arms</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_musician_staff03</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">萨克斯管</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">An ordinary saxophone</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Saxophone</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_musician_staff03d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">据说每件萨克斯管里
+都住着一只口水小精灵哦！
+#PA;加强水系,蒸汽法术
+#AA;龙卷风</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">absorbant because saxophones generate and collect a lot of spittle. (ugh, yes -- gross)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Inside its neck resides a powerful and absorbent staff. #PA;Boosts Water and Steam Spells #AA;Tornado</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_musician_weapon03</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">黑胶唱片</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vinyl Record</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_musician_weapon03d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哼哼哈嘿！快使用唱片机！
+#DMG;低物理伤害
+#SP;击退,流血效果</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Puns on Armstrong's songs "Sometimes I Feel Like a Motherless Child" ("faceless man" suits the wizards in Magicka since you never see their faces) and "Moon River" ("Spittle" because saxophone)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It features such favorites as "Sometimes I Feel Like A Faceless Man" and "Spittle River". #DMG;Low Physical #SP;Knockback, Bleed</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Villain Item ">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Electrobe</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]电极巫师[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">joke on the word "electrode"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Electrobe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_ElectrobeD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"电荷们都哪里去了？"
+- 羊毛长袍始终带着静电
+-#ITEM_electrobe_weapon01;
+-#ITEM_electrobe_staff01;
+-吸收闪电回复生命
+-生命元素抵抗
+-易受水系和大地伤害</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"What are the charges, officer?" - Electrically proficient wizard in his fleece robes -#ITEM_electrobe_weapon01; -#ITEM_electrobe_staff01; -Healed by Lightning -Resistant to Healing -Vulnerable to Water and Earth</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_electrobe_staff01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">充电法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Special ability: Revive</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Charged Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_electrobe_staff01D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">与羊毛长袍很搭配
+#PA;加强闪电法术
+#AA;复活</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fleece as a material is very static electricity prone</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comes with matching fleece blanket. #PA;Boosts Lightning spells #AA;Revive</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_electrobe_weapon01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">眩晕权杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Stun Baton</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Stun Baton</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_electrobe_weapon01D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">长得像个接力棒
+#DMG;轻微闪电,物理伤害
+#SP;击晕敌人</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pun on stunning being both the status effect and meaning breathtaking</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Has a stunning other end. #DMG;Light lightning and physical damage #SP;Stuns enemies</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Flamos</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]火焰巫师[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Flamos is a name and should not be changed</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Robe of Flamos[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_FlamosD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"来,靠近点儿,感受我的火热！"
+- 焰动,形不动,行动,心不动
+-#ITEM_flamos_weapon01;
+-#ITEM_flamos_staff01;
+-吸收火焰回复生命
+-生命元素抵抗
+-易受雪系,冰冻伤害</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">After a heated argument with his former employer, inevitably leaving him fired and with the wizard law enforcement hot on his trail, Flamos' found himself with but two infernal options: To fight flame with flame or burn out!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Anyone can become hot stuff in but one simple step! Just come a bit closer!" - Flamboyant wizard draped in searing robes -#ITEM_flamos_weapon01; -#ITEM_flamos_staff01; -Healed by Fire -Resistant to Healing -Vulnerable to Ice, Water and Steam</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_flamos_staff01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">圣杯法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chalice Staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chalice Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_flamos_staff01D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">太闪耀了,无处可藏
+#PA;加强热系(火,蒸汽)法术
+#AA;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">it being a burning staff, it's hard to conceal</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Slightly difficult to conceal. #PA;Boosts heat-based spells #AA;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_flamos_weapon01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">热力杆</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">fire poker. Joke on "hot rod", a word for a fancy racing car.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hot Rod</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_flamos_weapon01D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我戳,我戳,我戳戳戳戳...
+#DMG;轻微火系,物理伤害
+#SP;点燃敌人</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Poke. Poke poke poke poke poke. #DMG;Light Fire and Physical damage #SP;Sets enemies on fire</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Poke. Poke poke poke poke poke. #DMG;Light Fire and Physical damage #SP;Sets enemies on fire</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Coldarr</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]急冻巫师[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Robe of Coldarr[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Robe of Coldarr[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_ColdarrD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"我要把你冻上!什么?你想要双关语?"
+- 一个很严肃的家伙,不会讲笑话
+-#ITEM_coldarr_weapon01;
+-#ITEM_coldarr_staff01;
+-吸收雪,冰回复生命
+-生命元素抵抗
+-免疫冻结
+-易受火系,蒸汽伤害</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">In a chilling moment Coldarr, a once highly respected cryomancer, accidentally set loose a deadly spell towards his beloved. Blaming him for his recklessness, his wizard friends gave him the cold shoulder, slowly turning his heart to ice.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"I will freeze you. What, you expected a pun?" - A mysterious wizard too cool for puns -#ITEM_coldarr_weapon01; -#ITEM_coldarr_staff01; -Healed by Cold and Ice -Resistant to Healing -Immune to Chilled -Vulnerable to Fire and Steam</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_coldarr_staff01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">雪花法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Snowflake Staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Snowflake Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_coldarr_staff01D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">忍住想要舔它的欲望！
+#PA;加强冷系(雪,冰冻)法术
+#AA;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Resist the urge to lick it. #PA;Boosts Cold spells #AA;None</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Resist the urge to lick it. #PA;Boosts Cold spells #AA;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_coldarr_weapon01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">碎冰锥</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ice Pick</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ice Pick</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_coldarr_weapon01D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">魔能的究极哲学问题便是你永远
+无法搞懂为何其他巫师会突然锹
+你一下,当然,还不赶紧锹回去!
+#DMG;轻微寒冷,物理伤害
+#SP;减速目标</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"berg" is short for iceberg</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The ultimate answer to when the other wizards won't stop picking on you -- pick back! #DMG;Light Cold and Physical damage #SP;Chills the target</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Mega Villain ">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Challenge_Volcano_Hideout_Name</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">闪耀的火山口</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Volcano Hideout</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Challenge_Volcano_Hideout_Description</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">强烈推荐联机玩的一张地图</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The challenge map is a chamber in an evil villain's hideout where he lowers segments of the floor into lava while throwing monsters at the player.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">After sticking your nose in an evil goblin supervillain's business, he responds by sticking your nose in LAVA!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Challenge_Mirror_Crystal_Cavern_Hideout_Name</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">水晶洞</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mirror Crystal Cavern Hideout</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Challenge_Mirror_Crystal_Cavern_Hideout_Description</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">异国情调十足的狂战之地</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A large chamber with reflective crystals on the walls as well as reflective crystals being raised and lowered into the floor.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Exotic beasts! Unmeltable sub-terranean icicle pistons! Hissing doors! A really high ceiling! Everything an evil supervillain could ever want!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Challenge_End_of_World_Name</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">世界尽头</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">World's End</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Challenge_End_of_World_Description</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">还记得你在边缘之境忙活的
+那些事儿吗？这里也需要你！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A large floating cluster of islands (3) with bridges inbetween. Waves of daemonic and nightmarish creatures from edges and magical symbols from the center of all islands.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This world was once torn asunder by an evil supervillain experimenting with caffeine-infused vortices. All that remains is a handful of solid landmasses -- and relentless hordes of daemons.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

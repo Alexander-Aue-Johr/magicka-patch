@@ -1,0 +1,1333 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="Dia">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_madness1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我们人数太少，还无法对 #Location_Khan; 进行全面进攻，特别是还有很多术士(阿萨
+多的追随者)跟兽人瞎掺和在一起！[P=1]
+敌人很乱很疯狂！！！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">300 reference.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">We can't wage an all-out assault on #Location_Khan; with this few men! Especially with all the warlocks running around![P=1] -- It's Madness!!!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_madness2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">爱疯？！[P=1]
+…好吧，既然这样…
+我们就先派一些彪悍的巫师去削弱敌人的实力。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">this line has been rephrased. quote from the film "300"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Madness?!?[P=1] ... Well, yes, now that you mention it, I suppose you're right... We should first send some easily manipulated Wizards to weaken the enemy lines.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_madness3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你来了！
+你已经在 #Location_HV; 证明了你很有能力。
+是时候为我们的军队开路了，快接受这个荣誉！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">this line has been rephrased. Also, #Location_20; has been replaced with something else. location_hv is Havindr.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You there! You have proven yourself resourceful in #Location_HV;. You shall have the honour of clearing a path for our army!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_madness4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">要最先在兽人的土地上播撒鲜血。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">To be the first to draw blood on orcish soil.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_madness5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">要独自面对残忍的好战兽群和强大的术士。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">To single-handedly face countless war-bred beasts and powerful warlocks.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_madness6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">要直面死亡和嘲讽…不要怕，不要悔！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">To stare straight into the eyes of death -- and laugh!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_madness7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">好吧我偏题了，但请记住我们就在你的身后！
+我祝你"好运"！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The expression: good "luck" (with "luck" in quotation marks) This is a light-hearted signature that the developers have given to the game. The suggestion is that it has nothing to do with luck: the players will prevail. In English, it is a delicate joke. Please "handle with care". The joke occurs throughout the text.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">But I digress -- we'll be right behind you! I wish you good "luck"!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_Vlad1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">恐怕这次的任务凶多吉少，
+你所打败的巫师术士曾经效忠于#Boss_N07;，
+他们不可能跟随一个头脑简单的#Boss_N06;。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">First sentence: Star Wars (episode 4) reference.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I fear there is something far more sinister at work. The warlocks you've encountered were once the loyal diciples of #Boss_N07;. They would never follow someone as simple-minded as #Boss_N06;.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_Vlad2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">大概只有直面 #Boss_N06;，才能找出真正的答案。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I fear that confronting #Boss_N06; is the only way to find out what is truly behind all of this.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_platoon</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我们啥也做不成,#Her_Eliaf;没能挺过来。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">this line has been rephrased. Captain Eliaf</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There was nothing we could do; -- #Her_Eliaf; didn't make it.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_fire</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">发射！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">FIRE!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_catapult</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">只用了几个小时就打到这儿了，真是令人惊奇…[P=1]
+我原本认为至少要花上个几天。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I'm surprised we managed to build these in just a couple of hours...[P=1] You'd have thought it would take several days at least.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_khan_pay</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">看起来我低估了兽人大军和术士的力量。
+好吧，我要亲自解决#Boss_N06;
+别妨碍我！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The King (speaking), who is now meeting up with the wizards after they have defeated the orc army. this line has been rephrased.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It seems that I underestimated the power of the Orc Army and the Warlocks. Well then, I will just have to take care of #Boss_N06; myself. Do not interfere!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_khan_intro1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">那么，你终于来了…</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Khan is speaking</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">So, you have come at last…</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_khan_intro2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">可笑啊兽人！你对#Location_HV;罪恶的侵略
+已经以失败告终。你的军队已然覆灭！
+你的统治已然终结！
+你现在可以以死谢罪了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The King of Hávindr is speaking. As you can see, he is arrogant and wants to personally defeat khan.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Indeed -- your reign is over! Your army is scattered, and your pitiful attack on #Location_HV; has failed. -- And you will now die, old and weak!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_khan_intro3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">还没这么快…国王。
+当你在这里做口舌之争浪费时间的时候，
+我那些经验最丰富的勇者，已经带着无数#Boss_T5;
+把#Location_HV;包围了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Khan replies to the King</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Not so fast… King. While you are wasting your time here, my most experienced warriors, the #Boss_T5; have surrounded #Location_HV;.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_khan_intro4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">…据我的探子回报，你们只有一丁
+点儿人留守那个城市。
+当深夜来临之时，便是#Location_HV;鸣泣之日！
+她会被占领，然后夷为平地！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Khan continuing his reply</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">…and as my scouts report... there is but a handful of your men left to protect the city. By nightfall, #Location_HV; will be overrun -- and pummeled to dust!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_king_khan4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">可可可恶的可汗！！！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">the Khan's (amusing) battle cry</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">KHAAAAAAA-AAAAAN!!!!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_king_khan5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">将军！调动军队！
+我们必须全员速撤回防！向#Location_HV;返行。[P=1.5]
+你，剩下的就靠你了，必须打败#Boss_N06;。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">the King flees back to Havindr, leaving the players to deal with the khan</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Captain! Mobilize the army! We must move at once! We march for #Location_HV;.[P=1.5] You -- the rest I leave in your hands. You must defeat the #Boss_N06;.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_king_khan6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">看起来人类的#Her_king;已经夹着尾巴逃了，
+留下你来给强大的#Boss_T6; 当玩具。
+穿着浴袍的“英雄”？哈哈哈。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Khan turns to the players, mocking them (the players are wearing wizard robes, which the Khan pretends to mistake for bathrobes). (the Khan referring to himself as the mighty Khan)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It seems your #Her_king; has turned his tail and fled, leaving you to deal with the mighty #Boss_T6; -- bathrobe-"hero".</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_khan_fight1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你的膝盖中了一箭吗！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">the Khan taunts the players</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I will bury you!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_khan_fight2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我会亲手埋葬你，让你成为永远的魔法使！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">the Khan taunts the players</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Die!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_khan_fight3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你是在用手柄玩吗，弱爆了!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">the Khan taunts the players</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You are weak!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_khan_fight4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">穿着五颜六色的浴袍滚回去冲凉吧！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">because of the bathrobe. Just another taunt</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Get back to the shower!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_khan_end1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">啊…啊！！[P=1]我的膝盖…中了一箭！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">the Kahn's achilles heel is blood loss</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">AAARGH!!!![P=1] Loss of blood... my only weakness!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_khan_end2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你以为你是救世主，能拯救一切？
+擦！这个世界即将堕入无尽深渊！在#Location_EW;，
+伟大的黑暗之神#Boss_N07;将颠覆传统，重组秩序。[P=1]
+世人很快会意识到这个世界将不再俯首于凡人！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">this line was revised</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">So you think you've saved the world from its inevitable descent into eternal darkness? BAH! At #Location_EW;, #Boss_N07; #Boss_T7; will never rest until the Order of Magick is no more.[P=1] Midgård will soon awaken to find that the world no longer bows to mortal men.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_warlock</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你们逃不了，这就是你的葬身之地！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This is where you die!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_vlad_end1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">干得好！
+然而正如我所预料，#Boss_N07;就是幕后主使，
+但我想不通他是怎么挣开千年枷锁的。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Good job! It is, however, as I have come to fear. #Boss_N07; is behind all of this. But I cannot fathom how he could have escaped his bonds.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_vlad_end2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你的任务并不简单…但不管怎样，
+我知道你都会无条件遵从。
+所以你现在必须去#Location_EW;，
+亲眼见证#Boss_N07;到底干了什么。
+别为杂兵浪费时间，时间是留给头目的！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It is no easy thing I'm about to ask of you -- but nevertheless I expect you to comply blindly. You must go to #Location_EW;, to see with your own eyes what has become of #Boss_N07;. Wait not for the army. -- Time is of the essence!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_Text_vlad_end3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">快走！
+玻璃咿咿咿！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Now GOOOO! Bleigh!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="POI">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_PoI_bike</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这是个普通的自行车架。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">a bike rack outside of a medieval castle, complete with unlikely-looking wooden bicycles</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's a bike rack like any other.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_PoI_tents</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">常见的军用帐篷。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Regular army tents.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_PoI_cage</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一个为了关押巨魔而设置的笼子。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's a secure-looking troll cage.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BF_PoI_soup</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦买噶……汤的味道真泥马棒！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">probably sarcastic...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Delicous soup!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

@@ -1,0 +1,381 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="Extra">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized Text</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_HOLIDAY_SPIRIT</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]节日精神包[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">spirit=good spirits=good, happy mood=holiday cheer  "pack" as in package. E.g., a "weapon pack" is a group of weapons or items that the player will use.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Holiday Spirit Pack[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_HOLIDAY_SPIRITD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#ITEM_TSAL_staff01;
+-#ITEM_TSAL_staff02;
+-#ITEM_TSAL_staff03;
+-#ITEM_TSAL_staff04;
+-#ITEM_TSAL_weapon01;
+-#ITEM_TSAL_weapon02;
+-#ITEM_TSAL_weapon03;
+-#ITEM_TSAL_weapon04;
+-#ITEM_TSAL_weapon05;
+-#ITEM_TSAL_weapon06;
+-#ITEM_TSAL_weapon07;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">please do not change this cell</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"> -#ITEM_TSAL_staff01; -#ITEM_TSAL_staff02; -#ITEM_TSAL_staff03; -#ITEM_TSAL_staff04; -#ITEM_TSAL_weapon01; -#ITEM_TSAL_weapon02; -#ITEM_TSAL_weapon03; -#ITEM_TSAL_weapon04; -#ITEM_TSAL_weapon05; -#ITEM_TSAL_weapon06; -#ITEM_TSAL_weapon07;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_HORROR_PROPS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]恐怖道具包[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">props as in stage props. Horror props probably include werewolf masks, shrunken heads, bloody daggers, vampire fangs, etc. In this case, one of the props is a fake/replica weapon (see below).</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Horror Props Pack[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_HORROR_PROPSD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#ITEM_TSAL_staff05;
+-#ITEM_TSAL_weapon08;
+-#ITEM_TSAL_weapon09;
+-#ITEM_TSAL_weapon10;
+-#ITEM_TSAL_weapon11;
+-#ITEM_TSAL_weapon12;
+-#ITEM_TSAL_weapon13;
+-#ITEM_TSAL_weapon14;
+-#ITEM_TSAL_weapon15;
+-#ITEM_TSAL_weapon16;
+-#ITEM_TSAL_weapon17;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">please do not change this cell</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"> -#ITEM_TSAL_staff05; -#ITEM_TSAL_weapon08; -#ITEM_TSAL_weapon09; -#ITEM_TSAL_weapon10; -#ITEM_TSAL_weapon11; -#ITEM_TSAL_weapon12; -#ITEM_TSAL_weapon13; -#ITEM_TSAL_weapon14; -#ITEM_TSAL_weapon15; -#ITEM_TSAL_weapon16; -#ITEM_TSAL_weapon17;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_closed</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">关上了...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's closed...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's closed...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_wood</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">看起来似乎所有人都走的匆忙.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Looks like everyone left in a hurry.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Looks like everyone left in a hurry.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_investigate0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">有什么东西埋在那儿...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Upon investigating a grave and then finding a sword</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There is something buried here...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_letter</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">制作盗版的家伙已经被我们拘捕啦！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's a cease and desist order.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's a cease and desist order.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_figures</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">小小的盗版佣...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Referring to small plastic models (Warhammer)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Small bootleg figurines...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAL_riddle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这儿的谜题需要侦探才能解决...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This riddle would require some kind of investigator.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This riddle would require some kind of investigator.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_found_were</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哇！久违的僵尸帝国之爪！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">See below</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wow! It's the long lost Were-Zompire Claw!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_staff08</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">尤米的三叉戟</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Umi is a name</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Umi's Trident</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_staff08D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">喜欢水的家伙一定会喜欢它，
+噢噢噢我湿了！
+#PA;湿身可用闪电元素
+#AA;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The choice weapon of ocean-lovers everywhere. Allows water and lightning to be safely combined. #PA;Can conjure Lightning while wet #AA;None</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The choice weapon of ocean-lovers everywhere. Allows water and lightning to be safely combined. #PA;Can conjure Lightning while wet #AA;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon20</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">祭司之鞭</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">October is a name</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">October's Whip</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon20D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">充满了巫术的力量，每一鞭抽打
+都能汲取生命
+#DMG;中物理伤害
+#SP;吸取生命</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">life=the health of the target</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Infused with necromantic power, this whip drains life with each blow. #DMG;Medium Physical #SP;Life Steal</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon21</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">僵尸帝国之爪</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">See description below</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Were-Zompire Claw (prop)</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon21D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">来自官方的游戏道具！结合了僵尸,
+狼人还有吸血鬼的恐怖力量之爪！
+#DMG;低物理伤害
+#SP;中者流血不止</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's the official game prop! Combines the powers of zombies, vampires, and werewolfs into one deadly claw! #DMG;Low Physical #SP;Causes Bleeding</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's the official game prop! Combines the powers of zombies, vampires, and werewolfs into one deadly claw! #DMG;Low Physical #SP;Causes Bleeding</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon22</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">夏普</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A recognizable surname in English.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sharpe</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon22D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一个多情的剑客...
+额，能脱离主人独自战斗
+#DMG;中物理伤害
+#SP;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A sentient swordsman… er, swordsword. Can fight on its own without a wielder. #DMG;Medium Physical #SP;None</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A sentient swordsman… er, swordsword. Can fight on its own without a wielder. #DMG;Medium Physical #SP;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon23</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">邪神的诅咒之剑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cthulhu's Cursed Sword</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cthulhu's Cursed Sword</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon23D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">被人形的邪神克苏鲁所使用,
+恐怖的旧日支配者
+#DMG;中物理伤害
+#SP;中者精神错乱</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Used by Cthulhu in his humanoid form, this fearful weapon inspires insanity by its mere presence. #DMG;Medium Physical #SP;Confuse on hit</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Used by Cthulhu in his humanoid form, this fearful weapon inspires insanity by its mere presence. #DMG;Medium Physical #SP;Confuse on hit</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon24</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">僵尸帝国之爪</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Were-Zompire Claw</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Were-Zompire Claw</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon24D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这可是真家伙！
+而不是电影道具！
+#DMG;低物理伤害
+#SP;中者产生变形</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The real deal, and not just some movie prop. This is the actual legendary Were-Zompire Claw. #DMG;Low Physical #SP;Polymorph</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The real deal, and not just some movie prop. This is the actual legendary Were-Zompire Claw. #DMG;Low Physical #SP;Polymorph</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

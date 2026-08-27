@@ -1,0 +1,2620 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="TWC">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized Text</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_trapped_scholar0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦感谢上帝！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Trapped Scholar</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Asgård be praised!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_trapped_scholar1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我被困在这儿好几个世纪了！靠吃恶心的
+蛆虫和强大的意志而活了下来！
+最终,自由属于了我!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Trapped Scholar</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I've been stuck in here for ages, surviving on maggots and sheer force of will. Finally, I'm free to go wherever I want!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_trapped_scholar2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">呃，经历了这么多事...
+现在就离开有点使我感到不自在...
+[P=1]我想我还是留在这里多呆一会儿！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Trapped Scholar</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It actually feels kind of scary to leave now after all this time.[P=1] I think I better stay here for a little while longer.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_trapped_scholar3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你知道吗,[P=1]十几年前我曾看到有巫师从塔上
+丢魔法书下来...[P=0.5]我想它可能是卡在这棵树上了,
+[P=0.5]我敢打赌,你晃晃树会有惊喜的！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Trapped Scholar</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You know...[P=1] A couple of years back I saw this wizard drop a tome out of the tower.[P=0.5] I think it got stuck in this tree.[P=0.5] I bet if you gave it a big thwack it might come thumbling down.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_gardener_scholar0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我对冒险和战斗从不感冒,
+[P=1]园艺才是我的全部！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gardener Mogge</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I never really cared for adventure and combat[P=1] -- gardening is my true calling!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_gardener_scholar1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">...杂草?[P=1]我不明白你的意思。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gardener Mogge</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">...Weeds?[P=1] I don't know what you mean.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_lumberjack0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哈哈！[P=1]我们向那座森林证明了谁才是老大！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Orc 1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ha ha![P=1] We sure showed that forest who's boss.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_lumberjack1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我们成功啦！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Orc 2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">We sure did!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_lumberjack2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你们两个！[P=2]给老子好好干活！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Orcs Boss</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You two![P=2] Get back to work!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_lumberjack3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">更多工作？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Orc 1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">More work?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_goblin_runner0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦不！[P=1]队长倒下了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Runner</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oh no![P=1] The captain has fallen!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_goblin_captain</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">救我！[P=0.5]救我！[P=1]打它！[P=0.5]打它！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Captain 1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Save me![P=0.5] Save me![P=1] Hurt them![P=0.5] Hurt them!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_goblin_idiot0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">对！[P=1]救它[P=0.5]救它！[P=1]打你！[P=0.5]打你！[P=0.5]我明白啦！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Moron</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Right![P=1] Save them![P=0.5] Save them![P=1] Hurt you![P=0.5] Hurt you![P=0.5] I've got it!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_goblin_ambush0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">巫师！[P=1]它们真蠢！又来抢道儿了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Captain 2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">WIZARDS![P=1] They were stupid enough to take this road again!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_goblin_ambush1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">扒光它们的浴袍！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Captain 2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">GET THEIR ROBES!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_poi_log1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一条巨大的树干挡住了去路,
+[P=1]这附近可再也找不到差不多大的了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A giant log is blocking the road.\n[P=1]… There aren't any trees around here even close to this size.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A giant log is blocking the road.\n[P=1]… There aren't any trees around here even close to this size.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_poi_locked0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这些门大概关了有20年啦！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">These doors have probably been locked for 20 years.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">These doors have probably been locked for 20 years.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_poi_repaired</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这期间一直有在修的啦...(到底有多难修啊喂!)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This door has undergone some extensive repairs over the years. Wonder how much punishment it can take...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This door has undergone some extensive repairs over the years. Wonder how much punishment it can take...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_poi_spam</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">依旧都是些垃圾邮件。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Still nothing but spam.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Still nothing but spam.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_poi_baleyg</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">“这里躺着奶酪君,巫师城堡最伟大的巫师之一,
+死于不可抗拒的自然因素”
+额，真可怜...名字好像弄错了吧？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Here lies Baelig, one of the most resourceful wizards of the order. Died of natural causes." Sadly, his name was misspelled.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Here lies Baelig, one of the most resourceful wizards of the order. Died of natural causes." Sadly, his name was misspelled.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_poi_moose0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦！苍苍白骨也难掩神兽的风采！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A most royal skeleton.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A most royal skeleton.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_poi_bridge</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦，至少他们把桥给修好了，倒也不全都是坏事...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The bridge has been repaired. Things were better back in the day.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The bridge has been repaired. Things were better back in the day.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_poi_checkpoint0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">古老的临时储存点曾见证到美好的过去...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This old checkpoint has seen better days...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This old checkpoint has seen better days...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_poi_checkpoint1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">它慵懒地歪向左边...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's listing lazily to the left...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's listing lazily to the left...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_poi_oldlady0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">依稀记得曾有位老妇人住在这里。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There was a lady here.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There was a lady here.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_poi_oldlady1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">如今，她已经...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">She's gone now.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">She's gone now.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_poi_smallgate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">在以前的日子里，这儿是能打开的...
+我还是别纠结啦，赶紧继续赶路吧！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Back in the day, this used to be unlocked.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Back in the day, this used to be unlocked.</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="TMD">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized Text</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_watermill0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">走开！我，我还是没穿衣服呢！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Refers to a joke from the original game. This game happens 20 years later. When you knock on this particular door in the original game, the person behind the door says "Go away, I'm not dressed properly!" Now, 20 years later, he's "still not dressed properly!"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Go away, I'm still not dressed properly!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_guard0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你好呀！[P=1]我认得你的...[P=0.5]脸？[P=1]
+我想我们很久以前曾经见过...[P=1]你要去哪儿？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hello there![P=1] I recognize your...[P=0.5] face?[P=1] I think we met before, a long time ago. [P=1]Where are you heading?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hello there![P=1] I recognize your...[P=0.5] face?[P=1] I think we met before, a long time ago. [P=1]Where are you heading?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_guard1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">喵扑?[P=1]我听说那座村子里发生了一些疯狂的事儿。
+[P=1]你问是什么东西？[P=1]唔，首先他们停止向哈文德输送新鲜鱼类了,
+[P=1]有谣言说他们那儿的海水枯竭啦，但那是胡说八道！
+[P=1]我亲自驾船去了那里，水多的足够捕鱼的说！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Outsmouth?[P=1] I've heard some crazy things about that village of late.[P=1] What things you ask?[P=1] Well, for starters they have stopped delivering fish to Hávindr![P=1] Rumor has it that the ocean has grown barren -- but that's bollocks![P=1] I went out by the coast in my trusty ol' boat, and I was able to catch more fish than ever!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Outsmouth?[P=1] I've heard some crazy things about that village of late.[P=1] What things you ask?[P=1] Well, for starters they have stopped delivering fish to Hávindr![P=1] Rumor has it that the ocean has grown barren -- but that's bollocks![P=1] I went out by the coast in my trusty ol' boat, and I was able to catch more fish than ever!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_guard2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我听说乔登到喵扑村拜访他的姑姑,但她不在那儿。
+[P=2]他听到了奇怪的传闻，说是当地人变得非常喜欢鱼，
+喜好到从不杀死它们。[P=1.5]成年人怎么会有这种奇怪爱好？
+[P=3.5]所以我讨厌死鱼了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I heard that Jörgen went to Outsmouth to visit his aunt, but she wasn't there.[P=2] He did hear some rather strange stories;[P=2] Apparently the Outsmouthians have taken quite a liking to their fish. And by that I mean to they don't kill them anymore.[P=1.5] I say it's strange that a grown man can become so obsessed and mesmerized by something as pathetic as those loathsome beings...[P=3.5] Oh, I do so hate fish!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I heard that Jörgen went to Outsmouth to visit his aunt, but she wasn't there.[P=2] He did hear some rather strange stories;[P=2] Apparently the Outsmouthians have taken quite a liking to their fish. And by that I mean to they don't kill them anymore.[P=1.5] I say it's strange that a grown man can become so obsessed and mesmerized by something as pathetic as those loathsome beings...[P=3.5] Oh, I do so hate fish!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_guard3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">无论如何，你想去喵扑村的话，[P=1.5]就走那条老路，
+搭乘#ViMN6;。[P=4]小心那座森林，一到晚上它就会...
+[P=2]突然活过来！[P=2]喔噢嗷嗷呜嗷！[P=2.5]...
+我只是想增加一点戏剧效果[P=0.5].[P=0.5].[P=0.5].</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Anyway, if you really want to go to Outsmouth,[P=1.5] just take the old road past #ViMN6;'s cabin.[P=4] Watch out for the forest though. At night it becomes...[P=2] Alive![P=2] WoOEoeoooeoeoOOo![P=2.5] ... I just added that last bit for dramatic effect.[P=0.5].[P=0.5].[P=0.5].</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Anyway, if you really want to go to Outsmouth,[P=1.5] just take the old road past #ViMN6;'s cabin.[P=4] Watch out for the forest though. At night it becomes...[P=2] Alive![P=2] WoOEoeoooeoeoOOo![P=2.5] ... I just added that last bit for dramatic effect.[P=0.5].[P=0.5].[P=0.5].</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_guard4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我已经把我知道的所有传闻秘史都告诉你啦！
+OK？你还不知足吗？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I've already told you all the mysterious rumors I know of, ok? Wasn't that exciting enough for you?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I've already told you all the mysterious rumors I know of, ok? Wasn't that exciting enough for you?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_annoyed0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">喂，[P=0.5]你该停下你的骚扰行为了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ok.[P=0.5] You should really stop bothering me now.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ok.[P=0.5] You should really stop bothering me now.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_annoyed1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">但是…[P=1]好吧…[P=0.5]这里还有一个传言，
+[P=1]我听说巫师们严重缺乏社交技巧！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">C'mon...[P=1] Well...[P=0.5] alright here's another rumor:[P=1] I heard that Wizards lack social skills.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">C'mon...[P=1] Well...[P=0.5] alright here's another rumor:[P=1] I heard that Wizards lack social skills.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_annoyed2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">此时在我看来，这条流言是真的！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">And from what I've seen, it seems to be true!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">And from what I've seen, it seems to be true!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_annoyed3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[P=0.5].[P=0.5].[P=0.5].</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[P=0.5].[P=0.5].[P=0.5].</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[P=0.5].[P=0.5].[P=0.5].</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_annoyed4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">停手!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Stop it!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Stop it!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_annoyed5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">好吧，如果我给你一本我发现的魔法书，你可不
+可以停止骚扰行为？[P=1]到那边的神奇商店，找那位
+老阿姨,告诉她你可以拥有那本我发现的那本旧书
+...只要你别再叨扰人家！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fine. If I give you an old tome I found lying around, will you stop bothering me?[P=1] Just go to the curiosity shoppe and tell the old lady that I said you could have that old book I found the other day -- as long as you stop bothering me.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fine. If I give you an old tome I found lying around, will you stop bothering me?[P=1] Just go to the curiosity shoppe and tell the old lady that I said you could have that old book I found the other day -- as long as you stop bothering me.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_annoyed6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">如果你再打扰我，[P=0.5]我会改变主意的！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">If you bother me again,[P=0.5] I WILL change my mind!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">If you bother me again,[P=0.5] I WILL change my mind!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_angry0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">绝望了！[P=1]现在你别想拿到那本书！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ok, that's it![P=1] Now you can't have the book!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ok, that's it![P=1] Now you can't have the book!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_angry1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我投降…但你就是得不到书！[P=0.5]你这撸sir巫！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I give up -- you just don't get it![P=0.5] Damn dirty Wizard!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I give up -- you just don't get it![P=0.5] Damn dirty Wizard!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_magick0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我听说你需要这本旧书.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I was  told you were in need of this old book.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I was  told you were in need of this old book.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_magick1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这是我今天第一宗也是最后一宗生意了
+...[P=1]晚安！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">And that concludes the business of the day.[P=1] Goodnight!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">And that concludes the business of the day.[P=1] Goodnight!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_curiosity0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">巫师，你们在这儿不受欢迎！[P=0.5]太穷，钱包不鼓！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">joke about the gameplay</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wizards, you are not welcome here[P=0.5] -- you have no inventroy in which to stash your gold.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_curiosity1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">走开，你们这些小穷穷,[P=0.5]
+我一点儿也不感到抱歉，我就是这么认为的！[P=1]毫无油水的家伙们!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">language joke: poor = unfortunate. Poor = without money.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Go away you poor, poor man...[P=0.5] And I don't mean in the "I feel sorry for you" kind of way.[P=1] Damn contemptible wizards with no inventory!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_curiosity2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我该责备游戏创造者，啥？[P=0.5]哈！[P=1]你真该感到羞愧！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">creators ~ mythological sounding term, but she more-or-less means the game designers</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I should blame the creators?[P=0.5] Hah![P=1] You should be ashamed.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_curiosity3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">现在，我要关店门了，直到你们走开为止！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Now, I'm going to close the shoppe until you go away.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Now, I'm going to close the shoppe until you go away.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_curiosity4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦我的青天老祖宗啊！[P=0.5]快走开！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">By Odin's missing eye![P=0.5] Go away!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">By Odin's missing eye![P=0.5] Go away!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_curiosity5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">有巫师待在我身边，我感到[P=0.5].[P=0.5].[P=0.5].[P=1.5]非常难受！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">joke about the star wars "disurbance in the force"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I feel a disturbance in[P=0.5].[P=0.5].[P=0.5].[P=1.5] MY VICINITY!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_curiosity6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">如果你能走开，我就把我所有的钱都给你！
+但你都穷得没个钱袋撞它们！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I could give you all the money in my shoppe if you would go away -- but YOU DON'T HAVE AN INVENTORY!!!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I could give you all the money in my shoppe if you would go away -- but YOU DON'T HAVE AN INVENTORY!!!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_drunk0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哇啊？！[P=0.25]你是谁？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This guy is drunk, hence his sluggish language</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wha!?[P=0.25] Who are you?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_drunk1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">过来点，我要告诉你一些事儿...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Come closer I'mma tell you somthin'... </Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Come closer I'mma tell you somthin'... </Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_drunk2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哈！[P=0.5]不用那么近！[P=1]*嗝呃*</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Aagh![P=0.5] not tha' close![P=1]*hiccup*</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Aagh![P=0.5] not tha' close![P=0.5]*hiccup*</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_drunk3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">听...[P=0.5]听着...[P=1]你必须小心米...[P=1]*嗝呃*[P=0.75]小心鸣...[P=0.75]冥府...[P=1]万分小心！
+[P=1]让我告诉你汉化组的事儿先...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">He can't pronounce the word Chthonian, Lovecraft creatures. \n Spoof on the coming enemies in Minecraft, named the Endermen.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">List'n...[P=0.5] List'n...[P=1] You must beware of the Chta..[P=1] *hiccup*[P=0.75] the Chtong...[P=0.75] No, the Chtonh'ng...[P=1] ah heck![P=1] Let me tell you 'bout them Endermen 'nstead.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_drunk4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">他们干的都是很吃力...[P=1.5]不讨好的事儿,
+[P=1.25]总是被催不说，还，还要[P=2.75]*嗝呃*[P=1]被批花了时间却整出一堆..
+[P=1.5]bug![P=0.25]*嗝呃*[P=1]不但要查大量背景资料...[P=0.5]还要
+考虑押韵,足够笑料...[P=0.5]这事儿本身...[P=0.5]就充满了bug！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Accidently says beans instead of beings. He's having trouble forming his words.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">They're nasty beans...[P=1.5] bein's.[P=1.25] They use'lly keep to themselves but they has th's creepy way of kno-[P=2.75]*hiccup*[P=1]-wing you be lookin' at 'em and once you do...[P=1.5] BAM![P=0.25] *hiccup* [P=1] They be in your face like inst'...[P=0.5] instentanie'...[P=0.5] insteraneus'...[P=0.5] Like bam.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_drunk5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">所以你是个正常人就别乱加汉化组...
+[P=0.5]珍爱生命，[P=0.75]*嗝呃*[P=1]远离汉化！这样你，或许，还能平安...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">So you best be stayin' clear o'em.[P=0.5] Avoid bein' [P=0.75]*hiccup*[P=1] in their gen'ral vishinity, and you migh' be ok...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">So you best be stayin' clear o'em. Avoid bein' [P=0.5]*hiccup*[P=0.5] in their gen'ral vishinity, and you migh' be ok...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_drunk6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">*嗝[P=0.5]*呃*[P=0.5]唔*</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">he interrupts his hiccup with another hiccup in the middle.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">*hic-[P=0.5]*hiccup*[P=0.5]-up*</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_cultist0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你不可能永远藏着![P=0.5]当那位大神苏醒,大量饥饿
+的精怪会来吃掉你, 你该祈祷你能彻底忘记...
+[P=0.5]而我们,被选中的神使,将高举星火,存在于那...[P=0.5]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You cannot hide for an eternity![P=0.5] When the great one awakens, a thousand hungry maws will devour you, and you shall pray for oblivion... [P=0.5]And we, the chosen ones, shall rise to the stars in a-[P=0.5]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You cannot hide for an eternity![P=0.5] When the great one awakens, a thousand hungry maws will devour you, and you shall pray for oblivion... [P=0.5]And we, the chosen ones, shall rise to the stars in a-[P=0.5]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_cultist1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这是啥？[P=0.5]老古董?[P=2.5]多可悲！[P=2]我想你还在坚持你那些
+老掉牙的东西吧！[P=2]你该来加入我们,接受这终极
+的力量,[P=2]无需法杖便能施展魔能的伟力！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">What's this?[P=0.5] A practitioner of the false arts?[P=2.5] How pathetic.[P=2] I suppose you still hold up in that old school of yours?[P=2] You should join us instead, and receive infinite power![P=2] And the ability to cast spells without a staff!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">What's this?[P=0.5] A practitioner of the false arts?[P=0.5] How pathetic. I suppose you still hold up in that old school of yours?[P=0.5] You should join us instead, and receive infinite power![P=0.5] And the ability to cast spells without a staff!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_cultist2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">部落?[P=0.5]你在说啥？[P=0.5] 我们是邪教！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Clan?[P=0.5] What are you talking about?[P=0.5] We're a cult!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Clan?[P=0.5] What are you talking about?[P=0.5] We're a cult!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_cultist3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">有很大的不同！[P=0.5]...你到底加不加入我们？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There's a major difference![P=0.5] Will you join us or not?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There's a major difference![P=0.5] Will you join us or not?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_cultist4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">沉默不予回应?哼?[P=0.5]好，有种！
+[P=0.5]我们立即送你上西天！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">We'll end you = we'll kill you.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The silent treatment eh?[P=0.5] Fine. Be that way![P=0.5] We'll just end you where you stand! </Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_scared_cultist0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你在这里搞什么?[P=1]走开!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">What are you doing here?[P=1] Get away!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">What are you doing here?[P=1] Get away!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_scared_cultist1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">救命！[P=0.5] 救命！[P=0.5] 我是被迫这么做的！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Help![P=0.5] help![P=0.5] I'm being oppressed!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Help![P=0.5] help![P=0.5] I'm being oppressed!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_scared_cultist2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">为什么这些门总是锁着的啊？！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Why are these doors always locked!?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Why are these doors always locked!?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_scared_cultist3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">嗯，密码是...[P=0.5]luanxiao?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">making a joke about how unpronouncable Lovecraft's terminology can be. No need to translate the password.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Uh, the password is...[P=0.5] "fhtagn"?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_scared_cultist4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">有人吗?[P=0.75]有人在里面吗？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hello?[P=0.75] Is there anybody in there?!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hello?[P=0.75] Is there anybody in there?!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_scared_cultist5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">真主！[P=0.5]耶稣基都！[P=1.5]圣母玛利亚！[P=0.5]救救我！
+[P=2]克苏鲁邪神！[P=0.5]您总该救我的吧！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Odin![P=0.5] Thor!?[P=1.5] Shub-niggurath!? [P=0.5] Help me! [P=2] Cthulhu![P=0.5] -- You owe me!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Odin![P=0.5] Thor!?[P=1.5] Shub-niggurath!? [P=0.5] Help me! [P=2] Cthulhu![P=0.5] -- You owe me!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_cultist_bridgekeeper0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">停下！[P=0.5]一夫当关万夫莫开！[P=1.5]
+...持密码者方可通行！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Halt![P=0.5] None shall pass![P=1.5]\n… Unless they know the password, of course.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Halt![P=0.5] None shall pass![P=1.5]\n… Unless they know the password, of course.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_cultist_bridgekeeper1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">沉默以对?哼?[P=0.5]你没机会了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The silent treatment eh?[P=0.5] Too bad for you!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The silent treatment eh?[P=0.5] Too bad for you!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_happy_lumberjack0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">以前我一直认为巨魔吃掉了我妻子，后
+来我意识到，咱跟她并没有结婚！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">At first I was sad that a troll ate my wife...[P=2]\n… But then I realized that I wasn't even married!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">At first I was sad that a troll ate my wife...[P=2]\n… But then I realized that I wasn't even married!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_happy_lumberjack1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">现在，[P=1]我要过充实的...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Now I intend to live life to the fullest!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Now I intend to live life to the fullest!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_goblin</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哇？！[P=0.5]！[P=0.5]！[P=0.5]是撸师！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblins speak funny. The goblin means "wizards"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wha?![P=0.5]![P=0.5]![P=0.5] Wizwurdz!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_orc_leader0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这是啥？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">What's this?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">What's this?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_orc_leader1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">此树是我栽，此路是我开，
+欲要过此路，留下买路财！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">warez - as in pirated video games</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bathrobe-panzies! Search your inventory for warez,  and promptly hand it over to us!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_repaired0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">仔细看好了...锁上啦！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fancy that, it's locked.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fancy that, it's locked.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_repaired1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">烧得稀巴烂时似乎还好点儿...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This was better when it was burnt down.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This was better when it was burnt down.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_shoppe</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">门关上了，可能等我们走了她才会开吧...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's closed. She probably won't open until we're gone.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's closed. She probably won't open until we're gone.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_gate0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">锁上了...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's locked...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's locked...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_gate1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦不，等等！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oh no, wait!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oh no, wait!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_cliff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">再见...残酷的冒险游戏世界？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goodbye cruel adventure game?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goodbye cruel adventure game?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_hacked_log</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">他们扫清了道路，还封锁了捷径？[p=1]
+为什么不把这玩意儿放到其他地方？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">They cleared the road and blocked the shortcut?[p=1] Why didn't they put it somewhere else?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">They cleared the road and blocked the shortcut?[p=1] Why didn't they put it somewhere else?</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="UI">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized Text</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAR_WIZARDCASTLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">第一章</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chapter 1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chapter 1</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAR_MOUNTAINDALE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">第二章</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chapter 2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chapter 2</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAR_RLYEH</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">第三章</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chapter 3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chapter 3</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAR_WIZARDCASTLED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">黑云压境</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A Shadow Over Aldrheim</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A Shadow Over Aldrheim</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAR_MOUNTAINDALED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">怪力乱神</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Fornskogur Horror</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Fornskogur Horror</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAR_RLYEHD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">噩梦孤岛</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Nightmare Corpse-city of R'lyeh</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Nightmare Corpse-city of R'lyeh</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAR_MENU_MYTHOS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">星火犹存</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">it's a double or triple entendre, based on the idiomatic expression "The Stars are Right" (i.e., conditions are favorable, in a mystical sense). Left means opposite of right (in the direction of comedy and the odd), but there is also an idea towards "left" as in remaining. (The Stars are Remaining (but everything else is gone).)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Stars Are Left</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Tu_Text_hint_fairyT</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">小精灵</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Fairy</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Fairy</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Tu_Text_hint_fairy</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">居住在检查点的神奇小生物，
+能够给玩家带来一次复活的机会哟！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The fairy is a strange being. It resides at checkpoints and is attracted to lonely souls, longing to be a "friend" to those who have none.\nIt will sacrifice itself to selflessly revive those "friends", should they fall in battle.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The fairy is a strange being. It resides at checkpoints and is attracted to lonely souls, longing to be a "friend" to those who have none.\nIt will sacrifice itself to selflessly revive those "friends", should they fall in battle.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_SHRINE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">神秘祭坛</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shrine</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shrine</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_SHRINE_D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">守住祭坛，直面生死！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hold your ground by the holy Shrine against the multitudes of enemies bent on tearing you to bits.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hold your ground by the holy Shrine against the multitudes of enemies bent on tearing you to bits.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_OUTSMOUTH</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">喵扑村</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Outsmouth</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Outsmouth</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_OUTSMOUTH_D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">充满了鱼香！
+猫咪们最爱的地方！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Trapped in the fishing village of Outsmouth, you must withstand wave after wave of horrible nightmares.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Trapped in the fishing village of Outsmouth, you must withstand wave after wave of horrible nightmares.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAR_CUTSCENE0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">二十年前，有一到四位神奇地小巫师从来自虚空的大黄袍阿萨多
+手里拯救了世界，现在，有些怪力乱神的东东正在
+骚扰哈文德的渔港喵扑村。于是，我，弗拉德，必须肩负起责任，带领那些
+宝刀未老的巫师英雄重返战场，再次拯救世界！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">referring to the original game. Magicka can be played by one to four players.\n\nJoke on the word "fishy" = suspicious.\n\nMinor joke on humane = human (Vlad denying that he's a vampire again, emphasizing his humanity)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Twenty years ago, between one and four brave wizards saved the world from certain doom at the hands of Assatur -- a terrible daemon from another world. Now, something fishy is stirring in the fishing village of Outsmouth, and I, Vlad, Count of many things, must guide the elderly but still semi-capable wizards once more. All for that most humane of causes: saving the world.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAR_CUTSCENE1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">当巨大的蜘蛛帕克倒下后，巫师英雄展开了更为惊险的旅程，
+他们逃出来没几个小时，天就黑了，并且即将进入
+寂静而神秘的喵扑村...有什么危险正在哪儿等待着！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's not at all a sinister reason, in a couple of hours dusk really does turn to night.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">With the giant spider, Parker, lying dead, the wizards made their way through some horribly moist tunnels. As they reached the exit many hours later, it became clear that something sinister was afoot: dusk had turned to night. And if that wasn't enough, they had emerged somewhere familiar, not so far away from the place where they entered the underworld.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAR_CUTSCENE2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">巫师英雄再一次将世界带入了危机，唤醒了来自
+有点儿危机的孤岛的邪神克苏鲁，真是太难以置信，
+难以想象，难以接受...现在，英雄只有一个选择，
+那就是打败邪神，延续人类，星火犹存！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The wizards had, once again, accidentally brought peril upon the world, resulting in the awakening of the lost corpse-city of R'lyeh, home to an unspeakable, unnamable, and, well... untamable being.\nWith little hope of survival, the wizards now had only one choice: defeat the lord of R'lyeh, that they might return to the material realm.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The wizards had, once again, accidentally brought peril upon the world, resulting in the awakening of the lost corpse-city of R'lyeh, home to an unspeakable, unnamable, and more to the point, untamable being.\nWith little hope of survival, the wizards now had only one choice: defeat the lord of R'lyeh, that they might return to the material realm.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Magick_Portal</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">传送门</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Portal</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Portal</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Magick_PortalD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">别只传送自己的“一部分”啊喂！
+在基友的配合下效果更好。
+FQAE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">If you constantly feel cornered, unappreciated, and headed for certain doom, maybe you are in need of a door to another location!\nWith astonishing new Portal(s), you can create gates between locations, and freely roam wherever you like.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">If you constantly feel cornered, unappreciated, and headed for certain doom, maybe you are in need of a door to another location!\nWith astonishing new Portal(s), you can create gates between locations, and freely roam wherever you like.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Magick_Chainlightning</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">连锁闪电</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chain Lightning</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chain Lightning</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Magick_ChainlightningD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">虽然不能像连锁店一般
+一开开个几百家，好歹也能
+多串几个敌人起来。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A low ceiling preventing the use of Thunder Bolt? Several foes in need shock therapy?\nChain lightning is your answer: its new and improved formula will have enemies and friends alike crying out in agony as you unleash horizontal bolts of pure pain!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A low ceiling preventing the use of Thunder Bolt? Several foes in need shock therapy?\nChain lightning is your answer: its new and improved formula will have enemies and friends alike crying out in agony as you unleash horizontal bolts of pure pain!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Magick_levitate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">磁悬浮</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Levitation</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Levitation</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Magick_levitateD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">虽然速度不快，不过真的
+飘起来了哟！小心摔伤！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Who hasn't come across a path or bridge covered in moose muck? Levitation solves this problem by allowing you to hover above fields of filthy fear.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Who hasn't come across a path or bridge covered in moose muck? Levitation solves this problem by allowing you to hover above fields of filthy fear.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Magick_proppmagick</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">放烟花啦</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Propp's Party Plasma</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Propp's Party Plasma</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Magick_proppmagickD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一路放炮千百度，蓦然回首，
+那烟却在灯火阑珊处
+FFQS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Originally intending to invent a "fun for the family" Magick, Propp accidentally created a very powerful and unpredictable spell capable of destroying even the most powerful of forest trolls. This amazing Magick, however, went missing after some "brave" wizards decided to go troll-hunting.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Originally intending to invent a "fun for the family" Magick, Propp accidentally created a very powerful and unpredictable spell capable of destroying even the most powerful of forest trolls. This amazing Magick, however, went missing after some "brave" wizards decided to go troll-hunting.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_tractorpull</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">拉扯一把</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tractor Pull</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tractor Pull</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_tractorpullD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">所有巫师都知道怎么把东西推开，
+可如果需要拉过来呢？用这个吧！
+随便什么都能乱拉扯一把！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Every wizard knows how to push things around, but when it comes to attraction, most are clueless. This is precisely why Tractor Pull was created. It is very useful for pulling Books, Sausages, and other Items towards the caster. Use with caution around cutlery!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Every wizard knows how to push things around, but when it comes to attraction, most are clueless. This is precisely why Tractor Pull was created. It is very useful for pulling Books, Sausages, and other Items towards the caster. Use with caution around cutlery!</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Names">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized Text</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Ferocious_Rat</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">凶猛鼠</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ferocious Rat</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Crazed_Cultist</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">邪教教徒</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cultist</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_cultist_bridgekeeper</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">教徒守桥人</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cultist Bridgekeeper</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Enderman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">暴走的汉化人</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Spoof on the coming enemies in Minecraft, named the Endermen.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Enderman</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Deep_One</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">深潜者</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">http://en.wikipedia.org/wiki/Deep_One</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Deep One</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Starspawn</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">星之卵</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">http://www.yog-sothoth.com/wiki/index.php/Cthulhu#Star-spawn_of_Cthulhu</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Starspawn</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Elder_Thing</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">老怪物</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">http://en.wikipedia.org/wiki/Elder_Thing</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elder Thing</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Shoggoth</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">修格斯</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">http://en.wikipedia.org/wiki/Shoggoth</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shoggoth</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Flamer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">自主火焰</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Conscious Blaze</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#NS_Guard</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">夜之替使</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Night Shift Guard</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Drunk</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">老醉鬼</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Drunken Old Fool</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Shoppe_Lady</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">好奇商店主妇</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shoppe = the faux-archaic form of "Shop". As in "Ye Olde Curiosity Shoppe"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Curiosity Shoppe Lady</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Orc_Lumberjack0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">兽人伐木工</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Orc Lumberjack</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Orc_Lumberjack1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">兽人伐木工</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Orc Lumberjack</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Orc_Foreman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">兽人工头</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Orc Foreman</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_goblin_ambusher</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哥布林首领</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Captain</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_goblin_runner</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">跑路的哥布林</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Runner</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BOSS_Cthulhu</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">邪神克苏鲁</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cthulhu</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BOSS_Cthulhu_sub</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">旧日最高统治者</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">High Priest of the Old Gods</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BOSS_Dagon</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">大衮</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Another famous Cthulhu character. No need to translate his name.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dagon</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BOSS_Dagon_sub</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">邪神座下魔使</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fishmaster of the seven seagulls</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Menu">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized Text</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Search_Scope</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">搜索设置</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Scope as in search scope</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Scope</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#LAN</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">局域网</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Local Area Network</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">LAN</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VAC_Only</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">只显示VAC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">http://en.wikipedia.org/wiki/Valve_Anti-Cheat</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">VAC Only</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Playing</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">隐藏正在游戏</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Playing</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Playing</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Hide_private_games</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">隐藏密码房</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hide Private Games</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hide Private Games</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Hide_games_in_progress</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">隐藏正在玩的房间</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hide Games in Progress</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hide Games in Progress</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Show_VAC_Only</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">只显示被防作弊VAC保护的房间</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">VAC (as above) is software designed by Valve (Steam) to prevent people from cheating in a multiplayer game. You can protect your multiplayer game from cheaters, if you have this software.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Show only games protected by VAC</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Change_Chapter</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">改变章节</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">menu option</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Change Chapter</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Chapter_Notification</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">现在改变章节会使游戏重新开始，
+确定要现在改变吗？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Changing the chapter will reset your progress in the current chapter. Are you sure you wish to change chapters?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Changing the chapter will reset your progress in the current chapter. Are you sure you wish to change chapters?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Script_Change_Notification</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">因该章节内容更新，导致所有存档丢失，
+我们对于您的损失感到很抱歉。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The chapter you are playing has been updated. All progress on this level has been lost. We are sorry for any inconvenience.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The chapter you are playing has been updated. All progress on this level has been lost. We are sorry for any inconvenience.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Exit_Warning</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">确定要推出吗？
+未保存的内容会丢失哟？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Are you sure you wish to quit? Any unsaved data will be lost.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Are you sure you wish to quit? Any unsaved data will be lost.</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Vlad">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized Text</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_vlad_intro0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">好久不见啊老伙计！
+你好像正在享受无聊的退休生活吧？[P=1]
+嗯...[P=1]好消息！我有一个任务给你！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad is overly enthusiastic</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Greetings fellow humans! I see you're attempting to enjoy a tiresome life of retirement.[P=1] Well...[P=1] good news! I have a task for you.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_vlad_intro1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你肯定听说过喵扑村这个盛产
+鱼类的地方吧？就在东北方？
+没听说？唔，很快你就会知道了，
+而且不仅仅是知道！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Still enthusiastic</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I'm sure you've heard of the little fishing town of Outsmouth, just northeast of here? No? Well soon enough you shall know all you could possibly want to know about it -- and more!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_vlad_intro2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">最近，那儿上报了几起人员无辜失踪，
+并且有奇怪的生物在他们的海岸礁石附近出没，
+于是镇上谣言四起。[P=1]更糟糕的是，他们向哈文德
+输送的鱼类大量下降！[P=1]这令人无法忍受！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">More mysterious as if he knows something</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lately, people have been reporting strange dissapearances, bizarre figures moving about the reefs off the coast, and a worrying statistical increase in the town's eccentricity.[P=1] And if that wasn't bad enough, the fish they usually supply to nearby villages has declined alarmingly. </Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_vlad_intro3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我建议... [P=1]我是指命令...[P=2]额，是任命...
+[P=2]反正你懂的，赶紧去喵扑村调查个究竟吧，
+你我上一次任务配合的天衣无缝，
+所以这次你一定能成功胜任！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goes from mysterious to commanding and very demanding -- in the way only Vlad can be.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I suggest... [P=1]And by suggest I mean implore...[P=2] And by implore I mean...[P=2] Well you know what I mean. Make haste to Outsmouth and investigate what is going on. I did manage to command you quite well on your last quest, so I'm sure you'll manage this one just fine.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_vlad_intro4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你说天色已经晚了是什么意思？
+[P=0.5]明儿再走？[P=1] 不...[P=0.5]那不成，
+你必须现在出发！[P=2]玻璃咿咿咿！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad becomes irritated with the wizards' laziness.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">What do you mean it's already getting late? [P=0.5]Leave tomorrow?![P=1] No...[P=0.5] That won't do. I need you to go now![P=2] Bleigh!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_vlad_intro5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦...[P=2]请记住一点，关于我其实是...呃，那是
+我们之间的小秘密，千万不能透露给其他人，
+[P=1]你知道我指的是啥。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad refers to the fact that the wizards know he's actually a vampire, unlike the rest of the world.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oh...[P=2] Before I forget -- remember our little secret, the one that's so secret that the whole world might cease to be if it is spoken of...[P=1] You know the secret I mean.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_vlad_intro6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你如果不能保守秘密，我会很失望的...[P=2]很失很失望...
+[P=2.5]哦！我失望的时候无法控制自己,[P=2]如果你不能保守秘密...
+[P=2]你，你“失”去的可就不止是希“望”那么简单了
+[P=1.3]...[P=1.3]...[P=1.3] 懂伐？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">threatening tone</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It would be a terrible pity if you didn't keep it to yourself, you know...[P=2] A great pity indeed...[P=2.5] Oh what a pity it would be...[P=2] If you didn't keep it to yourself...[P=2] It would be such a pity...[P=1.3]...[P=1.3]...[P=1.3] For you...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_vlad_log0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我们又见面了！[P=0.5] -老伙计！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hello again[P=0.5] -- fellow humans!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hello again[P=0.5] -- fellow humans!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_vlad_log1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">似乎又有一颗巨大的树挡住了你们的去路。
+只能选择走这边的捷径啦！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It looks like another giant tree has fallen in your path. You have no choice but to take this shortcut instead. </Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It looks like another giant tree has fallen in your path. You have no choice but to take this shortcut instead. </Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_vlad_log2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">在那边的路上,[P=1]
+可能有些“小问题”需要解决...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">And along the way, you might as well take care of the "minor"... [P=1] "problem" up ahead.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">And along the way, you might as well take care of the "minor"... [P=1] "problem" up ahead.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_vlad_log3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">祝你“好运”！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Good "luck"!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Good "luck"!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_vlad_outsmouth1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">既然村子已经空了，我想你四处逛逛调查一下应该是
+很安全的。[p=0.5]我从这边开始找，确保没人来打扰。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Still careles, and finishes off with a lie (as vlad disappears right after you leave)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Since the village is empty, I'm sure it's safe to look around and see what's gone wrong.[p=0.5] I'll keep lookout from here, and make sure nobody gets past me.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_vlad_outsmouth2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">于是现在...[P=1]走噢噢噢！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Standard positive, encouraging "Go!"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">So then... [P=1]Goooooo!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_vlad_outsmouth3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">继续...怎么可能会出错？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reassurance to the previous statement</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Go on then, what could possibly go wrong?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TR_Vlad_intro0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">人类啊！[P=2]似乎你“偶然间”将邪神克苏鲁从有点儿
+危机的孤岛上唤醒了！[P=3]你必须熄灭人类的星火
+[P=2]...我是指延续！战胜邪神，星火犹存！[P=1.5]这儿的
+大神可不太喜欢我们的世界,[P=1]或者其他任何地方...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad confuses left with right. There is a language-specific joke here, "set this right" meaning fix things so everything is good. He accidentally says "set things left", sort-of echoing the joke from the game's title.\nAlso, he is angry and disappointed.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Humans![P=2]\nIt seems that you have "accidently" awoken the lost corpse-city of R'lyeh.[P=3] You must promptly set this left-[P=2] … I mean right.[P=1.5] The lord of this place is none too fond of our world,[P=1] or any world for that matter...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TR_Vlad_intro1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">是了，这位邪神可以很轻易地毁灭中原大陆，
+[P=2]我猜,[P=2]我是对的,[P=2]你必须找到办法阻止克苏鲁,遵循：[P=1]
+1.延长这座桥[P=1]
+2.打开那扇门[P=1]
+3.解开那些触手。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Angry and disappointed still. And also firm when he lists the problems that the wizards face</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Also, that same lord would easily be able to destroy all of Midgård.[P=2] My guess,[P=2] which is correct, [P=2]is that you will find a way to stop this lurking horror by: [P=1]\n1. Extending that bridge [P=1]\n2. Opening that door [P=1]\n3. Removing those tentacles.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TR_Vlad_intro2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">现在，我有一些很重要的事情要做，
+[P=2], 太重要了以至于你们人类是无法理
+...[P=3]我是说...[P=1.5]再见！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lies to avoid work.\nHe's reluctant to say that he has things to do that mortals can't understand, because he's a vampire (not a mortal) himself, a fact that he's in the habit of denying. He catches himself accidentally admitting it, and then changes the subject.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Now, I have some rather important things to do today[P=2], so important that they are far beyond the understanding of mere morta-[P=3] ...I mean... [P=1.5]Goodbye!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TR_Vlad_lair0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">在这儿！[P=1.5]
+这些球能帮助解开触手，
+这里毕竟是那怪物的封印之地！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad is on the other side of a huge room, yelling.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Over here![P=1.5] \nThis globe will probably remove the tentacles. This is, after all, a monster's lair!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TR_Vlad_lair1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">千万小心，别把这儿无穷无尽的怪物都给
+惊醒了！保持低调，谨慎，细声！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad is on the other side of a huge room, yelling.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Be careful not to wake any of the UNLIMITED numbers of monsters sleeping here, by making any loud noises!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TR_Vlad_lair2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦...[P=1]我的对白念完了！[p=2]再见！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad is on the other side of a huge room, yelling.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oh...[P=1] Well, that's my cue![p=2] Goodbye!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TR_Vlad_mirror0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我永远看不见镜中英俊的脸庞...
+(吸血鬼无法看见镜中的自己)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad realizes that he has not seen his own, very (in his eyes) beautiful face.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I do miss beholding my beautiful visage...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TR_Vlad_mirror1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦，巫师老伙计啊...
+[P=1]这镜子可以反射你的奥术法术还有生命法术...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad is sad and not at all in the mood for playing games.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oh, wizards... [P=1]These mirrors will probably reflect your Arcane and Life spells....</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TR_Vlad_mirror2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">唉...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad sighs and then dissapears, because he is depressed</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TR_Vlad_cthulhu</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我只是忍不住想来这儿表达我的哀悼之情...[P=2]
+祝你“好运”！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">As if Vlad is attending the wizard's funeral</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I just came here to offer you my condolences.[P=2]\nGood "Luck"!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TR_Vlad_cthulhu_dead0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">真的！[P=1]我真的认为打败克苏鲁后你就会神奇地
+回归我们的世界，[P=4]我还以为你要等到天荒地老，
+星火燎原[P=2]...我是说宝刀未老,[P=1.5]星火[P=1.5]犹存！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad really surprised that his plan didn't work out.\n\nPlease consider the title when you translate the joke in this line.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Honestly![P=1] I really did think that after defeating Cthulhu you would be magically returned to our world[P=4] -- I suppose you will just have to wait until the stars are left-[P=2] ...I mean right,[P=1.5] once again,[P=1.5] again.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TR_Vlad_cthulhu_dead1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">嗯... [P=1.5]现在我必须传送回巫师城堡了，
+[P=1.5]那里有一场盛大的酒会需要我出席，
+[P=1.8]祝你“好运”！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">He doesn't really care anymore, as if he tried to help the wizards but it didn't work and now he is late for something.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Well... [P=1.5]Now I must teleport back to Aldrheim.[P=1.5] There's a glass of wine there that requires my attention.[P=1.8] Good "luck"!</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

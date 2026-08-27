@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="Reddit">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Reddit</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]涯客法袍[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">refers to "http://www.reddit.com"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Reddit Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_RedditD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">爱游戏,爱挑战爱八卦,最爱魔能,
+不爱对抗不爱反抗,是逆来顺受,
+也是愤怒的小清新,我就是涯客!
+- 喜欢在X涯里八卦的巫师
+-#ITEM_reddit_weapon01;
+-#ITEM_reddit_staff01;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">people post links on reddit, and they're up or down voted. The up-voted ones stay at the top of the page. The down-voted ones eventually disappear.  AAWA is a made-up reddit category. Please change to any other "appropriate" acronym.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A wizard can only take so many "downvotes" before resorting to violence. - Disgruntled wizard in his AAWA (Ask A Wizard Anything) -#ITEM_reddit_weapon01; -#ITEM_reddit_staff01;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_reddit_staff01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">涯客保护杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of Reddit Protection</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of Reddit Protection</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_reddit_staff01D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">所有的涯客都爱夸大其辞,但是没
+有任何一部法典规定吹牛也犯法,
+所以,你懂的...
+#PA;无
+#AA;元素雷区</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">minefield figurative/idiomatic expression: e.g., talking about politics with someone you strongly disagree with. Every topic figuratively blows up.  Minefield literal: this staff creates literal mines in the game, which literally blow up.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">All Redditors worthy of their robes learn how to use the vast minefield of controversial subjects to their advantage. #PA;None #AA;Elemental minefield</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_reddit_weapon01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">水军之剑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">votal like vote (upvote/downvote). Also reminiscent of vorpal sword from the poem Jabberwocky (Alice in Wonderland)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Votal sword</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_reddit_weapon01D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这把威力无穷的杀器能帮助涯客
+分泌足量口水,淹死所有掉入辩论
+陷阱中的倒霉蛋
+#DMG;低物理伤害
+#SP;慢速,提供多种特效</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This powerful sword supposedly also has the power to “upvote”, though strangely enough, wizards never seem to use this power. #DMG;Low Physical #SP;Slow, Applies various effects</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This powerful sword supposedly also has the power to “upvote”, though strangely enough, wizards never seem to use this power. #DMG;Low Physical #SP;Slow, Applies various effects</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_votal</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">飞沫攻击</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Votal Attack</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Votal Attack</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_reddit_protection</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">涯客保护</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reddit Protection</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reddit Protection</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

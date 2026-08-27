@@ -1,0 +1,1833 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="Dungeons Cred">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference texts</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pieces Interactive</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pieces Interactive</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pieces Interactive</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_02</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CEO</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CEO</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CEO</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_03</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Robert Lazic</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Robert Lazic</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Robert Lazic</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_04</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CFO</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CFO</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CFO</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_05</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Johan Hermerén</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Johan Hermerén</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Johan Hermerén</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_06</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Producer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Producer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Producer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_07</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gustav Pantzar-Karlsson</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gustav Pantzar-Karlsson</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gustav Pantzar-Karlsson</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_08</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lead Designer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lead Designer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lead Designer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_09</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dan Eriksson</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dan Eriksson</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dan Eriksson</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_10</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Programmer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Programmer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Programmer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_11</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mattias Oldenborg</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mattias Oldenborg</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mattias Oldenborg</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_12</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Additional Programming</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Additional Programming</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Additional Programming</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_13</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alexander Sällström</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alexander Sällström</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alexander Sällström</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_14</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lead Artist</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lead Artist</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lead Artist</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_15</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Daniel Ribera Olsen</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Daniel Ribera Olsen</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Daniel Ribera Olsen</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_16</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Artists</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Artists</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Artists</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_17</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cezar de Almeida Johansson</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cezar de Almeida Johansson</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cezar de Almeida Johansson</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_18</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Magnus Norén</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Magnus Norén</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Magnus Norén</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_19</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Patrik Rosander</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Patrik Rosander</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Patrik Rosander</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_20</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Rikard Ryberg</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Rikard Ryberg</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Rikard Ryberg</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_21</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Music &amp; Sound production</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Music &amp; Sound production</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Music &amp; Sound production</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_22</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oskar Clase</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oskar Clase</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oskar Clase</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_23</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Voice Actors</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Voice Actors</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Voice Actors</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_24</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oskar Clase</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oskar Clase</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oskar Clase</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_25</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cezar de Almeida-Johansson</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cezar de Almeida-Johansson</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cezar de Almeida-Johansson</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_26</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dan Eriksson</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dan Eriksson</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dan Eriksson</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_27</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gustav Pantzar-Karlsson</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gustav Pantzar-Karlsson</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gustav Pantzar-Karlsson</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_28</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Daniel Ribera-Olsen</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Daniel Ribera-Olsen</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Daniel Ribera-Olsen</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PI_29</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Patrik Rosander</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Patrik Rosander</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Patrik Rosander</Data>
+          </Cell>
+        </Row>
+        <Row/>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_GT_01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Paradox Interactive Game Team</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Paradox Interactive Game Team</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Paradox Interactive Game Team</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_GT_02</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Game Producer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Game Producer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Game Producer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_GT_03</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Robin Cederholm</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Robin Cederholm</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Robin Cederholm</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_GT_04</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Senior Developer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Senior Developer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Senior Developer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_GT_05</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Christian Westman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Christian Westman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Christian Westman</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_GT_06</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Junior Developer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Junior Developer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Junior Developer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_GT_07</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Samuel Haggren</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Samuel Haggren</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Samuel Haggren</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_GT_08</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Associate Game Producer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Associate Game Producer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Associate Game Producer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_GT_09</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ina Bäckström</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ina Bäckström</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ina Bäckström</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_GT_10</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Executive Producer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Executive Producer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Executive Producer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_GT_11</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">John Hargelid</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">John Hargelid</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">John Hargelid</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_GT_12</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Special Thanks</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Special Thanks</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Special Thanks</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_GT_13</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Paradox South Studio Manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Paradox South Studio Manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Paradox South Studio Manager</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_GT_14</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lars Håhus</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lars Håhus</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lars Håhus</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_GT_15</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Paradox South Graphics Artists</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Paradox South Graphics Artists</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Paradox South Graphics Artists</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_GT_16</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tindy Hellman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tindy Hellman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tindy Hellman</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_GT_17</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Viktor Nyström</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Viktor Nyström</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Viktor Nyström</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Paradox Interactive</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Paradox Interactive</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Paradox Interactive</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_02</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CEO</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CEO</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CEO</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_03</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fredrik Wester</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fredrik Wester</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fredrik Wester</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_04</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CFO</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CFO</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CFO</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_05</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Andras Vajlok</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Andras Vajlok</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Andras Vajlok</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_06</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Executive Vice President of Sales</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Executive Vice President of Sales</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Executive Vice President of Sales</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_07</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reena M Miranda</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reena M Miranda</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reena M Miranda</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_08</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vice President of Product Aquisition</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vice President of Product Aquisition</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vice President of Product Aquisition</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_09</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shams Jorjani</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shams Jorjani</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shams Jorjani</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_10</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Executive Vice President of Production</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Executive Vice President of Production</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Executive Vice President of Production</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_11</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mattias Lilja</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mattias Lilja</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mattias Lilja</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_12</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CMO</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CMO</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CMO</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_13</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Susana Meza Graham</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Susana Meza Graham</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Susana Meza Graham</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_14</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Executive Vice President of Brands</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Executive Vice President of Brands</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Executive Vice President of Brands</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_15</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Johan Sjöberg</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Johan Sjöberg</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Johan Sjöberg</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_16</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Executive Vice Preseident of Business Development</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Executive Vice Preseident of Business Development</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Executive Vice Preseident of Business Development</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_17</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tobias Sjögren</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tobias Sjögren</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tobias Sjögren</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_18</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Senior Game Producers</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Senior Game Producers</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Senior Game Producers</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_19</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Joe Fricano</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Joe Fricano</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Joe Fricano</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_20</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Senior Line Producers</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Senior Line Producers</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Senior Line Producers</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_21</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jörgen Björklund</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jörgen Björklund</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jörgen Björklund</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_22</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Andreas Renström</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Andreas Renström</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Andreas Renström</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_23</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Game Producers</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Game Producers</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Game Producers</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_24</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staffan Berglén</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staffan Berglén</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staffan Berglén</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_25</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Robin Cederholm</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Robin Cederholm</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Robin Cederholm</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_26</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Line producers</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Line producers</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Line producers</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_27</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Erika Kling</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Erika Kling</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Erika Kling</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_28</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Brand Managers</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Brand Managers</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Brand Managers</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_29</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jakob Munthe</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jakob Munthe</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jakob Munthe</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_30</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Associate Game Producers</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Associate Game Producers</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Associate Game Producers</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_31</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Karl Leino</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Karl Leino</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Karl Leino</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_32</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ina Bäckström</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ina Bäckström</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ina Bäckström</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_33</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">QA Manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">QA Manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">QA Manager</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_34</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Artur Foxander</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Artur Foxander</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Artur Foxander</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_35</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Associate QA Manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Associate QA Manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Associate QA Manager</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_36</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Niklas Lundström</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Niklas Lundström</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Niklas Lundström</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_37</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">QA Testers</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">QA Testers</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">QA Testers</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_38</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Johan Dorell</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Johan Dorell</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Johan Dorell</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_39</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Niklas Ivarsson</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Niklas Ivarsson</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Niklas Ivarsson</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_40</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Anna Jenelius</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Anna Jenelius</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Anna Jenelius</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_41</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tobias Viklund</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tobias Viklund</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tobias Viklund</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_42</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Senior Developer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Senior Developer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Senior Developer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_43</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Christian Westman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Christian Westman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Christian Westman</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_44</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Junior Developer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Junior Developer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Junior Developer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_45</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Samuel Haggren</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Samuel Haggren</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Samuel Haggren</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_46</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Senior PR Manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Senior PR Manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Senior PR Manager</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_47</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Petra Tell</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Petra Tell</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Petra Tell</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_48</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">PR Manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">PR manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">PR Manager</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_49</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">David Martinez</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">David Martinez</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">David Martinez</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_50</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Marketing Manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Marketing Manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Marketing Manager</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_51</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Daniela Sjunnesson</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Daniela Sjunnesson</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Daniela Sjunnesson</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_52</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Moose Handler</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Moose Handler</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Moose Handler</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_53</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Matthijs Hoving</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Matthijs Hoving</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Matthijs Hoving</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_54</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Trailer &amp; Video Wizard</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Trailer &amp; Video Wizard</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Trailer &amp; Video Wizard</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_55</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Steven Wells</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Steven Wells</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Steven Wells</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_56</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Event Manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Event Manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Event Manager</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_57</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jeanette Bauer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jeanette Bauer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jeanette Bauer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_58</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Community Manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Community Manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Community Manager</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_59</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Björn Blomberg</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Björn Blomberg</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Björn Blomberg</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_60</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Advertising Manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Advertising Manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Advertising Manager</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_61</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mats Wall</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mats Wall</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mats Wall</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_62</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Social Media &amp; PR</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Social Media &amp; PR</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Social Media &amp; PR</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_63</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Malin Söderberg</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Malin Söderberg</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Malin Söderberg</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_64</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Community Developer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Community Developer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Community Developer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_65</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">John Rickne</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">John Rickne</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">John Rickne</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_66</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Support</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Support</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Support</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_67</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Johannes Bengtsson</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Johannes Bengtsson</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Johannes Bengtsson</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_68</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sales Associates</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sales Associates</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sales Associates</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_69</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Andrew Ciesla</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Andrew Ciesla</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Andrew Ciesla</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_70</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jason Ross</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jason Ross</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jason Ross</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_71</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Don Louie</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Don Louie</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Don Louie</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_72</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Robert Lovatt</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Robert Lovatt</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Robert Lovatt</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_73</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finance Manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finance Manager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finance Manager</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_74</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Eleonor Bergström</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Eleonor Bergström</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Eleonor Bergström</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_75</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finance</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finance</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finance</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_76</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Angelica Halme</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Angelica Halme</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Angelica Halme</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_77</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Legal Counsel</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Legal Counsel</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Legal Counsel</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_78</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Juliette Auverny-Bennetot</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Juliette Auverny-Bennetot</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Juliette Auverny-Bennetot</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_79</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Marketing assistant</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Marketing assistant</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Marketing assistant</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_80</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Veronica Gunlycke</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Veronica Gunlycke</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Veronica Gunlycke</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#D2_Cred_PDX_81</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Thanks to all our partners’ worldwide, in particular long-term partners and last, but not least, a special thanks to all forum members, operation partners and supporters, who are integral for our success.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Thanks to all our partners’ worldwide, in particular long-term partners and last, but not least, a special thanks to all forum members, operation partners and supporters, who are integral for our success.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Thanks to all our partners’ worldwide, in particular long-term partners and last, but not least, a special thanks to all forum members, operation partners and supporters, who are integral for our success.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

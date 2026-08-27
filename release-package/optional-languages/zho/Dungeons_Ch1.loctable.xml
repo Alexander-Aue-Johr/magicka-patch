@@ -1,0 +1,4406 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="sc1">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc1_cheese1a_mange</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这[P=0.8]真是个糟糕的派对。[P=0.1]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This[P=0.8] is a lousy party. [P=0.1]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc1_cheese1a_rikard</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">是啊，[P=0.5] 奶酪在哪儿？[P=0.8]  他们已经去地下城里面很久很久了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Yeah,[P=0.5] where is the cheese? [P=0.8] They went down to the dungeons ages ago!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc1_cheese1a_headmaster</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">奶酪！[P=0.7]我要奶酪啊！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cheese! [P=0.7]I want cheeeeeeeese!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc1_cheese1b_headmaster</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">那边的人，[P=0.1] 就是穿着漂亮袍子的那个！[P=0.6]下去看看到底是什么耽搁了！[P=1.3] 还有快点回来！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You there,[P=0.1] with the fancy robes! [P=0.6] Go down and check what’s taking so long![P=1.3] And hurry back!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="sc3">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc3_cheese1a_morten</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">呜啊！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A silent moan made by a mortally wounded man. Narrated</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Uuuugh.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc3_cheese1b_morten</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">拜托……[P=0.5] 听我说。#dungeons_headmaster;...[P=0.5]他派我们下来找一些奶酪</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Please…[P=0.5] listen to me. #dungeons_headmaster;... [P=0.5]he sent us down here to fetch some cheese.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc3_cheese1c_morten</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[P=0.5]现在所有人都不在了……[P=0.5]被一个叫做#Ent_Dungeons_Wurstmacher;的恶魔抓走了！
+[P=0.5]他挥舞着像斧子那么大的砍刀！[P=1]我们毫无还手之力！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Added a ; to the end of the #name tags, which is needed for it to work.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[P=0.5]Now everyone is gone... [P=0.5]taken by a Daemon called the #Ent_Dungeons_Wurstmacher;! [P=0.5]He swung a cleaver as large as an axe! [P=1]We were defenseless!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc3_cheese2a_vlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我听说所有事情了！[P=1]真是突然而又不幸的意外事件！[P=1]你必须救出他们！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I heard everything! [P=1]What a sudden and unfortunate turn of events! [P=1]You must rescue them!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc3_cheese2b_vlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">或者是，[P=0.5]更可能地……[P=0.5]为他们复仇！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Or, [P=0.5]more likely… [P=0.5]Avenge them!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc3_cheese3_morten</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">.[P=0.2].[P=0.2].[P=0.2]？[P=0.2]！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">.[P=0.2].[P=0.2].[P=0.2]?[P=0.2]!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc3_cheese4_vlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">无论如何……[P=0.5]找到这个#Ent_Dungeons_Wurstmacher;然后干掉他，[P=0.5]让那些人的灵魂得到安息！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">In any case... [P=0.5]Find this #Ent_Dungeons_Wurstmacher; and slay him, [P=0.5]so that their souls may finally be at rest!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc3_cheese5_morten</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">但是[P=0.5]我还没死？！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to the "Bring out your dead" scene from Monty Python's Quest for the Holy Grail. </Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">But [P=0.5]I'm not dead?!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc3_cheese6_vlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你很快就要死了。[P=0.5]你病得很重。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You will be soon.[P=0.5] You're very ill.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You will be soon.[P=0.5] You're very ill.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc3_cheese7_morten</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我感觉好起来了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I'm getting better!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I'm getting better!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc3_cheese8_vlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你骗不了任何人。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You're not fooling anyone.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You're not fooling anyone.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc3_cheese9_morten</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我感到很高兴！[P=0.5]我感到高兴……</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I feel happy! [P=0.5]I feel happy...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I feel happy! [P=0.5]I feel happy...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc3_cheese10a_vlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我会处理好莫特'恩的尸体的。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Said in badly hidden excitement by Vlad when the player leaves the cheese room without killing Mort'en.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I'll take care of Mort'en's body.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc3_cheese10b_vlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦……[P=0.4]对了。[P=1]真是个浪费。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Said in disappointment by Vlad if the player kills Mort'en before leaving the room. Vlad then teleports away.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oh... [P=0.4]right. [P=1]What a waste.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Extra">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_dungeons_chapter1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">地下城与恶魔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">In-game name of the level</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dungeons &amp; Daemons</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_dungeons_chapter1D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">深入地下城的分支追寻失踪的巫师，奶酪与可能发生的死亡。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">In-game description of the level</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Venture deep into the sub-dungeons in pursuit of missing wizards, cheese and probable death.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_intro_sc1a_title</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">介绍</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Introduction</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_intro_sc1a_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">伟大的弗拉德再次从危险而英勇的远征中回来了！这次，他打败了可怕的邪神，拯救了中原大陆！
+为了表示感谢，巫师们自发地决定举办一场宏大的派对来庆祝他们深深敬爱的老师所达成的荣耀功绩！
+准备活动都已经完成了，但是还差一样东西—奶酪。
+通过普选，一组巫师被选出来进入地下城找来一片“超旧蓝奶酪”……
+但是可怕的事情发生了……</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shown at the start of the level, narrated by Vlad.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The great Vlad had once again returned from a dangerous and heroic quest! This time he had stopped the horrible Cthulhu from destroying the world of Midgård! As a gesture of appreciation, the wizards spontaneously decided to arrange a magnificent party to celebrate their beloved teacher’s fantastic feat! The preparations were complete, but one thing was missing -- the cheese. By popular vote, a group of wizards were chosen to venture into the dungeons to seek out a wedge of “Extra Aged Blue Cheese”... But something went horribly wrong...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_intro_sc1b_title</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">巫师休息室</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Location name</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Aldrheim Common Room</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_intro_sc1b_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一场派对即将举行。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Location description</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A party is afoot.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc2_title</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">地窖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Location name</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cellar</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc2_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">地下城分支</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Location description</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sub-dungeons</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc3_title</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">奶酪储藏室</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Location name</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cheese Storage Room</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc3_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">储藏奶酪的房间</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Location description</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The storage room for cheese</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc4_title</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">走廊</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Location name</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hallways</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc4_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">通往旧图书室</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Location description</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Path to the Old Library</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc5_title</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">旧图书室</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Location name</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Old Library</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc5_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">被遗忘的图书存放地</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Location description</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A forgotten storage for books</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc6_title</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">交叉路</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Location name</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Intersection</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc6_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"></Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc7_title</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">庭院</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Location name</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Courtyard</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_sc7_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"></Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_boss_title</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">沃斯玛彻</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Location name</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wurstmacher</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch1_boss_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">沃斯玛彻</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Wurstmacher</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_dungeons_wurstmesser</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">沃思梅瑟</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The name of Wurstmacher's weapon</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Wurstmesser</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_dungeons_wurstmesserD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">奔跑。如果你不是拿着这个的人，你就无法这么做。
+#DMG;太大了
+#SP;太多了</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Run. Except if you're the one holding this, you can't. #DMG;Way too much #SP;Weighs too much</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_dungeons_barbarianblade</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">金属之谜</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">http://en.wikipedia.org/wiki/The_Riddle_of_Steel</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Riddle of Steel</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_dungeons_barbarianbladeD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">古老，镀铬的野蛮之剑。
+#DMG;中等物理伤害
+#SP;物理免疫</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to Conan the Barbarian's sword "Crom".  "Riddle of Steel" = quote from movie "Chromed" = ref. to "Crom"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">An old, chromed barbarian sword. #DMG;Medium Physical #SP;Physical Resistance</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TITLE_dungeons_to_be_continued</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">待续……</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shown on-screen at the end of DLC 1.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">To be continued...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TITLE_dungeons_to_be_concluded</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">下次完结……</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shown on-screen at the end of DLC 2.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">To be concluded...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Achivements">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#isthatthewurstyoucando</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你就这点能耐？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">wurst from Wurstmacher, worst from superlative of bad -- "do your worst"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Is that the wurst you can do?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#isthatthewurstyoucandoD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">打败沃斯玛彻</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Defeat the Wurstmacher.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#hurtmeplenty</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">多多给我伤害</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hurt me plenty</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#hurtmeplentyD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">找到并让比泽鲍勃的火盆燃烧。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bizzlebob is a pun on Beelzebub. By leaving the brazier aflame the players initialize Hard mode.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Find and leave the brazier of Bizzlebob aflame.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dontmachsuchamess</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">别捣大乱</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pun on "don't make such a mess" and mach from Wurstmacher.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Don't mach such a mess</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dontmachsuchamessD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">在不摧毁任何旋转锯片的情况下打败沃斯玛彻。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Defeat the Wurstmacher without destroying any spinning saws.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Defeat the Wurstmacher without destroying any spinning saws.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#justabreezeofbluecheese</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">如蓝奶酪般轻柔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Just a breeze of blue cheese</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#justabreezeofbluecheeseD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">在没有玩家死亡的情况下完成章节。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish the chapter without any player dying.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#heymacharena</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">嘿，无敌竞技场！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Referring to the popular song, with a pun on the word "mach" again. http://en.wikipedia.org/wiki/Macarena_%28song%29 I don't think there's another pun on the word "arena" (combat venue).</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hey, mach-arena!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#heymacharenaD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">在没有玩家死亡的情况下以困难难度完成章节。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish the chapter on hard difficulty without any player dying.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#notwhattheysignedupfor</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">他们的活儿可不是这些</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Not what they signed up for</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#notwhattheysignedupforD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">通过使用旋转锯片打断37的仆从的服务。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Disrupt the service of 37 minions by the means of spinning saws.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#tenderized</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">变嫩了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">like tenderizing meat. (the Wurstmacher monster is a stand-in for the Diablo monster "the butcher", so that's where the meat joke comes in)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tenderized!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#tenderizedD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">以困难难度完成章节。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish the chapter on hard difficulty.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish the chapter on hard difficulty.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#idontbelieveinorcs</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我不相信兽人</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I don't believe in Orcs</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I don't believe in Orcs</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#idontbelieveinorcsD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">在不杀死任何兽人的情况下到达旧图书馆。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Get to the Old Library without killing any Orcs.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Get to the Old Library without killing any Orcs.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#enduringthetide</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">迎潮而立</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Enduring the Tide</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Enduring the Tide</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#enduringthetideD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">在庭院尽头坚持过整个屠杀。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Changed name from "Prison Courtyard" to "Courtyard".</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Survive the entire onslaught at the end of Courtyard.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#beingthetide</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">随潮而来</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Being the Tide</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Being the Tide</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#beingthetideD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">以困难难度在庭院尽头坚持过整个屠杀。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Changed name from "Prison Courtyard" to "Courtyard".</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Survive the entire onslaught at the end of Courtyard on hard difficulty.</Data>
+          </Cell>
+        </Row>
+        <Row/>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeoncrawler</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">地下城探索者</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Popular term to describe certain video games</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dungeon Crawler</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeoncrawlerD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">完成地下城与恶魔的所有章节。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish all chapters of Dungeons &amp; Daemons.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish all chapters of Dungeons &amp; Daemons.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeonmaster</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">地下城大师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The title of the roleplaying leader in Dungeons &amp; Dragons</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dungeon Master</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeonmasterD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">以困难难度完成地下城与恶魔的所有章节。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish all chapters of Dungeons &amp; Daemons on hard difficulty.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish all chapters of Dungeons &amp; Daemons on hard difficulty.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#cheesus</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">上帝的奶酪啊！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to people exclaiming "Jeesus". </Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cheesus!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#cheesusD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">困难难度中在没有任何玩家死亡的情况在完成地下城与恶魔的全部章节。没有必要按顺序或者连续完成。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This is a meta-achievement across all the chapters.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish all three chapters of Dungeons and Daemons on hard difficulty without any player dying. Not necessarily in order or in a row.</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Names">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_morten</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">莫特'恩</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mort'en</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_headmaster</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">院长</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Headmaster</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Headmaster</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_rikard</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">里卡德</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Rikard</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_mange</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">斑点兽</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mange</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="POI">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_locked1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这令人恐惧地锁上了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Said by the player when interacting with doors.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's horrendously locked.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_locked2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">古往今来就没有门锁得这么死过。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Never has any door been as locked as this.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Never has any door been as locked as this.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_locked3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这扇门好黏。[P=1]我手头没有任何东西能够处理。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">(Ref. to Full Throttle)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This door is sticking. [P=1]I don't have anything that can fix it.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_cheese1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">深厚而浓郁的芳香。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A deep and filling aroma.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A deep and filling aroma.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_cheese2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">要不是我吃得太多，这个我也都要吃了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I would eat this if I wasn't full of it.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I would eat this if I wasn't full of it.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_cheese3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">奶酪啊啊！！！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CHEEEEEEESE!!!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CHEEEEEEESE!!!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_bizzlebobBrazier1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">“比泽鲍勃的火盆”</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">shown as POI when player interacts with the brazier</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"The Brazier of Bizzlebob"</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_hardOff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">事情[P=0.4]似乎又恢复正常了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">shown when the player puts out the brazier of Bizzlebob</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Things[P=0.4] seem normal again.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_hardOn</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">突然之间一切似乎都非常[P=0.4]非常[P=0.4]不对劲……</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">shown when the player lights the brazier of Bizzlebob</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Everything suddenly feels very[P=0.4] VERY[P=0.4] wrong...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_slime1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">看起来像是栗子酱。[P=1]但不是。[P=0.3] 应该不是。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Said by the player when interacting with barrels filled with green slime.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Looks like gooseberry jam.[P=1] But isn't.[P=0.3] Probably.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_slime2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">非常[P=0.5] 难吃！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">NOT[P=0.5] tasty!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">NOT[P=0.5] tasty!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_slime3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这是从哪儿来的呢……</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I wonder where this comes from...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I wonder where this comes from...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_slime4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">好粘稠！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gooey!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gooey!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">付款卡上面写道：弗·拉德，[P=0.5]S·阿姆萨瓦，[P=0.5]S·祖吉司玛</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ref. to Whisper of the Heart</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Checkout card reads: V. Lad,[P=0.5]S. Amsawa, [P=0.5]S. Zukishma</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">《用死者烹饪》，死灵法法法法师著</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ref. to Necronomicon. "nom nom nom" is sounds of satisfied eating, like "yum yum yum"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Cooking with the Dead" by Necronomnomnom</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">《绿色的20个阴影》</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">50 shades of grey, a current best-selling book</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"20 Shades of Green"</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">乌鸦之王所著的魔法书。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jonathan Strange and Mr Norrell</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Book of Magick by the Raven King</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一般德拉克斯的交配习性</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Name of the Wind</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Mating Habits of the Common Draccus</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">汤姆的谜语宝书</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Harry Potter</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tom’s Marvelous Book of Riddles</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">豪尔赫的动物寓言</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Riot Minds</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jorge’s Bestiary</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book8</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">给你的奶酪施上魔法</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Harry Potter</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Charm Your Own Cheese</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book9</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">吟游诗人皮陀故事集</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Harry Potter</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Tales of Beedle the Bard</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book10</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">巴林的马扎布尔之书</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lord of the Rings</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Book of Mazarbul by Balin</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book11</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哈姆雷特</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shakespear</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Murder of Gonzago</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book12</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">万物的无用之处</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Moomintroll, Tove Jansson</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Uselessness of Everything</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book13</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">用魔法可以做的另外53件事情</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Douglas Adams</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fifty-Three More Things to do with Magick</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book14</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">《高级魔法》，莱特斯·厄威戈著</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pratchett</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The High Magick by Lettice Earwig</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book15</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">恐怖童话</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pratchett/Brothers Grimm</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Grim Fairy Tales</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book16</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">巫师必须知道的17011件事情</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Neil Gaiman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">17,011 Things a Wizard Must Know</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book17</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">辞世未久者手册</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Beetlejuice</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Handbook for the Recently Deceased</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book18</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">时间旅行的哲学</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Donnie Darko</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Philosophy of Time Travel</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book19</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">世界诗词大全</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Palahniuk</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Poems and Rhymes Around the World</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book20</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">诡秘魔法学校</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">World of Warcraft</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Schools of Arcane Magick</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book21</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">激情浪漫小说</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">World of Warcraft</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A Steamy Romance Novel</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book22</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">麦迪文之书</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">World of Warcraft</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Book of Medivh</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book23</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">高级土拨鼠的入门书</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Carl Barks</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Junior Woodchuck’s Guide Book</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book24</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">完整怪物图鉴</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pokémon/Codex</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Complete Pokédex</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book25</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">杀手手册</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Buffy the vampire slayer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Slayers Handbook</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book26</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">好预兆—美好准确的预言</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pratchett, Gaiman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Nice and Accurate Prophecies of Agnes Nutter</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book27</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">地下城主手册</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dungeons &amp; Dragons 2 handbook</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dungeon Master’s Guide</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book28</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">玩家手册</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dungeons &amp; Dragons 2 handbook</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Player’s Handbook</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_book29</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">怪物说明书</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dungeons &amp; Dragons 2 handbook</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Monster Manual</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_corpse1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这家伙已经死了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Said by the player when inspecting a dead body</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This guy is dead.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_corpse2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这家伙死得透透的了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Said by the player when inspecting a dead body</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This guy is very dead.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_corpse3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这家伙身上的死亡非常顽固。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Said by the player when inspecting a dead body Vader in Star Wars episode 4: "The force is strong with this one." (referring to Luke in the final battle)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The death is strong with this one.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_corpse4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">他活着。[P=1]怎么可能！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Said by the player when inspecting a dead body</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">He's alive. [P=1]Not!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DungeonsCh1_poi_corpse5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">咬痕……？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Said by the player when inspecting a dead body (vampire bite marks? Could it be Vlad?)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bite marks...?</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Enemies">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Dungeons_Fallen_Goblin</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">堕落哥布林</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Collective name for all variants of the red goblins found in Dungeons Chapter 1. Reference to Fallen in the Diablo series.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fallen Goblin</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Dungeons_Goblin_Acolyte</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哥布林侍僧</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Acolyte</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Acolyte</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Dungeons_Wurstmacher</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">沃斯玛彻</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Giant red demonic boss. (Reference to The Butcher from Diablo.)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wurstmacher</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Dungeons_Wurstmacher_Wife</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">沃斯玛彻夫人</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Wurstmacher's wife.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mrs. Wurstmacher</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Dungeons_Slime_Small</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">小史莱姆</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Small slime. Explodes on contact with target. -ling is the common English diminutive suffix. (Please use an appropriate suffix.)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Slimeling</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Dungeons_Slime_Medium</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">史莱姆</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Medium sized slime. Can jump onto player which is lethal if given enough time. Explodes into several Slimelings upon death.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Slime</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Dungeons_Slime_Large</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">深红史莱姆</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cardinal Slime</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

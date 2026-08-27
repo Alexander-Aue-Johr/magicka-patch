@@ -233,6 +233,15 @@ function Copy-ReleasePayloadToDirectory {
     foreach ($fileName in @('Magicka.exe', 'PolygonHead.dll')) {
         Copy-Item -LiteralPath (Join-PathChecked $RepoRoot $fileName) -Destination (Join-PathChecked $DestinationDir $fileName) -Force
     }
+    $languageSource = Join-PathChecked $RepoRoot 'release-package\optional-languages\zho'
+    Assert-Directory $languageSource
+    $languageParent = Join-PathChecked $DestinationDir 'optional-languages'
+    New-Item -ItemType Directory -Force -Path $languageParent | Out-Null
+    $languageTarget = Join-PathChecked $languageParent 'zho'
+    if (Test-Path -LiteralPath $languageTarget) {
+        Remove-PathInside $languageTarget $DestinationDir
+    }
+    Copy-Item -LiteralPath $languageSource -Destination $languageTarget -Recurse -Force
     Write-Host "Copied payload files next to installer EXE: $DestinationDir" -ForegroundColor DarkGray
 }
 
@@ -959,6 +968,7 @@ New-Item -ItemType Directory -Force -Path $filesOnlyStageDir | Out-Null
 Copy-Item -LiteralPath (Join-PathChecked $repoRoot 'Magicka.exe') -Destination (Join-PathChecked $stageDir 'Magicka.exe')
 Copy-Item -LiteralPath (Join-PathChecked $repoRoot 'PolygonHead.dll') -Destination (Join-PathChecked $stageDir 'PolygonHead.dll')
 Copy-Item -LiteralPath $packageReadme -Destination (Join-PathChecked $stageDir 'README.txt')
+Copy-Item -LiteralPath (Join-PathChecked $repoRoot 'release-package\optional-languages') -Destination (Join-PathChecked $stageDir 'optional-languages') -Recurse -Force
 Copy-Item -LiteralPath $installerExe -Destination (Join-PathChecked $stageDir 'MagickaPatchInstaller.exe')
 Copy-Item -LiteralPath (Join-PathChecked $installerRelease 'flutter_windows.dll') -Destination (Join-PathChecked $stageDir 'flutter_windows.dll')
 Copy-Item -LiteralPath (Join-PathChecked $installerRelease 'data') -Destination (Join-PathChecked $stageDir 'data') -Recurse
@@ -1000,6 +1010,9 @@ $requiredEntries = @(
     'Magicka.exe',
     'PolygonHead.dll',
     'README.txt',
+    'optional-languages/zho/UI.loctable.xml',
+    'optional-languages/zho/Font/Maiandra14.xnb',
+    'optional-languages/zho/Font/MenuTitle.xnb',
     'flutter_windows.dll',
     'data/flutter_assets/AssetManifest.bin',
     'tools/installer/MagickaPatchInstaller.exe',

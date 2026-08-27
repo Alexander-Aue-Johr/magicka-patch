@@ -186,6 +186,8 @@ class AppConstants {
   static const telemetryEventInstallerLanguageResolved =
       'magicka_patch_installer_language_resolved';
   static const telemetryEventInstalled = 'magicka_patch_installed';
+  static const telemetryEventLanguageInstalled =
+      'magicka_patch_language_installed';
   static const telemetryEventAutoUpdate = 'magicka_patch_auto_update';
   static const telemetryEventDirectXAlreadyInstalled =
       'magicka_patch_directx_already_installed';
@@ -201,6 +203,29 @@ class AppConstants {
       'magicka_patch_directx_install_succeeded';
   static const telemetryEventDirectXInstallFailed =
       'magicka_patch_directx_install_failed';
+}
+
+class OptionalLanguageInstallResult {
+  const OptionalLanguageInstallResult({
+    required this.installed,
+    required this.hadExistingDirectory,
+    required this.originalBackupDirectory,
+  });
+
+  final bool installed;
+  final bool hadExistingDirectory;
+  final String originalBackupDirectory;
+
+  factory OptionalLanguageInstallResult.fromManifest(
+      Map<String, String> manifest) {
+    return OptionalLanguageInstallResult(
+      installed: _parseBool(manifest['simplified_chinese_installed']),
+      hadExistingDirectory:
+          _parseBool(manifest['simplified_chinese_had_existing']),
+      originalBackupDirectory:
+          manifest['original_simplified_chinese_backup'] ?? '',
+    );
+  }
 }
 
 const double _patreonTurbulence = 0.78;
@@ -288,6 +313,171 @@ class InstallerScreen extends StatefulWidget {
   State<InstallerScreen> createState() => _InstallerScreenState();
 }
 
+class _OptionalLanguagePackage {
+  const _OptionalLanguagePackage({
+    required this.code,
+    required this.nameKey,
+    required this.descriptionKey,
+    required this.systemLanguageCode,
+    required this.systemCountryCodes,
+    required this.systemScriptCodes,
+  });
+
+  final String code;
+  final String nameKey;
+  final String descriptionKey;
+  final String systemLanguageCode;
+  final Set<String> systemCountryCodes;
+  final Set<String> systemScriptCodes;
+
+  bool matchesSystemLocale(Locale locale) {
+    if (locale.languageCode.toLowerCase() != systemLanguageCode) return false;
+    final script = (locale.scriptCode ?? '').toLowerCase();
+    if (script.isNotEmpty) return systemScriptCodes.contains(script);
+    final country = (locale.countryCode ?? '').toUpperCase();
+    return country.isEmpty || systemCountryCodes.contains(country);
+  }
+}
+
+const List<_OptionalLanguagePackage> _availableOptionalLanguages =
+    <_OptionalLanguagePackage>[
+  _OptionalLanguagePackage(
+    code: 'zho',
+    nameKey: 'simplifiedChinese',
+    descriptionKey: 'simplifiedChineseBody',
+    systemLanguageCode: 'zh',
+    systemCountryCodes: <String>{'CN', 'SG'},
+    systemScriptCodes: <String>{'hans'},
+  ),
+];
+
+@visibleForTesting
+Set<String> suggestedOptionalLanguageCodesForSystemLocale(Locale locale) =>
+    _availableOptionalLanguages
+        .where((language) => language.matchesSystemLocale(locale))
+        .map((language) => language.code)
+        .toSet();
+
+String _optionalLanguageSelectionSummary(
+    AppStrings strings, Set<String> selectedCodes) {
+  final names = _availableOptionalLanguages
+      .where((language) => selectedCodes.contains(language.code))
+      .map((language) => strings.t(language.nameKey))
+      .toList(growable: false);
+  if (names.isEmpty) return strings.t('optionalLanguagesNoneSelected');
+  return strings
+      .t('optionalLanguagesSelected')
+      .replaceAll('{languages}', names.join(', '));
+}
+
+Future<Set<String>?> _chooseOptionalLanguages(
+    BuildContext context, Set<String> selectedCodes) async {
+  final strings = AppStrings.of(context);
+  final pending = Set<String>.from(selectedCodes);
+  return showDialog<Set<String>>(
+    context: context,
+    builder: (dialogContext) => StatefulBuilder(
+      builder: (context, setDialogState) => AlertDialog(
+        backgroundColor: const Color(0xff101315),
+        title: Text(strings.t('optionalLanguagesDialogTitle')),
+        content: SizedBox(
+          width: 520,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text(strings.t('optionalLanguagesDialogBody')),
+              const SizedBox(height: 12),
+              const Divider(color: Color(0xff513719)),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 360),
+                child: ListView(
+                  shrinkWrap: true,
+                  children: _availableOptionalLanguages
+                      .map((language) => CheckboxListTile(
+                            key: ValueKey('optional-language-${language.code}'),
+                            value: pending.contains(language.code),
+                            controlAffinity: ListTileControlAffinity.leading,
+                            activeColor: const Color(0xff3f9fff),
+                            checkColor: const Color(0xff071014),
+                            title: Text(strings.t(language.nameKey)),
+                            subtitle: Text(strings.t(language.descriptionKey)),
+                            onChanged: (value) => setDialogState(() {
+                              if (value ?? false) {
+                                pending.add(language.code);
+                              } else {
+                                pending.remove(language.code);
+                              }
+                            }),
+                          ))
+                      .toList(growable: false),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            key: const ValueKey('cancel-optional-languages'),
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(strings.t('cancel')),
+          ),
+          FilledButton(
+            key: const ValueKey('apply-optional-languages'),
+            onPressed: () =>
+                Navigator.pop(dialogContext, Set<String>.from(pending)),
+            child: Text(strings.t('applySelection')),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+@visibleForTesting
+Future<Set<String>> offerSystemLanguageIfAvailable(
+  BuildContext context,
+  Set<String> selectedCodes, {
+  Locale? systemLocale,
+}) async {
+  final suggestedCodes = suggestedOptionalLanguageCodesForSystemLocale(
+      systemLocale ?? ui.PlatformDispatcher.instance.locale)
+    ..removeAll(selectedCodes);
+  if (suggestedCodes.isEmpty) return const <String>{};
+
+  final strings = AppStrings.of(context);
+  final names = _availableOptionalLanguages
+      .where((language) => suggestedCodes.contains(language.code))
+      .map((language) => strings.t(language.nameKey))
+      .join(', ');
+  final accepted = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          key: const ValueKey('system-language-suggestion'),
+          backgroundColor: const Color(0xff101315),
+          title: Text(strings.t('systemLanguageSuggestionTitle')),
+          content: Text(strings
+              .t('systemLanguageSuggestionBody')
+              .replaceAll('{languages}', names)),
+          actions: <Widget>[
+            TextButton(
+              key: const ValueKey('decline-system-language'),
+              onPressed: () => Navigator.pop(dialogContext, false),
+              child: Text(strings.t('no')),
+            ),
+            FilledButton.icon(
+              key: const ValueKey('accept-system-language'),
+              onPressed: () => Navigator.pop(dialogContext, true),
+              icon: const Icon(Icons.language_rounded, size: 18),
+              label: Text(strings.t('yesInstallLanguage')),
+            ),
+          ],
+        ),
+      ) ??
+      false;
+  return accepted ? suggestedCodes : const <String>{};
+}
+
 class _InstallerScreenState extends State<InstallerScreen>
     with TickerProviderStateMixin {
   final TextEditingController _pathController = TextEditingController();
@@ -304,6 +494,7 @@ class _InstallerScreenState extends State<InstallerScreen>
   bool _usageSharing = true;
   bool _crashReports = true;
   bool _checkForUpdates = true;
+  final Set<String> _selectedOptionalLanguageCodes = <String>{};
   bool _patchAlreadyInstalled = false;
   bool _statusInitialized = false;
   String _patchInstallCheckDir = '';
@@ -428,12 +619,34 @@ class _InstallerScreenState extends State<InstallerScreen>
     });
   }
 
+  bool get _installSimplifiedChinese =>
+      _selectedOptionalLanguageCodes.contains('zho');
+
+  Future<void> _showOptionalLanguagesDialog() async {
+    final selected =
+        await _chooseOptionalLanguages(context, _selectedOptionalLanguageCodes);
+    if (!mounted || selected == null) return;
+    setState(() {
+      _selectedOptionalLanguageCodes
+        ..clear()
+        ..addAll(selected);
+    });
+  }
+
   Future<void> _install() async {
     final s = AppStrings.of(context);
     final gameDir = _pathController.text.trim();
     if (!_isValidMagickaDirectory(gameDir)) {
       _showMessage(s.t('invalidMagickaFolder'));
       return;
+    }
+
+    final systemSuggestedCodes = await offerSystemLanguageIfAvailable(
+        context, _selectedOptionalLanguageCodes);
+    if (!mounted) return;
+    if (systemSuggestedCodes.isNotEmpty) {
+      setState(
+          () => _selectedOptionalLanguageCodes.addAll(systemSuggestedCodes));
     }
 
     try {
@@ -470,17 +683,39 @@ class _InstallerScreenState extends State<InstallerScreen>
         }
         return;
       }
+      final optionalLanguage = _installSimplifiedChinese
+          ? await installOptionalSimplifiedChinese(
+              gameDirectory: gameDir,
+              backupDirectory: backupDir.path,
+              existingManifest: existingManifest,
+            )
+          : OptionalLanguageInstallResult.fromManifest(existingManifest);
       await _writePayload(gameDir, 'Magicka.exe');
       await _writePayload(gameDir, 'PolygonHead.dll');
       await _writeSettings(gameDir);
       await _writeManifest(
-          gameDir, originalBackups.magicka!, originalBackups.polygonHead!);
+        gameDir,
+        originalBackups.magicka!,
+        originalBackups.polygonHead!,
+        optionalLanguage,
+      );
       await _installTools(gameDir);
       await _sendPatchTelemetryEvent(
         eventName: AppConstants.telemetryEventInstalled,
         gameDir: gameDir,
         patchVersion: AppConstants.patchVersion,
       );
+      if (_installSimplifiedChinese && optionalLanguage.installed) {
+        await _sendLanguageInstalledTelemetry(
+          gameDir: gameDir,
+          patchVersion: AppConstants.patchVersion,
+          languageCode: 'zho',
+          installSurface: 'installer',
+          selectionSource:
+              systemSuggestedCodes.contains('zho') ? 'system_prompt' : 'manual',
+          result: optionalLanguage,
+        );
+      }
 
       setState(() => _status = s.t('thePatchWasInstalled'));
       await _showStartGameDialog(
@@ -620,19 +855,24 @@ class _InstallerScreenState extends State<InstallerScreen>
                                 onTap: _discover)),
                         Positioned(
                             left: 250,
-                            top: 210,
+                            top: 194,
                             width: 946,
-                            height: 236,
+                            height: 266,
                             child: _TelemetryPanel(
+                              key: const ValueKey('installer-options-panel'),
                               usageSharing: _usageSharing,
                               crashReports: _crashReports,
                               autoUpdate: _checkForUpdates,
+                              optionalLanguageSummary:
+                                  _optionalLanguageSelectionSummary(
+                                      s, _selectedOptionalLanguageCodes),
                               onUsageChanged: (value) =>
                                   setState(() => _usageSharing = value),
                               onCrashChanged: (value) =>
                                   setState(() => _crashReports = value),
                               onAutoUpdateChanged: (value) =>
                                   setState(() => _checkForUpdates = value),
+                              onOpenLanguages: _showOptionalLanguagesDialog,
                             )),
                         Positioned(
                             left: 250,
@@ -1076,8 +1316,11 @@ event_log=${AppConstants.settingsDirectoryName}\\${AppConstants.eventLogFileName
 ''');
   }
 
-  Future<void> _writeManifest(String gameDir, String originalMagickaBackup,
-      String originalPolygonHeadBackup) async {
+  Future<void> _writeManifest(
+      String gameDir,
+      String originalMagickaBackup,
+      String originalPolygonHeadBackup,
+      OptionalLanguageInstallResult optionalLanguage) async {
     final path = _join(gameDir, AppConstants.settingsDirectoryName,
         AppConstants.manifestFileName);
     await File(path).writeAsString('''
@@ -1086,6 +1329,9 @@ version=${AppConstants.patchVersion}
 install_utc=${DateTime.now().toUtc().toIso8601String()}
 original_magicka_backup=$originalMagickaBackup
 original_polygonhead_backup=$originalPolygonHeadBackup
+simplified_chinese_installed=${optionalLanguage.installed}
+simplified_chinese_had_existing=${optionalLanguage.hadExistingDirectory}
+original_simplified_chinese_backup=${optionalLanguage.originalBackupDirectory}
 ''');
   }
 
@@ -1982,6 +2228,10 @@ class _UninstallerScreenState extends State<UninstallerScreen>
     await File(originalBackups.magicka!).copy(_join(gameDir, 'Magicka.exe'));
     await File(originalBackups.polygonHead!)
         .copy(_join(gameDir, 'PolygonHead.dll'));
+    await restoreOptionalSimplifiedChinese(
+      gameDirectory: gameDir,
+      manifest: manifest,
+    );
 
     await _deleteIfExists(_join(gameDir, AppConstants.installerFileName));
     await _deleteIfExists(_join(gameDir, AppConstants.toolFileName));
@@ -3764,6 +4014,27 @@ Future<void> _sendPatchTelemetryEvent({
   } catch (_) {}
 }
 
+Future<void> _sendLanguageInstalledTelemetry({
+  required String gameDir,
+  required String patchVersion,
+  required String languageCode,
+  required String installSurface,
+  required String selectionSource,
+  required OptionalLanguageInstallResult result,
+}) async {
+  await _sendPatchTelemetryEvent(
+    eventName: AppConstants.telemetryEventLanguageInstalled,
+    gameDir: gameDir,
+    patchVersion: patchVersion,
+    properties: <String, Object>{
+      'language_code': _safeTelemetryText(languageCode, 20),
+      'install_surface': _safeTelemetryText(installSurface, 40),
+      'selection_source': _safeTelemetryText(selectionSource, 40),
+      'had_existing_directory': result.hadExistingDirectory,
+    },
+  );
+}
+
 Future<bool> _isUsageSharingEnabled(String gameDir) async {
   if (gameDir.trim().isEmpty) return false;
   final settingsPath = _join(gameDir, AppConstants.settingsDirectoryName,
@@ -4193,6 +4464,128 @@ Future<OriginalBackupFiles?> _ensureVerifiedOriginalBackups(
     validationWasNotReady = true;
   }
   return null;
+}
+
+Future<OptionalLanguageInstallResult> installOptionalSimplifiedChinese({
+  required String gameDirectory,
+  required String backupDirectory,
+  required Map<String, String> existingManifest,
+  Directory? payloadDirectory,
+  DateTime? now,
+}) async {
+  final source = payloadDirectory ?? await _findSimplifiedChinesePayload();
+  if (source == null || !await _isCompleteSimplifiedChinesePayload(source)) {
+    throw FileSystemException(
+      'The Simplified Chinese language payload is missing or incomplete.',
+      source?.path ?? 'optional-languages/zho',
+    );
+  }
+
+  final target =
+      Directory(_join(gameDirectory, 'Content', _join('Languages', 'zho')));
+  final previous = OptionalLanguageInstallResult.fromManifest(existingManifest);
+  var hadExisting = previous.installed
+      ? previous.hadExistingDirectory
+      : await target.exists();
+  var originalBackup =
+      previous.installed ? previous.originalBackupDirectory : '';
+
+  if (previous.installed && hadExisting) {
+    if (originalBackup.isEmpty || !await Directory(originalBackup).exists()) {
+      throw FileSystemException(
+        'The original Simplified Chinese language backup is missing.',
+        originalBackup,
+      );
+    }
+  } else if (!previous.installed && hadExisting) {
+    final stamp = (now ?? DateTime.now().toUtc()).microsecondsSinceEpoch;
+    originalBackup = _join(
+      backupDirectory,
+      'languages',
+      'zho-before-community-patch-$stamp',
+    );
+    await _copyDirectory(target, Directory(originalBackup));
+  }
+
+  try {
+    if (await target.exists()) await target.delete(recursive: true);
+    await _copyDirectory(source, target);
+  } catch (_) {
+    if (await target.exists()) await target.delete(recursive: true);
+    if (hadExisting && originalBackup.isNotEmpty) {
+      await _copyDirectory(Directory(originalBackup), target);
+    }
+    rethrow;
+  }
+
+  return OptionalLanguageInstallResult(
+    installed: true,
+    hadExistingDirectory: hadExisting,
+    originalBackupDirectory: originalBackup,
+  );
+}
+
+Future<void> restoreOptionalSimplifiedChinese({
+  required String gameDirectory,
+  required Map<String, String> manifest,
+}) async {
+  final installed = OptionalLanguageInstallResult.fromManifest(manifest);
+  if (!installed.installed) return;
+
+  final target =
+      Directory(_join(gameDirectory, 'Content', _join('Languages', 'zho')));
+  Directory? original;
+  if (installed.hadExistingDirectory) {
+    original = Directory(installed.originalBackupDirectory);
+    if (installed.originalBackupDirectory.isEmpty || !await original.exists()) {
+      throw FileSystemException(
+        'The original Simplified Chinese language backup is missing.',
+        installed.originalBackupDirectory,
+      );
+    }
+  }
+
+  if (await target.exists()) await target.delete(recursive: true);
+  if (original != null) await _copyDirectory(original, target);
+}
+
+Future<Directory?> _findSimplifiedChinesePayload() async {
+  final executableDirectory = File(Platform.resolvedExecutable).parent.path;
+  final candidates = <Directory>[
+    Directory(_join(executableDirectory, 'optional-languages', 'zho')),
+    Directory(
+        _join(executableDirectory, '..', _join('optional-languages', 'zho'))),
+    Directory(_join(executableDirectory, r'data\flutter_assets\assets\payload',
+        _join('languages', 'zho'))),
+    Directory(_join(Directory.current.path, 'optional-languages', 'zho')),
+    Directory(_join(Directory.current.path, 'release-package',
+        _join('optional-languages', 'zho'))),
+  ];
+  for (final candidate in candidates) {
+    if (await _isCompleteSimplifiedChinesePayload(candidate)) {
+      return candidate;
+    }
+  }
+  return null;
+}
+
+Future<bool> _isCompleteSimplifiedChinesePayload(Directory directory) async {
+  if (!await directory.exists()) return false;
+  final required = <String>[
+    'UI.loctable.xml',
+    'Camp_Generic.loctable.xml',
+    r'Font\Maiandra14.xnb',
+    r'Font\MenuTitle.xnb',
+  ];
+  for (final relative in required) {
+    if (!await File(_join(directory.path, relative)).exists()) return false;
+  }
+  final tables = await directory
+      .list(followLinks: false)
+      .where((entry) =>
+          entry is File && entry.path.toLowerCase().endsWith('.loctable.xml'))
+      .length;
+  return tables == 42;
 }
 
 Future<void> _copyDirectory(Directory source, Directory destination) async {
@@ -6501,20 +6894,25 @@ class _FolderPanel extends StatelessWidget {
 
 class _TelemetryPanel extends StatelessWidget {
   const _TelemetryPanel({
+    super.key,
     required this.usageSharing,
     required this.crashReports,
     required this.autoUpdate,
+    required this.optionalLanguageSummary,
     required this.onUsageChanged,
     required this.onCrashChanged,
     required this.onAutoUpdateChanged,
+    required this.onOpenLanguages,
   });
 
   final bool usageSharing;
   final bool crashReports;
   final bool autoUpdate;
+  final String optionalLanguageSummary;
   final ValueChanged<bool> onUsageChanged;
   final ValueChanged<bool> onCrashChanged;
   final ValueChanged<bool> onAutoUpdateChanged;
+  final VoidCallback onOpenLanguages;
 
   @override
   Widget build(BuildContext context) {
@@ -6593,6 +6991,36 @@ class _TelemetryPanel extends StatelessWidget {
                       style: const TextStyle(
                           color: Color(0xffeedfc4),
                           fontWeight: FontWeight.bold))),
+            ]),
+            const SizedBox(height: 10),
+            Row(children: <Widget>[
+              SizedBox(
+                width: 222,
+                height: 34,
+                child: FlameButton(
+                  key: const ValueKey('optional-languages-button'),
+                  program: null,
+                  label: s.t('optionalLanguages'),
+                  icon: Icons.language_rounded,
+                  accent: const Color(0xffd9a04f),
+                  overlayIcon: true,
+                  effects: false,
+                  onTap: onOpenLanguages,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Text(
+                  optionalLanguageSummary,
+                  key: const ValueKey('optional-languages-summary'),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Color(0xffbeb19b),
+                    fontSize: 12,
+                  ),
+                ),
+              ),
             ]),
           ],
         ),

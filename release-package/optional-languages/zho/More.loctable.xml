@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="Additional">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CUT_PRESS_SKIP</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#1; 跳过</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Press the space-bar/B-button to skip a cutscene #1; is the graphics for either spacebar or B-button</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#1; Skip</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TIP_SHIELD_ENEMIES</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">带盾敌人免疫闪电。无盾护甲敌人受闪电额外伤害。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tip regarding in which way Enemies with shields interact with lightning</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Enemies with shields are immune to lightning. Armored enemies without shields take extra damage from lightning.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ERROR_STEAM_NOT_RUNNING</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">必须运行Steam才能游玩本游戏。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Valve steam must be running</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Steam must be running to play this game.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ERROR_CONNECT</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">无法连接。请稍后再试。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Unable to connect to server</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Unable to connect. Please try again later.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MENU_LOBBY</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">大厅</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The chat-lobby description</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lobby</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#NETWORK_SEARCHING</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">搜索中</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Searching for a matching game</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Searching</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#NETWORK_CHALLENGE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">挑战</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Challenge in singular for game-mode</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Challenge</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#NETWORK_STORYCHALLENGE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">故事挑战</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Story Challange</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#NETWORK_READY</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#1; 已准备就绪。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chat info, #1 is the name of a player</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#1; is ready.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#NETWORK_JOINED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#1; 已加入。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chat info, #1 is the name of a player</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#1; joined.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#NETWORK_DISCONNECTED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#1; 已断开连接。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chat info, #1 is the name of a player</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#1; disconnected.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#NETWORK_KICKED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#1; 已被踢出。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chat info, #1 is the name of a player</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#1; was kicked.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BANANA</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">香蕉！？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Menu option to skip the tutorial</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">BANANA!?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BANANA_SURE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你确定要跳过教程吗？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">When banana is selected in the menu</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Are you sure you want to skip the tutorial?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#specab_spirit</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">召唤</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">UI text for summoning treespirits</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Summon Spirit</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

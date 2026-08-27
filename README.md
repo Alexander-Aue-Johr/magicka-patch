@@ -51,6 +51,17 @@ fixed so local co-op is unaffected. Set
 `CommunityPatch\patch-settings.ini` to restore Magicka's original controller
 scheme.
 
+## Simplified Chinese
+
+The Windows and Linux installers can add Simplified Chinese as a separate game
+language. Open **Languages...**, select **Simplified Chinese**, and apply the
+selection before installing. This adds `Content/Languages/zho` without
+replacing another language. No additional language is selected by default, and
+the installer asks once if an unselected language matches the system locale.
+Uninstalling the patch restores an existing Chinese language directory or
+removes the one installed by the patch. The auto-updater does not add
+optional language files; use the full Windows or Linux installer for them.
+
 ## Source Snapshots for Added Executable Code
 
 When the community patch adds new classes to `Magicka.exe`, source snapshots for

@@ -7,6 +7,18 @@ Magicka Community Patch - manual installation
 4. Copy Magicka.exe and PolygonHead.dll from this ZIP into that directory and
    replace the existing files.
 
+Optional language packages
+---------------------------
+
+The Windows and Linux installers have a Languages... button. Open it before
+installing and select any additional language files you want to install. The
+0.0.45 packages initially offer Simplified Chinese. No additional language is
+selected by default, and existing game languages are not replaced. If an
+unselected optional language matches the system locale, the installer asks
+once when installation starts whether it should be included. The 0.0.45
+auto-updater does not add optional language files; use the full Windows or
+Linux installer for them.
+
 The patch-settings.ini file is optional. To use it, create a CommunityPatch
 directory next to Magicka.exe and copy patch-settings.ini into that directory:
 

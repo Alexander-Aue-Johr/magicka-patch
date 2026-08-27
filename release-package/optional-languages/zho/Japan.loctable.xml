@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="staffs">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">English</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff_bamboo</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">忍者之杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of Endurance</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of Endurance</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff_bamboo_d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">大魔导士之忍！巫师武士之道！
+#PA;增加抗性
+#AA;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This sturdy staff grants the Wizard tremendous resilience, and the power of withstanding much punishment. #PA;Increased resistance. #AA;None</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This sturdy staff grants the Wizard a tremendous sense of resilience granting the power of withstanding much punishment. #PA;Increased resistance. #AA;None</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="weapons">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">English</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon_katana</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">不盈一握的太刀</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to the legendary japanese sword</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Yawarakai-Te</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon_katana_d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这是一把来自神秘东方铸剑师的力
+作，它刀身极细，盈盈不堪一握，
+然而，相当锋利！
+#DMG;低物理伤害
+#SP;快速，破甲</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This excellent blade was crafted by a legendary swordsmith in a land far to the east. Perfectly balanced, though not particularly sharp, it relies on the wisdom and skill of its handler. #DMG;Low Physical #SP;Fast, Armor Piercing</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

@@ -1,0 +1,4515 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="Spoken">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts (Translate)</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">GHOST DIALOG, Acolyte Meeting Foreshadowing</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">Two or three ghosts are discussing the new cult (the Acolytes, which by that time were relatively "normal"-ish and slightly underground)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Two or three ghosts are discussing the new cult (the Acolytes, which by that time were relatively "normal"-ish and slightly underground)</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc2_ghost1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你听说过一个新的教派吗？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Have you heard about the new cult?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc2_ghost2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">呃嗯当然! [P=0.3]...我非常喜欢他们的长袍!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Yes! [P=0.3]...I really like their robes!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc2_ghost3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">想过去加入不？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Thought about joining?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc2_ghost4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我想去看一下,[P=0.5]我听说一会在市中心有个招人会议.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I'm thinking about checking it out. [P=0.5]I hear they having a recruitment meeting later downtown.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc2_ghost5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">没错! [P=0.3]我们应该过去, [P=0.1]哪怕只是尝一下他们的果冻饮料!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Exactly! [P=0.3]We should go, [P=0.1]if only to sample their free jelly shots!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">BANK ARENA EXCLAMATIONS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc3_goblin1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Exclaimed by a goblin to fellow plunderers.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc3_dwarf1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Exclaimed by an attacking dwarf.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc3_goblin2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Exclaimed by other frightened goblin when dwarves attack. Initial "aaah!" is a "oh, no!" kind of "aaah".</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc3_goblin3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Exclaimed by third goblin when wizards are spotted.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">GARGOYLE GATE EXCLAMATIONS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc5_dwarf1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Beaten dwarves lay scattered here. If you walk on them, some of them will react once by sounding like they're being stepped on the stomach.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc5_dwarf2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">PARK DIALOG AND EXCLAMATIONS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A back-and-forth dialog between two random wizard ghosts in the park. This is a strong reference to "The Many" in System Shock 2.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc6_ghost1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这是一滴雨水?[P=1.0] 能比暴风雨吗?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">What is a drop of rain[P=1.0] compared to the storm?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc6_ghost2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">呃嗯.. [P=0.5]今天没有暴风雨,[P=0.8] 只有升起的 #dungeons_ch2_artificial_sun; 和一些舒缓的鸟鸣.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Uh-huh. [P=0.5]No storm today though,[P=0.8] only the rising #dungeons_ch2_artificial_sun; and the soothing birdsong.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc6_ghost3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">那是什么鸟?[P=1.2] 能跟羊比吗?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hitchcock as in the movie director.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">What is a bird[P=1.2] compared to the flock?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc6_ghost4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">好吧,[P=0.3] 这是...[P=1.2] 等等,[P=0.6] 你是不是误会了什么?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Well,[P=0.3] it's...[P=1.2] Wait,[P=0.6] are you getting philosophical on me?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc6_ghost5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">他们数量庞大,[P=1.4] 可你... [P=0.4]孤身一人.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">They are many,[P=1.4] but you are [P=0.4]one.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc6_ghost6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">那... [P=0.7]是有点孤独.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">That's... [P=0.7]making me feel a bit alone.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc6_ghost7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你应该来找我的伙伴.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Then you should seek my associates.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc6_ghost8</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这会让你停下来吗?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Will that make you stop?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc6_ghost9</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">.[P=0.2].[P=0.2].[P=0.2]也许.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">.[P=0.2].[P=0.2].[P=0.2]maybe.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">MARKET SQUARE DIALOG AND EXCLAMATIONS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc7_ghost1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">啊!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Woman recruit.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ah!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc7_ghost2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">吼!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Male recruit.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ooooh!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc7_ghost3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">为教派干杯!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Another male, toasting.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cheers to the cult!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc7_ghost4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">爽!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Another woman, toasting.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Yes!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc7_ghost5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">嗯?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Another woman, startled by the first recruit exploded, before realization of what happened.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Huh?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc7_ghost6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">什么情况?!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Another male, getting frightened, after the second explosion.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">What's happening?!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc7_ghost7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">救命! [P=0.5]救命!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Another woman, totally screaming and running around in panic, before exploding, realizing that she'll probably share the same fate as the ones that exploded.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Help! [P=0.5]HELP!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc7_acolyte</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">欢迎[P=1]加入我们...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">We welcome you[P=1] to our mass...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">BRIDGE TO CITY HALL DIALOGS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc8_acolyte1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">呃呃呃啊啊啊!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Acolytes (rank 1) come running out from the city hall, screaming in fear from something that has happened inside. Preferrably male and female.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Aaaaaah!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc8_acolyte2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">快跑啊!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Run and regroup!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc8_acolyte3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我不想就这么[P=0.2]死在[P=0.2]这里!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to the Swedish Starzinger. (http://www.youtube.com/watch?v=1qe2MDdfw1g)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I'm not supposed to [P=0.2]die [P=0.2]here!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">GENERAL ACOLYTE BARKS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank1_spell1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank1_spell2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank1_spell3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank1_spell4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank1_spell5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank1_aggro1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank1_aggro2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank1_aggro3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank1_die1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank1_die2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank1_die3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank1_hurt1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Short.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank1_hurt2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Short.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank2_spell1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">(Japanese-ish for "stupid")</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank2_spell2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank2_spell3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">(Japanese for little, and then latte as in coffee)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank2_spell4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">(Japanese for "wait up")</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank2_spell5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">(Japanese mix of "be still, silent" and "to deceive")</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank2_aggro1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">(Japanese for "protect")</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank2_aggro2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">(English)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank2_aggro3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank2_die1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">(Japanese for "power")</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank2_die2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">(Japanese for "what")</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank2_die3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">(Japanese-ish of "life")</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank2_hurt1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Short.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_acolyte_rank2_hurt2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Short.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Spoken Breslin">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts (Translate)</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">4 characters in total needs VO. And 1 additional if possible?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">More detailed descriptions for each dialogue is entered furhter down</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">VLAD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Same as always</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">MAGICIAN</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Magician (english/magicka and "1337 speek" with cajun accent)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ASSASSIN</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Assassin (fake-finish/magicka with clear finnish accent)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">CHAMPION</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Champion (french/magicka with clear french accent)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">MEACH</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A mature woman writing a letter to her child/apprentice</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">VLAD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">PRE-GAME INTRODUCTORY BOOK PAGE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_intro_title</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">说明</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Introduction</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_intro_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">小巫师们帮助了帅气但并不是主角的弗拉德, 成功的为战友复仇了! 
+但由于命运的安排, 他们还没有回到聚会上! 
+随着地板的崩裂, 小巫师们掉进了黑暗, 最终降落在一个古老的地方, 
+已经被历史所遗忘的—沉睡着的奥德海姆城.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Read in English during the introductory book pages</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The wizards, aided by the handsome --but humble -- Vlad, managed to avenge the souls of their comrades! But as fate would have it, they would not return to the party just yet! As the floor broke away, the wizards tumbled into the darkness, finally landing in an ancient place, long forgotten by the historians of Midgård: the buried city of Old Aldrheim.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">FIRST SCENE DIALOG</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc1_intro1a_vlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">干得好居然弄死了那个大块头! [P=0.5]做好事的感觉不错吧, 因为我们巫师永远是 [P=0.3]最好的 [P=0.3]好人!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">If the players finished chapter 1. He happily congratulates the players. NOTE that Vlad's gibberish dialog snippets should be as equal in duration as possible as their other-language counterparts.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Good work slaying that horrid daemon! [P=0.5]It feels good to do good things, for we are good [P=0.3]ordinary [P=0.3]humans!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc1_intro1b_vlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">为什么你会在这, 人类.. [P=0.3]噢... [P=1]你们是巫师. [P=0.5]那你是谁呢? [P=1]这里跟你有什么关系?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">If the players did not finish chapter 1. He thought he'd found edible humans, but alas, and so sounds slightly disappointed after the "Oh".</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Why hello there, humans. [P=0.3]Oh... [P=0.5]You're wizards. [P=0.1]Who are you? [P=0.1]What is your business being all alone?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc1_intro2_vlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">...呃, 看看这里![P=0.3] #dungeons_ch2_old_aldrheim;! [P=0.5]这让我想起我以前变成吸
+ [P=0.5]...老师的时候!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Looks around and notices where they are! (He teleported here to someone, not to a place)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">...Ah, look where we are![P=0.3] #dungeons_ch2_old_aldrheim;! [P=0.5]This brings me back to before I was turned into a vamp-- [P=0.5]...a teacher!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc1_intro3_vlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我要在这里办一个讲座, 但现在你们来了, [P=0.2]你可以当做来旅游.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I was going to hold a lecture about this place, but now that you are here, [P=0.2]you might as well do some sight-seeing yourselves.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc1_intro4_vlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你可能已经注意到这个老城市并不是[P=0.1]那么的 [P=0.1]简单, [P=0.3]他经历过许多[P=0.2]没落和... [P=0.2]呃. [P=0.2]一些其他的... [P=0.5]事情.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You might notice that the old city isn't [P=0.1]quite [P=0.1]what it once was, [P=0.3]with all the decay, [P=0.2]plundering and... [P=0.2]well. [P=0.2]Some other... [P=0.5]things.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc1_intro5_vlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我不期望读过历史书的你们知道其中的问题...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Not that I expect you to have read any of the history books to know the difference anyway...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc1_intro6_vlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">无论如何,[P=0.2]你要想回去, 你就要找到回城卷轴. [P=0.2]我觉得它应该放在 #dungeons_ch2_scene9_location; 的市区.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Anyway - [P=0.2]for your return journey, you must find and read the scroll of Town Portal. [P=0.2]I think they kept one in the #dungeons_ch2_scene9_location; downtown.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc1_intro7_vlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">祝你好运, 小巫师们![P=0.5] 直到我们见面...[P=0.5] 再次的.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Good luck, wizards![P=0.5] Till we meet...[P=0.5] again.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">Level 9 Bossfight narrative</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CITY HALL DIALOGS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc9_boss1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">非常好, 伙计们. [P=0.5]好像爆了什么装备.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Great job, guys. [P=0.5]These are some good drops.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc9_boss2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一把闪闪的新斧头! [P=0.5]我希望能给我自己来用.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Grats on that new axe! [P=0.5]I wish I could use them myself.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc9_boss3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">很好.. [P=0.3]让我们来找卷轴的位置,然后我们就能回去了.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Thanks. [P=0.3]Let's find that portal scroll so we can get out of here.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc9_boss4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">呃不是吧. [P=0.2]我背包满了.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Magician</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Yes, please. [P=0.2]My bags are full.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc9_boss5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">呃. [P=0.5]看..</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ey. [P=0.5]Look.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc9_boss6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你TM在玩我? [P=0.2]我以为BOSS死了就不会出小兵了.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">What, more minions? [P=0.2]I thought they'd stop coming with the boss dead.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc9_boss7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">等等. [P=0.5]哼哼, 看起来已经被偷听了.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hang on. [P=0.5]Yeah, it seems it might be bugged.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc9_boss8</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">很好, 来清掉他们我们就能走了.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ok, let's just deal with them so we can get out of here.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">VLAD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">After the boss fight...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc9_vlad1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你们好, 小英雄! [P=0.5].[P=0.5].[P=0.5]. 我已经帮你们开门了!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oh hello, heroes! [P=0.5].[P=0.5].[P=0.5]. I just opened the door for you!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc9_vlad2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">回城卷轴就在里面. [P=0.5] 进去看一下就行了 [P=0.1]然后你就会离开这里.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">He takes a step into the room and points back towards the door behind him.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The portal scroll is back there. [P=0.5]Just go and read it [P=0.1]and you'll be out of here in no-time.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc9_vlad3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">回见咯!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">He takes a bow and teleports away.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">See you soon!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">Shouts and grunts while fighting</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">BOSS BARKS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Human Magician. Female. Fairly even balanced voice.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_human_spell1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ethereal clone</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_human_spell2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shield</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_human_spell3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Teleport</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_human_spell4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Beams from afar</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_human_spell5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Douse, etc</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_human_aggro1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Similar to the word "combat".</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_human_hurt1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_human_hurt2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_human_die1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">What you usually yell in Magicka or other games where one player can resurrect the other. "Rezz" is simply short for "resurrect".</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_human_die2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Magickafied version of "crap".</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarven Assassin. Male. Rough slightly deep"finish" voice.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_dwarf_spell1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dagger - teleport - stab</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_dwarf_spell2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Stealth</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_dwarf_spell3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Health Potion</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_dwarf_spell4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Arrow artillery</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_dwarf_hurt1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_dwarf_hurt2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_dwarf_die1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_dwarf_die2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elven Champion. Male. French inspired fancy voice.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_elf_spell1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Charge</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_elf_spell2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Resurrection (triggered once)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_elf_spell3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Leaping attack</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_elf_spell4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Health Potions (drinks several in a row until stopped)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_elf_spell5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shield Bubble, trapping player with him</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_elf_aggro1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_elf_hurt1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_elf_hurt2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_elf_die1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_boss_elf_die2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">Bonus/Wish VO if possible</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">Letters from Meach (name of mature woman)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">SECRET LETTER PARTS</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">If you find all 3 of the following letter pieces you will learn a magick and get an achievement. You will be given that same magick at the beginning of Chapter 3 if you have that achievement.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">If you find all 3 of the following letter pieces you will learn a magick and get an achievement. You will be given that same magick at the beginning of Chapter 3 if you have that achievement.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_letterpart1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这个新教派, 根本是个渣渣. [P=0.3]我要走了, 我知道你不会跟我一起的. [P=0.2]你还年轻他们都听你的. [P=0.2]而且,[P=0.1] 都无视我...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hints that the writer might be a mentor or even parent of the adressee. If spoken, use an adult/older female voice actor. She keeps the slow, calm and explaining voice through-out all three letter parts.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"This new cult, it's bad business. [P=0.3]I'm leaving, and I know you won't join me. [P=0.2]You're young and their power speaks to you. [P=0.2]But,[P=0.1] listen to me..."</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_letterpart2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我看过了太多的教派,[P=0.1] 但这次不同,他们都消失了,[P=0.1] 而且都是在市场上...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to suicide cults, drinking poison from plastic cups</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"...I've seen many cults in my days,[P=0.1] but unlike this one they all tend to vanish by themselves,[P=0.1] usually coinciding with an upswing on the disposable cup market..."</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_letterpart3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">而且我也看到了. [P=1]在长袍的下面... [P=0.7]没错我看到了.[P=0.5] 如果你留下来, 你就要像我信里写的那样. [P=0.5]你会需要的. [P=1.2] --爱你的Meach</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Meach, reference to Peach (as in the Mario princess). Finding all parts unlocks Teleport and an achievement.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"...And I've seen some of them. [P=0.1]Beneath those robes... [P=0.3]I've seen.[P=0.5] If you stay, take what you've learned from my letter. [P=0.1]You'll need it. [P=0.2]Love,[P=0.3] Meach"</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Unspoken &amp; POI">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts (Translate)</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">SPECIAL SCENE FOCUS SIGNS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">SPECIAL SCENE FOCUS SIGNS</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc1_wallsign</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">城市的中心</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sign at the plateau in the beginning.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Heart of the City</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc2_wallsign</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">古老的俱乐部</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The ghost dialog club house's sign.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Olde Club House</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc3_wallsign</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">金光闪闪的印迹</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sign on the bank.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Blingblots</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc4_wallsign</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">运河道</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sign somewhere on the bridges.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Central Canal Walk</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc5_wallsign</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">欢迎来到中心公园</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sign by the gate to the Park.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Welcome to Central Park</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc6_wallsign</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">注意!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sign at fountain in the middle of the park's pond.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Caution!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc7_wallsign</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">市集</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The market district entrance sign.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Market District</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc8_wallsign</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">教主之迹</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Some random sign at the bridges towards City Hall.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hierarch's Walk</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_sc9_wallsign</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">第八号</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sign at elemental podium at front of City Hall.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Eight</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">SIGNS ON HOUSE WALLS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">SIGNS ON HOUSE WALLS</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">Please use logically, as there are signs for both residences and establishments. Shops and the like should be used in the Market District, residencies at the beginning of the DLC, and services/inns/cafes here and there.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Please use logically, as there are signs for both residences and establishments. Shops and the like should be used in the Market District, residencies at the beginning of the DLC, and services/inns/cafes here and there.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_wallsign1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">书籍与羊皮纸</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Books and Parchments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Books and Parchments</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_wallsign2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">未确定的古董</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">(Not back then, but they sure are now!)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Not Yet Antiques</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_wallsign3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">合金公寓</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to "Potter".</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pewter Residence</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_wallsign4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">大食公寓</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Discworld reference (Rincewind).</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mincebinge Residence</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_wallsign5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">常见的大学</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Discworld reference (Unseen University).</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Commonly Seen University</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_wallsign6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pond von的住宅区</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Discworld reference (Ponder Stibbons).</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pond von Ribbons Residence</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_wallsign7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">啦啦啦公寓</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Zelda 3 reference (Sahasrahla).</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sasharasla Residence</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_wallsign8</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">法杖抛光所(工人“处理”所)(双关)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">No reference. Slight under-the-belt pun.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff Head Polishing</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_wallsign9</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">决斗协会</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Duellist Society</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Duellist Society</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_wallsign10</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">非魔法饰品</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Non-magical Trinkets</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Non-magical Trinkets</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_wallsign11</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">白蚁防治</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Spoof on Magicka's wooden animals.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pet Termite Removal</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_wallsign12</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">奔腾的托尼酒店</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Spoof on Lord of the Ring's "The Prancing Pony"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Prancing Tony's Inn</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_wallsign13</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">阿汗与各种猪肉</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Discworld reference (Ankh-morpork)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ankhs and More Pork</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_wallsign14</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">无冬之城学院(因大哭大闹而倒闭)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Neverwinter Nights spoof</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Neverwinter Academy (closed due to wailing death)</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_wallsign15</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">曾经的夏天托儿所(因大喊大叫而倒闭)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Neverwinter Nights spoof alternative</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Eversummer Pre-school (closed due to bawling death)</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">STREET SIGNS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">STREET SIGNS</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_streetsign1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">爱心路6号</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lovely Street 6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lovely Street 6</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_streetsign2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">大道</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wideroad Avenue</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wideroad Avenue</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_streetsign3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">金钱广场</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Money Square</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Money Square</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_streetsign4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_streetsign5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_streetsign6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_streetsign7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_streetsign8</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">DIFFICULTY SWITCH</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">DIFFICULTY SWITCH</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_hardOff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一切[P=0.4] 似乎很 #dungeons_normal_difficulty; 嗯.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Things[P=0.4] seem #dungeons_normal_difficulty; again.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_hardOn</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一切突然感觉[P=0.4] 非常的[P=0.4] 不对劲...[P=1.4] 这是 #dungeons_hard_difficulty;难度!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Everything suddenly feels very[P=0.4] VERY[P=0.4] wrong...[P=1.4] And #dungeons_hard_difficulty;!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Everything suddenly feels very[P=0.4] VERY[P=0.4] wrong...[P=1.4] And #dungeons_hard_difficulty;!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_normal_difficulty</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">正常</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">normal</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_hard_difficulty</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">困难</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">hard</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Names &amp; Places">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts (Translate)</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_dungeons_chapter2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">地下城与石像鬼</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">In-game name of the level</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dungeons &amp; Gargoyles</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_dungeons_chapter2D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">小巫师们被困在了古老的奥德海姆城市，
+在到处闹鬼的城市里，
+巫师们该如何找到回家的路？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">In-game description of the level</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Emerge from the belly of the beast and push on through the haunted streets of Old Aldrheim in search of a way back home.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Dungeons_Acolyte_Rank1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">邪教巫师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">First rank of Horton's servants. Chaotic cannon fodder casters.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Acolyte</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Dungeons_Acolyte_Rank2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">咒术师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Second rank of Horton's servants. Offensive casters and support for Slimes.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Thaumaturge</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Dungeons_Acolyte_Rank3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">灵媒师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">First rank of Horton's servants. Heavy supportive casters for Slime.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Conduit</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_old_aldrheim</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">古老的奥德海姆</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Old Aldrheim</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Old Aldrheim</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene1_location</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">主要市区</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">First scene, a romantic outlook picnic place.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">City Heart</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene1_location_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">约会吃饭的地方</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Where hearts meet to eat</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Where hearts meet to eat</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene2_location</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">道路</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Streets, fine houses.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Streets</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene2_location_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">爱心路6号</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">6th Lovely Street</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">6th Lovely Street</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene3_location</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">金钱广场</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bank square, first arena.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Money Square</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene3_location_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">爱心路6号-大道</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">6th Lovely Street &amp; Wideroad Avenue</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">6th Lovely Street &amp; Wideroad Avenue</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene4_location</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">运河道</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bridges over rivers and other paths.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Canal Walk</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene4_location_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">爱心路6号</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">6th Lovely Street</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">6th Lovely Street</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene5_location</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">公园入口</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Intersection and entrance gate to Park, first encounter with Gargoyles.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Park Entrance</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene5_location_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene6_location</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">公园</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wildly overgrown park, second arena.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Park</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene6_location_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene7_location</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">市集</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Eerie market square, third arena.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Market Square</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene7_location_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene8_location</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">桥</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bridges high over water or town, leading towards the very grand and epic City Hall.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bridges</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene8_location_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene9_location</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">南边教会</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The last scene of the DLC, where the players enter a huge building with benches and a podium for all the elements. Think a non-religious hang-out church. "Southern" to hint that the city is huge.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Southern City Hall</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene9_location_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene9_location_subtitle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_scene9_location_subtitle</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#dungeons_ch2_artificial_sun</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">太阳</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Used in a dialog as explanation to the fact that there is no sun and that the wizards needs to create their own.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">sun orb</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#boss_champion</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">王者</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Champion</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Champion</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#boss_magician</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">魔术师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Magician</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Magician</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#boss_assassin</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">刺客</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Assassin</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Assassin</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Items">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts (Translate)</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_dungeons_shroom_staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">孢子...杖?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mushroom... Staff?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mushroom... Staff?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_dungeons_shroom_staffD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一个发臭孢子形成的海绵状杆子.
+#PA;自动回复, 范围中毒抗性和增加血量上限
+#AA;吸气孢子</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The mushroom staff found in scene 7.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">An odorous mushroom with a spongy yet firm stalk. #PA;Regeneration, Poison Resistance to wielder and allies, More Health to all nearby #AA;Inhale Spores</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_amalgameddon</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">生物重组</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Amalgameddon</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Amalgameddon</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_amalgameddond</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">无视物体的完整性和个体性,
+强制把两个同种生物融合在一起！
+喂喂你们俩，我只能帮到这了
+这种违反生物学的魔法你当然不会施放。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Disregards personal integrity and individuality and fuses together two creatures of the same kind into one in order to save space and food.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Disregards personal integrity and individuality and fuses together two creatures of the same kind into one in order to save space and food.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_dungeons_golfclub</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">高尔夫球棍</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Golf Club</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_dungeons_golfclubD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这个球棍是用锥形合金管制成的棍头,
+由精美皮革制成的握柄,
+显然在爆头方面做了一些改造,
+可惜已经被玩坏了...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This club has a shaft composed of a tapered steel tube in titanium ending in a sofisticaded and carefully crafted head with a handle that appears to be made of leather. Clearly a weapon optimized for swinging and hitting foul beings in the head. Unfortunately it's bent...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This club has a shaft composed of a tapered steel tube in titanium ending in a sofisticaded and carefully crafted head with a handle that appears to be made of leather. Clearly a weapon optimized for swinging and hitting foul beings in the head. Unfortunately it's bent...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Achivements">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts (Translate)</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGfinishnormal</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">歼灭</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wiped Out</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wiped Out</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGfinishnormalD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">完成地下城与石像鬼的普通难度.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish Dungeons &amp; Gargoyles on normal difficulty.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish Dungeons &amp; Gargoyles on normal difficulty.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGfinishhard</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">可汗我们只能孤独一生了?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Khan't we all just get along?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Khan't we all just get along?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGfinishhardD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">完成地下城与石像鬼的困难难度.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish Dungeons &amp; Gargoyles on hard difficulty.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish Dungeons &amp; Gargoyles on hard difficulty.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGfinishwithwurstmesser</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我带了一把刀用来防身</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I brought a knife to a Fire fight</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I brought a knife to a Fire fight</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGfinishwithwurstmesserD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">完成地下城与石像鬼的手持大刀任务.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish Dungeons &amp; Gargoyles carrying the Wurstmesser.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish Dungeons &amp; Gargoyles carrying the Wurstmesser.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGreadentireletter</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">站岗的巫师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The postwizard</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The postwizard</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGreadentireletterD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">在地下城与石像鬼里阅读了所有Meach的信件.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Read the entire letter from Meach in Dungeons &amp; Gargoyles.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Read the entire letter from Meach in Dungeons &amp; Gargoyles.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGhardon</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">超暴力</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The 4th difficulty level of Doom after "Hurt me plenty" (the last being "Nightmare")</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ultra-Violence</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGhardonD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">在地下城与石像鬼里找到并且离开的Bizzlepop无线电.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Not much of an achievement, but a hint for the players and a reference to us of how many actually activated hard mode.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Find and leave the radio of Bizzlepop in Dungeons &amp; Gargoyles on.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGfinishnormalwithnodeath</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">街头的智慧</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Street smart</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Street smart</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGfinishnormalwithnodeathD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">地下城与石像鬼的普通难度下不死通关.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish Dungeons &amp; Gargoyles without any player dying on normal difficulty.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish Dungeons &amp; Gargoyles without any player dying on normal difficulty.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGfinishhardwithnodeath</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">城市向导</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">City tour guide</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">City tour guide</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGfinishhardwithnodeathD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">地下城与石像鬼的困难难度下不死通关.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish Dungeons &amp; Gargoyles without any player dying on hard difficulty.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish Dungeons &amp; Gargoyles without any player dying on hard difficulty.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGnotrolls</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我不相信巨魔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I don't believe in Trolls</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I don't believe in Trolls</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGnotrollsD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">抢劫案中巨魔全部存活</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish the bankrobbery encounter with all trolls still alive</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish the bankrobbery encounter with all trolls still alive</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGassassinlast</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">小巫见大巫</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The others were dwarfed by you</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The others were dwarfed by you</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGassassinlastD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">最后杀死刺客</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Defeat the adventurers in Dungeons &amp; Gargoyles by defeating the Assassin last.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Defeat the adventurers in Dungeons &amp; Gargoyles by defeating the Assassin last.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGchampionlast</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">童话般的决斗</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">That was a fairy fight</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">That was a fairy fight</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGchampionlastD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">最后杀死王者.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Defeat the adventurers in Dungeons &amp; Gargoyles by defeating the Champion last.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Defeat the adventurers in Dungeons &amp; Gargoyles by defeating the Champion last.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGmagicianlast</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">克隆人战争</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The clone wars</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The clone wars</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DGmagicianlastD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">最后杀死魔术师.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Defeat the adventurers in Dungeons &amp; Gargoyles by defeating the Magician last.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Defeat the adventurers in Dungeons &amp; Gargoyles by defeating the Magician last.</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

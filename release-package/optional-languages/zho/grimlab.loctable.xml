@@ -1,0 +1,756 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="Robes and items">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_GRIMLAB</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">格瑞姆尼的实验室</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Grimnir is the name of the main bad guy of the original campaign</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Grimnir's Laboratory</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_GRIMLABD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">格瑞姆尼丧失已久的实验室</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Grimnir's long lost laboratory</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Grimnir's long lost laboratory</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Doom</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]地震·罗伯博士[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Quake is the name of the doctor, based on Dr. Doom, the marvel supervillan. The joke is that Quake and Doom are similar video games.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Dr. Quake Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_DoomD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">“人们说他在某处有个小村庄。”
+—碎嘴的学者。
+- 右手地震手套
+- 左手地震手套
+- 容易受到闪电伤害
+- 对物理，火焰和生命有抗性</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"He owns a small coutntry somewhere" is a reference to Dr. Doom, who actually does own a small country.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"They say he owns a minor country somewhere." -- Gossiping scholar. - Right hand Quake Glove - Left hand Quake glove - Vulnerable to Lightning - Resistance to Physical, Fire and Life</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_horrible</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]糟糕·罗伯博士[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Terrible is used instead of Horrible. Based on the character Dr. Horrible, from the movie Dr. Horrible's sing along blog.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Dr. Terrible Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_horribleD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">“那是新的流行语吗？” 
+—无名的水系巫师。
+- 死亡射线
+- 物质转化射线
+- 在糟糕学上获得了博士学位。
+- 容易受到物理伤害
+- 对元素伤害抗性提升</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It is a joke on Dr. Horrible's catchphrase "I have a PhD in Horribleness!" and his friends following reply.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Is that the new catchphrase?"  -- Anonymous water-casting wizard. - Death Ray - Trans-matter Ray - Has a PhD in terribleness. - Vulnerable to Physical damage - Increased resistance to the elements</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_who</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]不知道是哪个罗伯博士[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Named as such because it will sound like "Witch doctor". Based on Doctor Who, another doctor with an interrogative name.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Which Dr. Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_whoD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">“你是谁？”
+—不知名的村民。
+- 超速音叉
+- 魔法纸片</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reffering to dr. who, and the famous song by the band "The Who".</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Who are you?" -- Unknown villager. - Sonic Tuning Fork - Magickal Piece of Paper</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_Doom_Glove</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">右手地震手套</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Quake, as in is the name of the robe above.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Right hand Quake Glove</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_Doom_GloveD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">地震手套的右手一边，很适合用来电死单个敌人。
+#DMG; 中等闪电伤害
+#SP; 无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The right Quake Glove, useful for electrocuting a single enemy. #DMG; Medium Lightning #SP; None</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The right Quake Glove, useful for electrecuting a single enemy. #DMG; Medium Lightning #SP; None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_staff_doom</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">左手地震手套</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Quake, as in is the name of the robe above.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Left hand Quake Glove</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_staff_doomD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">地震手套的左手一边，很适合用来电死成群敌人。
+#PA; 无
+#AA; 单个连锁闪电，如果同时戴着右手手套的话，就能放出两个。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The left Quake Glove, useful for electrocuting large crowds. #PA; None #AA; Single Chain Lightning, dual if the right hand Quake Glove is being worn.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The left Quake Glove, useful for electrecuting large crowds. #PA; None #AA; Single Chain Lighnting, dual if the right hand Quake Glove is being worn.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_weapon_deathray</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">死亡射线</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Death and ray should be separated. Based on the weapon Dr. Horrible uses in the last episode, where he puts a pice of tape with the text "Death" over the word "Stun".</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Death Ray</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_weapon_deathrayD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">看起来就像是对旧东西的一种拙劣重新利用。
+#DMG; 低奥术伤害
+#SP; 无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Prop in this case is a movie/game prop, reference to the fact that the Death Ray in Dr. Horribles sing along blog is a reuse of a prop from Firefly.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Looks like a cheap reuse of an old prop. #DMG; Low Arcane #SP; None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_staff_horrible</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">物质转化射线</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Trans-matter-ray</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Trans-matter-ray</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_staff_horribleD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">“在物质转化事件中，分子容易出现跃迁倾向。”
+有75%的概率。
+#PA; 无
+#AA; 物质转化传送</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Molecules tend to shift during the trans-matter event." It's at 75%. #PA; None #AA; Trans-matter Teleport</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Molecules tend to shift during the trans-matter event." It's at 75%. #PA; None #AA; Trans-matter Teleport</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_weapon_sonicscrewdriver</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">超速音叉</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A joke on Doctor Who's sonic screwdriver.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sonic Tuning Fork</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_weapon_sonicscrewdriverD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一件适用于任何场合的工具，解决任何问题，甚至能帮你撘书架！
+#DMG; 没有
+#SP; 能对被它击中的任何人使用加速魔法</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A tool for every occasion, solves any problem. It can even put up shelves! #DMG; None #SP; Applies Haste to anyone it hits.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A tool for every ocasion, solves any problem. It can even put up shelves! #DMG; None #SP; Applies Haste to anyone it hits.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_staff_who</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">充满魔力的纸</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The item is a pice of paper, a reference to the pice of paper Dr. Who keeps in his wallet.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Magick Piece of Paper</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_staff_whoD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一张充满魔力的纸，看上去就像别人想象中的一样
+#PA; 没有
+#AA; 迷惑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A Magick Piece of paper, that looks like what others expect it to look like. #PA; None #AA; Confuse</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A Magick Piece of paper, that looks like what others expect it to look like. #PA; None #AA; Confuse</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#specab_confuewho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">混乱大法</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Confuse</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Confuse</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#specab_randomteleportother</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">物质转化传送</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Trans-matter Teleport</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Trans-matter Teleport</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#specab_doomzap</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">连锁闪电</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chain Lightning</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chain Lightning</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Enemies">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Troll_Zombie</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">僵尸巨魔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Zombie Troll</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Zombie Troll</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Troll_Zombie_Club</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">僵尸巨魔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Zombie Troll</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Zombie Troll</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Troll_Snow_Zombie</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">僵尸雪巨魔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Zombie Snow Troll</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Zombie Snow Troll</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Orc_Scout_Mutant</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">变异兽人</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Orc Mutant</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Orc Mutant</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Orc_Infested</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">感染兽人</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Infested Orc</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Infested Orc</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Beast_Mutant</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">变异牛头人</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Beastman Mutant</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Beastman Mutant</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Evil_Daemon_Lesser_Cold</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">小型寒冰恶魔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lesser Cold Demon</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lesser Cold Demon</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Drake_Slime</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">史莱姆鳄</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Slimedrake</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Slimedrake</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Undead_Skeleton_Elite</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">精英骷髅</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elite Skeleton</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elite Skeleton</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Darksoul_Elite</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">精英黑暗骷髅</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elite Darkspawn Skeleton</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elite Darkspawn Skeleton</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Undead_Ghoul_Poison</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">剧毒盗墓贼</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Poison Ghoul</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Poison Ghoul</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Goblin_Alchemist</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哥布林炼金师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Alchemist</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Alchemist</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Grimnir_Starspawn</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Nr. 646实验</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Experiment Nr. 646</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Experiment Nr. 646</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Achievements">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#notmuch</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">不算什么成就</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">As in starting the game is not actually an achievement. Sarcasm</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Not Much of an Achievement</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#notmuchD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">开始游戏</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Start the game</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Start the game</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#onceupon</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">从前</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Once upon a Time</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Once upon a Time</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#onceuponD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">开始冒险</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Start an adventure game</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Start an adventure game</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#quitechallenge</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">好一个挑战</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sarcasm</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Quite the Challenge</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#quitechallengeD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">开始挑战</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Start a challenge game</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Start a challenge game</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#versusworld</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">对抗整个世界</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to the metal band Amon Amarth's album with the same name. perhaps do not translate because it's a title.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Versus the World</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#versusworldD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">开始对抗游戏</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Start a versus game</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Start a versus game</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#foreveralone</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">“孤独一生”</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Internet meme reference. Probably do not translate because it's a title.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Forever Alone"</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#foreveraloneD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">开始本地游戏</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Start a local game</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Start a local game</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#walktheline</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">“我一往无前”</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Johnny Cash reference but also pokes fun at "on line" as in on the line. Perhaps no translation, since it's a title of a well-known song?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"I Walk the Line"</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#walkthelineD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">开始在线游戏</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Start an online game</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Start an online game</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

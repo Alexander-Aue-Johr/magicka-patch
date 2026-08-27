@@ -1,0 +1,1833 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="Items">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">key</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">english</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized text</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_FOUNDERS_CANE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">创始者法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Founder's Staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Founder's Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_FOUNDERS_CANED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">由（初级）大法师长为巫师战争的军官们
+打造的精良法杖。既华贵于观赏，也夺目于战斗。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">These fine staffs were made by the (Junior) Grand Staff Master for officers in the Wizard Wars. It is as fancy in combat as it is to look at.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">These fine staffs were made by the (Junior) Grand Staff Master for officers in the Wizard Wars. It is as fancy in combat as it is to look at.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_FOUNDERS_SABRE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">创始者军刀</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Founders Sabre</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Founders Sabre</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_FOUNDERS_SABRED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">为巫师战争军官锻造的高品质刀锋。
+轻盈且完美平衡，易于挥砍，更是显威的绝佳利器。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">These high quality blades were forged to be carried by officers in the Wizard Wars. Lightweight and perfectly balanced, they are easy to swing and tremendous to use for showing off.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">These high quality blades were forged to be carried by officers in the Wizard Wars. Lightweight and perfectly balanced, they are easy to swing and tremendous to use for showing off.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_VALKYRIE_SPEAR</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">女武神之矛</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Valkyrie Spear</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Valkyrie Spear</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_VALKYRIE_SPEARD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">死亡少女所使用的长矛。
+它轻盈，迅捷，且攻击范围极广。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A spear used by the Maidens of Death. It's light, quick to swing and has great reach.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A spear used by the Maidens of Death. It's light, quick to swing and has great reach.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_THE_BADGER</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">铁兽爪</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Badger</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Badger</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_THE_BADGERD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">林中萨满用这些坚固的金属利爪
+（不，这不是骨头做的。我才不管正史怎么说）
+来证明他们已经赢得了自己的荣耀。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The forest dwelling shamans use these sturdy metal claws (no its not bone. I don't care about canon) to prove they've earned their stripes.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The forest dwelling shamans use these sturdy metal claws (no its not bone. I don't care about canon) to prove they've earned their stripes.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_FROST_CLEAVER</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">寒冰之刃</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cold Knife</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cold Knife</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_FROST_CLEAVERD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">从微型冰霜巨人那里偷来的武器，
+这把利刃割人舌头的方法可不止一种。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A weapon stolen from the miniature Ice Giants, this blade has more that one way to cut someone's tongue off.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A weapon stolen from the miniature Ice Giants, this blade has more that one way to cut someone's tongue off.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_PROTECTIVE_STAFF</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">守护法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Protective Staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Protective Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_PROTECTIVE_STAFFD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">专为让持有者能够安全穿越危险国度，
+免遭劫掠而设计的法杖。
+可惜前主人并不太会使用它。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A staff designed to enable the wielder to travel across dangerous countries without being robbed. The previous owner didn't really know how to use it though.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A staff designed to enable the wielder to travel across dangerous countries without being robbed. The previous owner didn't really know how to use it though.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_ASTRONOMER</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]天文学家长袍[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Astronomer Robe[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Astronomer Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_ASTRONOMERD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">由史上第一位巫师而闻名于世的装束。
+说来奇怪，如今它主要被那些痴迷科学的魔法使用者所穿着。
+-#ITEM_FOUNDERS_CANE;
+-#ITEM_FOUNDERS_SABRE;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The outfit made famous by the first ever Wizard. Oddly enough it's now mostly used by the scientifically inclined Magick-users. #ITEM_FOUNDERS_CANE; - #ITEM_FOUNDERS_SABRE;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The outfit made famous by the first ever Wizard. Oddly enough it's now mostly used by the scientifically inclined Magick-users. #ITEM_FOUNDERS_CANE; - #ITEM_FOUNDERS_SABRE;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_CENTURION</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]百夫长长袍[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Centurion Robe[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Centurion Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_CENTURIOND</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">精英民兵最高阶成员所使用的护甲，
+其繁复的图案摆出资历的作用远大于提升防御。
+-#ITEM_PROTECTIVE_STAFF; 
+-#ITEM_VALKYRIE_SPEAR;
+-护甲
+-近战伤害翻倍
+-近战防御
+-近战加速</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Armor used by the highest ranks of an elite militia, the intricate embroidery display seniority more than it boosts defense. #ITEM_PROTECTIVE_STAFF; - #ITEM_VALKYRIE_SPEAR; - Armor - Double Melee Damage - Melee Defense - Melee Speed Up</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Armor used by the highest ranks of an elite militia, the intricate embroidery display seniority more than it boosts defense. #ITEM_PROTECTIVE_STAFF; - #ITEM_VALKYRIE_SPEAR; - Armor - Double Melee Damage - Melee Defense - Melee Speed Up</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_SHAMAN</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]萨满长袍[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Shaman Robe[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Shaman Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_SHAMAND</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">来自最深幽森林的最古怪之人。
+但借华美的鹿角，
+你的存在感必将充满整个房间
+—你的气味也一样。
+成为难闻部落的酋长，
+穿上这件带有战斗痕迹的青绿色长袍。
+-#ITEM_HEALERS_BURDEN;
+-#ITEM_THE_BADGER;
+-对奥术抗性强
+-使攻击附带中毒效果
+-生命效果翻倍</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">From the deepest forest come the weirdest people. But with magnificent antlers your presence will surely fill a room. As will your smell. Become chief of the putrid tribe and wear this turquoise robe with war paint details. #ITEM_HEALERS_BURDEN; - #ITEM_THE_BADGER; - Strong againt Arcane - Poison Attacks - Double Life Effects</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">From the deepest forest come the weirdest people. But with magnificent antlers your presence will surely fill a room. As will your smell. Become chief of the putrid tribe and wear this turquoise robe with war paint details. #ITEM_HEALERS_BURDEN; - #ITEM_THE_BADGER; - Strong againt Arcane - Poison Attacks - Double Life Effects</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_IceRegent</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]冰之统治者长袍[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Ice Regent Robe[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Ice Regent Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_IceRegentD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">若你希望以永恒的寒冬统治国度，
+此乃绝佳之选。
+它饰有显露你至高权力的可畏王冠，
+还有充足的空间来存放魔杖和热可可。
+-#ITEM_COLD_STAFF;
+-#ITEM_FROST_CLEAVER;
+-对高温抗性强
+-将冰霜伤害转化为生命值</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A great robe if you wish to reign by casting the realm into eternal winter. It sports a fearsome crown to mark your supremacy, and plenty of room for magic wands and hot cocoa. #ITEM_COLD_STAFF; - #ITEM_FROST_CLEAVER; - Strong against Heat - Ice Damage Converted to Health</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A great robe if you wish to reign by casting the realm into eternal winter. It sports a fearsome crown to mark your supremacy, and plenty of room for magic wands and hot cocoa. #ITEM_COLD_STAFF; - #ITEM_FROST_CLEAVER; - Strong against Heat - Ice Damage Converted to Health</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PDX_ACCOUNT_REQUIRED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">买此物品需要Paradox账号。请注册或登录以继续。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A Paradox account is required in order to purchase this item. Please register or log in to continue.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A Paradox account is required in order to purchase this item. Please register or log in to continue.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_VIZIER</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]维齐尔长袍[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Vizier Robe[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_VIZIERD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">通常由易于操纵的统治者的顾问所穿。
+当你想要潜伏于阴影之中，
+或是谋划推翻君主制时，
+这便是完美选择。
+-#ITEM_DOTHRAKE_BLADE;
+-#ITEM_GOLDEN_PROTECTOR_STAFF;
+-所受奥术伤害减少50%</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Usually worn by advisers of easily manipulated rulers. Perfect for those days when you feel like lurking in the shadows and/or planning how to overthrow a monarchy. Weapon: Doth'Rake'y Blade. Staff: Golden Protector. Robe Effects: Take -50% Arcane Damage.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_ARCTIC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]北极长袍[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Arctic Robe[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Arctic Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_ARCTICD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">所有酷巫师去泡吧时的首选长袍。
+-#ITEM_SNOWBALL;
+-#ITEM_FROZEN_STAFF;
+-所受寒冷与冰霜伤害减少50%
+-免疫冻结与寒冷状态</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The robe of choice for all the cool Wizards when they go clubbin'.
+
+Weapon: Snowball. Staff: Icicle Staff. Robe Effects: Take -50% Cold and Ice damage, Immunity to Frozen and Chilled.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The robe of choice for all the cool Wizards when they go clubbin'.
+
+Weapon: Snowball. Staff: Icicle Staff. Robe Effects: Take -50% Cold and Ice damage, Immunity to Frozen and Chilled.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_PHARAOH</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]法老长袍[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Pharaoh's Robe[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_PHARAOHD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">如果你发现自己
+被锁在一座古老而冰冷的墓里，
+就别挑保暖的方式了。
+-#ITEM_SICKLE;
+-#ITEM_SHEPHERD_STAFF;
+-所受火焰伤害减少50%
+-免疫潮湿状态</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">If you find yourself locked inside an ancient, cold tomb you can't be picky bout how you keep yourself warm.
+
+Weapon: Sick-le. Staff: Shepherd's Crook. Robe Effects: Take -50% Fire Damage, Immunity to Wet.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_GOLDEN_PROTECTOR_STAFF</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">黄金守护者</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Golden Protector</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_GOLDEN_PROTECTOR_STAFFD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">给予那些备受赞誉的防护法术专家，
+以及那些愿意给钱的人。
+#PA;+50%奥术伤害
+#AA;守护驱逐。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Granted to experts of protection-based spells, who are showered with praise. It's also granted to the ones who cough up the dough. Passive Ability: +50% Arcane Damage. Active Ability: Warded Expulsion.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_DOTHRAKE_BLADE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">多斯拉克之刃</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Doth'rake'y Blade</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_DOTHRAKE_BLADED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">倾倾草原的马族人
+在园艺方面偏爱这种刀刃。
+其他更残忍的人
+则在其他领域发现了它们的妙用。
+#DMG;中等物理
+#SP;施加流血效果</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The horse people of the Leaning Stepps favour these blades when it comes to gardening. Other , more sadistic, people have found good use for them in other fields. Damage Type: Medium Physical. Special: Applies Bleeding.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_COLD_STAFF</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">冰锥法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Icicle Staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Icicle Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_COLD_STAFFD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">顶端有着一颗能让周围空气瞬间冻结的宝石。
+无论如何，别去舔它。反正味道糟透了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Crowned with a gem which makes air around it freeze instantly. Whatever you do, don't lick it. It tastes awful anyway.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Crowned with a gem which makes air around it freeze instantly. Whatever you do, don't lick it. It tastes awful anyway.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_HEALERS_BURDEN</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">医者重担</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Healer's Burden</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Healer's Burden</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_HEALERS_BURDEND</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">位于尼林的神圣教团通过让新兵
+照料一枚鸟蛋来考验他们。
+那些不幸成功的人将永远拥有它。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The sacred order situated in the Woods of Ni test their recruits by having them care for a birds egg. the unlucky ones who succeed get to keep it forever.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The sacred order situated in the Woods of Ni test their recruits by having them care for a birds egg. the unlucky ones who succeed get to keep it forever.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_FROZEN_STAFF</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">冰封法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Frozen Staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Frozen Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_FROZEN_STAFFD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一把对寒冰拥有巨大威力的法杖。
+出于某种原因，
+其外观与冰锥法杖惊人地相似
+……就别在意了……
+#PA;无
+#AA;寒流冲击</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A staff of immense power over ice. Alarmingly similar in appearance to the Icicle Staff for some reason...just let it go...
+
+Passive Ability: None. Active Ability: Chilly Blast.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A staff of immense power over ice. Alarmingly similar in appearance to the Icicle Staff for some reason...just let it go...
+
+Passive Ability: None. Active Ability: Chilly Blast.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_SNOWBALL</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">雪球</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Snowball</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Snowball</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_SNOWBALLD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">满满一手套的致命积雪。
+不可食用。
+#DMG;低等冰霜
+#SP;远程攻击，施加冻结效果</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A generous mittenful of deadly snow. Not to be eaten. 
+
+Damage Type: Low Ice. Special: Ranged, applies Frozen.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A generous mittenful of deadly snow. Not to be eaten. 
+
+Damage Type: Low Ice. Special: Ranged, applies Frozen.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_SHEPHERD_STAFF</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">牧羊人法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shepherd's Crook</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shepherd's Crook</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_SHEPHERD_STAFFD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">统治者生前死后用以差使子民的工具。
+#PA;无
+#AA;嘿-喽</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Used by rulers to boss their people around. Even posthumously.
+
+Passive Ability: None. Active Ability: Her-Der.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Used by rulers to boss their people around. Even posthumously.
+
+Passive Ability: None. Active Ability: Her-Der.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_SICKLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">镰刀</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sick-le</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sick-le</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_SICKLED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">热爱自然的巫师用以采集作物
+与收割生命的工具。
+#DMG;中等物理
+#SP;施加中毒效果</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A tool used by nature loving Wizards who gather mistletoe and carve up other lifeforms.
+
+Damage Type: Medium Physical. Special: Applies Poison.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A tool used by nature loving Wizards who gather mistletoe and carve up other lifeforms.
+
+Damage Type: Medium Physical. Special: Applies Poison.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_CENTURION_TITLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CENTURION ROBE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CENTURION ROBE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CENTURION ROBE</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_CENTURION_DESC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Armor used by the highest ranks of an elite militia, the intricate embroidery display seniority more than it boosts defense.
+
+This Pack Includes:
+
+Centurion Robe:
+Halves damage from melee attacks
+
+Valkyrie Spear: 
+A spear used by the Maidens of Death. It's light, quick to swing and has great reach.
+Double Melee Attack Speed
++100% &lt;sprite=Icon_Attack&gt; damage
+
+Protective Staff:
+A staff designed to enable the wielder to travel across dangerous countries without being robbed. 
+The previous owner didn't really know how to use it though.
+Neutral Self-Cast Ability - Casts a shield on the wizard which does not degenerate over time.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Armor used by the highest ranks of an elite militia, the intricate embroidery display seniority more than it boosts defense.
+
+This Pack Includes:
+
+Centurion Robe:
+Halves damage from melee attacks
+
+Valkyrie Spear: 
+A spear used by the Maidens of Death. It's light, quick to swing and has great reach.
+Double Melee Attack Speed
++100% &lt;sprite=Icon_Attack&gt; damage
+
+Protective Staff:
+A staff designed to enable the wielder to travel across dangerous countries without being robbed. 
+The previous owner didn't really know how to use it though.
+Neutral Self-Cast Ability - Casts a shield on the wizard which does not degenerate over time.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Armor used by the highest ranks of an elite militia, the intricate embroidery display seniority more than it boosts defense.
+
+This Pack Includes:
+
+Centurion Robe:
+Halves damage from melee attacks
+
+Valkyrie Spear: 
+A spear used by the Maidens of Death. It's light, quick to swing and has great reach.
+Double Melee Attack Speed
++100% &lt;sprite=Icon_Attack&gt; damage
+
+Protective Staff:
+A staff designed to enable the wielder to travel across dangerous countries without being robbed. 
+The previous owner didn't really know how to use it though.
+Neutral Self-Cast Ability - Casts a shield on the wizard which does not degenerate over time.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_ICE_REGENT_TITLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ICE REGENT ROBE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ICE REGENT ROBE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ICE REGENT ROBE</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_ICE_REGENT_DESC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A great robe if you wish to reign by casting the realm into eternal winter. It sports a fearsome crown to mark your supremacy, and plenty of room for magic wands and hot cocoa.
+
+This Pack Includes:
+
+Ice Regent Robe:
+Incoming &lt;sprite=Element_Cold&gt; or &lt;sprite=Element_Ice&gt; damage is converted into health
+
+Cold Knife:
+A weapon stolen from the miniature Ice Giants, this blade has more that one way to cut someone's tongue off.
+Applies a Freeze effect to melee attacks
+
+Icicle Staff:
+Crowned with a gem which makes air around it freeze instantly. Whatever you do, don't lick it. It tastes awful anyway.
+Neutral Self-Cast Ability - Creates an Ice Block around the wizard that heals incoming &lt;sprite=Element_Cold&gt; damage and ends in an ice nova, applying chilled status to all surrounding enemies.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A great robe if you wish to reign by casting the realm into eternal winter. It sports a fearsome crown to mark your supremacy, and plenty of room for magic wands and hot cocoa.
+
+This Pack Includes:
+
+Ice Regent Robe:
+Incoming &lt;sprite=Element_Cold&gt; or &lt;sprite=Element_Ice&gt; damage is converted into health
+
+Cold Knife:
+A weapon stolen from the miniature Ice Giants, this blade has more that one way to cut someone's tongue off.
+Applies a Freeze effect to melee attacks
+
+Icicle Staff:
+Crowned with a gem which makes air around it freeze instantly. Whatever you do, don't lick it. It tastes awful anyway.
+Neutral Self-Cast Ability - Creates an Ice Block around the wizard that heals incoming &lt;sprite=Element_Cold&gt; damage and ends in an ice nova, applying chilled status to all surrounding enemies.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A great robe if you wish to reign by casting the realm into eternal winter. It sports a fearsome crown to mark your supremacy, and plenty of room for magic wands and hot cocoa.
+
+This Pack Includes:
+
+Ice Regent Robe:
+Incoming &lt;sprite=Element_Cold&gt; or &lt;sprite=Element_Ice&gt; damage is converted into health
+
+Cold Knife:
+A weapon stolen from the miniature Ice Giants, this blade has more that one way to cut someone's tongue off.
+Applies a Freeze effect to melee attacks
+
+Icicle Staff:
+Crowned with a gem which makes air around it freeze instantly. Whatever you do, don't lick it. It tastes awful anyway.
+Neutral Self-Cast Ability - Creates an Ice Block around the wizard that heals incoming &lt;sprite=Element_Cold&gt; damage and ends in an ice nova, applying chilled status to all surrounding enemies.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_SHAMAN_TITLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">SHAMAN ROBE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">SHAMAN ROBE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">SHAMAN ROBE</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_SHAMAN_DESC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">From the deepest forest come the weirdest people. But with magnificent antlers your presence will surely fill a room. As will your smell. Become chief of the putrid tribe and wear this turquoise robe with war paint details.
+
+This Pack Includes:
+
+Shaman Robe:
++50% &lt;sprite=Element_Arcane&gt; resistance
+
+"The Badger":
+The forest dwelling shamans use these sturdy metal claws (no its not bone. I don't care about canon) to prove they've earned their stripes.
+Applies a Poison effect to melee attacks
+
+Healer's Burden:
+The sacred order situated in the Woods of Ni test their recruits by having them care for a birds egg. the unlucky ones who succeed get to keep it forever.
++100% &lt;sprite=Element_Life&gt; power
+Neutral Self-Cast Ability - Heals all surrounding allies.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">From the deepest forest come the weirdest people. But with magnificent antlers your presence will surely fill a room. As will your smell. Become chief of the putrid tribe and wear this turquoise robe with war paint details.
+
+This Pack Includes:
+
+Shaman Robe:
++50% &lt;sprite=Element_Arcane&gt; resistance
+
+"The Badger":
+The forest dwelling shamans use these sturdy metal claws (no its not bone. I don't care about canon) to prove they've earned their stripes.
+Applies a Poison effect to melee attacks
+
+Healer's Burden:
+The sacred order situated in the Woods of Ni test their recruits by having them care for a birds egg. the unlucky ones who succeed get to keep it forever.
++100% &lt;sprite=Element_Life&gt; power
+Neutral Self-Cast Ability - Heals all surrounding allies.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">From the deepest forest come the weirdest people. But with magnificent antlers your presence will surely fill a room. As will your smell. Become chief of the putrid tribe and wear this turquoise robe with war paint details.
+
+This Pack Includes:
+
+Shaman Robe:
++50% &lt;sprite=Element_Arcane&gt; resistance
+
+"The Badger":
+The forest dwelling shamans use these sturdy metal claws (no its not bone. I don't care about canon) to prove they've earned their stripes.
+Applies a Poison effect to melee attacks
+
+Healer's Burden:
+The sacred order situated in the Woods of Ni test their recruits by having them care for a birds egg. the unlucky ones who succeed get to keep it forever.
++100% &lt;sprite=Element_Life&gt; power
+Neutral Self-Cast Ability - Heals all surrounding allies.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_ASTRONOMER_TITLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ASTRONOMER ROBE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ASTRONOMER ROBE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ASTRONOMER ROBE</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_ASTRONOMER_DESC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The outfit made famous by the first ever Wizard. Oddly enough it's now mostly used by the scientifically inclined Magick-users.
+
+This Pack Includes:
+
+Astronomer Robe:
+A higher appreciation of constellations
+
+Founder's Saber:
+These high quality blades were forged to be carried by officers in the Wizard Wars. 
+Lightweight and perfectly balanced, they are easy to swing and tremendous to use for showing off.
+
+Founder's Staff:
+These fine staffs were made by the (Junior) Grand Staff Master for officers in the Wizard Wars. 
+It is as fancy in combat as it is to look at.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The outfit made famous by the first ever Wizard. Oddly enough it's now mostly used by the scientifically inclined Magick-users.
+
+This Pack Includes:
+
+Astronomer Robe:
+A higher appreciation of constellations
+
+Founder's Saber:
+These high quality blades were forged to be carried by officers in the Wizard Wars. 
+Lightweight and perfectly balanced, they are easy to swing and tremendous to use for showing off.
+
+Founder's Staff:
+These fine staffs were made by the (Junior) Grand Staff Master for officers in the Wizard Wars. 
+It is as fancy in combat as it is to look at.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The outfit made famous by the first ever Wizard. Oddly enough it's now mostly used by the scientifically inclined Magick-users.
+
+This Pack Includes:
+
+Astronomer Robe:
+A higher appreciation of constellations
+
+Founder's Saber:
+These high quality blades were forged to be carried by officers in the Wizard Wars. 
+Lightweight and perfectly balanced, they are easy to swing and tremendous to use for showing off.
+
+Founder's Staff:
+These fine staffs were made by the (Junior) Grand Staff Master for officers in the Wizard Wars. 
+It is as fancy in combat as it is to look at.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_BUNDLE_TITLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">BUNDLE O' ROBES</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">BUNDLE O' ROBES</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">BUNDLE O' ROBES</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_BUNDLE_DESC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A Centurion, Ice Regent, Shaman and Astronomer walk into a bar...
+
+Four mighty sets of gear can be acquired as a discounted bundle deal, granting you power over the forces of nature itself and, well, professional Roman officers too!
+
+Each set includes a new Robe, Weapon and Staff.
+
+This Pack Includes:
+
+Centurion Robe
+Valkyrie Spear
+Protective Staff
+Ice Regent Robe
+Cold Knife Weapon
+Icicle Staff
+Shaman Robe
+"The Badger"
+Healer's Burden
+Astronomer Robe
+Founder's Saber
+Founder's Staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A Centurion, Ice Regent, Shaman and Astronomer walk into a bar...
+
+Four mighty sets of gear can be acquired as a discounted bundle deal, granting you power over the forces of nature itself and, well, professional Roman officers too!
+
+Each set includes a new Robe, Weapon and Staff.
+
+This Pack Includes:
+
+Centurion Robe
+Valkyrie Spear
+Protective Staff
+Ice Regent Robe
+Cold Knife Weapon
+Icicle Staff
+Shaman Robe
+"The Badger"
+Healer's Burden
+Astronomer Robe
+Founder's Saber
+Founder's Staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A Centurion, Ice Regent, Shaman and Astronomer walk into a bar...
+
+Four mighty sets of gear can be acquired as a discounted bundle deal, granting you power over the forces of nature itself and, well, professional Roman officers too!
+
+Each set includes a new Robe, Weapon and Staff.
+
+This Pack Includes:
+
+Centurion Robe
+Valkyrie Spear
+Protective Staff
+Ice Regent Robe
+Cold Knife Weapon
+Icicle Staff
+Shaman Robe
+"The Badger"
+Healer's Burden
+Astronomer Robe
+Founder's Saber
+Founder's Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_ARCTIC_TITLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ARCTIC ROBE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ARCTIC ROBE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ARCTIC ROBE</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_ARCTIC_DESC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The robe of choice for all the cool Wizards when they go clubbin'.
+
+This Pack Includes:
+
+Arctic Robe:
+- Receive -50% &lt;sprite=Element_Cold&gt; and &lt;sprite=Element_Ice&gt; damage.
+- Immune to Frozen and Chilled.
+
+Snowball:
+A generous mittenful of deadly snow. Not to be eaten.
+- Inflicts Frozen on impact.
+
+Frozen Staff:
+A staff of immense power over ice. Alarmingly similar in appearance to the Icicle Staff for some reason...just let it go...
+- Ability: Chilly Blast.
+Fire a cone of icy water forward that knocks back enemies hit and applies Frozen.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The robe of choice for all the cool Wizards when they go clubbin'.
+
+This Pack Includes:
+
+Arctic Robe:
+- Receive -50% &lt;sprite=Element_Cold&gt; and &lt;sprite=Element_Ice&gt; damage.
+- Immune to Frozen and Chilled.
+
+Snowball:
+A generous mittenful of deadly snow. Not to be eaten.
+- Inflicts Frozen on impact.
+
+Frozen Staff:
+A staff of immense power over ice. Alarmingly similar in appearance to the Icicle Staff for some reason...just let it go...
+- Ability: Chilly Blast.
+Fire a cone of icy water forward that knocks back enemies hit and applies Frozen.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The robe of choice for all the cool Wizards when they go clubbin'.
+
+This Pack Includes:
+
+Arctic Robe:
+- Receive -50% &lt;sprite=Element_Cold&gt; and &lt;sprite=Element_Ice&gt; damage.
+- Immune to Frozen and Chilled.
+
+Snowball:
+A generous mittenful of deadly snow. Not to be eaten.
+- Inflicts Frozen on impact.
+
+Frozen Staff:
+A staff of immense power over ice. Alarmingly similar in appearance to the Icicle Staff for some reason...just let it go...
+- Ability: Chilly Blast.
+Fire a cone of icy water forward that knocks back enemies hit and applies Frozen.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_PHARAOH_TITLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">PHARAOH'S ROBE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">PHARAOH'S ROBE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">PHARAOH'S ROBE</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_PHARAOH_DESC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">If you find yourself locked inside an ancient, cold tomb you can't be picky bout how you keep yourself warm.
+
+This Pack Includes:
+
+Pharaoh's Robe:
+- Receive -50% &lt;sprite=Element_Fire&gt; damage.
+- Immune to Wet.
+
+Sick-le:
+A tool used by nature loving Wizards who gather mistletoe and carve up other lifeforms.
+- Melee Attacks applies Poison.
+- Slows enemies hit by 50% for 3 seconds.
+
+Shepherd's Crook:
+Used by rulers to boss their people around. Even posthumously.
+- Ability: Her-Der.
+Charm a random enemy within close proximity.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">If you find yourself locked inside an ancient, cold tomb you can't be picky bout how you keep yourself warm.
+
+This Pack Includes:
+
+Pharaoh's Robe:
+- Receive -50% &lt;sprite=Element_Fire&gt; damage.
+- Immune to Wet.
+
+Sick-le:
+A tool used by nature loving Wizards who gather mistletoe and carve up other lifeforms.
+- Melee Attacks applies Poison.
+- Slows enemies hit by 50% for 3 seconds.
+
+Shepherd's Crook:
+Used by rulers to boss their people around. Even posthumously.
+- Ability: Her-Der.
+Charm a random enemy within close proximity.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">If you find yourself locked inside an ancient, cold tomb you can't be picky bout how you keep yourself warm.
+
+This Pack Includes:
+
+Pharaoh's Robe:
+- Receive -50% &lt;sprite=Element_Fire&gt; damage.
+- Immune to Wet.
+
+Sick-le:
+A tool used by nature loving Wizards who gather mistletoe and carve up other lifeforms.
+- Melee Attacks applies Poison.
+- Slows enemies hit by 50% for 3 seconds.
+
+Shepherd's Crook:
+Used by rulers to boss their people around. Even posthumously.
+- Ability: Her-Der.
+Charm a random enemy within close proximity.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_VIZIER_TITLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">VIZIER ROBE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">VIZIER ROBE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">VIZIER ROBE</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_VIZIER_DESC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Usually worn by advisers of easily manipulated rulers. Perfect for those days when you feel like lurking in the shadows and/or planning how to overthrow a monarchy..
+
+This Pack Includes:
+
+Vizier Robe:
+- Receive -50% &lt;sprite=Element_Arcane&gt; damage.
+- Immune to Wet.
+
+Doth'rake'y Blade:
+The horse people of the Leaning Stepps favour these blades when it comes to gardening. Other, more sadistic, people have found good use for them in other fields.
+- Melee Attacks applies Bleeding.
+- Deals 10% of the enemy's Max HP over 3 seconds.
+
+Golden Protector:
+Granted to experts of protection-based spells, who are showered with praise. It's also granted to the ones who cough up the dough.
+- Ability: Warded Expulsion.
+Inflicts Knocksback to all enemies within a range of the player and then creates an AoE shield.
+- +50% &lt;sprite=Element_Arcane&gt; Damage.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Usually worn by advisers of easily manipulated rulers. Perfect for those days when you feel like lurking in the shadows and/or planning how to overthrow a monarchy..
+
+This Pack Includes:
+
+Vizier Robe:
+- Receive -50% &lt;sprite=Element_Arcane&gt; damage.
+- Immune to Wet.
+
+Doth'rake'y Blade:
+The horse people of the Leaning Stepps favour these blades when it comes to gardening. Other, more sadistic, people have found good use for them in other fields.
+- Melee Attacks applies Bleeding.
+- Deals 10% of the enemy's Max HP over 3 seconds.
+
+Golden Protector:
+Granted to experts of protection-based spells, who are showered with praise. It's also granted to the ones who cough up the dough.
+- Ability: Warded Expulsion.
+Inflicts Knocksback to all enemies within a range of the player and then creates an AoE shield.
+- +50% &lt;sprite=Element_Arcane&gt; Damage.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Usually worn by advisers of easily manipulated rulers. Perfect for those days when you feel like lurking in the shadows and/or planning how to overthrow a monarchy..
+
+This Pack Includes:
+
+Vizier Robe:
+- Receive -50% &lt;sprite=Element_Arcane&gt; damage.
+- Immune to Wet.
+
+Doth'rake'y Blade:
+The horse people of the Leaning Stepps favour these blades when it comes to gardening. Other, more sadistic, people have found good use for them in other fields.
+- Melee Attacks applies Bleeding.
+- Deals 10% of the enemy's Max HP over 3 seconds.
+
+Golden Protector:
+Granted to experts of protection-based spells, who are showered with praise. It's also granted to the ones who cough up the dough.
+- Ability: Warded Expulsion.
+Inflicts Knocksback to all enemies within a range of the player and then creates an AoE shield.
+- +50% &lt;sprite=Element_Arcane&gt; Damage.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_WUXIA_TITLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">WUXIA ROBE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">WUXIA ROBE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">WUXIA ROBE</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_WUXIA_DESC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A Robe used by the Wizards of the far (insert cardinal direction here).
+
+This Pack Includes:
+
+Wuxia Robe:
+- Immune to Knockdown.
+- Deal +20% &lt;sprite=Icon_Attack&gt; Damage.
+- +20% Movement Speed.
+
+Exotic Blade:
+Forged from the finest steel, by the greatest swordsmith in the far (insert cardinal direction here). However this blade was found in the Highlands for some reason.
+- 25% chance to knockdown enemies with Melee Attacks.
+
+Bo Staff:
+A lightweight staff fused by nimble fighters. The Bo is excellent when you want to be quick on your feet and don't care as much about looks
+- Ability: Rapid Strikes.
+Enter a focused state then after 2 seconds, unleash a flurry of 5 quick strikes.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A Robe used by the Wizards of the far (insert cardinal direction here).
+
+This Pack Includes:
+
+Wuxia Robe:
+- Immune to Knockdown.
+- Deal +20% &lt;sprite=Icon_Attack&gt; Damage.
+- +20% Movement Speed.
+
+Exotic Blade:
+Forged from the finest steel, by the greatest swordsmith in the far (insert cardinal direction here). However this blade was found in the Highlands for some reason.
+- 25% chance to knockdown enemies with Melee Attacks.
+
+Bo Staff:
+A lightweight staff fused by nimble fighters. The Bo is excellent when you want to be quick on your feet and don't care as much about looks
+- Ability: Rapid Strikes.
+Enter a focused state then after 2 seconds, unleash a flurry of 5 quick strikes.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A Robe used by the Wizards of the far (insert cardinal direction here).
+
+This Pack Includes:
+
+Wuxia Robe:
+- Immune to Knockdown.
+- Deal +20% &lt;sprite=Icon_Attack&gt; Damage.
+- +20% Movement Speed.
+
+Exotic Blade:
+Forged from the finest steel, by the greatest swordsmith in the far (insert cardinal direction here). However this blade was found in the Highlands for some reason.
+- 25% chance to knockdown enemies with Melee Attacks.
+
+Bo Staff:
+A lightweight staff fused by nimble fighters. The Bo is excellent when you want to be quick on your feet and don't care as much about looks
+- Ability: Rapid Strikes.
+Enter a focused state then after 2 seconds, unleash a flurry of 5 quick strikes.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_BUNDLE_CULTURES_TITLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CULTURES ROBE BUNDLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CULTURES ROBE BUNDLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CULTURES ROBE BUNDLE</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#DLC_ROBE_BUNDLE_CULTURES_DESC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hailing from the far reaches of Midgard, these heterogeneous warriors have coalesced their martial prowess, elemental mastery and impenetrable language barriers, into a singular, unified force of cultured destruction!
+
+Each set includes a new Robe, Weapon and Staff.
+
+This Pack Includes:
+
+- Wuxia Robe
+- Arctic Robe
+- Vizier Robe
+- Pharaoh's Robe
+- Exotic Blade
+- Snowball
+- Doth'rake'y Blade
+- Sickle
+- Bo Staff
+- Icicle Staff
+- Golden Protector
+- Shepherd's Crook</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hailing from the far reaches of Midgard, these heterogeneous warriors have coalesced their martial prowess, elemental mastery and impenetrable language barriers, into a singular, unified force of cultured destruction!
+
+Each set includes a new Robe, Weapon and Staff.
+
+This Pack Includes:
+
+- Wuxia Robe
+- Arctic Robe
+- Vizier Robe
+- Pharaoh's Robe
+- Exotic Blade
+- Snowball
+- Doth'rake'y Blade
+- Sickle
+- Bo Staff
+- Icicle Staff
+- Golden Protector
+- Shepherd's Crook</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hailing from the far reaches of Midgard, these heterogeneous warriors have coalesced their martial prowess, elemental mastery and impenetrable language barriers, into a singular, unified force of cultured destruction!
+
+Each set includes a new Robe, Weapon and Staff.
+
+This Pack Includes:
+
+- Wuxia Robe
+- Arctic Robe
+- Vizier Robe
+- Pharaoh's Robe
+- Exotic Blade
+- Snowball
+- Doth'rake'y Blade
+- Sickle
+- Bo Staff
+- Icicle Staff
+- Golden Protector
+- Shepherd's Crook</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SPECIAL_ABILITY_ICE_CACOON</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">冰封术</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ice Cacoon</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ice Cacoon</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SPECABIL_HEAL_FRIENDLYS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">治疗友方</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Heal Friendlies</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Heal Friendlies</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SPECABIL_WARDED_EXPULSION</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">守护驱逐</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Warded Expulsion</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Warded Expulsion</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SPECABIL_CHILLY_BLAST</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">寒流冲击</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chilly Blast</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MAGICK_INFLICT_BLEED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">造成流血伤害</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Inflict Bleed Damage</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MAGICK_INFLICT_POISON</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">造成中毒伤害</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Inflict Poison Damage</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MAGICK_HER_DER</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">嘿-喽</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Her-der</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Her-der</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_WUXIA</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]武者长袍[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Wuxia Robe[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_WUXIAD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">远方（此处填方位词）巫师所用的长袍。
+-异域之刃；
+-棒术棍；
+-免疫击倒
+-+20%移动速度</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A Robe used by the Wizards of the far (insert cardinal direction here).
+
+Weapon: Exotic Blade. Staff: Bo Staff. Robe Effects: Knockdown Immunity, +20% Movement Speed.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_EXOTIC_BLADE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">异域之刃</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Exotic Blade</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_EXOTIC_BLADED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">由远方（此处填方位词）最伟大的铸剑师
+用最优质的精钢锻造而成。
+然而此刃却不知何故在高地被人发现。
+#DMG;高等物理
+#SP;25%击倒几率</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Forged from the finest steel, by the greatest swordsmith in the far (insert cardinal direction here). However this blade was found in the Highlands for some reason.
+
+Damage Type: High Physical. Special: 25% Knockdown chance.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_STAFF_BO</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">棒术棍</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bo Staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_STAFF_BOD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">由敏捷的斗士融合而成的轻量法杖。
+当你想要身手敏捷且不那么在意外观时，
+棒术棍是绝佳选择。
+#PA;无
+#AA;疾风连击</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A lightweight staff fused by nimble fighters. The Bo is excellent when you want to be quick on your feet and don't care as much about looks. 
+
+Passive Ability: None. Active Ability: Rapid Strikes.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SPECABIL_RAPID_STRIKES</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">疾风连击</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Rapid Strikes</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Rapid Strikes</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HUD_GOLD_TITLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goldie Lookin' HUD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goldie Lookin' HUD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goldie Lookin' HUD</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HUD_GOLD_DESC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hey, Fam! This lit HUD is so extra, all the other wizards will hundo p be jelly of the user interface you got going on!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hey, Fam! This lit HUD is so extra, all the other wizards will hundo p be jelly of the user interface you got going on!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hey, Fam! This lit HUD is so extra, all the other wizards will hundo p be jelly of the user interface you got going on!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HUD_IRON_TITLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Battle Ready</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Battle Ready</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Battle Ready</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HUD_IRON_DESC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You're brandishing a most powerful staff, wielding your most enchanted sword, and wearing the robe with the highest thread count known to man, yet somehow, you feel unprepared. That's because deep down you yearn for a HUD that's endured countless battles, stood the test of time, but ultimately, increases readability four fold! Well, my friend, search no further, for this is the HUD you desire!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You're brandishing a most powerful staff, wielding your most enchanted sword, and wearing the robe with the highest thread count known to man, yet somehow, you feel unprepared. That's because deep down you yearn for a HUD that's endured countless battles, stood the test of time, but ultimately, increases readability four fold! Well, my friend, search no further, for this is the HUD you desire!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You're brandishing a most powerful staff, wielding your most enchanted sword, and wearing the robe with the highest thread count known to man, yet somehow, you feel unprepared. That's because deep down you yearn for a HUD that's endured countless battles, stood the test of time, but ultimately, increases readability four fold! Well, my friend, search no further, for this is the HUD you desire!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HUD_MOBA_TITLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">League of Champions</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">League of Champions</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">League of Champions</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HUD_MOBA_DESC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hail, Summoner - I mean Wizard. This awesome HUD may feel familiar to you and that's because it totally is! Be sure to not overextend and feed your lane, that's how things get toxic!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hail, Summoner - I mean Wizard. This awesome HUD may feel familiar to you and that's because it totally is! Be sure to not overextend and feed your lane, that's how things get toxic!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hail, Summoner - I mean Wizard. This awesome HUD may feel familiar to you and that's because it totally is! Be sure to not overextend and feed your lane, that's how things get toxic!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HUD_SELECT</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Select</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Select</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Select</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HUD_SELECTED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Selected</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Selected</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Selected</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HUD_BUNDLE_TITLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">HUD BUNDLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">HUD BUNDLE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">HUD BUNDLE</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HUD_BUNDLE_DESC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Customise your in-game experience with three fancy HUDs available at a discounted price! Find and equip these HUDs in the HUD style menu.\n\n\nThis pack includes:\n\nGoldie Lookin' HUD\n\nBattle Ready\n\nLeague of Champions</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Customise your in-game experience with three fancy HUDs available at a discounted price! Find and equip these HUDs in the HUD style menu.\n\n\nThis pack includes:\n\nGoldie Lookin' HUD\n\nBattle Ready\n\nLeague of Champions</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Customise your in-game experience with three fancy HUDs available at a discounted price! Find and equip these HUDs in the HUD style menu.\n\n\nThis pack includes:\n\nGoldie Lookin' HUD\n\nBattle Ready\n\nLeague of Champions</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HUD_DEFAULT</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Default</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Default</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Default</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

@@ -1,0 +1,1849 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="TWC">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized Text</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Fairy_Greeting0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">嘿！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hey!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hey!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Fairy_Greeting1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">嘿！喊你呢！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Heya!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Heya!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Fairy_Listen_intro0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">听着喂！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Listn'!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Listn'!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Fairy_Listen_intro1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">嘿！听我说！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hey! Listn'! </Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hey! Listn'! </Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Fairy_Tip0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">把你的魔能丢到敌人身上吧！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Maybe you can cast spells on enemies?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Maybe you can cast spells on enemies?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Fairy_Tip1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">才，才不会因为你死了而讨厌你呢！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">If you die, I will hate you!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">If you die, I will hate you!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Fairy_Tip2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">有什么奇葩事件发生了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I think there's something going on!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I think there's something going on!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Fairy_Tip3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">…你是路痴吗？路在那边哦。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You should look for ways to complete this level!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You should look for ways to complete this level!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Fairy_Tip4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">努力探索吧，总有惊喜等着你！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Explore the level! You never know what you might find!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Explore the level! You never know what you might find!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Fairy_Resurrect</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哟，专心点儿！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Yo, pay attention!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Yo, pay attention!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_poi_west0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">从这儿走就能到地下扫矿了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This road leads to the Járn Mines.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This road leads to the Járn Mines.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TWC_poi_west1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">别又走错路了…大，大白痴！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Let's not go there again...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Let's not go there again...</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="TMD">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized Text</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_northbound</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这条路通往长风海岸。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This path leads to the Hálöndin Coast.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This path leads to the Hálöndin Coast.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_door01_0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">锁上了…我好像听见里面传来咕哝声。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's locked, but I can hear mumbling inside.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's locked, but I can hear mumbling inside.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_door01_1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">门的后面是终极！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It stopped now.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It stopped now.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_door02_0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">锁上了，看起来很久没人住了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's locked. There doesn't appear to be anybody living here anymore. </Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's locked. There doesn't appear to be anybody living here anymore. </Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_door02_1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">门上贴着小条儿：俺们“钓鱼”去了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There's a small note on the door that says "Gone fishin..."</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There's a small note on the door that says "Gone fishin..."</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_door03_0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">锁上了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's locked.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's locked.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_door03_1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">门上贴着小条儿：俺们“游泳”去了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There's a small note saying "Gone to get more wood".</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There's a small note saying "Gone to get more wood".</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_door04_0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">…一如既往地锁着。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">...locked, as usual.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">...locked, as usual.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_door04_1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">大家都去哪儿啦？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Where could everybody have gone?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Where could everybody have gone?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_door05_0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这里没人。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Nobody is here.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Nobody is here.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_door05_1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">地上有张小条儿，一定是从门上掉下的</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There's a small note on the ground. It must have fallen off the door. </Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There's a small note on the ground. It must have fallen off the door. </Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_door05_2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">小条儿说：“俺们去联欢啦！如果你正在看这条信息，
+那么说明他们没邀请你，哈哈撸sir…”剩下的就是一堆得瑟废话。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The note says "Gone to the great meeting. If you're reading this, then you're not invited, you..." ...the rest is just a bunch of incoherent foul language.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The note says "Gone to the great meeting. If you're reading this, then you're not invited, you..." ...the rest is just a bunch of incoherent foul language.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_church0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">里面似乎有人在联欢，太吵了听不太清他们说的啥。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There seems to be a small group meeting inside. It's hard to hear what they're saying.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There seems to be a small group meeting inside. It's hard to hear what they're saying.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_church1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">有人说“三大妈”？哦，等等，
+他们好像是在讨论某个游戏论坛。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Somebody is talking about a "weakening"? Or was it "awakening?"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Somebody is talking about a "weakening"? Or was it "awakening?"</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_church2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦！许多人在欢呼。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Now there's a lot of excitement.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Now there's a lot of excitement.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_church3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">他们似乎对于某游戏的汉化感到很兴奋。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Supposed to say "the great fire" but it's hard to hear.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">They seem very agitated about "the great ire"?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_church4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">很显然，那款来自鸾霄的汉化做的非常好。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"the great fire is lit"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Apparantly when "the great ire is it" something fantastic is going to happen. </Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_church5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦！现在只是普通的闲聊了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Now they're just chanting...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Now they're just chanting...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_pyre0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这是个大柴火堆。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's a large pyre.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's a large pyre.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_pyre1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我还能说什么呢，就是一大堆木头。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">What can I say, it's a pile of wood.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">What can I say, it's a pile of wood.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_pyre2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我不知道他们怎么把木头堆得那么高。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Full Metal Jacket quote is "I didn't know they stacked shit that high"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I didn't know they stacked wood this high.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_pyre3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">嗯，这些柴火一定能烧的很旺。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hmm, I bet it burns pretty good...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hmm, I bet it burns pretty good...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_altar0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这是一个普通的石头祭坛。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's an ordinary stone altar.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's an ordinary stone altar.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_poi_altar1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">嗯，有一个按钮藏在祭坛下面。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hmm, there's a hidden button beneath the altar...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hmm, there's a hidden button beneath the altar...</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Achievements">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized Text</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAL_achievement0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">没有力量就没有责任</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Spoofing Spider Man's (With great power comes great responsibility). You need to kill a giant spider named Parker to get this achievement.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">No Power = No Responsibility</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAL_achievement0d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">打败蜘蛛帕克。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Defeat Parker.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Defeat Parker.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAL_achievement1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你从哪里来...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">From whence you came...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">From whence you came...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAL_achievement1d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">被吸进有点儿危机的孤岛。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Get sucked into the portal to R'lyeh</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Get sucked into the portal to R'lyeh</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAL_achievement2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">邪神再眠</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fhtagn means "sleep" or "rest" in Cthulhu language.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fhtagn once more!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAL_achievement2d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">使邪神克苏鲁再度沉睡。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Put great Cthulhu to sleep once more.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Put great Cthulhu to sleep once more.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAL_achievement3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">顺利通过</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Breezed through as in "No problem"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Breezed through</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAL_achievement3d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">完成章节1，且没有挂掉。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Complete Chapter 1 in one sitting without dying.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Complete Chapter 1 in one sitting without dying.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAL_achievement4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">击败挫折</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This is a bit harder, starting to get a bit frustrated now</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Handling the frustration</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAL_achievement4d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">完成章节2，且没有死亡。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Complete Chapter 2 in one sitting without dying.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Complete Chapter 2 in one sitting without dying.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAL_achievement5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">快要疯啦</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Very difficult achievement</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Driven mad</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAL_achievement5d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">完成章节3...一命到底，没有挂！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Complete Chapter 3 in one sitting without dying.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Complete Chapter 3 in one sitting without dying.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAL_achievement6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">驱魔大师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Banisher of horrors</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Banisher of horrors</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TSAL_achievement6d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">消灭1000个克苏鲁世界的怪物。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This means killing different monsters and demons from the Cthulhu world.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vanquish 1000 creatures of the Cthulhu mytos.</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Items">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized Text</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_staff01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">反击之杖2.0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Deflection Staff 2.0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Deflection Staff 2.0</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_staff01D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">有些巫师对于躲闪攻击很不在行，
+或者懒得用法术防护，现在有
+了这把杖神马都解决啦！
+#PA;反射范围光环
+#AA;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">2.0 as in the latest version. there is a more "ordinary" deflection staff in the original game.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Some wizards are terrible at dodging, or simply too lazy to use their shielding spells. Such wizards crafted the Deflection Staff, able to repel incoming lethal projectiles. Now comes the next step in laziness, the Deflection Staff 2.0, which constantly deflects any projectiles sent in the direction of the wielder. #PA;Deflection Aura #AA;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_staff02</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">爱爱法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lovestaff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lovestaff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_staff02D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">空虚寂寞冷，羡慕嫉妒恨...
+#PA;无
+#AA;大量魅惑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lonely wizards often bring this staff to parties in the hopes of quickly making new friends -- which actually works! But only for a short time, leaving the wizard lonely again soon thereafter. #PA;None #AA;Mass charm</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lonely wizards often bring this staff to parties in the hopes of quickly making new friends -- which actually works! But only for a short time, leaving the wizard lonely again soon thereafter. #PA;None #AA;Mass charm</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_staff03</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">烤香肠法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sausage Staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sausage Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_staff03D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">不可思议地流行在巫师中,无论哪
+儿的巫师在庆祝，都有它的身影！
+#PA;无
+#AA;坑爹香肠雨</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Everybody loves sausages in Magicka</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A ridiculously popular staff among wizards. Whether they are going to parties, holiday celebrations, heading out into the wilderness or going on "diplomatic" missions into Goblin territories, wizards never mind bringing the Sausage Staff with them. #PA;None #AA;Sausage Rain</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_staff04</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">十字军旗帜杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">As in the christian crusades</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Banner of the Crusades</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_staff04D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">向天朝王国致敬，额等等...
+是天国王朝！
+#PA;无
+#AA;神圣手雷</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A quote from Monty Python and the Holy Grail: http://www.imdb.com/title/tt0071853/quotes?qt=qt0470612</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"First shalt thou take out the Holy Pin. Then shalt thou count to three, no more, no less. Three shall be the number thou shalt count, and the number of the counting shall be three. Four shalt thou not count, neither count thou two, excepting that thou then proceed to three. Five is right out. Once the number three, being the third number, be reached, then lobbest thou thy Holy Hand Grenade of Antioch towards thy foe, who, being naughty in my sight, shall snuff it. " #PA;None #AA;Holy Hand Grenade of Antioch</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_staff05</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">深渊地狱之杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of the Infernal Abyss</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of the Infernal Abyss</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_staff05D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">来自地狱深处的锻造工艺,
+到底是地狱还是深渊啊？
+#PA;None
+#AA;火弩箭</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Forged in the most hellish of places, possibly the west wing of Castle Aldrheim. This staff is shunned by many wizards due to its evil nature. Many wizards also tend to avoid them since burnt wizards generally shun fire. #PA;None #AA;Firebolt</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Forged in the most hellish of places, possibly the west wing of Castle Aldrheim. This staff is shunned by many wizards due to its evil nature. Many wizards also tend to avoid them since burnt wizards generally shun fire. #PA;None #AA;Firebolt</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_staff06</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">放大镜法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Magnifying Staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Magnifying Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_staff06D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一个具备放大镜的优良法杖,
+充分满足拥有好奇心的巫师们
+#PA;无
+#AA;局部视野放大</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A fine staff crowned with a convex lens, used to produce a magnified image of an object. The lens is mounted in a frame. This staff is very popular among curious wizards with a taste for mystery solving.  #PA;None #AA;Zoom and enhance</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A fine staff crowned with a convex lens, used to produce a magnified image of an object. The lens is mounted in a frame. This staff is very popular among curious wizards with a taste for mystery solving.  #PA;None #AA;Zoom and enhance</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_staff07</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">鱼叉棒</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">As in octo[pus] rod</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Octorod</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_staff07D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">有人猜它是黑暗精灵的作品，
+然而更像是某个疯狂渔夫打造...
+#PA;无
+#AA;召唤自主火焰</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The staff has an octopus on its top.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A peculiar staff of unknown origin. Some believe it comes from the old Dark Elf civilization, while others believe it to be a creation of mad fishermen. It is strange, however, that a staff of obvious fish-inspired style can bring about such a fiery death. #PA;None #AA;Summon Conscious Blaze</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">冷冻射线</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Freeze Ray</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Freeze Ray</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon01D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">有人认为是流星,有人认为是吸血
+鬼...而一些巫师认为是冰冻
+...杀死了恐龙！
+#DMG;中寒冷伤害
+#SP;远程冰冻目标</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Spoofs Batman and Robin where Mr. Freeze (from which the Freeze Ray gun is designed from) who claims very cheesy'ly that ice killed the dinosaurs which sounds very stupid when he says it.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There are many theories about what killed the dinosaurs. Some believe it to be a great Meteor Shower that annihilated them all, while others blame Vampires. Some wizards believe it was ice... that killed the dinosaurs... #DMG;Medium Cold #SP;Ranged, Freezes Targets</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon02</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">冷静之矛</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Anger Management Stick</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Anger Management Stick</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon02D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">当你想揍你的朋友一顿时，用它
+来发泄吧，只引起很小的伤害哟！
+#DMG;低物理伤害
+#SP;减少挫折</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A terrible weapon to use in combat -- not that it's fearsome or dangerous. Indeed, it causes very little harm to one's opponent. It is quite decent, though, when you need to wallop one of your "friends" to get rid of some built up frustration. #DMG;Low Physical #SP;Reduced frustration</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A terrible weapon to use in combat -- not that it's fearsome or dangerous. Indeed, it causes very little harm to one's opponent. It is quite decent, though, when you need to wallop one of your "friends" to get rid of some built up frustration. #DMG;Low Physical #SP;Reduced frustration</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon03</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">十万个冷笑话之剑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Spoof on Warcrafts "Frostmourne"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Frostjoy</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon03D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">七万个嫂夫人挨个儿帮我把它爆喽！
+#DMG;中寒冷伤害
+#SP;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Partially Snowy Plains is an actual place on the campaign map of Midgård. The quote spoofs Warcrafts "Whomsoever takes up this blade shall wield power eternal. Just as the blade rends flesh, so must power scar the spirit.", describing Frostmourne.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A very fine-looking sword made out of strange materials. Sometimes, merry whispers can be heard from the sword. It was once found on a pedestal in the Partially Snowy Plains, and upon that pedestal these words were inscribed: "Whomsoever takes up this blade shall wield power eternal. Just as the blade rends flesh, so must power rejuvinate the spirit." #DMG;Medium Cold #SP;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon04</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">外婆擀面杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Rolling Pin</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Rolling Pin</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon04D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">不仅可以拿来擀面，还可
+以给予敌人当头棒喝！
+#DMG;中物理伤害
+#SP;远程击昏目标</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The obvious weapon of choice for any pastry-making-wizard. Swinging a robust wooden rolling pin down upon the head of any foe is sure to cause the target great pain -- and give them a severe headache to boot. #DMG;Medium Physical #SP;Ranged, Stuns target</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The obvious weapon of choice for any pastry-making-wizard. Swinging a robust wooden rolling pin down upon the head of any foe is sure to cause the target great pain -- and give them a severe headache to boot. #DMG;Medium Physical #SP;Ranged, Stuns target</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon05</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">木匠射钉枪</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Martin Timell is a "famous" Swedish carpenter who has a show called "Äntligen Hemma" (Finally Home). So this is a nail gun that we've named after him.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Timell's Revenge</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon05D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">还记得死神是怎么来了的吗？(死神来了系列)
+#DMG;中物理伤害
+#SP;远程,流血状态</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bleeding is a status effect</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The crafty wizard's weapon of choice, which comes in handy in all sorts of situations, such as repairing broken floors or settling petty disputes. Both of which can be handled pretty darn quick with this baby. #DMG;Low Physical #SP;Ranged, Causes Bleeding</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon06</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">热锅上的蚂蚁</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hot Frying Pan</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hot Frying Pan</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon06D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">被它敲一下还不是最坏的，
+关键是它还很烫！
+#DMG;中物+火伤害
+#SP;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">As if getting hit by a heavy frying pan isn't bad enough, this one is still (constantly) hot, which adds to the painful experience. #DMG;Medium Physical/Fire #SP;None</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">As if getting hit by a heavy frying pan isn't bad enough, this one is still (constantly) hot, which adds to the painful experience. #DMG;Medium Physical/Fire #SP;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon07</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">希曼之剑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to He-Man</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Sword of Grayskull</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon07D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">赐予我力量吧！我是希曼！
+#DMG;高物理伤害
+#SP;很凉爽,降低火伤</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Imbued with the power of a once-great king, this sword is said to grant the wielder fantastic powers. Wielders are sometimes referred to as "He-Wizards" because they look so manly when wielding the sword.  Though there is no concrete proof that the sword contains any special powers, it still seems able to inflict quite a bit of damage in combat. #DMG;High Physical #SP;Looks really cool</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Imbued with the power of a once-great king, this sword is said to grant the wielder fantastic powers. Wielders are sometimes referred to as "He-Wizards" because they look so manly when wielding the sword.  Though there is no concrete proof that the sword contains any special powers, it still seems able to inflict quite a bit of damage in combat. #DMG;High Physical #SP;Looks really cool</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon08</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">惊魂电锯</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chainsaw</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chainsaw</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon08D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"你好,小巫师,我想跟你玩个游戏!"
+#DMG;高物理伤害
+#SP;流血状态</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">General reference to zombie movies like Dawn of the Dead and Evil Dead: Army of Darkness where chainsaws are used to disperse of zombies and other undead creatures.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This strange contraption makes a whole lot of noise, so it's hardly a weapon for  stealthy types. But once within the range, it does fearsome damage and causes all kinds of hideous wounds. Quite popular when dealing with various undead things. #DMG;High Physical #SP;Causes bleeding</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon09</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">收割镰刀</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to Children of the Corn</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sickle of the Corn</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon09D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">既是农具又是凶器,喉咙什么的
+最喜欢了！并且神奇的是，
+与"锤子"一起用特别合适呢
+#DMG;中物理伤害
+#SP;流血状态</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Once again, Children of the Corn but also Soviets Sickle &amp; Hammer symbol.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Strangely popular among young cult members, this weapon is usually used to cut crops in the fields but can be used to cut almost anything, including throats. Also strangely fitting when used together with a hammer. #DMG;Medium Physical #SP;Causes bleeding</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon10</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">撒尿牛丸</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to "The Mask" with Jim Carrey when he swallows a large stack of dynamites that explodes in his stomache. He then says something like "That sure was a Spicy Meatball". The item in question is of course a large stack of dynamites.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Spicy Meatball</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon10D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">看起来普通的肉丸子,可是似乎
+加了什么奇怪的配料...
+#DMG;高火系伤害
+#SP;远程,延时自爆</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Nobody knows who found or created this weapon, but clearly the amount of incredible destruction it causes is quite impressive, even by wizardly standards.  #DMG;High Fire #SP;Ranged, Delayed explosion</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Nobody knows who found or created this weapon, but clearly the amount of incredible destruction it causes is quite impressive, even by wizardly standards.  #DMG;High Fire #SP;Ranged, Delayed explosion</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon11</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">棒球棒</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Baseball Bat</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Baseball Bat</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon11D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">流线外形的棒子,用来敲脑袋可爽了！
+通常是双手武器，但巫师们只有
+一只手可用...
+#DMG;中物理伤害
+#SP;击昏目标</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"> A smooth wooden club used to hit people in the head. It is no more than 2.75 inches in diameter at the thickest part and no more than 42 inches in length. Normally it's supposed to be swung using both hands, but wizards usually just use the one arm.  #DMG;Medium Physical #SP;Stuns target</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"> A smooth wooden club used to hit people in the head. It is no more than 2.75 inches in diameter at the thickest part and no more than 42 inches in length. Normally it's supposed to be swung using both hands, but wizards usually just use the one arm.  #DMG;Medium Physical #SP;Stuns target</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon12</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">骷髅棒</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Skull Club</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Skull Club</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon12D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">就是根棒子,上面粘了个骷髅...
+#DMG;低物理伤害
+#SP;击昏目标</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The club is quite boring, so is the description</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's a club... with a skull attached to it... #DMG;Low Physical #SP;Stuns target</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon13</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">打字机关枪</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A classic "Chicago Typewriter" Thompson with a barrel magazine.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Aldrheim Typewriter</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon13D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哔哔,叭叭,砰砰,咚咚...
+#DMG;低物理伤害
+#SP;远程</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"stutter" as in jam  and "message is in need of delivering" as in shooting someone. </Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Aldrheim Typewriter is a popular tool for delivering strong messages amongst rivaling wizards. It's reliable and never stutters when a message is in need of delivering. #DMG;Low Physical #SP;Ranged</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon14</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">邪恶的剑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">As in evil</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sinister</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon14D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">外形如此邪恶的剑一定是被某个
+非常邪恶的家伙制造的...
+#DMG;中物理伤害
+#SP;流血状态</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This sword just screams "ill will". Whoever created this must surely hate many a thing. The sword is made of black steel and actually has blood and gore imbued into the blade.  #DMG;Medium Physical #SP;Causes bleeding</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This sword just screams "ill will". Whoever created this must surely hate many a thing. The sword is made of black steel and actually has blood and gore imbued into the blade.  #DMG;Medium Physical #SP;Causes bleeding</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon15</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">霸天斧</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to the black metal band Immortal, they have a song called Tyrants and they've posed for a photoshoot wielding an axe very much the same as this one.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tyrant Axe</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon15D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你问威震天在哪里?去找擎天柱啊！
+#DMG;低物理伤害
+#SP;击中引发恐惧</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"sons of the northern darkness" is an Immortal album. "true" is a term used among some metalheads, that when music is "too progressive" it's not true.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Forged by the sons of the northern darkness, in the darkest and coldest of woods. This axe strikes fear into the heart of any foe not true enough. #DMG;Low Physical #SP;Fear on hit</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon16</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">精怪之刃</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elf Slasher</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elf Slasher</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon16D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">专治各种不服...咳，治各种会
+瞬移,困惑且打不死的精怪...
+#DMG;低物理伤害
+#SP;对精怪有额外伤害</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There aren't any elves at all in Magicka, not yet anyway.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A few of these swords started showing up amongst Orcish ranks. It's not clear where they came from, but apparently they're supposed to be great for killing elves. However, elves aren't really that common in Midgård. #DMG;Low Physical #SP;Does extra damage to elves</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon17</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">左轮手枪</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">As in a classic short barreled revolver</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Six-shooter</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon17D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">喜欢用左轮手枪吗?
+...你西部电影看多了吧!
+#DMG;中物理伤害
+#SP;单发,慢速</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A revolver (whatever that means) that has a cylinder containing multiple chambers for, ammunition and at least one barrel for firing. This item is quite common amongst some wizards, since it's easy to handle and conceal. Many wizards also approve of the weight of the weapon. #DMG;Medium Physical #SP;Ranged</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A revolver (whatever that means) that has a cylinder containing multiple chambers for, ammunition and at least one barrel for firing. This item is quite common amongst some wizards, since it's easy to handle and conceal. Many wizards also approve of the weight of the weapon. #DMG;Medium Physical #SP;Ranged</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon18</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">指节铜套</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Brass Knuckles</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Brass Knuckles</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon18D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这叫咱该如何吐槽...朋克系？
+#DMG;中物理伤害
+#SP;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Five knuckle sanwich as in a punch</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Brass is surely a favorite ingredient in any decent knuckle sandwich. #DMG;Medium Physical #SP;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon19</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">祭司匕首</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sacrificial Dagger</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sacrificial Dagger</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_TSAL_weapon19D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">经典的诡异造型毒匕首,
+你绝对不想被它割上一口 
+#DMG;低物理伤害
+#SP;中毒</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Your typical sinister-looking blade, strangely shaped, with its tip dipped in poison. This is clearly something you don't want to get stabbed with.  #DMG;Low Physical #SP;Poison</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Your typical sinister-looking blade, strangely shaped, with its tip dipped in poison. This is clearly something you don't want to get stabbed with.  #DMG;Low Physical #SP;Poison</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Specab_TSAL_blaze</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">召唤自主火焰</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Summon Conscious Blaze</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Summon Conscious Blaze</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Specab_TSAL_magnify</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">放大</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Zoom &amp; Enhance</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Zoom &amp; Enhance</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Specab_TSAL_charm</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">大量魅惑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mass charm</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mass charm</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Specab_TSAL_sausage</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">坑爹香肠雨</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sausage Rain</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sausage Rain</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Specab_TSAL_antioch</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">神圣手雷</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Holy Hand Grenade of Antioch</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Holy Hand Grenade of Antioch</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Specab_TSAL_firebolt</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">火弩箭</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Firebolt</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Firebolt</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Robe Descripti">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized Text</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Detective</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]侦探巫师[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Detective Robe[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Detective Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_DetectiveD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">华生，把我的烟斗点上。
+那里绝对有不对劲的事儿发生！
+-穿着酷风衣的侦探
+-#ITEM_TSAL_staff06;
+-#ITEM_TSAL_weapon18;
+-可解开特殊谜题</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"There's definitely something fishy going on here." - Trenchcoat-wearing wizard upon investigating missing deliveries from Outsmouth -#ITEM_TSAL_staff06; -#ITEM_TSAL_weapon18; -Able to detect secrets</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"There's definitely something fishy going on here." - Trenchcoat-wearing wizard upon investigating missing deliveries from Outsmouth -#ITEM_TSAL_staff06; -#ITEM_TSAL_weapon18; -Able to detect secrets</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Cultist</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]祭司巫师[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Cultist Robe[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Cultist Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_CultistD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">那条触手动了吗？我发誓我看见它动了！
+-祭司中的新人新猪肉，慢慢待宰.
+-#ITEM_TSAL_staff07;
+-#ITEM_TSAL_weapon19;
+-防水不湿身</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Did that tentacle just move? I could have sworn that tentacle just moved..." - Newly inducted cultist wizard on the verge of expected madness. -#ITEM_TSAL_staff07; -#ITEM_TSAL_weapon19; -Water repellent</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Did that tentacle just move? I could have sworn that tentacle just moved..." - Newly inducted cultist wizard on the verge of expected madness. -#ITEM_TSAL_staff07; -#ITEM_TSAL_weapon19; -Water repellent</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Other">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized Text</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Fairy</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">小精灵</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fairy</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fairy</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_vlad_outsmouth0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">好！你终于来了,喵扑村就在前面,我无法
+用我狼一般的嗅觉侦测到那些当地居民，
+所以只好当作他们神奇地失踪啦。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Guud! Du komma hit entligen, Utmun ligga precis her borta. Ji kan null nogra bybor lukta med mitt varja-sinne ji skulle tro de vara longt bort i skogen.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Good! You finally made it. Outsmouth lies just ahead. I'm unable to detect any of the usual inhabitants with my wolflike sense of smell, so I would assume they have mysteriously vanished.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Cultist</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">邪教教徒</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cultist</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cultist</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#menu_opt_gfx_particles</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">粒子效果</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Particle Effects</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Particle Effects</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#menu_opt_gfx_particlelights</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">粒子灯</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Particle Lights</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Particle Lights</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TMD_vlad_outsmouth0 </Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

@@ -1,0 +1,3212 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="Character Names">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WizN1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">伯利克</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Baleyg</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Baleyg</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WizN2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">法玛提耶</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Farmatyr</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Farmatyr</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WizN3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">费穆布尔提耶</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fimbultyr</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fimbultyr</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WizN4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">费月尔提耶</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fjolnir</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fjolnir</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WizN5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哈尔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Har</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Har</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WizN6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">乔尔克</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jalk</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jalk</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WizN7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">奥斯基</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oski</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oski</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WizN8</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">萨迪尔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sadr</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sadr</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WizN9</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">提克</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Thekk</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Thekk</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WizN10</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">韦德里尔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vidrir</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vidrir</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WizN11</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">山姆斯</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shams</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shams</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#WizN12</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">皮罗普</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Propp</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Propp</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SolN1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">奥拉夫</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oelaf</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oelaf</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SolN2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">托尔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tore</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tore</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SolN3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">艾因那</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Einar</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Einar</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SolN4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">约尔玛</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hjalmar</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hjalmar</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SolN5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">阿恩韦德</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Arnvid</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Arnvid</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SolN6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">阿斯伯约恩</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Asbjorn</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Asbjorn</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SolN7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">勃拉姆</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bram</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bram</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SolN8</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">罗尔夫</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hrolf</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hrolf</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SolN9</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">利耶夫</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Leif</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Leif</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SolN10</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">西格门德</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sigmund</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sigmund</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViMN1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">屠龙剑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gram</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gram</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViMN2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">马格纳斯</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Magnus</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Magnus</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViMN3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">卡尔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Karl</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Karl</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViMN4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">约翰</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Johan</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Johan</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViMN5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">因格瓦尔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ingvar</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ingvar</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViMN6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哈耳朵号</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Halldor</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Halldor</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViMN7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哈拉尔德</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Harald</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Harald</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViMN8</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">艾德格</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Edgar</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Edgar</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViMN9</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">阿斯瓦尔德</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Asvald</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Asvald</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViMN10</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">阿布约恩</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Arnbjorn</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Arnbjorn</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViFN1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">弗雷亚</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Freya</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Freya</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViFN2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">拉格希尔德</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ragnhild</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ragnhild</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViFN3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">阿斯特里德</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Astrid</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Astrid</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViFN4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">格洛</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gro</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gro</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViFN5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">印加</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Inga</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Inga</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViFN6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">约弗里德</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jofrid</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jofrid</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViFN7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">玛利亚</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Maria</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Maria</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViFN8</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">露纳</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Runa</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Runa</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViFN9</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">托尔希尔德</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Thorhild</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Thorhild</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ViFN10</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">乌尔费得</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ulfeid</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ulfeid</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiMN1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">阿根那</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Agnar</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Agnar</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiMN2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">阿斯吉尔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Asgeir</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Asgeir</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiMN3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">埃尔德格利姆</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Eldgrim</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Eldgrim</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiMN4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">艾依文德</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Eyvind</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Eyvind</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiMN5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">基尔德</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gyrd</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gyrd</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiMN6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">希夫尼尔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Haefnir</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Haefnir</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiMN7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哈弗</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hrafn</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hrafn</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiMN8</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">伍尔夫吉尔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ulfkil</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ulfkil</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiMN9</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">瓦林</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Varin</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Varin</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiMN10</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">因格瓦尔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Yngvar</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Yngvar</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiFN1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">约尔萨</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Yrsa</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Yrsa</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiFN2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">格力玛</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Grima</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Grima</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiFN3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">塔斯特维</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fastvi</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fastvi</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiFN4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">阿尔蒂斯</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Aldis</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Aldis</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiFN5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">阿诺拉</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Arnora</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Arnora</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiFN6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">奥德约格</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oddbjorg</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oddbjorg</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiFN7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">尼德比奥格</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Nidbiorg</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Nidbiorg</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiFN8</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">拉恩威戈</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Rannveig</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Rannveig</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiFN9</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">提尔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Thyre</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Thyre</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CiFN10</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">维格迪斯</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vigdis</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vigdis</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Her_HM</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">院长</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Headmaster</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Headmaster</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Her_King</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">国王</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The King</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The King</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Her_Vlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">弗拉德</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Her_FVlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">来自未来的弗拉德</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"future" capitalized to emphasize it's part of his name.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Future Vlad</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Her_Bjorn</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">本乔将军</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">this should probably be the uppercase</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Captain Bjorn</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Her_Murray</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">穆雷</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Murray</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Murray</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Her_Agnar</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">大将阿根那</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Admiral Agnar</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Admiral Agnar</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Her_MacL</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">马克雷欧德</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">MacLeod</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">MacLeod</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Her_Angus</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">安格斯</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Angus</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Angus</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Her_Eliaf</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">艾力亚夫将军</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">this should probably be the uppercase</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Captain Eliaf</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Her_Barnir</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">巴尼尔队长</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">this should probably be the uppercase</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Captain Barnir</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HerN11</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">院长</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Headmaster</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Headmaster</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HerN12</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">院长</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">this and the following 5 lines were added for French capitalization rules. You can substitute them for the other names, when you need lowercase titles.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">headmaster</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HerN13</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">君主</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">king</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">king</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HerN14</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">本乔将军</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">this is the lowercase</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">captain Bjorn</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HerN15</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">大将阿根那</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">admiral Agnar</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">admiral Agnar</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HerN16</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">艾力亚夫将军</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">this is the lowercase</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">captain Eliaf</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#HerN17</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">巴尼尔队长</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">this is the lowercase</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">captain Barnir</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Location Names">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Location_WC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">巫师城堡</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Castle Aldrheim</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Location_MD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">神秘森林</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fornskogur Forest</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Location_HL</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">长风海岸</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hálöndin Coast</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hálöndin Coast</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Location_AS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哥布林飞艇</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Airship</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Airship</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Location_HV</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哈文德城</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hávindr</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hávindr</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Location_BF</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">兽人大本营</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Frostjörd Battlefield</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Frostjörd Battlefield</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Location_EW</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">世界尽头</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">World's End</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">World's End</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Location_MI</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">地下矿井</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Járn Mines</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Járn Mines</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Location_SW</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">黑暗沼泽</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Myrkur Swamp</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Myrkur Swamp</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Location_NH</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">死神领域</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Niflheim</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Niflheim</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Location_RU</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">雪山遗址</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Galdrhöll Ruins</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Galdrhöll Ruins</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Location_SP</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">巨人峰</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hvítajökull Peak</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hvítajökull Peak</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Location_Dunderhead</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">犇旦村</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dunderhaed</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Location_Khan</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">可汗的要塞</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Khan's Stronghold</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Khan's Stronghold</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Location_Veiditorp</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">维德堡</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Veiditorp</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Location_MidG</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">中原大陆</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Midgård</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Location_Debug</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">调试</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Debug</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Challenge_Swamp</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">僵尸之地</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Marshlands</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Challenge_SwampD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一场死亡之旅，
+你和同伴们要与潮
+水般涌现的怪物
+军团战斗。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Left for dead, your party must fight to survive the unrelenting hordes of the undead and all their friends.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Challenge_Glade</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">森林大绿地</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Glade</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Challenge_GladeD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">当你和同伴在林间野炊时，
+突然出现了一群恶狠狠的丛林生物
+要抢你们的野餐篮。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">While prancing around in the glade, your party is attacked by creatures of the forest.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Challenge_Cavern</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">地下洞穴</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cavern</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Challenge_CavernD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">在地下世界的阴影中，
+你与同伴将面临中原大陆最黑暗的地底深处……</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">changed the final word to Midgård.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">In the shadow of the underworld, your party will face off against fierce creatures from the darkest depths of Midgård.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Challenge_Arena</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哈文德竞技场</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hávindr Arena</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Challenge_ArenaD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">被丢进巨大的哈文德竞技场之后，
+你将面对来自四面八方的洪水猛兽。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Thrown into the mighty Hávindr Arena, you will face monsters from every corner of the world</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Versus_Arena</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哈文德竞技场</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hávindr Arena</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Versus_ArenaD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">角斗士那样大搅一场，并接受人们的赞美颂扬.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Battle it out, gladiator style: with salutes and everything.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Versus_Lake</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">冰冻之湖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Frozen Lake</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Versus_LakeD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">只有巫师才会傻到在结冰的湖面上解决纷争，
+而他们根本不会游泳！
+地球人都知道！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Only wizards are foolish enough to settle arguements on a frozen lake, especially since – as everyone knows – Wizards can't swim!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Versus_Training</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">训练场</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Training Grounds</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Versus_TrainingD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">训练场本是城堡中不可或缺的一部分，
+但现在大部分时间都是空荡荡的。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The training grounds were once an important part of castle life, but now they're empty - most of the time.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Versus_Top</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">了望塔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Watchtower</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Versus_TopD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">山顶之了望塔既是一片瑰丽的名胜古迹，
+也是与其他巫师进行激情决斗的好地方。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The ancient remains of the mountain-top watchtower is one of the most epic places to duel other wizards.</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Boss Names &amp; Titles">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_N01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">歪咯咯</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ygg</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_T1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">饥饿的森林巨魔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hungry Forest Troll</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_N02</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">青牙巨蟒</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jormungandr</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_T2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">森林守护者</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Guardian of the Tree</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_N03</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">乔顿</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jotunn</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_T3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">牛头人部落首领</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chieftain of the Tribes</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_N04</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">疯狂机器</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">THE MACHINE</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_T4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#Boss_T4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#Boss_T4</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_N05</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">巨型割草机</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Town Grinder</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_T5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">攻城神器</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Grinders of Towns</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_N06</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">可汗</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Khan</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_T6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">兽人军阀</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Warlord of the Orcs</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_N07</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">格瑞姆尼</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Grimnir</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_T7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">黑暗之神</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">the Dark Lord</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_N08</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">格格巫</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Aristocrats</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_T8</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哥布林领主</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">High Lords of the Goblins</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_N09</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">帕克</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Parker</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_T9</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">地下世界蜘蛛王</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lord of the Underworld</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_N10</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">弗拉德</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_T10</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">吸血鬼伯爵</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Vampire</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_N11</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">幽魂</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Draug</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_T11</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">沼泽统治者</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ruler of the Swamp</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_N12</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">死神</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Death</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_T12</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">快乐的导游</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Travel Agent</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_N13</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">女巨人</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Gygjur</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_T13</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">山丘之王</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">King of the Mountain Hall</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_N14</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">巨龙法夫纳</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fafnir</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_T14</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">贪婪终结者</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Burninator</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_N15</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">阿萨多</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Assatur</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_T15</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">黄袍魔神</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The King in Yellow</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_N16</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">大眼睛怪</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">yes, the Watcher's name is Behold</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Behold</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Boss_T16</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">守望者</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Watcher</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Watcher</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Entities">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Goblin_Rogue</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哥布林盗贼</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Rogue</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Goblin_Ranger</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哥布林守卫</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Ranger</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Goblin_Hood</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哥宾汉</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Hood</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Goblin_Warrior</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哥布林战士</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Warrior</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Goblin_Archer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哥布林弓箭手</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Archer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Goblin_Captain</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哥布林首领</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Captain</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Goblin_Warlock</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哥布林法师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Wizard</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Goblin_Shaman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哥布林萨满</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Shaman</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Goblin_Bomber</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哥布林投弹手</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Bomber</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Goblin_Commando</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哥布林突击兵</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Commando</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Commando</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Goblin_Miner</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哥布林矿工</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Miner</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblin Miner</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Orc_Warlord</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">兽人术士</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Orc Warlord</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Orc_Scout</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">兽人侦察兵</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Orc Scout</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Orc_Berserk</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">兽人狂战士</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Orc Berserker</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Orc_Warrior</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">兽人重装战士</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Orc Warrior</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Orc_Captain</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">兽人队长</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Orc Captain</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Orc_Ballista</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">投石器</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ballista</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Troll_Forest</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">绿巨魔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Forest Troll</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Troll_Cave</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">穴居巨魔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cave Troll</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Troll_War</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">重装巨魔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">War Troll</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Troll_Snow</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">雪怪</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Snow Troll</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Troll_Spirit</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">巨魔灵</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Troll Spirit</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Beast_Raider</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">牛头人暴徒B</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Beast Raider</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Beast_RaiderA</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">牛头人暴徒A</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Beast Raider Alpha</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Beast_Brute</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">暴走牛头人B</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Beast Brute</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Beast_BruteA</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">暴走牛头人A</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Beast Brute Alpha</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Beast_Chieftain</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">牛头人酋长</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Beast Chieftain</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Wild_Druid</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">德鲁伊</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Druid</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Wild_Treespirit</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">树精</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tree Spirit</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Wild_Spider</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">巨型蜘蛛</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Giant Spider</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Wild_Spider_Poison</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">毒蜘蛛</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Poison Spider</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Wild_Spider_Small</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">小蜘蛛</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Spiderling</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Wild_SwampThing</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">沼泽怪树树</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Swamp Monster, sort of an ent… but with a swamp tree</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Traeskmonstír</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Wild_Bird_Small</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">山鹰</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mountain Eagle</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Wild_Bird_Large</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">狂野雄鹰</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Frost Eagle</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Wild_Frog</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">巨型蟾蜍</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Giant Toad</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Wild_Drake</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">喷火鳄</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Fire Drake</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Evil_Daemon_lesser</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">小恶魔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">small daemon</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Daemonling</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Evil_Daemon</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">恶魔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Daemon</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Evil_Daemon_Lord</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">大恶魔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Daemon Lord</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Evil_Warlock</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">门徒术士</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Warlock Disciple, the followers of grimnnir</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Disciple</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Evil_Warlock_Lord</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">术士</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Warlock</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Evil_Elemental</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">元素体</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elemental</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Evil_Beholder_Easy</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">大眼睛怪</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">like harmless tumor</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Benign Beholder</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Evil_Beholder_Hard</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">邪恶的大眼睛怪</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">like cancer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Malignant Beholder</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Undead_Zombie</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">僵尸</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Zombie</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Undead_Ghoul</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">盗墓贼</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">does this conflict with Vlad's identity? He's a different kind of monster.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ghoul</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Undead_Ghoul_Flamer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">提灯盗墓贼</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ghoul carrying a lantern</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lantern Ghoul</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Undead_Wight</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">骷髅武士</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wight</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Undead_Ghost</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">鬼怪</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ghost</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Undead_Skeleton</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">骷髅</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Skeleton</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Skeleton</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Undead_Skeleton_Archer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">骷髅射手</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Skeleton Archer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Skeleton Archer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Undead_Skeleton_Soldier</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">骷髅小兵</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Skeleton Soldier</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Skeleton Soldier</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Undead_Necromancer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">死灵法师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Necromancer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Darksoul</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">幽暗魔灵</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Skeleton spellcaster</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Darksoul</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Dwarf_Champ</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">矮人精英</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarf Champion</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarf Champion</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Dwarf_Warrior</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">矮人战士</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarf Warrior</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Dwarf_Mage</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">矮人法式大厨</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarf Priest</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Elf_Noble</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">精灵贵族</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elf Noble</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elf Noble</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Elf_Pathfinder</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">精灵探路者</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elf Pathfinder</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elf Pathfinder</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Elf_Mage</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">精灵奥术法师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elf Arch Mage</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elf Arch Mage</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Human_Villager</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">暴动的村民</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Angry Mob Participant</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Angry Mob Participant</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Human_Militia</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">民兵</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Militia</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Militia</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Human_Archer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">弓箭手</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Archer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Archer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Human_Soldier</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">步兵</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Soldier</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Soldier</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Human_Knight</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">骑士</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Knight</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Knight</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Human_Paladin</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">圣骑士</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Paladin</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Paladin</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Human_Wizard</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">法师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wizard</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wizard</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Human_Dog</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">猎犬</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">War Hound</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">War Hound</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Dwarf_Cannon</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">加农炮</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cannon</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cannon</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Dwarf_Engineer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">矮人工程师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarf Engineer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarf Engineer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Dwarf_Xbow</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">矮人火枪手</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarf Rifleman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarf Rifleman</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Luggage</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一只咆哮着“有木有！”的宝箱</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference from Terry Pratchett</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sapient Pearwood Luggage</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Magick</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一只咆哮着“咬我啊！”的宝箱</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">the noun: Magick is a powerful thing!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Magick</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Horse</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">马</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Horse</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Imp</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">小鬼</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Imp</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Misc Names">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Names_misc_sign</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">招牌</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">signpost</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sign</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

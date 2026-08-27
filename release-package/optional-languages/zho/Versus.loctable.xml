@@ -1,0 +1,2420 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="Menu">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">English</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Versus_Star_Trek</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">瓦肯竞技场</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vulcanus is a spoof on Star Trek</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vulcanus Arena</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Versus_Star_TrekD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">来，战个痛快！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">An arena where friends must do battle...TO THE DEATH!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Versus_Lonely_Island</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">孤岛豪轮</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lonely Island Cruise</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Versus_Lonely_IslandD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">由地精打造的精美游轮。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This solid goblin constructed sea vessel offers travelers plenty of living quarters, resturants, luxurios lounges and one big sunny duel deck.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This solid goblin constructed sea vessel offers travelers plenty of living quarters, resturants, luxurios lounges and one big sunny duel deck.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#menu_change_team</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">改变组队</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Change team</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#POPUP_KICKED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你被踢掉啦</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You have been kicked</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Names">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">English</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VERSUS_KING</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">山丘之王</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">King of the Hill</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VERSUS_DM</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">死亡竞赛</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Death Match</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VERSUS_BRAWL</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">瞎打一气</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Brawl</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VERSUS_PYRITE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">挖矿飞贼</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Spoofing Harry Potter's "Golden Snitch"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pyrite Snitch</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VERSUS_TOURNEY</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">魔能锦标赛</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Krietor is a fan who's hosted several PvP tournament by modding the game.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Krietor's Tourney</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="UI">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">English</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#OPT_VS_LuggageInterval</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">宝箱刷新率</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Plural of Luggage, an NPC monster that can be killed in the PvP arena. When it is killed, it drops equipment (for use in the PvP battle)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Luggages</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#OPT_VS_Lives</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">复活次数</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lives</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#OPT_VS_Mode</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">游戏模式</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Game Mode</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#OPT_VS_Sudden_Death</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">突然死亡</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sudden Death</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MENU_OPT_ALT_Unlimited</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">无限模式</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Unlimited</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MENU_OPT_ALT_Never</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">从不</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">how often an event happens (specifically, how often luggages spawn)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Never</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MENU_OPT_ALT_Low</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">罕见</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Rarely</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MENU_OPT_ALT_Medium</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">偶尔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Occasionally</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MENU_OPT_ALT_High</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">经常</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Frequently</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MENU_STAT_DRAW</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">平局啦！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The game is a draw!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MAGICK_UNLOCKED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">解锁#1;！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#1; is replaced with a magick (ie Conflagration)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Unlocked #1;!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#GAME_OVER</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">游戏结束！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The game session has ended</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Game Over!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MENU_Countdown</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,0.2,0.2]游戏还有#1;开始！[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#1; is replaced with the nr of seconds remaining till the game starts.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,0.2,0.2]Game starts in #1;s.[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MENU_Countdown_abort</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,0.2,0.2]已放弃[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Displayed when the game start countdown is aborted.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,0.2,0.2]Aborted[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MENU_EnabledPacks</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">允许宝箱吐的物品</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">which item packs the host of a game has enabled. This controls what items will be spawned by the luggages. </Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Allowed drops</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MENU_Latency</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#1; ms</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#1; is replaced with the roundtrip ping time in milliseconds</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#1; ms</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#OPT_ChangeBinding</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">变更</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">On a button, meaning "apply the change". Used for Gamepad/Keybord configuration</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Change</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Achievement_LIC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"></Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Achievement_LICD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"></Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Achievement_Summer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"></Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Achievement_SummerD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"></Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Tooltips">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">English</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_SB_Name</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">游戏房名排序</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sort by game name</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_SB_Level</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">关卡名称排序</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sort by level name</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_SB_Players</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">游戏人数排序</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sort by number of players</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_SB_Ping</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">网络延时排序</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sort by latency</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_SB_Filter</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">改变搜索条件</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Change filter settings</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_SB_Host</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">建立新房间</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Host a game</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_SB_Quick</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">加入随机房间</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Join a random game</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_SB_Refresh</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">刷新列表</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Refresh list</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_SB_IP</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">IP连接</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Connect to a game via IP address</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_SB_Join</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">加入所选房间</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Join the selected game</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_VS_Mode</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">选择游戏模式</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Select game mode</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_VS_Time</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">最大游戏时间</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Maximum game time</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_VS_Score</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">最大游戏得分</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Maximum game score</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_VS_Lives</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">最大玩家/组队复活次数</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Number of lives for each player/team</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_VS_Teams</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">组队on/off</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Team play on/off</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_VS_Luggage</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">宝箱吐物率</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Determines how often luggages spawn</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_VS_Respawn</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">重生时间</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Duration between respawns</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_VS_Magicks</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">允许吐魔法书</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Enable Magick drops</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_LOBBY_Customize</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">自定义</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Customize</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_LOBBY_Level</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">改变游戏</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Change level</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_LOBBY_Start</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">开始游戏</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Start game</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_LOBBY_Spectator</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">作为旁观者加入</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Join the game as a spectator</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Packs">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">English</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_VANILLA_STICKS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]基本法杖[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vanilla as in basic. In English it's a bit of a joke = sticks as in staffs as well as sticks as in yummy vanilla-flavored coffee stirrers.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Vanilla Sticks[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_VANILLA_STICKSD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#Item_staff14;
+-#Item_staff03;
+-#Item_staff09;
+-#Item_staff17;
+-#Item_staff19;
+-#Item_staff13;
+-#Item_staff05;
+-#Item_staff08;
+-#Item_staff07;
+-#Item_staff02;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#Item_staff14; -#Item_staff03; -#Item_staff09; -#Item_staff17; -#Item_staff19; -#Item_staff13; -#Item_staff05; -#Item_staff08; -#Item_staff07; -#Item_staff02;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_WARD_STAFFS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]病痛系法杖[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Ward Staffs[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_WARD_STAFFSD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#item_staff04;
+-#item_staff15;
+-#item_staff20;
+-#item_staff12;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#item_staff04; -#item_staff15; -#item_staff20; -#item_staff12;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_PURPLE_PACK</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]紫装你懂的[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Purple Pack[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_PURPLE_PACKD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#item_staff10;
+-#item_staff11;
+-#item_staff18;
+-#item_staff06;
+-#item_staff16;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#item_staff10; -#item_staff11; -#item_staff18; -#item_staff06; -#item_staff16;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_MEAKY_PEAKY</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]搞搞怪系列[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">As in tiny/puny</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Meaky Peaky[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_MEAKY_PEAKYD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#item_weapon25;
+-#item_weapon08;
+-#item_weapon19;
+-#item_weapon22;
+-#item_weapon05;
+-#item_weapon24;
+-#item_weapon26;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#item_weapon25; -#item_weapon08; -#item_weapon19; -#item_weapon22; -#item_weapon05; -#item_weapon24; -#item_weapon26;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_HEAVY_HITTERS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]高伤系[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Heavy Hitters[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_HEAVY_HITTERSD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#item_weapon06;
+-#item_weapon13;
+-#item_weapon07;
+-#item_weapon16;
+-#item_weapon14;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#item_weapon06; -#item_weapon13; -#item_weapon07; -#item_weapon16; -#item_weapon14;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_POWER_PACK</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]力量系[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Power Pack[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_POWER_PACKD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#item_weapon10;
+-#item_weapon09;
+-#item_weapon11;
+-#item_weapon17;
+-#item_weapon03;
+-#item_weapon29;
+-#item_weapon30;
+-#item_weapon21;
+-#item_weapon28;
+-#item_weapon12;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#item_weapon10; -#item_weapon09; -#item_weapon11; -#item_weapon17; -#item_weapon03; -#item_weapon29; -#item_weapon30; -#item_weapon21; -#item_weapon28; -#item_weapon12;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_VIETNAM_GEAR</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]枪械系[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Vietnam Gear[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_VIETNAM_GEARD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#VI_IT_STAFF;
+-#VI_WE_M16;
+-#VI_WE_M60;
+-#VI_WE_AK47;
+-#VI_WE_RPG7;
+-#VI_WE_RPD;
+-#VI_WE_NAG;
+-#VI_WE_MAT49;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#VI_IT_STAFF; -#VI_WE_M16; -#VI_WE_M60; -#VI_WE_AK47; -#VI_WE_RPG7; -#VI_WE_RPD; -#VI_WE_NAG; -#VI_WE_MAT49;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_VANILLA_WEAPONS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]基本武器[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Basic</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Vanilla Weapons[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#PACK_VANILLA_WEAPONSD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#item_weapon04;
+-#item_weapon20;
+-#item_weapon18;
+-#item_weapon27;
+-#item_weapon31;
+-#item_weapon15;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#item_weapon04; -#item_weapon20; -#item_weapon18; -#item_weapon27; -#item_weapon31; -#item_weapon15;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MPACK_BASIC</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]基本魔法[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Basic[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MPACK_BASICD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#magick_revive;
+-#magick_grease;
+-#magick_haste;
+-#magick_invisibility;
+-#magick_teleport;
+-#magick_charm;
+-#magick_rain;
+-#magick_timewarp;
+-#magick_sphoenix;
+-#magick_nullify;
+-#magick_corporealize;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#magick_revive; -#magick_grease; -#magick_haste; -#magick_invisibility; -#magick_teleport; -#magick_charm; -#magick_rain; -#magick_timewarp; -#magick_sphoenix; -#magick_nullify; -#magick_corporealize;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MPACK_ADVANCED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]先进魔法[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Advanced[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MPACK_ADVANCEDD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#magick_fear;
+-#magick_thunderB;
+-#magick_tornado;
+-#magick_blizzard;
+-#magick_conflagration;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#magick_fear; -#magick_thunderB; -#magick_tornado; -#magick_blizzard; -#magick_conflagration;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MPACK_TOO_ADVANCED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]太先进了你妹的[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Too Advanced[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MPACK_TOO_ADVANCEDD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#magick_CTD;
+-#magick_sDeath;
+-#magick_sUndead;
+-#magick_sElemental;
+-#magick_vortex;
+-#magick_thunderS;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#magick_CTD; -#magick_sDeath; -#magick_sUndead; -#magick_sElemental; -#magick_vortex; -#magick_thunderS;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MPACK_NAPALM</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]火上浇油[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Napalm[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MPACK_NAPALMD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#magick_napalm;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#magick_napalm;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MPACK_METEOR_SHOWER</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]乱砸一气[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Meteor Shower[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MPACK_METEOR_SHOWERD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#magick_meteors;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Do not translate</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">-#magick_meteors;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Avatars">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">English</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Vanilla</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]香草巫师[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Vanilla" as in regular/standard</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Vanilla Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_VanillaD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">因曾用法杖搅拌香草咖啡而得名,
+魔能最基本的人物;
+-戴帽子的都是坏家伙!
+-#Item_staff01;
+-#Item_weapon01;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"There's no need to wear anything else. The basic robe is fancy enough." - Unknown regular scholar arguing with hat-wearing scholar -#Item_staff01; -#Item_weapon01;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Hat</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]帽子巫师[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Robe and Hat[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_HatD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">帽子最棒，帽子最猛，耶！;
+-香草什么的可笨可笨了。
+-#Item_staff21;
+-#item_weapon23;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"It's all in the hat!" - Unknown hat-wearing scholar arguing with regular scholar -#Item_staff21; -#item_weapon23;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Patched</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]补丁乞…巫师[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Patched Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_PatchedD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">他发誓,他将继续"完善"他的长袍，
+虽不漂亮，但至少都还"完整"地呆在一起。
+-#ITEM_STAFF_PATCH1;
+-#ITEM_WEAPON_PATCH1;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Also referring to the Magicka game itself. The "Patched Robe" expansion was released as part of the Mea Culpa DLC (which was released to apologize that certain multiplayer modes were not always working in the original release)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">He swore that he would keep working on his robe until it was done. At the time, it wasn't pretty but at least it was holding together. -#ITEM_STAFF_PATCH1; -#ITEM_WEAPON_PATCH1;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Bathrobe</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]浴袍巫…师[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Bathrobe... Robe?[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_BathrobeD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">麻瓜们总是分不清浴袍与
+魔法袍的区别，但巫师们可以！
+-#Item_staff_cup;
+-#Item_weapon_paper;
+-30%更轻
+-30%更快
+-30%更强</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The common folk can seldom see the difference, but a proper wizard always can. -#Item_staff_cup; -#Item_weapon_paper; -30% less resiliant -30% lighter -30% faster</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Vietnam</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]米军制服巫师[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Battle Robe Uniform[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_VietnamD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">星条旗永不倒！吼吼！
+-声名远扬的越南人物
+-#VI_IT_STAFF;
+-#VI_WE_M16;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"I've seen some shenanigans man..." - Well known Vietnam Wizard Veteran -#VI_IT_STAFF; -#VI_WE_M16;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Nippon</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]东瀛巫师[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Nippon Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_NipponD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">很少能有巫师穿上这么舒适的法袍哟！
+--经典的武士帽.
+-#Item_staff_bamboo;
+-#item_weapon_katana;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Seldom has a wizard enjoyed such fine quality in a robe -- and the hat is really quite practical. -#Item_staff_bamboo; -#item_weapon_katana;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Headcrab</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]僵尸巫师[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Zombie Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_HeadcrabD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一大波僵尸正在接近！
+-#ITEM_vs_staff01;
+-#item_weapon24;
+-软绵绵
+-速度慢
+-免疫中毒</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Half-Life 2 reference, Ravenholm was a town that got overrun by headcrabs turning the population to zombies. The quotes are the same except for the name of the place</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"That's the old passage to Ravenheim. We don't go there anymore." - Unknown Scholar -#ITEM_vs_staff01; -#item_weapon24; -Resiliant -Slow -Poison Immunity</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Reservoir</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]酷了吧唧的巫师[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Reservoir Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_ReservoirD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">人家才不想跟没内涵的巫师交谈呢！
+-当屌丝遭遇文艺青年…
+-#Item_staff01;
+-#ITEM_vs_weapon01;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Obscure reference to the story behind the name of the movie Reservoir Dogs by Tarantino</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"I don't want to read about no reservoir wizards" - One villager to another when discussing French books -#Item_staff01; -#ITEM_vs_weapon01;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_StarTrek</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]瓦肯巫师[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Frontier Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_StarTrekD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">也许黄色衣服的人物总是第
+一个被干掉，但是来自星际迷航的
+瓦肯巫师知道，制服总是红色的
+-繁荣昌盛，生生不息！
+-#ITEM_vs_staff02;
+-#ITEM_vs_weapon02;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to Star Trek</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Some say that Yellow is always the first to go, but wizards wearing this robe know it's always Red.  -#ITEM_vs_staff02; -#ITEM_vs_weapon02;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Dragonborn</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Dragonborn Robe[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Dragonborn Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_DragonbornD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">“巨龙之血流过了他的静脉，火焰吞噬了他的双眸。他就是救世主，龙裔。”
+- 《中原大陆的著名私生子》的手抄本
+-#ITEM_vs_staff03;
+-#ITEM_vs_weapon03;
+-火焰免疫</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"The blood of dragons flowed through his veins, and fire burned in his eyes. He was the chosen one, the dragonborn." - Transcript from 'Famous Bastard Sons of Midgård' -#ITEM_vs_staff03; -#ITEM_vs_weapon03; -Fire Immunity</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Tank</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]重装巫师[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Tank Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_TankD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">巫师不该穿那么重的盔甲的！
+人家会体力不支的啦！
+-来自巫师城堡院长的批判
+-#ITEM_vs_staff04;
+-#ITEM_vs_weapon04;
+-有盔甲
+-重如泰山啊你妹的！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Wizards weren't made to wear armour. They don't have the right physique for it." - Wizard Headmaster, critisizing the rare use of heavy armor -#ITEM_vs_staff04; -#ITEM_vs_weapon04; -Armored -Heavy</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Rogue</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]刺客巫师[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Rogue Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_RogueD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我速度很快，我还会使毒，还有烟雾弹！
+-想雇佣人家吗？人家可贵啦！
+-#ITEM_vs_staff05;
+-#ITEM_vs_weapon05;
+-真的好快
+-轻如鹅毛的说～</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">As the smoke settled, the trickster wizard was nowhere to be found. The poison was beggining to take its toll, and soon it would be all over. -#ITEM_vs_staff05; -#ITEM_vs_weapon05; -Fast -Light</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Support</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]奶爸巫师[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Support Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_SupportD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">有奶便是娘是不对的，人家可是奶爸！
+-别忽略的奶爸的作用啊喂！
+-#ITEM_vs_staff06;
+-#ITEM_vs_weapon06;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Selflesness, skill, and sacrifice. These three traits are requisite for any supporting role, and are lacking in pretty much all wizards. -#ITEM_vs_staff06; -#ITEM_vs_weapon06;</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Items">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">English</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_staff01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">牧羊人手杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to Half-Life 1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lambda Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_staff01d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">据说牧羊女曾用它勾到胡迪警长
+(玩具总动员)为啥僵尸手上会有？
+#PA;无
+#AA;范围撒毒</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Legend has it that staves like this sometimes appear through portals at the end of the world. Others say that they were crafted by wizards lacking proper social abilities, and with too much time on their hands. #PA;None #AA;Radioactive Discharge</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_staff02</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">决斗杖铲</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dueling Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_staff02d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">本想做成可以引导奥术能量的神器，
+结果材料方面不允许...好吧，
+只好用于肉搏战啦
+-偶尔用来当晾衣架
+#PA;无
+#AA;“我最摇摆！”</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Standard wizard staves are never used in close combat, as wizards are afraid such abuse might compromise the stave's ability to channel arcane energies and elements. This staff, however, is crafted from poor materials with no obvious practical use. Thus, many wizards use it in melee -- and occasionally to hang up their laundry. #PA;None #AA;Sucker Swing</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_staff03</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">德雷克的法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of the Drake</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_staff03d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">人们深信这根法杖是在龙之世纪打造的，但是关于它的起源还有众多谜团。只有很少很少的巫师使用过它，并且传说只有身体内流着龙族之血的巫师才有能力驾驭它。不过，传说这东西也有很多是非常愚蠢的。
+#PA;无
+#AA;召唤喷火鳄</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to Dragon Age: Origins</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This staff is believed to have been crafted during the Dragon Age, but much about its origins remains unknown. Few wizards have ever been seen wielding it, and legend has it that it can only be wielded by wizards with dragon's blood running through their veins. On the other hand, legend has lots of silly nonsense.  #PA;None #AA;Summon Firedrake</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_staff04</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">大盾防御</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Greater Shield of Protection</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_staff04d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">转职近战战士的法师你伤不起！
+#PA;显著降低法伤
+#AA;盾牌冲击</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The standard issue GSP was never meant to be wielded by wizards, and only less talented wizards would ever resort to the use of reinforced iron to fend off enemy attacks. It has proven to be surprisingly useful in wizard duels, but is rather a liability when the casting of spells becomes necessary. #PA;Significantly decreased spell efficiency #AA;Shieldbash</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_staff05</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">烟雾弹</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Smoke Bombs</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_staff05d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">尽管被许多人不齿，但烟雾弹
+逃生具备非常高的实用性，好比让
+一只兽人在高速公路收费站工作...
+#PA;无
+#AA;制造烟雾向后退</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Though they are considered cowardly by many, Smoke Bombs are perfect for creating distractions, and relocating yourself quickly in the face of imminent danger, such as high velocity projectiles and charging Beastmen. #PA;None #AA;Smoke and shadowstep</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_staff06</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">永不断奶的法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of everlasting support</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_staff06d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">人人有奶喝，人人有肉吃，
+好男人就是我，我就是奶爸！
+#PA;降低法伤,范围支持光环
+#AA;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The crystal cores of these staves have been intentionally compromised, to allowing their magical energies to seep out and find their way into other nearby crystals. This makes the staff itself inferior to others, but any wizards in the presense of the cracked crystal find their own staves far more potent.  #PA;Decreased spell efficiency, Spell boosting aura #AA;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_weapon01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">M1911</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A handgun that has been in use since 1911.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">M1911</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_weapon01d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">独自生存在都市深处的巫师常常
+会使用这种奇怪的神兵利器
+#DMG;低物理伤害
+#SP;范围攻击</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wizards who have left Aldrheim and live outside the laws of society can occasionally be seen using such strange but formidable weapons. #DMG;Low #SP;Ranged</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_weapon02</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">2型相位手枪</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Star Trek</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Type 2 Phaser</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_weapon02d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">在巫师城堡的某个箱子里发现的
+先进武器，已被设定为闪电攻击.
+#DMG;无
+#SP;电击昏迷</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A ridicously advanced piece of equipment found in a crate in the basement of Castle Aldrheim. The Phaser apparantly has many different functions, but the wizards of Aldrheim have made sure that it is permanently set to stun. #DMG;None #SP;Lightning Stuns</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_weapon03</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">湮灭之剑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elder Scrolls 4: Oblivion reference</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sword of Oblivion</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_weapon03d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这把沉重而残忍的巨剑是无法通过魔法来锻造的。它剑身上雕刻着古代符文，钢材天然形成却又坚硬无比。
+#DMG;高
+#SP;慢</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This heavy and brutal sword could not have been forged by the Wizard Order. It is inscribed with ancient runes, and the steel is of a crude but very solid quality.  #DMG;High #SP;Slow</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_weapon04</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">笨重的钝刀</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Extra Blunted Blade</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_weapon04d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我很笨可是我很坚韧，
+我很丑可是我很温柔
+#DMG;低物伤+慢速
+#SP;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">These swords are designed for the least talented wizards of Aldrheim. They are even more blunted than usual, for that extra bit of protection. #DMG;Low, Slow #SP;None</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_weapon05</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">紧凑的十字弓</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Compact Crossbow</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_weapon05d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">小巧便捷的快速式毒箭弓弩,无需
+很大手劲也能使用,深受巫师喜爱
+#DMG;低物理伤害
+#SP;毒箭</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Compact Crossbow is a small, portable version of the classic Crossbow, which is never used by wizards owing to the strength required to load it. This one, however, is designed to suit wizards perfectly. The Compact Crossbow comes with a fancy wrist attachment. Each arrow must be poisoned separately. #DMG;Low #SP;Poisonous arrows</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_weapon06</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">治愈之手</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Healing Hands</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_vs_weapon06d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">合格的奶爸拥有美丽心灵,他们的
+手能够治愈一切,而不是握着刀剑
+#DMG;极低物伤
+#SP;无</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A wizard filling the supporting role is often a very gentle soul, and uncomfortable with the idea of harming others. He feels that his hands were made for better things than hoisting a blade. #DMG;Very low #SP;None</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Special Abilities">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">English</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_specab_smoke</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">烟雾弹</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Smoke Bomb</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_specab_bash</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">盾牌冲击</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Shield Bash</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_specab_radioactive</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">范围撒毒</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Radioactive Discharge</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_specab_sucker</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">“我最摇摆！”</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sucker Swing</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_specab_smoke          </Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_specab_bash             </Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_specab_radioactive  </Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

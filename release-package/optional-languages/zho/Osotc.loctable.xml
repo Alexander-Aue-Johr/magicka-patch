@@ -1,0 +1,2223 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="scene1">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc1_alucart_intro1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#osotc_elwenhus;近在咫尺，[P=1]那些乐观主义者，
+[P=0.3]那些所谓的公平正义，[P=0.3]那些漂白的头发[P=0.5].[P=0.5].[P=0.5]. 
+[P=0.5]哦这味道让我恶心！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Introduction to the player character Alucart.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#osotc_elwenhus; is just up ahead.[P=1] The optimism,[P=0.3] the righteousness,[P=0.3] the hair bleach[P=0.5].[P=0.5].[P=0.5]. [P=0.5]The smell sickens me.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc1_alucart_intro2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">曾经，我很欣赏这块美丽的土地，但现在，[P=0.5]只有
+一件事迫使我不得不回到这里...[P=0.5]找到他，[P=0.5]终结一切！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Introduction to the player character Alucart.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Once, I might have appreciated its beauty, but that time has long since passed. [P=0.5]Only one thing calls me here now... [P=0.5] To find him --[P=0.5] to end this!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc1_guard1_gate1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我猜我们要下岗了，连#osotc_quarrel_short;这种
+历史遗留问题都能出现转机！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Guards dialogue</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Guess we'll be out of work now that #osotc_quarrel_short; is all straightened out.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc1_guard2_gate2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">别那么悲观主义，[P=0.5] #Her_Vlad;已经超水平发挥他和事佬
+的能力，正在平复各个种族间的矛盾！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Guards dialogue</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Don't be a mope.[P=0.5] #Her_Vlad; has outdone himself patching things up between the races!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc1_alucart_gate3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哈！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart laughs (about the guards' foolishness) from the wings.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ha!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc1_guard1_gate4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">啊？那是什么奇怪的噪声？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Guards dialogue (being foolish, as Alucart said) Reference to Metal Gear Solid</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Huh? What was that noise?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc1_alucart_gate5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">别轻易赞扬那种所谓的#osotc_savior;行为！
+[P=0.5]我本可以不理会你们这类言论，
+但不代表我能够容忍，[P=1]去死吧！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart appears!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Don't be so quick to praise the actions of your so-called #osotc_savior;![P=0.5] Your petty quarrel might be resolved for now, but the menace that you have invited into your haven is incomparable![P=1] En garde!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc1_alucart_partypoop1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">派对结束了, 空想主义者们！[P=0.5]让我看看你们有多
+享受 #Her_Vlad;那可怜的小把戏，现在，混乱降临！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart disrupts the festivities, and...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Party's over, do-gooders![P=0.5] Let's see how well you enjoy #Her_Vlad;'s pathetic little treats, now that Chaos has been invited!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc1_suprisedcrowd_partypoop2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[惊喘]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">many people are startled</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[surprised gasp]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc1_knights_joust1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">死死死死吧！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Knight encounter</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">DEEEATH!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc1_paladin_cross1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">停手，黑暗使者！[P=0.5] 
+神圣的三族会议岂容汝等染指摧朽！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Paladin encounter. "I demand you cease your attack" is a castlevania reference.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Halt, darkling![P=0.5]  I demand you cease your attack on this noble council.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc1_alucart_cross2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我不是故意惹你生气，圣骑士，
+恐怕会议本身并没有你想象的那么"神圣"[P=0.5]
+善与恶的界线不是那么容易划分的清！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart replies sarcastically. "bubble" is a reference to the Paladin's immunity aura that is a bubble (reference from World of Warcraft)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I don't mean to burst your bubble, but this occasion is not so noble as you might like to believe.[P=0.5] The balance between good and evil cannot so easily be set askew!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc1_paladin_cross3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦亲，你怎么了亲！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Paladin thinks "askew" was "achoo", a sneeze</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bless you!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc1_alucart_cross4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">... [P=1] 的清！[P=0.5] 我说的是清楚的清！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart clarifying, no it wasn't a sneeze.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">... [P=1] Askew![P=0.5] I said askew!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc1_paladin_cross5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦，如此不清的口齿跟你浮夸的外表很相称！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Paladin somewhat embarrassed. a reference to "your words are as empty as your soul" -Castlevania</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oh. Well then your words are as empty as your nose. </Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc1_alucart_cross6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">啊噢！你那虚伪的"神圣"作派使我的牙齿不由
+自主地硬了，我想我该尝尝[P=0.5] ...你神圣的脖子！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart ready to attack. He makes another sneeze joke. "a chew" = "achoo".</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ach! Your sanctity sets my blood-thirst boiling.  I think I'll just have A CHEW![P=0.5] ...on YOU!</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="scene2">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc2_vlad_cutscene1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">作为和平与尊敬的象征，为了种族大团结，
+[P=0.5] 我制造了三枚 #osotc_magickrings;！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">First council cut-scene</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">As a token of peace and respect, and to unite all the races,[P=0.5] I have crafted three #osotc_magickrings;!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc2_leaders_cutscene2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦哦哦哦！[P=1]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">First council cut-scene</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ooooooh![P=1]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc2_vlad_cutscene3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一枚戒指给你，#osotc_elfleader;，[P=2.0]高挑纤细的金发者；
+[P=1.0] 一枚给你，#osotc_dwarfleader;，[P=2.0]粗壮稳健的长须者；
+[P=1.0] 还有一枚给你，#osotc_humanleader;,中等身材[P=4.0]优雅的[P=0.5].[P=0.5].[P=0.5].额[P=0.1]诶[P=0.2] 华服者！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">First council cut-scene</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">One ring for you, #osotc_elfleader;, [P=2.0]fair and slender![P=1.0] One ring for you, #osotc_dwarfleader;, [P=2.0]bearded and steady.[P=1.0] And one ring for you, #osotc_humanleader;,[P=4.0] medium-sized and... tasteful[P=0.5].[P=0.5].[P=0.5].l[P=0.1]y[P=0.2] dressed!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc2_vlad_cutscene4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">阿门![P=1.0]为了确保三族联盟的稳固性,我还制造了#osotc_fourthring;戒指![P=2]
+这能确保你们的戒指永远不会欺骗主人，
+[P=3]我称其为...[P=0.5] #osotc_bestring;，[P=0.5] 我想我该坚持下去...[P=0.5] 
+为了更安全地保存[P=0.5].[P=0.5].[P=0.5].</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">First council cut-scene</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ahem![P=1.0] And to seal the union between the rings and the races, I have also crafted a #osotc_fourthring; ring![P=2] This shall ensure that the power of your rings never deceives you.[P=3] I call it...[P=0.5] the #osotc_bestring;,[P=0.5] and I think I'll hang on to it...[P=0.5]  for safe keeping[P=0.5].[P=0.5].[P=0.5].</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc2_dwarfoff_cannon1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">嘿，[P=0.5]那不是#Her_Vlad; 吗？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarf cannon encounter introduction. Dwarf confuses Alucart (a vampire) for Vlad (also a vampire). Must be the pale complexion</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hey,[P=0.5] isn't that #Her_Vlad; over there?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc2_alucart_cannon2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你居然敢用他·的·名·字叫我？你的傲慢无知亵渎
+了神灵!我的愤怒无法容忍!我要剥夺你这渺小的生命，
+就像他当初夺走我的一样！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart does not forgive the dwarf's mistake</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You dare call ME by HIS name? Your insolence is blasphemy! My fury knows no bounds for the one who destroyed me! I shall steal your mortal life, as he once stole mine.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc2_dwarfoff_cannon3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">喔喔喔……对对对对不起！
+[P=0.5]你们这些大型人种看起来都差不多！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Wow... Sooorry![P=0.5] You big people all look the same to me!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc2_dwarfengi_cannon4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">噢额！好像有点种族歧视。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oi! That's racist.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc2_alucart_cannon5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">说够了没！[P=0.5] 我的名字是 #osotc_alucartspec;，
+[P=0.5] 你挡着道了，[P=0.5]准备好去死吧！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Enough talk" - Castlevania reference "My name is  , prepare to die" -The Princess Bride reference</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Enough talk![P=0.5] My name is #osotc_alucartspec;.[P=0.5] You block my path. [P=0.5]Prepare to die!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc2_dwarfoff_cannon6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">死，咿？好吧你得把我们先杀死！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">3 stooges?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Die, ey? Well you'll have to kill us first! </Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc2_dwarfoff_cannon7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">工程兵！炸掉那座桥！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">ENGINEERS! BLOW THE BRIDGE!</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="scene3">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc3_vlad_cutscene1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">于是先生们，想好怎么结盟了吗？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Second council cut-scene</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">So gentlemen, are we ready to stand united?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc3_elflead_cutscene2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你拥有我的#osotc_elfleader_bow;助战！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lord of the rings Reference</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You have my #osotc_elfleader_bow;!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc3_dwarflead_cutscene3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">还有我的#osotc_dwarfleader_axe;参战！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lord of the rings Reference</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You have my #osotc_dwarfleader_axe;!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc3_humanlead_cutscene4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">和我的...#osotc_humanleader_stake;加入！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lord of the rings Reference</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">And my... #osotc_humanleader_stake;!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc3_vlad_cutscene5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">... 我不认为我们需要这个，[P=1.5] 不如你提供那把剑？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Second council cut-scene</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">... I don't think we will be needing any of those.[P=1.5] How about you offer that sword of yours instead?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc3_humanlead_cutscene6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦？[P=0.5]好的...[P=0.5] 你得到我的剑助战。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Second council cut-scene</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oh? [P=0.5]Very well...[P=0.5] You have my sword then!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc3_vlad_cutscene7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">就这样吧！[P=0.5]人人为我，[P=1.0]我[P=0.5] 为[P=0.5]人[P=0.5]人！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Second council cut-scene. The "one ring" joke (one ring to rule them all) from LotR, minced up with the 3 musketeers.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">So be it![P=0.5] One for all,[P=1.0] and[P=0.5] all[P=0.5] for[P=0.5] one!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc3_elfmage_shield1_1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">停在那里， 黑暗使者！[P=0.5] 我不会让你干扰三族会议的！
+和平才是当今世界的主题！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elf arch mage sees Alucart approaching</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Stop right there, advocate of darkness![P=0.5] You will never disrupt the councils negotiations! There must be peace between the races!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc3_alucart_shield1_2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">有远比世界和平更重要的东西...[P=2] 
+好比我的复仇！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There are things more important than world peace...[P=2]  like my VENGEANCE!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There are things more important than world peace...[P=2]  like my VENGEANCE!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc3_elfmage_shield2_1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pedin i phith in aníron, a nin ú-cheniathog.（精灵语）</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elven language from Lord of the Rings. Do not translate. (/'p?.din if 'fi? in a.'ni?.r?n a 'nin u?.x?.'ni.a.??g/) (Eng: I can say what I wish, and you won't understand me)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pedin i phith in aníron, a nin ú-cheniathog.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc3_alucart_shield2_2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">.........</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">.........</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">.........</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc3_elfmage_shield2_3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Novaer!（精灵语）</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elven language from Lord of the Rings. Do not translate. (/'n?.va?r/) (Eng: Farewell)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Novaer!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc3_elfmage_shield3_1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我的姐妹们牺牲了？[P=0.5] 她们的死不会白费！
+[P=0.5]我还活着，还在呼吸，这扇大门依旧被封印着！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">So my sisters have fallen?[P=0.5] Their sacrifices will not have been in vain! [P=0.5]While I still breathe, the gate shall remain sealed!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">So my sisters have fallen?[P=0.5] Their sacrifices will not have been in vain! [P=0.5]While I still breathe, the gate shall remain sealed!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc3_alucart_shield3_2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我想我该送这位还在呼吸的闹腾家伙去见她的好姐妹!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Then we'll just have to put an end to that breathing nonsense!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Then we'll just have to put an end to that breathing nonsense!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc3_elfmage_shield2_1alt</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我占卜了你的未来...结局是死亡！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lord of the Rings reference</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"> I have looked into your future and I saw death! </Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc3_alucart_shield2_2alt</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">啊哈！那是你的结局，我已经看到了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Aha! Your death then, I should imagine!</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="scene4">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc4_vlad_intro1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">...恩，你该在这里签字，[P=1]还有这里跟这里， [P=0.5]
+在这里盖个手印，[P=0.5]还有你名字的首字母，
+[P=0.5]我会尽快把剩下的档案文件尽快交给你。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart and Vlad dialogue before final fight</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">...so if you'll just sign here, [P=1]here and here, [P=0.5]thumbprint goes here, [P=0.5]and your initials here, [P=0.5]I'll get the rest of the forms out to you as soon as I can.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc4_alucart_intro2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">真是好久不见了，老家伙！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Castlevania reference</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's been a long time, old one!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc4_vlad_intro3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#osotc_alucart;?! [P=0.5]你来这里有何贵干？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Castlevania reference</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#osotc_alucart;?! [P=0.5]What is your business here?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc4_alucart_intro4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我们之间有笔帐要算，相信你记得！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart and Vlad dialogue before final fight</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">We have a score to settle, as I'm sure you can recall!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc4_vlad_intro5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">还在追索我这条老命吗？[P=1]真正该算账的是你与你自己的
+过去，但请你现在别打扰我们，[P=1]这场会议是为了团结
+所·有·善·良·阵·营！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart and Vlad dialogue before final fight</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Still chasing the same old ghosts? [P=1]The score you need to settle is with your own past, and I must ask you not to disturb us at this time. [P=1] This council is for the good of all!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc4_alucart_intro6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">善良？[P=0.5]你从不是善良阵营的一员！[P=1.0]难道你忘了
+你对我做过什么…？[P=1.5]你迫使我对我的家人做了什么？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart says the word "Good" with a sarcastic intonation</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Good?[P=0.5] You have never been an ally of Good.[P=1.0] Have you forgotten what you did to me...? [P=1.5]What you made me do to my family?! </Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc4_vlad_intro7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你说了你想变成我这样的人...[P=1]我想我可能有一点点
+那么过于字·面·意·思地理解了你，[P=0.5]但是对于你的
+妻子和儿子，[P=1.5]没人逼你，是你自己那么做的。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart and Vlad dialogue before final fight. "You have done that yourself" - star wars episode 3 reference.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You said you wanted to be like me...[P=1] I suppose there is a slight possibility I MIGHT have taken you a little too literally.[P=0.5] But as for your wife and son, [P=1.5]nobody held a cross to your head.  You have done that yourself.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc4_alucart_intro8</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[P=1]我只是尝试转化他们...[P=2]但那种对血液的饥渴实在难
+以抵抗！[P=2]是你，你的血族诅咒使我永世孤独！[P=2.5]所以，
+为了复仇，[P=0.5]我要把你所珍惜的“善”全数毁灭！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart is saddened by the memory </Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[P=1]As I tried to turn them as well...[P=2] the thirst was too hard to resist! [P=2]You have cursed me with an eternity of loneliness! [P=2.5]And for that, [P=0.5]all you hold as "Good" must be fought and destroyed!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc4_vlad_intro9</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">很好，[P=1]让我们一次性解决这场争端…[P=2]…至死方休！[P=0.5]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart and Vlad dialogue before final fight</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Very well. [P=1]Let us settle this once and for all. [P=0.5]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc4_alucart_intro10</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">作为你那糊涂个性的标志,[P=1]我会抛起这枚硬币：[P=2]
+正面，  [P=1]你死，[P=2.5]反面...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart and Vlad dialogue before final fight</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">As a symbol of your ambiguous nature,[P=1] I'll flip this coin: [P=2] Heads  [P=1]-- you die. [P=2.5]Tails ...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc4_alucart_intro11</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">...还是你死！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">a continuation of the previous line, as Alucart looks at the coin he just flipped</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">... you DIE!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc4_alucart_end1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哈[P=0.5]哈[P=0.5]哈[P=0.5]哈！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart and Vlad dialogue after final fight</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ha [P=0.5]ha [P=0.5]ha [P=0.5]ha.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc4_vlad_end2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">结束了，#osotc_alucart;。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart and Vlad dialogue after final fight</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It is over, #osotc_alucart;.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc4_alucart_end3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">为...[P=1.7]为什么...？[P=1]为什么我会...败得如此彻底？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Castlevania reference</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">H...[P=1.7] How...?[P=1] How is it that I have been so... defeated?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc4_vlad_end4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你总是过于自信，#osotc_alucart;，[P=0.5]这也是你失去妻儿的原因，
+[P=1]你永远学不会如何掌握我赠给你的力量。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart and Vlad dialogue after final fight</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You always were too sure of yourself, #osotc_alucart;,[P=0.5] and that was why you lost them.[P=1] You could never control the power I gave you.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc4_alucart_end5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">玛丽亚...[P=1.5]朱尼尔...[P=0.5]...[P=1.5]我对不起你们...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart and Vlad dialogue after final fight</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Maria...[P=1.5] Junior...[P=0.5]...[P=1.5] I'm sorry...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_sc4_vlad_end6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">再见，#osotc_alucart;，[P=1.5]我的...[P=1] 爱徒。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart and Vlad dialogue after final fight</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goodbye #osotc_alucart;, [P=1.5]my...[P=1] apprentice.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_vladzap</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">弗拉德闪电链</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad Chain Lightning</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_vladzapD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">弗拉德的三重闪电链</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad's Triple chain lightning</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Extra">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_alucart</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]阿鲁卡特[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Alucart[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Alucart[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_alucartD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">充满复仇欲望的吸血鬼</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A vampire with a lust for revenge.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A vampire with a lust for revenge.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_necromancer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]邪恶巫师[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Necromancer[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Necromancer[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_necromancerD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">来自不明大陆死亡平原的家伙，最近有许多黑暗艺校的门徒潜藏
+在中原大陆的各个阴暗角落，好像在计划着什么十恶不赦的事儿...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">the Undrawn Lands - a place on the magicka map</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hailing from the dead plains of the Undrawn Lands, the disciples of the School of Dark Arts have recently been seen lurking in dark corners across all of Midgård, as if they were planning something quite wicked...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_osotc_staff01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">血族力量</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">alucart's magic power</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vampiric Power</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_osotc_staff01D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">阿鲁卡特太骄傲了，不屑于使用
+"拐杖"般的东西，只依仗自身力量
+#PA;汲取生命
+#PA;奥术免疫
+#AA;冲向目标,吸血补充生命</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">description</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart is too proud to use staves, and instead relies on his own powers. #PA;Inverses damage taken from Life. #PA;Arcane Immunity #AA;Alucart charges forward and feeds on a target, healing his wounds</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_osotc_weapon01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">复仇者之剑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">alucart weapon</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Rapier of Vengeance</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_osotc_weapon01D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">很久以前,来自阿鲁卡特导师的馈赠
+#DMG;低物理伤害
+#SP;快速,穿透盔甲</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">alucart weapon descr.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It was a gift from Alucart's old master a long time ago. #DMG;Low Physical #SP;Fast, Armor Piercing</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_osotc_staff02</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">不死者法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">necromancer staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Staff of the Undead</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_osotc_staff02D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">只要通过了黑暗艺校最后一道考试，
+所有新毕业的门徒都会配发
+#PA;无
+#AA;召唤黑暗仆从</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">necromancer staff descr.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">After they pass the final test at the School of Dark Arts, every new graduate receives a Staff of the Undead. #PA;None #AA;Call up servants from the ground beneath</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BOSS_osotc_vlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">弗拉德</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">vlad boss</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">VLAD</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BOSS_osotc_vladD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">和平大使</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">vlad boss descr.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Diplomat</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BOSS_osotc_spiritvlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">精神惩罚者</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">spirit vlad boss</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">SPIRITS OF RETRIBUTION</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#BOSS_osotc_spiritvladD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">弗拉德第二形态</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">spirit vlad boss descr.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Second Form of Vlad</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#INTRO_osotc_pic1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">已移除—请忽略</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">REMOVED - PLEASE IGNORE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">REMOVED - PLEASE IGNORE</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#INTRO_osotc_pic2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">已移除—请忽略</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">REMOVED - PLEASE IGNORE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">REMOVED - PLEASE IGNORE</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#INTRO_osotc_pic3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">已移除—请忽略</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">REMOVED - PLEASE IGNORE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">REMOVED - PLEASE IGNORE</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#INTRO_osotc_cut1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">欢迎你们来到#osotc_elwenhus;！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">cut scene intro dialogue 1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Welcome all, to the house of #osotc_elwenhus;!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#INTRO_osotc_cut2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">今天我们聚在这里，#osotc_elfleader;，#osotc_dwarfleader;还有#osotc_man; 
+为了解决长久以来的世仇与不和，
+#osotc_awkward;最终会被打破！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">cut scene intro dialogue 2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">We have gathered here today -- #osotc_elfleader;, #osotc_dwarfleader; and #osotc_man; -- to settle a feud that has gone on for far too long. #osotc_awkward; shall finally be broken!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#INTRO_osotc_cut3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我们的护卫队都聚集在#osotc_elwenhus;互相交流，分享快乐，
+自从#osotc_quarrel;事件发生之后，
+这样和谐的场面就没再出现过！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">cut scene intro dialogue 3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Our escorts have met in friendly embrace across all of #osotc_elwenhus;, smiling upon each other, and sharing their tales over good food and drink! Never has this happened since before the days of #osotc_quarrel;.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#INTRO_osotc_cut4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">在真正的和平到来之前，只差那么一小步，一些小细
+节，一些纸面工作...[P=3.5]让我们一起期待这项伟大的 
+三族结盟进程不会被打扰！[P=0.5].[P=0.5].[P=0.5].</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">cut scene intro dialogue 4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">All that now remains are a few small details to go over before peace can officially be established...[P=3.5]  Let us hope that these proceedings are not disturbed[P=0.5].[P=0.5].[P=0.5].</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_necro</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">入侵埃文赫兹</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">necromancer challenge</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Invasion of Elwenhús</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_necroD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">防守埃文赫兹中心公园，
+许多波善良阵营的家伙正在接近</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">necromancer challenge descr.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Defend the center of Elwenhús Park as waves of Champions of Good attempt to banish you from the area.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_osotc</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">硬币反面</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The title of the expansion</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Other Side of the Coin</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_osotcD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一只神秘的吸血鬼从此踏上复仇之路，
+他的复仇对象是谁？为什么要复仇？
+答案，很快便会揭晓...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">osotc challenge descr.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A mysterious vampire is looking for revenge. But against who, and for what? All would soon be revealed...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Achivements">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#friendship</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">友谊就是魔能</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">achievement #1. Reference to the My Little Pony cartoon show, "Friendship is Magic" http://en.wikipedia.org/wiki/My_Little_Pony:_Friendship_Is_Magic</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Friendship is Magicka</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#friendshipD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">找到所有精灵小马</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">achievement #1 descr.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Find all the elven horses</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#letmein</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">让我进让我进</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">achievement #2. Reference to the popular movie titled "Let Me In"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Let Me In</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#letmeinD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">进入埃文赫兹大厅</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">achievement #2 descr.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Enter the house of Elwenhús</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#cruskings</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">十字军改革者</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">achievement #3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Crusader Breakings</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#cruskingsD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">打败第一个守卫</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">achievement #3 descr.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Defeat the first Guardian</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#bridgenear</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">太近的桥</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">achievement #4. Joke on the film "A Bridge too Far" (A Bridge Too Near is also a starcraft map)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A Bridge too Near</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#bridgenearD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">打败第二个守卫</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">achievement #4 descr.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Defeat the second Guardian</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#amarth</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Amarth Faeg!（精灵语）</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">achievement #5.  Lord of the Rings, elves language. No need to translate.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Amarth Faeg!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#amarthD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">打败第三个守卫</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">achievement #5 descr.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Defeat the third Guardian</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#interring</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">埋葬吸血鬼</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">achievement #6. Joke on "Interview with the Vampire"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Interred with the Vampire</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#interringD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">完成硬币反面</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">achievement #6 descr.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Finish The Other Side of the Coin</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Names">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_dwarfleader</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">矮人</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarf</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarf</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_dwarfleader_axe</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">斧头</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">axe</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">axe</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_elfleader</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">精灵</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elf</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elf</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_elfleader_bow</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">弓箭</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">bow</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">bow</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_man</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">人类</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Man</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Man</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_humanleader</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">人类大使</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ambassador of Men</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ambassador of Men</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_humanleader_stake</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">树枝</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">wooden stake</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">wooden stake</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_magickrings</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">魔戒</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Magick rings</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Magick rings</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_fourthring</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">第四枚</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">fourth</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">fourth</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_bestring</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"最好的戒指"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Best Ring"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Best Ring"</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_savior</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"救世主"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Savior"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Savior"</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_elwenhus</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">埃文赫兹</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elwenhús</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elwenhús</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_alucart</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">阿鲁卡特</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_alucartspec</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">阿鲁卡特·赛尔西乌斯·特普斯</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart Celsius Tapes</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Alucart Celsius Tapes</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_awkward</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">长时间的尴尬与沉默</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Long Awkward Silence</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Long Awkward Silence</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_quarrel</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"大争吵"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Great Petty Quarrel</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Great Petty Quarrel</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_vlad_diplomat</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">和平大使弗拉德</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad the Diplomat</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad the Diplomat</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_vlad_selfless</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">无私的弗拉德</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad the Selfless</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad the Selfless</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_tower_bomb</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">错误放置的矮人炸弹</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ill-placed dwarven bomb</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ill-placed dwarven bomb</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_dwarf_officer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">矮人指挥官</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarven Officer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarven Officer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_dwarf_engineer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">矮人工程师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarven Engineer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarven Engineer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_archmage</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">精灵奥术法师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elven Arch Mage</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elven Arch Mage</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_elfguard1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">皮纳瑞乌克斯</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pinerrieux</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">First Guard</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_elfguard2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">庞普庞普</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pompom</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Second Guard</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_leaders</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">大使</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ambassadors</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ambassadors</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_paladin</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">圣骑士</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Paladin</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Paladin</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_knights</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">骑士</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Knights</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Knights</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_meanwhile1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">三族会议</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Elwenhús Council</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Elwenhús Council</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_meanwhile2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">与此同时...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Meanwhile...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Meanwhile...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_meanwhile3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">与此同时，在三族会议上...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Meanwhile, at the meeting...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Meanwhile, at the meeting...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#osotc_quarrel_short</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">三族不和</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Quarrel</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Quarrel</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Enemies">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Osotc_Elf_Mage</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">精灵奥术法师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elf Arch Mage</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elf Arch Mage</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Osotc_Elf_Noble</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">精灵贵族</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elf Noble</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elf Noble</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Osotc_Elf_Pathfindermelee</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">精灵探路者</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elf Pathfinder</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elf Pathfinder</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Osotc_Elf_Pathfinder</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">精灵突击队员</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elf Ranger</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elf Ranger</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Osotc_Dwarf_Rifleman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">矮人射手</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarven Rifleman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarven Rifleman</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Osotc_Dwarf_Engineer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">矮人工程师</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarven Engineer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarven Engineer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Osotc_Dwarf_Cannon</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">矮人加农炮</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarven Cannon</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Dwarven Cannon</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Osotc_Human_Horseman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">人类骑士</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Human Horseman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Human Horseman</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Osotc_Human_Paladin</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">人类圣骑士</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Human Paladin</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Human Paladin</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Osotc_Human_Archer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">人类弓手</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Human Archer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Human Archer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Osotc_Human_Captain</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">人类队长</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Human Captain</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Human Captain</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Osotc_Human_Spearman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">人类枪兵</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Human Spearman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Human Spearman</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Osotc_Human_Swordsman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">人类剑士</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Human Swordsman</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Human Swordsman</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Ent_Osotc_Warhound</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">战争猎犬</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Warhound</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Warhound</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

@@ -1,0 +1,1424 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="Dialogue">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_Vlad_intro1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">欢迎来到越南！要不惜一切代价冲入敌人基地，
+释放被关押的囚犯！虽然很危险，
+但希望你不要放过任何弹药仓库
+还有无线电塔，总之炸光所有敌方设施。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The blue lines are recorded with "gibberish" language.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Welcome to ‘nam! You are to recklessly fight your way into the enemy base, and free the prisoners there! And if that wasn’t dangerous enough for you, I also want you to blow up any ammo caches and radio towers you come across.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_Vlad_intro2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这里太阳真火辣，作为一名吸血鬼我感到压力很大！
+所以我不能像之前那样一路陪着你，让我们在汇合点相聚。
+祝你好运！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The sun here is giving me a nasty burn, so I mustn’t linger. See you at the rendezvous!   Good luck!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_Vlad_napalm</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">&gt;我已经给了你请求空中支援的权限，只需甩出一颗烟雾弹来定位，
+熊熊烈火就会神奇地从天而降！很带感的！[p=1.5]
+玻璃咿咿咿！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vlad is explaining about summoning napalm. You throw a smoke grenade, and then liquid fire rains down from the sky, in the area marked by the smoke. (Vlad calls in a napalm bomber in response to your smoke signal.)  Note that these two lines will have a "radio"/"walkie-talkie" effect. This can effect the actor's performance.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I’ve given you clearance for air support. Just summon a smoke grenade and fire will magickally fall from the sky on that position! Bleeeigh.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_Vlad_rendevouz</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">什么？你已经在汇合点了！？不要害怕，人类朋友！
+待在那儿别动，我们很快就到！
+玻璃咿咿咿！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Note that these two lines will have a "radio"/"walkie-talkie" effect. This can effect the actor's performance.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">What? You’re already at the rendezvous!? Fear not, fellow humans! Hold your position, and we shall soon be there! Bleigh!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_Vlad_outro</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">快快快！快上直升机！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Quickly! Get in the chopper!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_private_comment0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">噢，我菊花疼的紧！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">blue lines are spoken by NPCs, not in sequence. These are various comments made by soldiers.  not really a quote, just an amusing thing soldiers typically say. (FUBAR (pronounced foo-bar) is a soldier's colloquialism/acronym, meaning "Fucked Up Beyond All Recognition" = very bad.)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This situation is completely FUBAR!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_private_comment1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">伙计，我都忘了我们为什么要这么做了…</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">typical anti-Vietnam war sentiment</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Man, I forget why we're even doing this…</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_private_comment2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我应该申请去炊事班值日的…</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">amusing thing that soldiers say</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I should have applied for kitchen duty...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_private_comment3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">雨林里的路踩起来有种黏答答湿乎乎的感觉。
+呃，就是字面意思，
+我想可能有只虫子在我靴子里。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This jungle is giving me the creeps. Literally, I think I got bugs in my boots.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This jungle is giving me the creeps. Literally, I think I got bugs in my boots.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_private_comment4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我们必须拿下这座无线电塔。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">We've got to take out this radio tower.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">We've got to take out this radio tower.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_private_comment5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">好，我们就在这里等待下一道命令，
+你继续往前走吧。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">nice one = good job with the battle you just finished.  A NPC soldier congratulates the player(s) for defeating the enemies. Then in a comically cowardly way, they “stay here” (where it’s safe), and send the player(s) on ahead, where there will be more enemies.  you=singular or plural. It's possible to stay singular because each player feels personally addressed. It's a psychological effect.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Nice one, we'll stay here and await further orders. You go on ahead.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_pow_rescue0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">喔噢，非常感谢！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">green lines = prisoner has been rescued</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Woo-hoo, thanks!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_pow_rescue1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">多谢，我，我赶紧跑路。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Skedaddle = colloquial for "get out of here"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Much obliged, I'll just skedaddle then.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_pow_rescue2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哥总算出来了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I'm outta here!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I'm outta here!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_pow_rescue3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这里真可怕，他们强迫我们玩三国杀！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Deerhunter reference. (in this film, prisoners are forced to play Russian roulette with each other)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's been awful here, they made us play Russian scrabble! </Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_pow_rambo0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">当你被逼至绝境，杀戮会变得如同呼吸般简单。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Quote from Rambo 4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">When you're pushed, killing's as easy as breathing.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_pow_rambo1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">活得平凡不如死得其所。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Quote from Rambo 4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Live for nothing or die for something.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_pow_rambo2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我有一条座右铭，
+不能为战友而生，但求为战友而死。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Quote from Rambo 2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I have a code of honor. You watch my back, I'll watch yours.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_tooltip_objectives</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">任务目标遍布战场各个角落，完成它们从而获得更高的得分。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It’s the game giving the player tips.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Objectives are spread out across these areas, complete the objectives for a higher mission score.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_tooltip_duck</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">装备热武器时注意使用格挡键来躲闪，
+躲在掩体后面能更好地避开冷枪暗弹。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It’s the game giving the player tips.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">To duck, press Block while a firearm is equipped. Ducking behind cover can be a real life saver.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_tooltip_huts</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">摧毁被旗子标记的小屋，阻止敌人虐待更多俘虏。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It’s the game giving the player tips.  huts = military huts/barracks</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Destroy Vietcong huts to stop them from spawning more Vietcong soldiers. Huts are marked with flags.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_tooltip_radiotower</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你必须破坏所有支撑点才能摧毁无线电塔。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It’s the game giving the player tips.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">To take down a radio tower you must damage each foundation point.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_tooltip_ammostorage</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">放把火可以轻松摧毁弹药仓库。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It’s the game giving the player tips.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ammo storages are easily destroyed, especially when using fire.</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="POI">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_PoI_hatch</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">呃锁上了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Untranslatable joke. (Reference to John Locke and the hatch in "Lost".) Can be translated with the generic/literal "it's locked".  It’s a locked hatch or door. All doors in the game are locked; it’s a running joke.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's Locke'd.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_PoI_stuckaround</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这只哥布林似乎被卡住了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to Arnold's one-liner in "Predator". (Schwartzennegger tells his enemy to "stick around" when he's impaled on a tree.) The goblin is stuck to a tree.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Looks like this goblin stuck around.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_PoI_mortars</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一些迫击炮。都湿透了，
+散发着难闻的尿味。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to the film "We Were Soldiers" where they urinate on the mortars to cool them off.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Some mortar equipment. They're all wet and a foul odor is emanating from them.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_PoI_mowgli</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦可怜的家伙，被蚂蚁吃光光啦。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">In the Disney movie The Junglebook, the bear Baloue(?) teaches the kid Mowgli to find and eat ants from under rocks.  In the game, there's a big boulder with a pair of legs with red shorts sticking out from under it. The player sees the ants when examining the location.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Poor guy. There's ants swarming all over him.</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Weapons &amp; Items">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ROF</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]射速：[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">how quickly the weapon fires. Substitutes #ROF; in the descriptions below. Please mind the space after the colon.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Rate of Fire: [/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VI_WE_M16</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">M16A1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Name of the M16 assault rifle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">M16A1</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VI_WE_M16D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一款轻便的突击步枪，5.56毫米，
+CCTV军事频道推荐。
+#DMG;中物理伤害
+#ROF;800发每分钟</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">comically over-wrought description.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A lightweight, 5.56 mm, air-cooled, gas-operated, magazine-fed assault rifle, with 3-round burst, rotating bolt, actuated by direct impingement gas operation. #DMG;Medium Physical #ROF;800 rounds/min</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VI_WE_AK47</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">AK47</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Name of the Ak47 Assault rifle</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">AK47</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VI_WE_AK47D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一款火力强大的突击步枪，
+7.62x39毫米，广销中东！
+#DMG;中物理伤害
+#ROF;600发每分钟</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Description</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A robust 7.62x39 mm gas operated, rotating bolt, magazine-fed assault rifle. #DMG;Medium Physical #ROF;600 rounds/min</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VI_WE_RPG7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">RPG-7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Name of the RPG-7 RPG</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">RPG-7</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VI_WE_RPG7D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一款应用广泛的火箭炮，40毫米，
+便携式，肩扛发射，反坦克。
+…可惜不会飞</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Description</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A widely-produced, 40 mm, portable, shoulder-launched, anti-tank, rocket-propelled grenade launcher.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VI_WE_RPD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">RPD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Name of the RPD machine gun</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">RPD</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VI_WE_RPDD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一部轻机枪，7.62x39毫米，
+会连射的好物！
+#DMG;中物理伤害
+#ROF;650发/每分钟</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Description</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A 7.62x39 mm belt fed, gas-operated, open-bolt light machine gun.  #DMG;Medium Physical #ROF;650 rounds/min</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VI_WE_NAG</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mosin–Nagant</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Name of the nagant</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mosin–Nagant </Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VI_WE_NAGD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一款军用步枪，7.62x54毫米。
+似乎是古董！
+#DMG;高物理伤害
+#ROF;单发</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Description</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A 7.62x54 mm bolt-action, internal-magazine-fed military rifle. #DMG; High Physical #ROF; Single Shot</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VI_WE_MAT49</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">MAT-49</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">MAT-49</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">MAT-49</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VI_WE_MAT49D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一款法国制造的全自动机枪，
+9x19毫米，没啥特别的。
+#DMG;低物理伤害
+#ROF;600发每分钟</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Description</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A French-made 9x19mm blowback-operated, box-magazine-fed, fully automatic sub machinegun. #DMG;Low Physical #ROF;600 rounds/min</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VI_WE_M60</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">M60</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">M60</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">M60</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VI_WE_M60D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一款G.I.s.赋予"小猪"绰号的机枪，
+7.62x51毫米，很棒的武器。
+#DMG;高物理伤害
+#ROF;550发每分钟</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Description</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A belt-fed 7.62x51 mm air-cooled, gas-operated, open-bolt machine-gun. It recieved the nickname "The Pig" from the G.I.s. #DMG;High Physical #ROF;550 rounds/min</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VI_IT_STAFF</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">爱国者法杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Patriot Staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Patriot Staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VI_IT_STAFFD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">星条旗赋予勇气，白头鹰衔来自豪
+#PA;无
+#AA;自由手雷</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">comically (tastelessly) over-nationalistic. Supposed to be poking fun at militarism, but not in a harsh way. Amusing but not distrubing. Please adjust as appropriate.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Filled with star sprangled courage, decorated with a bold eagle sitting proudly on its courageous pinnacle. #PA;None #AA;Liberty Grenade</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Magicks">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_napalm</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">空中支援</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Napalm</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Napalm</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#magick_napalmD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">召唤幻影战机抛下大量
+凝固汽油弹来消灭敌人。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Summons a phantom to consume your enemies in liquid fire.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Summons a phantom to consume your enemies in liquid fire.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#specab_grenade</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">自由手雷</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">they regular grenades with a patriotic denomination, like “Liberty cabbages”</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Liberty Grenade</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Menu">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_VIETNAM</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">拯救越俘行动</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vietnam Rescue Mission</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vietnam Rescue Mission</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_VIETNAMD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">执行一项深入敌人领土内部的危险任务。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's OK to stay singular, but the player can be either singular or plural. It can be co-op multiplayer. But it's OK to stay singular because each player feels personally addressed by the game. </Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Go on a dangerous mission deep inside enemy territory.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_VIETNAMS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">越南生存大挑战</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vietnam Survival</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Vietnam Survival</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_VIETNAMSD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">在四面八方都是
+敌人的情况下，
+谁站到最后
+谁就是英雄。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Make a heroic last stand, as Vietcong forces assail you from all directions.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Make a heroic last stand, as Vietcong forces assail you from all directions.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_TIME</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#1;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">#1; is replaced by the time ie 1:02:10</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Time elapsed: #1;</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_RADIOTOWERS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">已摧毁无线电通讯塔</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Radio Towers destroyed</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Radio Towers destroyed</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_POWCAGES</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">拯救囚犯</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Prisoners rescued</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Prisoners rescued</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_MILITARYPLANS</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">盗得军事机密</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Military plans stolen</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Military plans stolen</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_AMMOSTORAGES</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">摧毁弹药仓库</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ammo storages destroyed</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ammo storages destroyed</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#VTN_EXTRACTION</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">成功坚守至撤离</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You have reached the end of the mission, where the helicopter is. (“Extraction” in the military sense, meaning “removed from the hostile area by friendly forces”)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Successfully extracted</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#CHALLENGE_TOTAL_SCORE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">总分</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Total score</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Total score</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Names">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#GiN1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jools</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The green names are from the game "Cannon Fodder"  In any case, I suggest we keep the English character names (-&gt; setting).</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jools</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#GiN2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jops</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jops</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Jops</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#GiN3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">斯图</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Stoo</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Stoo</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#GiN4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">RJ</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">RJ</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">RJ</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#GiN5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ubik</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ubik</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ubik</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#GiN6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CJ</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CJ</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">CJ</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#GiN7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">克里斯</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chris</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Chris</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#GiN8</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">彼得</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pete</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Pete</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#GiN9</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tadger</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tadger</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Tadger</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#GiN10</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">萨林拉德</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Salynrad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Salynrad</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#GiN11</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">艾尔罗伊</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elroy</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Elroy</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#GiN12</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">笨蛋</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Softy</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Softy</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#GiN13</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mac</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mac</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mac</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#GiN14</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">投弹手</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bomber</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bomber</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#GiN15</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">斯坦</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Stan</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Stan</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Her_CptVlad</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">弗拉德队长</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Cpt." as in short for "Captain" a military rank.  I suggest to keep the English rank (-&gt; setting).</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Cpt. Vlad</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Achievements">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#leadfarmer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">千人斩</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">lead = the substance that bullets are made of. To explain the idiom: a "lead farmer" is a badass who wanders around "planting" lead wherever he goes. His seeds are bullets.  Reference to the movie "Tropic Thunder"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lead farmer</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#leadfarmerD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">杀掉1000名武装敌军</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Kill 1000 enemies using firearms</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Kill 1000 enemies using firearms</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#freedomfighter</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">自由战士</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Freedom fighter</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Freedom fighter</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#freedomfighterD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">&gt;用一颗自由手雷炸死6名敌人</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Kill six enemies with one Liberty Grenade</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Kill six enemies with one Liberty Grenade</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#goodcompany</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">好战友</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">a pun. "Good [skillful] company." company = platoon. A play on the idiom "bad company" E.g., the game "Battlefield: Bad Company". (from the band "bad company"?)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Good Company</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#goodcompanyD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">完成了所有拯救越南行动中的任务目标</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Accomplish all objectives in the Vietnam rescue mission</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Accomplish all objectives in the Vietnam rescue mission</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Menu_additions">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MENU_MISSION_COMPLETE</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">任务完成</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mission Complete</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mission Complete</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MENU_MISSION_TIME</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">时间奖励</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">completing the challenge faster gives you a higher score</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Time bonus</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MENU_MISSION_FAILED</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">任务失败</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mission Failed</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Mission Failed</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Names_additions">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#GiN16</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">曾哥</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Rambo's first name, from the Rambo films.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">John</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

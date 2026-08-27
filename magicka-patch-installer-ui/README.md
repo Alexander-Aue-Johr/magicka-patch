@@ -51,6 +51,16 @@ build\windows\x64\runner\Release\Magicka.exe
 build\windows\x64\runner\Release\PolygonHead.dll
 ```
 
+Release installer packages also contain `optional-languages\zho`. The
+**Languages...** dialog currently offers Simplified Chinese and installs this
+directory as `Content\Languages\zho`; it does not replace another game
+language. The action is part of the installer options panel. When an unselected
+optional language matches the system locale, installation asks once whether to
+include it. Further language packages can be added to the same dialog.
+
+The auto-updater continues to consume the files-only ZIP. It does not
+install optional language packages or start another language download.
+
 The installer also accepts these fallback locations while developing:
 
 ```text

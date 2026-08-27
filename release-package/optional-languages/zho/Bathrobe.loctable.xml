@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="staffs">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized text</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff_cup</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">强力咖啡</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Strong Cup of Coffee</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Strong Cup of Coffee</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Item_staff_cup_d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">咖啡属醒神佳品！喝一口，精神抖
+擞，干一杯，脾肾不亏！
+#PA;无
+#AA;恢复生命值，增加移动速度3秒。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Embued with the ancient restorative powers of placebo, this cup of decaf goodness will wake you right up! #PA;None #AA;Restores health, and increases movement speed for 3 seconds.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Embued with the ancient restorative powers of placebo, this cup of decaf goodness will wake you right up! #PA;None #AA;Restores health, and increases movement speed for 3 seconds.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#specab_drink</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">饮</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Drink</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Drink</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="weapons">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized text</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon_paper</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">巫师预言家报</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">a spoof of the Daily Prophet from Harry Potter</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"The Aldrheim Prophet"</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#item_weapon_paper_d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">相当大的阅读量...额不看的话还
+能用来抵御我们恼人的“小邻居”，
+这可是战蟑螂的神器！
+#DMG;低物理伤害
+#SP;击退敌人</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A dense read, to say the least. Perfect for fending off nosy neighbors -- and squishing rogue arachnids. #DMG; Low Physical #SP; Pushes target back</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

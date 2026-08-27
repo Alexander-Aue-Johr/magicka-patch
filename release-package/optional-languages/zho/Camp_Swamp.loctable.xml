@@ -1,0 +1,1098 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="Dia">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_murray1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">所以，你来嘲笑我的窝…[P=1.5]啊，别介意，我以为你是其他人。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Monkey Island</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">So, you have returned to mock me once mo...[P=1.5] Oh, nevermind, I thought you were somebody else.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_murray2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我刚和你说过，千万不要花超过20块钱来玩一款游戏。啥？你说你玩的是[P=1]…
+好吧，当我没说。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Monkey Island</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I've got just one thing to say to you:[P=1] Never pay more than 20 bucks for a computer game.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_fvlad_intro1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">好极了，你在#Location_MI;干得非常好！
+我们要找的人住在沼泽那头。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Excellent, you did very well in #Location_MI;! The Count I spoke of lives on the other side of this swamp.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_fvlad_intro2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">穿越沼泽吧，但要保护好自己哦！
+这个沼泽曾经发生过一场大战。
+现在#Boss_n07;的仆人在召唤不死物扰乱大地。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Be on your guard though, this swamp was once host to a great battle -- and now #Boss_n07;'s diciples stir the lands, raising undead minions.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_fvlad_monastery</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">前面就是那个人统治的村子…
+呃好吧其实那个人是位伯爵。
+告诉他现在世界正面临极大的危险，[P=1.5]
+他肯定会送你去见#Boss_n14;的。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Up ahead is the Count's village... Convince him that the world is in peril and he will surely send you to #Boss_n14;.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_fvlad_village_intro1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">伯爵很看重他村子里的人，
+如果你获得村民的尊重，
+也就获得了伯爵的信任！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The Count will only speak to the people of his village. Gain the trust of his villagers and you shall gain the trust of the Count!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_fvlad_village_intro2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你必须要让伯爵相信，世界正面临着浩劫。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You must convince the Count that the world is in great peril.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_fvlad_village1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">村子里的人们都很虚弱，如果你帮他们疗伤，[p=1.5]
+他们也许会帮你安排与伯爵的会面。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The people of this village are very sick. If you help them, they may help you arrange a meeting with the Count.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_fvlad_village2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">同一家乡，同一梦想！拯救世界就从拯救村庄开始！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Heroes reference "Save the cheerleader -- save the world"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Save the village -- save the world.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_fvlad_Fail1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">村民被杀死了，你便得不到他们的信任…
+重新来过吧，我送你回去。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You will never be able to gain the trust of the village by killing the villagers! The only logical thing to do now is to just turn back time a couple of minutes, before you came here and destroyed this lovely village.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_fvlad_Fail2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">是拯救不是摧毁！瞧你干的好事。
+我必须把你送回去再来过。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Saving the village -- you're doing it wrong. I must once again send you back in time.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_fvlad_castle1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">前面就是伯爵的房间，但是，我不能再往前走了，
+因为…呃，不说这些，
+那不重要，重要的是—</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Up ahead is the Count's chamber. However, I cannot follow you any further due to… Well, never mind all that. That's not important, what's important is this:</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_fvlad_castle2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">伯爵不喜欢外来访客，而且容易发怒。
+但是你只要说明你的处境…呃，他一定会理解的！[P=1.5]
+祝你“好运”！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The count is not very fond of outsiders, and is quick to anger. But if you just explain the situation to him he will surely see reason.[P=1] Good "luck"!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_kindly</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">喂，我可没什么闲心带你本村一日游！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hey you! We don't take kindly to your types around here!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_kindly_pos1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我终于可以再跳舞了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I can finally dance again!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_kindly_pos2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">呃，我感觉现在跳也许不太合适。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I just don't feel like doing it right now.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_greatlord1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我们的主人伯爵大人是一位伟大的魔导师，
+但很显然他没有帮我们解决民生疾苦。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Our lord is a great sorcerer, but apparently there's nothing he can do for us.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_greatlord2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">主人不肯帮我们，亏我们为他勤勤恳恳干了这么多年，
+他真抠门！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's a real shame!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_greatlord_pos</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我们的主人伯爵大人骗了我们！
+你看你这样轻松就医好了我们的疾病，说明只要想治，就有办法！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">the villagers don't think highly of wizards. If *you* can cure us, anyone can!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Our lord tricked us! If you can cure our illness, surely anyone can!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_healthy</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我们都这么的虚弱…
+[P=1]有时候我希望有一种咒语能还人们健康。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">We are all so ill...[P=1]    ...Sometimes I wish there was a spell to make people healthy.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_healthy_pos</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">什么？真有可以让人健康的咒语？！
+太感谢了！！！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">What? There's a spell to make people healthy?! Thank you!!!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_crops1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">成长吧，庄稼…[P=1]…成长！
+我只是心里念而已，才没有动手去揠苗助长呢！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Grow, crops...[P=1]    ...grow!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_crops2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">为什么它们不长高呢？这是为什么呢？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Why won't they grow?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_crops_pos1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你能把我的庄稼也治治好吗…？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Can you heal my crops too...?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_crops_pos2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">…不？
+这太糟糕了……</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">...No? That's too bad...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_bynow</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我们中很多人已经死了……[P=1]
+但我很感激，如果不是因为伟大的主人，我们早都死光了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">minor revision</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">So many of us have died already...[P=1] I am so thankful. If it weren't for our great Lord, we'd all be dead by now.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_bynow_pos</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦！但若不是为了主人守护村子，
+也许所有人都可以离开，都还能活着！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">If it weren't for our Lord, we'd all still be alive!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_dirtywizard1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">拿开你的脏手，我对巫师过敏！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Planet of the apes ref.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Get your hands of me you damn dirty wizard!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_dirtywizard2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一边玩儿蛋去！别打扰我们。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Go away, you're nothing but trouble!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_dirtywizard3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你的浴袍多久没洗了？比我的香港脚还难闻！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Your bathrobe smells worse than my feet, and I've got gangrene!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_dirtywizard_pos</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">请别在意我说过的蠢话…我，我不是故意的。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I'm sorry for all those stupid things I said. I didn't even mean some of it.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_mob_intro</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我们被“主人”欺骗了！伙儿快拿上杠杠叉叉，
+现在是愤怒的小农起义时刻！！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Our "Lord" has deceived us, get your pitchforks! It's angry mob time!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_mob_coward</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">开门！你个芝麻！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Open the gates, you coward!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_mob_regret1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">耶？[P=1]这有点出乎意料…[P=0.5]呃，门居然真的…</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">...This was unexpected...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_mob_regret2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">仔细想想看…[P=1]
+…我可不想害了性命，万一是误解呢。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Come to think of it...[P=1]    ...I'd rather not go wasting my life over a petty misunderstanding.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_vlad_intro1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">是你？你怎么跟着我来了这儿？！
+拯救世界的活儿不够你忙的吗？
+你就这么闲的蛋疼，[P=1]疼的不行…？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">a new sentence was added at the beginning.  vlad has now been found out: this is his wretched home. And now he is mad at the players.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">You? You followed me here?! You just had to go poking your nose in, didn't you...?[P=1] You couldn't be content with just saving the world!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_vlad_intro2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">哦我知道了，你一定是对我这座蜗居城堡幸灾
+乐祸来的…现在地皮那么贵…泥马不像个傻子一样
+盖在沼泽上，我能盖哪儿去呀！
+你来给我一块地？你有吗?有木有！…</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">No, you had to come here to gloat over this embarrassment of a castle... They told me I was a fool to build it in a swamp...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_vlad_intro3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">现在外面那群村汉民妇都在反抗我了…[P=1]
+都是你！你让我别无选择！我要代表月亮消灭你！
+这样就没有人会知道…[P=1]我拥有一坨简直让人羞射死
+了的蜗居，而且还是座城堡！！！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">and it seems that they were right...[P=1]  ...But no one will ever hear of this shameful fate that has befallen me. You leave me no choice! I must now destroy you!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_vlad_intro4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">但是在你死之前，我会告诉你一个秘密…
+也许令人无法置信，
+不过我要彻底动摇你对现实的看法……</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">But before you die, I will tell you a secret... Something so unbelievable that your entire grasp on reality will be forever shattered....</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_vlad_intro5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我[P=1]其实[P=1]是一个……[P=1]
+……吸血鬼！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I [P=1]am....[P=1]    ...a Vampire!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I [P=1]am....[P=1]    ...a Vampire!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_vlad_intro6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">看招！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Have at you!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_vlad_battle1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你离死不远了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Death awaits you!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_vlad_battle2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">T你最后看到的将是我锋利的牙！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">These pointy teeth of mine will be the last thing you ever see!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_vlad_battle3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">玻璃咿咿咿！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bleigh!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_vlad_battle4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">印象深刻！[P=1]
+真令人印象深刻！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Star wars ref.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Impressive![P=1] Most Impressive!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_vlad_outro1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">啊啊噢！你打败了我！
+但你并没有你想象中那么强大！
+让我看看你如何在#Location_NH;永恒的黑暗中挣扎！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Niflheim (the underworld)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Aaaah! You have defeated me! But you are not as powerful as you think! Let's see how you like the eternal darkness of #Location_NH;.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_vlad_outro2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">波特传送！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Harry potter reference as vlad opens a gate to another dimension.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Portus!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_Text_night</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">他们大多是在夜间出现，[P=1]大多数情况下。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Aliens reference.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">They mostly come at night.[P=1] Mostly.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row/>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row/>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="POI">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_PoI_xwing</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">T水中有一辆轮廓很模糊的X形的小车子。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Star Wars ref. slightly rephrased</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There's a faint outline of a small X-shaped vehicle in the water.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_PoI_necronomicon</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">它说 "第5年度 Necronomi-con"[P=1]
+...这双关语真够差的.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It says "5th annual Necronomi-con"[P=1]    ...That is such a bad pun.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It says "5th annual Necronomi-con"[P=1]    ...That is such a bad pun.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_PoI_ts1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">”这里安息着埃米尔·英格伦德“</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">magicka developer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Here lies Emil Englund"</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_PoI_ts2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"这里安息着罗宾·西德霍姆"[P=1]
+上面没有任何文字, 只有3个山丘的图画[P=1]
+中间的那个稍高一点, 在山顶有一个裂痕.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">magicka developer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Here lies Carl Brännström"           "Yeeeah!"[P=1] How peculiar.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_PoI_ts3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"这里安息着罗宾·西德霍姆"[P=1]
+上面没有任何文字, 只有3个山丘的图画[P=1]
+中间的那个稍高一点, 在山顶有一个裂痕.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">magicka developer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Here lies Robin Cederholm"[P=1] There's no text, just a drawing of three hills[P=1] The one in the middle is a little taller, with a crack at the peak.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_PoI_ts4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">”这里安息着马林·海德斯特拉姆“</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">magicka developer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Here lies Malin Hedström"</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_PoI_ts5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">”这里安息着安东·斯坦马克“</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">magicka developer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Here lies Anton Stenmark"</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_PoI_ts6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">”这里安息着彼得·林德格兰“
+明显是个不安的人</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">magicka developer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Here lies Peter Lindgren" Clearly a disturbed individual.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_PoI_ts7</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">”这里安息着阿德利斯·阿姆斯特朗“[P=1]
+剩下的部分难以辨认了……[P=1]
+……被胡须盖着</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Our sound designer has ALOT of beard… easter egg</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Here lies Andreas Almström"[P=1]  The rest is unreadable...[P=1]    ...it's covered with a beard.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_PoI_ts8</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">”这里安息着约翰·皮勒斯泰德“</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">lead magicka developer</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Here lies Johan Pilestedt"</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_PoI_crops</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">庄稼全部死光了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The crops are all dead.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The crops are all dead.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_PoI_castle1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你猜怎么着…它锁上了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Guess what... It's locked!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Guess what... It's locked!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_PoI_castle2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">谁在沼泽的中间建了座城堡？真搞笑！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Who builds a castle in the middle of a swamp?</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Who builds a castle in the middle of a swamp?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_PoI_mirror</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">嘿,那是个在织布机那儿见到的人.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to… loom</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hey, it's that guy from Loom.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_PoI_simon</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一个手持鞭子穿着皮装的人
+…爱闯城堡的西蒙？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference to castlevania</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's a guy with a whip wearing a leather skirt.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#SW_PoI_tomb</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">劳拉！你肿么了劳拉！！[P=1]
+……她包里好像有件古董。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Lara croft =)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Seems she was raiding this tomb…[P=1]    ...There's some kind of artifact in her bag.</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

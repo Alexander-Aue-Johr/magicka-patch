@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="Crusader">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_Crusader</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]十字军巫师[/c]</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">As in the christian crusades</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">[c=1,1,0.5]Crusader Robe[/c]</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#TOOLTIP_AVATAR_CrusaderD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">身为教化党，严格遵守教条
+-由巫师校长钦点的少数精英
+-#item_weapon23;
+-#ITEM_crusade_staff01;
+-有盔甲</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Go forth and bring enlightenment to the people, and show them the power of the wizard order." - The Headmaster, sending a few wizards on a holy mission to a nearby fishing village.  -#item_weapon23; -#ITEM_crusade_staff01; -Armored</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Go forth and bring enlightenment to the people, and show them the power of the wizard order." - The Headmaster, sending a few wizards on a holy mission to a nearby fishing village.  -#item_weapon23; -#ITEM_crusade_staff01; -Armored</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_crusade_staff01</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我勒个盾</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Holy Shield</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Holy Shield</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_crusade_staff01D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">非常厚实而坚硬的盾牌，
+刻有十字军标志性图案
+#PA;有效削弱法术攻击
+#AA;大盾冲击</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">GSP is short for an existing item in Magicka named the Greater Shield of Protection.  A "heater" shield isn't about heat. It just means the typical pointy-end-at-the-bottom medieval shield: http://en.wikipedia.org/wiki/Heater_shield</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A crafty heater shield, not meant for spellcasting, but more efficiant than the standard issue GSP. Indeed, this shield actually is considered to be holy, as indicated by the cross emblazoned on its face. #PA;Decreased spell efficiency #AA;Shieldbash</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#holiday_achievement0</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">冰河世纪</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ice Age</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Ice Age</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#holiday_achievement0d</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">就是这玩意干掉了恐龙!
+打碎100个被冻住的家伙</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Spoofs Batman &amp; Robin where Arnold Schwartznegger as Mr. Freeze claims that the ice age is what killed the dinosaurs.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's what killed the dinosaurs. Smash 100 frozen creatures to bits.</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

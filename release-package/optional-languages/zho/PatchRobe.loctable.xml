@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="Dialogue">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="POI">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Weapons &amp; Items">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_WEAPON_PATCH1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">断剑</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Broken sword</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Broken sword</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_WEAPON_PATCH1D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">尽管大众点评网上说这把剑太"稳
+定"，太易碎，但是巫师城堡的硬
+件开发砖家声称"我脆我自豪"！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The reviews of this batch of swords contain such phrases as "unstable" and "simply broken". The hardware developers at Aldrheim castle claim that, although they may be slightly on the frail side, the swords are nevertheless perfectly sharp and well within specifications.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The reviews of this batch of swords would contain phrases like "unstable" and "simply broken". The hardware developers at Aldrheim castle claims that, although slightly on the frail side, the swords are still perfectly sharp.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_STAFF_PATCH1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">虫杖</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bug staff</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bug staff</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ITEM_STAFF_PATCH1D</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">不久前,魔导师们决定从海南岛进
+一批金闪闪的法杖，结果这批商品
+携带了无法驱净的虫子(bug自嘲)</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A while back, the Order of Wizards decided to order a shipment of shiny staves from the southlands. The merchandise later turned out to contain a seemingly endless supply of bugs.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A while back the order of wizards decided to order a shipment of shiny staves from the southlands. The merchandise later turned out to contain a seemingly endless supply of bugs.</Data>
+          </Cell>
+        </Row>
+        <Row/>
+        <Row/>
+        <Row/>
+        <Row/>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Spells">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Magick_CTD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">崩溃到桌面</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Crash To Desktop</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Crash To Desktop</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Magick_CTDD</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">因为极端bug的释放,随机将在场
+的一位活物给崩溃回桌面.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Crash To Desktop</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Following an extremely buggy release, the clever wizards quickly harnessed this power to their advantage.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#Specab_swarm</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">召唤虫子</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Summon Bugs</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Summon Bugs</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="Names">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Localized texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#ENT_PATCH_SWARM</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一团虫子</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bugswarm</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Bugswarm</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>

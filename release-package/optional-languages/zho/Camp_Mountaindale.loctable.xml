@@ -1,0 +1,743 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?mso-application progid="Excel.Sheet"?><Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+    <Worksheet ss:Name="Dia">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_watermill1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">走开！我…[P=1]
+……我，我没穿衣服！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Star Trek reference  Look at the ID (column 1). Each character/dialogue has a different suffix. One character is "watermill". The next is "negative", the next character is "havindr", and so on.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Go away! I'm...[P=1]    ...not dressed properly!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_watermill2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">唉...</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_negative1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你们来这里干什么！
+所有人都知道巫师代表着麻烦。
+哪儿凉快呆哪儿去！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Why have you come here? Everyone knows that Wizards are nothing but trouble. Whenever they show up, other foul creatures are never far behind!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_negative2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">别拿你们巫师那套来吓唬我们，
+对，我就这么说了！怎么着！咬我啊？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Star Wars ref.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Don't try to frighten us with your sorcerer's ways. Yeah, you heard me right! What are you going to do? Strangle me?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_havindr1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你说你要去#Location_HV;？那是相当远的路程！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">havindr</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">So you're heading for #Location_HV;? That's quite a journey!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_havindr2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我去过那儿一次。一个有着很多商店的大地方
+城市生活不适合我。并不是说我受不了，而是…
+我更喜欢别的事，比如园艺……</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">minor revision</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I've been there once. It's a grand place with lots of stores – but city life isn't for me. It's not that I can't take it. I'd just rather be doing other stuff. Like planting...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_havindr3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">种种花…</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Sweeping...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_havindr4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">然后…</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">And...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_havindr5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">呃…</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Err...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_havindr6</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">偷偷菜…</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">He's making a list of things he does, in the exciting life of a villager. He does... Well, planting... sweeping... And, &lt;can't think of anything else&gt;... umm... villaging?  "Villaging" is not a real word (well, urban dictionary aside). He means part of his activity is to exist as a villager (exactly as you concluded!). The comedy is that he's trying to make his life sound a lot more exciting than it actually is, and he's making words up to justify this.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Villaging...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_workshop1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一个在#ViMN1;家铁匠铺帮工的家伙告诉我，北方爆发了战争。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">warhammer 40k reference. ViMN1="Gram"</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">A guy in #ViMN1;'s workshop told me that in the distant north there is only war.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_workshop2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">希望这不是真的…</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Hope that's not true...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_bathrobe1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你为什么穿着件浴袍？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Why are you wearing a bathrobe?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_bathrobe2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">好吧，我猜它肯定超级舒服！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Well, I suppose it must be pretty comfy!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_prance1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你的生活似乎过得很轻松嘛。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Your life seems easy enough.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_prance2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">也许我也要穿上浴袍，去森林里巡游一下！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Maybe I too should put on my bathrobe and prance around in the forest!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_afraid1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">到处都是哥布林，这些长耳朵的恶魔，
+它们都要来抓我了！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There are goblins everywhere -- those evil long-eared devils. I think they're all out to get me --</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_afraid2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这该死的东西是什么？！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">What the heck was that?!?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_afraid3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">是哥布林！[P=.5]
+快去山上逃命吧！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Run to the hills, run for your life" is a reference to the iron maiden song "run to the hills" also remoed "AAAH!!!" To better fit the recorded voice.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">GOBLINS!!!![P=.5] RUN TO THE HILLS! RUN FOR YOUR LIVES!!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_lumberjack1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">以雷神托尔的名义！那是我妻子吗？</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Thor's Hammer is in the sound files, so it's best we keep that one.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">By Thor's Hammer! Is that my wife?!?</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_lumberjack2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">噢，等等…这只是一只死鹿。[P=1]
+那些巨魔真是太恐怖了，它们平时都不伤人的。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Oh wait. No, it's just a dead moose.[P=1]  Those trolls are really scary! They’re usually not aggressive, though.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_goblin_int</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">入侵者！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Intruders!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_goblin_blast</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">炸飞他们！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Star Wars ref to stormtroopers.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Blast them!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_goblin_shaman1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">烤-泥-马，烤-泥-马</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">KAH-LI-MAAH, KAH-LI-MAAH</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_goblin_shaman2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">小的们！把浴袍给我抢来！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Robes! Kill them, kill them all!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_goblins_bird1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">当我在河边散步的时候，那些哥布林突然攻击我，
+幸运的是，一只鸟发现了这些哥布林，把他们给吓跑了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Those goblins attacked me while I was taking a stroll down by the river! Luckily, a bird showed up and scared 'em off.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_goblins_bird2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我的意思是说，虽然我不喜欢这些哥布林，
+但是整天躲避鸟儿的追捕，它们也真是疲于奔命了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I mean, I don't like goblins – but it must be really tough to constantly be hunted by birds.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_goblins_shiny1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我听说哥布林喜欢小偷小摸，穿戴贫点儿是明智之举。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I always heard that goblins really love shiny stuff. It's a good thing I decided to be poor.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_goblins_shiny2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">那就是我不断对自己说的…</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">looking on the bright side of being poor. At least I don't have any money to attract goblins!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">That's what I keep telling myself, anyway...</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_Vlad1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">我还没听说过哥布林敢袭击比它们体积大的东西。
+但还是要当心，[P=1]前面是你去#Location_HV;之前要
+经过的第一个村庄。那些村民并不太友好，
+但请尝试善待他们。毕竟，农耕乃一国之本…</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">star wars episode 4 feed as in, brings food to our table, also ambigious as Vlad literarilly feeds on the villagers by sucking their tasty blood.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I've never heard of goblins hitting anything this big before. We must be cautious.[P=1] Up ahead is the first village on your way to #Location_HV;. The peasants aren't very friendly -- but try to be nice to them. After all, they're the ones who feed us….</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_Vlad2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">你能走到这么远我感到十分意…呃，欣慰。
+#Location_MD;前面路上的那些树荫下藏着哥布林，
+保护好自己哟！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">I am surprised you made it this far. #Location_MD; lies ahead, and its shadows are the domain of the goblins. Be on your guard!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_Vlad3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">一定是哥布林封锁了这条路，你应该前往森林深处。
+但你要知道那里潜伏着可怕的#Boss_N02;。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Goblins must have blocked the road. You shall have to brave the deep forest. -- But know that somewhere within lurks the terrible serpent #Boss_N02;.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_Vlad4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这儿曾经是#Boss_N02;的巢穴，
+但现在似乎已经不是了。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This was once the lair of #Boss_N02;, but now it seems he is no more.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_Text_Vlad5</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">呃，看来是我错了…它的弱点是头部！[P=0.5]
+祝你 "好运"！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Guess I was wrong… The head is his weak spot![P=0.5] Good "Luck"!</Data>
+          </Cell>
+        </Row>
+        <Row/>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row/>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String"/>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="POI">
+      <Table>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">ID</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">zho</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Comments</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Reference texts</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_PoI_herring</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这明显是一只红鲱鱼。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">there are fish hung up on a line. The player checks the fish and finds a "red herring".  See: http://en.wikipedia.org/wiki/Red_herring_%28idiom%29</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This is obviously a red herring.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_PoI_mastersword</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">满满一纸废话。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">there's a hidden area on this level. A sword on an altar. The alter has letters on it, but the wizards cannot read the letters.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's just a lot of gibberish.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_PoI_warning1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">“危险！”</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">goblins have made signs to warn that Jormungandr is nearby.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Danger!"</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_PoI_warning2</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">“亭下”—这有错别字</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">goblins have made signs to warn that Jormungandr is nearby.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Stopp" -- It's misspelled.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_PoI_warning3</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">“警告！”</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">goblins have made signs to warn that Jormungandr is nearby.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Warning!"</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_PoI_warning4</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">”回去！“</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">goblins have made signs to warn that Jormungandr is nearby.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Turn back!"</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_PoI_fallentree</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这条路被堵住了。
+我们得去找另外一条路绕过去。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">a big tree blocks the path.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">The road is blocked. We'll have to find another way around. </Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_PoI_intro</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">这看起来像是哥布林干的。</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">the house burned down at the beginning of the level</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">This looks like the work of goblins.</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_PoI_town_sign</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">欢迎来到#Location_Veiditorp;</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">Veiditorp</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">"Welcome to #Location_Veiditorp;"</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_POI_Airship1</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">…[P=1]像一只手套！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">…[P=1]Like a glove!</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">…[P=1]Like a glove!</Data>
+          </Cell>
+        </Row>
+        <Row>
+          <Cell>
+            <Data ss:Type="String">#MD_PoI_fridge</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">门卡的很死，难道是超保鲜工艺！</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">There's a refridgerator in the troll cave, and when opened, then closed, it becomes stuck because of the vacuum.</Data>
+          </Cell>
+          <Cell>
+            <Data ss:Type="String">It's stuck closed. Some kind of vacuum.</Data>
+          </Cell>
+        </Row>
+      </Table>
+    </Worksheet>
+  </Workbook>
