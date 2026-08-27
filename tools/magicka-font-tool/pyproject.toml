@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "magicka-font-tool"
+version = "1.0.0"
+description = "Extract, edit, inspect, and compact Magicka bitmap-font XNB files"
+requires-python = ">=3.10"
+dependencies = ["Pillow>=10,<13"]
+
+[project.scripts]
+magicka-font-tool = "magicka_font_tool.cli:main"
+
+[tool.setuptools]
+packages = ["magicka_font_tool"]
