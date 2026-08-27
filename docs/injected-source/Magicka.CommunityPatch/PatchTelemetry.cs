@@ -510,7 +510,8 @@ namespace Magicka.CommunityPatch
 
 		private static void SendRuntimeGuardCore(string eventName, string guard, string collection, string objectType, string details, string assetName)
 		{
-			if (!NetworkGuardTelemetryBackoff.ShouldSend(guard))
+			int suppressedCount;
+			if (!NetworkGuardTelemetryBackoff.TryBeginSend(guard, objectType ?? string.Empty, out suppressedCount))
 			{
 				return;
 			}
@@ -520,6 +521,7 @@ namespace Magicka.CommunityPatch
 			dictionary["collection"] = PatchTelemetry.Safe(collection);
 			dictionary["object_type"] = PatchTelemetry.Safe(objectType);
 			dictionary["details"] = PatchTelemetry.SafeLong(details);
+			dictionary["skipped_count"] = suppressedCount.ToString(CultureInfo.InvariantCulture);
 			if (!string.IsNullOrEmpty(assetName))
 			{
 				dictionary["asset_name"] = PatchTelemetry.Safe(assetName);
