@@ -22,7 +22,7 @@ namespace Magicka.CommunityPatch
 
 		private static int sParadoxStorePriceUpdatePending;
 
-		public static void QueueParadoxStorePriceUpdate(Action update)
+		public static void QueueParadoxStorePriceUpdate(ThreadStart update)
 		{
 			if (update == null)
 			{
@@ -43,7 +43,7 @@ namespace Magicka.CommunityPatch
 		{
 			try
 			{
-				((Action)state)();
+				((ThreadStart)state)();
 			}
 			catch (Exception)
 			{

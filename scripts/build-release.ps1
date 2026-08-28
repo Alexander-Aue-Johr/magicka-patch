@@ -951,6 +951,15 @@ $installerExe = Join-PathChecked $installerRelease 'magicka-community-patch-inst
 Assert-File (Join-PathChecked $repoRoot 'Magicka.exe')
 Assert-File (Join-PathChecked $repoRoot 'PolygonHead.dll')
 Assert-File (Join-PathChecked $repoRoot 'Magicka.GcDiagnostics.dll')
+$payloadValidatorProject = Join-PathChecked $repoRoot 'tools\gc-retention-payload-validator\PayloadValidator.csproj'
+Assert-File $payloadValidatorProject
+$dotnetCommand = Get-Command dotnet -ErrorAction Stop
+Invoke-Tool $dotnetCommand.Source @(
+    'run',
+    '--project', $payloadValidatorProject,
+    '--configuration', 'Release',
+    '--', $repoRoot
+) $repoRoot
 $gcDiagnosticsDirectory = Join-PathChecked $repoRoot 'release-package\gc-diagnostics'
 Assert-Directory $gcDiagnosticsDirectory
 $requiredGcDiagnosticsFiles = @(
