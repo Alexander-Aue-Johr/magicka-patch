@@ -1,4 +1,3 @@
-using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Globalization;
 using System.Security.Cryptography;
@@ -105,6 +104,7 @@ using (report)
         + manifest.ProcessId.ToString(CultureInfo.InvariantCulture) + ")");
     report.Line("Target path: " + targetProcess.ProcessPath);
 
+    string analysisStage = "snapshot_attach";
     try
     {
         document.EnsureUnchanged("immediately before the snapshot");
@@ -112,10 +112,12 @@ using (report)
         using DataTarget target = DataTarget.CreateSnapshotAndAttach(
             manifest.ProcessId);
 
+        analysisStage = "snapshot_validation";
         document.EnsureUnchanged("immediately after the snapshot");
         ValidateTargetProcess(manifest);
 
-        if (target.ClrVersions.IsDefaultOrEmpty)
+        analysisStage = "clr_discovery";
+        if (target.ClrVersions.Count == 0)
         {
             throw new InvalidOperationException("No CLR runtime was found in Magicka.");
         }
@@ -123,7 +125,9 @@ using (report)
         ClrInfo clrInfo = target.ClrVersions[0];
         report.Line(
             "CLR: " + clrInfo.Version + " (" + clrInfo.Flavor + ")");
-        using ClrRuntime runtime = clrInfo.CreateRuntime();
+        analysisStage = "runtime_create";
+        ClrRuntime runtime = clrInfo.CreateRuntime();
+        analysisStage = "registry_validation";
         ValidateRegistryVersion(runtime, manifest);
 
         if (eligible.Count == 0)
@@ -138,12 +142,14 @@ using (report)
             return 0;
         }
 
+        analysisStage = "heap_validation";
         ClrHeap heap = runtime.Heap;
         if (!heap.CanWalkHeap)
         {
             throw new InvalidOperationException("ClrMD cannot walk this GC heap.");
         }
 
+        analysisStage = "handle_enumeration";
         Dictionary<ulong, ClrHandle> handles = new Dictionary<ulong, ClrHandle>();
         foreach (ClrHandle handle in runtime.EnumerateHandles())
         {
@@ -153,6 +159,7 @@ using (report)
             }
         }
 
+        analysisStage = "candidate_resolution";
         List<ResolvedWatch> resolved = new List<ResolvedWatch>();
         int rejectedCandidateCount = 0;
         foreach (WatchRecord watch in eligible)
@@ -169,20 +176,20 @@ using (report)
                 continue;
             }
 
-            if (handle.HandleKind != ClrHandleKind.WeakShort)
+            if (handle.HandleType != HandleType.WeakShort)
             {
                 report.Line(
                     "REUSED/STALE #" + watch.Id + " " + watch.TypeName
                     + ": handle 0x"
                     + watch.HandleAddress.ToString("x", CultureInfo.InvariantCulture)
-                    + " has kind " + handle.HandleKind
+                    + " has kind " + handle.HandleType
                     + "; expected WeakShort.");
                 rejectedCandidateCount++;
                 continue;
             }
 
-            ClrObject value = handle.Object;
-            if (value.IsNull || !value.IsValid || value.IsFree)
+            ClrObject value = heap.GetObject(handle.Object);
+            if (value.IsNull || value.Type is null || value.Type.IsFree)
             {
                 report.Line(
                     "COLLECTED #" + watch.Id + " " + watch.TypeName
@@ -218,6 +225,7 @@ using (report)
             resolved.Count.ToString(CultureInfo.InvariantCulture));
         report.Line();
 
+        analysisStage = "root_analysis";
         AnalyzeMustCollect(heap, resolved, options, report);
         AnalyzeMustDetach(resolved, options, report);
         if (rejectedCandidateCount != 0)
@@ -258,6 +266,16 @@ using (report)
     catch (Exception exception)
     {
         report.TelemetryValue("status", "analyzer_error");
+        report.TelemetryValue("error_stage", analysisStage);
+        report.TelemetryValue(
+            "exception_type",
+            exception.GetType().FullName ?? exception.GetType().Name);
+        report.TelemetryValue(
+            "inner_exception_type",
+            exception.InnerException?.GetType().FullName ?? string.Empty);
+        report.TelemetryValue(
+            "exception_hresult",
+            exception.HResult.ToString("x8", CultureInfo.InvariantCulture));
         report.Line();
         report.Line("ANALYZER ERROR: " + exception);
         return 6;
@@ -382,7 +400,9 @@ static void ValidateRegistryVersion(
                     registry.GetStaticFieldByName("RegistryVersion");
                 if (field is not null && field.IsInitialized(appDomain))
                 {
-                    values.Add(field.Read<long>(appDomain));
+                    values.Add(Convert.ToInt64(
+                        field.GetValue(appDomain),
+                        CultureInfo.InvariantCulture));
                 }
             }
         }
@@ -467,7 +487,7 @@ static void AnalyzeMustCollect(
                     break;
                 }
 
-                IClrRoot root = rootPath.Root;
+                ClrRoot root = rootPath.Root;
                 List<ulong> path = rootPath.Path
                     .Select(value => value.Address)
                     .ToList();
@@ -480,13 +500,13 @@ static void AnalyzeMustCollect(
                         CultureInfo.InvariantCulture)
                     + ", " + watched.Watch.Lifecycle + "]");
                 report.Line(
-                    "  root " + root.RootKind + ": "
-                    + FormatObject(root.Object));
+                    "  root " + root.Kind + ": "
+                    + FormatObject(heap.GetObject(root.Object)));
                 report.TelemetryFinding(
                     watched.Watch.Expectation,
                     watched.Watch.TypeName,
                     watched.Watch.Lifecycle,
-                    root.RootKind.ToString(),
+                    root.Kind.ToString(),
                     BuildTelemetryPath(heap, path));
                 WritePath(heap, path, report, "  ");
                 report.Line();
@@ -739,10 +759,9 @@ static OutboundAnalysis FindOutboundLeaks(
 
         try
         {
-            foreach (ClrReference reference in
-                     node.Object.EnumerateReferencesWithFields(
-                         carefully: true,
-                         considerDependantHandles: true))
+            foreach (ClrObjectReference reference in
+                     node.Object.Type.EnumerateObjectReferencesWithFields(
+                         node.Object.Address, carefully: true))
             {
                 if (budget.IsTimedOut)
                 {
@@ -752,7 +771,7 @@ static OutboundAnalysis FindOutboundLeaks(
                 }
 
                 ClrObject child = reference.Object;
-                if (child.IsNull || !child.IsValid || child.IsFree)
+                if (child.IsNull || child.Type is null || child.Type.IsFree)
                 {
                     continue;
                 }
@@ -838,35 +857,35 @@ static OutboundAnalysis FindOutboundLeaks(
 static List<PathEdge> ExtendPath(
     TraversalNode node,
     ClrObject child,
-    ClrReference reference)
+    ClrObjectReference reference)
 {
     PathEdge edge = new PathEdge(
         node.Object,
         child,
-        DescribeReference(reference));
+        DescribeReference(node.Object, reference));
     return new List<PathEdge>(node.Path) { edge };
 }
 
-static void NormalizeRootPath(IClrRoot root, List<ulong> path)
+static void NormalizeRootPath(ClrRoot root, List<ulong> path)
 {
     if (path.Count == 0)
     {
-        path.Add(root.Object.Address);
+        path.Add(root.Object);
         return;
     }
 
-    if (path[0] == root.Object.Address)
+    if (path[0] == root.Object)
     {
         return;
     }
 
-    if (path[path.Count - 1] == root.Object.Address)
+    if (path[path.Count - 1] == root.Object)
     {
         path.Reverse();
         return;
     }
 
-    path.Insert(0, root.Object.Address);
+    path.Insert(0, root.Object);
 }
 
 static string BuildTelemetryPath(
@@ -968,13 +987,13 @@ static string FindReferenceLabel(ClrObject source, ulong targetAddress)
 {
     try
     {
-        foreach (ClrReference reference in source.EnumerateReferencesWithFields(
-                     carefully: true,
-                     considerDependantHandles: true))
+        foreach (ClrObjectReference reference in
+                 source.Type.EnumerateObjectReferencesWithFields(
+                     source.Address, carefully: true))
         {
             if (reference.Object.Address == targetAddress)
             {
-                return DescribeReference(reference);
+                return DescribeReference(source, reference);
             }
         }
     }
@@ -985,27 +1004,29 @@ static string FindReferenceLabel(ClrObject source, ulong targetAddress)
     return "reference";
 }
 
-static string DescribeReference(ClrReference reference)
+static string DescribeReference(
+    ClrObject source,
+    ClrObjectReference reference)
 {
-    if (reference.IsDependentHandle)
+    if (source.Type.GetFieldForOffset(
+            reference.FieldOffset,
+            false,
+            out ClrInstanceField? field,
+            out int childFieldOffset)
+        && field is not null)
     {
-        return "dependent-handle";
+        return "." + field.Name;
     }
 
-    if (reference.IsField && reference.Field is not null)
-    {
-        return "." + reference.Field.Name;
-    }
-
-    if (reference.IsArrayElement)
+    if (source.IsArray)
     {
         return "[offset 0x"
-               + reference.Offset.ToString("x", CultureInfo.InvariantCulture)
+               + reference.FieldOffset.ToString("x", CultureInfo.InvariantCulture)
                + "]";
     }
 
     return "offset 0x"
-           + reference.Offset.ToString("x", CultureInfo.InvariantCulture);
+           + reference.FieldOffset.ToString("x", CultureInfo.InvariantCulture);
 }
 
 static string FormatObject(ClrObject value)

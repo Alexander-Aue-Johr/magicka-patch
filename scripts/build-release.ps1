@@ -965,23 +965,7 @@ Assert-Directory $gcDiagnosticsDirectory
 $requiredGcDiagnosticsFiles = @(
     'Magicka.GcAnalyzer.exe',
     'Magicka.GcAnalyzer.exe.config',
-    'Microsoft.Bcl.AsyncInterfaces.dll',
-    'Microsoft.Diagnostics.NETCore.Client.dll',
     'Microsoft.Diagnostics.Runtime.dll',
-    'Microsoft.Extensions.Configuration.Abstractions.dll',
-    'Microsoft.Extensions.Configuration.Binder.dll',
-    'Microsoft.Extensions.Configuration.dll',
-    'Microsoft.Extensions.DependencyInjection.Abstractions.dll',
-    'Microsoft.Extensions.Logging.Abstractions.dll',
-    'Microsoft.Extensions.Logging.dll',
-    'Microsoft.Extensions.Options.dll',
-    'Microsoft.Extensions.Primitives.dll',
-    'System.Buffers.dll',
-    'System.Collections.Immutable.dll',
-    'System.Memory.dll',
-    'System.Numerics.Vectors.dll',
-    'System.Runtime.CompilerServices.Unsafe.dll',
-    'System.Threading.Tasks.Extensions.dll',
     'LICENSE-MIT.txt',
     'THIRD_PARTY_NOTICES.txt'
 )

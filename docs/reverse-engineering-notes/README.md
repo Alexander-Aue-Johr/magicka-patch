@@ -50,6 +50,9 @@ Patch-site notes:
 - [Collection growth CLR compatibility](static-list-growth-clr-compatibility.md)
   documents the CLR-4 lock overload introduced while adding dynamic capacity
   and the equivalent CLR-2 lock sequence.
+- [GC retention root analysis](gc-retention-root-analysis.md) documents the
+  CLR-2-compatible external analyzer, candidate resolution, bounded root-path
+  findings, and release-package layout.
 
 Legal note: this repository is not legal advice. EU Directive 2009/24/EC treats
 computer programs as copyright-protected works and gives rightholders exclusive
