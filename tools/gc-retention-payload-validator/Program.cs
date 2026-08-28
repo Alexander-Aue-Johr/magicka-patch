@@ -5,6 +5,8 @@ const string RuntimeAssemblyName = "Magicka.GcDiagnostics";
 const string RegistryTypeName = "Magicka.GcDiagnostics.RetentionRegistry";
 const string RegistryStateTypeName = "Magicka.GcDiagnostics.RetentionState";
 
+try
+{
 if (args.Length != 1)
 {
     Console.Error.WriteLine("Usage: PayloadValidator <payload-directory>");
@@ -57,6 +59,12 @@ using AssemblyDefinition polygonHead = AssemblyDefinition.ReadAssembly(
     polygonHeadPath,
     readerParameters);
 
+ValidateClr2Assembly(runtime);
+ValidateClr2Assembly(magicka);
+ValidateClr2Assembly(polygonHead);
+ValidateRuntimeCompatibilityGuards(magicka);
+ValidateCollectionLocks(magicka);
+
 Dictionary<string, int> magickaCalls = ValidateInstrumentedAssembly(
     magicka,
     runtimeRegistry,
@@ -72,6 +80,7 @@ Dictionary<string, int> magickaCalls = ValidateInstrumentedAssembly(
         ["Checkpoint"] = 1,
     });
 ValidateMagickaLifecycleCoverage(magicka);
+RequireResolvedBranchTargets(magicka);
 Dictionary<string, int> polygonHeadCalls = ValidateInstrumentedAssembly(
     polygonHead,
     runtimeRegistry,
@@ -100,6 +109,12 @@ Console.WriteLine(
 Console.WriteLine(
     "PolygonHead hooks: " + FormatCounts(polygonHeadCalls));
 return 0;
+}
+catch (Exception exception)
+{
+    Console.Error.WriteLine("Payload validation failed: " + exception.Message);
+    return 1;
+}
 
 static void ValidateRuntime(AssemblyDefinition runtime)
 {
@@ -271,6 +286,23 @@ static void ValidateBodyReferences(MethodDefinition method)
         method.Body.Instructions);
     foreach (Instruction instruction in method.Body.Instructions)
     {
+        if ((instruction.OpCode.OperandType == OperandType.ShortInlineBrTarget
+             || instruction.OpCode.OperandType == OperandType.InlineBrTarget)
+            && instruction.Operand is not Instruction)
+        {
+            throw new InvalidDataException(
+                "Unresolved branch target in " + method.FullName
+                + " at IL_" + instruction.Offset.ToString("x4") + ".");
+        }
+
+        if (instruction.OpCode.OperandType == OperandType.InlineSwitch
+            && instruction.Operand is not Instruction[])
+        {
+            throw new InvalidDataException(
+                "Unresolved switch targets in " + method.FullName
+                + " at IL_" + instruction.Offset.ToString("x4") + ".");
+        }
+
         if (instruction.Operand is Instruction target
             && !instructions.Contains(target))
         {
@@ -525,6 +557,159 @@ static void ValidateMagickaLifecycleCoverage(AssemblyDefinition assembly)
         "MarkMustCollect",
         "Magicka.GameLogic.GameStates.PlayState.Dispose.Scene",
         maximumInstructionIndex: 8);
+}
+
+static void RequireResolvedBranchTargets(AssemblyDefinition assembly)
+{
+    foreach (MethodDefinition method in AllTypes(assembly.MainModule)
+                 .SelectMany(type => type.Methods)
+                 .Where(method => method.HasBody))
+    {
+        foreach (Instruction instruction in method.Body.Instructions)
+        {
+            if ((instruction.OpCode.OperandType == OperandType.ShortInlineBrTarget
+                 || instruction.OpCode.OperandType == OperandType.InlineBrTarget)
+                && instruction.Operand is not Instruction)
+            {
+                throw new InvalidDataException(
+                    "Invalid branch target in " + method.FullName
+                    + " at IL_" + instruction.Offset.ToString("x4") + ".");
+            }
+        }
+    }
+}
+
+static void ValidateClr2Assembly(AssemblyDefinition assembly)
+{
+    if (assembly.MainModule.RuntimeVersion != "v2.0.50727")
+    {
+        throw new InvalidDataException(
+            assembly.Name.Name + " no longer targets CLR 2.0.");
+    }
+
+    string[] forbiddenReferenceNames =
+    [
+        "System.Private.CoreLib",
+        "System.Runtime",
+        "netstandard",
+    ];
+    AssemblyNameReference[] forbidden = assembly.MainModule.AssemblyReferences
+        .Where(reference => forbiddenReferenceNames.Contains(
+            reference.Name,
+            StringComparer.Ordinal))
+        .ToArray();
+    if (forbidden.Length != 0)
+    {
+        throw new InvalidDataException(
+            assembly.Name.Name + " contains CLR 4+ assembly references: "
+            + string.Join(", ", forbidden.Select(reference => reference.FullName)));
+    }
+
+    foreach (MethodDefinition method in AllTypes(assembly.MainModule)
+                 .SelectMany(type => type.Methods)
+                 .Where(method => method.HasBody))
+    {
+        ValidateBodyReferences(method);
+        ValidateClr2FrameworkCalls(method);
+    }
+}
+
+static void ValidateClr2FrameworkCalls(MethodDefinition method)
+{
+    foreach (MethodReference called in method.Body.Instructions
+                 .Select(instruction => instruction.Operand)
+                 .OfType<MethodReference>())
+    {
+        if (called.DeclaringType.FullName == "System.Threading.Monitor"
+            && called.Name == "Enter"
+            && called.Parameters.Count == 2
+            && called.Parameters[0].ParameterType.FullName == "System.Object"
+            && called.Parameters[1].ParameterType.FullName == "System.Boolean&")
+        {
+            throw new InvalidDataException(
+                "CLR-4 Monitor.Enter(object, ref bool) call in "
+                + method.FullName + ".");
+        }
+    }
+}
+
+static void ValidateCollectionLocks(AssemblyDefinition magicka)
+{
+    (string TypeName, string MethodName, int ParameterCount)[] lockMethods =
+    [
+        ("Magicka.StaticList`1", "Add", 1),
+        ("Magicka.StaticList`1", "Insert", 2),
+        ("Magicka.StaticWeakList`1", "Add", 1),
+        ("Magicka.StaticWeakList`1", "Insert", 2),
+        ("Magicka.StaticWeakList`1", "Expand", 1),
+    ];
+    IReadOnlyDictionary<string, TypeDefinition> types = AllTypes(magicka.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    foreach ((string typeName, string methodName, int parameterCount) in lockMethods)
+    {
+        MethodDefinition method = types[typeName].Methods.Single(candidate =>
+            candidate.Name == methodName
+            && candidate.Parameters.Count == parameterCount);
+        int enterCalls = method.Body.Instructions.Count(instruction =>
+            instruction.OpCode == OpCodes.Call
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "System.Threading.Monitor"
+            && called.Name == "Enter"
+            && called.Parameters.Count == 1);
+        int exitCalls = method.Body.Instructions.Count(instruction =>
+            instruction.OpCode == OpCodes.Call
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "System.Threading.Monitor"
+            && called.Name == "Exit"
+            && called.Parameters.Count == 1);
+        bool hasConditionalFinally = method.Body.ExceptionHandlers.Any(handler =>
+            handler.HandlerType == ExceptionHandlerType.Finally)
+            && method.Body.Instructions.Any(instruction =>
+                instruction.OpCode == OpCodes.Brfalse
+                || instruction.OpCode == OpCodes.Brfalse_S);
+        if (enterCalls != 1 || exitCalls != 1 || !hasConditionalFinally)
+        {
+            throw new InvalidDataException(
+                "Unexpected CLR-2 lock shape in " + method.FullName + ".");
+        }
+    }
+}
+
+static void ValidateRuntimeCompatibilityGuards(AssemblyDefinition magicka)
+{
+    TypeDefinition guards = AllTypes(magicka.MainModule).Single(type =>
+        type.FullName == "Magicka.CommunityPatch.RuntimeCompatibilityGuards");
+    MethodDefinition queue = guards.Methods.Single(method =>
+        method.Name == "QueueParadoxStorePriceUpdate"
+        && method.Parameters.Count == 1);
+    TypeReference delegateType = queue.Parameters[0].ParameterType;
+    if (delegateType.FullName != "System.Threading.ThreadStart"
+        || delegateType.Scope is not AssemblyNameReference scope
+        || scope.Name != "mscorlib"
+        || scope.Version != new Version(2, 0, 0, 0))
+    {
+        throw new InvalidDataException(
+            "The Paradox price worker delegate is not CLR-2-compatible: "
+            + delegateType.FullName + " from " + delegateType.Scope + ".");
+    }
+
+    MethodDefinition worker = guards.Methods.Single(method =>
+        method.Name == "RunParadoxStorePriceUpdate"
+        && method.Parameters.Count == 1);
+    bool castsThreadStart = worker.Body.Instructions.Any(instruction =>
+        instruction.OpCode == OpCodes.Castclass
+        && instruction.Operand is TypeReference type
+        && type.FullName == "System.Threading.ThreadStart");
+    bool invokesThreadStart = worker.Body.Instructions.Any(instruction =>
+        instruction.OpCode == OpCodes.Callvirt
+        && instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == "System.Threading.ThreadStart"
+        && called.Name == "Invoke");
+    if (!castsThreadStart || !invokesThreadStart)
+    {
+        throw new InvalidDataException(
+            "The Paradox price worker does not cast and invoke ThreadStart.");
+    }
 }
 
 static void RequireEntryLifecycleHook(

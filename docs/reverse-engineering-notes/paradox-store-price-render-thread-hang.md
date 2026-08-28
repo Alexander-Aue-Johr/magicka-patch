@@ -121,3 +121,16 @@ private void UpdateParadoxPricesSynchronously()
 
 The authored queue helper is documented in
 `docs/injected-source/Magicka.CommunityPatch/RuntimeCompatibilityGuards.cs`.
+
+## Windows CLR compatibility
+
+Community Patch 0.0.43 initially encoded the new parameterless delegate as
+`System.Action` in `mscorlib, Version=2.0.0.0`. Microsoft's .NET 2.0
+`mscorlib` does not define that type, so the Windows CLR threw a
+`TypeLoadException` when `UpdateParadoxItems` first ran. Wine Mono resolved the
+type and did not expose the incompatibility.
+
+The queue now uses `System.Threading.ThreadStart`, which has the same
+parameterless `void` signature and is available in the existing .NET 2.0
+runtime. This changes only the delegate type used to queue and invoke the price
+worker; the request behavior and one-worker guard are unchanged.

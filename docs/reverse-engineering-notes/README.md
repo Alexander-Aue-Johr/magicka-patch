@@ -41,6 +41,15 @@ Patch-site notes:
   covers Avatar cache misses, detached player controllers, optional gameplay
   telemetry, SpawnNPC WorldSync validation, network template-cache validation,
   and deferred client boss setup.
+- [Avatar cache expansion CLR compatibility](avatar-cache-expansion-clr-compatibility.md)
+  documents the short-branch overflow in the expanded Avatar cache fallback
+  and the CLR-2-compatible long branch.
+- [Windows CLR and Wine Mono compatibility audit](windows-mono-runtime-compatibility-audit.md)
+  separates Linux installer work from game-runtime changes in 0.0.42 through
+  0.0.45 and documents the release-time compatibility checks.
+- [Collection growth CLR compatibility](static-list-growth-clr-compatibility.md)
+  documents the CLR-4 lock overload introduced while adding dynamic capacity
+  and the equivalent CLR-2 lock sequence.
 
 Legal note: this repository is not legal advice. EU Directive 2009/24/EC treats
 computer programs as copyright-protected works and gives rightholders exclusive

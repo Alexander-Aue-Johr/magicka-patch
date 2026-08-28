@@ -951,28 +951,21 @@ $installerExe = Join-PathChecked $installerRelease 'magicka-community-patch-inst
 Assert-File (Join-PathChecked $repoRoot 'Magicka.exe')
 Assert-File (Join-PathChecked $repoRoot 'PolygonHead.dll')
 Assert-File (Join-PathChecked $repoRoot 'Magicka.GcDiagnostics.dll')
+$payloadValidatorProject = Join-PathChecked $repoRoot 'tools\gc-retention-payload-validator\PayloadValidator.csproj'
+Assert-File $payloadValidatorProject
+$dotnetCommand = Get-Command dotnet -ErrorAction Stop
+Invoke-Tool $dotnetCommand.Source @(
+    'run',
+    '--project', $payloadValidatorProject,
+    '--configuration', 'Release',
+    '--', $repoRoot
+) $repoRoot
 $gcDiagnosticsDirectory = Join-PathChecked $repoRoot 'release-package\gc-diagnostics'
 Assert-Directory $gcDiagnosticsDirectory
 $requiredGcDiagnosticsFiles = @(
     'Magicka.GcAnalyzer.exe',
     'Magicka.GcAnalyzer.exe.config',
-    'Microsoft.Bcl.AsyncInterfaces.dll',
-    'Microsoft.Diagnostics.NETCore.Client.dll',
     'Microsoft.Diagnostics.Runtime.dll',
-    'Microsoft.Extensions.Configuration.Abstractions.dll',
-    'Microsoft.Extensions.Configuration.Binder.dll',
-    'Microsoft.Extensions.Configuration.dll',
-    'Microsoft.Extensions.DependencyInjection.Abstractions.dll',
-    'Microsoft.Extensions.Logging.Abstractions.dll',
-    'Microsoft.Extensions.Logging.dll',
-    'Microsoft.Extensions.Options.dll',
-    'Microsoft.Extensions.Primitives.dll',
-    'System.Buffers.dll',
-    'System.Collections.Immutable.dll',
-    'System.Memory.dll',
-    'System.Numerics.Vectors.dll',
-    'System.Runtime.CompilerServices.Unsafe.dll',
-    'System.Threading.Tasks.Extensions.dll',
     'LICENSE-MIT.txt',
     'THIRD_PARTY_NOTICES.txt'
 )

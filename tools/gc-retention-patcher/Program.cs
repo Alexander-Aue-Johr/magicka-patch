@@ -49,6 +49,9 @@ static PatchReport PatchMagicka(
     Dictionary<string, TypeDefinition> types = AllTypes(module)
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
 
+    RepairParadoxStoreWorkerDelegate(module, types);
+    RepairClr2CollectionLocks(types);
+
     int registrations = 0;
     int activeHooks = 0;
     int residentActiveHooks = 0;
@@ -58,6 +61,11 @@ static PatchReport PatchMagicka(
     int checkpointHooks = 0;
 
     TypeDefinition entityType = RequireType(types, EntityTypeName);
+    RepairAvatarCacheExpansionBranch(
+        RequireMethod(
+            RequireType(types, "Magicka.GameLogic.Entities.Avatar"),
+            "GetFromCache",
+            parameterCount: 1));
     foreach (MethodDefinition constructor in entityType.Methods.Where(
                  method => method.IsConstructor && !method.IsStatic && method.HasBody))
     {
@@ -630,6 +638,184 @@ static bool ReadsCacheOrPoolField(MethodDefinition method)
                         || instruction.OpCode == OpCodes.Ldsflda)
                        && instruction.Operand is FieldReference field
                        && IsCacheOrPoolField(field.Name));
+}
+
+static void RepairAvatarCacheExpansionBranch(MethodDefinition method)
+{
+    Instruction[] unresolvedShortBranches = method.Body.Instructions.Where(
+            instruction => instruction.OpCode == OpCodes.Br_S
+                           && instruction.Operand is null)
+        .ToArray();
+    if (unresolvedShortBranches.Length != 1)
+    {
+        throw new InvalidOperationException(
+            "Expected one overflowed short branch in " + method.FullName
+            + ", found " + unresolvedShortBranches.Length + ".");
+    }
+
+    Instruction[] commonExitBranches = method.Body.Instructions.Where(
+            instruction => instruction.OpCode == OpCodes.Br_S
+                           && instruction.Operand is Instruction target
+                           && target.OpCode == OpCodes.Leave_S)
+        .ToArray();
+    if (commonExitBranches.Length != 1)
+    {
+        throw new InvalidOperationException(
+            "Expected one resolved short branch to the common exit in "
+            + method.FullName + ", found " + commonExitBranches.Length + ".");
+    }
+
+    unresolvedShortBranches[0].OpCode = OpCodes.Br;
+    unresolvedShortBranches[0].Operand = commonExitBranches[0].Operand;
+}
+
+static void RepairParadoxStoreWorkerDelegate(
+    ModuleDefinition module,
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition guards = RequireType(
+        types,
+        "Magicka.CommunityPatch.RuntimeCompatibilityGuards");
+    MethodDefinition queue = RequireMethod(
+        guards,
+        "QueueParadoxStorePriceUpdate",
+        parameterCount: 1);
+    MethodDefinition worker = RequireMethod(
+        guards,
+        "RunParadoxStorePriceUpdate",
+        parameterCount: 1);
+    MethodDefinition update = RequireMethod(
+        RequireType(
+            types,
+            "Magicka.CoreFramework.GameSystem.Store.StoreItemDatabase"),
+        "UpdateParadoxItems",
+        parameterCount: 0);
+
+    if (queue.Parameters[0].ParameterType.FullName != "System.Action")
+    {
+        throw new InvalidOperationException(
+            "Unexpected Paradox price worker delegate: "
+            + queue.Parameters[0].ParameterType.FullName);
+    }
+
+    AssemblyNameReference mscorlib20 = module.AssemblyReferences.Single(
+        reference => reference.Name == "mscorlib"
+                     && reference.Version == new Version(2, 0, 0, 0));
+    TypeReference threadStart = new TypeReference(
+        "System.Threading",
+        "ThreadStart",
+        module,
+        mscorlib20,
+        valueType: false);
+
+    Instruction workerCast = worker.Body.Instructions.Single(instruction =>
+        instruction.OpCode == OpCodes.Castclass
+        && instruction.Operand is TypeReference type
+        && type.FullName == "System.Action");
+    Instruction workerInvoke = worker.Body.Instructions.Single(instruction =>
+        instruction.OpCode == OpCodes.Callvirt
+        && instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == "System.Action"
+        && called.Name == "Invoke");
+    Instruction actionConstructor = update.Body.Instructions.Single(
+        instruction => instruction.OpCode == OpCodes.Newobj
+                       && instruction.Operand is MethodReference called
+                       && called.DeclaringType.FullName == "System.Action");
+    Instruction queueCall = update.Body.Instructions.Single(instruction =>
+        instruction.OpCode == OpCodes.Call
+        && instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == guards.FullName
+        && called.Name == queue.Name);
+
+    queue.Parameters[0].ParameterType = threadStart;
+    workerCast.Operand = threadStart;
+    workerInvoke.Operand = CreateDelegateMethod(
+        module,
+        threadStart,
+        (MethodReference)workerInvoke.Operand);
+    actionConstructor.Operand = CreateDelegateMethod(
+        module,
+        threadStart,
+        (MethodReference)actionConstructor.Operand);
+    ((MethodReference)queueCall.Operand).Parameters[0].ParameterType = threadStart;
+}
+
+static MethodReference CreateDelegateMethod(
+    ModuleDefinition module,
+    TypeReference delegateType,
+    MethodReference source)
+{
+    MethodReference replacement = new MethodReference(
+        source.Name,
+        module.ImportReference(source.ReturnType),
+        delegateType)
+    {
+        HasThis = source.HasThis,
+        ExplicitThis = source.ExplicitThis,
+        CallingConvention = source.CallingConvention,
+    };
+    foreach (ParameterDefinition parameter in source.Parameters)
+    {
+        replacement.Parameters.Add(new ParameterDefinition(
+            module.ImportReference(parameter.ParameterType)));
+    }
+
+    return replacement;
+}
+
+static void RepairClr2CollectionLocks(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    (string TypeName, string MethodName, int ParameterCount)[] lockMethods =
+    [
+        ("Magicka.StaticList`1", "Add", 1),
+        ("Magicka.StaticList`1", "Insert", 2),
+        ("Magicka.StaticWeakList`1", "Add", 1),
+        ("Magicka.StaticWeakList`1", "Insert", 2),
+        ("Magicka.StaticWeakList`1", "Expand", 1),
+    ];
+    foreach ((string typeName, string methodName, int parameterCount) in lockMethods)
+    {
+        TypeDefinition collection = RequireType(types, typeName);
+        MethodDefinition method = RequireMethod(
+            collection,
+            methodName,
+            parameterCount);
+        Instruction enterCall = method.Body.Instructions.Single(instruction =>
+            instruction.OpCode == OpCodes.Call
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "System.Threading.Monitor"
+            && called.Name == "Enter"
+            && called.Parameters.Count == 2);
+        Instruction loadTakenAddress = enterCall.Previous;
+        if ((loadTakenAddress.OpCode != OpCodes.Ldloca
+             && loadTakenAddress.OpCode != OpCodes.Ldloca_S)
+            || loadTakenAddress.Operand is not VariableDefinition taken)
+        {
+            throw new InvalidOperationException(
+                "Expected a lock-taken local before Monitor.Enter in "
+                + method.FullName);
+        }
+
+        MethodReference oldEnter = (MethodReference)enterCall.Operand;
+        MethodReference clr2Enter = new MethodReference(
+            oldEnter.Name,
+            oldEnter.ReturnType,
+            oldEnter.DeclaringType)
+        {
+            HasThis = false,
+            CallingConvention = MethodCallingConvention.Default,
+        };
+        clr2Enter.Parameters.Add(new ParameterDefinition(
+            oldEnter.Parameters[0].ParameterType));
+
+        ILProcessor processor = method.Body.GetILProcessor();
+        processor.Remove(loadTakenAddress);
+        enterCall.Operand = clr2Enter;
+        Instruction acquired = Instruction.Create(OpCodes.Ldc_I4_1);
+        processor.InsertAfter(enterCall, acquired);
+        processor.InsertAfter(acquired, Instruction.Create(OpCodes.Stloc, taken));
+    }
 }
 
 static bool IsReuseEntryMethod(string methodName)

@@ -946,7 +946,11 @@ namespace Magicka.GcDiagnostics
                 else if (key == "resolved_count"
                     || key == "finding_count"
                     || key == "truncated"
-                    || key == "status")
+                    || key == "status"
+                    || key == "error_stage"
+                    || key == "exception_type"
+                    || key == "inner_exception_type"
+                    || key == "exception_hresult")
                 {
                     properties[key] = value;
                 }
