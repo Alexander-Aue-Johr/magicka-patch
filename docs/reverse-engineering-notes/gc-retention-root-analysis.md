@@ -11,6 +11,11 @@ attaches to a process snapshot, validates the registry version, resolves the
 weak handles, and walks GC roots for objects marked `MustCollect`. Objects
 marked `MustDetach` receive a bounded outbound-reference traversal.
 
+After each analyzer run, the registry frees the completed cycle's weak handles
+and temporary files, then reopens tracking. The next disposal checkpoint starts
+a fresh analysis cycle, so later levels can report a different retained object
+graph without carrying candidates forward from an earlier level.
+
 Root findings contain expectation, managed type, lifecycle, root category, and
 a field-labelled type path. Paths, counts, traversal time, and telemetry text
 are capped. The analyzer never sends object addresses or weak-handle values.

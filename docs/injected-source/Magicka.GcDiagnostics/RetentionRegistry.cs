@@ -1093,7 +1093,6 @@ namespace Magicka.GcDiagnostics
             List<string> manifests = new List<string>();
             lock (Sync)
             {
-                Enabled = false;
                 if (SweepTimer != null)
                 {
                     SweepTimer.Dispose();
@@ -1131,6 +1130,9 @@ namespace Magicka.GcDiagnostics
                 PendingFreeHandles.Clear();
                 ObsoleteManifestPaths.Clear();
                 PendingLogLines.Clear();
+                PublishedManifestPath = null;
+                LastPublishedVersion = -1;
+                LastPublishedGen2 = -1;
             }
 
             foreach (IntPtr handle in handles)
@@ -1145,6 +1147,16 @@ namespace Magicka.GcDiagnostics
 
 
             TryDeleteFile(GetLogPath());
+
+            lock (Sync)
+            {
+                CheckpointLifecycle = string.Empty;
+                CheckpointUtcTicks = 0L;
+                SuppressedCheckpointCount = 0;
+                DroppedWatchCount = 0;
+                TrackingClosed = false;
+                Interlocked.Exchange(ref AnalysisStarted, 0);
+            }
         }
 
         private static bool IsMonoRuntime()

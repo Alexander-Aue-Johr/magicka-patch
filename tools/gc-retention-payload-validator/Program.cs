@@ -195,6 +195,84 @@ static void ValidateRuntime(AssemblyDefinition runtime)
     }
 
     ValidateAnalyzerFindingTelemetry(runtime, registryState);
+    ValidateRecurringRetentionCheckpoints(registryState);
+}
+
+static void ValidateRecurringRetentionCheckpoints(
+    TypeDefinition registryState)
+{
+    MethodDefinition finish = registryState.Methods.Single(method =>
+        method.Name == "FinishAnalysis"
+        && method.Parameters.Count == 0);
+    Instruction[] instructions = finish.Body.Instructions.ToArray();
+
+    bool disablesRegistry = instructions.Any(instruction =>
+        instruction.OpCode == OpCodes.Stsfld
+        && instruction.Operand is FieldReference field
+        && field.DeclaringType.FullName == RegistryStateTypeName
+        && field.Name == "Enabled");
+    if (disablesRegistry)
+    {
+        throw new InvalidDataException(
+            "FinishAnalysis still disables the retention registry after one run.");
+    }
+
+    string[] resetFields =
+    [
+        "PublishedManifestPath",
+        "LastPublishedVersion",
+        "LastPublishedGen2",
+        "CheckpointLifecycle",
+        "CheckpointUtcTicks",
+        "SuppressedCheckpointCount",
+        "DroppedWatchCount",
+        "TrackingClosed",
+    ];
+    HashSet<string> storedFields = instructions
+        .Where(instruction => instruction.OpCode == OpCodes.Stsfld)
+        .Select(instruction => instruction.Operand as FieldReference)
+        .Where(field => field is not null
+            && field.DeclaringType.FullName == RegistryStateTypeName)
+        .Select(field => field!.Name)
+        .ToHashSet(StringComparer.Ordinal);
+    string[] missingResets = resetFields
+        .Where(field => !storedFields.Contains(field))
+        .ToArray();
+    if (missingResets.Length != 0)
+    {
+        throw new InvalidDataException(
+            "FinishAnalysis is missing recurring-cycle resets: "
+            + string.Join(", ", missingResets) + ".");
+    }
+
+    bool resetsAnalysisStarted = instructions.Any(instruction =>
+        instruction.OpCode == OpCodes.Call
+        && instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == "System.Threading.Interlocked"
+        && called.Name == "Exchange");
+    if (!resetsAnalysisStarted)
+    {
+        throw new InvalidDataException(
+            "FinishAnalysis does not reset the analysis start guard.");
+    }
+
+    int deleteLogIndex = Array.FindLastIndex(
+        instructions,
+        instruction => instruction.OpCode == OpCodes.Call
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == RegistryStateTypeName
+            && called.Name == "TryDeleteFile");
+    int reopenTrackingIndex = Array.FindLastIndex(
+        instructions,
+        instruction => instruction.OpCode == OpCodes.Stsfld
+            && instruction.Operand is FieldReference field
+            && field.DeclaringType.FullName == RegistryStateTypeName
+            && field.Name == "TrackingClosed");
+    if (deleteLogIndex < 0 || reopenTrackingIndex <= deleteLogIndex)
+    {
+        throw new InvalidDataException(
+            "FinishAnalysis reopens tracking before completed-cycle files are removed.");
+    }
 }
 
 static void ValidateAnalyzerFindingTelemetry(

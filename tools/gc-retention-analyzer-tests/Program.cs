@@ -1,4 +1,5 @@
 using Magicka.GcDiagnostics;
+using System.Reflection;
 using System.Text;
 
 static void Equal<T>(T expected, T actual, string name)
@@ -7,6 +8,90 @@ static void Equal<T>(T expected, T actual, string name)
     {
         throw new InvalidOperationException(
             name + ": expected " + expected + ", got " + actual + ".");
+    }
+}
+
+static T RetentionStateField<T>(string name)
+{
+    Type state = typeof(RetentionRegistry).Assembly.GetType(
+        "Magicka.GcDiagnostics.RetentionState",
+        throwOnError: true)!;
+    FieldInfo field = state.GetField(
+        name,
+        BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public)
+        ?? throw new InvalidOperationException(
+            "Missing RetentionState field " + name + ".");
+    return (T)(field.GetValue(null)
+        ?? throw new InvalidOperationException(
+            "Null RetentionState field " + name + "."));
+}
+
+static void FinishRetentionAnalysis()
+{
+    Type state = typeof(RetentionRegistry).Assembly.GetType(
+        "Magicka.GcDiagnostics.RetentionState",
+        throwOnError: true)!;
+    MethodInfo method = state.GetMethod(
+        "FinishAnalysis",
+        BindingFlags.Static | BindingFlags.NonPublic)
+        ?? throw new InvalidOperationException(
+            "Missing RetentionState.FinishAnalysis.");
+    method.Invoke(null, null);
+}
+
+string previousDiagnosticsDirectory = Environment.GetEnvironmentVariable(
+    "MAGICKA_GC_DIAGNOSTICS_DIR") ?? string.Empty;
+string recurringDiagnosticsDirectory = Path.Combine(
+    Path.GetTempPath(),
+    "magicka-gc-recurring-" + Guid.NewGuid().ToString("N"));
+try
+{
+    Environment.SetEnvironmentVariable(
+        "MAGICKA_GC_DIAGNOSTICS_DIR",
+        recurringDiagnosticsDirectory);
+    RetentionRegistry.Configure(true, string.Empty);
+
+    object firstTarget = new();
+    RetentionRegistry.BeginEpoch(firstTarget, "First.Begin");
+    RetentionRegistry.MarkMustCollect(firstTarget, "First.Dispose");
+    RetentionRegistry.Checkpoint("First.Checkpoint");
+    Equal(true, RetentionStateField<bool>("TrackingClosed"),
+        "first checkpoint closes tracking");
+
+    FinishRetentionAnalysis();
+    Equal(true, RetentionStateField<bool>("Enabled"),
+        "analysis keeps diagnostics enabled");
+    Equal(false, RetentionStateField<bool>("TrackingClosed"),
+        "analysis reopens tracking");
+    Equal(0, RetentionStateField<int>("AnalysisStarted"),
+        "analysis resets its start guard");
+    Equal(0, RetentionState.Watches.Count,
+        "analysis clears the completed cycle");
+
+    object secondTarget = new();
+    RetentionRegistry.BeginEpoch(secondTarget, "Second.Begin");
+    RetentionRegistry.MarkMustCollect(secondTarget, "Second.Dispose");
+    Equal(1, RetentionState.Watches.Count,
+        "second cycle accepts new watches");
+    RetentionRegistry.Checkpoint("Second.Checkpoint");
+    Equal(2, RetentionStateField<int>("CheckpointNumber"),
+        "checkpoint numbers remain monotonic");
+    Equal(true, RetentionStateField<bool>("TrackingClosed"),
+        "second checkpoint starts another analysis cycle");
+    FinishRetentionAnalysis();
+    Equal(false, RetentionStateField<bool>("TrackingClosed"),
+        "second analysis also reopens tracking");
+}
+finally
+{
+    Environment.SetEnvironmentVariable(
+        "MAGICKA_GC_DIAGNOSTICS_DIR",
+        string.IsNullOrEmpty(previousDiagnosticsDirectory)
+            ? null
+            : previousDiagnosticsDirectory);
+    if (Directory.Exists(recurringDiagnosticsDirectory))
+    {
+        Directory.Delete(recurringDiagnosticsDirectory, recursive: true);
     }
 }
 
