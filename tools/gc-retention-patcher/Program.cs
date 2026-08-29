@@ -54,6 +54,18 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--patch-jormungandr-null-target")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchJormungandrNullTargetOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": guarded Jormungandr emergence without a target");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -70,6 +82,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-railgun-parent-cycle"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-jormungandr-null-target"
         + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
@@ -114,6 +129,7 @@ static PatchReport PatchMagicka(
     RepairCharacterTemplateStaticCaches(module, types);
     PatchWarlordAbilityDiagnostic(module, types);
     RepairRailgunParentCycles(module, types);
+    RepairJormungandrNullTarget(types);
 
     int registrations = 0;
     int activeHooks = 0;
@@ -511,6 +527,80 @@ static void PatchRailgunParentCycleOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairRailgunParentCycles(assembly.MainModule, types);
     WriteAssembly(assembly, outputPath);
+}
+
+static void PatchJormungandrNullTargetOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairJormungandrNullTarget(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairJormungandrNullTarget(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition jormungandr = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.Bosses.Jormungandr");
+    TypeDefinition undergroundState = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.Bosses.Jormungandr/UndergroundState");
+    FieldDefinition targetField = jormungandr.Fields.Single(field =>
+        field.Name == "mTarget"
+        && !field.IsStatic
+        && field.FieldType.FullName
+            == "Magicka.GameLogic.Entities.Character");
+    MethodDefinition selectTarget = RequireMethod(
+        jormungandr,
+        "SelectTarget",
+        parameterCount: 1);
+    MethodDefinition update = RequireMethod(
+        undergroundState,
+        "OnUpdate",
+        parameterCount: 2);
+
+    Instruction[] instructions = update.Body.Instructions.ToArray();
+    Instruction[] targetSelections = instructions.Where(instruction =>
+            IsMethodCall(instruction, selectTarget))
+        .ToArray();
+    if (targetSelections.Length != 1)
+    {
+        throw new InvalidOperationException(
+            "Expected one Jormungandr underground target selection, found "
+            + targetSelections.Length + ".");
+    }
+
+    Instruction selection = targetSelections[0];
+    Instruction continueInstruction = selection.Next
+        ?? throw new InvalidOperationException(
+            "Jormungandr target selection has no following instruction.");
+    if (continueInstruction.OpCode != OpCodes.Ldc_R4
+        || continueInstruction.Operand is not float warningStrength
+        || warningStrength != 0.5f)
+    {
+        throw new InvalidOperationException(
+            "Unexpected Jormungandr post-selection instruction; the null-target"
+            + " guard may already exist or the game method changed.");
+    }
+
+    ILProcessor processor = update.Body.GetILProcessor();
+    processor.InsertBefore(
+        continueInstruction,
+        Instruction.Create(OpCodes.Ldarg_2));
+    processor.InsertBefore(
+        continueInstruction,
+        Instruction.Create(OpCodes.Ldfld, targetField));
+    processor.InsertBefore(
+        continueInstruction,
+        Instruction.Create(OpCodes.Brtrue, continueInstruction));
+    processor.InsertBefore(
+        continueInstruction,
+        Instruction.Create(OpCodes.Ret));
+    update.Body.MaxStackSize = Math.Max(update.Body.MaxStackSize, 1);
 }
 
 static void RepairRailgunParentCycles(
