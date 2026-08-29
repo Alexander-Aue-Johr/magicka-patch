@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.0.49] - 2026-08-29
+
+### Fixed
+
+- Detach dynamic lights from their previous scene before returning them to the
+  reusable light cache. Cached lights no longer retain scenes that have already
+  been left or disposed.
+- Validate the immediate-disable and completed fade-out cleanup paths during
+  release packaging, including the required cleanup-before-cache ordering and
+  CLR-2 compatibility.
+
 ## [0.0.48] - 2026-08-29
 
 ### Fixed
