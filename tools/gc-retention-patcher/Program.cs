@@ -42,6 +42,18 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--patch-railgun-parent-cycle")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchRailgunParentCycleOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": prevented Railgun parent cycles");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -55,6 +67,9 @@ if (args.Length != 4)
         + " <PolygonHead.dll> <output-PolygonHead.dll>\n"
         + "   or: RetentionPatcher"
         + " --patch-warlord-ability-diagnostic"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-railgun-parent-cycle"
         + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
@@ -98,6 +113,7 @@ static PatchReport PatchMagicka(
     RepairClr2CollectionLocks(types);
     RepairCharacterTemplateStaticCaches(module, types);
     PatchWarlordAbilityDiagnostic(module, types);
+    RepairRailgunParentCycles(module, types);
 
     int registrations = 0;
     int activeHooks = 0;
@@ -484,6 +500,535 @@ static void PatchWarlordAbilityDiagnosticOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     PatchWarlordAbilityDiagnostic(assembly.MainModule, types);
     WriteAssembly(assembly, outputPath);
+}
+
+static void PatchRailgunParentCycleOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairRailgunParentCycles(assembly.MainModule, types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairRailgunParentCycles(
+    ModuleDefinition module,
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    const string cycleCheckName =
+        "CommunityPatchWouldCreateParentCycle";
+    const string reportName =
+        "CommunityPatchReportParentCycleRecovery";
+
+    TypeDefinition railgun = RequireType(
+        types,
+        "Magicka.GameLogic.Spells.Railgun");
+    if (railgun.Methods.Any(method =>
+            method.Name == cycleCheckName
+            || method.Name == reportName))
+    {
+        throw new InvalidOperationException(
+            "Railgun parent-cycle repair already exists.");
+    }
+
+    FieldDefinition parentsField = railgun.Fields.Single(field =>
+        field.Name == "mParents"
+        && field.FieldType.FullName
+            == "System.Collections.Generic.List`1<"
+               + railgun.FullName + ">");
+    FieldDefinition lockTraversalActive = new FieldDefinition(
+        "mCommunityPatchLockAllActive",
+        FieldAttributes.Private,
+        module.TypeSystem.Boolean);
+    railgun.Fields.Add(lockTraversalActive);
+    TypeDefinition patchTelemetry = RequireType(
+        types,
+        "Magicka.CommunityPatch.PatchTelemetry");
+    MethodDefinition sendRuntimeGuard = RequireMethod(
+        patchTelemetry,
+        "SendRuntimeGuard",
+        parameterCount: 6);
+
+    MethodReference getParentCount = FindMethodReference(
+        module,
+        parentsField.FieldType.FullName,
+        "get_Count",
+        parameterCount: 0,
+        returnType: "System.Int32");
+    MethodReference getParentItem = railgun.Methods
+        .Where(method => method.HasBody)
+        .SelectMany(method => method.Body.Instructions)
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .Where(method =>
+            method.DeclaringType.FullName == parentsField.FieldType.FullName
+            && method.Name == "get_Item"
+            && method.Parameters.Count == 1
+            && method.Parameters[0].ParameterType.FullName == "System.Int32")
+        .GroupBy(method => method.FullName, StringComparer.Ordinal)
+        .Select(group => group.First())
+        .Single();
+    MethodReference referenceEquals = FindMethodReference(
+        module,
+        "System.Object",
+        "ReferenceEquals",
+        parameterCount: 2,
+        returnType: "System.Boolean");
+    MethodReference stringBuilderConstructor = FindMethodReference(
+        module,
+        "System.Text.StringBuilder",
+        ".ctor",
+        parameterCount: 0,
+        returnType: "System.Void");
+    MethodReference appendString = FindMethodReference(
+        module,
+        "System.Text.StringBuilder",
+        "Append",
+        parameterCount: 1,
+        returnType: "System.Text.StringBuilder",
+        parameterType: "System.String");
+    TypeReference stringBuilderType = appendString.DeclaringType;
+    MethodReference appendInteger = CreateInstanceMethodReference(
+        "Append",
+        stringBuilderType,
+        stringBuilderType,
+        module.TypeSystem.Int32);
+    MethodReference stringBuilderToString = CreateInstanceMethodReference(
+        "ToString",
+        stringBuilderType,
+        module.TypeSystem.String);
+
+    MethodDefinition reportRecovery = new MethodDefinition(
+        reportName,
+        MethodAttributes.Private
+        | MethodAttributes.Static
+        | MethodAttributes.HideBySig,
+        module.TypeSystem.Void);
+    reportRecovery.Parameters.Add(new ParameterDefinition(
+        "reason",
+        ParameterAttributes.None,
+        module.TypeSystem.String));
+    reportRecovery.Parameters.Add(new ParameterDefinition(
+        "visitedCount",
+        ParameterAttributes.None,
+        module.TypeSystem.Int32));
+    reportRecovery.Parameters.Add(new ParameterDefinition(
+        "pendingCount",
+        ParameterAttributes.None,
+        module.TypeSystem.Int32));
+    reportRecovery.Parameters.Add(new ParameterDefinition(
+        "candidateParentCount",
+        ParameterAttributes.None,
+        module.TypeSystem.Int32));
+    railgun.Methods.Add(reportRecovery);
+
+    VariableDefinition details = new VariableDefinition(stringBuilderType);
+    reportRecovery.Body.Variables.Add(details);
+    reportRecovery.Body.InitLocals = true;
+    ILProcessor reportProcessor = reportRecovery.Body.GetILProcessor();
+    Instruction reportTryStart = Instruction.Create(OpCodes.Nop);
+    Instruction reportHandlerStart = Instruction.Create(OpCodes.Pop);
+    Instruction reportReturn = Instruction.Create(OpCodes.Ret);
+    reportProcessor.Append(reportTryStart);
+    reportProcessor.Append(Instruction.Create(
+        OpCodes.Newobj,
+        stringBuilderConstructor));
+    reportProcessor.Append(Instruction.Create(OpCodes.Stloc, details));
+    AppendStringBuilderText(
+        reportProcessor,
+        details,
+        appendString,
+        "visited_count=");
+    reportProcessor.Append(Instruction.Create(OpCodes.Ldloc, details));
+    reportProcessor.Append(Instruction.Create(OpCodes.Ldarg_1));
+    reportProcessor.Append(Instruction.Create(OpCodes.Callvirt, appendInteger));
+    reportProcessor.Append(Instruction.Create(OpCodes.Pop));
+    AppendStringBuilderText(
+        reportProcessor,
+        details,
+        appendString,
+        ";pending_count=");
+    reportProcessor.Append(Instruction.Create(OpCodes.Ldloc, details));
+    reportProcessor.Append(Instruction.Create(OpCodes.Ldarg_2));
+    reportProcessor.Append(Instruction.Create(OpCodes.Callvirt, appendInteger));
+    reportProcessor.Append(Instruction.Create(OpCodes.Pop));
+    AppendStringBuilderText(
+        reportProcessor,
+        details,
+        appendString,
+        ";candidate_parent_count=");
+    reportProcessor.Append(Instruction.Create(OpCodes.Ldloc, details));
+    reportProcessor.Append(Instruction.Create(OpCodes.Ldarg_3));
+    reportProcessor.Append(Instruction.Create(OpCodes.Callvirt, appendInteger));
+    reportProcessor.Append(Instruction.Create(OpCodes.Pop));
+    reportProcessor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "magicka_patch_runtime_recovery"));
+    reportProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    reportProcessor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "Railgun.mParents"));
+    reportProcessor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "Magicka.GameLogic.Spells.Railgun"));
+    reportProcessor.Append(Instruction.Create(OpCodes.Ldloc, details));
+    reportProcessor.Append(Instruction.Create(
+        OpCodes.Callvirt,
+        stringBuilderToString));
+    reportProcessor.Append(Instruction.Create(OpCodes.Ldstr, string.Empty));
+    reportProcessor.Append(Instruction.Create(OpCodes.Call, sendRuntimeGuard));
+    reportProcessor.Append(Instruction.Create(
+        OpCodes.Leave,
+        reportReturn));
+    reportProcessor.Append(reportHandlerStart);
+    reportProcessor.Append(Instruction.Create(
+        OpCodes.Leave,
+        reportReturn));
+    reportProcessor.Append(reportReturn);
+    reportRecovery.Body.ExceptionHandlers.Add(new ExceptionHandler(
+        ExceptionHandlerType.Catch)
+    {
+        CatchType = module.TypeSystem.Object,
+        TryStart = reportTryStart,
+        TryEnd = reportHandlerStart,
+        HandlerStart = reportHandlerStart,
+        HandlerEnd = reportReturn,
+    });
+    reportRecovery.Body.MaxStackSize = 6;
+
+    MethodDefinition cycleCheck = new MethodDefinition(
+        cycleCheckName,
+        MethodAttributes.Private | MethodAttributes.HideBySig,
+        module.TypeSystem.Boolean);
+    cycleCheck.Parameters.Add(new ParameterDefinition(
+        "candidate",
+        ParameterAttributes.None,
+        railgun));
+    railgun.Methods.Add(cycleCheck);
+
+    ArrayType railgunArray = new ArrayType(railgun);
+    VariableDefinition pending = new VariableDefinition(railgunArray);
+    VariableDefinition visited = new VariableDefinition(railgunArray);
+    VariableDefinition pendingCount = new VariableDefinition(module.TypeSystem.Int32);
+    VariableDefinition visitedCount = new VariableDefinition(module.TypeSystem.Int32);
+    VariableDefinition current = new VariableDefinition(railgun);
+    VariableDefinition visitedIndex = new VariableDefinition(module.TypeSystem.Int32);
+    VariableDefinition parent = new VariableDefinition(railgun);
+    VariableDefinition parentIndex = new VariableDefinition(module.TypeSystem.Int32);
+    VariableDefinition result = new VariableDefinition(module.TypeSystem.Boolean);
+    cycleCheck.Body.Variables.Add(pending);
+    cycleCheck.Body.Variables.Add(visited);
+    cycleCheck.Body.Variables.Add(pendingCount);
+    cycleCheck.Body.Variables.Add(visitedCount);
+    cycleCheck.Body.Variables.Add(current);
+    cycleCheck.Body.Variables.Add(visitedIndex);
+    cycleCheck.Body.Variables.Add(parent);
+    cycleCheck.Body.Variables.Add(parentIndex);
+    cycleCheck.Body.Variables.Add(result);
+    cycleCheck.Body.InitLocals = true;
+
+    ILProcessor cycleProcessor = cycleCheck.Body.GetILProcessor();
+    Instruction cycleTryStart = Instruction.Create(OpCodes.Nop);
+    Instruction candidateValid = Instruction.Create(OpCodes.Ldc_I4, 256);
+    Instruction outerCondition = Instruction.Create(OpCodes.Ldloc, pendingCount);
+    Instruction outerBody = Instruction.Create(OpCodes.Ldloc, pendingCount);
+    Instruction outerContinue = Instruction.Create(OpCodes.Nop);
+    Instruction visitedCondition = Instruction.Create(OpCodes.Ldloc, visitedIndex);
+    Instruction visitedBody = Instruction.Create(OpCodes.Ldloc, visited);
+    Instruction currentUnique = Instruction.Create(OpCodes.Ldloc, current);
+    Instruction parentCondition = Instruction.Create(OpCodes.Ldloc, parentIndex);
+    Instruction parentBody = Instruction.Create(OpCodes.Ldloc, current);
+    Instruction parentContinue = Instruction.Create(OpCodes.Ldloc, parentIndex);
+    Instruction cycleDetected = Instruction.Create(
+        OpCodes.Ldstr,
+        "railgun_parent_cycle_prevented");
+    Instruction traversalLimit = Instruction.Create(
+        OpCodes.Ldstr,
+        "railgun_parent_cycle_check_limit_reached");
+    Instruction safeCompletion = Instruction.Create(OpCodes.Ldc_I4_0);
+    Instruction cycleHandlerStart = Instruction.Create(OpCodes.Pop);
+    Instruction cycleReturn = Instruction.Create(OpCodes.Ldloc, result);
+
+    cycleProcessor.Append(cycleTryStart);
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldarg_1));
+    cycleProcessor.Append(Instruction.Create(
+        OpCodes.Brtrue,
+        candidateValid));
+    cycleProcessor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "railgun_parent_cycle_check_failed"));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Call, reportRecovery));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_1));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stloc, result));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Leave, cycleReturn));
+
+    cycleProcessor.Append(candidateValid);
+    cycleProcessor.Append(Instruction.Create(OpCodes.Newarr, railgun));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stloc, pending));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4, 256));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Newarr, railgun));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stloc, visited));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, pending));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stelem_Ref));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_1));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stloc, pendingCount));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stloc, visitedCount));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Br, outerCondition));
+
+    cycleProcessor.Append(outerBody);
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_1));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Sub));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stloc, pendingCount));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, pending));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, pendingCount));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldelem_Ref));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stloc, current));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, current));
+    cycleProcessor.Append(Instruction.Create(
+        OpCodes.Brfalse,
+        outerContinue));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stloc, visitedIndex));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Br, visitedCondition));
+
+    cycleProcessor.Append(visitedBody);
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, visitedIndex));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldelem_Ref));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, current));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Call, referenceEquals));
+    cycleProcessor.Append(Instruction.Create(
+        OpCodes.Brtrue,
+        outerContinue));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, visitedIndex));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_1));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Add));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stloc, visitedIndex));
+    cycleProcessor.Append(visitedCondition);
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, visitedCount));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Blt, visitedBody));
+
+    cycleProcessor.Append(currentUnique);
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldarg_1));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Call, referenceEquals));
+    cycleProcessor.Append(Instruction.Create(
+        OpCodes.Brtrue,
+        cycleDetected));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, visitedCount));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4, 256));
+    cycleProcessor.Append(Instruction.Create(
+        OpCodes.Bge,
+        traversalLimit));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, visited));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, visitedCount));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, current));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stelem_Ref));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, visitedCount));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_1));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Add));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stloc, visitedCount));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stloc, parentIndex));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Br, parentCondition));
+
+    cycleProcessor.Append(parentBody);
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldfld, parentsField));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, parentIndex));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Callvirt, getParentItem));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stloc, parent));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, parent));
+    cycleProcessor.Append(Instruction.Create(
+        OpCodes.Brfalse,
+        parentContinue));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, pendingCount));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4, 256));
+    cycleProcessor.Append(Instruction.Create(
+        OpCodes.Bge,
+        traversalLimit));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, pending));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, pendingCount));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, parent));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stelem_Ref));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, pendingCount));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_1));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Add));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stloc, pendingCount));
+    cycleProcessor.Append(parentContinue);
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_1));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Add));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stloc, parentIndex));
+    cycleProcessor.Append(parentCondition);
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, current));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldfld, parentsField));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Callvirt, getParentCount));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Blt, parentBody));
+
+    cycleProcessor.Append(outerContinue);
+    cycleProcessor.Append(outerCondition);
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Bgt, outerBody));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Br, safeCompletion));
+
+    cycleProcessor.Append(cycleDetected);
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, visitedCount));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, pendingCount));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldarg_1));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldfld, parentsField));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Callvirt, getParentCount));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Call, reportRecovery));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_1));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stloc, result));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Leave, cycleReturn));
+
+    cycleProcessor.Append(traversalLimit);
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, visitedCount));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldloc, pendingCount));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldarg_1));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldfld, parentsField));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Callvirt, getParentCount));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Call, reportRecovery));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_1));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stloc, result));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Leave, cycleReturn));
+
+    cycleProcessor.Append(safeCompletion);
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stloc, result));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Leave, cycleReturn));
+
+    cycleProcessor.Append(cycleHandlerStart);
+    cycleProcessor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "railgun_parent_cycle_check_failed"));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Call, reportRecovery));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_1));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Stloc, result));
+    cycleProcessor.Append(Instruction.Create(OpCodes.Leave, cycleReturn));
+    cycleProcessor.Append(cycleReturn);
+    cycleProcessor.Append(Instruction.Create(OpCodes.Ret));
+    cycleCheck.Body.ExceptionHandlers.Add(new ExceptionHandler(
+        ExceptionHandlerType.Catch)
+    {
+        CatchType = module.TypeSystem.Object,
+        TryStart = cycleTryStart,
+        TryEnd = cycleHandlerStart,
+        HandlerStart = cycleHandlerStart,
+        HandlerEnd = cycleReturn,
+    });
+    cycleCheck.Body.MaxStackSize = 4;
+
+    MethodDefinition lockAll = RequireMethod(
+        railgun,
+        "LockAll",
+        parameterCount: 0);
+    Instruction originalLockAllStart = lockAll.Body.Instructions[0];
+    Instruction originalLockAllReturn = RequireSingleReturn(lockAll);
+    ILProcessor lockProcessor = lockAll.Body.GetILProcessor();
+    Instruction beginLockTraversal = Instruction.Create(OpCodes.Ldarg_0);
+    lockProcessor.InsertBefore(
+        originalLockAllStart,
+        Instruction.Create(OpCodes.Ldarg_0));
+    lockProcessor.InsertBefore(
+        originalLockAllStart,
+        Instruction.Create(OpCodes.Ldfld, lockTraversalActive));
+    lockProcessor.InsertBefore(
+        originalLockAllStart,
+        Instruction.Create(OpCodes.Brfalse, beginLockTraversal));
+    lockProcessor.InsertBefore(
+        originalLockAllStart,
+        Instruction.Create(OpCodes.Ret));
+    lockProcessor.InsertBefore(originalLockAllStart, beginLockTraversal);
+    lockProcessor.InsertBefore(
+        originalLockAllStart,
+        Instruction.Create(OpCodes.Ldc_I4_1));
+    lockProcessor.InsertBefore(
+        originalLockAllStart,
+        Instruction.Create(OpCodes.Stfld, lockTraversalActive));
+    lockProcessor.InsertBefore(
+        originalLockAllReturn,
+        Instruction.Create(OpCodes.Ldarg_0));
+    lockProcessor.InsertBefore(
+        originalLockAllReturn,
+        Instruction.Create(OpCodes.Ldc_I4_0));
+    lockProcessor.InsertBefore(
+        originalLockAllReturn,
+        Instruction.Create(OpCodes.Stfld, lockTraversalActive));
+    lockAll.Body.MaxStackSize = Math.Max(lockAll.Body.MaxStackSize, 2);
+
+    MethodDefinition update = RequireMethod(
+        railgun,
+        "Update",
+        parameterCount: 2);
+    Instruction[] updateInstructions = update.Body.Instructions.ToArray();
+    Instruction parentAdd = updateInstructions.Single(instruction =>
+        instruction.Operand is MethodReference called
+        && called.Name == "Add"
+        && called.DeclaringType.FullName == parentsField.FieldType.FullName
+        && updateInstructions
+            .Skip(Math.Max(0, Array.IndexOf(updateInstructions, instruction) - 4))
+            .Take(4)
+            .Any(previous =>
+                previous.OpCode == OpCodes.Ldfld
+                && previous.Operand is FieldReference field
+                && field.FullName == parentsField.FullName));
+    int parentAddIndex = Array.IndexOf(updateInstructions, parentAdd);
+    VariableDefinition selectedCandidate = updateInstructions
+        .Take(parentAddIndex)
+        .Reverse()
+        .Select(instruction => instruction.Operand)
+        .OfType<VariableDefinition>()
+        .First(variable => variable.VariableType.FullName == railgun.FullName);
+    Instruction selectedStore = updateInstructions
+        .Take(parentAddIndex)
+        .Where(instruction =>
+            instruction.Operand == selectedCandidate
+            && (instruction.OpCode == OpCodes.Stloc
+                || instruction.OpCode == OpCodes.Stloc_S))
+        .Last();
+    int selectedStoreIndex = Array.IndexOf(updateInstructions, selectedStore);
+    if (selectedStoreIndex == 0
+        || updateInstructions[selectedStoreIndex - 1].Operand
+            is not VariableDefinition activeCandidate
+        || activeCandidate.VariableType.FullName != railgun.FullName)
+    {
+        throw new InvalidOperationException(
+            "Could not identify the active Railgun candidate local.");
+    }
+
+    Instruction loopContinue = updateInstructions[selectedStoreIndex + 1];
+    Instruction geometryGuard = updateInstructions
+        .Take(selectedStoreIndex)
+        .Where(instruction => instruction.Operand == loopContinue)
+        .Last();
+    int geometryGuardIndex = Array.IndexOf(updateInstructions, geometryGuard);
+    Instruction mutationStart = updateInstructions[geometryGuardIndex + 1];
+    if (mutationStart.OpCode != OpCodes.Ldnull)
+    {
+        throw new InvalidOperationException(
+            "Unexpected Railgun candidate mutation start.");
+    }
+
+    ILProcessor updateProcessor = update.Body.GetILProcessor();
+    foreach (Instruction injected in new[]
+             {
+                 Instruction.Create(OpCodes.Ldarg_0),
+                 Instruction.Create(OpCodes.Ldloc, activeCandidate),
+                 Instruction.Create(OpCodes.Call, cycleCheck),
+                 Instruction.Create(OpCodes.Brtrue, loopContinue),
+             })
+    {
+        updateProcessor.InsertBefore(mutationStart, injected);
+    }
+    update.Body.MaxStackSize = Math.Max(update.Body.MaxStackSize, 2);
 }
 
 static void PatchWarlordAbilityDiagnostic(

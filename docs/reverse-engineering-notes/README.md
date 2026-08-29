@@ -59,6 +59,9 @@ Patch-site notes:
 - [Warlord primary-ability diagnostic](warlord-primary-ability-diagnostic.md)
   documents the original unchecked `Melee` clone assumption and the bounded
   runtime state collected before the failing cast.
+- [Railgun parent-cycle stack overflow](railgun-parent-cycle-stack-overflow.md)
+  documents the indirect-ancestor attachment that can create a cyclic rail
+  graph and the bounded root fix applied before graph mutation.
 
 Legal note: this repository is not legal advice. EU Directive 2009/24/EC treats
 computer programs as copyright-protected works and gives rightholders exclusive

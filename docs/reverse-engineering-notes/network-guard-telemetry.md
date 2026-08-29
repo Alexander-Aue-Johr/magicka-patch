@@ -79,6 +79,7 @@ Network guards use two event names:
 | `magicka_patch_network_diagnostic` | A valid but unusual network path was processed and recorded for later validation. |
 | `magicka_patch_typing_text_guard_exception` | The typing text guard caught an invalid reveal index and forced the text to a completed state. |
 | `magicka_patch_warlord_ability_diagnostic` | The Warlord template supplied no primary ability or an ability that is not `Melee`; original spawn behavior remains unchanged. |
+| `magicka_patch_runtime_recovery` | A bounded runtime repair completed or rejected an unsafe local action. Railgun parent-cycle prevention uses this event. |
 
 Crash-report telemetry may also emit `magicka_patch_crash_report_written` when a
 crash report is generated.
@@ -143,6 +144,9 @@ counted over time:
 | `CharacterActionMessage.Grip` reasons | Missing target character, missing body, missing gripper/gripped character, missing animation controller, missing skeleton, or invalid grip joint index. |
 | `text_index_out_of_range` | The typing text reveal cursor moved outside the backing string; the patch reports counters and completes the reveal. |
 | `warlord_primary_ability_not_melee` | The Warlord primary ability was null or not `Melee`. `object_type` identifies the actual type; `asset_name` identifies the template; `details` contains bounded template and array state. |
+| `railgun_parent_cycle_prevented` | An intersecting Railgun was already a transitive parent, so the patch rejected the attachment before it could close a cycle. |
+| `railgun_parent_cycle_check_limit_reached` | The Railgun parent traversal reached its fixed work-set limit and rejected the attachment fail-safe. |
+| `railgun_parent_cycle_check_failed` | The Railgun parent traversal encountered an unexpected error and rejected the attachment fail-safe. |
 
 When a reason code becomes frequent, the next step is to reproduce that specific
 state and replace the guard with a narrower root-cause fix where possible.

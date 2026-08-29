@@ -67,6 +67,7 @@ ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
 ValidateCharacterTemplateStaticCaches(magicka);
 ValidateWarlordAbilityDiagnostic(magicka);
+ValidateRailgunParentCycleRepair(magicka);
 
 Dictionary<string, int> magickaCalls = ValidateInstrumentedAssembly(
     magicka,
@@ -1605,6 +1606,167 @@ static void ValidateWarlordAbilityDiagnostic(AssemblyDefinition magicka)
             "Warlord diagnostic does not run exactly once between base"
             + " template application and the preserved Melee/Bash path.");
     }
+}
+
+static void ValidateRailgunParentCycleRepair(AssemblyDefinition magicka)
+{
+    TypeDefinition railgun = AllTypes(magicka.MainModule).Single(type =>
+        type.FullName == "Magicka.GameLogic.Spells.Railgun");
+    FieldDefinition parents = railgun.Fields.Single(field =>
+        field.Name == "mParents"
+        && field.FieldType.FullName
+            == "System.Collections.Generic.List`1<"
+               + railgun.FullName + ">");
+    FieldDefinition lockTraversalActive = railgun.Fields.Single(field =>
+        field.Name == "mCommunityPatchLockAllActive"
+        && field.FieldType.FullName == "System.Boolean");
+    MethodDefinition report = railgun.Methods.Single(method =>
+        method.Name == "CommunityPatchReportParentCycleRecovery"
+        && method.IsStatic
+        && method.Parameters.Count == 4
+        && method.Parameters[0].ParameterType.FullName == "System.String"
+        && method.Parameters.Skip(1).All(parameter =>
+            parameter.ParameterType.FullName == "System.Int32")
+        && method.ReturnType.FullName == "System.Void"
+        && method.HasBody);
+    MethodDefinition cycleCheck = railgun.Methods.Single(method =>
+        method.Name == "CommunityPatchWouldCreateParentCycle"
+        && !method.IsStatic
+        && method.Parameters.Count == 1
+        && method.Parameters[0].ParameterType.FullName == railgun.FullName
+        && method.ReturnType.FullName == "System.Boolean"
+        && method.HasBody);
+
+    string[] reportStrings = report.Body.Instructions
+        .Where(instruction => instruction.OpCode == OpCodes.Ldstr)
+        .Select(instruction => instruction.Operand as string ?? string.Empty)
+        .ToArray();
+    string[] requiredReportStrings =
+    [
+        "magicka_patch_runtime_recovery",
+        "Railgun.mParents",
+        "Magicka.GameLogic.Spells.Railgun",
+        "visited_count=",
+        ";pending_count=",
+        ";candidate_parent_count=",
+    ];
+    if (requiredReportStrings.Any(required =>
+            !reportStrings.Contains(required, StringComparer.Ordinal)))
+    {
+        throw new InvalidDataException(
+            "Railgun recovery telemetry is missing required bounded fields.");
+    }
+
+    TypeDefinition patchTelemetry = AllTypes(magicka.MainModule).Single(type =>
+        type.FullName == "Magicka.CommunityPatch.PatchTelemetry");
+    MethodDefinition sendRuntimeGuard = patchTelemetry.Methods.Single(method =>
+        method.Name == "SendRuntimeGuard"
+        && method.IsStatic
+        && method.Parameters.Count == 6);
+    if (report.Body.Instructions.Count(instruction =>
+            IsCallTo(instruction, sendRuntimeGuard)) != 1
+        || !HasCatchAll(report))
+    {
+        throw new InvalidDataException(
+            "Railgun recovery telemetry is not bounded by the shared sender"
+            + " and an exception boundary.");
+    }
+
+    HashSet<string> cycleReasons = cycleCheck.Body.Instructions
+        .Where(instruction => instruction.OpCode == OpCodes.Ldstr)
+        .Select(instruction => instruction.Operand as string ?? string.Empty)
+        .ToHashSet(StringComparer.Ordinal);
+    string[] requiredReasons =
+    [
+        "railgun_parent_cycle_prevented",
+        "railgun_parent_cycle_check_limit_reached",
+        "railgun_parent_cycle_check_failed",
+    ];
+    if (requiredReasons.Any(reason => !cycleReasons.Contains(reason))
+        || !HasCatchAll(cycleCheck)
+        || cycleCheck.Body.Instructions.Any(instruction =>
+            IsCallTo(instruction, cycleCheck))
+        || cycleCheck.Body.Instructions.Count(instruction =>
+            instruction.OpCode == OpCodes.Newarr
+            && instruction.Operand is TypeReference type
+            && type.FullName == railgun.FullName) != 2)
+    {
+        throw new InvalidDataException(
+            "Railgun parent traversal is missing its iterative bounded"
+            + " fail-safe behavior.");
+    }
+
+    MethodDefinition lockAll = railgun.Methods.Single(method =>
+        method.Name == "LockAll"
+        && !method.IsStatic
+        && method.Parameters.Count == 0
+        && method.HasBody);
+    Instruction[] lockBody = lockAll.Body.Instructions.ToArray();
+    if (lockBody.Length < 14
+        || lockBody[0].OpCode != OpCodes.Ldarg_0
+        || lockBody[1].OpCode != OpCodes.Ldfld
+        || !IsReferenceTo(lockBody[1].Operand, lockTraversalActive)
+        || lockBody[2].OpCode != OpCodes.Brfalse
+        || lockBody[2].Operand != lockBody[4]
+        || lockBody[3].OpCode != OpCodes.Ret
+        || lockBody[4].OpCode != OpCodes.Ldarg_0
+        || lockBody[5].OpCode != OpCodes.Ldc_I4_1
+        || lockBody[6].OpCode != OpCodes.Stfld
+        || !IsReferenceTo(lockBody[6].Operand, lockTraversalActive)
+        || lockBody[^4].OpCode != OpCodes.Ldarg_0
+        || lockBody[^3].OpCode != OpCodes.Ldc_I4_0
+        || lockBody[^2].OpCode != OpCodes.Stfld
+        || !IsReferenceTo(lockBody[^2].Operand, lockTraversalActive)
+        || lockBody[^1].OpCode != OpCodes.Ret
+        || lockBody.Count(instruction => IsCallTo(instruction, lockAll)) != 1)
+    {
+        throw new InvalidDataException(
+            "Railgun.LockAll is missing its traversal-scoped recursion guard.");
+    }
+
+    MethodDefinition update = railgun.Methods.Single(method =>
+        method.Name == "Update"
+        && method.Parameters.Count == 2
+        && method.HasBody);
+    Instruction[] updateBody = update.Body.Instructions.ToArray();
+    int cycleCheckIndex = Array.FindIndex(
+        updateBody,
+        instruction => IsCallTo(instruction, cycleCheck));
+    if (cycleCheckIndex < 3
+        || updateBody.Count(instruction => IsCallTo(instruction, cycleCheck)) != 1
+        || updateBody[cycleCheckIndex - 2].OpCode != OpCodes.Ldarg_0
+        || updateBody[cycleCheckIndex - 1].Operand is not VariableDefinition candidate
+        || candidate.VariableType.FullName != railgun.FullName
+        || updateBody[cycleCheckIndex + 1].OpCode != OpCodes.Brtrue
+        || updateBody[cycleCheckIndex - 3].Operand
+            != updateBody[cycleCheckIndex + 1].Operand
+        || updateBody[cycleCheckIndex + 2].OpCode != OpCodes.Ldnull)
+    {
+        throw new InvalidDataException(
+            "Railgun.Update does not reject an unsafe candidate after"
+            + " geometry validation and before mutation.");
+    }
+
+    int parentAttachmentIndex = Array.FindIndex(
+        updateBody,
+        cycleCheckIndex + 1,
+        instruction => instruction.Operand is MethodReference called
+            && called.Name == "Add"
+            && called.DeclaringType.FullName == parents.FieldType.FullName);
+    if (parentAttachmentIndex <= cycleCheckIndex)
+    {
+        throw new InvalidDataException(
+            "Railgun parent attachment is not protected by the cycle check.");
+    }
+}
+
+static bool HasCatchAll(MethodDefinition method)
+{
+    return method.Body.ExceptionHandlers.Count == 1
+        && method.Body.ExceptionHandlers[0].HandlerType
+            == ExceptionHandlerType.Catch
+        && method.Body.ExceptionHandlers[0].CatchType?.FullName
+            == "System.Object";
 }
 
 static bool IsCallTo(
