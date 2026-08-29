@@ -11,6 +11,43 @@ static void Equal<T>(T expected, T actual, string name)
     }
 }
 
+Equal(
+    "List<Grease>",
+    RootPathAlgorithms.ShortenManagedTypeName(
+        "System.Collections.Generic.List`1<Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Grease>"),
+    "generic telemetry type is compact");
+Equal(
+    "GameScene+State[]",
+    RootPathAlgorithms.ShortenManagedTypeName(
+        "Magicka.Levels.GameScene+State[]"),
+    "nested array telemetry type is compact");
+Equal(
+    "Dictionary<String,List<Item[]>>",
+    RootPathAlgorithms.ShortenManagedTypeName(
+        "System.Collections.Generic.Dictionary`2<System.String,System.Collections.Generic.List`1<Magicka.GameLogic.Entities.Items.Item[]>>"),
+    "nested generic telemetry type is compact");
+Equal(
+    "Entity.Dispose",
+    RootPathAlgorithms.ShortenLifecycleName(
+        "Magicka.GameLogic.Entities.Entity.Dispose",
+        new[]
+        {
+            "Magicka.GameLogic.Entities.Items.Item",
+            "Magicka.GameLogic.Entities.Entity",
+        }),
+    "base lifecycle is compact");
+Equal(
+    "PlayState.Dispose.Scene",
+    RootPathAlgorithms.ShortenLifecycleName(
+        "Magicka.GameLogic.GameStates.PlayState.Dispose.Scene",
+        new[] { "Magicka.GameLogic.GameStates.PlayState" }),
+    "lifecycle suffix is preserved");
+Equal(
+    "Game.mSingelton",
+    RootPathAlgorithms.ShortenStaticMemberName(
+        "Magicka.Game.mSingelton"),
+    "static root is compact");
+
 static T RetentionStateField<T>(string name)
 {
     Type state = typeof(RetentionRegistry).Assembly.GetType(

@@ -32,6 +32,62 @@ internal sealed class RootPathSelection
 
 internal static class RootPathAlgorithms
 {
+    public static string ShortenManagedTypeName(string? value)
+    {
+        if (value is null || value.Length == 0)
+        {
+            return "<unknown>";
+        }
+
+        return ShortenTypeExpression(value);
+    }
+
+    public static string ShortenLifecycleName(
+        string? lifecycle,
+        IReadOnlyList<string> declaringTypeNames)
+    {
+        if (lifecycle is null || lifecycle.Length == 0)
+        {
+            return string.Empty;
+        }
+
+        string? declaringType = declaringTypeNames
+            .Where(typeName => !string.IsNullOrEmpty(typeName)
+                && (string.Equals(
+                        lifecycle,
+                        typeName,
+                        StringComparison.Ordinal)
+                    || lifecycle.StartsWith(
+                        typeName + ".",
+                        StringComparison.Ordinal)))
+            .OrderByDescending(typeName => typeName.Length)
+            .FirstOrDefault();
+        if (declaringType is null)
+        {
+            return lifecycle;
+        }
+
+        return ShortenManagedTypeName(declaringType)
+               + lifecycle.Substring(declaringType.Length);
+    }
+
+    public static string ShortenStaticMemberName(string? value)
+    {
+        if (value is null || value.Length == 0)
+        {
+            return string.Empty;
+        }
+
+        int separator = value.LastIndexOf('.');
+        if (separator <= 0 || separator == value.Length - 1)
+        {
+            return value;
+        }
+
+        return ShortenManagedTypeName(value.Substring(0, separator))
+               + value.Substring(separator);
+    }
+
     public static string NormalizeTelemetryReferenceLabel(string? value)
     {
         if (value is null || value.Length == 0)
@@ -106,5 +162,91 @@ internal static class RootPathAlgorithms
         }
 
         return -1;
+    }
+
+    private static string ShortenTypeExpression(string value)
+    {
+        int genericStart = value.IndexOf('<');
+        if (genericStart < 0)
+        {
+            return ShortenSimpleTypeName(value);
+        }
+
+        int genericEnd = FindMatchingGenericEnd(value, genericStart);
+        if (genericEnd < 0)
+        {
+            return ShortenSimpleTypeName(value);
+        }
+
+        string genericArguments = value.Substring(
+            genericStart + 1,
+            genericEnd - genericStart - 1);
+        return ShortenSimpleTypeName(value.Substring(0, genericStart))
+               + "<"
+               + string.Join(
+                   ",",
+                   SplitGenericArguments(genericArguments)
+                       .Select(argument => ShortenTypeExpression(argument.Trim())))
+               + ">"
+               + value.Substring(genericEnd + 1);
+    }
+
+    private static string ShortenSimpleTypeName(string value)
+    {
+        int separator = value.LastIndexOf('.');
+        string shortened = separator < 0
+            ? value
+            : value.Substring(separator + 1);
+        int arity = shortened.IndexOf('`');
+        return arity < 0 ? shortened : shortened.Substring(0, arity);
+    }
+
+    private static int FindMatchingGenericEnd(string value, int start)
+    {
+        int depth = 0;
+        for (int index = start; index < value.Length; index++)
+        {
+            if (value[index] == '<')
+            {
+                depth++;
+            }
+            else if (value[index] == '>' && --depth == 0)
+            {
+                return index;
+            }
+        }
+
+        return -1;
+    }
+
+    private static IEnumerable<string> SplitGenericArguments(string value)
+    {
+        int angleDepth = 0;
+        int squareDepth = 0;
+        int start = 0;
+        for (int index = 0; index < value.Length; index++)
+        {
+            switch (value[index])
+            {
+                case '<':
+                    angleDepth++;
+                    break;
+                case '>':
+                    angleDepth--;
+                    break;
+                case '[':
+                    squareDepth++;
+                    break;
+                case ']':
+                    squareDepth--;
+                    break;
+                case ',' when angleDepth == 0 && squareDepth == 0:
+                    yield return value.Substring(start, index - start);
+                    start = index + 1;
+                    break;
+            }
+        }
+
+        yield return value.Substring(start);
     }
 }

@@ -521,8 +521,9 @@ static void AnalyzeMustCollect(
                     + FormatObject(heap.GetObject(path[0])));
                 report.TelemetryFinding(
                     watched.Watch.Expectation,
-                    watched.Watch.TypeName,
-                    watched.Watch.Lifecycle,
+                    RootPathAlgorithms.ShortenManagedTypeName(
+                        watched.Watch.TypeName),
+                    TelemetryLifecycle(watched),
                     rootKind,
                     BuildTelemetryPath(
                         heap,
@@ -736,8 +737,9 @@ static void AnalyzeMustDetach(
         {
             report.TelemetryFinding(
                 owner.Watch.Expectation,
-                owner.Watch.TypeName,
-                owner.Watch.Lifecycle,
+                RootPathAlgorithms.ShortenManagedTypeName(
+                    owner.Watch.TypeName),
+                TelemetryLifecycle(owner),
                 "pool_owner",
                 BuildDetachTelemetryPath(owner.Object, leak.Path));
             report.Line(
@@ -996,7 +998,7 @@ static string BuildTelemetryPath(
     StringBuilder builder = new StringBuilder();
     if (!string.IsNullOrEmpty(rootName))
     {
-        builder.Append(rootName);
+        builder.Append(RootPathAlgorithms.ShortenStaticMemberName(rootName));
         builder.Append(" --> ");
     }
 
@@ -1109,7 +1111,26 @@ static string BuildDetachTelemetryPath(
 
 static string TelemetryTypeName(ClrObject value)
 {
-    return value.Type?.Name ?? "<unknown>";
+    return RootPathAlgorithms.ShortenManagedTypeName(value.Type?.Name);
+}
+
+static string TelemetryLifecycle(ResolvedWatch watched)
+{
+    List<string> declaringTypeNames = new List<string>();
+    ClrType? type = watched.Object.Type;
+    while (type is not null)
+    {
+        if (!string.IsNullOrEmpty(type.Name))
+        {
+            declaringTypeNames.Add(type.Name);
+        }
+
+        type = type.BaseType;
+    }
+
+    return RootPathAlgorithms.ShortenLifecycleName(
+        watched.Watch.Lifecycle,
+        declaringTypeNames);
 }
 
 static string TelemetryReferenceLabel(string value)

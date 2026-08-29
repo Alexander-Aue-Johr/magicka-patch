@@ -21,6 +21,10 @@ a field-labelled type path. Paths, counts, traversal time, and telemetry text
 are capped. The analyzer never sends object addresses or weak-handle values.
 Stable failure fields identify the analysis stage, exception type, inner
 exception type, and HRESULT without including exception messages or paths.
+Telemetry removes managed namespaces from candidate types, lifecycle methods,
+static members, and every type in a root path. Nested types, generic arguments,
+array suffixes, member names, and reference labels remain intact. The local
+analysis report keeps fully qualified types for debugging.
 
 CLR 2 also exposes GC statics through pinned handle-table storage. The analyzer
 enumerates named static roots once and matches them to the ordinary root path.
