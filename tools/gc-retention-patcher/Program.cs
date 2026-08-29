@@ -114,6 +114,18 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--patch-entity-collision-callback-cleanup")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchEntityCollisionCallbackCleanupOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": cleared disposed entity collision callbacks");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -145,6 +157,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-player-game-deinitialize"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-entity-collision-callback-cleanup"
         + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
@@ -194,6 +209,7 @@ static PatchReport PatchMagicka(
     RepairRainSceneDetach(types);
     RepairGcEventPatchVersion(module, types);
     RepairPlayerGameDeinitialize(types);
+    RepairEntityCollisionCallbackCleanup(module, types);
 
     int registrations = 0;
     int activeHooks = 0;
@@ -646,6 +662,201 @@ static void PatchPlayerGameDeinitializeOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairPlayerGameDeinitialize(types);
     WriteAssembly(assembly, outputPath);
+}
+
+static void PatchEntityCollisionCallbackCleanupOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairEntityCollisionCallbackCleanup(assembly.MainModule, types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairEntityCollisionCallbackCleanup(
+    ModuleDefinition module,
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    const string helperTypeName =
+        "Magicka.CommunityPatch.CollisionCallbackCleanup";
+    if (types.ContainsKey(helperTypeName))
+    {
+        throw new InvalidOperationException(
+            "CollisionCallbackCleanup already exists.");
+    }
+
+    TypeDefinition entity = RequireType(types, EntityTypeName);
+    FieldDefinition collision = entity.Fields.Single(field =>
+        field.Name == "mCollision"
+        && !field.IsStatic
+        && field.FieldType.FullName
+            == "JigLibX.Collision.CollisionSkin");
+    MethodDefinition dispose = RequireMethod(
+        entity,
+        "Dispose",
+        parameterCount: 0);
+    VariableDefinition collisionLocal = dispose.Body.Variables.Single(variable =>
+        variable.VariableType.FullName == collision.FieldType.FullName);
+    Instruction clearLists = dispose.Body.Instructions.Single(instruction =>
+        instruction.OpCode == OpCodes.Callvirt
+        && instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == collision.FieldType.FullName
+        && called.Name == "get_Collisions");
+    Instruction clearListsOwner = clearLists.Previous
+        ?? throw new InvalidOperationException(
+            "Entity.Dispose collision-list load is missing.");
+
+    MethodReference getTypeFromHandle = FindMethodReference(
+        module,
+        "System.Type",
+        "GetTypeFromHandle",
+        parameterCount: 1,
+        returnType: "System.Type");
+    TypeReference typeType = getTypeFromHandle.ReturnType;
+    TypeReference fieldInfo = new TypeReference(
+        "System.Reflection",
+        "FieldInfo",
+        module,
+        module.TypeSystem.CoreLibrary);
+    TypeReference bindingFlags = new TypeReference(
+        "System.Reflection",
+        "BindingFlags",
+        module,
+        module.TypeSystem.CoreLibrary,
+        true);
+    MethodReference getField = CreateInstanceMethodReference(
+        "GetField",
+        typeType,
+        fieldInfo,
+        module.TypeSystem.String,
+        bindingFlags);
+    MethodReference setValue = CreateInstanceMethodReference(
+        "SetValue",
+        fieldInfo,
+        module.TypeSystem.Void,
+        module.TypeSystem.Object,
+        module.TypeSystem.Object);
+    TypeReference exceptionType = AllTypes(module)
+        .SelectMany(type => type.Methods)
+        .Where(method => method.HasBody)
+        .SelectMany(method => method.Body.ExceptionHandlers)
+        .Select(handler => handler.CatchType)
+        .First(type => type != null && type.FullName == "System.Exception")!;
+
+    TypeDefinition helper = new TypeDefinition(
+        "Magicka.CommunityPatch",
+        "CollisionCallbackCleanup",
+        TypeAttributes.NotPublic
+        | TypeAttributes.Abstract
+        | TypeAttributes.Sealed
+        | TypeAttributes.Class,
+        module.TypeSystem.Object);
+    module.Types.Add(helper);
+    FieldDefinition callbackField = new FieldDefinition(
+        "sCallbackField",
+        FieldAttributes.Private
+        | FieldAttributes.Static
+        | FieldAttributes.InitOnly,
+        fieldInfo);
+    helper.Fields.Add(callbackField);
+
+    MethodDefinition initialize = new MethodDefinition(
+        ".cctor",
+        MethodAttributes.Private
+        | MethodAttributes.Static
+        | MethodAttributes.HideBySig
+        | MethodAttributes.SpecialName
+        | MethodAttributes.RTSpecialName,
+        module.TypeSystem.Void);
+    helper.Methods.Add(initialize);
+    ILProcessor initializeProcessor = initialize.Body.GetILProcessor();
+    Instruction initializeTry = Instruction.Create(OpCodes.Nop);
+    Instruction initializeHandler = Instruction.Create(OpCodes.Pop);
+    Instruction initializeReturn = Instruction.Create(OpCodes.Ret);
+    initializeProcessor.Append(initializeTry);
+    initializeProcessor.Append(Instruction.Create(
+        OpCodes.Ldtoken,
+        collision.FieldType));
+    initializeProcessor.Append(Instruction.Create(
+        OpCodes.Call,
+        getTypeFromHandle));
+    initializeProcessor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "callbackFn"));
+    initializeProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_S, (sbyte)36));
+    initializeProcessor.Append(Instruction.Create(OpCodes.Callvirt, getField));
+    initializeProcessor.Append(Instruction.Create(OpCodes.Stsfld, callbackField));
+    initializeProcessor.Append(Instruction.Create(
+        OpCodes.Leave,
+        initializeReturn));
+    initializeProcessor.Append(initializeHandler);
+    initializeProcessor.Append(Instruction.Create(
+        OpCodes.Leave,
+        initializeReturn));
+    initializeProcessor.Append(initializeReturn);
+    initialize.Body.ExceptionHandlers.Add(new ExceptionHandler(
+        ExceptionHandlerType.Catch)
+    {
+        CatchType = exceptionType,
+        TryStart = initializeTry,
+        TryEnd = initializeHandler,
+        HandlerStart = initializeHandler,
+        HandlerEnd = initializeReturn,
+    });
+    initialize.Body.MaxStackSize = 3;
+
+    MethodDefinition clear = new MethodDefinition(
+        "Clear",
+        MethodAttributes.Assembly
+        | MethodAttributes.Static
+        | MethodAttributes.HideBySig,
+        module.TypeSystem.Void);
+    clear.Parameters.Add(new ParameterDefinition(
+        "skin",
+        ParameterAttributes.None,
+        collision.FieldType));
+    helper.Methods.Add(clear);
+    ILProcessor clearProcessor = clear.Body.GetILProcessor();
+    Instruction clearTry = Instruction.Create(OpCodes.Nop);
+    Instruction clearReturn = Instruction.Create(OpCodes.Ret);
+    Instruction noCallbackField = Instruction.Create(
+        OpCodes.Leave,
+        clearReturn);
+    Instruction clearHandler = Instruction.Create(OpCodes.Pop);
+    clearProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    clearProcessor.Append(Instruction.Create(OpCodes.Brfalse, clearReturn));
+    clearProcessor.Append(clearTry);
+    clearProcessor.Append(Instruction.Create(OpCodes.Ldsfld, callbackField));
+    clearProcessor.Append(Instruction.Create(OpCodes.Brfalse, noCallbackField));
+    clearProcessor.Append(Instruction.Create(OpCodes.Ldsfld, callbackField));
+    clearProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    clearProcessor.Append(Instruction.Create(OpCodes.Ldnull));
+    clearProcessor.Append(Instruction.Create(OpCodes.Callvirt, setValue));
+    clearProcessor.Append(noCallbackField);
+    clearProcessor.Append(clearHandler);
+    clearProcessor.Append(Instruction.Create(OpCodes.Leave, clearReturn));
+    clearProcessor.Append(clearReturn);
+    clear.Body.ExceptionHandlers.Add(new ExceptionHandler(
+        ExceptionHandlerType.Catch)
+    {
+        CatchType = exceptionType,
+        TryStart = clearTry,
+        TryEnd = clearHandler,
+        HandlerStart = clearHandler,
+        HandlerEnd = clearReturn,
+    });
+    clear.Body.MaxStackSize = 3;
+
+    ILProcessor disposeProcessor = dispose.Body.GetILProcessor();
+    disposeProcessor.InsertBefore(
+        clearListsOwner,
+        Instruction.Create(OpCodes.Ldloc, collisionLocal));
+    disposeProcessor.InsertBefore(
+        clearListsOwner,
+        Instruction.Create(OpCodes.Call, clear));
+    dispose.Body.MaxStackSize = Math.Max(dispose.Body.MaxStackSize, 3);
 }
 
 static void RepairPlayerGameDeinitialize(

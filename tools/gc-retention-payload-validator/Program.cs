@@ -65,6 +65,7 @@ ValidateClr2Assembly(polygonHead);
 ValidateRuntimeCompatibilityGuards(magicka);
 ValidateTelemetryPatchVersion(magicka);
 ValidatePlayerGameDeinitialize(magicka);
+ValidateEntityCollisionCallbackCleanup(magicka);
 ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
 ValidateRainSceneDetach(magicka);
@@ -1692,6 +1693,115 @@ static int FindNullFieldStore(
     }
 
     return -1;
+}
+
+static void ValidateEntityCollisionCallbackCleanup(
+    AssemblyDefinition magicka)
+{
+    IReadOnlyDictionary<string, TypeDefinition> types =
+        AllTypes(magicka.MainModule).ToDictionary(
+            type => type.FullName,
+            StringComparer.Ordinal);
+    const string helperTypeName =
+        "Magicka.CommunityPatch.CollisionCallbackCleanup";
+    TypeDefinition helper = types[helperTypeName];
+    FieldDefinition callbackField = helper.Fields.Single(field =>
+        field.Name == "sCallbackField"
+        && field.IsStatic
+        && field.IsInitOnly
+        && field.FieldType.FullName == "System.Reflection.FieldInfo");
+    MethodDefinition initialize = helper.Methods.Single(method =>
+        method.IsConstructor
+        && method.IsStatic
+        && method.HasBody);
+    Instruction[] initializeBody = initialize.Body.Instructions.ToArray();
+    bool resolvesExactField = initializeBody.Any(instruction =>
+            instruction.OpCode == OpCodes.Ldstr
+            && string.Equals(
+                instruction.Operand as string,
+                "callbackFn",
+                StringComparison.Ordinal))
+        && initializeBody.Any(instruction =>
+            instruction.OpCode == OpCodes.Ldc_I4_S
+            && instruction.Operand is sbyte flags
+            && flags == 36)
+        && initializeBody.Any(instruction =>
+            instruction.OpCode == OpCodes.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "System.Type"
+            && called.Name == "GetField"
+            && called.Parameters.Count == 2)
+        && initializeBody.Any(instruction =>
+            instruction.OpCode == OpCodes.Stsfld
+            && IsReferenceTo(instruction.Operand, callbackField));
+    if (!resolvesExactField
+        || initialize.Body.ExceptionHandlers.Count != 1
+        || initialize.Body.ExceptionHandlers[0].HandlerType
+            != ExceptionHandlerType.Catch
+        || initialize.Body.ExceptionHandlers[0].CatchType?.FullName
+            != "System.Exception")
+    {
+        throw new InvalidDataException(
+            "CollisionCallbackCleanup does not safely resolve the exact"
+            + " private callbackFn field.");
+    }
+
+    MethodDefinition clear = helper.Methods.Single(method =>
+        method.Name == "Clear"
+        && method.IsStatic
+        && method.Parameters.Count == 1
+        && method.Parameters[0].ParameterType.FullName
+            == "JigLibX.Collision.CollisionSkin");
+    Instruction[] clearBody = clear.Body.Instructions.ToArray();
+    if (clearBody.Count(instruction =>
+            instruction.OpCode == OpCodes.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "System.Reflection.FieldInfo"
+            && called.Name == "SetValue"
+            && called.Parameters.Count == 2) != 1
+        || clear.Body.ExceptionHandlers.Count != 1
+        || clear.Body.ExceptionHandlers[0].HandlerType
+            != ExceptionHandlerType.Catch
+        || clear.Body.ExceptionHandlers[0].CatchType?.FullName
+            != "System.Exception")
+    {
+        throw new InvalidDataException(
+            "CollisionCallbackCleanup.Clear must clear the backing delegate"
+            + " once and contain reflection failures.");
+    }
+
+    TypeDefinition entity = types["Magicka.GameLogic.Entities.Entity"];
+    MethodDefinition dispose = entity.Methods.Single(method =>
+        method.Name == "Dispose"
+        && !method.IsStatic
+        && method.Parameters.Count == 0);
+    Instruction[] disposeBody = dispose.Body.Instructions.ToArray();
+    int cleanupIndex = Array.FindIndex(
+        disposeBody,
+        instruction => IsCallTo(instruction, clear));
+    int clearCollisionsIndex = Array.FindIndex(
+        disposeBody,
+        instruction => instruction.OpCode == OpCodes.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "JigLibX.Collision.CollisionSkin"
+            && called.Name == "get_Collisions");
+    int detachSystemIndex = Array.FindIndex(
+        disposeBody,
+        instruction => instruction.OpCode == OpCodes.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "JigLibX.Collision.CollisionSkin"
+            && called.Name == "set_CollisionSystem");
+    if (cleanupIndex < 0
+        || cleanupIndex >= clearCollisionsIndex
+        || cleanupIndex >= detachSystemIndex
+        || disposeBody.Count(instruction => IsCallTo(instruction, clear)) != 1)
+    {
+        throw new InvalidDataException(
+            "Entity.Dispose must clear collision callbacks exactly once before"
+            + " detaching collision state.");
+    }
 }
 
 static void ValidateCharacterTemplateStaticCaches(
