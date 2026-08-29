@@ -63,6 +63,7 @@ ValidateClr2Assembly(runtime);
 ValidateClr2Assembly(magicka);
 ValidateClr2Assembly(polygonHead);
 ValidateRuntimeCompatibilityGuards(magicka);
+ValidateTelemetryPatchVersion(magicka);
 ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
 ValidateRainSceneDetach(magicka);
@@ -1409,6 +1410,57 @@ static void ValidateRainSceneDetach(AssemblyDefinition magicka)
         throw new InvalidDataException(
             "Thunderstorm.OnRemove must preserve its permanent mRain"
             + " singleton dependency.");
+    }
+}
+
+static void ValidateTelemetryPatchVersion(AssemblyDefinition magicka)
+{
+    TypeDefinition patchTelemetry = AllTypes(magicka.MainModule).Single(type =>
+        type.FullName == "Magicka.CommunityPatch.PatchTelemetry");
+    MethodDefinition sendAsync = patchTelemetry.Methods.Single(method =>
+        method.Name == "SendAsync"
+        && method.IsStatic
+        && method.Parameters.Count == 2
+        && method.Parameters[1].ParameterType.FullName
+            == "System.Collections.Generic.Dictionary`2<System.String,System.String>"
+        && method.HasBody);
+    MethodDefinition getPatchVersion = patchTelemetry.Methods.Single(method =>
+        method.Name == "GetPatchVersion"
+        && method.IsStatic
+        && method.Parameters.Count == 0
+        && method.ReturnType.FullName == "System.String");
+    Instruction[] body = sendAsync.Body.Instructions.ToArray();
+    int keyIndex = Array.FindIndex(
+        body,
+        instruction => instruction.OpCode == OpCodes.Ldstr
+            && string.Equals(
+                instruction.Operand as string,
+                "patch_version",
+                StringComparison.Ordinal));
+    int queueStateIndex = Array.FindIndex(
+        body,
+        instruction => instruction.OpCode == OpCodes.Newobj
+            && instruction.Operand is MethodReference constructor
+            && constructor.Name == ".ctor"
+            && constructor.DeclaringType.FullName
+                == "Magicka.CommunityPatch.PatchTelemetry/TelemetrySendState");
+    if (keyIndex <= 0
+        || keyIndex + 2 >= body.Length
+        || body[keyIndex - 1].OpCode != OpCodes.Ldarg_1
+        || !IsCallTo(body[keyIndex + 1], getPatchVersion)
+        || body[keyIndex + 2].OpCode != OpCodes.Callvirt
+        || body[keyIndex + 2].Operand is not MethodReference setItem
+        || setItem.Name != "set_Item"
+        || setItem.DeclaringType.FullName
+            != sendAsync.Parameters[1].ParameterType.FullName
+        || setItem.Parameters.Count != 2
+        || setItem.Parameters.Any(parameter =>
+            parameter.ParameterType.FullName != "System.String")
+        || queueStateIndex <= keyIndex + 2)
+    {
+        throw new InvalidDataException(
+            "PatchTelemetry.SendAsync does not add patch_version before"
+            + " queueing the event.");
     }
 }
 

@@ -160,6 +160,12 @@ contains expectation, managed type, lifecycle, root category, and field-labelled
 path. An occurrence suffix represents identical findings without repeating the
 complete path.
 
+Starting with Community Patch 0.0.52, every event sent through
+`PatchTelemetry.SendAsync`, including `magicka_patch_gc_retention`, contains
+`patch_version`. The value comes from the running `CommunityPatchInfo.Version`
+so retention findings can be matched to the teardown and analyzer fixes present
+in that executable.
+
 The event includes these serialization counters:
 
 - `finding_count`: raw findings before deduplication and selection;

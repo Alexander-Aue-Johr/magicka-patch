@@ -60,6 +60,7 @@ namespace Magicka.CommunityPatch
 			{
 				return;
 			}
+			properties["patch_version"] = PatchTelemetry.GetPatchVersion();
 			PatchTelemetry.TelemetrySendState telemetrySendState = new PatchTelemetry.TelemetrySendState();
 			telemetrySendState.EventName = eventName;
 			telemetrySendState.Properties = properties;

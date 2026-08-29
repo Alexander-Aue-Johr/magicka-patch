@@ -90,6 +90,18 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--patch-gc-event-patch-version")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchGcEventPatchVersionOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": added the patch version to all telemetry events");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -115,6 +127,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-rain-scene-detach"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-gc-event-patch-version"
         + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
@@ -162,6 +177,7 @@ static PatchReport PatchMagicka(
     RepairJormungandrNullTarget(types);
     RepairJudgementSprayConditionCache(module, types);
     RepairRainSceneDetach(types);
+    RepairGcEventPatchVersion(module, types);
 
     int registrations = 0;
     int activeHooks = 0;
@@ -592,6 +608,72 @@ static void PatchRainSceneDetachOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairRainSceneDetach(types);
     WriteAssembly(assembly, outputPath);
+}
+
+static void PatchGcEventPatchVersionOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairGcEventPatchVersion(assembly.MainModule, types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairGcEventPatchVersion(
+    ModuleDefinition module,
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition patchTelemetry = RequireType(
+        types,
+        "Magicka.CommunityPatch.PatchTelemetry");
+    MethodDefinition sendAsync = RequireMethod(
+        patchTelemetry,
+        "SendAsync",
+        parameterCount: 2);
+    MethodDefinition getPatchVersion = RequireMethod(
+        patchTelemetry,
+        "GetPatchVersion",
+        parameterCount: 0);
+    TypeReference propertiesType = sendAsync.Parameters[1].ParameterType;
+    if (sendAsync.Body.Instructions.Any(instruction =>
+            instruction.OpCode == OpCodes.Ldstr
+            && string.Equals(
+                instruction.Operand as string,
+                "patch_version",
+                StringComparison.Ordinal)))
+    {
+        throw new InvalidOperationException(
+            "PatchTelemetry.SendAsync already adds patch_version.");
+    }
+
+    Instruction queueStateCreation = sendAsync.Body.Instructions.Single(
+        instruction => instruction.OpCode == OpCodes.Newobj
+            && instruction.Operand is MethodReference constructor
+            && constructor.Name == ".ctor"
+            && constructor.DeclaringType.FullName
+                == "Magicka.CommunityPatch.PatchTelemetry/TelemetrySendState");
+    MethodReference setItem = CreateInstanceMethodReference(
+        "set_Item",
+        propertiesType,
+        module.TypeSystem.Void,
+        module.TypeSystem.String,
+        module.TypeSystem.String);
+    ILProcessor processor = sendAsync.Body.GetILProcessor();
+    processor.InsertBefore(
+        queueStateCreation,
+        Instruction.Create(OpCodes.Ldarg_1));
+    processor.InsertBefore(
+        queueStateCreation,
+        Instruction.Create(OpCodes.Ldstr, "patch_version"));
+    processor.InsertBefore(
+        queueStateCreation,
+        Instruction.Create(OpCodes.Call, getPatchVersion));
+    processor.InsertBefore(
+        queueStateCreation,
+        Instruction.Create(OpCodes.Callvirt, setItem));
+    sendAsync.Body.MaxStackSize = Math.Max(sendAsync.Body.MaxStackSize, 3);
 }
 
 static void RepairRainSceneDetach(
