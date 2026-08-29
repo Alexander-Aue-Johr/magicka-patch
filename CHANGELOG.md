@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.0.47] - 2026-08-29
+
+### Fixed
+
+- Restore intended line breaks in list-style dialogue when a pause marker is
+  followed by a list dash. Dramatic double-dash asides and normal prose remain
+  unchanged.
+- Restore the grouped element-tutorial layout with a blank line before Type,
+  Properties, and Opposites and one line per entry. Languages that already
+  contain explicit line breaks, including Simplified Chinese, remain unchanged.
+
 ## [0.0.46] - 2026-08-29
 
 ### Fixed
