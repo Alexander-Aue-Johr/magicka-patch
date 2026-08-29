@@ -957,7 +957,14 @@ Assert-File (Join-PathChecked $repoRoot 'PolygonHead.dll')
 Assert-File (Join-PathChecked $repoRoot 'Magicka.GcDiagnostics.dll')
 $payloadValidatorProject = Join-PathChecked $repoRoot 'tools\gc-retention-payload-validator\PayloadValidator.csproj'
 Assert-File $payloadValidatorProject
+$gcAnalyzerTestsProject = Join-PathChecked $repoRoot 'tools\gc-retention-analyzer-tests\Magicka.GcAnalyzer.Tests.csproj'
+Assert-File $gcAnalyzerTestsProject
 $dotnetCommand = Get-Command dotnet -ErrorAction Stop
+Invoke-Tool $dotnetCommand.Source @(
+    'run',
+    '--project', $gcAnalyzerTestsProject,
+    '--configuration', 'Release'
+) $repoRoot
 Invoke-Tool $dotnetCommand.Source @(
     'run',
     '--project', $payloadValidatorProject,

@@ -17,6 +17,13 @@ are capped. The analyzer never sends object addresses or weak-handle values.
 Stable failure fields identify the analysis stage, exception type, inner
 exception type, and HRESULT without including exception messages or paths.
 
+CLR 2 also exposes GC statics through pinned handle-table storage. The analyzer
+enumerates named static roots once and matches them to the ordinary root path.
+When a match exists, it removes the handle-table `System.Object[]` prefix and
+reports the static field name. Reference-array edges include a bounded element
+index. If named static metadata is unavailable, the analyzer keeps the original
+root and adds only bounded array length and sibling-type context.
+
 The release package contains:
 
 - `Magicka.GcAnalyzer.exe`;

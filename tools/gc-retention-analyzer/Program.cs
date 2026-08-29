@@ -473,6 +473,8 @@ static void AnalyzeMustCollect(
         TimeSpan.FromSeconds(options.TimeoutSeconds));
     try
     {
+        IReadOnlyDictionary<ulong, IReadOnlyList<StaticRootInfo>> staticRoots =
+            EnumerateNamedStaticRoots(heap, timeout.Token, report);
         GCRoot gcRoot = new GCRoot(heap);
         foreach (ResolvedWatch watched in targets)
         {
@@ -492,6 +494,19 @@ static void AnalyzeMustCollect(
                     .Select(value => value.Address)
                     .ToList();
                 NormalizeRootPath(root, path);
+                RootPathSelection? staticSelection =
+                    RootPathAlgorithms.SelectPreferredStaticRoot(
+                        path,
+                        staticRoots);
+                string rootKind = root.Kind.ToString();
+                string rootName = string.Empty;
+                if (staticSelection is not null)
+                {
+                    path = path.Skip(staticSelection.StartIndex).ToList();
+                    rootKind = staticSelection.Kind;
+                    rootName = staticSelection.Name;
+                }
+
                 pathCount[watched.Watch.Id]++;
                 report.Line(
                     "LEAK #" + watched.Watch.Id + " "
@@ -500,14 +515,21 @@ static void AnalyzeMustCollect(
                         CultureInfo.InvariantCulture)
                     + ", " + watched.Watch.Lifecycle + "]");
                 report.Line(
-                    "  root " + root.Kind + ": "
-                    + FormatObject(heap.GetObject(root.Object)));
+                    "  root " + rootKind
+                    + (rootName.Length == 0 ? string.Empty : " " + rootName)
+                    + ": "
+                    + FormatObject(heap.GetObject(path[0])));
                 report.TelemetryFinding(
                     watched.Watch.Expectation,
                     watched.Watch.TypeName,
                     watched.Watch.Lifecycle,
-                    root.Kind.ToString(),
-                    BuildTelemetryPath(heap, path));
+                    rootKind,
+                    BuildTelemetryPath(
+                        heap,
+                        path,
+                        rootName,
+                        includeRootArrayContext: staticSelection is null
+                            && root.Kind == GCRootKind.Pinning));
                 WritePath(heap, path, report, "  ");
                 report.Line();
             }
@@ -555,6 +577,83 @@ static void AnalyzeMustCollect(
     }
 
     report.Line();
+}
+
+static IReadOnlyDictionary<ulong, IReadOnlyList<StaticRootInfo>>
+    EnumerateNamedStaticRoots(
+        ClrHeap heap,
+        CancellationToken cancellationToken,
+        Report report)
+{
+    Dictionary<ulong, List<StaticRootInfo>> roots = new();
+    try
+    {
+        foreach (ClrRoot root in heap.EnumerateRoots(enumerateStatics: true))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if ((root.Kind != GCRootKind.StaticVar
+                 && root.Kind != GCRootKind.ThreadStaticVar)
+                || root.Object == 0)
+            {
+                continue;
+            }
+
+            string name = NormalizeStaticRootName(root.Name);
+            if (name.Length == 0)
+            {
+                continue;
+            }
+
+            if (!roots.TryGetValue(root.Object, out List<StaticRootInfo>? values))
+            {
+                values = new List<StaticRootInfo>();
+                roots.Add(root.Object, values);
+            }
+
+            if (!values.Any(value =>
+                    value.Kind == root.Kind.ToString()
+                    && value.Name == name))
+            {
+                values.Add(new StaticRootInfo(
+                    root.Object,
+                    root.Kind.ToString(),
+                    name));
+            }
+        }
+    }
+    catch (OperationCanceledException)
+    {
+        throw;
+    }
+    catch (Exception exception)
+    {
+        report.Line(
+            "STATIC ROOT METADATA UNAVAILABLE: retaining handle-table root"
+            + " paths (" + exception.GetType().Name + ").");
+        return new Dictionary<ulong, IReadOnlyList<StaticRootInfo>>();
+    }
+
+    return roots.ToDictionary(
+        item => item.Key,
+        item => (IReadOnlyList<StaticRootInfo>)item.Value
+            .OrderBy(value => value.Kind, StringComparer.Ordinal)
+            .ThenBy(value => value.Name, StringComparer.Ordinal)
+            .ToArray());
+}
+
+static string NormalizeStaticRootName(string? value)
+{
+    string name = (value ?? string.Empty).Trim();
+    string[] prefixes = ["static var ", "thread static var "];
+    foreach (string prefix in prefixes)
+    {
+        if (name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+        {
+            return name.Substring(prefix.Length).Trim();
+        }
+    }
+
+    return name;
 }
 
 static void AnalyzeMustDetach(
@@ -890,9 +989,17 @@ static void NormalizeRootPath(ClrRoot root, List<ulong> path)
 
 static string BuildTelemetryPath(
     ClrHeap heap,
-    IReadOnlyList<ulong> path)
+    IReadOnlyList<ulong> path,
+    string rootName,
+    bool includeRootArrayContext)
 {
     StringBuilder builder = new StringBuilder();
+    if (!string.IsNullOrEmpty(rootName))
+    {
+        builder.Append(rootName);
+        builder.Append(" --> ");
+    }
+
     int count = Math.Min(path.Count, 12);
     for (int index = 0; index < count; index++)
     {
@@ -906,7 +1013,10 @@ static string BuildTelemetryPath(
             builder.Append("--> ");
         }
 
-        builder.Append(TelemetryTypeName(current));
+        builder.Append(
+            index == 0 && includeRootArrayContext
+                ? TelemetryArrayContext(heap, current)
+                : TelemetryTypeName(current));
     }
 
     if (path.Count > count)
@@ -915,6 +1025,62 @@ static string BuildTelemetryPath(
     }
 
     return builder.ToString();
+}
+
+static string TelemetryArrayContext(ClrHeap heap, ClrObject value)
+{
+    string typeName = TelemetryTypeName(value);
+    if (!value.IsArray || value.Type is null)
+    {
+        return typeName;
+    }
+
+    try
+    {
+        int length = value.Type.GetArrayLength(value.Address);
+        int inspected = Math.Min(length, 64);
+        int nonNull = 0;
+        Dictionary<string, int> types = new(StringComparer.Ordinal);
+        for (int index = 0; index < inspected; index++)
+        {
+            ulong? address = TryGetArrayObjectAddress(value, index);
+            if (!address.HasValue || address.Value == 0)
+            {
+                continue;
+            }
+
+            ClrObject element = heap.GetObject(address.Value);
+            if (element.IsNull || element.Type is null || element.Type.IsFree)
+            {
+                continue;
+            }
+
+            nonNull++;
+            string elementType = TelemetryTypeName(element);
+            types.TryGetValue(elementType, out int count);
+            types[elementType] = count + 1;
+        }
+
+        string histogram = string.Join(
+            ",",
+            types.OrderByDescending(item => item.Value)
+                .ThenBy(item => item.Key, StringComparer.Ordinal)
+                .Take(4)
+                .Select(item => item.Key + " x" + item.Value.ToString(
+                    CultureInfo.InvariantCulture)));
+        return typeName + "[length="
+               + length.ToString(CultureInfo.InvariantCulture)
+               + ";inspected="
+               + inspected.ToString(CultureInfo.InvariantCulture)
+               + ";nonnull="
+               + nonNull.ToString(CultureInfo.InvariantCulture)
+               + (histogram.Length == 0 ? string.Empty : ";types=" + histogram)
+               + "]";
+    }
+    catch
+    {
+        return typeName;
+    }
 }
 
 static string BuildDetachTelemetryPath(
@@ -948,17 +1114,7 @@ static string TelemetryTypeName(ClrObject value)
 
 static string TelemetryReferenceLabel(string value)
 {
-    if (string.IsNullOrEmpty(value))
-    {
-        return "reference";
-    }
-
-    if (value[0] == '[' || value.StartsWith("offset ", StringComparison.Ordinal))
-    {
-        return "element";
-    }
-
-    return value;
+    return RootPathAlgorithms.NormalizeTelemetryReferenceLabel(value);
 }
 
 static void WritePath(
@@ -1008,7 +1164,21 @@ static string DescribeReference(
     ClrObject source,
     ClrObjectReference reference)
 {
-    if (source.Type.GetFieldForOffset(
+    ClrType? sourceType = source.Type;
+    if (sourceType is null)
+    {
+        return "reference";
+    }
+
+    if (source.IsArray)
+    {
+        int index = FindArrayReferenceIndex(source, reference);
+        return index >= 0
+            ? "[" + index.ToString(CultureInfo.InvariantCulture) + "]"
+            : "[element]";
+    }
+
+    if (sourceType.GetFieldForOffset(
             reference.FieldOffset,
             false,
             out ClrInstanceField? field,
@@ -1018,15 +1188,69 @@ static string DescribeReference(
         return "." + field.Name;
     }
 
-    if (source.IsArray)
-    {
-        return "[offset 0x"
-               + reference.FieldOffset.ToString("x", CultureInfo.InvariantCulture)
-               + "]";
-    }
-
     return "offset 0x"
            + reference.FieldOffset.ToString("x", CultureInfo.InvariantCulture);
+}
+
+static int FindArrayReferenceIndex(
+    ClrObject source,
+    ClrObjectReference reference)
+{
+    try
+    {
+        int length = source.Type.GetArrayLength(source.Address);
+        return RootPathAlgorithms.FindArrayElementIndex(
+            length,
+            reference.FieldOffset,
+            maximumElements: 4096,
+            elementOffset: index =>
+            {
+                try
+                {
+                    ulong address = source.Type.GetArrayElementAddress(
+                        source.Address,
+                        index);
+                    ulong difference = address - source.Address;
+                    return difference <= int.MaxValue
+                        ? (int?)difference
+                        : null;
+                }
+                catch
+                {
+                    return null;
+                }
+            },
+            targetAddress: reference.Object.Address,
+            elementValue: index => TryGetArrayObjectAddress(source, index));
+    }
+    catch
+    {
+        return -1;
+    }
+}
+
+static ulong? TryGetArrayObjectAddress(ClrObject array, int index)
+{
+    try
+    {
+        object? value = array.Type.GetArrayElementValue(array.Address, index);
+        return value switch
+        {
+            null => null,
+            ulong unsigned => unsigned,
+            long signed when signed >= 0 => (ulong)signed,
+            uint unsigned32 => unsigned32,
+            int signed32 when signed32 >= 0 => (ulong)signed32,
+            UIntPtr unsignedPointer => unsignedPointer.ToUInt64(),
+            IntPtr signedPointer when signedPointer.ToInt64() >= 0
+                => (ulong)signedPointer.ToInt64(),
+            _ => Convert.ToUInt64(value, CultureInfo.InvariantCulture),
+        };
+    }
+    catch
+    {
+        return null;
+    }
 }
 
 static string FormatObject(ClrObject value)
