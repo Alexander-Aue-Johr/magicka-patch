@@ -65,6 +65,7 @@ ValidateClr2Assembly(polygonHead);
 ValidateRuntimeCompatibilityGuards(magicka);
 ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
+ValidateCharacterTemplateStaticCaches(magicka);
 
 Dictionary<string, int> magickaCalls = ValidateInstrumentedAssembly(
     magicka,
@@ -1250,6 +1251,146 @@ static void ValidateLightSceneDetach(
         throw new InvalidDataException(
             "DynamicLight.OnRemove must detach through base.OnRemove before"
             + " publishing the light to its cache.");
+    }
+}
+
+static void ValidateCharacterTemplateStaticCaches(
+    AssemblyDefinition magicka)
+{
+    IReadOnlyDictionary<string, TypeDefinition> types =
+        AllTypes(magicka.MainModule).ToDictionary(
+            type => type.FullName,
+            StringComparer.Ordinal);
+    (string TypeName, string FieldName)[] cacheOwners =
+    [
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonSpirit",
+            "sTemplate"),
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonFlamer",
+            "sTemplate"),
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonCross",
+            "sTemplate"),
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonZombie",
+            "sTemplate"),
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonBug",
+            "sTemplate"),
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonUndead",
+            "sTemplates"),
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.MutateBeastman",
+            "sTemplate"),
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.OtherworldlyDischarge",
+            "sTemplate"),
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonElemental",
+            "sTemplate"),
+    ];
+    List<MethodDefinition> disposeMethods = new List<MethodDefinition>();
+    foreach ((string typeName, string fieldName) in cacheOwners)
+    {
+        TypeDefinition owner = types[typeName];
+        FieldDefinition field = owner.Fields.Single(candidate =>
+            candidate.Name == fieldName
+            && candidate.IsStatic
+            && (candidate.FieldType.FullName
+                    == "Magicka.GameLogic.Entities.CharacterTemplate"
+                || candidate.FieldType.FullName
+                    == "Magicka.GameLogic.Entities.CharacterTemplate[]"));
+        MethodDefinition disposeCache = owner.Methods.Single(method =>
+            method.Name == "DisposeCache"
+            && method.Parameters.Count == 0
+            && method.IsStatic
+            && method.HasBody);
+        Instruction[] instructions = disposeCache.Body.Instructions.ToArray();
+        int resetIndex = Array.FindIndex(
+            instructions,
+            instruction => instruction.OpCode == OpCodes.Stsfld
+                && IsReferenceTo(instruction.Operand, field));
+        if (resetIndex <= 0
+            || instructions[resetIndex - 1].OpCode != OpCodes.Ldnull
+            || instructions.Count(instruction =>
+                instruction.OpCode == OpCodes.Stsfld
+                && IsReferenceTo(instruction.Operand, field)) != 1)
+        {
+            throw new InvalidDataException(
+                disposeCache.FullName + " does not reset "
+                + field.FullName + " exactly once.");
+        }
+
+        disposeMethods.Add(disposeCache);
+    }
+
+    MethodDefinition disposeMagicks = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Spells.Magick",
+        "DisposeMagicks",
+        parameterCount: 0);
+    foreach (MethodDefinition disposeCache in disposeMethods)
+    {
+        int callCount = disposeMagicks.Body.Instructions.Count(
+            instruction => IsCallTo(instruction, disposeCache));
+        if (callCount != 1)
+        {
+            throw new InvalidDataException(
+                disposeMagicks.FullName + " calls " + disposeCache.FullName
+                + " " + callCount + " time(s); expected exactly once.");
+        }
+    }
+
+    TypeDefinition characterTemplate =
+        types["Magicka.GameLogic.Entities.CharacterTemplate"];
+    FieldDefinition avatarTemplates = characterTemplate.Fields.Single(field =>
+        field.Name == "sCachedAvatarTemplates"
+        && field.IsStatic
+        && field.FieldType.FullName
+            == "System.Collections.Generic.Dictionary`2<System.String,"
+               + "Magicka.GameLogic.Entities.CharacterTemplate>");
+    MethodDefinition clearCache = RequireMethod(
+        magicka,
+        characterTemplate.FullName,
+        "ClearCache",
+        parameterCount: 0);
+    Instruction[] clearInstructions = clearCache.Body.Instructions.ToArray();
+    int avatarLoadIndex = Array.FindIndex(
+        clearInstructions,
+        instruction => instruction.OpCode == OpCodes.Ldsfld
+            && IsReferenceTo(instruction.Operand, avatarTemplates));
+    if (avatarLoadIndex < 0
+        || avatarLoadIndex + 1 >= clearInstructions.Length
+        || clearInstructions[avatarLoadIndex + 1].OpCode != OpCodes.Callvirt
+        || clearInstructions[avatarLoadIndex + 1].Operand
+            is not MethodReference clearCall
+        || clearCall.Name != "Clear"
+        || clearCall.DeclaringType.FullName != avatarTemplates.FieldType.FullName)
+    {
+        throw new InvalidDataException(
+            "CharacterTemplate.ClearCache does not clear"
+            + " sCachedAvatarTemplates.");
+    }
+
+    MethodDefinition playStateDispose = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.GameStates.PlayState",
+        "Dispose",
+        parameterCount: 0);
+    int magickTeardownIndex = Array.FindIndex(
+        playStateDispose.Body.Instructions.ToArray(),
+        instruction => IsCallTo(instruction, disposeMagicks));
+    int templateTeardownIndex = Array.FindIndex(
+        playStateDispose.Body.Instructions.ToArray(),
+        instruction => IsCallTo(instruction, clearCache));
+    if (magickTeardownIndex < 0
+        || templateTeardownIndex <= magickTeardownIndex)
+    {
+        throw new InvalidDataException(
+            "PlayState.Dispose must release ability template caches before"
+            + " CharacterTemplate.ClearCache.");
     }
 }
 

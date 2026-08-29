@@ -7,6 +7,18 @@ const string GameStateTypeName = "Magicka.GameLogic.GameStates.GameState";
 const string RegistryTypeName = "Magicka.GcDiagnostics.RetentionRegistry";
 
 if (args.Length == 3
+    && args[0] == "--patch-character-template-static-caches")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchCharacterTemplateStaticCachesOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": released static CharacterTemplate caches");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--patch-polygon-light-scene-detach")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -23,6 +35,9 @@ if (args.Length != 4)
     Console.Error.WriteLine(
         "Usage: RetentionPatcher <Magicka.exe> <PolygonHead.dll>"
         + " <Magicka.GcDiagnostics.dll> <output-directory>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-character-template-static-caches"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-polygon-light-scene-detach"
         + " <PolygonHead.dll> <output-PolygonHead.dll>");
@@ -66,6 +81,7 @@ static PatchReport PatchMagicka(
 
     RepairParadoxStoreWorkerDelegate(module, types);
     RepairClr2CollectionLocks(types);
+    RepairCharacterTemplateStaticCaches(module, types);
 
     int registrations = 0;
     int activeHooks = 0;
@@ -430,6 +446,214 @@ static PatchReport PatchPolygonHead(
         DeactivatedHooks: 0,
         DetachHooks: 0,
         CheckpointHooks: 0);
+}
+
+static void PatchCharacterTemplateStaticCachesOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairCharacterTemplateStaticCaches(assembly.MainModule, types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairCharacterTemplateStaticCaches(
+    ModuleDefinition module,
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    (string TypeName, string FieldName)[] existingCacheOwners =
+    [
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonSpirit",
+            "sTemplate"),
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonFlamer",
+            "sTemplate"),
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonCross",
+            "sTemplate"),
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonZombie",
+            "sTemplate"),
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonBug",
+            "sTemplate"),
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonUndead",
+            "sTemplates"),
+    ];
+    foreach ((string typeName, string fieldName) in existingCacheOwners)
+    {
+        TypeDefinition owner = RequireType(types, typeName);
+        FieldDefinition field = RequireStaticCharacterTemplateField(
+            owner,
+            fieldName);
+        MethodDefinition disposeCache = RequireMethod(
+            owner,
+            "DisposeCache",
+            parameterCount: 0);
+        AppendStaticFieldReset(disposeCache, field);
+    }
+
+    (string TypeName, string FieldName)[] newCacheOwners =
+    [
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.MutateBeastman",
+            "sTemplate"),
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.OtherworldlyDischarge",
+            "sTemplate"),
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonElemental",
+            "sTemplate"),
+    ];
+    List<MethodDefinition> addedDisposeMethods = new List<MethodDefinition>();
+    foreach ((string typeName, string fieldName) in newCacheOwners)
+    {
+        TypeDefinition owner = RequireType(types, typeName);
+        FieldDefinition field = RequireStaticCharacterTemplateField(
+            owner,
+            fieldName);
+        if (owner.Methods.Any(method =>
+                method.Name == "DisposeCache"
+                && method.Parameters.Count == 0))
+        {
+            throw new InvalidOperationException(
+                owner.FullName + ".DisposeCache already exists.");
+        }
+
+        MethodDefinition disposeCache = new MethodDefinition(
+            "DisposeCache",
+            MethodAttributes.Assembly
+            | MethodAttributes.Static
+            | MethodAttributes.HideBySig,
+            module.TypeSystem.Void);
+        owner.Methods.Add(disposeCache);
+        ILProcessor processor = disposeCache.Body.GetILProcessor();
+        processor.Append(Instruction.Create(OpCodes.Ldnull));
+        processor.Append(Instruction.Create(OpCodes.Stsfld, field));
+        processor.Append(Instruction.Create(OpCodes.Ret));
+        disposeCache.Body.MaxStackSize = 1;
+        addedDisposeMethods.Add(disposeCache);
+    }
+
+    TypeDefinition magick = RequireType(
+        types,
+        "Magicka.GameLogic.Spells.Magick");
+    MethodDefinition disposeMagicks = RequireMethod(
+        magick,
+        "DisposeMagicks",
+        parameterCount: 0);
+    Instruction disposeMagicksReturn = RequireSingleReturn(disposeMagicks);
+    ILProcessor magickProcessor = disposeMagicks.Body.GetILProcessor();
+    foreach (MethodDefinition disposeCache in addedDisposeMethods)
+    {
+        magickProcessor.InsertBefore(
+            disposeMagicksReturn,
+            Instruction.Create(OpCodes.Call, disposeCache));
+    }
+
+    TypeDefinition characterTemplate = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.CharacterTemplate");
+    FieldDefinition avatarTemplates = characterTemplate.Fields.Single(field =>
+        field.Name == "sCachedAvatarTemplates"
+        && field.IsStatic
+        && field.FieldType.FullName
+            == "System.Collections.Generic.Dictionary`2<System.String,"
+               + "Magicka.GameLogic.Entities.CharacterTemplate>");
+    MethodDefinition initializeAvatarCache = RequireMethod(
+        characterTemplate,
+        "InitialisePlayerAvatarCache",
+        parameterCount: 1);
+    MethodReference clearAvatarTemplates = initializeAvatarCache.Body.Instructions
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .Single(method =>
+            method.Name == "Clear"
+            && method.Parameters.Count == 0
+            && method.DeclaringType.FullName == avatarTemplates.FieldType.FullName);
+    MethodDefinition clearCache = RequireMethod(
+        characterTemplate,
+        "ClearCache",
+        parameterCount: 0);
+    if (clearCache.Body.Instructions.Any(instruction =>
+            instruction.OpCode == OpCodes.Ldsfld
+            && instruction.Operand is FieldReference field
+            && field.FullName == avatarTemplates.FullName))
+    {
+        throw new InvalidOperationException(
+            "CharacterTemplate.ClearCache already clears avatar templates.");
+    }
+
+    Instruction clearCacheReturn = RequireSingleReturn(clearCache);
+    ILProcessor clearCacheProcessor = clearCache.Body.GetILProcessor();
+    clearCacheProcessor.InsertBefore(
+        clearCacheReturn,
+        Instruction.Create(OpCodes.Ldsfld, avatarTemplates));
+    clearCacheProcessor.InsertBefore(
+        clearCacheReturn,
+        Instruction.Create(OpCodes.Callvirt, clearAvatarTemplates));
+    clearCache.Body.MaxStackSize = Math.Max(clearCache.Body.MaxStackSize, 1);
+}
+
+static FieldDefinition RequireStaticCharacterTemplateField(
+    TypeDefinition owner,
+    string fieldName)
+{
+    FieldDefinition field = owner.Fields.Single(candidate =>
+        candidate.Name == fieldName
+        && candidate.IsStatic
+        && (candidate.FieldType.FullName
+                == "Magicka.GameLogic.Entities.CharacterTemplate"
+            || candidate.FieldType.FullName
+                == "Magicka.GameLogic.Entities.CharacterTemplate[]"));
+    return field;
+}
+
+static void AppendStaticFieldReset(
+    MethodDefinition method,
+    FieldDefinition field)
+{
+    if (!method.IsStatic || !method.HasBody)
+    {
+        throw new InvalidOperationException(
+            "Expected a static cache teardown method: " + method.FullName);
+    }
+
+    if (method.Body.Instructions.Any(instruction =>
+            instruction.OpCode == OpCodes.Stsfld
+            && instruction.Operand is FieldReference stored
+            && stored.FullName == field.FullName))
+    {
+        throw new InvalidOperationException(
+            method.FullName + " already resets " + field.FullName + ".");
+    }
+
+    Instruction returnInstruction = RequireSingleReturn(method);
+    ILProcessor processor = method.Body.GetILProcessor();
+    processor.InsertBefore(returnInstruction, Instruction.Create(OpCodes.Ldnull));
+    processor.InsertBefore(
+        returnInstruction,
+        Instruction.Create(OpCodes.Stsfld, field));
+    method.Body.MaxStackSize = Math.Max(method.Body.MaxStackSize, 1);
+}
+
+static Instruction RequireSingleReturn(MethodDefinition method)
+{
+    Instruction[] returns = method.Body.Instructions
+        .Where(instruction => instruction.OpCode == OpCodes.Ret)
+        .ToArray();
+    if (returns.Length != 1)
+    {
+        throw new InvalidOperationException(
+            "Expected one return in " + method.FullName
+            + ", found " + returns.Length + ".");
+    }
+
+    return returns[0];
 }
 
 static void PatchPolygonHeadLightSceneDetachOnly(
