@@ -119,6 +119,7 @@ namespace Magicka.GcDiagnostics
     internal static class RetentionState
     {
         private const int MaxWatches = 8192;
+        private const int AnalyzerFindingTextLimit = 3500;
 
         public const int Active = 0;
         public const int MustCollect = 1;
@@ -923,6 +924,8 @@ namespace Magicka.GcDiagnostics
                 CultureInfo.InvariantCulture);
             properties["survivor_groups"] = survivorSummary;
             StringBuilder findings = new StringBuilder();
+            int serializedFindingCount = 0;
+            long runtimeOmittedFindingCount = 0;
             for (int index = 0; index < lines.Length; index++)
             {
                 string line = lines[index];
@@ -936,15 +939,26 @@ namespace Magicka.GcDiagnostics
                 string value = line.Substring(separator + 1);
                 if (key == "finding")
                 {
-                    if (findings.Length != 0)
+                    int occurrenceCount;
+                    if (AnalyzerFindingTelemetry.TryAppendFinding(
+                            findings,
+                            value,
+                            AnalyzerFindingTextLimit,
+                            out occurrenceCount))
                     {
-                        findings.Append(" | ");
+                        serializedFindingCount++;
                     }
-
-                    findings.Append(value);
+                    else
+                    {
+                        runtimeOmittedFindingCount += occurrenceCount;
+                    }
                 }
                 else if (key == "resolved_count"
                     || key == "finding_count"
+                    || key == "finding_group_count"
+                    || key == "serialized_finding_count"
+                    || key == "omitted_finding_count"
+                    || key == "telemetry_truncated"
                     || key == "truncated"
                     || key == "status"
                     || key == "error_stage"
@@ -956,12 +970,33 @@ namespace Magicka.GcDiagnostics
                 }
             }
 
-            if (findings.Length > 3500)
+            int analyzerOmittedFindingCount = 0;
+            string analyzerOmittedValue;
+            if (properties.TryGetValue(
+                    "omitted_finding_count",
+                    out analyzerOmittedValue))
             {
-                findings.Length = 3500;
-                properties["truncated"] = "true";
+                int parsedCount;
+                if (int.TryParse(
+                        analyzerOmittedValue,
+                        NumberStyles.Integer,
+                        CultureInfo.InvariantCulture,
+                        out parsedCount)
+                    && parsedCount > 0)
+                {
+                    analyzerOmittedFindingCount = parsedCount;
+                }
             }
 
+            long totalOmittedFindingCount =
+                (long)analyzerOmittedFindingCount
+                + runtimeOmittedFindingCount;
+            properties["serialized_finding_count"] =
+                serializedFindingCount.ToString(CultureInfo.InvariantCulture);
+            properties["omitted_finding_count"] =
+                totalOmittedFindingCount.ToString(CultureInfo.InvariantCulture);
+            properties["telemetry_truncated"] =
+                totalOmittedFindingCount == 0 ? "false" : "true";
             properties["findings"] = findings.ToString();
             SendTelemetry(properties);
         }
@@ -978,6 +1013,10 @@ namespace Magicka.GcDiagnostics
             properties["candidate_count"] = candidateCount.ToString(
                 CultureInfo.InvariantCulture);
             properties["finding_count"] = "0";
+            properties["finding_group_count"] = "0";
+            properties["serialized_finding_count"] = "0";
+            properties["omitted_finding_count"] = "0";
+            properties["telemetry_truncated"] = "false";
             properties["survivor_groups"] = survivorSummary;
             SendTelemetry(properties);
         }

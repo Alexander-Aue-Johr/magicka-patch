@@ -187,6 +187,72 @@ static void ValidateRuntime(AssemblyDefinition runtime)
                 $"Expected one runtime method {methodName}, found {matches.Length}.");
         }
     }
+
+    ValidateAnalyzerFindingTelemetry(runtime, registryState);
+}
+
+static void ValidateAnalyzerFindingTelemetry(
+    AssemblyDefinition runtime,
+    TypeDefinition registryState)
+{
+    const string helperTypeName =
+        "Magicka.GcDiagnostics.AnalyzerFindingTelemetry";
+    TypeDefinition? helper = runtime.MainModule.GetType(helperTypeName);
+    if (helper is null)
+    {
+        throw new InvalidDataException(
+            "Analyzer finding telemetry helper is missing: " + helperTypeName);
+    }
+
+    MethodDefinition append = helper.Methods.Single(method =>
+        method.Name == "TryAppendFinding"
+        && method.Parameters.Count == 4);
+    MethodDefinition sender = registryState.Methods.Single(method =>
+        method.Name == "SendAnalyzerTelemetry"
+        && method.Parameters.Count == 4);
+    bool callsBoundedAppend = sender.Body.Instructions.Any(instruction =>
+        instruction.OpCode == OpCodes.Call
+        && instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == helperTypeName
+        && called.Name == append.Name);
+    if (!callsBoundedAppend)
+    {
+        throw new InvalidDataException(
+            "SendAnalyzerTelemetry does not append complete bounded findings.");
+    }
+
+    string[] requiredFields =
+    [
+        "finding_group_count",
+        "serialized_finding_count",
+        "omitted_finding_count",
+        "telemetry_truncated",
+    ];
+    HashSet<string> stringConstants = sender.Body.Instructions
+        .Where(instruction => instruction.OpCode == OpCodes.Ldstr)
+        .Select(instruction => instruction.Operand as string)
+        .Where(value => value is not null)
+        .Select(value => value!)
+        .ToHashSet(StringComparer.Ordinal);
+    string[] missingFields = requiredFields
+        .Where(field => !stringConstants.Contains(field))
+        .ToArray();
+    if (missingFields.Length != 0)
+    {
+        throw new InvalidDataException(
+            "SendAnalyzerTelemetry is missing serialization fields: "
+            + string.Join(", ", missingFields) + ".");
+    }
+
+    bool cutsStringBuilder = sender.Body.Instructions.Any(instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == "System.Text.StringBuilder"
+        && called.Name == "set_Length");
+    if (cutsStringBuilder)
+    {
+        throw new InvalidDataException(
+            "SendAnalyzerTelemetry still cuts a finding at a character offset.");
+    }
 }
 
 static Dictionary<string, int> ValidateInstrumentedAssembly(

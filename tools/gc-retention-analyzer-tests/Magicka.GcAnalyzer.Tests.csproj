@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\docs\injected-source\Magicka.GcDiagnostics\AnalyzerFindingTelemetry.cs"
+             Link="AnalyzerFindingTelemetry.cs" />
+    <Compile Include="..\gc-retention-analyzer\FindingSelectionAlgorithms.cs"
+             Link="FindingSelectionAlgorithms.cs" />
     <Compile Include="..\gc-retention-analyzer\RootPathAlgorithms.cs"
              Link="RootPathAlgorithms.cs" />
   </ItemGroup>

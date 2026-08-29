@@ -145,6 +145,29 @@ counted over time:
 When a reason code becomes frequent, the next step is to reproduce that specific
 state and replace the guard with a narrower root-cause fix where possible.
 
+## GC retention telemetry
+
+The `magicka_patch_gc_retention` event uses `analysis_mode=clrmd_root_paths`
+when the external CLR 2 analyzer produced the result. Its bounded finding list
+contains expectation, managed type, lifecycle, root category, and field-labelled
+path. An occurrence suffix represents identical findings without repeating the
+complete path.
+
+The event includes these serialization counters:
+
+- `finding_count`: raw findings before deduplication and selection;
+- `finding_group_count`: distinct expectation/type/lifecycle groups;
+- `serialized_finding_count`: complete finding rows included in `findings`;
+- `omitted_finding_count`: raw findings represented only by rows that did not
+  fit the row or text limit;
+- `telemetry_truncated`: `true` only when finding rows were omitted for
+  telemetry serialization.
+
+`truncated` has a separate meaning: it indicates that heap traversal or root
+analysis itself reached a bound. The in-game sender never cuts a finding in the
+middle. If its final 3,500-character event-property limit is reached, it drops
+the complete row and updates the serialization counters instead.
+
 ## Drop-event resend backoff
 
 `magicka_patch_network_guard_drop` is rate-limited independently for every

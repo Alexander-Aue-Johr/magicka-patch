@@ -1750,11 +1750,12 @@ sealed class Report : IDisposable
 {
     private const int ConsoleLineLimit = 200;
     private const int TelemetryFindingLimit = 8;
+    private const int TelemetryFindingCharacterLimit = 3500;
     private readonly StreamWriter _writer;
     private readonly string _path;
     private readonly string? _telemetryPath;
     private readonly Dictionary<string, string> _telemetryValues = new();
-    private readonly List<string> _telemetryFindings = new();
+    private readonly List<TelemetryFindingRecord> _telemetryFindings = new();
     private int _consoleLines;
     private int _suppressedConsoleLines;
     private int _telemetryFindingCount;
@@ -1814,18 +1815,12 @@ sealed class Report : IDisposable
         string path)
     {
         _telemetryFindingCount++;
-        if (_telemetryFindings.Count >= TelemetryFindingLimit)
-        {
-            _telemetryValues["truncated"] = "true";
-            return;
-        }
-
-        _telemetryFindings.Add(
-            TelemetryText(expectation, 80) + "\t"
-            + TelemetryText(typeName, 300) + "\t"
-            + TelemetryText(lifecycle, 300) + "\t"
-            + TelemetryText(rootKind, 80) + "\t"
-            + TelemetryText(path, 1200));
+        _telemetryFindings.Add(new TelemetryFindingRecord(
+            TelemetryText(expectation, 80),
+            TelemetryText(typeName, 300),
+            TelemetryText(lifecycle, 300),
+            TelemetryText(rootKind, 80),
+            TelemetryText(path, 1200)));
     }
 
     public void Dispose()
@@ -1870,9 +1865,27 @@ sealed class Report : IDisposable
                        false,
                        new UTF8Encoding(false)))
             {
+                TelemetryFindingSelection findingSelection =
+                    FindingSelectionAlgorithms.Select(
+                        _telemetryFindings,
+                        TelemetryFindingLimit,
+                        TelemetryFindingCharacterLimit);
                 writer.WriteLine("schema\tgc-retention-telemetry-v1");
                 _telemetryValues["finding_count"] =
                     _telemetryFindingCount.ToString(CultureInfo.InvariantCulture);
+                _telemetryValues["finding_group_count"] =
+                    findingSelection.FindingGroupCount.ToString(
+                        CultureInfo.InvariantCulture);
+                _telemetryValues["serialized_finding_count"] =
+                    findingSelection.SerializedFindingCount.ToString(
+                        CultureInfo.InvariantCulture);
+                _telemetryValues["omitted_finding_count"] =
+                    findingSelection.OmittedFindingCount.ToString(
+                        CultureInfo.InvariantCulture);
+                _telemetryValues["telemetry_truncated"] =
+                    findingSelection.OmittedFindingCount == 0
+                        ? "false"
+                        : "true";
                 foreach (KeyValuePair<string, string> value in
                          _telemetryValues.OrderBy(item => item.Key))
                 {
@@ -1881,10 +1894,11 @@ sealed class Report : IDisposable
                     writer.WriteLine(value.Value);
                 }
 
-                foreach (string finding in _telemetryFindings)
+                foreach (TelemetryFindingRecord finding in
+                         findingSelection.Findings)
                 {
                     writer.Write("finding\t");
-                    writer.WriteLine(finding);
+                    writer.WriteLine(finding.SerializedValue);
                 }
             }
 

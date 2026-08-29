@@ -24,6 +24,18 @@ reports the static field name. Reference-array edges include a bounded element
 index. If named static metadata is unavailable, the analyzer keeps the original
 root and adds only bounded array length and sibling-type context.
 
+Telemetry findings are grouped by expectation, managed type, and lifecycle.
+Identical root paths are serialized once with an occurrence count. The bounded
+selection walks the groups in rounds and does not begin a second round until it
+has considered the first row of every group. Within the global limit, a repeated
+type therefore cannot consume the complete finding budget.
+`finding_count` remains the raw number of findings. `finding_group_count` is the
+number of groups, `serialized_finding_count` is the number of complete rows,
+and `omitted_finding_count` counts raw findings represented only by rows that
+did not fit. `telemetry_truncated` reports this serialization loss. The
+existing `truncated` field remains reserved for an incomplete heap traversal or
+root analysis.
+
 The release package contains:
 
 - `Magicka.GcAnalyzer.exe`;
