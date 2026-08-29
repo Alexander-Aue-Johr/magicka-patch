@@ -78,6 +78,18 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--patch-rain-scene-detach")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchRainSceneDetachOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": detached Rain and Thunderstorm cast references");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -100,6 +112,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-judgement-spray-condition-cache"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-rain-scene-detach"
         + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
@@ -146,6 +161,7 @@ static PatchReport PatchMagicka(
     RepairRailgunParentCycles(module, types);
     RepairJormungandrNullTarget(types);
     RepairJudgementSprayConditionCache(module, types);
+    RepairRainSceneDetach(types);
 
     int registrations = 0;
     int activeHooks = 0;
@@ -565,6 +581,159 @@ static void PatchJudgementSprayConditionCacheOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairJudgementSprayConditionCache(assembly.MainModule, types);
     WriteAssembly(assembly, outputPath);
+}
+
+static void PatchRainSceneDetachOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairRainSceneDetach(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairRainSceneDetach(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition rain = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Rain");
+    TypeDefinition thunderstorm = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Thunderstorm");
+    TypeDefinition gameScene = RequireType(types, "Magicka.Levels.GameScene");
+    FieldDefinition sceneField = rain.Fields.Single(field =>
+        field.Name == "mScene"
+        && !field.IsStatic
+        && field.FieldType.FullName == gameScene.FullName);
+    FieldDefinition casterField = rain.Fields.Single(field =>
+        field.Name == "mCaster"
+        && !field.IsStatic
+        && field.FieldType.FullName
+            == "Magicka.GameLogic.Entities.ISpellCaster");
+    FieldDefinition ownerField = thunderstorm.Fields.Single(field =>
+        field.Name == "mOwner"
+        && !field.IsStatic
+        && field.FieldType.FullName
+            == "Magicka.GameLogic.Entities.ISpellCaster");
+    FieldDefinition rainField = thunderstorm.Fields.Single(field =>
+        field.Name == "mRain"
+        && !field.IsStatic
+        && field.FieldType.FullName == rain.FullName);
+    MethodDefinition rainOnRemove = RequireMethod(
+        rain,
+        "OnRemove",
+        parameterCount: 0);
+    MethodDefinition thunderstormOnRemove = RequireMethod(
+        thunderstorm,
+        "OnRemove",
+        parameterCount: 0);
+    MethodDefinition setLightTargetIntensity = RequireMethod(
+        gameScene,
+        "set_LightTargetIntensity",
+        parameterCount: 1);
+
+    Instruction[] rainInstructions = rainOnRemove.Body.Instructions.ToArray();
+    int setterIndex = Array.FindIndex(
+        rainInstructions,
+        instruction => IsMethodCall(instruction, setLightTargetIntensity));
+    if (setterIndex < 3
+        || rainInstructions[setterIndex - 3].OpCode != OpCodes.Ldarg_0
+        || !IsFieldLoad(rainInstructions[setterIndex - 2], sceneField)
+        || rainInstructions[setterIndex - 1].OpCode != OpCodes.Ldc_R4
+        || rainInstructions[setterIndex - 1].Operand is not float intensity
+        || intensity != 1f
+        || setterIndex + 1 >= rainInstructions.Length
+        || rainInstructions[setterIndex + 1].OpCode != OpCodes.Ret)
+    {
+        throw new InvalidOperationException(
+            "Unexpected Rain.OnRemove scene-light restoration; the detach"
+            + " repair may already exist or the game method changed.");
+    }
+
+    ILProcessor rainProcessor = rainOnRemove.Body.GetILProcessor();
+    for (int index = setterIndex; index >= setterIndex - 3; index--)
+    {
+        rainProcessor.Remove(rainInstructions[index]);
+    }
+
+    Instruction rainReturn = rainInstructions[setterIndex + 1];
+    VariableDefinition oldScene = new VariableDefinition(gameScene);
+    rainOnRemove.Body.Variables.Add(oldScene);
+    rainOnRemove.Body.InitLocals = true;
+    rainProcessor.InsertBefore(
+        rainReturn,
+        Instruction.Create(OpCodes.Ldarg_0));
+    rainProcessor.InsertBefore(
+        rainReturn,
+        Instruction.Create(OpCodes.Ldfld, sceneField));
+    rainProcessor.InsertBefore(
+        rainReturn,
+        Instruction.Create(OpCodes.Stloc, oldScene));
+    rainProcessor.InsertBefore(
+        rainReturn,
+        Instruction.Create(OpCodes.Ldarg_0));
+    rainProcessor.InsertBefore(
+        rainReturn,
+        Instruction.Create(OpCodes.Ldnull));
+    rainProcessor.InsertBefore(
+        rainReturn,
+        Instruction.Create(OpCodes.Stfld, sceneField));
+    rainProcessor.InsertBefore(
+        rainReturn,
+        Instruction.Create(OpCodes.Ldarg_0));
+    rainProcessor.InsertBefore(
+        rainReturn,
+        Instruction.Create(OpCodes.Ldnull));
+    rainProcessor.InsertBefore(
+        rainReturn,
+        Instruction.Create(OpCodes.Stfld, casterField));
+    rainProcessor.InsertBefore(
+        rainReturn,
+        Instruction.Create(OpCodes.Ldloc, oldScene));
+    rainProcessor.InsertBefore(
+        rainReturn,
+        Instruction.Create(OpCodes.Brfalse, rainReturn));
+    rainProcessor.InsertBefore(
+        rainReturn,
+        Instruction.Create(OpCodes.Ldloc, oldScene));
+    rainProcessor.InsertBefore(
+        rainReturn,
+        Instruction.Create(OpCodes.Ldc_R4, 1f));
+    rainProcessor.InsertBefore(
+        rainReturn,
+        Instruction.Create(OpCodes.Callvirt, setLightTargetIntensity));
+    rainOnRemove.Body.MaxStackSize = Math.Max(
+        rainOnRemove.Body.MaxStackSize,
+        2);
+
+    if (thunderstormOnRemove.Body.Instructions.Any(instruction =>
+            instruction.OpCode == OpCodes.Stfld
+            && instruction.Operand is FieldReference field
+            && (field.FullName == ownerField.FullName
+                || field.FullName == rainField.FullName)))
+    {
+        throw new InvalidOperationException(
+            "Thunderstorm.OnRemove already resets an owner or Rain field.");
+    }
+
+    Instruction thunderstormReturn = RequireSingleReturn(thunderstormOnRemove);
+    ILProcessor thunderstormProcessor =
+        thunderstormOnRemove.Body.GetILProcessor();
+    thunderstormProcessor.InsertBefore(
+        thunderstormReturn,
+        Instruction.Create(OpCodes.Ldarg_0));
+    thunderstormProcessor.InsertBefore(
+        thunderstormReturn,
+        Instruction.Create(OpCodes.Ldnull));
+    thunderstormProcessor.InsertBefore(
+        thunderstormReturn,
+        Instruction.Create(OpCodes.Stfld, ownerField));
+    thunderstormOnRemove.Body.MaxStackSize = Math.Max(
+        thunderstormOnRemove.Body.MaxStackSize,
+        2);
 }
 
 static void RepairJudgementSprayConditionCache(

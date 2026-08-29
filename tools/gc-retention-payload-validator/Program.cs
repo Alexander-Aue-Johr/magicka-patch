@@ -65,6 +65,7 @@ ValidateClr2Assembly(polygonHead);
 ValidateRuntimeCompatibilityGuards(magicka);
 ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
+ValidateRainSceneDetach(magicka);
 ValidateCharacterTemplateStaticCaches(magicka);
 ValidateWarlordAbilityDiagnostic(magicka);
 ValidateRailgunParentCycleRepair(magicka);
@@ -1321,6 +1322,111 @@ static void ValidateLightSceneDetach(
             "DynamicLight.OnRemove must detach through base.OnRemove before"
             + " publishing the light to its cache.");
     }
+}
+
+static void ValidateRainSceneDetach(AssemblyDefinition magicka)
+{
+    IReadOnlyDictionary<string, TypeDefinition> types =
+        AllTypes(magicka.MainModule).ToDictionary(
+            type => type.FullName,
+            StringComparer.Ordinal);
+    TypeDefinition rain =
+        types["Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Rain"];
+    TypeDefinition thunderstorm =
+        types["Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Thunderstorm"];
+    TypeDefinition gameScene = types["Magicka.Levels.GameScene"];
+    FieldDefinition sceneField = rain.Fields.Single(field =>
+        field.Name == "mScene"
+        && field.FieldType.FullName == gameScene.FullName);
+    FieldDefinition casterField = rain.Fields.Single(field =>
+        field.Name == "mCaster"
+        && field.FieldType.FullName
+            == "Magicka.GameLogic.Entities.ISpellCaster");
+    FieldDefinition ownerField = thunderstorm.Fields.Single(field =>
+        field.Name == "mOwner"
+        && field.FieldType.FullName
+            == "Magicka.GameLogic.Entities.ISpellCaster");
+    FieldDefinition rainField = thunderstorm.Fields.Single(field =>
+        field.Name == "mRain"
+        && field.FieldType.FullName == rain.FullName);
+    MethodDefinition setLightTargetIntensity = RequireMethod(
+        magicka,
+        gameScene.FullName,
+        "set_LightTargetIntensity",
+        parameterCount: 1);
+    MethodDefinition rainOnRemove = RequireMethod(
+        magicka,
+        rain.FullName,
+        "OnRemove",
+        parameterCount: 0);
+    Instruction[] rainBody = rainOnRemove.Body.Instructions.ToArray();
+
+    int sceneLoadIndex = Array.FindIndex(
+        rainBody,
+        instruction => instruction.OpCode == OpCodes.Ldfld
+                       && IsReferenceTo(instruction.Operand, sceneField));
+    int sceneClearIndex = FindNullFieldStore(rainBody, sceneField);
+    int casterClearIndex = FindNullFieldStore(rainBody, casterField);
+    int lightRestoreIndex = Array.FindIndex(
+        rainBody,
+        instruction => IsCallTo(instruction, setLightTargetIntensity));
+    if (sceneLoadIndex < 0
+        || sceneClearIndex <= sceneLoadIndex
+        || casterClearIndex <= sceneClearIndex
+        || lightRestoreIndex <= casterClearIndex)
+    {
+        throw new InvalidDataException(
+            "Rain.OnRemove must capture its scene, clear mScene and mCaster,"
+            + " and then restore the preserved scene light.");
+    }
+
+    if (!rainBody.Skip(casterClearIndex + 1)
+            .Take(lightRestoreIndex - casterClearIndex - 1)
+            .Any(instruction => instruction.OpCode == OpCodes.Brfalse
+                                || instruction.OpCode == OpCodes.Brfalse_S))
+    {
+        throw new InvalidDataException(
+            "Rain.OnRemove does not guard a missing preserved scene.");
+    }
+
+    MethodDefinition thunderstormOnRemove = RequireMethod(
+        magicka,
+        thunderstorm.FullName,
+        "OnRemove",
+        parameterCount: 0);
+    Instruction[] thunderstormBody =
+        thunderstormOnRemove.Body.Instructions.ToArray();
+    if (FindNullFieldStore(thunderstormBody, ownerField) < 0)
+    {
+        throw new InvalidDataException(
+            "Thunderstorm.OnRemove does not clear mOwner.");
+    }
+
+    if (thunderstormBody.Any(instruction =>
+            instruction.OpCode == OpCodes.Stfld
+            && IsReferenceTo(instruction.Operand, rainField)))
+    {
+        throw new InvalidDataException(
+            "Thunderstorm.OnRemove must preserve its permanent mRain"
+            + " singleton dependency.");
+    }
+}
+
+static int FindNullFieldStore(
+    IReadOnlyList<Instruction> instructions,
+    FieldDefinition field)
+{
+    for (int index = 1; index < instructions.Count; index++)
+    {
+        if (instructions[index - 1].OpCode == OpCodes.Ldnull
+            && instructions[index].OpCode == OpCodes.Stfld
+            && IsReferenceTo(instructions[index].Operand, field))
+        {
+            return index;
+        }
+    }
+
+    return -1;
 }
 
 static void ValidateCharacterTemplateStaticCaches(
