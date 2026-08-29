@@ -64,6 +64,7 @@ ValidateClr2Assembly(magicka);
 ValidateClr2Assembly(polygonHead);
 ValidateRuntimeCompatibilityGuards(magicka);
 ValidateTelemetryPatchVersion(magicka);
+ValidatePlayerGameDeinitialize(magicka);
 ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
 ValidateRainSceneDetach(magicka);
@@ -1461,6 +1462,75 @@ static void ValidateTelemetryPatchVersion(AssemblyDefinition magicka)
         throw new InvalidDataException(
             "PatchTelemetry.SendAsync does not add patch_version before"
             + " queueing the event.");
+    }
+}
+
+static void ValidatePlayerGameDeinitialize(AssemblyDefinition magicka)
+{
+    IReadOnlyDictionary<string, TypeDefinition> types =
+        AllTypes(magicka.MainModule).ToDictionary(
+            type => type.FullName,
+            StringComparer.Ordinal);
+    TypeDefinition player = types["Magicka.GameLogic.Player"];
+    TypeDefinition textBox = types["Magicka.Graphics.TextBox"];
+    FieldDefinition obtainedTextBox = player.Fields.Single(field =>
+        field.Name == "mObtainedTextBox"
+        && field.FieldType.FullName == textBox.FullName);
+    FieldDefinition textBoxOwner = textBox.Fields.Single(field =>
+        field.Name == "mOwner"
+        && field.FieldType.FullName
+            == "Magicka.GameLogic.Entities.Entity");
+    FieldDefinition textBoxScene = textBox.Fields.Single(field =>
+        field.Name == "mScene"
+        && field.FieldType.FullName == "PolygonHead.Scene");
+    MethodDefinition releaseLevelReferences = RequireMethod(
+        magicka,
+        textBox.FullName,
+        "ReleaseLevelReferences",
+        parameterCount: 0);
+    Instruction[] releaseBody =
+        releaseLevelReferences.Body.Instructions.ToArray();
+    if (FindNullFieldStore(releaseBody, textBoxOwner) < 0
+        || FindNullFieldStore(releaseBody, textBoxScene) < 0)
+    {
+        throw new InvalidDataException(
+            "TextBox.ReleaseLevelReferences must clear mOwner and mScene.");
+    }
+
+    MethodDefinition deinitializeGame = RequireMethod(
+        magicka,
+        player.FullName,
+        "DeinitializeGame",
+        parameterCount: 0);
+    Instruction[] body = deinitializeGame.Body.Instructions.ToArray();
+    if (body.Length != 7
+        || body[0].OpCode != OpCodes.Ldarg_0
+        || body[1].OpCode != OpCodes.Ldfld
+        || !IsReferenceTo(body[1].Operand, obtainedTextBox)
+        || (body[2].OpCode != OpCodes.Brfalse
+            && body[2].OpCode != OpCodes.Brfalse_S)
+        || body[2].Operand != body[6]
+        || body[3].OpCode != OpCodes.Ldarg_0
+        || body[4].OpCode != OpCodes.Ldfld
+        || !IsReferenceTo(body[4].Operand, obtainedTextBox)
+        || !IsCallTo(body[5], releaseLevelReferences)
+        || body[6].OpCode != OpCodes.Ret)
+    {
+        throw new InvalidDataException(
+            "Player.DeinitializeGame does not guard and release the obtained"
+            + " text-box level references in the required form.");
+    }
+
+    MethodDefinition onExit = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.GameStates.PlayState",
+        "OnExit",
+        parameterCount: 0);
+    if (onExit.Body.Instructions.Count(instruction =>
+            IsCallTo(instruction, deinitializeGame)) != 1)
+    {
+        throw new InvalidDataException(
+            "PlayState.OnExit must call Player.DeinitializeGame exactly once.");
     }
 }
 

@@ -102,6 +102,18 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--patch-player-game-deinitialize")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchPlayerGameDeinitializeOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": released Player text-box level references");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -130,6 +142,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-gc-event-patch-version"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-player-game-deinitialize"
         + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
@@ -178,6 +193,7 @@ static PatchReport PatchMagicka(
     RepairJudgementSprayConditionCache(module, types);
     RepairRainSceneDetach(types);
     RepairGcEventPatchVersion(module, types);
+    RepairPlayerGameDeinitialize(types);
 
     int registrations = 0;
     int activeHooks = 0;
@@ -619,6 +635,61 @@ static void PatchGcEventPatchVersionOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairGcEventPatchVersion(assembly.MainModule, types);
     WriteAssembly(assembly, outputPath);
+}
+
+static void PatchPlayerGameDeinitializeOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairPlayerGameDeinitialize(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairPlayerGameDeinitialize(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition player = RequireType(types, "Magicka.GameLogic.Player");
+    TypeDefinition textBox = RequireType(types, "Magicka.Graphics.TextBox");
+    FieldDefinition obtainedTextBox = player.Fields.Single(field =>
+        field.Name == "mObtainedTextBox"
+        && !field.IsStatic
+        && field.FieldType.FullName == textBox.FullName);
+    MethodDefinition releaseLevelReferences = RequireMethod(
+        textBox,
+        "ReleaseLevelReferences",
+        parameterCount: 0);
+    MethodDefinition deinitializeGame = RequireMethod(
+        player,
+        "DeinitializeGame",
+        parameterCount: 0);
+    if (!deinitializeGame.HasBody
+        || deinitializeGame.Body.Instructions.Count != 1
+        || deinitializeGame.Body.Instructions[0].OpCode != OpCodes.Ret)
+    {
+        throw new InvalidOperationException(
+            "Expected an empty Player.DeinitializeGame method; the cleanup"
+            + " may already exist or the game method changed.");
+    }
+
+    MethodBody body = deinitializeGame.Body;
+    body.Instructions.Clear();
+    body.ExceptionHandlers.Clear();
+    body.Variables.Clear();
+    ILProcessor processor = body.GetILProcessor();
+    Instruction returnInstruction = Instruction.Create(OpCodes.Ret);
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Ldfld, obtainedTextBox));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, returnInstruction));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Ldfld, obtainedTextBox));
+    processor.Append(Instruction.Create(
+        OpCodes.Callvirt,
+        releaseLevelReferences));
+    processor.Append(returnInstruction);
+    body.MaxStackSize = 1;
 }
 
 static void RepairGcEventPatchVersion(
