@@ -53,6 +53,9 @@ Patch-site notes:
 - [GC retention root analysis](gc-retention-root-analysis.md) documents the
   CLR-2-compatible external analyzer, candidate resolution, bounded root-path
   findings, and release-package layout.
+- [Dynamic-light scene detachment](dynamic-light-scene-retention.md) explains
+  how cached dynamic lights retained old scenes and how the base light removal
+  lifecycle now clears that reference before cache insertion.
 
 Legal note: this repository is not legal advice. EU Directive 2009/24/EC treats
 computer programs as copyright-protected works and gives rightholders exclusive

@@ -6,11 +6,26 @@ const string PlayStateTypeName = "Magicka.GameLogic.GameStates.PlayState";
 const string GameStateTypeName = "Magicka.GameLogic.GameStates.GameState";
 const string RegistryTypeName = "Magicka.GcDiagnostics.RetentionRegistry";
 
+if (args.Length == 3
+    && args[0] == "--patch-polygon-light-scene-detach")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchPolygonHeadLightSceneDetachOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": repaired Light scene detachment");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
         "Usage: RetentionPatcher <Magicka.exe> <PolygonHead.dll>"
-        + " <Magicka.GcDiagnostics.dll> <output-directory>");
+        + " <Magicka.GcDiagnostics.dll> <output-directory>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-polygon-light-scene-detach"
+        + " <PolygonHead.dll> <output-PolygonHead.dll>");
     return 2;
 }
 
@@ -377,6 +392,8 @@ static PatchReport PatchPolygonHead(
     Dictionary<string, TypeDefinition> types = AllTypes(module)
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
 
+    RepairLightSceneDetach(types);
+
     int registrations = 0;
     int collectHooks = 0;
     TypeDefinition biTreeModel = RequireType(
@@ -413,6 +430,147 @@ static PatchReport PatchPolygonHead(
         DeactivatedHooks: 0,
         DetachHooks: 0,
         CheckpointHooks: 0);
+}
+
+static void PatchPolygonHeadLightSceneDetachOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairLightSceneDetach(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairLightSceneDetach(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition light = RequireType(types, "PolygonHead.Lights.Light");
+    TypeDefinition scene = RequireType(types, "PolygonHead.Scene");
+    FieldDefinition sceneField = light.Fields.Single(
+        field => field.Name == "mScene"
+                 && field.FieldType.FullName == scene.FullName);
+    MethodDefinition onRemove = RequireMethod(
+        light,
+        "OnRemove",
+        parameterCount: 0);
+    MethodDefinition disable = RequireMethod(
+        light,
+        "Disable",
+        parameterCount: 2);
+    MethodDefinition update = RequireMethod(
+        light,
+        "Update",
+        parameterCount: 4);
+    MethodDefinition removeLight = RequireMethod(
+        scene,
+        "RemoveLight",
+        parameterCount: 1);
+
+    if (!onRemove.HasBody
+        || onRemove.Body.Instructions.Count != 1
+        || onRemove.Body.Instructions[0].OpCode != OpCodes.Ret)
+    {
+        throw new InvalidOperationException(
+            "Expected an empty PolygonHead.Lights.Light.OnRemove method.");
+    }
+
+    RemoveSceneRemovalAfterOnRemove(
+        disable,
+        onRemove,
+        sceneField,
+        removeLight);
+    RemoveSceneRemovalAfterOnRemove(
+        update,
+        onRemove,
+        sceneField,
+        removeLight);
+
+    MethodBody body = onRemove.Body;
+    body.Instructions.Clear();
+    body.ExceptionHandlers.Clear();
+    body.Variables.Clear();
+    body.InitLocals = true;
+    body.MaxStackSize = 2;
+
+    VariableDefinition oldScene = new VariableDefinition(scene);
+    body.Variables.Add(oldScene);
+    ILProcessor processor = body.GetILProcessor();
+    Instruction returnInstruction = Instruction.Create(OpCodes.Ret);
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Ldfld, sceneField));
+    processor.Append(Instruction.Create(OpCodes.Stloc, oldScene));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Ldnull));
+    processor.Append(Instruction.Create(OpCodes.Stfld, sceneField));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, oldScene));
+    processor.Append(Instruction.Create(OpCodes.Brfalse_S, returnInstruction));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, oldScene));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, removeLight));
+    processor.Append(returnInstruction);
+}
+
+static void RemoveSceneRemovalAfterOnRemove(
+    MethodDefinition method,
+    MethodDefinition onRemove,
+    FieldDefinition sceneField,
+    MethodDefinition removeLight)
+{
+    Instruction[] instructions = method.Body.Instructions.ToArray();
+    List<Instruction[]> matches = new List<Instruction[]>();
+    for (int index = 0; index + 4 < instructions.Length; index++)
+    {
+        if (!IsMethodCall(instructions[index], onRemove)
+            || instructions[index + 1].OpCode != OpCodes.Ldarg_0
+            || !IsFieldLoad(instructions[index + 2], sceneField)
+            || instructions[index + 3].OpCode != OpCodes.Ldarg_0
+            || !IsMethodCall(instructions[index + 4], removeLight))
+        {
+            continue;
+        }
+
+        matches.Add(
+        [
+            instructions[index + 1],
+            instructions[index + 2],
+            instructions[index + 3],
+            instructions[index + 4],
+        ]);
+    }
+
+    if (matches.Count != 1)
+    {
+        throw new InvalidOperationException(
+            "Expected one post-OnRemove scene removal in "
+            + method.FullName + ", found " + matches.Count + ".");
+    }
+
+    ILProcessor processor = method.Body.GetILProcessor();
+    foreach (Instruction instruction in matches[0].Reverse())
+    {
+        processor.Remove(instruction);
+    }
+}
+
+static bool IsMethodCall(
+    Instruction instruction,
+    MethodDefinition expected)
+{
+    return (instruction.OpCode == OpCodes.Call
+            || instruction.OpCode == OpCodes.Callvirt)
+           && instruction.Operand is MethodReference called
+           && called.FullName == expected.FullName;
+}
+
+static bool IsFieldLoad(
+    Instruction instruction,
+    FieldDefinition expected)
+{
+    return instruction.OpCode == OpCodes.Ldfld
+           && instruction.Operand is FieldReference field
+           && field.FullName == expected.FullName;
 }
 
 static AssemblyDefinition ReadAssembly(string path)

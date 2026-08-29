@@ -64,6 +64,7 @@ ValidateClr2Assembly(magicka);
 ValidateClr2Assembly(polygonHead);
 ValidateRuntimeCompatibilityGuards(magicka);
 ValidateCollectionLocks(magicka);
+ValidateLightSceneDetach(magicka, polygonHead);
 
 Dictionary<string, int> magickaCalls = ValidateInstrumentedAssembly(
     magicka,
@@ -1160,6 +1161,111 @@ static bool CallsRuntimeHelper(Instruction instruction, string helperName)
     return instruction.Operand is MethodReference called
            && called.DeclaringType.FullName == RegistryTypeName
            && called.Name == helperName;
+}
+
+static void ValidateLightSceneDetach(
+    AssemblyDefinition magicka,
+    AssemblyDefinition polygonHead)
+{
+    TypeDefinition light = AllTypes(polygonHead.MainModule).Single(
+        type => type.FullName == "PolygonHead.Lights.Light");
+    TypeDefinition scene = AllTypes(polygonHead.MainModule).Single(
+        type => type.FullName == "PolygonHead.Scene");
+    FieldDefinition sceneField = light.Fields.Single(
+        field => field.Name == "mScene"
+                 && field.FieldType.FullName == scene.FullName);
+    MethodDefinition removeLight = scene.Methods.Single(
+        method => method.Name == "RemoveLight"
+                  && method.Parameters.Count == 1);
+    MethodDefinition onRemove = RequireMethod(
+        polygonHead,
+        light.FullName,
+        "OnRemove",
+        parameterCount: 0);
+
+    Instruction[] cleanup = onRemove.Body.Instructions.ToArray();
+    int loadSceneIndex = Array.FindIndex(
+        cleanup,
+        instruction => instruction.OpCode == OpCodes.Ldfld
+                       && IsReferenceTo(instruction.Operand, sceneField));
+    int clearSceneIndex = Array.FindIndex(
+        cleanup,
+        instruction => instruction.OpCode == OpCodes.Stfld
+                       && IsReferenceTo(instruction.Operand, sceneField));
+    int removeLightIndex = Array.FindIndex(
+        cleanup,
+        instruction => IsCallTo(instruction, removeLight));
+    if (loadSceneIndex < 0
+        || clearSceneIndex <= loadSceneIndex
+        || clearSceneIndex == 0
+        || cleanup[clearSceneIndex - 1].OpCode != OpCodes.Ldnull
+        || removeLightIndex <= clearSceneIndex)
+    {
+        throw new InvalidDataException(
+            "Light.OnRemove does not capture, clear, and remove its scene"
+            + " in the required order.");
+    }
+
+    foreach ((string Name, int ParameterCount) caller in new[]
+             {
+                 ("Disable", 2),
+                 ("Update", 4),
+             })
+    {
+        MethodDefinition method = RequireMethod(
+            polygonHead,
+            light.FullName,
+            caller.Name,
+            caller.ParameterCount);
+        int onRemoveCalls = method.Body.Instructions.Count(
+            instruction => IsCallTo(instruction, onRemove));
+        int duplicateRemoveCalls = method.Body.Instructions.Count(
+            instruction => IsCallTo(instruction, removeLight));
+        if (onRemoveCalls != 1 || duplicateRemoveCalls != 0)
+        {
+            throw new InvalidDataException(
+                method.FullName + " must call Light.OnRemove once and must"
+                + " not remove the scene a second time.");
+        }
+    }
+
+    MethodDefinition dynamicOnRemove = RequireMethod(
+        magicka,
+        "Magicka.Graphics.Lights.DynamicLight",
+        "OnRemove",
+        parameterCount: 0);
+    Instruction[] dynamicBody = dynamicOnRemove.Body.Instructions.ToArray();
+    int baseCleanupIndex = Array.FindIndex(
+        dynamicBody,
+        instruction => IsCallTo(instruction, onRemove));
+    int cacheInsertIndex = Array.FindIndex(
+        dynamicBody,
+        instruction => instruction.Operand is MethodReference called
+                       && called.Name == "Enqueue"
+                       && called.DeclaringType.FullName.Contains(
+                           "Magicka.Graphics.Lights.DynamicLight",
+                           StringComparison.Ordinal));
+    if (baseCleanupIndex < 0 || cacheInsertIndex <= baseCleanupIndex)
+    {
+        throw new InvalidDataException(
+            "DynamicLight.OnRemove must detach through base.OnRemove before"
+            + " publishing the light to its cache.");
+    }
+}
+
+static bool IsCallTo(
+    Instruction instruction,
+    MethodDefinition method)
+{
+    return (instruction.OpCode == OpCodes.Call
+            || instruction.OpCode == OpCodes.Callvirt)
+           && IsReferenceTo(instruction.Operand, method);
+}
+
+static bool IsReferenceTo(object? operand, MemberReference member)
+{
+    return operand is MemberReference reference
+           && reference.FullName == member.FullName;
 }
 
 static MethodDefinition RequireMethod(
