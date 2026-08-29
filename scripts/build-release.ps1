@@ -697,6 +697,7 @@ function Set-ProjectVersion {
     Replace-RegexRequired $installerMainPath "static\s+const\s+patchVersion\s*=\s*'[^']+'" "static const patchVersion = '$SemanticVersion'" 'AppConstants.patchVersion'
     Replace-RegexIfPresent $installerMainPath 'MAGICKA COMMUNITY PATCH \d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?' "MAGICKA COMMUNITY PATCH $SemanticVersion" 'installer header version'
     Replace-RegexRequired $localizationPath 'MAGICKA COMMUNITY PATCH \d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?' "MAGICKA COMMUNITY PATCH $SemanticVersion" 'localized installer header version'
+    Replace-RegexRequired $localizationPath '(MAGICKA \u793E\u533A\u8865\u4E01 )\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?' "`${1}$SemanticVersion" 'Chinese installer header version'
     Replace-RegexRequired $widgetTestPath 'MAGICKA COMMUNITY PATCH \d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?' "MAGICKA COMMUNITY PATCH $SemanticVersion" 'widget test header version'
     Replace-RegexRequired $widgetTestPath 'Patch-Update \d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?' "Patch-Update $SemanticVersion" 'widget test localized updater version'
     Replace-RegexRequired $communityPatchInfoPath 'return\s+"\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?";' "return `"$SemanticVersion`";" 'documented community patch version'

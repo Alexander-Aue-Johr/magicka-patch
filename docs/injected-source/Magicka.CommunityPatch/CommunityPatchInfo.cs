@@ -38,7 +38,7 @@ namespace Magicka.CommunityPatch
 		{
 			get
 			{
-				return "0.0.45";
+				return "0.0.46";
 			}
 		}
 

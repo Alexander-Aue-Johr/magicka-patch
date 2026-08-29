@@ -1,5 +1,28 @@
 # Changelog
 
+## [0.0.46] - 2026-08-29
+
+### Fixed
+
+- Restore startup and gameplay compatibility with Windows CLR 2 while keeping
+  the Wine Mono behavior added in earlier releases. The Paradox price worker
+  now uses `ThreadStart`, dynamically growing collections use the CLR-2 lock
+  API, and the expanded Avatar cache uses a valid long branch.
+
+### Telemetry
+
+- Resolve eligible stale objects with a 32-bit CLR-2-compatible external
+  analyzer and report bounded, field-labelled GC-root paths. The diagnostic
+  remains optional and runs only when usage sharing is enabled.
+- Report bounded analyzer stage, exception type, inner exception type, and
+  HRESULT fields when root analysis cannot complete. Exception messages,
+  object addresses, and weak-handle values are not sent.
+
+### Installer
+
+- Install and validate the CLR-2 GC diagnostics payload with only its required
+  analyzer executable, configuration, CLRMD library, and license files.
+
 ## [0.0.45] - 2026-08-27
 
 ### Fixed
