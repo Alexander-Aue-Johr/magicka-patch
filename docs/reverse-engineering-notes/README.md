@@ -56,6 +56,9 @@ Patch-site notes:
 - [Dynamic-light scene detachment](dynamic-light-scene-retention.md) explains
   how cached dynamic lights retained old scenes and how the base light removal
   lifecycle now clears that reference before cache insertion.
+- [Warlord primary-ability diagnostic](warlord-primary-ability-diagnostic.md)
+  documents the original unchecked `Melee` clone assumption and the bounded
+  runtime state collected before the failing cast.
 
 Legal note: this repository is not legal advice. EU Directive 2009/24/EC treats
 computer programs as copyright-protected works and gives rightholders exclusive

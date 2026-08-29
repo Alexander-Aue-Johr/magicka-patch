@@ -30,6 +30,18 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--patch-warlord-ability-diagnostic")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchWarlordAbilityDiagnosticOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": added Warlord primary-ability diagnostic");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -40,7 +52,10 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-polygon-light-scene-detach"
-        + " <PolygonHead.dll> <output-PolygonHead.dll>");
+        + " <PolygonHead.dll> <output-PolygonHead.dll>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-warlord-ability-diagnostic"
+        + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
 
@@ -82,6 +97,7 @@ static PatchReport PatchMagicka(
     RepairParadoxStoreWorkerDelegate(module, types);
     RepairClr2CollectionLocks(types);
     RepairCharacterTemplateStaticCaches(module, types);
+    PatchWarlordAbilityDiagnostic(module, types);
 
     int registrations = 0;
     int activeHooks = 0;
@@ -457,6 +473,445 @@ static void PatchCharacterTemplateStaticCachesOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairCharacterTemplateStaticCaches(assembly.MainModule, types);
     WriteAssembly(assembly, outputPath);
+}
+
+static void PatchWarlordAbilityDiagnosticOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    PatchWarlordAbilityDiagnostic(assembly.MainModule, types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void PatchWarlordAbilityDiagnostic(
+    ModuleDefinition module,
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    const string helperTypeName =
+        "Magicka.CommunityPatch.WarlordAbilityDiagnostic";
+    if (types.ContainsKey(helperTypeName))
+    {
+        throw new InvalidOperationException(
+            helperTypeName + " already exists.");
+    }
+
+    TypeDefinition characterTemplate = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.CharacterTemplate");
+    TypeDefinition ability = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.Abilities.Ability");
+    TypeDefinition melee = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.Abilities.Melee");
+    TypeDefinition warlord = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.Bosses.WarlordCharacter");
+    TypeDefinition nonPlayerCharacter = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.NonPlayerCharacter");
+    TypeDefinition patchTelemetry = RequireType(
+        types,
+        "Magicka.CommunityPatch.PatchTelemetry");
+
+    FieldDefinition disposedField = characterTemplate.Fields.Single(field =>
+        field.Name == "mDisposed"
+        && !field.IsStatic
+        && field.FieldType.FullName == "System.Boolean");
+    if (characterTemplate.Methods.Any(method =>
+            method.Name == "CommunityPatchIsDisposed"
+            && method.Parameters.Count == 0))
+    {
+        throw new InvalidOperationException(
+            "CharacterTemplate.CommunityPatchIsDisposed already exists.");
+    }
+
+    MethodDefinition isDisposed = new MethodDefinition(
+        "CommunityPatchIsDisposed",
+        MethodAttributes.Assembly | MethodAttributes.HideBySig,
+        module.TypeSystem.Boolean);
+    characterTemplate.Methods.Add(isDisposed);
+    ILProcessor disposedProcessor = isDisposed.Body.GetILProcessor();
+    disposedProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    disposedProcessor.Append(Instruction.Create(OpCodes.Ldfld, disposedField));
+    disposedProcessor.Append(Instruction.Create(OpCodes.Ret));
+    isDisposed.Body.MaxStackSize = 1;
+
+    MethodDefinition getTemplateAbilities = RequireMethod(
+        characterTemplate,
+        "get_Abilities",
+        parameterCount: 0);
+    MethodDefinition getTemplateId = RequireMethod(
+        characterTemplate,
+        "get_ID",
+        parameterCount: 0);
+    MethodDefinition getTemplateName = RequireMethod(
+        characterTemplate,
+        "get_Name",
+        parameterCount: 0);
+    MethodDefinition getNpcAbilities = RequireMethod(
+        nonPlayerCharacter,
+        "get_Abilities",
+        parameterCount: 0);
+    MethodDefinition sendRuntimeGuard = RequireMethod(
+        patchTelemetry,
+        "SendRuntimeGuard",
+        parameterCount: 6);
+
+    MethodReference getObjectType = FindMethodReference(
+        module,
+        "System.Object",
+        "GetType",
+        parameterCount: 0,
+        returnType: "System.Type");
+    MethodReference getTypeFullName = FindMethodReference(
+        module,
+        "System.Type",
+        "get_FullName",
+        parameterCount: 0,
+        returnType: "System.String");
+    MethodReference referenceEquals = FindMethodReference(
+        module,
+        "System.Object",
+        "ReferenceEquals",
+        parameterCount: 2,
+        returnType: "System.Boolean");
+    MethodReference stringBuilderConstructor = FindMethodReference(
+        module,
+        "System.Text.StringBuilder",
+        ".ctor",
+        parameterCount: 0,
+        returnType: "System.Void");
+    MethodReference appendString = FindMethodReference(
+        module,
+        "System.Text.StringBuilder",
+        "Append",
+        parameterCount: 1,
+        returnType: "System.Text.StringBuilder",
+        parameterType: "System.String");
+    TypeReference stringBuilderType = appendString.DeclaringType;
+    MethodReference stringBuilderToString = CreateInstanceMethodReference(
+        "ToString",
+        stringBuilderType,
+        module.TypeSystem.String);
+    MethodReference appendBoolean = CreateInstanceMethodReference(
+        "Append",
+        stringBuilderType,
+        stringBuilderType,
+        module.TypeSystem.Boolean);
+    MethodReference appendInteger = CreateInstanceMethodReference(
+        "Append",
+        stringBuilderType,
+        stringBuilderType,
+        module.TypeSystem.Int32);
+
+    TypeDefinition helperType = new TypeDefinition(
+        "Magicka.CommunityPatch",
+        "WarlordAbilityDiagnostic",
+        TypeAttributes.NotPublic
+        | TypeAttributes.Abstract
+        | TypeAttributes.Sealed
+        | TypeAttributes.BeforeFieldInit
+        | TypeAttributes.Class,
+        module.TypeSystem.Object);
+    module.Types.Add(helperType);
+    MethodDefinition inspect = new MethodDefinition(
+        "Inspect",
+        MethodAttributes.Assembly
+        | MethodAttributes.Static
+        | MethodAttributes.HideBySig,
+        module.TypeSystem.Void);
+    inspect.Parameters.Add(new ParameterDefinition(
+        "template",
+        ParameterAttributes.None,
+        characterTemplate));
+    inspect.Parameters.Add(new ParameterDefinition(
+        "abilities",
+        ParameterAttributes.None,
+        getNpcAbilities.ReturnType));
+    helperType.Methods.Add(inspect);
+
+    VariableDefinition primaryAbility = new VariableDefinition(ability);
+    VariableDefinition primaryType = new VariableDefinition(module.TypeSystem.String);
+    VariableDefinition details = new VariableDefinition(stringBuilderType);
+    inspect.Body.Variables.Add(primaryAbility);
+    inspect.Body.Variables.Add(primaryType);
+    inspect.Body.Variables.Add(details);
+    inspect.Body.InitLocals = true;
+    ILProcessor processor = inspect.Body.GetILProcessor();
+
+    Instruction tryStart = Instruction.Create(OpCodes.Nop);
+    Instruction inspectPrimary = Instruction.Create(OpCodes.Ldloc, primaryAbility);
+    Instruction invalidPrimary = Instruction.Create(OpCodes.Ldloc, primaryAbility);
+    Instruction readPrimaryType = Instruction.Create(OpCodes.Ldloc, primaryAbility);
+    Instruction primaryTypeReady = Instruction.Create(OpCodes.Newobj, stringBuilderConstructor);
+    Instruction appendEmptyTemplateId = Instruction.Create(OpCodes.Ldloc, details);
+    Instruction templateIdReady = Instruction.Create(OpCodes.Ldloc, details);
+    Instruction templateNotDisposed = Instruction.Create(OpCodes.Ldc_I4_0);
+    Instruction emptyTemplateName = Instruction.Create(OpCodes.Ldstr, string.Empty);
+    Instruction sendDiagnostic = Instruction.Create(OpCodes.Call, sendRuntimeGuard);
+    Instruction handlerStart = Instruction.Create(OpCodes.Pop);
+    Instruction returnInstruction = Instruction.Create(OpCodes.Ret);
+
+    processor.Append(tryStart);
+    processor.Append(Instruction.Create(OpCodes.Ldnull));
+    processor.Append(Instruction.Create(OpCodes.Stloc, primaryAbility));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_1));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, inspectPrimary));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_1));
+    processor.Append(Instruction.Create(OpCodes.Ldlen));
+    processor.Append(Instruction.Create(OpCodes.Conv_I4));
+    processor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    processor.Append(Instruction.Create(OpCodes.Ble, inspectPrimary));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_1));
+    processor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    processor.Append(Instruction.Create(OpCodes.Ldelem_Ref));
+    processor.Append(Instruction.Create(OpCodes.Stloc, primaryAbility));
+    processor.Append(inspectPrimary);
+    processor.Append(Instruction.Create(OpCodes.Isinst, melee));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, invalidPrimary));
+    processor.Append(Instruction.Create(OpCodes.Leave, returnInstruction));
+
+    processor.Append(invalidPrimary);
+    processor.Append(Instruction.Create(OpCodes.Brtrue, readPrimaryType));
+    processor.Append(Instruction.Create(OpCodes.Ldstr, "null"));
+    processor.Append(Instruction.Create(OpCodes.Stloc, primaryType));
+    processor.Append(Instruction.Create(OpCodes.Br, primaryTypeReady));
+    processor.Append(readPrimaryType);
+    processor.Append(Instruction.Create(OpCodes.Callvirt, getObjectType));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, getTypeFullName));
+    processor.Append(Instruction.Create(OpCodes.Stloc, primaryType));
+
+    processor.Append(primaryTypeReady);
+    processor.Append(Instruction.Create(OpCodes.Stloc, details));
+    AppendStringBuilderText(processor, details, appendString, "template_null=");
+    processor.Append(Instruction.Create(OpCodes.Ldloc, details));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Ldnull));
+    processor.Append(Instruction.Create(OpCodes.Ceq));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, appendBoolean));
+    processor.Append(Instruction.Create(OpCodes.Pop));
+
+    AppendStringBuilderText(processor, details, appendString, ";template_disposed=");
+    processor.Append(Instruction.Create(OpCodes.Ldloc, details));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, templateNotDisposed));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Call, isDisposed));
+    Instruction appendDisposed = Instruction.Create(OpCodes.Callvirt, appendBoolean);
+    processor.Append(Instruction.Create(OpCodes.Br, appendDisposed));
+    processor.Append(templateNotDisposed);
+    processor.Append(appendDisposed);
+    processor.Append(Instruction.Create(OpCodes.Pop));
+
+    AppendStringBuilderText(processor, details, appendString, ";template_id=");
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, appendEmptyTemplateId));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, details));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, getTemplateId));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, appendInteger));
+    processor.Append(Instruction.Create(OpCodes.Pop));
+    processor.Append(Instruction.Create(OpCodes.Br, templateIdReady));
+    processor.Append(appendEmptyTemplateId);
+    processor.Append(Instruction.Create(OpCodes.Ldstr, string.Empty));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, appendString));
+    processor.Append(Instruction.Create(OpCodes.Pop));
+
+    processor.Append(templateIdReady);
+    processor.Append(Instruction.Create(OpCodes.Ldstr, ";abilities_null="));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, appendString));
+    processor.Append(Instruction.Create(OpCodes.Pop));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, details));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_1));
+    processor.Append(Instruction.Create(OpCodes.Ldnull));
+    processor.Append(Instruction.Create(OpCodes.Ceq));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, appendBoolean));
+    processor.Append(Instruction.Create(OpCodes.Pop));
+
+    AppendStringBuilderText(processor, details, appendString, ";ability_count=");
+    processor.Append(Instruction.Create(OpCodes.Ldloc, details));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_1));
+    Instruction appendZeroLength = Instruction.Create(OpCodes.Ldc_I4_0);
+    Instruction appendLength = Instruction.Create(OpCodes.Callvirt, appendInteger);
+    processor.Append(Instruction.Create(OpCodes.Brfalse, appendZeroLength));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_1));
+    processor.Append(Instruction.Create(OpCodes.Ldlen));
+    processor.Append(Instruction.Create(OpCodes.Conv_I4));
+    processor.Append(Instruction.Create(OpCodes.Br, appendLength));
+    processor.Append(appendZeroLength);
+    processor.Append(appendLength);
+    processor.Append(Instruction.Create(OpCodes.Pop));
+
+    AppendStringBuilderText(processor, details, appendString, ";primary_null=");
+    processor.Append(Instruction.Create(OpCodes.Ldloc, details));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, primaryAbility));
+    processor.Append(Instruction.Create(OpCodes.Ldnull));
+    processor.Append(Instruction.Create(OpCodes.Ceq));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, appendBoolean));
+    processor.Append(Instruction.Create(OpCodes.Pop));
+
+    AppendStringBuilderText(
+        processor,
+        details,
+        appendString,
+        ";shares_template_abilities=");
+    processor.Append(Instruction.Create(OpCodes.Ldloc, details));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    Instruction noSharedTemplateAbilities = Instruction.Create(OpCodes.Ldc_I4_0);
+    processor.Append(Instruction.Create(
+        OpCodes.Brfalse,
+        noSharedTemplateAbilities));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_1));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, getTemplateAbilities));
+    processor.Append(Instruction.Create(OpCodes.Call, referenceEquals));
+    Instruction appendSharesArray = Instruction.Create(OpCodes.Callvirt, appendBoolean);
+    processor.Append(Instruction.Create(OpCodes.Br, appendSharesArray));
+    processor.Append(noSharedTemplateAbilities);
+    processor.Append(appendSharesArray);
+    processor.Append(Instruction.Create(OpCodes.Pop));
+
+    processor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "magicka_patch_warlord_ability_diagnostic"));
+    processor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "warlord_primary_ability_not_melee"));
+    processor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "NonPlayerCharacter.Abilities"));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, primaryType));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, details));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, stringBuilderToString));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, emptyTemplateName));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, getTemplateName));
+    processor.Append(Instruction.Create(OpCodes.Br, sendDiagnostic));
+    processor.Append(emptyTemplateName);
+    processor.Append(sendDiagnostic);
+    processor.Append(Instruction.Create(OpCodes.Leave, returnInstruction));
+    processor.Append(handlerStart);
+    processor.Append(Instruction.Create(OpCodes.Leave, returnInstruction));
+    processor.Append(returnInstruction);
+    inspect.Body.ExceptionHandlers.Add(new ExceptionHandler(
+        ExceptionHandlerType.Catch)
+    {
+        CatchType = module.TypeSystem.Object,
+        TryStart = tryStart,
+        TryEnd = handlerStart,
+        HandlerStart = handlerStart,
+        HandlerEnd = returnInstruction,
+    });
+    inspect.Body.MaxStackSize = 6;
+
+    MethodDefinition applyTemplate = RequireMethod(
+        warlord,
+        "ApplyTemplate",
+        parameterCount: 2);
+    Instruction baseApply = applyTemplate.Body.Instructions.Single(instruction =>
+        instruction.OpCode == OpCodes.Call
+        && instruction.Operand is MethodReference called
+        && called.Name == "ApplyTemplate"
+        && called.DeclaringType.FullName == nonPlayerCharacter.FullName);
+    Instruction originalCast = applyTemplate.Body.Instructions.Single(instruction =>
+        instruction.OpCode == OpCodes.Isinst
+        && instruction.Operand is TypeReference type
+        && type.FullName == melee.FullName);
+    if (applyTemplate.Body.Instructions.IndexOf(baseApply)
+        >= applyTemplate.Body.Instructions.IndexOf(originalCast))
+    {
+        throw new InvalidOperationException(
+            "Unexpected WarlordCharacter.ApplyTemplate instruction order.");
+    }
+
+    ILProcessor applyProcessor = applyTemplate.Body.GetILProcessor();
+    Instruction cursor = baseApply;
+    foreach (Instruction injected in new[]
+             {
+                 Instruction.Create(OpCodes.Ldarg_1),
+                 Instruction.Create(OpCodes.Ldarg_0),
+                 Instruction.Create(OpCodes.Call, getNpcAbilities),
+                 Instruction.Create(OpCodes.Call, inspect),
+             })
+    {
+        applyProcessor.InsertAfter(cursor, injected);
+        cursor = injected;
+    }
+    applyTemplate.Body.MaxStackSize = Math.Max(
+        applyTemplate.Body.MaxStackSize,
+        2);
+}
+
+static void AppendStringBuilderText(
+    ILProcessor processor,
+    VariableDefinition builder,
+    MethodReference appendString,
+    string text)
+{
+    processor.Append(Instruction.Create(OpCodes.Ldloc, builder));
+    processor.Append(Instruction.Create(OpCodes.Ldstr, text));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, appendString));
+    processor.Append(Instruction.Create(OpCodes.Pop));
+}
+
+static MethodReference FindMethodReference(
+    ModuleDefinition module,
+    string declaringType,
+    string name,
+    int parameterCount,
+    string returnType,
+    string? parameterType = null)
+{
+    MethodReference[] matches = AllTypes(module)
+        .SelectMany(type => type.Methods)
+        .Where(method => method.HasBody)
+        .SelectMany(method => method.Body.Instructions)
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .Where(method => method.DeclaringType.FullName == declaringType
+            && method.Name == name
+            && method.Parameters.Count == parameterCount
+            && method.ReturnType.FullName == returnType
+            && (parameterType == null
+                || (method.Parameters.Count == 1
+                    && method.Parameters[0].ParameterType.FullName
+                        == parameterType)))
+        .GroupBy(method => method.FullName, StringComparer.Ordinal)
+        .Select(group => group.First())
+        .ToArray();
+    if (matches.Length != 1)
+    {
+        throw new InvalidOperationException(
+            "Expected one referenced method " + declaringType + "." + name
+            + ", found " + matches.Length + ".");
+    }
+    return matches[0];
+}
+
+static MethodReference CreateInstanceMethodReference(
+    string name,
+    TypeReference declaringType,
+    TypeReference returnType,
+    params TypeReference[] parameterTypes)
+{
+    MethodReference method = new MethodReference(
+        name,
+        returnType,
+        declaringType)
+    {
+        HasThis = true,
+        CallingConvention = MethodCallingConvention.Default,
+    };
+    foreach (TypeReference parameterType in parameterTypes)
+    {
+        method.Parameters.Add(new ParameterDefinition(parameterType));
+    }
+    return method;
 }
 
 static void RepairCharacterTemplateStaticCaches(

@@ -66,6 +66,7 @@ ValidateRuntimeCompatibilityGuards(magicka);
 ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
 ValidateCharacterTemplateStaticCaches(magicka);
+ValidateWarlordAbilityDiagnostic(magicka);
 
 Dictionary<string, int> magickaCalls = ValidateInstrumentedAssembly(
     magicka,
@@ -1457,6 +1458,152 @@ static void ValidateCharacterTemplateStaticCaches(
         throw new InvalidDataException(
             "PlayState.Dispose must release ability template caches before"
             + " CharacterTemplate.ClearCache.");
+    }
+}
+
+static void ValidateWarlordAbilityDiagnostic(AssemblyDefinition magicka)
+{
+    TypeDefinition characterTemplate = AllTypes(magicka.MainModule).Single(
+        type => type.FullName
+            == "Magicka.GameLogic.Entities.CharacterTemplate");
+    FieldDefinition disposedField = characterTemplate.Fields.Single(field =>
+        field.Name == "mDisposed"
+        && !field.IsStatic
+        && field.FieldType.FullName == "System.Boolean");
+    MethodDefinition? isDisposed = characterTemplate.Methods.SingleOrDefault(method =>
+        method.Name == "CommunityPatchIsDisposed"
+        && !method.IsStatic
+        && method.Parameters.Count == 0
+        && method.ReturnType.FullName == "System.Boolean"
+        && method.HasBody);
+    if (isDisposed is null)
+    {
+        throw new InvalidDataException(
+            "CharacterTemplate.CommunityPatchIsDisposed is missing.");
+    }
+    Instruction[] disposedBody = isDisposed.Body.Instructions.ToArray();
+    if (disposedBody.Length != 3
+        || disposedBody[0].OpCode != OpCodes.Ldarg_0
+        || disposedBody[1].OpCode != OpCodes.Ldfld
+        || !IsReferenceTo(disposedBody[1].Operand, disposedField)
+        || disposedBody[2].OpCode != OpCodes.Ret)
+    {
+        throw new InvalidDataException(
+            "CharacterTemplate.CommunityPatchIsDisposed does not expose"
+            + " only the existing disposal flag.");
+    }
+
+    TypeDefinition? helper = AllTypes(magicka.MainModule).SingleOrDefault(type =>
+        type.FullName
+            == "Magicka.CommunityPatch.WarlordAbilityDiagnostic");
+    if (helper is null)
+    {
+        throw new InvalidDataException(
+            "Warlord primary-ability diagnostic helper is missing.");
+    }
+    MethodDefinition inspect = helper.Methods.Single(method =>
+        method.Name == "Inspect"
+        && method.IsStatic
+        && method.Parameters.Count == 2
+        && method.Parameters[0].ParameterType.FullName
+            == characterTemplate.FullName
+        && method.Parameters[1].ParameterType.FullName
+            == "Magicka.GameLogic.Entities.Abilities.Ability[]"
+        && method.ReturnType.FullName == "System.Void"
+        && method.HasBody);
+    string[] requiredStrings =
+    [
+        "magicka_patch_warlord_ability_diagnostic",
+        "warlord_primary_ability_not_melee",
+        "NonPlayerCharacter.Abilities",
+        "template_null=",
+        ";template_disposed=",
+        ";template_id=",
+        ";abilities_null=",
+        ";ability_count=",
+        ";primary_null=",
+        ";shares_template_abilities=",
+    ];
+    HashSet<string> helperStrings = inspect.Body.Instructions
+        .Where(instruction => instruction.OpCode == OpCodes.Ldstr)
+        .Select(instruction => instruction.Operand as string ?? string.Empty)
+        .ToHashSet(StringComparer.Ordinal);
+    string[] missingStrings = requiredStrings
+        .Where(required => !helperStrings.Contains(required))
+        .ToArray();
+    if (missingStrings.Length != 0)
+    {
+        throw new InvalidDataException(
+            "Warlord diagnostic is missing fields: "
+            + string.Join(", ", missingStrings));
+    }
+
+    TypeDefinition patchTelemetry = AllTypes(magicka.MainModule).Single(type =>
+        type.FullName == "Magicka.CommunityPatch.PatchTelemetry");
+    MethodDefinition sendRuntimeGuard = patchTelemetry.Methods.Single(method =>
+        method.Name == "SendRuntimeGuard"
+        && method.IsStatic
+        && method.Parameters.Count == 6);
+    int senderCalls = inspect.Body.Instructions.Count(instruction =>
+        IsCallTo(instruction, sendRuntimeGuard));
+    if (senderCalls != 1)
+    {
+        throw new InvalidDataException(
+            "Warlord diagnostic calls the bounded telemetry sender "
+            + senderCalls + " time(s); expected exactly once.");
+    }
+
+    if (inspect.Body.ExceptionHandlers.Count != 1
+        || inspect.Body.ExceptionHandlers[0].HandlerType
+            != ExceptionHandlerType.Catch
+        || inspect.Body.ExceptionHandlers[0].CatchType?.FullName
+            != "System.Object")
+    {
+        throw new InvalidDataException(
+            "Warlord diagnostic is not isolated by the required catch-all.");
+    }
+
+    MethodDefinition applyTemplate = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Bosses.WarlordCharacter",
+        "ApplyTemplate",
+        parameterCount: 2);
+    Instruction[] applyBody = applyTemplate.Body.Instructions.ToArray();
+    int baseApplyIndex = Array.FindIndex(
+        applyBody,
+        instruction => instruction.OpCode == OpCodes.Call
+            && instruction.Operand is MethodReference called
+            && called.Name == "ApplyTemplate"
+            && called.DeclaringType.FullName
+                == "Magicka.GameLogic.Entities.NonPlayerCharacter");
+    int inspectIndex = Array.FindIndex(
+        applyBody,
+        instruction => IsCallTo(instruction, inspect));
+    int meleeCastIndex = Array.FindIndex(
+        applyBody,
+        instruction => instruction.OpCode == OpCodes.Isinst
+            && instruction.Operand is TypeReference type
+            && type.FullName
+                == "Magicka.GameLogic.Entities.Abilities.Melee");
+    int bashConstructorIndex = Array.FindIndex(
+        applyBody,
+        instruction => instruction.OpCode == OpCodes.Newobj
+            && instruction.Operand is MethodReference called
+            && called.Name == ".ctor"
+            && called.DeclaringType.FullName
+                == "Magicka.GameLogic.Entities.Bosses.WarlordCharacter/Bash"
+            && called.Parameters.Count == 1
+            && called.Parameters[0].ParameterType.FullName
+                == "Magicka.GameLogic.Entities.Abilities.Melee");
+    if (baseApplyIndex < 0
+        || inspectIndex <= baseApplyIndex
+        || meleeCastIndex <= inspectIndex
+        || bashConstructorIndex <= meleeCastIndex
+        || applyBody.Count(instruction => IsCallTo(instruction, inspect)) != 1)
+    {
+        throw new InvalidDataException(
+            "Warlord diagnostic does not run exactly once between base"
+            + " template application and the preserved Melee/Bash path.");
     }
 }
 
