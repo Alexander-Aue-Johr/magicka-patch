@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.0.51] - 2026-08-29
+
+### Fixed
+
+- Prevent intersecting Railgun beams from attaching an indirect ancestor as a
+  child and creating a cyclic parent graph. `LockAll` also stops recursion into
+  a rail that is already active in the current traversal, preventing the cycle
+  from ending in `System.StackOverflowException`.
+- Keep Jormungandr underground when target selection finds no live player.
+  The boss now retries on later LogicThread updates instead of dereferencing a
+  null target while emerging after all players have died.
+- Recover JudgementSpray projectile spawning when its shared condition cache is
+  temporarily empty. Clients now allocate an equivalent replacement instead of
+  crashing in `Queue.Dequeue` while processing the host's missile message.
+
+### Telemetry
+
+- Report bounded recovery events when the Railgun parent-cycle check rejects an
+  unsafe attachment, reaches its traversal limit, or fails closed.
+- Report a bounded `judgement_spray_condition_cache_empty_recovered` event when
+  JudgementSpray uses the replacement path.
+- Record the Warlord template and ability-array state when its primary cloned
+  ability is missing or is not `Melee`, without changing the original spawn
+  behavior.
+
 ## [0.0.50] - 2026-08-29
 
 ### Fixed
