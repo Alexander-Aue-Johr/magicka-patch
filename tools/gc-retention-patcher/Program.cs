@@ -66,6 +66,18 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--patch-judgement-spray-condition-cache")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchJudgementSprayConditionCacheOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": recovered JudgementSpray condition-cache exhaustion");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -85,6 +97,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-jormungandr-null-target"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-judgement-spray-condition-cache"
         + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
@@ -130,6 +145,7 @@ static PatchReport PatchMagicka(
     PatchWarlordAbilityDiagnostic(module, types);
     RepairRailgunParentCycles(module, types);
     RepairJormungandrNullTarget(types);
+    RepairJudgementSprayConditionCache(module, types);
 
     int registrations = 0;
     int activeHooks = 0;
@@ -538,6 +554,141 @@ static void PatchJormungandrNullTargetOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairJormungandrNullTarget(types);
     WriteAssembly(assembly, outputPath);
+}
+
+static void PatchJudgementSprayConditionCacheOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairJudgementSprayConditionCache(assembly.MainModule, types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairJudgementSprayConditionCache(
+    ModuleDefinition module,
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    const string helperName =
+        "CommunityPatchTakeConditionCollectionLocked";
+    TypeDefinition judgementSpray = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.JudgementSpray");
+    TypeDefinition projectileSpell = RequireType(
+        types,
+        "Magicka.GameLogic.Spells.SpellEffects.ProjectileSpell");
+    TypeDefinition conditionCollection = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.Items.ConditionCollection");
+    TypeDefinition patchTelemetry = RequireType(
+        types,
+        "Magicka.CommunityPatch.PatchTelemetry");
+    if (judgementSpray.Methods.Any(method => method.Name == helperName))
+    {
+        throw new InvalidOperationException(
+            "JudgementSpray condition-cache repair already exists.");
+    }
+
+    FieldDefinition cache = projectileSpell.Fields.Single(field =>
+        field.Name == "sCachedConditions"
+        && field.IsStatic
+        && field.FieldType.FullName
+            == "System.Collections.Generic.Queue`1<"
+               + conditionCollection.FullName + ">");
+    MethodDefinition spawnProjectile = RequireMethod(
+        judgementSpray,
+        "SpawnProjectile",
+        parameterCount: 5);
+    Instruction[] dequeueInstructions = spawnProjectile.Body.Instructions
+        .Where(instruction =>
+            instruction.OpCode == OpCodes.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.Name == "Dequeue"
+            && called.Parameters.Count == 0
+            && called.DeclaringType.FullName == cache.FieldType.FullName)
+        .ToArray();
+    if (dequeueInstructions.Length != 1)
+    {
+        throw new InvalidOperationException(
+            "Expected one JudgementSpray condition-cache dequeue, found "
+            + dequeueInstructions.Length + ".");
+    }
+
+    Instruction dequeueInstruction = dequeueInstructions[0];
+    Instruction? cacheLoad = dequeueInstruction.Previous;
+    if (cacheLoad is null
+        || cacheLoad.OpCode != OpCodes.Ldsfld
+        || cacheLoad.Operand is not FieldReference loadedCache
+        || loadedCache.FullName != cache.FullName)
+    {
+        throw new InvalidOperationException(
+            "Unexpected JudgementSpray condition-cache dequeue shape.");
+    }
+
+    MethodReference dequeue = (MethodReference)dequeueInstruction.Operand;
+    MethodReference getCount = FindMethodReference(
+        module,
+        cache.FieldType.FullName,
+        "get_Count",
+        parameterCount: 0,
+        returnType: "System.Int32");
+    MethodDefinition constructor = RequireMethod(
+        conditionCollection,
+        ".ctor",
+        parameterCount: 0);
+    MethodDefinition sendRuntimeGuard = RequireMethod(
+        patchTelemetry,
+        "SendRuntimeGuard",
+        parameterCount: 6);
+
+    MethodDefinition takeConditions = new MethodDefinition(
+        helperName,
+        MethodAttributes.Private
+        | MethodAttributes.Static
+        | MethodAttributes.HideBySig,
+        conditionCollection);
+    takeConditions.Parameters.Add(new ParameterDefinition(
+        "cache",
+        ParameterAttributes.None,
+        cache.FieldType));
+    judgementSpray.Methods.Add(takeConditions);
+
+    ILProcessor helperProcessor = takeConditions.Body.GetILProcessor();
+    Instruction dequeueCached = Instruction.Create(OpCodes.Ldarg_0);
+    helperProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    helperProcessor.Append(Instruction.Create(OpCodes.Callvirt, getCount));
+    helperProcessor.Append(Instruction.Create(OpCodes.Brtrue, dequeueCached));
+    helperProcessor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "magicka_patch_runtime_recovery"));
+    helperProcessor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "judgement_spray_condition_cache_empty_recovered"));
+    helperProcessor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "ProjectileSpell.sCachedConditions"));
+    helperProcessor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        judgementSpray.FullName));
+    helperProcessor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "Allocated a replacement ConditionCollection and continued"
+        + " projectile spawn."));
+    helperProcessor.Append(Instruction.Create(OpCodes.Ldstr, string.Empty));
+    helperProcessor.Append(Instruction.Create(
+        OpCodes.Call,
+        sendRuntimeGuard));
+    helperProcessor.Append(Instruction.Create(OpCodes.Newobj, constructor));
+    helperProcessor.Append(Instruction.Create(OpCodes.Ret));
+    helperProcessor.Append(dequeueCached);
+    helperProcessor.Append(Instruction.Create(OpCodes.Callvirt, dequeue));
+    helperProcessor.Append(Instruction.Create(OpCodes.Ret));
+    takeConditions.Body.MaxStackSize = 6;
+
+    dequeueInstruction.OpCode = OpCodes.Call;
+    dequeueInstruction.Operand = takeConditions;
 }
 
 static void RepairJormungandrNullTarget(

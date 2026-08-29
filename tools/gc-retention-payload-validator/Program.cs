@@ -68,6 +68,7 @@ ValidateLightSceneDetach(magicka, polygonHead);
 ValidateCharacterTemplateStaticCaches(magicka);
 ValidateWarlordAbilityDiagnostic(magicka);
 ValidateRailgunParentCycleRepair(magicka);
+ValidateJudgementSprayConditionCacheRepair(magicka);
 
 Dictionary<string, int> magickaCalls = ValidateInstrumentedAssembly(
     magicka,
@@ -1757,6 +1758,114 @@ static void ValidateRailgunParentCycleRepair(AssemblyDefinition magicka)
     {
         throw new InvalidDataException(
             "Railgun parent attachment is not protected by the cycle check.");
+    }
+}
+
+static void ValidateJudgementSprayConditionCacheRepair(
+    AssemblyDefinition magicka)
+{
+    TypeDefinition judgementSpray = AllTypes(magicka.MainModule).Single(type =>
+        type.FullName
+            == "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.JudgementSpray");
+    TypeDefinition projectileSpell = AllTypes(magicka.MainModule).Single(type =>
+        type.FullName
+            == "Magicka.GameLogic.Spells.SpellEffects.ProjectileSpell");
+    TypeDefinition conditionCollection = AllTypes(magicka.MainModule).Single(type =>
+        type.FullName
+            == "Magicka.GameLogic.Entities.Items.ConditionCollection");
+    FieldDefinition cache = projectileSpell.Fields.Single(field =>
+        field.Name == "sCachedConditions"
+        && field.IsStatic
+        && field.FieldType.FullName
+            == "System.Collections.Generic.Queue`1<"
+               + conditionCollection.FullName + ">");
+    MethodDefinition takeConditions = judgementSpray.Methods.Single(method =>
+        method.Name == "CommunityPatchTakeConditionCollectionLocked"
+        && method.IsStatic
+        && method.Parameters.Count == 1
+        && method.Parameters[0].ParameterType.FullName == cache.FieldType.FullName
+        && method.ReturnType.FullName == conditionCollection.FullName
+        && method.HasBody);
+    Instruction[] helper = takeConditions.Body.Instructions.ToArray();
+    string[] requiredStrings =
+    [
+        "magicka_patch_runtime_recovery",
+        "judgement_spray_condition_cache_empty_recovered",
+        "ProjectileSpell.sCachedConditions",
+        judgementSpray.FullName,
+        "Allocated a replacement ConditionCollection and continued"
+        + " projectile spawn.",
+        string.Empty,
+    ];
+    MethodDefinition sendRuntimeGuard = AllTypes(magicka.MainModule)
+        .Single(type => type.FullName
+            == "Magicka.CommunityPatch.PatchTelemetry")
+        .Methods.Single(method =>
+            method.Name == "SendRuntimeGuard"
+            && method.IsStatic
+            && method.Parameters.Count == 6);
+    if (helper.Length != 15
+        || helper[0].OpCode != OpCodes.Ldarg_0
+        || helper[1].OpCode != OpCodes.Callvirt
+        || helper[1].Operand is not MethodReference getCount
+        || getCount.Name != "get_Count"
+        || getCount.DeclaringType.FullName != cache.FieldType.FullName
+        || helper[2].OpCode != OpCodes.Brtrue
+        || helper[2].Operand != helper[12]
+        || !helper.Skip(3).Take(6).Select(instruction =>
+            instruction.Operand as string ?? string.Empty)
+            .SequenceEqual(requiredStrings, StringComparer.Ordinal)
+        || !IsCallTo(helper[9], sendRuntimeGuard)
+        || helper[10].OpCode != OpCodes.Newobj
+        || helper[10].Operand is not MethodReference constructor
+        || constructor.Name != ".ctor"
+        || constructor.DeclaringType.FullName != conditionCollection.FullName
+        || helper[11].OpCode != OpCodes.Ret
+        || helper[12].OpCode != OpCodes.Ldarg_0
+        || helper[13].OpCode != OpCodes.Callvirt
+        || helper[13].Operand is not MethodReference dequeue
+        || dequeue.Name != "Dequeue"
+        || dequeue.DeclaringType.FullName != cache.FieldType.FullName
+        || helper[14].OpCode != OpCodes.Ret)
+    {
+        throw new InvalidDataException(
+            "JudgementSpray condition-cache helper is missing its bounded"
+            + " cached and replacement paths.");
+    }
+
+    MethodDefinition spawnProjectile = judgementSpray.Methods.Single(method =>
+        method.Name == "SpawnProjectile"
+        && method.IsStatic
+        && method.Parameters.Count == 5
+        && method.HasBody);
+    Instruction[] spawn = spawnProjectile.Body.Instructions.ToArray();
+    int helperCallIndex = Array.FindIndex(
+        spawn,
+        instruction => IsCallTo(instruction, takeConditions));
+    if (helperCallIndex < 1
+        || spawn.Count(instruction => IsCallTo(instruction, takeConditions)) != 1
+        || spawn[helperCallIndex - 1].OpCode != OpCodes.Ldsfld
+        || !IsReferenceTo(spawn[helperCallIndex - 1].Operand, cache)
+        || spawn.Any(instruction =>
+            instruction.OpCode == OpCodes.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.Name == "Dequeue"
+            && called.DeclaringType.FullName == cache.FieldType.FullName))
+    {
+        throw new InvalidDataException(
+            "JudgementSpray.SpawnProjectile does not route its locked cache"
+            + " acquisition through the recovery helper.");
+    }
+    int helperOffset = spawn[helperCallIndex].Offset;
+    bool insideFinallyProtectedTry = spawnProjectile.Body.ExceptionHandlers.Any(
+        handler => handler.HandlerType == ExceptionHandlerType.Finally
+            && handler.TryStart.Offset <= helperOffset
+            && handler.TryEnd.Offset > helperOffset);
+    if (!insideFinallyProtectedTry)
+    {
+        throw new InvalidDataException(
+            "JudgementSpray cache acquisition is no longer protected by"
+            + " the original monitor-finally region.");
     }
 }
 
