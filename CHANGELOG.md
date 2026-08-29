@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.0.52] - 2026-08-29
+
+### Fixed
+
+- Detach `Rain` from its scene and caster during removal. Cached rain effects
+  no longer retain a disposed scene or its play state after `Thunderstorm`
+  teardown.
+- Release the obtained-item text box's scene, entity owner, and transient level
+  state when a player leaves a game. The reusable UI object and its graphics
+  resources remain available for the next level.
+- Hide the reusable notifier button and release its avatar, dialog, and other
+  level-owned references during Player teardown.
+- Clear every callback delegate from an entity's collision skin before
+  detaching it. Old JigLibX collision records can no longer retain disposed
+  items, entities, or boss callback owners.
+
+### Telemetry
+
+- Include `patch_version` in every `magicka_patch_gc_retention` event.
+- Reopen GC-retention tracking after each completed analysis. Later level
+  checkpoints now produce independent reports in the same game process.
+- Remove managed namespaces from GC-retention telemetry findings while
+  preserving declaring types, lifecycle suffixes, generic arguments, nested
+  types, arrays, members, and reference labels. Local analysis reports remain
+  fully qualified.
+
 ## [0.0.51] - 2026-08-29
 
 ### Fixed
