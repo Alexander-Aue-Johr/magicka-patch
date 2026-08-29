@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.0.48] - 2026-08-29
+
+### Fixed
+
+- Encode intentional line breaks in the optional Simplified Chinese language
+  tables as XML line-feed references. Windows installations no longer add a
+  carriage return that appears as a question mark at each intended break.
+- Validate the Chinese line-break representation during release packaging so
+  platform checkout settings cannot reintroduce the display artifacts.
+
 ## [0.0.47] - 2026-08-29
 
 ### Fixed
