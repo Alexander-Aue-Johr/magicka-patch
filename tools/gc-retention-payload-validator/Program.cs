@@ -1551,6 +1551,7 @@ static void ValidatePlayerGameDeinitialize(AssemblyDefinition magicka)
             StringComparer.Ordinal);
     TypeDefinition player = types["Magicka.GameLogic.Player"];
     TypeDefinition textBox = types["Magicka.Graphics.TextBox"];
+    TypeDefinition notifierButton = types["Magicka.Graphics.NotifierButton"];
     FieldDefinition obtainedTextBox = player.Fields.Single(field =>
         field.Name == "mObtainedTextBox"
         && field.FieldType.FullName == textBox.FullName);
@@ -1575,13 +1576,48 @@ static void ValidatePlayerGameDeinitialize(AssemblyDefinition magicka)
             "TextBox.ReleaseLevelReferences must clear mOwner and mScene.");
     }
 
+    FieldDefinition notifier = player.Fields.Single(field =>
+        field.Name == "mNotifierButton"
+        && field.FieldType.FullName == notifierButton.FullName);
+    FieldDefinition notifierOwner = notifierButton.Fields.Single(field =>
+        field.Name == "mOwner"
+        && field.FieldType.FullName
+            == "Magicka.GameLogic.Entities.Entity");
+    FieldDefinition notifierDialog = notifierButton.Fields.Single(field =>
+        field.Name == "mDialogAttach"
+        && field.FieldType.FullName == textBox.FullName);
+    FieldDefinition notifierAlpha = notifierButton.Fields.Single(field =>
+        field.Name == "mAlpha"
+        && field.FieldType.FullName == "System.Single");
+    FieldDefinition notifierTargetAlpha = notifierButton.Fields.Single(field =>
+        field.Name == "mTargetAlpha"
+        && field.FieldType.FullName == "System.Single");
+    MethodDefinition releaseNotifierReferences = RequireMethod(
+        magicka,
+        notifierButton.FullName,
+        "ReleaseLevelReferences",
+        parameterCount: 0);
+    Instruction[] notifierReleaseBody =
+        releaseNotifierReferences.Body.Instructions.ToArray();
+    if (FindNullFieldStore(notifierReleaseBody, notifierOwner) < 0
+        || FindNullFieldStore(notifierReleaseBody, notifierDialog) < 0
+        || FindFloatZeroFieldStore(notifierReleaseBody, notifierAlpha) < 0
+        || FindFloatZeroFieldStore(
+            notifierReleaseBody,
+            notifierTargetAlpha) < 0)
+    {
+        throw new InvalidDataException(
+            "NotifierButton.ReleaseLevelReferences must hide the notifier"
+            + " and clear mOwner and mDialogAttach.");
+    }
+
     MethodDefinition deinitializeGame = RequireMethod(
         magicka,
         player.FullName,
         "DeinitializeGame",
         parameterCount: 0);
     Instruction[] body = deinitializeGame.Body.Instructions.ToArray();
-    if (body.Length != 7
+    if (body.Length != 13
         || body[0].OpCode != OpCodes.Ldarg_0
         || body[1].OpCode != OpCodes.Ldfld
         || !IsReferenceTo(body[1].Operand, obtainedTextBox)
@@ -1592,11 +1628,21 @@ static void ValidatePlayerGameDeinitialize(AssemblyDefinition magicka)
         || body[4].OpCode != OpCodes.Ldfld
         || !IsReferenceTo(body[4].Operand, obtainedTextBox)
         || !IsCallTo(body[5], releaseLevelReferences)
-        || body[6].OpCode != OpCodes.Ret)
+        || body[6].OpCode != OpCodes.Ldarg_0
+        || body[7].OpCode != OpCodes.Ldfld
+        || !IsReferenceTo(body[7].Operand, notifier)
+        || (body[8].OpCode != OpCodes.Brfalse
+            && body[8].OpCode != OpCodes.Brfalse_S)
+        || body[8].Operand != body[12]
+        || body[9].OpCode != OpCodes.Ldarg_0
+        || body[10].OpCode != OpCodes.Ldfld
+        || !IsReferenceTo(body[10].Operand, notifier)
+        || !IsCallTo(body[11], releaseNotifierReferences)
+        || body[12].OpCode != OpCodes.Ret)
     {
         throw new InvalidDataException(
-            "Player.DeinitializeGame does not guard and release the obtained"
-            + " text-box level references in the required form.");
+            "Player.DeinitializeGame does not independently guard and release"
+            + " the text-box and notifier level references.");
     }
 
     MethodDefinition onExit = RequireMethod(
@@ -1610,6 +1656,25 @@ static void ValidatePlayerGameDeinitialize(AssemblyDefinition magicka)
         throw new InvalidDataException(
             "PlayState.OnExit must call Player.DeinitializeGame exactly once.");
     }
+}
+
+static int FindFloatZeroFieldStore(
+    IReadOnlyList<Instruction> instructions,
+    FieldDefinition field)
+{
+    for (int index = 1; index < instructions.Count; index++)
+    {
+        if (instructions[index - 1].OpCode == OpCodes.Ldc_R4
+            && instructions[index - 1].Operand is float value
+            && value == 0f
+            && instructions[index].OpCode == OpCodes.Stfld
+            && IsReferenceTo(instructions[index].Operand, field))
+        {
+            return index;
+        }
+    }
+
+    return -1;
 }
 
 static int FindNullFieldStore(

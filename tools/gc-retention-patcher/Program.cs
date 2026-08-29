@@ -110,7 +110,7 @@ if (args.Length == 3
     PatchPlayerGameDeinitializeOnly(inputPath, outputPath);
     Console.WriteLine(
         Path.GetFileName(inputPath)
-        + ": released Player text-box level references");
+        + ": released Player UI level references");
     return 0;
 }
 
@@ -653,6 +653,9 @@ static void RepairPlayerGameDeinitialize(
 {
     TypeDefinition player = RequireType(types, "Magicka.GameLogic.Player");
     TypeDefinition textBox = RequireType(types, "Magicka.Graphics.TextBox");
+    TypeDefinition notifierButton = RequireType(
+        types,
+        "Magicka.Graphics.NotifierButton");
     FieldDefinition obtainedTextBox = player.Fields.Single(field =>
         field.Name == "mObtainedTextBox"
         && !field.IsStatic
@@ -661,17 +664,80 @@ static void RepairPlayerGameDeinitialize(
         textBox,
         "ReleaseLevelReferences",
         parameterCount: 0);
+    FieldDefinition notifier = player.Fields.Single(field =>
+        field.Name == "mNotifierButton"
+        && !field.IsStatic
+        && field.FieldType.FullName == notifierButton.FullName);
+    if (notifierButton.Methods.Any(method =>
+            method.Name == "ReleaseLevelReferences"))
+    {
+        throw new InvalidOperationException(
+            "NotifierButton.ReleaseLevelReferences already exists.");
+    }
+
+    FieldDefinition notifierOwner = notifierButton.Fields.Single(field =>
+        field.Name == "mOwner"
+        && !field.IsStatic
+        && field.FieldType.FullName
+            == "Magicka.GameLogic.Entities.Entity");
+    FieldDefinition notifierDialog = notifierButton.Fields.Single(field =>
+        field.Name == "mDialogAttach"
+        && !field.IsStatic
+        && field.FieldType.FullName == textBox.FullName);
+    FieldDefinition notifierAlpha = notifierButton.Fields.Single(field =>
+        field.Name == "mAlpha"
+        && !field.IsStatic
+        && field.FieldType.FullName == "System.Single");
+    FieldDefinition notifierTargetAlpha = notifierButton.Fields.Single(field =>
+        field.Name == "mTargetAlpha"
+        && !field.IsStatic
+        && field.FieldType.FullName == "System.Single");
+    MethodDefinition releaseNotifierReferences = new MethodDefinition(
+        "ReleaseLevelReferences",
+        MethodAttributes.Assembly
+        | MethodAttributes.HideBySig,
+        notifierButton.Module.TypeSystem.Void);
+    notifierButton.Methods.Add(releaseNotifierReferences);
+    ILProcessor releaseProcessor =
+        releaseNotifierReferences.Body.GetILProcessor();
+    releaseProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    releaseProcessor.Append(Instruction.Create(OpCodes.Ldc_R4, 0f));
+    releaseProcessor.Append(Instruction.Create(OpCodes.Stfld, notifierAlpha));
+    releaseProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    releaseProcessor.Append(Instruction.Create(OpCodes.Ldc_R4, 0f));
+    releaseProcessor.Append(Instruction.Create(
+        OpCodes.Stfld,
+        notifierTargetAlpha));
+    releaseProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    releaseProcessor.Append(Instruction.Create(OpCodes.Ldnull));
+    releaseProcessor.Append(Instruction.Create(OpCodes.Stfld, notifierOwner));
+    releaseProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    releaseProcessor.Append(Instruction.Create(OpCodes.Ldnull));
+    releaseProcessor.Append(Instruction.Create(OpCodes.Stfld, notifierDialog));
+    releaseProcessor.Append(Instruction.Create(OpCodes.Ret));
+    releaseNotifierReferences.Body.MaxStackSize = 2;
+
     MethodDefinition deinitializeGame = RequireMethod(
         player,
         "DeinitializeGame",
         parameterCount: 0);
-    if (!deinitializeGame.HasBody
-        || deinitializeGame.Body.Instructions.Count != 1
-        || deinitializeGame.Body.Instructions[0].OpCode != OpCodes.Ret)
+    bool emptyOriginal = deinitializeGame.HasBody
+        && deinitializeGame.Body.Instructions.Count == 1
+        && deinitializeGame.Body.Instructions[0].OpCode == OpCodes.Ret;
+    bool textBoxOnlyPatch = deinitializeGame.HasBody
+        && deinitializeGame.Body.Instructions.Any(instruction =>
+            instruction.OpCode == OpCodes.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.FullName == releaseLevelReferences.FullName)
+        && !deinitializeGame.Body.Instructions.Any(instruction =>
+            instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == notifierButton.FullName);
+    if (!emptyOriginal && !textBoxOnlyPatch)
     {
         throw new InvalidOperationException(
-            "Expected an empty Player.DeinitializeGame method; the cleanup"
-            + " may already exist or the game method changed.");
+            "Expected the original or text-box-only Player.DeinitializeGame"
+            + " method; the cleanup may already exist or the game method"
+            + " changed.");
     }
 
     MethodBody body = deinitializeGame.Body;
@@ -679,15 +745,24 @@ static void RepairPlayerGameDeinitialize(
     body.ExceptionHandlers.Clear();
     body.Variables.Clear();
     ILProcessor processor = body.GetILProcessor();
+    Instruction notifierCheck = Instruction.Create(OpCodes.Ldarg_0);
     Instruction returnInstruction = Instruction.Create(OpCodes.Ret);
     processor.Append(Instruction.Create(OpCodes.Ldarg_0));
     processor.Append(Instruction.Create(OpCodes.Ldfld, obtainedTextBox));
-    processor.Append(Instruction.Create(OpCodes.Brfalse, returnInstruction));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, notifierCheck));
     processor.Append(Instruction.Create(OpCodes.Ldarg_0));
     processor.Append(Instruction.Create(OpCodes.Ldfld, obtainedTextBox));
     processor.Append(Instruction.Create(
         OpCodes.Callvirt,
         releaseLevelReferences));
+    processor.Append(notifierCheck);
+    processor.Append(Instruction.Create(OpCodes.Ldfld, notifier));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, returnInstruction));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Ldfld, notifier));
+    processor.Append(Instruction.Create(
+        OpCodes.Callvirt,
+        releaseNotifierReferences));
     processor.Append(returnInstruction);
     body.MaxStackSize = 1;
 }

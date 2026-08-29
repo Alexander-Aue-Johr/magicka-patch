@@ -12,6 +12,10 @@ namespace Magicka.GameLogic
 			{
 				mObtainedTextBox.ReleaseLevelReferences();
 			}
+			if (mNotifierButton != null)
+			{
+				mNotifierButton.ReleaseLevelReferences();
+			}
 		}
 	}
 }
