@@ -35,8 +35,7 @@
             <Data ss:Type="String">#ITEM_FOUNDERS_CANED</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">由（初级）大法师长为巫师战争的军官们
-打造的精良法杖。既华贵于观赏，也夺目于战斗。</Data>
+            <Data ss:Type="String">由（初级）大法师长为巫师战争的军官们&#10;打造的精良法杖。既华贵于观赏，也夺目于战斗。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">These fine staffs were made by the (Junior) Grand Staff Master for officers in the Wizard Wars. It is as fancy in combat as it is to look at.</Data>
@@ -64,8 +63,7 @@
             <Data ss:Type="String">#ITEM_FOUNDERS_SABRED</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">为巫师战争军官锻造的高品质刀锋。
-轻盈且完美平衡，易于挥砍，更是显威的绝佳利器。</Data>
+            <Data ss:Type="String">为巫师战争军官锻造的高品质刀锋。&#10;轻盈且完美平衡，易于挥砍，更是显威的绝佳利器。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">These high quality blades were forged to be carried by officers in the Wizard Wars. Lightweight and perfectly balanced, they are easy to swing and tremendous to use for showing off.</Data>
@@ -93,8 +91,7 @@
             <Data ss:Type="String">#ITEM_VALKYRIE_SPEARD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">死亡少女所使用的长矛。
-它轻盈，迅捷，且攻击范围极广。</Data>
+            <Data ss:Type="String">死亡少女所使用的长矛。&#10;它轻盈，迅捷，且攻击范围极广。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A spear used by the Maidens of Death. It's light, quick to swing and has great reach.</Data>
@@ -122,9 +119,7 @@
             <Data ss:Type="String">#ITEM_THE_BADGERD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">林中萨满用这些坚固的金属利爪
-（不，这不是骨头做的。我才不管正史怎么说）
-来证明他们已经赢得了自己的荣耀。</Data>
+            <Data ss:Type="String">林中萨满用这些坚固的金属利爪&#10;（不，这不是骨头做的。我才不管正史怎么说）&#10;来证明他们已经赢得了自己的荣耀。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The forest dwelling shamans use these sturdy metal claws (no its not bone. I don't care about canon) to prove they've earned their stripes.</Data>
@@ -152,8 +147,7 @@
             <Data ss:Type="String">#ITEM_FROST_CLEAVERD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">从微型冰霜巨人那里偷来的武器，
-这把利刃割人舌头的方法可不止一种。</Data>
+            <Data ss:Type="String">从微型冰霜巨人那里偷来的武器，&#10;这把利刃割人舌头的方法可不止一种。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A weapon stolen from the miniature Ice Giants, this blade has more that one way to cut someone's tongue off.</Data>
@@ -181,9 +175,7 @@
             <Data ss:Type="String">#ITEM_PROTECTIVE_STAFFD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">专为让持有者能够安全穿越危险国度，
-免遭劫掠而设计的法杖。
-可惜前主人并不太会使用它。</Data>
+            <Data ss:Type="String">专为让持有者能够安全穿越危险国度，&#10;免遭劫掠而设计的法杖。&#10;可惜前主人并不太会使用它。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A staff designed to enable the wielder to travel across dangerous countries without being robbed. The previous owner didn't really know how to use it though.</Data>
@@ -211,10 +203,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_ASTRONOMERD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">由史上第一位巫师而闻名于世的装束。
-说来奇怪，如今它主要被那些痴迷科学的魔法使用者所穿着。
--#ITEM_FOUNDERS_CANE;
--#ITEM_FOUNDERS_SABRE;</Data>
+            <Data ss:Type="String">由史上第一位巫师而闻名于世的装束。&#10;说来奇怪，如今它主要被那些痴迷科学的魔法使用者所穿着。&#10;-#ITEM_FOUNDERS_CANE;&#10;-#ITEM_FOUNDERS_SABRE;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The outfit made famous by the first ever Wizard. Oddly enough it's now mostly used by the scientifically inclined Magick-users. #ITEM_FOUNDERS_CANE; - #ITEM_FOUNDERS_SABRE;</Data>
@@ -242,14 +231,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_CENTURIOND</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">精英民兵最高阶成员所使用的护甲，
-其繁复的图案摆出资历的作用远大于提升防御。
--#ITEM_PROTECTIVE_STAFF; 
--#ITEM_VALKYRIE_SPEAR;
--护甲
--近战伤害翻倍
--近战防御
--近战加速</Data>
+            <Data ss:Type="String">精英民兵最高阶成员所使用的护甲，&#10;其繁复的图案摆出资历的作用远大于提升防御。&#10;-#ITEM_PROTECTIVE_STAFF; &#10;-#ITEM_VALKYRIE_SPEAR;&#10;-护甲&#10;-近战伤害翻倍&#10;-近战防御&#10;-近战加速</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Armor used by the highest ranks of an elite militia, the intricate embroidery display seniority more than it boosts defense. #ITEM_PROTECTIVE_STAFF; - #ITEM_VALKYRIE_SPEAR; - Armor - Double Melee Damage - Melee Defense - Melee Speed Up</Data>
@@ -277,17 +259,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_SHAMAND</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">来自最深幽森林的最古怪之人。
-但借华美的鹿角，
-你的存在感必将充满整个房间
-—你的气味也一样。
-成为难闻部落的酋长，
-穿上这件带有战斗痕迹的青绿色长袍。
--#ITEM_HEALERS_BURDEN;
--#ITEM_THE_BADGER;
--对奥术抗性强
--使攻击附带中毒效果
--生命效果翻倍</Data>
+            <Data ss:Type="String">来自最深幽森林的最古怪之人。&#10;但借华美的鹿角，&#10;你的存在感必将充满整个房间&#10;—你的气味也一样。&#10;成为难闻部落的酋长，&#10;穿上这件带有战斗痕迹的青绿色长袍。&#10;-#ITEM_HEALERS_BURDEN;&#10;-#ITEM_THE_BADGER;&#10;-对奥术抗性强&#10;-使攻击附带中毒效果&#10;-生命效果翻倍</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">From the deepest forest come the weirdest people. But with magnificent antlers your presence will surely fill a room. As will your smell. Become chief of the putrid tribe and wear this turquoise robe with war paint details. #ITEM_HEALERS_BURDEN; - #ITEM_THE_BADGER; - Strong againt Arcane - Poison Attacks - Double Life Effects</Data>
@@ -315,14 +287,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_IceRegentD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">若你希望以永恒的寒冬统治国度，
-此乃绝佳之选。
-它饰有显露你至高权力的可畏王冠，
-还有充足的空间来存放魔杖和热可可。
--#ITEM_COLD_STAFF;
--#ITEM_FROST_CLEAVER;
--对高温抗性强
--将冰霜伤害转化为生命值</Data>
+            <Data ss:Type="String">若你希望以永恒的寒冬统治国度，&#10;此乃绝佳之选。&#10;它饰有显露你至高权力的可畏王冠，&#10;还有充足的空间来存放魔杖和热可可。&#10;-#ITEM_COLD_STAFF;&#10;-#ITEM_FROST_CLEAVER;&#10;-对高温抗性强&#10;-将冰霜伤害转化为生命值</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A great robe if you wish to reign by casting the realm into eternal winter. It sports a fearsome crown to mark your supremacy, and plenty of room for magic wands and hot cocoa. #ITEM_COLD_STAFF; - #ITEM_FROST_CLEAVER; - Strong against Heat - Ice Damage Converted to Health</Data>
@@ -364,13 +329,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_VIZIERD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">通常由易于操纵的统治者的顾问所穿。
-当你想要潜伏于阴影之中，
-或是谋划推翻君主制时，
-这便是完美选择。
--#ITEM_DOTHRAKE_BLADE;
--#ITEM_GOLDEN_PROTECTOR_STAFF;
--所受奥术伤害减少50%</Data>
+            <Data ss:Type="String">通常由易于操纵的统治者的顾问所穿。&#10;当你想要潜伏于阴影之中，&#10;或是谋划推翻君主制时，&#10;这便是完美选择。&#10;-#ITEM_DOTHRAKE_BLADE;&#10;-#ITEM_GOLDEN_PROTECTOR_STAFF;&#10;-所受奥术伤害减少50%</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Usually worn by advisers of easily manipulated rulers. Perfect for those days when you feel like lurking in the shadows and/or planning how to overthrow a monarchy. Weapon: Doth'Rake'y Blade. Staff: Golden Protector. Robe Effects: Take -50% Arcane Damage.</Data>
@@ -398,11 +357,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_ARCTICD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">所有酷巫师去泡吧时的首选长袍。
--#ITEM_SNOWBALL;
--#ITEM_FROZEN_STAFF;
--所受寒冷与冰霜伤害减少50%
--免疫冻结与寒冷状态</Data>
+            <Data ss:Type="String">所有酷巫师去泡吧时的首选长袍。&#10;-#ITEM_SNOWBALL;&#10;-#ITEM_FROZEN_STAFF;&#10;-所受寒冷与冰霜伤害减少50%&#10;-免疫冻结与寒冷状态</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The robe of choice for all the cool Wizards when they go clubbin'.
@@ -434,13 +389,7 @@ Weapon: Snowball. Staff: Icicle Staff. Robe Effects: Take -50% Cold and Ice dama
             <Data ss:Type="String">#TOOLTIP_AVATAR_PHARAOHD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">如果你发现自己
-被锁在一座古老而冰冷的墓里，
-就别挑保暖的方式了。
--#ITEM_SICKLE;
--#ITEM_SHEPHERD_STAFF;
--所受火焰伤害减少50%
--免疫潮湿状态</Data>
+            <Data ss:Type="String">如果你发现自己&#10;被锁在一座古老而冰冷的墓里，&#10;就别挑保暖的方式了。&#10;-#ITEM_SICKLE;&#10;-#ITEM_SHEPHERD_STAFF;&#10;-所受火焰伤害减少50%&#10;-免疫潮湿状态</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">If you find yourself locked inside an ancient, cold tomb you can't be picky bout how you keep yourself warm.
@@ -470,10 +419,7 @@ Weapon: Sick-le. Staff: Shepherd's Crook. Robe Effects: Take -50% Fire Damage, I
             <Data ss:Type="String">#ITEM_GOLDEN_PROTECTOR_STAFFD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">给予那些备受赞誉的防护法术专家，
-以及那些愿意给钱的人。
-#PA;+50%奥术伤害
-#AA;守护驱逐。</Data>
+            <Data ss:Type="String">给予那些备受赞誉的防护法术专家，&#10;以及那些愿意给钱的人。&#10;#PA;+50%奥术伤害&#10;#AA;守护驱逐。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Granted to experts of protection-based spells, who are showered with praise. It's also granted to the ones who cough up the dough. Passive Ability: +50% Arcane Damage. Active Ability: Warded Expulsion.</Data>
@@ -501,12 +447,7 @@ Weapon: Sick-le. Staff: Shepherd's Crook. Robe Effects: Take -50% Fire Damage, I
             <Data ss:Type="String">#ITEM_DOTHRAKE_BLADED</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">倾倾草原的马族人
-在园艺方面偏爱这种刀刃。
-其他更残忍的人
-则在其他领域发现了它们的妙用。
-#DMG;中等物理
-#SP;施加流血效果</Data>
+            <Data ss:Type="String">倾倾草原的马族人&#10;在园艺方面偏爱这种刀刃。&#10;其他更残忍的人&#10;则在其他领域发现了它们的妙用。&#10;#DMG;中等物理&#10;#SP;施加流血效果</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The horse people of the Leaning Stepps favour these blades when it comes to gardening. Other , more sadistic, people have found good use for them in other fields. Damage Type: Medium Physical. Special: Applies Bleeding.</Data>
@@ -534,8 +475,7 @@ Weapon: Sick-le. Staff: Shepherd's Crook. Robe Effects: Take -50% Fire Damage, I
             <Data ss:Type="String">#ITEM_COLD_STAFFD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">顶端有着一颗能让周围空气瞬间冻结的宝石。
-无论如何，别去舔它。反正味道糟透了。</Data>
+            <Data ss:Type="String">顶端有着一颗能让周围空气瞬间冻结的宝石。&#10;无论如何，别去舔它。反正味道糟透了。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Crowned with a gem which makes air around it freeze instantly. Whatever you do, don't lick it. It tastes awful anyway.</Data>
@@ -563,9 +503,7 @@ Weapon: Sick-le. Staff: Shepherd's Crook. Robe Effects: Take -50% Fire Damage, I
             <Data ss:Type="String">#ITEM_HEALERS_BURDEND</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">位于尼林的神圣教团通过让新兵
-照料一枚鸟蛋来考验他们。
-那些不幸成功的人将永远拥有它。</Data>
+            <Data ss:Type="String">位于尼林的神圣教团通过让新兵&#10;照料一枚鸟蛋来考验他们。&#10;那些不幸成功的人将永远拥有它。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The sacred order situated in the Woods of Ni test their recruits by having them care for a birds egg. the unlucky ones who succeed get to keep it forever.</Data>
@@ -593,12 +531,7 @@ Weapon: Sick-le. Staff: Shepherd's Crook. Robe Effects: Take -50% Fire Damage, I
             <Data ss:Type="String">#ITEM_FROZEN_STAFFD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一把对寒冰拥有巨大威力的法杖。
-出于某种原因，
-其外观与冰锥法杖惊人地相似
-……就别在意了……
-#PA;无
-#AA;寒流冲击</Data>
+            <Data ss:Type="String">一把对寒冰拥有巨大威力的法杖。&#10;出于某种原因，&#10;其外观与冰锥法杖惊人地相似&#10;……就别在意了……&#10;#PA;无&#10;#AA;寒流冲击</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A staff of immense power over ice. Alarmingly similar in appearance to the Icicle Staff for some reason...just let it go...
@@ -630,10 +563,7 @@ Passive Ability: None. Active Ability: Chilly Blast.</Data>
             <Data ss:Type="String">#ITEM_SNOWBALLD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">满满一手套的致命积雪。
-不可食用。
-#DMG;低等冰霜
-#SP;远程攻击，施加冻结效果</Data>
+            <Data ss:Type="String">满满一手套的致命积雪。&#10;不可食用。&#10;#DMG;低等冰霜&#10;#SP;远程攻击，施加冻结效果</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A generous mittenful of deadly snow. Not to be eaten. 
@@ -665,9 +595,7 @@ Damage Type: Low Ice. Special: Ranged, applies Frozen.</Data>
             <Data ss:Type="String">#ITEM_SHEPHERD_STAFFD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">统治者生前死后用以差使子民的工具。
-#PA;无
-#AA;嘿-喽</Data>
+            <Data ss:Type="String">统治者生前死后用以差使子民的工具。&#10;#PA;无&#10;#AA;嘿-喽</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Used by rulers to boss their people around. Even posthumously.
@@ -699,10 +627,7 @@ Passive Ability: None. Active Ability: Her-Der.</Data>
             <Data ss:Type="String">#ITEM_SICKLED</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">热爱自然的巫师用以采集作物
-与收割生命的工具。
-#DMG;中等物理
-#SP;施加中毒效果</Data>
+            <Data ss:Type="String">热爱自然的巫师用以采集作物&#10;与收割生命的工具。&#10;#DMG;中等物理&#10;#SP;施加中毒效果</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A tool used by nature loving Wizards who gather mistletoe and carve up other lifeforms.
@@ -734,22 +659,7 @@ Damage Type: Medium Physical. Special: Applies Poison.</Data>
             <Data ss:Type="String">#DLC_ROBE_CENTURION_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">Armor used by the highest ranks of an elite militia, the intricate embroidery display seniority more than it boosts defense.
-
-This Pack Includes:
-
-Centurion Robe:
-Halves damage from melee attacks
-
-Valkyrie Spear: 
-A spear used by the Maidens of Death. It's light, quick to swing and has great reach.
-Double Melee Attack Speed
-+100% &lt;sprite=Icon_Attack&gt; damage
-
-Protective Staff:
-A staff designed to enable the wielder to travel across dangerous countries without being robbed. 
-The previous owner didn't really know how to use it though.
-Neutral Self-Cast Ability - Casts a shield on the wizard which does not degenerate over time.</Data>
+            <Data ss:Type="String">Armor used by the highest ranks of an elite militia, the intricate embroidery display seniority more than it boosts defense.&#10;&#10;This Pack Includes:&#10;&#10;Centurion Robe:&#10;Halves damage from melee attacks&#10;&#10;Valkyrie Spear: &#10;A spear used by the Maidens of Death. It's light, quick to swing and has great reach.&#10;Double Melee Attack Speed&#10;+100% &lt;sprite=Icon_Attack&gt; damage&#10;&#10;Protective Staff:&#10;A staff designed to enable the wielder to travel across dangerous countries without being robbed. &#10;The previous owner didn't really know how to use it though.&#10;Neutral Self-Cast Ability - Casts a shield on the wizard which does not degenerate over time.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Armor used by the highest ranks of an elite militia, the intricate embroidery display seniority more than it boosts defense.
@@ -807,20 +717,7 @@ Neutral Self-Cast Ability - Casts a shield on the wizard which does not degenera
             <Data ss:Type="String">#DLC_ROBE_ICE_REGENT_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">A great robe if you wish to reign by casting the realm into eternal winter. It sports a fearsome crown to mark your supremacy, and plenty of room for magic wands and hot cocoa.
-
-This Pack Includes:
-
-Ice Regent Robe:
-Incoming &lt;sprite=Element_Cold&gt; or &lt;sprite=Element_Ice&gt; damage is converted into health
-
-Cold Knife:
-A weapon stolen from the miniature Ice Giants, this blade has more that one way to cut someone's tongue off.
-Applies a Freeze effect to melee attacks
-
-Icicle Staff:
-Crowned with a gem which makes air around it freeze instantly. Whatever you do, don't lick it. It tastes awful anyway.
-Neutral Self-Cast Ability - Creates an Ice Block around the wizard that heals incoming &lt;sprite=Element_Cold&gt; damage and ends in an ice nova, applying chilled status to all surrounding enemies.</Data>
+            <Data ss:Type="String">A great robe if you wish to reign by casting the realm into eternal winter. It sports a fearsome crown to mark your supremacy, and plenty of room for magic wands and hot cocoa.&#10;&#10;This Pack Includes:&#10;&#10;Ice Regent Robe:&#10;Incoming &lt;sprite=Element_Cold&gt; or &lt;sprite=Element_Ice&gt; damage is converted into health&#10;&#10;Cold Knife:&#10;A weapon stolen from the miniature Ice Giants, this blade has more that one way to cut someone's tongue off.&#10;Applies a Freeze effect to melee attacks&#10;&#10;Icicle Staff:&#10;Crowned with a gem which makes air around it freeze instantly. Whatever you do, don't lick it. It tastes awful anyway.&#10;Neutral Self-Cast Ability - Creates an Ice Block around the wizard that heals incoming &lt;sprite=Element_Cold&gt; damage and ends in an ice nova, applying chilled status to all surrounding enemies.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A great robe if you wish to reign by casting the realm into eternal winter. It sports a fearsome crown to mark your supremacy, and plenty of room for magic wands and hot cocoa.
@@ -874,21 +771,7 @@ Neutral Self-Cast Ability - Creates an Ice Block around the wizard that heals in
             <Data ss:Type="String">#DLC_ROBE_SHAMAN_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">From the deepest forest come the weirdest people. But with magnificent antlers your presence will surely fill a room. As will your smell. Become chief of the putrid tribe and wear this turquoise robe with war paint details.
-
-This Pack Includes:
-
-Shaman Robe:
-+50% &lt;sprite=Element_Arcane&gt; resistance
-
-"The Badger":
-The forest dwelling shamans use these sturdy metal claws (no its not bone. I don't care about canon) to prove they've earned their stripes.
-Applies a Poison effect to melee attacks
-
-Healer's Burden:
-The sacred order situated in the Woods of Ni test their recruits by having them care for a birds egg. the unlucky ones who succeed get to keep it forever.
-+100% &lt;sprite=Element_Life&gt; power
-Neutral Self-Cast Ability - Heals all surrounding allies.</Data>
+            <Data ss:Type="String">From the deepest forest come the weirdest people. But with magnificent antlers your presence will surely fill a room. As will your smell. Become chief of the putrid tribe and wear this turquoise robe with war paint details.&#10;&#10;This Pack Includes:&#10;&#10;Shaman Robe:&#10;+50% &lt;sprite=Element_Arcane&gt; resistance&#10;&#10;"The Badger":&#10;The forest dwelling shamans use these sturdy metal claws (no its not bone. I don't care about canon) to prove they've earned their stripes.&#10;Applies a Poison effect to melee attacks&#10;&#10;Healer's Burden:&#10;The sacred order situated in the Woods of Ni test their recruits by having them care for a birds egg. the unlucky ones who succeed get to keep it forever.&#10;+100% &lt;sprite=Element_Life&gt; power&#10;Neutral Self-Cast Ability - Heals all surrounding allies.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">From the deepest forest come the weirdest people. But with magnificent antlers your presence will surely fill a room. As will your smell. Become chief of the putrid tribe and wear this turquoise robe with war paint details.
@@ -944,20 +827,7 @@ Neutral Self-Cast Ability - Heals all surrounding allies.</Data>
             <Data ss:Type="String">#DLC_ROBE_ASTRONOMER_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">The outfit made famous by the first ever Wizard. Oddly enough it's now mostly used by the scientifically inclined Magick-users.
-
-This Pack Includes:
-
-Astronomer Robe:
-A higher appreciation of constellations
-
-Founder's Saber:
-These high quality blades were forged to be carried by officers in the Wizard Wars. 
-Lightweight and perfectly balanced, they are easy to swing and tremendous to use for showing off.
-
-Founder's Staff:
-These fine staffs were made by the (Junior) Grand Staff Master for officers in the Wizard Wars. 
-It is as fancy in combat as it is to look at.</Data>
+            <Data ss:Type="String">The outfit made famous by the first ever Wizard. Oddly enough it's now mostly used by the scientifically inclined Magick-users.&#10;&#10;This Pack Includes:&#10;&#10;Astronomer Robe:&#10;A higher appreciation of constellations&#10;&#10;Founder's Saber:&#10;These high quality blades were forged to be carried by officers in the Wizard Wars. &#10;Lightweight and perfectly balanced, they are easy to swing and tremendous to use for showing off.&#10;&#10;Founder's Staff:&#10;These fine staffs were made by the (Junior) Grand Staff Master for officers in the Wizard Wars. &#10;It is as fancy in combat as it is to look at.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The outfit made famous by the first ever Wizard. Oddly enough it's now mostly used by the scientifically inclined Magick-users.
@@ -1011,26 +881,7 @@ It is as fancy in combat as it is to look at.</Data>
             <Data ss:Type="String">#DLC_ROBE_BUNDLE_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">A Centurion, Ice Regent, Shaman and Astronomer walk into a bar...
-
-Four mighty sets of gear can be acquired as a discounted bundle deal, granting you power over the forces of nature itself and, well, professional Roman officers too!
-
-Each set includes a new Robe, Weapon and Staff.
-
-This Pack Includes:
-
-Centurion Robe
-Valkyrie Spear
-Protective Staff
-Ice Regent Robe
-Cold Knife Weapon
-Icicle Staff
-Shaman Robe
-"The Badger"
-Healer's Burden
-Astronomer Robe
-Founder's Saber
-Founder's Staff</Data>
+            <Data ss:Type="String">A Centurion, Ice Regent, Shaman and Astronomer walk into a bar...&#10;&#10;Four mighty sets of gear can be acquired as a discounted bundle deal, granting you power over the forces of nature itself and, well, professional Roman officers too!&#10;&#10;Each set includes a new Robe, Weapon and Staff.&#10;&#10;This Pack Includes:&#10;&#10;Centurion Robe&#10;Valkyrie Spear&#10;Protective Staff&#10;Ice Regent Robe&#10;Cold Knife Weapon&#10;Icicle Staff&#10;Shaman Robe&#10;"The Badger"&#10;Healer's Burden&#10;Astronomer Robe&#10;Founder's Saber&#10;Founder's Staff</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A Centurion, Ice Regent, Shaman and Astronomer walk into a bar...
@@ -1096,22 +947,7 @@ Founder's Staff</Data>
             <Data ss:Type="String">#DLC_ROBE_ARCTIC_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">The robe of choice for all the cool Wizards when they go clubbin'.
-
-This Pack Includes:
-
-Arctic Robe:
-- Receive -50% &lt;sprite=Element_Cold&gt; and &lt;sprite=Element_Ice&gt; damage.
-- Immune to Frozen and Chilled.
-
-Snowball:
-A generous mittenful of deadly snow. Not to be eaten.
-- Inflicts Frozen on impact.
-
-Frozen Staff:
-A staff of immense power over ice. Alarmingly similar in appearance to the Icicle Staff for some reason...just let it go...
-- Ability: Chilly Blast.
-Fire a cone of icy water forward that knocks back enemies hit and applies Frozen.</Data>
+            <Data ss:Type="String">The robe of choice for all the cool Wizards when they go clubbin'.&#10;&#10;This Pack Includes:&#10;&#10;Arctic Robe:&#10;- Receive -50% &lt;sprite=Element_Cold&gt; and &lt;sprite=Element_Ice&gt; damage.&#10;- Immune to Frozen and Chilled.&#10;&#10;Snowball:&#10;A generous mittenful of deadly snow. Not to be eaten.&#10;- Inflicts Frozen on impact.&#10;&#10;Frozen Staff:&#10;A staff of immense power over ice. Alarmingly similar in appearance to the Icicle Staff for some reason...just let it go...&#10;- Ability: Chilly Blast.&#10;Fire a cone of icy water forward that knocks back enemies hit and applies Frozen.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The robe of choice for all the cool Wizards when they go clubbin'.
@@ -1169,23 +1005,7 @@ Fire a cone of icy water forward that knocks back enemies hit and applies Frozen
             <Data ss:Type="String">#DLC_ROBE_PHARAOH_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">If you find yourself locked inside an ancient, cold tomb you can't be picky bout how you keep yourself warm.
-
-This Pack Includes:
-
-Pharaoh's Robe:
-- Receive -50% &lt;sprite=Element_Fire&gt; damage.
-- Immune to Wet.
-
-Sick-le:
-A tool used by nature loving Wizards who gather mistletoe and carve up other lifeforms.
-- Melee Attacks applies Poison.
-- Slows enemies hit by 50% for 3 seconds.
-
-Shepherd's Crook:
-Used by rulers to boss their people around. Even posthumously.
-- Ability: Her-Der.
-Charm a random enemy within close proximity.</Data>
+            <Data ss:Type="String">If you find yourself locked inside an ancient, cold tomb you can't be picky bout how you keep yourself warm.&#10;&#10;This Pack Includes:&#10;&#10;Pharaoh's Robe:&#10;- Receive -50% &lt;sprite=Element_Fire&gt; damage.&#10;- Immune to Wet.&#10;&#10;Sick-le:&#10;A tool used by nature loving Wizards who gather mistletoe and carve up other lifeforms.&#10;- Melee Attacks applies Poison.&#10;- Slows enemies hit by 50% for 3 seconds.&#10;&#10;Shepherd's Crook:&#10;Used by rulers to boss their people around. Even posthumously.&#10;- Ability: Her-Der.&#10;Charm a random enemy within close proximity.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">If you find yourself locked inside an ancient, cold tomb you can't be picky bout how you keep yourself warm.
@@ -1245,24 +1065,7 @@ Charm a random enemy within close proximity.</Data>
             <Data ss:Type="String">#DLC_ROBE_VIZIER_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">Usually worn by advisers of easily manipulated rulers. Perfect for those days when you feel like lurking in the shadows and/or planning how to overthrow a monarchy..
-
-This Pack Includes:
-
-Vizier Robe:
-- Receive -50% &lt;sprite=Element_Arcane&gt; damage.
-- Immune to Wet.
-
-Doth'rake'y Blade:
-The horse people of the Leaning Stepps favour these blades when it comes to gardening. Other, more sadistic, people have found good use for them in other fields.
-- Melee Attacks applies Bleeding.
-- Deals 10% of the enemy's Max HP over 3 seconds.
-
-Golden Protector:
-Granted to experts of protection-based spells, who are showered with praise. It's also granted to the ones who cough up the dough.
-- Ability: Warded Expulsion.
-Inflicts Knocksback to all enemies within a range of the player and then creates an AoE shield.
-- +50% &lt;sprite=Element_Arcane&gt; Damage.</Data>
+            <Data ss:Type="String">Usually worn by advisers of easily manipulated rulers. Perfect for those days when you feel like lurking in the shadows and/or planning how to overthrow a monarchy..&#10;&#10;This Pack Includes:&#10;&#10;Vizier Robe:&#10;- Receive -50% &lt;sprite=Element_Arcane&gt; damage.&#10;- Immune to Wet.&#10;&#10;Doth'rake'y Blade:&#10;The horse people of the Leaning Stepps favour these blades when it comes to gardening. Other, more sadistic, people have found good use for them in other fields.&#10;- Melee Attacks applies Bleeding.&#10;- Deals 10% of the enemy's Max HP over 3 seconds.&#10;&#10;Golden Protector:&#10;Granted to experts of protection-based spells, who are showered with praise. It's also granted to the ones who cough up the dough.&#10;- Ability: Warded Expulsion.&#10;Inflicts Knocksback to all enemies within a range of the player and then creates an AoE shield.&#10;- +50% &lt;sprite=Element_Arcane&gt; Damage.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Usually worn by advisers of easily manipulated rulers. Perfect for those days when you feel like lurking in the shadows and/or planning how to overthrow a monarchy..
@@ -1324,23 +1127,7 @@ Inflicts Knocksback to all enemies within a range of the player and then creates
             <Data ss:Type="String">#DLC_ROBE_WUXIA_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">A Robe used by the Wizards of the far (insert cardinal direction here).
-
-This Pack Includes:
-
-Wuxia Robe:
-- Immune to Knockdown.
-- Deal +20% &lt;sprite=Icon_Attack&gt; Damage.
-- +20% Movement Speed.
-
-Exotic Blade:
-Forged from the finest steel, by the greatest swordsmith in the far (insert cardinal direction here). However this blade was found in the Highlands for some reason.
-- 25% chance to knockdown enemies with Melee Attacks.
-
-Bo Staff:
-A lightweight staff fused by nimble fighters. The Bo is excellent when you want to be quick on your feet and don't care as much about looks
-- Ability: Rapid Strikes.
-Enter a focused state then after 2 seconds, unleash a flurry of 5 quick strikes.</Data>
+            <Data ss:Type="String">A Robe used by the Wizards of the far (insert cardinal direction here).&#10;&#10;This Pack Includes:&#10;&#10;Wuxia Robe:&#10;- Immune to Knockdown.&#10;- Deal +20% &lt;sprite=Icon_Attack&gt; Damage.&#10;- +20% Movement Speed.&#10;&#10;Exotic Blade:&#10;Forged from the finest steel, by the greatest swordsmith in the far (insert cardinal direction here). However this blade was found in the Highlands for some reason.&#10;- 25% chance to knockdown enemies with Melee Attacks.&#10;&#10;Bo Staff:&#10;A lightweight staff fused by nimble fighters. The Bo is excellent when you want to be quick on your feet and don't care as much about looks&#10;- Ability: Rapid Strikes.&#10;Enter a focused state then after 2 seconds, unleash a flurry of 5 quick strikes.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A Robe used by the Wizards of the far (insert cardinal direction here).
@@ -1400,24 +1187,7 @@ Enter a focused state then after 2 seconds, unleash a flurry of 5 quick strikes.
             <Data ss:Type="String">#DLC_ROBE_BUNDLE_CULTURES_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">Hailing from the far reaches of Midgard, these heterogeneous warriors have coalesced their martial prowess, elemental mastery and impenetrable language barriers, into a singular, unified force of cultured destruction!
-
-Each set includes a new Robe, Weapon and Staff.
-
-This Pack Includes:
-
-- Wuxia Robe
-- Arctic Robe
-- Vizier Robe
-- Pharaoh's Robe
-- Exotic Blade
-- Snowball
-- Doth'rake'y Blade
-- Sickle
-- Bo Staff
-- Icicle Staff
-- Golden Protector
-- Shepherd's Crook</Data>
+            <Data ss:Type="String">Hailing from the far reaches of Midgard, these heterogeneous warriors have coalesced their martial prowess, elemental mastery and impenetrable language barriers, into a singular, unified force of cultured destruction!&#10;&#10;Each set includes a new Robe, Weapon and Staff.&#10;&#10;This Pack Includes:&#10;&#10;- Wuxia Robe&#10;- Arctic Robe&#10;- Vizier Robe&#10;- Pharaoh's Robe&#10;- Exotic Blade&#10;- Snowball&#10;- Doth'rake'y Blade&#10;- Sickle&#10;- Bo Staff&#10;- Icicle Staff&#10;- Golden Protector&#10;- Shepherd's Crook</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Hailing from the far reaches of Midgard, these heterogeneous warriors have coalesced their martial prowess, elemental mastery and impenetrable language barriers, into a singular, unified force of cultured destruction!
@@ -1577,11 +1347,7 @@ This Pack Includes:
             <Data ss:Type="String">#TOOLTIP_AVATAR_WUXIAD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">远方（此处填方位词）巫师所用的长袍。
--异域之刃；
--棒术棍；
--免疫击倒
--+20%移动速度</Data>
+            <Data ss:Type="String">远方（此处填方位词）巫师所用的长袍。&#10;-异域之刃；&#10;-棒术棍；&#10;-免疫击倒&#10;-+20%移动速度</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A Robe used by the Wizards of the far (insert cardinal direction here).
@@ -1611,11 +1377,7 @@ Weapon: Exotic Blade. Staff: Bo Staff. Robe Effects: Knockdown Immunity, +20% Mo
             <Data ss:Type="String">#ITEM_EXOTIC_BLADED</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">由远方（此处填方位词）最伟大的铸剑师
-用最优质的精钢锻造而成。
-然而此刃却不知何故在高地被人发现。
-#DMG;高等物理
-#SP;25%击倒几率</Data>
+            <Data ss:Type="String">由远方（此处填方位词）最伟大的铸剑师&#10;用最优质的精钢锻造而成。&#10;然而此刃却不知何故在高地被人发现。&#10;#DMG;高等物理&#10;#SP;25%击倒几率</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Forged from the finest steel, by the greatest swordsmith in the far (insert cardinal direction here). However this blade was found in the Highlands for some reason.
@@ -1645,11 +1407,7 @@ Damage Type: High Physical. Special: 25% Knockdown chance.</Data>
             <Data ss:Type="String">#ITEM_STAFF_BOD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">由敏捷的斗士融合而成的轻量法杖。
-当你想要身手敏捷且不那么在意外观时，
-棒术棍是绝佳选择。
-#PA;无
-#AA;疾风连击</Data>
+            <Data ss:Type="String">由敏捷的斗士融合而成的轻量法杖。&#10;当你想要身手敏捷且不那么在意外观时，&#10;棒术棍是绝佳选择。&#10;#PA;无&#10;#AA;疾风连击</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A lightweight staff fused by nimble fighters. The Bo is excellent when you want to be quick on your feet and don't care as much about looks. 

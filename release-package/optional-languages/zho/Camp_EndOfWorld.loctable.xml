@@ -21,10 +21,7 @@
             <Data ss:Type="String">#EW_Text_vlad_intro1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">恶魔？！它们怎么会出现在我们的世界中？
-将虚空与现实分化开的结界在这里的确变弱了，
-弱到能让恶魔们在幻影与真实之间切换状态…
-到底为何？以前从没发生过这种事！</Data>
+            <Data ss:Type="String">恶魔？！它们怎么会出现在我们的世界中？&#10;将虚空与现实分化开的结界在这里的确变弱了，&#10;弱到能让恶魔们在幻影与真实之间切换状态…&#10;到底为何？以前从没发生过这种事！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -38,9 +35,7 @@
             <Data ss:Type="String">#EW_Text_vlad_intro2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这背后究竟是怎样一股黑暗力量在支撑？
-真的都是#Boss_N07;干的吗？
-我必须去调查清楚！</Data>
+            <Data ss:Type="String">这背后究竟是怎样一股黑暗力量在支撑？&#10;真的都是#Boss_N07;干的吗？&#10;我必须去调查清楚！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -54,9 +49,7 @@
             <Data ss:Type="String">#EW_Text_vlad_bay1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">啊，你终于来了。前面就是束缚#Boss_N07;的地方。
-但已经没有多余的空儿来缅怀过去，
-更多恶魔正在实体化！</Data>
+            <Data ss:Type="String">啊，你终于来了。前面就是束缚#Boss_N07;的地方。&#10;但已经没有多余的空儿来缅怀过去，&#10;更多恶魔正在实体化！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -70,9 +63,7 @@
             <Data ss:Type="String">#EW_Text_vlad_bay2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">奇怪，好像有什么人接近了，
-很可能是#Boss_N07;召来的帮手，我去拦截。
-你来面对#Boss_N07;，并终结这一切！</Data>
+            <Data ss:Type="String">奇怪，好像有什么人接近了，&#10;很可能是#Boss_N07;召来的帮手，我去拦截。&#10;你来面对#Boss_N07;，并终结这一切！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -114,8 +105,7 @@
             <Data ss:Type="String">#EW_Text_grimnir_intro1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">[P=1].[P=.5].[P=.5].[P=.5]所以，这就是那个话痨鬼的最后命令？
-真是愚蠢啊，我都听着呢。至于我为什么在这…</Data>
+            <Data ss:Type="String">[P=1].[P=.5].[P=.5].[P=.5]所以，这就是那个话痨鬼的最后命令？&#10;真是愚蠢啊，我都听着呢。至于我为什么在这…</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -129,9 +119,7 @@
             <Data ss:Type="String">#EW_Text_grimnir_intro2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这是因为我打破常规，努力寻找到那些失落的魔法，
-其强大的力量已经远远超出我们的认知。
-我的同仁们，不，应该是凡人们，颤抖吧！</Data>
+            <Data ss:Type="String">这是因为我打破常规，努力寻找到那些失落的魔法，&#10;其强大的力量已经远远超出我们的认知。&#10;我的同仁们，不，应该是凡人们，颤抖吧！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -145,10 +133,7 @@
             <Data ss:Type="String">#EW_Text_grimnir_intro3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">所以他们想把我永远地困在这里，
-只因为那些令人生厌的可悲规则。
-最终，我将推翻它们，
-然后按照我的意志重建这个世界！</Data>
+            <Data ss:Type="String">所以他们想把我永远地困在这里，&#10;只因为那些令人生厌的可悲规则。&#10;最终，我将推翻它们，&#10;然后按照我的意志重建这个世界！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -162,10 +147,7 @@
             <Data ss:Type="String">#EW_Text_grimnir_intro4</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">总而又言之，
-你是个幸运的实验品，
-能体验我精心设计的心灵决斗，
-然后被击败地不折不扣！</Data>
+            <Data ss:Type="String">总而又言之，&#10;你是个幸运的实验品，&#10;能体验我精心设计的心灵决斗，&#10;然后被击败地不折不扣！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -179,8 +161,7 @@
             <Data ss:Type="String">#EW_Text_grimnir_mid</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你比我想象的更有力量…看来决定这场战斗胜负的，
-不是我们心灵意志的强弱……而是对魔能的掌握！</Data>
+            <Data ss:Type="String">你比我想象的更有力量…看来决定这场战斗胜负的，&#10;不是我们心灵意志的强弱……而是对魔能的掌握！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -278,10 +259,7 @@
             <Data ss:Type="String">#EW_Text_vlad_timeflux1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">追来的那些个冒牌货很强力！我拦不住…额
-背后这巨大的身影是？！
-糟糕，这场战斗我们无法胜出！
-我必须使用…[P=2]那个魔法！</Data>
+            <Data ss:Type="String">追来的那些个冒牌货很强力！我拦不住…额&#10;背后这巨大的身影是？！&#10;糟糕，这场战斗我们无法胜出！&#10;我必须使用…[P=2]那个魔法！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Standard anime way of expressing yourself… Raising the expectations of the "viewer" in a well, strange way.</Data>
@@ -309,8 +287,7 @@
             <Data ss:Type="String">#EW2_Text_Fvlad_intro1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我们再次来到了这里，
-不过这一次是要打败#Boss_N15;这个一直躲在暗处操纵的始作俑者！</Data>
+            <Data ss:Type="String">我们再次来到了这里，&#10;不过这一次是要打败#Boss_N15;这个一直躲在暗处操纵的始作俑者！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -324,8 +301,7 @@
             <Data ss:Type="String">#EW2_Text_Fvlad_intro2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你必须在正确的时刻使用#magick_corporealize;魔法。
-当机会来临时我会给你提示“信号”！</Data>
+            <Data ss:Type="String">你必须在正确的时刻使用#magick_corporealize;魔法。&#10;当机会来临时我会给你提示“信号”！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -339,8 +315,7 @@
             <Data ss:Type="String">#EW2_Text_Fvlad_intro3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">呃，我差点都忘了…因为一个美丽的误会，
-你似乎好像大概…必须再跟过去的我打一次。</Data>
+            <Data ss:Type="String">呃，我差点都忘了…因为一个美丽的误会，&#10;你似乎好像大概…必须再跟过去的我打一次。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">He forgot that he fought the "imposter-wizards" last time they were at worlds end</Data>
@@ -410,10 +385,7 @@
             <Data ss:Type="String">#EW2_Text_Assatur_intro1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哈[P=.5]哈[P=.5]哈[P=.5]哈[P=.5]哈[P=.5]哈[P=.5]哈[P=.5]我终于可以实体化了！
-原来是#Boss_N14;给了你把我拉进现实世界的力量吗？
-真是一群头脑简单的家伙…
-是你们亲手把你们可怜而渺小的世界推入虚空黑暗！</Data>
+            <Data ss:Type="String">哈[P=.5]哈[P=.5]哈[P=.5]哈[P=.5]哈[P=.5]哈[P=.5]哈[P=.5]我终于可以实体化了！&#10;原来是#Boss_N14;给了你把我拉进现实世界的力量吗？&#10;真是一群头脑简单的家伙…&#10;是你们亲手把你们可怜而渺小的世界推入虚空黑暗！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -427,10 +399,7 @@
             <Data ss:Type="String">#EW2_Text_Assatur_intro2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">当我初次来到#Location_MidG;我就知道它必须被毁灭，
-并被我的虚空领域所吞噬！
-但我一直没能找到一个足够强大的
-牺牲者来实现我的目的…</Data>
+            <Data ss:Type="String">当我初次来到#Location_MidG;我就知道它必须被毁灭，&#10;并被我的虚空领域所吞噬！&#10;但我一直没能找到一个足够强大的&#10;牺牲者来实现我的目的…</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -444,10 +413,7 @@
             <Data ss:Type="String">#EW2_Text_Assatur_intro3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">…直到我发现被千年枷锁困在#Location_EW;的#Boss_N07;，
-他那满腔仇恨深深吸引了我。我告诉他，想要解脱，
-就跟我一起联手报复世界吧！但是，现在，
-你的出现，使得这个提线木偶…[P=3]已经没有用处了！</Data>
+            <Data ss:Type="String">…直到我发现被千年枷锁困在#Location_EW;的#Boss_N07;，&#10;他那满腔仇恨深深吸引了我。我告诉他，想要解脱，&#10;就跟我一起联手报复世界吧！但是，现在，&#10;你的出现，使得这个提线木偶…[P=3]已经没有用处了！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">this line has been revised.</Data>
@@ -461,9 +427,7 @@
             <Data ss:Type="String">#EW2_Text_Assatur_intro4</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">此时此刻…渺小的凡人，
-我要向你展示#Location_MidG;是怎样一步一步被毁灭的，
-就从你的脚下开始！！！</Data>
+            <Data ss:Type="String">此时此刻…渺小的凡人，&#10;我要向你展示#Location_MidG;是怎样一步一步被毁灭的，&#10;就从你的脚下开始！！！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -477,8 +441,7 @@
             <Data ss:Type="String">#EW2_Text_Assatur_dead</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">什么？[P=1]不不不！[P=1]你不可能伤到我！！[P=2]
-压了轴才出场那么点儿时间的Boss你伤[P=1]…不[P=1]…起！</Data>
+            <Data ss:Type="String">什么？[P=1]不不不！[P=1]你不可能伤到我！！[P=2]&#10;压了轴才出场那么点儿时间的Boss你伤[P=1]…不[P=1]…起！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Backstroke to the west reference</Data>
@@ -506,10 +469,7 @@
             <Data ss:Type="String">#EW2_Text_Fvlad_end2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">现在的我正在#Location_WC;，
-也就是开"拯救世界"派对的地方。
-只要用回城卷轴之类的传送魔法，
-你就能立刻到达那里！</Data>
+            <Data ss:Type="String">现在的我正在#Location_WC;，&#10;也就是开"拯救世界"派对的地方。&#10;只要用回城卷轴之类的传送魔法，&#10;你就能立刻到达那里！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>

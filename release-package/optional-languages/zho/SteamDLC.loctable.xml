@@ -35,13 +35,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_TentacleD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">“今天是个征服世界的好日啊,
-你知道不？”—自言自语中
--#ITEM_Steam_staff01;
--#ITEM_Steam_weapon01;
--吉祥物扮装(HP +200)
--物理抵抗
--火系抗性削弱</Data>
+            <Data ss:Type="String">“今天是个征服世界的好日啊,&#10;你知道不？”—自言自语中&#10;-#ITEM_Steam_staff01;&#10;-#ITEM_Steam_weapon01;&#10;-吉祥物扮装(HP +200)&#10;-物理抵抗&#10;-火系抗性削弱</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">"Today feels like the right day to take on the world, you know?" - Cosplaying wizard smalltalking with his only and imaginary friend -#ITEM_Steam_staff01; -#ITEM_Steam_weapon01; -Mascot Costume (HP +200) -Physical Resistance -Fire Weakness</Data>
@@ -69,16 +63,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_EpicD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">为了部落！求组队！求包养！
-集齐七颗哥布林门牙
-你就可以召唤神龙了
--巫师城堡里游荡的紫装撸sir
--#ITEM_Steam_staff02;
--#ITEM_Steam_weapon02;
--增加 HP
--奥术抵抗
--生命抵抗
--物理抵抗</Data>
+            <Data ss:Type="String">为了部落！求组队！求包养！&#10;集齐七颗哥布林门牙&#10;你就可以召唤神龙了&#10;-巫师城堡里游荡的紫装撸sir&#10;-#ITEM_Steam_staff02;&#10;-#ITEM_Steam_weapon02;&#10;-增加 HP&#10;-奥术抵抗&#10;-生命抵抗&#10;-物理抵抗</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">"LFG for Paradox Castle! Know all tacts! No grief! Gear score &gt; 9000 req plz!!!" - Lonely wizard roaming around Castle Aldrheim -#ITEM_Steam_staff02; -#ITEM_Steam_weapon02; -Increased HP -Arcane Resistance -Life Resistance -Physical Resistance</Data>
@@ -106,19 +91,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_SpaceD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">40K战甲能全方位保护穿戴者,但
-不包括死亡,肢解,诉讼还有真空
--#ITEM_Steam_staff03;
--#ITEM_Steam_weapon03;
--有盔甲
--恐慌免疫
--自动回血
--生命免疫
--中毒免疫
--火系抵抗
--雪系抵抗
--奥术抗性削弱
--闪电抗性削弱</Data>
+            <Data ss:Type="String">40K战甲能全方位保护穿戴者,但&#10;不包括死亡,肢解,诉讼还有真空&#10;-#ITEM_Steam_staff03;&#10;-#ITEM_Steam_weapon03;&#10;-有盔甲&#10;-恐慌免疫&#10;-自动回血&#10;-生命免疫&#10;-中毒免疫&#10;-火系抵抗&#10;-雪系抵抗&#10;-奥术抗性削弱&#10;-闪电抗性削弱</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The MK5 Space Robe protects its wearer from everyday hazards including, but not limited to, Death, Mutilation, Lawsuits, and Space Weather. -#ITEM_Steam_staff03; -#ITEM_Steam_weapon03; -Armor -Panic Immunity -Regeneration -Life Immunity -Poison Immunity -Fire Resistance -Cold Resistance -Arcane Weakness -Lightning Weakness </Data>
@@ -146,17 +119,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_CyberD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我尝试想象元素簇穿过虚空的样子,
-那会是一幅怎样光景?火焰,水流,
-奥术?我不停梦想能达到那不可能
-到达的边缘之境,然后,有一天...
--引自格瑞姆尼所著《魔网虚实》
--#ITEM_Steam_staff04;
--#ITEM_Steam_weapon04;
--奥术抗性削弱
--生命免疫
--吸收闪电回复生命
--水系抗性削弱</Data>
+            <Data ss:Type="String">我尝试想象元素簇穿过虚空的样子,&#10;那会是一幅怎样光景?火焰,水流,&#10;奥术?我不停梦想能达到那不可能&#10;到达的边缘之境,然后,有一天...&#10;-引自格瑞姆尼所著《魔网虚实》&#10;-#ITEM_Steam_staff04;&#10;-#ITEM_Steam_weapon04;&#10;-奥术抗性削弱&#10;-生命免疫&#10;-吸收闪电回复生命&#10;-水系抗性削弱</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">"I tried to picture clusters of elements as they moved through the void. What did they look like? Fire, Water, Arcane? I kept dreaming of a world I thought I'd never see. And then, one day..." - from The Magick Grid, written by Grímnír. -#ITEM_Steam_staff04; -#ITEM_Steam_weapon04; -Arcane Weakness -Life Immunity -Lightning Absorption -Water Weakness</Data>
@@ -213,13 +176,7 @@
             <Data ss:Type="String">#ITEM_Steam_staff01d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">在过去,这些稀有手杖将巫师送回
-过去简直易如反掌.然而,
-#ITEM_Steam_staff01;的辉煌时代已经过去太久
-太久,如今它能把时间慢下来那么
-一点儿已经是奇迹啦.
-#PA;无
-#AA;时间慢速</Data>
+            <Data ss:Type="String">在过去,这些稀有手杖将巫师送回&#10;过去简直易如反掌.然而,&#10;#ITEM_Steam_staff01;的辉煌时代已经过去太久&#10;太久,如今它能把时间慢下来那么&#10;一点儿已经是奇迹啦.&#10;#PA;无&#10;#AA;时间慢速</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">It is said that these rare staves were once able to send wizards back in time, which apparently was quite popular back in the day. However the flawed imitation diamonds in the #ITEM_Steam_staff01; have degraded over the years, so now the best a wizard can hope for is to slow time down a little. #PA;None #AA;Time Warp</Data>
@@ -247,13 +204,7 @@
             <Data ss:Type="String">#ITEM_Steam_staff02d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这是用于解放黑暗笼罩下中土大陆
-的神奇法杖.真的猛士,敢于直面劣
-质的木料,敢于直面惨淡的工艺,敢于...
-有64.3%的掉率哟！
-#PA;无
-#AA;
-猛士之神的耳语</Data>
+            <Data ss:Type="String">这是用于解放黑暗笼罩下中土大陆&#10;的神奇法杖.真的猛士,敢于直面劣&#10;质的木料,敢于直面惨淡的工艺,敢于...&#10;有64.3%的掉率哟！&#10;#PA;无&#10;#AA;&#10;猛士之神的耳语</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The long forgotten staff of Alrond, second cousin of the demi-god Alrand (on his mother's side). This staff was crafted to liberate the people of Midgard in their darkest hour. It is made of the rarest of sapient pearwood, which was valiantly chopped to pieces by the High Dwarves of Firewind, and adorned with the finest crystals of Uprend.  64.3% Drop chance #PA;None #AA;Whispers of Alrond</Data>
@@ -281,12 +232,7 @@
             <Data ss:Type="String">#ITEM_Steam_staff03d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哦,金闪闪的驼鹿之首在上!
-赐予生而为战,无所畏惧的你!.
-杖身上铭刻着这么一行字:
--以院长的名义!
-#PA;无
-#AA;冲锋</Data>
+            <Data ss:Type="String">哦,金闪闪的驼鹿之首在上!&#10;赐予生而为战,无所畏惧的你!.&#10;杖身上铭刻着这么一行字:&#10;-以院长的名义!&#10;#PA;无&#10;#AA;冲锋</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A finely crafted staff, crested with the figure of a golden moose. This is the true mark of a Wizard born for war -- one who knows no fear. Along the shaft an inscription reads: -"In the name of the  Headmaster!" #PA;None #AA;Charge</Data>
@@ -314,11 +260,7 @@
             <Data ss:Type="String">#ITEM_Steam_staff04d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">由遥远的网络时代科技打造,据说
-包含了许多闻所未闻的高科技...
-可我怎么一点也没看出来?
-#PA;无
-#AA;无</Data>
+            <Data ss:Type="String">由遥远的网络时代科技打造,据说&#10;包含了许多闻所未闻的高科技...&#10;可我怎么一点也没看出来?&#10;#PA;无&#10;#AA;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Created in the distant cyberworld, during the dawn of a new age. These staves are said to contain highly advanced technology... of which there is little or no trace. #PA;None #AA;None</Data>
@@ -346,11 +288,7 @@
             <Data ss:Type="String">#ITEM_Steam_weapon01d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">外形可爱的科幻武器,死宅撸师
-们相当喜欢它,能朝目标发射代表死亡
-的红色圈圈,以奥术之能践踏敌人！
-#DMG;中奥术伤害
-#SP;范围攻击</Data>
+            <Data ss:Type="String">外形可爱的科幻武器,死宅撸师&#10;们相当喜欢它,能朝目标发射代表死亡&#10;的红色圈圈,以奥术之能践踏敌人！&#10;#DMG;中奥术伤害&#10;#SP;范围攻击</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A rather adorable piece of sci-fi weaponry, this staff is a favorite amongst the nerdiest of wizards. It fires red-rings-of-death against its target, splashing them with arcane energy. #DMG;Medium Arcane #SP;Ranged</Data>
@@ -378,11 +316,7 @@
             <Data ss:Type="String">#ITEM_Steam_weapon02d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">来自神灵的礼物!真的猛士,敢于
-直面粗糙的剑柄,敢于正视愚钝的刀刃!
-67.5%的掉率哟
-#DMG;中物理伤害
-#SP;奇特的效果</Data>
+            <Data ss:Type="String">来自神灵的礼物!真的猛士,敢于&#10;直面粗糙的剑柄,敢于正视愚钝的刀刃!&#10;67.5%的掉率哟&#10;#DMG;中物理伤害&#10;#SP;奇特的效果</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">This blade was forged by the demi-god Alrand himself, from the finest obsidian mined by the High Dwarves of Firewind -- and decorated with the rarest sapphires of Uprend. Only a handful of men have ever laid eyes on this amazing gift of the gods. 67.5% Drop chance #DMG; Medium #SP; Fancy effects</Data>
@@ -410,10 +344,7 @@
             <Data ss:Type="String">#ITEM_Steam_weapon03d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这款半自动火箭式手铳威能极大,
-射击感极强,是战士不可多得的好伙伴！
-#DMG;中物+火伤害
-#SP;范围爆炸+点燃</Data>
+            <Data ss:Type="String">这款半自动火箭式手铳威能极大,&#10;射击感极强,是战士不可多得的好伙伴！&#10;#DMG;中物+火伤害&#10;#SP;范围爆炸+点燃</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">This semi-automatic gyrojet sidearm fires self-propelled .75 calibre depleted nerdium core rounds with diamond tip. The rounds explode on impact and engulf the target in magical flames. #DMG;Medium Physical-Fire #SP;Ranged, Explodes on impact, Ignites</Data>
@@ -441,11 +372,7 @@
             <Data ss:Type="String">#ITEM_Steam_weapon04d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">每一块被你丢出去的光盘上辈子都
-是一只折翼的天使,所以拿它们
-做武器真是再好不过啦!
-#DMG;中奥术伤害
-#SP;范围反弹</Data>
+            <Data ss:Type="String">每一块被你丢出去的光盘上辈子都&#10;是一只折翼的天使,所以拿它们&#10;做武器真是再好不过啦!&#10;#DMG;中奥术伤害&#10;#SP;范围反弹</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">These discs are said to contain the very essence of a Cyber Wizard, so naturally one would imagine that repurposing them as weapons and casually throwing them around would be a brilliant idea. #DMG;Medium Arcane #SP;Ranged, Bounces</Data>
@@ -477,22 +404,7 @@
             <Data ss:Type="String">#DLC_255980_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">Continue the adventure beneath Castle Aldrheim and discover the fate that has befallen the buried city of Old Aldrheim and its inhabitants.
-
-Magicka Dungeons &amp; Gargoyles is a new expansion to Magicka that continues the tale where Dungeons &amp; Daemons left off. Hop on the tour for adventure along the streets of the buried city of Old Aldrheim, find out what happened to its previous inhabitants, blast things in the face(s) while ultimately trying to find a way back home...
-
-Due to popular demand the hard mode from Dungeons &amp; Daemons makes a return as well but since we like to keep it a secret we can’t talk much more about it. (It’s to the left…)
-
-KEY FEATURES
-
-Tumble into the second chapter of a new brilliant tale in the Magicka universe
-Explore the streets of Old Aldrheim
-Look for secrets in the back alleys of a lost buried city. 
-New creatures and adversaries.
-Test your skills in the chapter’s unforgiving “hidden” hard mode
-Innovative and dynamic spell casting system with thousands of possible combinations
-Up to four player co-op in all game modes as well as single player option
-Experience the parody and satire of a cliché fantasy world</Data>
+            <Data ss:Type="String">Continue the adventure beneath Castle Aldrheim and discover the fate that has befallen the buried city of Old Aldrheim and its inhabitants.&#10;&#10;Magicka Dungeons &amp; Gargoyles is a new expansion to Magicka that continues the tale where Dungeons &amp; Daemons left off. Hop on the tour for adventure along the streets of the buried city of Old Aldrheim, find out what happened to its previous inhabitants, blast things in the face(s) while ultimately trying to find a way back home...&#10;&#10;Due to popular demand the hard mode from Dungeons &amp; Daemons makes a return as well but since we like to keep it a secret we can’t talk much more about it. (It’s to the left…)&#10;&#10;KEY FEATURES&#10;&#10;Tumble into the second chapter of a new brilliant tale in the Magicka universe&#10;Explore the streets of Old Aldrheim&#10;Look for secrets in the back alleys of a lost buried city. &#10;New creatures and adversaries.&#10;Test your skills in the chapter’s unforgiving “hidden” hard mode&#10;Innovative and dynamic spell casting system with thousands of possible combinations&#10;Up to four player co-op in all game modes as well as single player option&#10;Experience the parody and satire of a cliché fantasy world</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Continue the adventure beneath Castle Aldrheim and discover the fate that has befallen the buried city of Old Aldrheim and its inhabitants.
@@ -536,16 +448,7 @@ Experience the parody and satire of a cliché fantasy world</Data>
             <Data ss:Type="String">#DLC_255980_DESC_SHORT</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">KEY FEATURES
-
-Tumble into the second chapter of a new brilliant tale in the Magicka universe
-Explore the streets of Old Aldrheim
-Look for secrets in the back alleys of a lost buried city. 
-New creatures and adversaries.
-Test your skills in the chapter’s unforgiving “hidden” hard mode
-Innovative and dynamic spell casting system with thousands of possible combinations
-Up to four player co-op in all game modes as well as single player option
-Experience the parody and satire of a cliché fantasy world</Data>
+            <Data ss:Type="String">KEY FEATURES&#10;&#10;Tumble into the second chapter of a new brilliant tale in the Magicka universe&#10;Explore the streets of Old Aldrheim&#10;Look for secrets in the back alleys of a lost buried city. &#10;New creatures and adversaries.&#10;Test your skills in the chapter’s unforgiving “hidden” hard mode&#10;Innovative and dynamic spell casting system with thousands of possible combinations&#10;Up to four player co-op in all game modes as well as single player option&#10;Experience the parody and satire of a cliché fantasy world</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">KEY FEATURES
@@ -591,21 +494,7 @@ Experience the parody and satire of a cliché fantasy world</Data>
             <Data ss:Type="String">#DLC_42918_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">Magicka: Vietnam is the first mission DLC for the highly popular PC action/adventure game Magicka.
-
-Magicka: Vietnam features a brand new and challenging game mode. Venture deep into the Goblin-Cong jungle, with up to three fellow soldiers, to liberate prisoners from a POW camp. Destroy enemy positions, escape the perils of the jungle and GET TO THE CHOPPA!
-
-In the Magickal jungles of Vietnam you'll have an array of Vietnam-era weapons and a special Magick to call in a napalm strikes on enemy positions. Experience the horrors of war through Magicka's dynamic spell casting system and a healthy dose of humour.
-
-KEY FEATURES:
-
-Brand new Vietnam themed game mode with challenging difficulty, featuring many dangerous new enemies and deadly weapons.
-New Challenge Map - Vietnam Survival
-Survive against a deadly onslaught of Goblin-Cong soldiers!
-New Robe - GI Wizard robe.
-Charge into battle in the GI Robe, with your trusty standard issue M16 and battle flag. Lob grenades to clear out enemy encampments!
-New Magick - Napalm strike.
-Call in a Napam strike and bring down fire and fury on your enemies with this new, powerful Magick. Danger close!</Data>
+            <Data ss:Type="String">Magicka: Vietnam is the first mission DLC for the highly popular PC action/adventure game Magicka.&#10;&#10;Magicka: Vietnam features a brand new and challenging game mode. Venture deep into the Goblin-Cong jungle, with up to three fellow soldiers, to liberate prisoners from a POW camp. Destroy enemy positions, escape the perils of the jungle and GET TO THE CHOPPA!&#10;&#10;In the Magickal jungles of Vietnam you'll have an array of Vietnam-era weapons and a special Magick to call in a napalm strikes on enemy positions. Experience the horrors of war through Magicka's dynamic spell casting system and a healthy dose of humour.&#10;&#10;KEY FEATURES:&#10;&#10;Brand new Vietnam themed game mode with challenging difficulty, featuring many dangerous new enemies and deadly weapons.&#10;New Challenge Map - Vietnam Survival&#10;Survive against a deadly onslaught of Goblin-Cong soldiers!&#10;New Robe - GI Wizard robe.&#10;Charge into battle in the GI Robe, with your trusty standard issue M16 and battle flag. Lob grenades to clear out enemy encampments!&#10;New Magick - Napalm strike.&#10;Call in a Napam strike and bring down fire and fury on your enemies with this new, powerful Magick. Danger close!</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Magicka: Vietnam is the first mission DLC for the highly popular PC action/adventure game Magicka.
@@ -647,15 +536,7 @@ Call in a Napam strike and bring down fire and fury on your enemies with this ne
             <Data ss:Type="String">#DLC_42918_DESC_SHORT</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">KEY FEATURES:
-
-Brand new Vietnam themed game mode with challenging difficulty, featuring many dangerous new enemies and deadly weapons.
-New Challenge Map - Vietnam Survival
-Survive against a deadly onslaught of Goblin-Cong soldiers!
-New Robe - GI Wizard robe.
-Charge into battle in the GI Robe, with your trusty standard issue M16 and battle flag. Lob grenades to clear out enemy encampments!
-New Magick - Napalm strike.
-Call in a Napam strike and bring down fire and fury on your enemies with this new, powerful Magick. Danger close!</Data>
+            <Data ss:Type="String">KEY FEATURES:&#10;&#10;Brand new Vietnam themed game mode with challenging difficulty, featuring many dangerous new enemies and deadly weapons.&#10;New Challenge Map - Vietnam Survival&#10;Survive against a deadly onslaught of Goblin-Cong soldiers!&#10;New Robe - GI Wizard robe.&#10;Charge into battle in the GI Robe, with your trusty standard issue M16 and battle flag. Lob grenades to clear out enemy encampments!&#10;New Magick - Napalm strike.&#10;Call in a Napam strike and bring down fire and fury on your enemies with this new, powerful Magick. Danger close!</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">KEY FEATURES:
@@ -699,14 +580,7 @@ Call in a Napam strike and bring down fire and fury on your enemies with this ne
             <Data ss:Type="String">#DLC_73030_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">The "Wizard's Survival Kit" allows you to equip the following items for your character
-
-KEY FEATURES: 
-
-Wizard's Hat (item) - No wizard of note would ever be seen outdoors without one of these pointy hats.
-Sharp Sword (item) - The instruction reads “stick them with the pointy end”. Good to have in a pinch.
-Staff +1(item) - Whack your foes over the head, use it to prod mucky waters or lean on it to look cool - the staff +1 let’s you do all of it in style.
-Meteor Shower (new Magick) - Rain burning rocks down on your enemies. ‘Nuff said.</Data>
+            <Data ss:Type="String">The "Wizard's Survival Kit" allows you to equip the following items for your character&#10;&#10;KEY FEATURES: &#10;&#10;Wizard's Hat (item) - No wizard of note would ever be seen outdoors without one of these pointy hats.&#10;Sharp Sword (item) - The instruction reads “stick them with the pointy end”. Good to have in a pinch.&#10;Staff +1(item) - Whack your foes over the head, use it to prod mucky waters or lean on it to look cool - the staff +1 let’s you do all of it in style.&#10;Meteor Shower (new Magick) - Rain burning rocks down on your enemies. ‘Nuff said.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The "Wizard's Survival Kit" allows you to equip the following items for your character
@@ -748,13 +622,7 @@ Meteor Shower (new Magick) - Rain burning rocks down on your enemies. ‘Nuff sa
             <Data ss:Type="String">#DLC_73031_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">Contains three new themed items!
-
-KEY FEATURES: 
-
-Kimono robe
-Katana - "Yawarakai-Te" (cuts through armor)
-Bamboo Staff - "Staff of Endurance" (resistance to all elements)</Data>
+            <Data ss:Type="String">Contains three new themed items!&#10;&#10;KEY FEATURES: &#10;&#10;Kimono robe&#10;Katana - "Yawarakai-Te" (cuts through armor)&#10;Bamboo Staff - "Staff of Endurance" (resistance to all elements)</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Contains three new themed items!
@@ -794,15 +662,7 @@ Bamboo Staff - "Staff of Endurance" (resistance to all elements)</Data>
             <Data ss:Type="String">#DLC_73033_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">Left for dead, your party is faced with the terrible hordes of the undead and some of their friends. This challenge contains a large area for the players to move around and plenty of room for the hordes to really spread out and surround you. If you like splashing around in murky waters trying to dismember zombies, this is the challenge for you.
-
-KEY FEATURES:
-
-Two completely new challenges with 20 waves each.
-New spawn situations such as goblin troops arriving via elevator or zombies crawling up through the ground, all around you.
-Completely new challenge environment
-20 deadly waves of enemies unseen in challenges
-"It came from the swamp" entry point for enemies.</Data>
+            <Data ss:Type="String">Left for dead, your party is faced with the terrible hordes of the undead and some of their friends. This challenge contains a large area for the players to move around and plenty of room for the hordes to really spread out and surround you. If you like splashing around in murky waters trying to dismember zombies, this is the challenge for you.&#10;&#10;KEY FEATURES:&#10;&#10;Two completely new challenges with 20 waves each.&#10;New spawn situations such as goblin troops arriving via elevator or zombies crawling up through the ground, all around you.&#10;Completely new challenge environment&#10;20 deadly waves of enemies unseen in challenges&#10;"It came from the swamp" entry point for enemies.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Left for dead, your party is faced with the terrible hordes of the undead and some of their friends. This challenge contains a large area for the players to move around and plenty of room for the hordes to really spread out and surround you. If you like splashing around in murky waters trying to dismember zombies, this is the challenge for you.
@@ -846,16 +706,7 @@ Completely new challenge environment
             <Data ss:Type="String">#DLC_73035_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">The Final Frontier DLC pack contains an all new map, the Vulcanus Arena, both for the Versus and Challenge game modes. Also included is an entirely new robe and gear. The Vulcanus Arena is the perfect spot to fight to prove your honor. Wizards who dual each other on this arena and live, often do so for a long time and have a tendency to also do it quite prosperously.
-
-KEY FEATURES: 
-
-New map for the Versus game mode
-New map for the Challenge game mode
-Map includes fantastic quality props
-New sci fi robe
-Type 2 Plastic Prop permanently set to stun and the deadly Duel Staff
-Increased nerd factor</Data>
+            <Data ss:Type="String">The Final Frontier DLC pack contains an all new map, the Vulcanus Arena, both for the Versus and Challenge game modes. Also included is an entirely new robe and gear. The Vulcanus Arena is the perfect spot to fight to prove your honor. Wizards who dual each other on this arena and live, often do so for a long time and have a tendency to also do it quite prosperously.&#10;&#10;KEY FEATURES: &#10;&#10;New map for the Versus game mode&#10;New map for the Challenge game mode&#10;Map includes fantastic quality props&#10;New sci fi robe&#10;Type 2 Plastic Prop permanently set to stun and the deadly Duel Staff&#10;Increased nerd factor</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The Final Frontier DLC pack contains an all new map, the Vulcanus Arena, both for the Versus and Challenge game modes. Also included is an entirely new robe and gear. The Vulcanus Arena is the perfect spot to fight to prove your honor. Wizards who dual each other on this arena and live, often do so for a long time and have a tendency to also do it quite prosperously.
@@ -901,13 +752,7 @@ Increased nerd factor</Data>
             <Data ss:Type="String">#DLC_73036_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">The old watchtower was once used to get a proper view over Midgard but now Wizards have claimed it to settle disputes slightly less petty than the once settled in Aldrheim’s old Training Grounds. This is indeed an epic location for duels and how the wizards get up there in the first place, no one knows.
-
-KEY FEATURES:
-
-New map for the Versus game mode
-The absense of a railing on a mountaintop ruin provides new environmental hazard
-Height differences not only refers to the deadly fall but also the different platforms of the tower.</Data>
+            <Data ss:Type="String">The old watchtower was once used to get a proper view over Midgard but now Wizards have claimed it to settle disputes slightly less petty than the once settled in Aldrheim’s old Training Grounds. This is indeed an epic location for duels and how the wizards get up there in the first place, no one knows.&#10;&#10;KEY FEATURES:&#10;&#10;New map for the Versus game mode&#10;The absense of a railing on a mountaintop ruin provides new environmental hazard&#10;Height differences not only refers to the deadly fall but also the different platforms of the tower.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The old watchtower was once used to get a proper view over Midgard but now Wizards have claimed it to settle disputes slightly less petty than the once settled in Aldrheim’s old Training Grounds. This is indeed an epic location for duels and how the wizards get up there in the first place, no one knows.
@@ -947,13 +792,7 @@ Height differences not only refers to the deadly fall but also the different pla
             <Data ss:Type="String">#DLC_73037_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">In the Frozen Lake DLC, only the boldest Wizards challenge each other on a large body of water, the Wizards inability to tread water is a more common cause of death during these duels than the successful spellcasting of the opponent.
-
-KEY FEATURES:
-
-New map for the Versus game mode
-Frozen water provides new environmental hazard
-Contains many different pleasing shades of blue and white</Data>
+            <Data ss:Type="String">In the Frozen Lake DLC, only the boldest Wizards challenge each other on a large body of water, the Wizards inability to tread water is a more common cause of death during these duels than the successful spellcasting of the opponent.&#10;&#10;KEY FEATURES:&#10;&#10;New map for the Versus game mode&#10;Frozen water provides new environmental hazard&#10;Contains many different pleasing shades of blue and white</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">In the Frozen Lake DLC, only the boldest Wizards challenge each other on a large body of water, the Wizards inability to tread water is a more common cause of death during these duels than the successful spellcasting of the opponent.
@@ -993,13 +832,7 @@ Contains many different pleasing shades of blue and white</Data>
             <Data ss:Type="String">#DLC_73039_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">Has the constant casting of Rain and Blizzard made you weary? Perhaps it’s time to set out on a sunny vacation on the four and a half seas. This solidly (goblin) made sea vessel offers travelers plenty of living quarters, restaurants, luxurious lounges and one big sunny duel deck.
-
-KEY FEATURES: 
-
-New map for the Player vs Player game mode
-Water all around you as well as a nice swimming pool provides new environmental hazard.
-The general feel of the map will cool your mind during the summers heat.</Data>
+            <Data ss:Type="String">Has the constant casting of Rain and Blizzard made you weary? Perhaps it’s time to set out on a sunny vacation on the four and a half seas. This solidly (goblin) made sea vessel offers travelers plenty of living quarters, restaurants, luxurious lounges and one big sunny duel deck.&#10;&#10;KEY FEATURES: &#10;&#10;New map for the Player vs Player game mode&#10;Water all around you as well as a nice swimming pool provides new environmental hazard.&#10;The general feel of the map will cool your mind during the summers heat.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Has the constant casting of Rain and Blizzard made you weary? Perhaps it’s time to set out on a sunny vacation on the four and a half seas. This solidly (goblin) made sea vessel offers travelers plenty of living quarters, restaurants, luxurious lounges and one big sunny duel deck.
@@ -1039,13 +872,7 @@ The general feel of the map will cool your mind during the summers heat.</Data>
             <Data ss:Type="String">#DLC_73057_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">The Gamer Bundle contains three new robes inspired by some of the developers favorite games. Armed to the teeth with new exciting gear these diverse robes will give the players plenty of new tactics to employ in all existing game modes:
-
-KEY FEATURES:
-
-The Zombie Robe is a resilient one. This number has a freaky, yet oddly appealing, parasite attached to it’s head. For some reason it turns the wearer into some type of shambling, incomprehensible, crow bar wielding monster. But that’s okay because, while a bit slower, the wearer can now take a punch or two thousand.
-Wizards have been known to go through great lengths in order to cosplay as their favorite game characters. The Tentacle Robe, and it’s accompanying Ray-Gun, are great for conventions as well as general forest wear. While some people might point and laugh at this wizard, others would just love to have their photo taken next to him (or her.)
-Epic Robe is epic claims this wizard. While he may have lost his mount he still has all his other epic gear. The epic amount of hours and sodas he consumed to earn it is no match for the even more epic-y-ness of the sword and armor.</Data>
+            <Data ss:Type="String">The Gamer Bundle contains three new robes inspired by some of the developers favorite games. Armed to the teeth with new exciting gear these diverse robes will give the players plenty of new tactics to employ in all existing game modes:&#10;&#10;KEY FEATURES:&#10;&#10;The Zombie Robe is a resilient one. This number has a freaky, yet oddly appealing, parasite attached to it’s head. For some reason it turns the wearer into some type of shambling, incomprehensible, crow bar wielding monster. But that’s okay because, while a bit slower, the wearer can now take a punch or two thousand.&#10;Wizards have been known to go through great lengths in order to cosplay as their favorite game characters. The Tentacle Robe, and it’s accompanying Ray-Gun, are great for conventions as well as general forest wear. While some people might point and laugh at this wizard, others would just love to have their photo taken next to him (or her.)&#10;Epic Robe is epic claims this wizard. While he may have lost his mount he still has all his other epic gear. The epic amount of hours and sodas he consumed to earn it is no match for the even more epic-y-ness of the sword and armor.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The Gamer Bundle contains three new robes inspired by some of the developers favorite games. Armed to the teeth with new exciting gear these diverse robes will give the players plenty of new tactics to employ in all existing game modes:
@@ -1085,20 +912,7 @@ Epic Robe is epic claims this wizard. While he may have lost his mount he still 
             <Data ss:Type="String">#DLC_73058_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">The Stars are Left is a new Adventure expansion for the highly popular and successful PC action/adventure game Magicka. This time Arrowhead has moved on from the jungles of Vietnam and set their sights on the maddening Cthulhu mythos. For the first time since the release of the original game players will once again be able to join forces in a coop-supported adventure campaign. Fighting their way through several completely new levels, fending off multitudes of strange horrors, vanquishing horrid bosses and solving peculiar puzzles.
-
-KEY FEATURES:
-
-All new adventure including several levels steeped in Lovecraftian lore
-2 Challenge maps
-2 new robes
-2 new bosses
-New achievements
-Several new enemies
-New Items and Magicks
-Innovative and dynamic spellcasting system with thousands of possible combinations
-Up to four player co-op in all game modes as well as single player option
-Experience the parody and satire of a cliché fantasy world</Data>
+            <Data ss:Type="String">The Stars are Left is a new Adventure expansion for the highly popular and successful PC action/adventure game Magicka. This time Arrowhead has moved on from the jungles of Vietnam and set their sights on the maddening Cthulhu mythos. For the first time since the release of the original game players will once again be able to join forces in a coop-supported adventure campaign. Fighting their way through several completely new levels, fending off multitudes of strange horrors, vanquishing horrid bosses and solving peculiar puzzles.&#10;&#10;KEY FEATURES:&#10;&#10;All new adventure including several levels steeped in Lovecraftian lore&#10;2 Challenge maps&#10;2 new robes&#10;2 new bosses&#10;New achievements&#10;Several new enemies&#10;New Items and Magicks&#10;Innovative and dynamic spellcasting system with thousands of possible combinations&#10;Up to four player co-op in all game modes as well as single player option&#10;Experience the parody and satire of a cliché fantasy world</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The Stars are Left is a new Adventure expansion for the highly popular and successful PC action/adventure game Magicka. This time Arrowhead has moved on from the jungles of Vietnam and set their sights on the maddening Cthulhu mythos. For the first time since the release of the original game players will once again be able to join forces in a coop-supported adventure campaign. Fighting their way through several completely new levels, fending off multitudes of strange horrors, vanquishing horrid bosses and solving peculiar puzzles.
@@ -1138,18 +952,7 @@ Experience the parody and satire of a cliché fantasy world</Data>
             <Data ss:Type="String">#DLC_73058_DESC_SHORT</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">KEY FEATURES:
-
-All new adventure including several levels steeped in Lovecraftian lore
-2 Challenge maps
-2 new robes
-2 new bosses
-New achievements
-Several new enemies
-New Items and Magicks
-Innovative and dynamic spellcasting system with thousands of possible combinations
-Up to four player co-op in all game modes as well as single player option
-Experience the parody and satire of a cliché fantasy world</Data>
+            <Data ss:Type="String">KEY FEATURES:&#10;&#10;All new adventure including several levels steeped in Lovecraftian lore&#10;2 Challenge maps&#10;2 new robes&#10;2 new bosses&#10;New achievements&#10;Several new enemies&#10;New Items and Magicks&#10;Innovative and dynamic spellcasting system with thousands of possible combinations&#10;Up to four player co-op in all game modes as well as single player option&#10;Experience the parody and satire of a cliché fantasy world</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">KEY FEATURES:
@@ -1199,23 +1002,7 @@ Experience the parody and satire of a cliché fantasy world</Data>
             <Data ss:Type="String">#DLC_73091_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">Christmas comes early this year so get into the right holiday spirit. Spread some love, cook some food, get those presents in time this year and make sure you share with your friends.
-
-KEY FEATURES:
-
-For use in the Challenge and Versus modes only.
-
-Freeze Ray - In case that pesty global warming is trying to ruin your Christmas.
-Anger Management Stick - Turn that frown upside down... by smacking somebody with this!
-Frostjoy - Now all you need from Santa is a proper throne.
-Rolling Pin - Good for baking, if people don't like your pastries, hurl this at them.
-Timell's Revenge - The carpenter's best friend!
-Hot Frying Pan - As if hitting somebody with a frying pan wouldn't hurt enough, this one's constantly hot!
-Grayskull - Any kid's dream present!
-Lovestaff - Spread some of that family love!
-Deflection Staff 2.0 - New and improved!
-Sausage Staff - You guys want sausages, this will give you sausages!
-Banner of the Crusade - In case people forget what Christmas is all about.</Data>
+            <Data ss:Type="String">Christmas comes early this year so get into the right holiday spirit. Spread some love, cook some food, get those presents in time this year and make sure you share with your friends.&#10;&#10;KEY FEATURES:&#10;&#10;For use in the Challenge and Versus modes only.&#10;&#10;Freeze Ray - In case that pesty global warming is trying to ruin your Christmas.&#10;Anger Management Stick - Turn that frown upside down... by smacking somebody with this!&#10;Frostjoy - Now all you need from Santa is a proper throne.&#10;Rolling Pin - Good for baking, if people don't like your pastries, hurl this at them.&#10;Timell's Revenge - The carpenter's best friend!&#10;Hot Frying Pan - As if hitting somebody with a frying pan wouldn't hurt enough, this one's constantly hot!&#10;Grayskull - Any kid's dream present!&#10;Lovestaff - Spread some of that family love!&#10;Deflection Staff 2.0 - New and improved!&#10;Sausage Staff - You guys want sausages, this will give you sausages!&#10;Banner of the Crusade - In case people forget what Christmas is all about.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Christmas comes early this year so get into the right holiday spirit. Spread some love, cook some food, get those presents in time this year and make sure you share with your friends.
@@ -1275,22 +1062,7 @@ Banner of the Crusade - In case people forget what Christmas is all about.</Data
             <Data ss:Type="String">#DLC_73092_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">An item pack filled with nasty things you would find at any ordinary horror movie set. Whether you prefer slashers or mad stories from the 1920s, this pack contains something for you.
-
-KEY FEATURES:
-
-For use in the Challenge and Versus modes only.
-Chainsaw - Unfortunately this chainsaw requires an operational hand to wield
-Sickle of the Corn - Any fanatic child's weapon of choice
-Spicy Meatball - Goes KA-BOOM like nothing else
-Baseball Bat - Good for smashing office appliances
-Skull Club - We though about spoofing Pokémon but we did a club with a skull on it instead
-Tommy Gun - If you accidently unleash a daemon upon the world, make sure you have one of these
-Sinister - Looks the way it sounds
-Tyrants Axe - This very true axe will make you feel immortal
-Elf Slasher - An elf's worst nightmare
-Six Shooter - Fully loaded upon delivery
-Staff of the Infernal Abyss - Unleash unholy powers upon your foes</Data>
+            <Data ss:Type="String">An item pack filled with nasty things you would find at any ordinary horror movie set. Whether you prefer slashers or mad stories from the 1920s, this pack contains something for you.&#10;&#10;KEY FEATURES:&#10;&#10;For use in the Challenge and Versus modes only.&#10;Chainsaw - Unfortunately this chainsaw requires an operational hand to wield&#10;Sickle of the Corn - Any fanatic child's weapon of choice&#10;Spicy Meatball - Goes KA-BOOM like nothing else&#10;Baseball Bat - Good for smashing office appliances&#10;Skull Club - We though about spoofing Pokémon but we did a club with a skull on it instead&#10;Tommy Gun - If you accidently unleash a daemon upon the world, make sure you have one of these&#10;Sinister - Looks the way it sounds&#10;Tyrants Axe - This very true axe will make you feel immortal&#10;Elf Slasher - An elf's worst nightmare&#10;Six Shooter - Fully loaded upon delivery&#10;Staff of the Infernal Abyss - Unleash unholy powers upon your foes</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">An item pack filled with nasty things you would find at any ordinary horror movie set. Whether you prefer slashers or mad stories from the 1920s, this pack contains something for you.
@@ -1348,20 +1120,7 @@ Staff of the Infernal Abyss - Unleash unholy powers upon your foes</Data>
             <Data ss:Type="String">#DLC_73093_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">Magicka: The Other Side of the Coin lets players experience a completely new take on the Magicka universe. 
-Take the role of Alucart the Vampire and his Necromancers to fight against the forces of good. Your mission is to thwart Vlad’s attempt to unite the humans, the dwarves and the elves.
-Like the highly popular Magicka: Vietnam, The Other Side of the Coin features objective based level progression, a new story and brand new playable characters. Along with the main quest, four new challenge levels are included as well as a new playable PVP character, the Necromancer.
-
-KEY FEATURES:
-
-Play as Alucart the Vampire and his henchmen, the Necromancers
-One exciting new story challenge set among exciting new elven architecture
-4 new challenge maps playing as Necromancers: World's End, Volcano Hideout, OSOTC Arena and the Mirror Crystal Cavern Hideout.
-Necromancer introduced to PvP
-New Steam achievements
-Innovative and dynamic spellcasting system with thousands of possible combinations
-Up to four player co-op in all game modes as well as single player option
-Experience the parody and satire of a cliché fantasy world</Data>
+            <Data ss:Type="String">Magicka: The Other Side of the Coin lets players experience a completely new take on the Magicka universe. &#10;Take the role of Alucart the Vampire and his Necromancers to fight against the forces of good. Your mission is to thwart Vlad’s attempt to unite the humans, the dwarves and the elves.&#10;Like the highly popular Magicka: Vietnam, The Other Side of the Coin features objective based level progression, a new story and brand new playable characters. Along with the main quest, four new challenge levels are included as well as a new playable PVP character, the Necromancer.&#10;&#10;KEY FEATURES:&#10;&#10;Play as Alucart the Vampire and his henchmen, the Necromancers&#10;One exciting new story challenge set among exciting new elven architecture&#10;4 new challenge maps playing as Necromancers: World's End, Volcano Hideout, OSOTC Arena and the Mirror Crystal Cavern Hideout.&#10;Necromancer introduced to PvP&#10;New Steam achievements&#10;Innovative and dynamic spellcasting system with thousands of possible combinations&#10;Up to four player co-op in all game modes as well as single player option&#10;Experience the parody and satire of a cliché fantasy world</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Magicka: The Other Side of the Coin lets players experience a completely new take on the Magicka universe. 
@@ -1401,16 +1160,7 @@ Experience the parody and satire of a cliché fantasy world</Data>
             <Data ss:Type="String">#DLC_73093_DESC_SHORT</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">KEY FEATURES:
-
-Play as Alucart the Vampire and his henchmen, the Necromancers
-One exciting new story challenge set among exciting new elven architecture
-4 new challenge maps playing as Necromancers: World's End, Volcano Hideout, OSOTC Arena and the Mirror Crystal Cavern Hideout.
-Necromancer introduced to PvP
-New Steam achievements
-Innovative and dynamic spellcasting system with thousands of possible combinations
-Up to four player co-op in all game modes as well as single player option
-Experience the parody and satire of a cliché fantasy world</Data>
+            <Data ss:Type="String">KEY FEATURES:&#10;&#10;Play as Alucart the Vampire and his henchmen, the Necromancers&#10;One exciting new story challenge set among exciting new elven architecture&#10;4 new challenge maps playing as Necromancers: World's End, Volcano Hideout, OSOTC Arena and the Mirror Crystal Cavern Hideout.&#10;Necromancer introduced to PvP&#10;New Steam achievements&#10;Innovative and dynamic spellcasting system with thousands of possible combinations&#10;Up to four player co-op in all game modes as well as single player option&#10;Experience the parody and satire of a cliché fantasy world</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">KEY FEATURES:
@@ -1456,14 +1206,7 @@ Experience the parody and satire of a cliché fantasy world</Data>
             <Data ss:Type="String">#DLC_73095_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">Behind every missing wizard, behind every village pillaged by goblins, behind every bad happening in Midgård, there may or may not be a villainous mastermind behind it all. Unbeknownst to many, there is a dark underworld in Midgård, home to all sorts of evil personalities and organizations. This new robe pack will give you a spectacular taste of it!
-With the Mega Villain Robe Pack players can choose from three more or less sane wizards who all decided that the world has done them wrong and must pay for it! These new wizards all follow the patented Super Standard™ of having their own special themes and matching personalities, this time based on the various Magicka elements.
-
-KEY FEATURES:
-
-Coldarr Robe – Once a prolific cryomancer in the wizarding community, Coldarr watched in horror as one of his spells went terribly wrong, freezing his beloved. With a heart now turned to ice, he blames the world for giving him the cold shoulder when he most needed a warm embrace.
-Flamos Robe – Wizard law enforcement officers are all burnt out on ideas of how to confront the infernal mind of Flamos. He seems to have but one burning desire: to set the world on fire!
-Electrobe – His parents wouldn’t believe his electricity allergy was real, and instead sent the poor young Electrobe for a dose of shock treatment. Little did they know that the voltage overload would flick one final switch in his weakened mind, and awaken an insane villain with a sparking vengeance…</Data>
+            <Data ss:Type="String">Behind every missing wizard, behind every village pillaged by goblins, behind every bad happening in Midgård, there may or may not be a villainous mastermind behind it all. Unbeknownst to many, there is a dark underworld in Midgård, home to all sorts of evil personalities and organizations. This new robe pack will give you a spectacular taste of it!&#10;With the Mega Villain Robe Pack players can choose from three more or less sane wizards who all decided that the world has done them wrong and must pay for it! These new wizards all follow the patented Super Standard™ of having their own special themes and matching personalities, this time based on the various Magicka elements.&#10;&#10;KEY FEATURES:&#10;&#10;Coldarr Robe – Once a prolific cryomancer in the wizarding community, Coldarr watched in horror as one of his spells went terribly wrong, freezing his beloved. With a heart now turned to ice, he blames the world for giving him the cold shoulder when he most needed a warm embrace.&#10;Flamos Robe – Wizard law enforcement officers are all burnt out on ideas of how to confront the infernal mind of Flamos. He seems to have but one burning desire: to set the world on fire!&#10;Electrobe – His parents wouldn’t believe his electricity allergy was real, and instead sent the poor young Electrobe for a dose of shock treatment. Little did they know that the voltage overload would flick one final switch in his weakened mind, and awaken an insane villain with a sparking vengeance…</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Behind every missing wizard, behind every village pillaged by goblins, behind every bad happening in Midgård, there may or may not be a villainous mastermind behind it all. Unbeknownst to many, there is a dark underworld in Midgård, home to all sorts of evil personalities and organizations. This new robe pack will give you a spectacular taste of it!
@@ -1505,13 +1248,7 @@ Electrobe – His parents wouldn’t believe his electricity allergy was real, a
             <Data ss:Type="String">#DLC_73096_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">Some wizards are not only terrible spell casters, but terrible musicians as well! Join their ranks, and explore a variety of music history's greatest styles, from the heavy-metal guitar to the cool-but-moist saxophone! Take the lead in Aldrheim's very own misunderstood progressive basement band, adorned with musically inspired robes and powerful magickal instruments.
-
-KEY FEATURES:
-
-Heavy Metal Robe – come to the party armed with The Last (Mic) Stand and the mighty Guitaxe, which also comes equipped with chains.
-Tribal Drummer Robe – included with this impressive robe is a heavy Bongo Drum and a Bass (not the fish) Drum Beater.
-Epic Sax Robe – armed with a Saxophone and a deadly Vinyl Record, bring epic sax solos to all the people of Midgård.</Data>
+            <Data ss:Type="String">Some wizards are not only terrible spell casters, but terrible musicians as well! Join their ranks, and explore a variety of music history's greatest styles, from the heavy-metal guitar to the cool-but-moist saxophone! Take the lead in Aldrheim's very own misunderstood progressive basement band, adorned with musically inspired robes and powerful magickal instruments.&#10;&#10;KEY FEATURES:&#10;&#10;Heavy Metal Robe – come to the party armed with The Last (Mic) Stand and the mighty Guitaxe, which also comes equipped with chains.&#10;Tribal Drummer Robe – included with this impressive robe is a heavy Bongo Drum and a Bass (not the fish) Drum Beater.&#10;Epic Sax Robe – armed with a Saxophone and a deadly Vinyl Record, bring epic sax solos to all the people of Midgård.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Some wizards are not only terrible spell casters, but terrible musicians as well! Join their ranks, and explore a variety of music history's greatest styles, from the heavy-metal guitar to the cool-but-moist saxophone! Take the lead in Aldrheim's very own misunderstood progressive basement band, adorned with musically inspired robes and powerful magickal instruments.
@@ -1551,20 +1288,7 @@ Epic Sax Robe – armed with a Saxophone and a deadly Vinyl Record, bring epic s
             <Data ss:Type="String">#DLC_73097_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">The Peculiar Gadgets Item Pack offers a wide array of weird weapons and utility gear, rare items created by the craziest, most white-haired smiths and mechanics in all of Midgård. Some were intended for the good of others, while others were designed for the (more or less) total destruction of all kinds of foes.
-
-KEY FEATURES: 
-
-Remote Lighter
-Crowdcicle
-Troll Hair Dryer
-Malfunctioning Doomsday Device
-Dwarven Utility Stick
-Hit’n’Run 200
-Diplomaton
-Nanolice Applicator
-Fission Rod
-Fusion Rod</Data>
+            <Data ss:Type="String">The Peculiar Gadgets Item Pack offers a wide array of weird weapons and utility gear, rare items created by the craziest, most white-haired smiths and mechanics in all of Midgård. Some were intended for the good of others, while others were designed for the (more or less) total destruction of all kinds of foes.&#10;&#10;KEY FEATURES: &#10;&#10;Remote Lighter&#10;Crowdcicle&#10;Troll Hair Dryer&#10;Malfunctioning Doomsday Device&#10;Dwarven Utility Stick&#10;Hit’n’Run 200&#10;Diplomaton&#10;Nanolice Applicator&#10;Fission Rod&#10;Fusion Rod</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The Peculiar Gadgets Item Pack offers a wide array of weird weapons and utility gear, rare items created by the craziest, most white-haired smiths and mechanics in all of Midgård. Some were intended for the good of others, while others were designed for the (more or less) total destruction of all kinds of foes.
@@ -1618,20 +1342,7 @@ Fusion Rod</Data>
             <Data ss:Type="String">#DLC_73098_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">Many interesting old trinkets and relics, passed down through the generations from the ancient times, await discovery in the huge dusty attic of Castle Aldrheim. Scattered amidst piles of junk, between the cushions of dusty old furniture or packed in old wooden moving crates, lies powerful magickal equipment ripe for the taking. Results may vary.
-
-KEY FEATURES:
-
-Mr. Flintlock
-Inherited Body Parts
-Grandmother Glock
-Moose Hunting Trophy
-The Dentures
-Ornamental War Sabre
-Mixed Memories
-Grandfather Clock
-Umbrella Walking Cane
-Teacher’s Stick</Data>
+            <Data ss:Type="String">Many interesting old trinkets and relics, passed down through the generations from the ancient times, await discovery in the huge dusty attic of Castle Aldrheim. Scattered amidst piles of junk, between the cushions of dusty old furniture or packed in old wooden moving crates, lies powerful magickal equipment ripe for the taking. Results may vary.&#10;&#10;KEY FEATURES:&#10;&#10;Mr. Flintlock&#10;Inherited Body Parts&#10;Grandmother Glock&#10;Moose Hunting Trophy&#10;The Dentures&#10;Ornamental War Sabre&#10;Mixed Memories&#10;Grandfather Clock&#10;Umbrella Walking Cane&#10;Teacher’s Stick</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Many interesting old trinkets and relics, passed down through the generations from the ancient times, await discovery in the huge dusty attic of Castle Aldrheim. Scattered amidst piles of junk, between the cushions of dusty old furniture or packed in old wooden moving crates, lies powerful magickal equipment ripe for the taking. Results may vary.
@@ -1685,21 +1396,7 @@ Teacher’s Stick</Data>
             <Data ss:Type="String">#DLC_73115_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">Something stirs beneath Castle Aldrheim…
-
-Deep in the sub-dungeons, long forgotten by the Wizards, the demented ancestors of the Aldrheim Order have awoken an ancient evil. The fate of the world has yet again fallen on the shoulders of our haphazard and colorful wizards. Will the Wizards survive as they stumble upon Aldrheim’s most secret of secrets?
-
-Explore never before seen places in the fantastical world of Magicka. Test your mettle against new enemies and try to avoid getting slime all over your robes. Where does that even come from? It’s everywhere! If we could reveal the super-secret hard mode, it would attract even the most battle-hardened wizards. Unfortunately, it’s a secret, so we can’t talk about it.
-
-KEY FEATURES:
-
-Rush headlong into a new epic tale in the Magicka universe
-Venture deep into the dungeons beneath castle Aldrheim
-Discover untold horrors and hints of a looming threat to the world of Midgård
-New monsters and challenges await
-Test your mettle in the chapter’s hidden hard mode
-Innovative and dynamic spellcasting system with thousands of possible combinations
-Up to four player co-op in all game modes as well as single player</Data>
+            <Data ss:Type="String">Something stirs beneath Castle Aldrheim…&#10;&#10;Deep in the sub-dungeons, long forgotten by the Wizards, the demented ancestors of the Aldrheim Order have awoken an ancient evil. The fate of the world has yet again fallen on the shoulders of our haphazard and colorful wizards. Will the Wizards survive as they stumble upon Aldrheim’s most secret of secrets?&#10;&#10;Explore never before seen places in the fantastical world of Magicka. Test your mettle against new enemies and try to avoid getting slime all over your robes. Where does that even come from? It’s everywhere! If we could reveal the super-secret hard mode, it would attract even the most battle-hardened wizards. Unfortunately, it’s a secret, so we can’t talk about it.&#10;&#10;KEY FEATURES:&#10;&#10;Rush headlong into a new epic tale in the Magicka universe&#10;Venture deep into the dungeons beneath castle Aldrheim&#10;Discover untold horrors and hints of a looming threat to the world of Midgård&#10;New monsters and challenges await&#10;Test your mettle in the chapter’s hidden hard mode&#10;Innovative and dynamic spellcasting system with thousands of possible combinations&#10;Up to four player co-op in all game modes as well as single player</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Something stirs beneath Castle Aldrheim…
@@ -1741,15 +1438,7 @@ Up to four player co-op in all game modes as well as single player</Data>
             <Data ss:Type="String">#DLC_73115_DESC_SHORT</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">KEY FEATURES:
-
-Rush headlong into a new epic tale in the Magicka universe
-Venture deep into the dungeons beneath castle Aldrheim
-Discover untold horrors and hints of a looming threat to the world of Midgård
-New monsters and challenges await
-Test your mettle in the chapter’s hidden hard mode
-Innovative and dynamic spellcasting system with thousands of possible combinations
-Up to four player co-op in all game modes as well as single player</Data>
+            <Data ss:Type="String">KEY FEATURES:&#10;&#10;Rush headlong into a new epic tale in the Magicka universe&#10;Venture deep into the dungeons beneath castle Aldrheim&#10;Discover untold horrors and hints of a looming threat to the world of Midgård&#10;New monsters and challenges await&#10;Test your mettle in the chapter’s hidden hard mode&#10;Innovative and dynamic spellcasting system with thousands of possible combinations&#10;Up to four player co-op in all game modes as well as single player</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">KEY FEATURES:
@@ -1793,14 +1482,7 @@ Up to four player co-op in all game modes as well as single player</Data>
             <Data ss:Type="String">#DLC_73118_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">Jólnir - the Crimson King must rely on the wizards to help him reclaim his workshop and his honor.
-
-KEY FEATURES
-
-A “chilling” new challenge with 20 waves of blizzards and beasts
-The harsh weather around Jólnir's Workshop is sure to make life difficult for the Wizards attempting to liberate it
-Shocking new enemies to show you a world of hurt: Autonomous Cannons, Goblin Snow Troopers and the Eismacher
-Want to get the monsters off your back? Cower behind strategically placed piles of presents and packages... or shoot at them, tearing bystanders apart</Data>
+            <Data ss:Type="String">Jólnir - the Crimson King must rely on the wizards to help him reclaim his workshop and his honor.&#10;&#10;KEY FEATURES&#10;&#10;A “chilling” new challenge with 20 waves of blizzards and beasts&#10;The harsh weather around Jólnir's Workshop is sure to make life difficult for the Wizards attempting to liberate it&#10;Shocking new enemies to show you a world of hurt: Autonomous Cannons, Goblin Snow Troopers and the Eismacher&#10;Want to get the monsters off your back? Cower behind strategically placed piles of presents and packages... or shoot at them, tearing bystanders apart</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Jólnir - the Crimson King must rely on the wizards to help him reclaim his workshop and his honor.
@@ -1842,13 +1524,7 @@ Want to get the monsters off your back? Cower behind strategically placed piles 
             <Data ss:Type="String">#DLC_73119_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">As you all might know, being dead does not mean being unable to die again. What happens when you die twice? Nobody knows, but everyone is fairly certain that an after-afterlife is utter rubbish and an absurd fairytale.
-
-KEY FEATURES
-
-Step on both living and dead to reach the top of this PVP Map
-Grab a scythe and harvest success!
-Avoid falling off of the pile of corpses and into the moist river of tears</Data>
+            <Data ss:Type="String">As you all might know, being dead does not mean being unable to die again. What happens when you die twice? Nobody knows, but everyone is fairly certain that an after-afterlife is utter rubbish and an absurd fairytale.&#10;&#10;KEY FEATURES&#10;&#10;Step on both living and dead to reach the top of this PVP Map&#10;Grab a scythe and harvest success!&#10;Avoid falling off of the pile of corpses and into the moist river of tears</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">As you all might know, being dead does not mean being unable to die again. What happens when you die twice? Nobody knows, but everyone is fairly certain that an after-afterlife is utter rubbish and an absurd fairytale.
@@ -1888,20 +1564,7 @@ Avoid falling off of the pile of corpses and into the moist river of tears</Data
             <Data ss:Type="String">#DLC_73120_DESC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">Deep under Castle Aldrheim lies Grimnir’s laboratory, a secret long kept from all Wizards of the order. A crazy-random happenstance during recent “cellar activity” has caused the wizards to discover this long lost lab and all its horrors!
-
-Fight against 16 waves of monstrous foes on an all new map. Experience a new twist on the traditional challenge mode with elemental alters that dictate what spells and elements can be used. Three new doctors, in oddly familiar robes, have come to your aid in defeating the hordes. Will you and your friends be able to survive Grimnir’s horrors?
-
-KEY FEATURES:
-
-A new challenge against 16 waves of monstrous enemies
-Employ new tactics and cooperation to survive the special mechanics
-Elemental altars control spell usage
-New enemies: Grimnir’s long forgotten experiments
-3 new robes give you a unique experience of playing a certified Doctor
-Dr. Quake: Clad in armor and armed with two lightning dispensing gloves. Just make sure to stay away from lightning yourself
-Dr. Terrible: A lab coat with good protection from the elements, a Death ray and a Trans-matter staff. Everything one needs for a doctorate
-Which Dr.: Sporting a brown blazer, a trendy scarf and a nice red Fez, the latest in fashion. With a Sonic Tuning Fork and a Magickal piece of paper, this wizard is fully prepared for any time travel</Data>
+            <Data ss:Type="String">Deep under Castle Aldrheim lies Grimnir’s laboratory, a secret long kept from all Wizards of the order. A crazy-random happenstance during recent “cellar activity” has caused the wizards to discover this long lost lab and all its horrors!&#10;&#10;Fight against 16 waves of monstrous foes on an all new map. Experience a new twist on the traditional challenge mode with elemental alters that dictate what spells and elements can be used. Three new doctors, in oddly familiar robes, have come to your aid in defeating the hordes. Will you and your friends be able to survive Grimnir’s horrors?&#10;&#10;KEY FEATURES:&#10;&#10;A new challenge against 16 waves of monstrous enemies&#10;Employ new tactics and cooperation to survive the special mechanics&#10;Elemental altars control spell usage&#10;New enemies: Grimnir’s long forgotten experiments&#10;3 new robes give you a unique experience of playing a certified Doctor&#10;Dr. Quake: Clad in armor and armed with two lightning dispensing gloves. Just make sure to stay away from lightning yourself&#10;Dr. Terrible: A lab coat with good protection from the elements, a Death ray and a Trans-matter staff. Everything one needs for a doctorate&#10;Which Dr.: Sporting a brown blazer, a trendy scarf and a nice red Fez, the latest in fashion. With a Sonic Tuning Fork and a Magickal piece of paper, this wizard is fully prepared for any time travel</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Deep under Castle Aldrheim lies Grimnir’s laboratory, a secret long kept from all Wizards of the order. A crazy-random happenstance during recent “cellar activity” has caused the wizards to discover this long lost lab and all its horrors!

@@ -21,9 +21,7 @@
             <Data ss:Type="String">#osotc_sc1_alucart_intro1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">#osotc_elwenhus;近在咫尺，[P=1]那些乐观主义者，
-[P=0.3]那些所谓的公平正义，[P=0.3]那些漂白的头发[P=0.5].[P=0.5].[P=0.5]. 
-[P=0.5]哦这味道让我恶心！</Data>
+            <Data ss:Type="String">#osotc_elwenhus;近在咫尺，[P=1]那些乐观主义者，&#10;[P=0.3]那些所谓的公平正义，[P=0.3]那些漂白的头发[P=0.5].[P=0.5].[P=0.5]. &#10;[P=0.5]哦这味道让我恶心！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Introduction to the player character Alucart.</Data>
@@ -37,8 +35,7 @@
             <Data ss:Type="String">#osotc_sc1_alucart_intro2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">曾经，我很欣赏这块美丽的土地，但现在，[P=0.5]只有
-一件事迫使我不得不回到这里...[P=0.5]找到他，[P=0.5]终结一切！</Data>
+            <Data ss:Type="String">曾经，我很欣赏这块美丽的土地，但现在，[P=0.5]只有&#10;一件事迫使我不得不回到这里...[P=0.5]找到他，[P=0.5]终结一切！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Introduction to the player character Alucart.</Data>
@@ -52,8 +49,7 @@
             <Data ss:Type="String">#osotc_sc1_guard1_gate1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我猜我们要下岗了，连#osotc_quarrel_short;这种
-历史遗留问题都能出现转机！</Data>
+            <Data ss:Type="String">我猜我们要下岗了，连#osotc_quarrel_short;这种&#10;历史遗留问题都能出现转机！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Guards dialogue</Data>
@@ -67,8 +63,7 @@
             <Data ss:Type="String">#osotc_sc1_guard2_gate2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">别那么悲观主义，[P=0.5] #Her_Vlad;已经超水平发挥他和事佬
-的能力，正在平复各个种族间的矛盾！</Data>
+            <Data ss:Type="String">别那么悲观主义，[P=0.5] #Her_Vlad;已经超水平发挥他和事佬&#10;的能力，正在平复各个种族间的矛盾！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Guards dialogue</Data>
@@ -110,9 +105,7 @@
             <Data ss:Type="String">#osotc_sc1_alucart_gate5</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">别轻易赞扬那种所谓的#osotc_savior;行为！
-[P=0.5]我本可以不理会你们这类言论，
-但不代表我能够容忍，[P=1]去死吧！</Data>
+            <Data ss:Type="String">别轻易赞扬那种所谓的#osotc_savior;行为！&#10;[P=0.5]我本可以不理会你们这类言论，&#10;但不代表我能够容忍，[P=1]去死吧！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Alucart appears!</Data>
@@ -126,8 +119,7 @@
             <Data ss:Type="String">#osotc_sc1_alucart_partypoop1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">派对结束了, 空想主义者们！[P=0.5]让我看看你们有多
-享受 #Her_Vlad;那可怜的小把戏，现在，混乱降临！</Data>
+            <Data ss:Type="String">派对结束了, 空想主义者们！[P=0.5]让我看看你们有多&#10;享受 #Her_Vlad;那可怜的小把戏，现在，混乱降临！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Alucart disrupts the festivities, and...</Data>
@@ -169,8 +161,7 @@
             <Data ss:Type="String">#osotc_sc1_paladin_cross1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">停手，黑暗使者！[P=0.5] 
-神圣的三族会议岂容汝等染指摧朽！</Data>
+            <Data ss:Type="String">停手，黑暗使者！[P=0.5] &#10;神圣的三族会议岂容汝等染指摧朽！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Paladin encounter. "I demand you cease your attack" is a castlevania reference.</Data>
@@ -184,9 +175,7 @@
             <Data ss:Type="String">#osotc_sc1_alucart_cross2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我不是故意惹你生气，圣骑士，
-恐怕会议本身并没有你想象的那么"神圣"[P=0.5]
-善与恶的界线不是那么容易划分的清！</Data>
+            <Data ss:Type="String">我不是故意惹你生气，圣骑士，&#10;恐怕会议本身并没有你想象的那么"神圣"[P=0.5]&#10;善与恶的界线不是那么容易划分的清！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Alucart replies sarcastically. "bubble" is a reference to the Paladin's immunity aura that is a bubble (reference from World of Warcraft)</Data>
@@ -242,8 +231,7 @@
             <Data ss:Type="String">#osotc_sc1_alucart_cross6</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">啊噢！你那虚伪的"神圣"作派使我的牙齿不由
-自主地硬了，我想我该尝尝[P=0.5] ...你神圣的脖子！</Data>
+            <Data ss:Type="String">啊噢！你那虚伪的"神圣"作派使我的牙齿不由&#10;自主地硬了，我想我该尝尝[P=0.5] ...你神圣的脖子！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Alucart ready to attack. He makes another sneeze joke. "a chew" = "achoo".</Data>
@@ -275,8 +263,7 @@
             <Data ss:Type="String">#osotc_sc2_vlad_cutscene1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">作为和平与尊敬的象征，为了种族大团结，
-[P=0.5] 我制造了三枚 #osotc_magickrings;！</Data>
+            <Data ss:Type="String">作为和平与尊敬的象征，为了种族大团结，&#10;[P=0.5] 我制造了三枚 #osotc_magickrings;！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">First council cut-scene</Data>
@@ -304,9 +291,7 @@
             <Data ss:Type="String">#osotc_sc2_vlad_cutscene3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一枚戒指给你，#osotc_elfleader;，[P=2.0]高挑纤细的金发者；
-[P=1.0] 一枚给你，#osotc_dwarfleader;，[P=2.0]粗壮稳健的长须者；
-[P=1.0] 还有一枚给你，#osotc_humanleader;,中等身材[P=4.0]优雅的[P=0.5].[P=0.5].[P=0.5].额[P=0.1]诶[P=0.2] 华服者！</Data>
+            <Data ss:Type="String">一枚戒指给你，#osotc_elfleader;，[P=2.0]高挑纤细的金发者；&#10;[P=1.0] 一枚给你，#osotc_dwarfleader;，[P=2.0]粗壮稳健的长须者；&#10;[P=1.0] 还有一枚给你，#osotc_humanleader;,中等身材[P=4.0]优雅的[P=0.5].[P=0.5].[P=0.5].额[P=0.1]诶[P=0.2] 华服者！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">First council cut-scene</Data>
@@ -320,10 +305,7 @@
             <Data ss:Type="String">#osotc_sc2_vlad_cutscene4</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">阿门![P=1.0]为了确保三族联盟的稳固性,我还制造了#osotc_fourthring;戒指![P=2]
-这能确保你们的戒指永远不会欺骗主人，
-[P=3]我称其为...[P=0.5] #osotc_bestring;，[P=0.5] 我想我该坚持下去...[P=0.5] 
-为了更安全地保存[P=0.5].[P=0.5].[P=0.5].</Data>
+            <Data ss:Type="String">阿门![P=1.0]为了确保三族联盟的稳固性,我还制造了#osotc_fourthring;戒指![P=2]&#10;这能确保你们的戒指永远不会欺骗主人，&#10;[P=3]我称其为...[P=0.5] #osotc_bestring;，[P=0.5] 我想我该坚持下去...[P=0.5] &#10;为了更安全地保存[P=0.5].[P=0.5].[P=0.5].</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">First council cut-scene</Data>
@@ -351,9 +333,7 @@
             <Data ss:Type="String">#osotc_sc2_alucart_cannon2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你居然敢用他·的·名·字叫我？你的傲慢无知亵渎
-了神灵!我的愤怒无法容忍!我要剥夺你这渺小的生命，
-就像他当初夺走我的一样！</Data>
+            <Data ss:Type="String">你居然敢用他·的·名·字叫我？你的傲慢无知亵渎&#10;了神灵!我的愤怒无法容忍!我要剥夺你这渺小的生命，&#10;就像他当初夺走我的一样！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Alucart does not forgive the dwarf's mistake</Data>
@@ -367,8 +347,7 @@
             <Data ss:Type="String">#osotc_sc2_dwarfoff_cannon3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">喔喔喔……对对对对不起！
-[P=0.5]你们这些大型人种看起来都差不多！</Data>
+            <Data ss:Type="String">喔喔喔……对对对对不起！&#10;[P=0.5]你们这些大型人种看起来都差不多！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -396,8 +375,7 @@
             <Data ss:Type="String">#osotc_sc2_alucart_cannon5</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">说够了没！[P=0.5] 我的名字是 #osotc_alucartspec;，
-[P=0.5] 你挡着道了，[P=0.5]准备好去死吧！</Data>
+            <Data ss:Type="String">说够了没！[P=0.5] 我的名字是 #osotc_alucartspec;，&#10;[P=0.5] 你挡着道了，[P=0.5]准备好去死吧！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">"Enough talk" - Castlevania reference "My name is  , prepare to die" -The Princess Bride reference</Data>
@@ -555,8 +533,7 @@
             <Data ss:Type="String">#osotc_sc3_elfmage_shield1_1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">停在那里， 黑暗使者！[P=0.5] 我不会让你干扰三族会议的！
-和平才是当今世界的主题！</Data>
+            <Data ss:Type="String">停在那里， 黑暗使者！[P=0.5] 我不会让你干扰三族会议的！&#10;和平才是当今世界的主题！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Elf arch mage sees Alucart approaching</Data>
@@ -570,8 +547,7 @@
             <Data ss:Type="String">#osotc_sc3_alucart_shield1_2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">有远比世界和平更重要的东西...[P=2] 
-好比我的复仇！</Data>
+            <Data ss:Type="String">有远比世界和平更重要的东西...[P=2] &#10;好比我的复仇！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">There are things more important than world peace...[P=2]  like my VENGEANCE!</Data>
@@ -627,8 +603,7 @@
             <Data ss:Type="String">#osotc_sc3_elfmage_shield3_1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我的姐妹们牺牲了？[P=0.5] 她们的死不会白费！
-[P=0.5]我还活着，还在呼吸，这扇大门依旧被封印着！</Data>
+            <Data ss:Type="String">我的姐妹们牺牲了？[P=0.5] 她们的死不会白费！&#10;[P=0.5]我还活着，还在呼吸，这扇大门依旧被封印着！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">So my sisters have fallen?[P=0.5] Their sacrifices will not have been in vain! [P=0.5]While I still breathe, the gate shall remain sealed!</Data>
@@ -702,9 +677,7 @@
             <Data ss:Type="String">#osotc_sc4_vlad_intro1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">...恩，你该在这里签字，[P=1]还有这里跟这里， [P=0.5]
-在这里盖个手印，[P=0.5]还有你名字的首字母，
-[P=0.5]我会尽快把剩下的档案文件尽快交给你。</Data>
+            <Data ss:Type="String">...恩，你该在这里签字，[P=1]还有这里跟这里， [P=0.5]&#10;在这里盖个手印，[P=0.5]还有你名字的首字母，&#10;[P=0.5]我会尽快把剩下的档案文件尽快交给你。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Alucart and Vlad dialogue before final fight</Data>
@@ -760,9 +733,7 @@
             <Data ss:Type="String">#osotc_sc4_vlad_intro5</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">还在追索我这条老命吗？[P=1]真正该算账的是你与你自己的
-过去，但请你现在别打扰我们，[P=1]这场会议是为了团结
-所·有·善·良·阵·营！</Data>
+            <Data ss:Type="String">还在追索我这条老命吗？[P=1]真正该算账的是你与你自己的&#10;过去，但请你现在别打扰我们，[P=1]这场会议是为了团结&#10;所·有·善·良·阵·营！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Alucart and Vlad dialogue before final fight</Data>
@@ -776,8 +747,7 @@
             <Data ss:Type="String">#osotc_sc4_alucart_intro6</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">善良？[P=0.5]你从不是善良阵营的一员！[P=1.0]难道你忘了
-你对我做过什么…？[P=1.5]你迫使我对我的家人做了什么？</Data>
+            <Data ss:Type="String">善良？[P=0.5]你从不是善良阵营的一员！[P=1.0]难道你忘了&#10;你对我做过什么…？[P=1.5]你迫使我对我的家人做了什么？</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Alucart says the word "Good" with a sarcastic intonation</Data>
@@ -791,9 +761,7 @@
             <Data ss:Type="String">#osotc_sc4_vlad_intro7</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你说了你想变成我这样的人...[P=1]我想我可能有一点点
-那么过于字·面·意·思地理解了你，[P=0.5]但是对于你的
-妻子和儿子，[P=1.5]没人逼你，是你自己那么做的。</Data>
+            <Data ss:Type="String">你说了你想变成我这样的人...[P=1]我想我可能有一点点&#10;那么过于字·面·意·思地理解了你，[P=0.5]但是对于你的&#10;妻子和儿子，[P=1.5]没人逼你，是你自己那么做的。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Alucart and Vlad dialogue before final fight. "You have done that yourself" - star wars episode 3 reference.</Data>
@@ -807,9 +775,7 @@
             <Data ss:Type="String">#osotc_sc4_alucart_intro8</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">[P=1]我只是尝试转化他们...[P=2]但那种对血液的饥渴实在难
-以抵抗！[P=2]是你，你的血族诅咒使我永世孤独！[P=2.5]所以，
-为了复仇，[P=0.5]我要把你所珍惜的“善”全数毁灭！</Data>
+            <Data ss:Type="String">[P=1]我只是尝试转化他们...[P=2]但那种对血液的饥渴实在难&#10;以抵抗！[P=2]是你，你的血族诅咒使我永世孤独！[P=2.5]所以，&#10;为了复仇，[P=0.5]我要把你所珍惜的“善”全数毁灭！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Alucart is saddened by the memory </Data>
@@ -837,8 +803,7 @@
             <Data ss:Type="String">#osotc_sc4_alucart_intro10</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">作为你那糊涂个性的标志,[P=1]我会抛起这枚硬币：[P=2]
-正面，  [P=1]你死，[P=2.5]反面...</Data>
+            <Data ss:Type="String">作为你那糊涂个性的标志,[P=1]我会抛起这枚硬币：[P=2]&#10;正面，  [P=1]你死，[P=2.5]反面...</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Alucart and Vlad dialogue before final fight</Data>
@@ -908,8 +873,7 @@
             <Data ss:Type="String">#osotc_sc4_vlad_end4</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你总是过于自信，#osotc_alucart;，[P=0.5]这也是你失去妻儿的原因，
-[P=1]你永远学不会如何掌握我赠给你的力量。</Data>
+            <Data ss:Type="String">你总是过于自信，#osotc_alucart;，[P=0.5]这也是你失去妻儿的原因，&#10;[P=1]你永远学不会如何掌握我赠给你的力量。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Alucart and Vlad dialogue after final fight</Data>
@@ -1033,8 +997,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_necromancerD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">来自不明大陆死亡平原的家伙，最近有许多黑暗艺校的门徒潜藏
-在中原大陆的各个阴暗角落，好像在计划着什么十恶不赦的事儿...</Data>
+            <Data ss:Type="String">来自不明大陆死亡平原的家伙，最近有许多黑暗艺校的门徒潜藏&#10;在中原大陆的各个阴暗角落，好像在计划着什么十恶不赦的事儿...</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">the Undrawn Lands - a place on the magicka map</Data>
@@ -1062,11 +1025,7 @@
             <Data ss:Type="String">#ITEM_osotc_staff01D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">阿鲁卡特太骄傲了，不屑于使用
-"拐杖"般的东西，只依仗自身力量
-#PA;汲取生命
-#PA;奥术免疫
-#AA;冲向目标,吸血补充生命</Data>
+            <Data ss:Type="String">阿鲁卡特太骄傲了，不屑于使用&#10;"拐杖"般的东西，只依仗自身力量&#10;#PA;汲取生命&#10;#PA;奥术免疫&#10;#AA;冲向目标,吸血补充生命</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">description</Data>
@@ -1094,9 +1053,7 @@
             <Data ss:Type="String">#ITEM_osotc_weapon01D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">很久以前,来自阿鲁卡特导师的馈赠
-#DMG;低物理伤害
-#SP;快速,穿透盔甲</Data>
+            <Data ss:Type="String">很久以前,来自阿鲁卡特导师的馈赠&#10;#DMG;低物理伤害&#10;#SP;快速,穿透盔甲</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">alucart weapon descr.</Data>
@@ -1124,10 +1081,7 @@
             <Data ss:Type="String">#ITEM_osotc_staff02D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">只要通过了黑暗艺校最后一道考试，
-所有新毕业的门徒都会配发
-#PA;无
-#AA;召唤黑暗仆从</Data>
+            <Data ss:Type="String">只要通过了黑暗艺校最后一道考试，&#10;所有新毕业的门徒都会配发&#10;#PA;无&#10;#AA;召唤黑暗仆从</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">necromancer staff descr.</Data>
@@ -1253,9 +1207,7 @@
             <Data ss:Type="String">#INTRO_osotc_cut2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">今天我们聚在这里，#osotc_elfleader;，#osotc_dwarfleader;还有#osotc_man; 
-为了解决长久以来的世仇与不和，
-#osotc_awkward;最终会被打破！</Data>
+            <Data ss:Type="String">今天我们聚在这里，#osotc_elfleader;，#osotc_dwarfleader;还有#osotc_man; &#10;为了解决长久以来的世仇与不和，&#10;#osotc_awkward;最终会被打破！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">cut scene intro dialogue 2</Data>
@@ -1269,9 +1221,7 @@
             <Data ss:Type="String">#INTRO_osotc_cut3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我们的护卫队都聚集在#osotc_elwenhus;互相交流，分享快乐，
-自从#osotc_quarrel;事件发生之后，
-这样和谐的场面就没再出现过！</Data>
+            <Data ss:Type="String">我们的护卫队都聚集在#osotc_elwenhus;互相交流，分享快乐，&#10;自从#osotc_quarrel;事件发生之后，&#10;这样和谐的场面就没再出现过！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">cut scene intro dialogue 3</Data>
@@ -1285,9 +1235,7 @@
             <Data ss:Type="String">#INTRO_osotc_cut4</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">在真正的和平到来之前，只差那么一小步，一些小细
-节，一些纸面工作...[P=3.5]让我们一起期待这项伟大的 
-三族结盟进程不会被打扰！[P=0.5].[P=0.5].[P=0.5].</Data>
+            <Data ss:Type="String">在真正的和平到来之前，只差那么一小步，一些小细&#10;节，一些纸面工作...[P=3.5]让我们一起期待这项伟大的 &#10;三族结盟进程不会被打扰！[P=0.5].[P=0.5].[P=0.5].</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">cut scene intro dialogue 4</Data>
@@ -1315,8 +1263,7 @@
             <Data ss:Type="String">#CHALLENGE_necroD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">防守埃文赫兹中心公园，
-许多波善良阵营的家伙正在接近</Data>
+            <Data ss:Type="String">防守埃文赫兹中心公园，&#10;许多波善良阵营的家伙正在接近</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">necromancer challenge descr.</Data>
@@ -1344,9 +1291,7 @@
             <Data ss:Type="String">#CHALLENGE_osotcD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一只神秘的吸血鬼从此踏上复仇之路，
-他的复仇对象是谁？为什么要复仇？
-答案，很快便会揭晓...</Data>
+            <Data ss:Type="String">一只神秘的吸血鬼从此踏上复仇之路，&#10;他的复仇对象是谁？为什么要复仇？&#10;答案，很快便会揭晓...</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">osotc challenge descr.</Data>

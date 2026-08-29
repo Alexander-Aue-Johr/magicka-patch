@@ -77,9 +77,7 @@
             <Data ss:Type="String">#NI_Text_death_outro2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">好吧，咱不咬文嚼字了…你"真"走运！
-咱其实是一家旅行社的股东，
-咱会把你送回你的世界，而且是免费的说。</Data>
+            <Data ss:Type="String">好吧，咱不咬文嚼字了…你"真"走运！&#10;咱其实是一家旅行社的股东，&#10;咱会把你送回你的世界，而且是免费的说。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -93,9 +91,7 @@
             <Data ss:Type="String">#NI_Text_death_outro3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">另外，如果你需要帮助的话，
-给咱挂个电话就好，
-[P=1.5]拨打120，然后转死神热线。</Data>
+            <Data ss:Type="String">另外，如果你需要帮助的话，&#10;给咱挂个电话就好，&#10;[P=1.5]拨打120，然后转死神热线。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">please make it a typical salesman's telephone number</Data>
@@ -109,8 +105,7 @@
             <Data ss:Type="String">#NI_Text_vlad_intro1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">啊，那可不算太好……
-你刚刚怎么不说明一下情况？</Data>
+            <Data ss:Type="String">啊，那可不算太好……&#10;你刚刚怎么不说明一下情况？</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -124,10 +119,7 @@
             <Data ss:Type="String">#NI_Text_vlad_intro2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">啊，好了，就过去的问题争吵没有任何意义
-看起来你最后到达了#Location_NH;-死亡之地。
-对你来说，还好我认识这些土地的统治者-#Boss_N12;，
-除了他的常规工作外，他还是一个旅行社的部分所有者</Data>
+            <Data ss:Type="String">啊，好了，就过去的问题争吵没有任何意义&#10;看起来你最后到达了#Location_NH;-死亡之地。&#10;对你来说，还好我认识这些土地的统治者-#Boss_N12;，&#10;除了他的常规工作外，他还是一个旅行社的部分所有者</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -155,8 +147,7 @@
             <Data ss:Type="String">#NI_Text_vlad_end</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">#Boss_N12;就在前面，
-快告诉他你来这儿的目的</Data>
+            <Data ss:Type="String">#Boss_N12;就在前面，&#10;快告诉他你来这儿的目的</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -622,8 +613,7 @@
             <Data ss:Type="String">#NI_PoI_balloon2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">他们中有一个看起来像罗伯特·福斯特……
-……不管是谁……</Data>
+            <Data ss:Type="String">他们中有一个看起来像罗伯特·福斯特……&#10;……不管是谁……</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">grim fandango reference</Data>

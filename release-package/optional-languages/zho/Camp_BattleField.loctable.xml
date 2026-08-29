@@ -21,9 +21,7 @@
             <Data ss:Type="String">#BF_Text_madness1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我们人数太少，还无法对 #Location_Khan; 进行全面进攻，特别是还有很多术士(阿萨
-多的追随者)跟兽人瞎掺和在一起！[P=1]
-敌人很乱很疯狂！！！</Data>
+            <Data ss:Type="String">我们人数太少，还无法对 #Location_Khan; 进行全面进攻，特别是还有很多术士(阿萨&#10;多的追随者)跟兽人瞎掺和在一起！[P=1]&#10;敌人很乱很疯狂！！！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">300 reference.</Data>
@@ -37,9 +35,7 @@
             <Data ss:Type="String">#BF_Text_madness2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">爱疯？！[P=1]
-…好吧，既然这样…
-我们就先派一些彪悍的巫师去削弱敌人的实力。</Data>
+            <Data ss:Type="String">爱疯？！[P=1]&#10;…好吧，既然这样…&#10;我们就先派一些彪悍的巫师去削弱敌人的实力。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">this line has been rephrased. quote from the film "300"</Data>
@@ -53,9 +49,7 @@
             <Data ss:Type="String">#BF_Text_madness3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你来了！
-你已经在 #Location_HV; 证明了你很有能力。
-是时候为我们的军队开路了，快接受这个荣誉！</Data>
+            <Data ss:Type="String">你来了！&#10;你已经在 #Location_HV; 证明了你很有能力。&#10;是时候为我们的军队开路了，快接受这个荣誉！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">this line has been rephrased. Also, #Location_20; has been replaced with something else. location_hv is Havindr.</Data>
@@ -111,8 +105,7 @@
             <Data ss:Type="String">#BF_Text_madness7</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">好吧我偏题了，但请记住我们就在你的身后！
-我祝你"好运"！</Data>
+            <Data ss:Type="String">好吧我偏题了，但请记住我们就在你的身后！&#10;我祝你"好运"！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The expression: good "luck" (with "luck" in quotation marks) This is a light-hearted signature that the developers have given to the game. The suggestion is that it has nothing to do with luck: the players will prevail. In English, it is a delicate joke. Please "handle with care". The joke occurs throughout the text.</Data>
@@ -126,9 +119,7 @@
             <Data ss:Type="String">#BF_Text_Vlad1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">恐怕这次的任务凶多吉少，
-你所打败的巫师术士曾经效忠于#Boss_N07;，
-他们不可能跟随一个头脑简单的#Boss_N06;。</Data>
+            <Data ss:Type="String">恐怕这次的任务凶多吉少，&#10;你所打败的巫师术士曾经效忠于#Boss_N07;，&#10;他们不可能跟随一个头脑简单的#Boss_N06;。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">First sentence: Star Wars (episode 4) reference.</Data>
@@ -184,8 +175,7 @@
             <Data ss:Type="String">#BF_Text_catapult</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">只用了几个小时就打到这儿了，真是令人惊奇…[P=1]
-我原本认为至少要花上个几天。</Data>
+            <Data ss:Type="String">只用了几个小时就打到这儿了，真是令人惊奇…[P=1]&#10;我原本认为至少要花上个几天。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -199,9 +189,7 @@
             <Data ss:Type="String">#BF_Text_khan_pay</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">看起来我低估了兽人大军和术士的力量。
-好吧，我要亲自解决#Boss_N06;
-别妨碍我！</Data>
+            <Data ss:Type="String">看起来我低估了兽人大军和术士的力量。&#10;好吧，我要亲自解决#Boss_N06;&#10;别妨碍我！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The King (speaking), who is now meeting up with the wizards after they have defeated the orc army. this line has been rephrased.</Data>
@@ -229,10 +217,7 @@
             <Data ss:Type="String">#BF_Text_khan_intro2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">可笑啊兽人！你对#Location_HV;罪恶的侵略
-已经以失败告终。你的军队已然覆灭！
-你的统治已然终结！
-你现在可以以死谢罪了！</Data>
+            <Data ss:Type="String">可笑啊兽人！你对#Location_HV;罪恶的侵略&#10;已经以失败告终。你的军队已然覆灭！&#10;你的统治已然终结！&#10;你现在可以以死谢罪了！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The King of Hávindr is speaking. As you can see, he is arrogant and wants to personally defeat khan.</Data>
@@ -246,10 +231,7 @@
             <Data ss:Type="String">#BF_Text_khan_intro3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">还没这么快…国王。
-当你在这里做口舌之争浪费时间的时候，
-我那些经验最丰富的勇者，已经带着无数#Boss_T5;
-把#Location_HV;包围了。</Data>
+            <Data ss:Type="String">还没这么快…国王。&#10;当你在这里做口舌之争浪费时间的时候，&#10;我那些经验最丰富的勇者，已经带着无数#Boss_T5;&#10;把#Location_HV;包围了。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The Khan replies to the King</Data>
@@ -263,10 +245,7 @@
             <Data ss:Type="String">#BF_Text_khan_intro4</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">…据我的探子回报，你们只有一丁
-点儿人留守那个城市。
-当深夜来临之时，便是#Location_HV;鸣泣之日！
-她会被占领，然后夷为平地！</Data>
+            <Data ss:Type="String">…据我的探子回报，你们只有一丁&#10;点儿人留守那个城市。&#10;当深夜来临之时，便是#Location_HV;鸣泣之日！&#10;她会被占领，然后夷为平地！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The Khan continuing his reply</Data>
@@ -294,9 +273,7 @@
             <Data ss:Type="String">#BF_Text_king_khan5</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">将军！调动军队！
-我们必须全员速撤回防！向#Location_HV;返行。[P=1.5]
-你，剩下的就靠你了，必须打败#Boss_N06;。</Data>
+            <Data ss:Type="String">将军！调动军队！&#10;我们必须全员速撤回防！向#Location_HV;返行。[P=1.5]&#10;你，剩下的就靠你了，必须打败#Boss_N06;。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">the King flees back to Havindr, leaving the players to deal with the khan</Data>
@@ -310,9 +287,7 @@
             <Data ss:Type="String">#BF_Text_king_khan6</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">看起来人类的#Her_king;已经夹着尾巴逃了，
-留下你来给强大的#Boss_T6; 当玩具。
-穿着浴袍的“英雄”？哈哈哈。</Data>
+            <Data ss:Type="String">看起来人类的#Her_king;已经夹着尾巴逃了，&#10;留下你来给强大的#Boss_T6; 当玩具。&#10;穿着浴袍的“英雄”？哈哈哈。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The Khan turns to the players, mocking them (the players are wearing wizard robes, which the Khan pretends to mistake for bathrobes). (the Khan referring to himself as the mighty Khan)</Data>
@@ -396,10 +371,7 @@
             <Data ss:Type="String">#BF_Text_khan_end2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你以为你是救世主，能拯救一切？
-擦！这个世界即将堕入无尽深渊！在#Location_EW;，
-伟大的黑暗之神#Boss_N07;将颠覆传统，重组秩序。[P=1]
-世人很快会意识到这个世界将不再俯首于凡人！</Data>
+            <Data ss:Type="String">你以为你是救世主，能拯救一切？&#10;擦！这个世界即将堕入无尽深渊！在#Location_EW;，&#10;伟大的黑暗之神#Boss_N07;将颠覆传统，重组秩序。[P=1]&#10;世人很快会意识到这个世界将不再俯首于凡人！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">this line was revised</Data>
@@ -427,9 +399,7 @@
             <Data ss:Type="String">#BF_Text_vlad_end1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">干得好！
-然而正如我所预料，#Boss_N07;就是幕后主使，
-但我想不通他是怎么挣开千年枷锁的。</Data>
+            <Data ss:Type="String">干得好！&#10;然而正如我所预料，#Boss_N07;就是幕后主使，&#10;但我想不通他是怎么挣开千年枷锁的。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -443,11 +413,7 @@
             <Data ss:Type="String">#BF_Text_vlad_end2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你的任务并不简单…但不管怎样，
-我知道你都会无条件遵从。
-所以你现在必须去#Location_EW;，
-亲眼见证#Boss_N07;到底干了什么。
-别为杂兵浪费时间，时间是留给头目的！</Data>
+            <Data ss:Type="String">你的任务并不简单…但不管怎样，&#10;我知道你都会无条件遵从。&#10;所以你现在必须去#Location_EW;，&#10;亲眼见证#Boss_N07;到底干了什么。&#10;别为杂兵浪费时间，时间是留给头目的！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -461,8 +427,7 @@
             <Data ss:Type="String">#BF_Text_vlad_end3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">快走！
-玻璃咿咿咿！</Data>
+            <Data ss:Type="String">快走！&#10;玻璃咿咿咿！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>

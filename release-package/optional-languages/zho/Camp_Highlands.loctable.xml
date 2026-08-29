@@ -21,9 +21,7 @@
             <Data ss:Type="String">#HL_Text_vlad_intro1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哦，是你！[P=0.5]我只是在吃点心
-我是说…跟一个高地人聊天。
-在更北方有一个村庄叫#Location_Dunderhead;。</Data>
+            <Data ss:Type="String">哦，是你！[P=0.5]我只是在吃点心&#10;我是说…跟一个高地人聊天。&#10;在更北方有一个村庄叫#Location_Dunderhead;。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Vlad is eating a villager</Data>
@@ -37,8 +35,7 @@
             <Data ss:Type="String">#HL_Text_vlad_intro2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">他们为#location_hv;定期输送火药，
-我觉得你可以搭顺风车。</Data>
+            <Data ss:Type="String">他们为#location_hv;定期输送火药，&#10;我觉得你可以搭顺风车。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -66,8 +63,7 @@
             <Data ss:Type="String">#HL_Text_mcleod2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">生命诚可贵，房产价更高……
-别在外流浪了，赶快回家去吧。</Data>
+            <Data ss:Type="String">生命诚可贵，房产价更高……&#10;别在外流浪了，赶快回家去吧。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -81,8 +77,7 @@
             <Data ss:Type="String">#HL_Text_druid1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哎呀，很好，很好……看看我们遇到了啥，
-新鲜出笼的肉脚菜鸟！</Data>
+            <Data ss:Type="String">哎呀，很好，很好……看看我们遇到了啥，&#10;新鲜出笼的肉脚菜鸟！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Clockwork orange reference</Data>
@@ -96,9 +91,7 @@
             <Data ss:Type="String">#HL_Text_druid2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">是时候结束了……
-不可能有人在穿越这片树林后…[P=1]
-…还活着！</Data>
+            <Data ss:Type="String">是时候结束了……&#10;不可能有人在穿越这片树林后…[P=1]&#10;…还活着！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Holy Grail Ref.</Data>
@@ -112,10 +105,7 @@
             <Data ss:Type="String">#HL_Text_beasts1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">旅行者，你好！[P=.5]
-我听说#Location_HL;被可怕的牛头人袭击了！
-所以我想我还是放弃我的风车我的农场，
-搬到#Location_Veiditorp;去。</Data>
+            <Data ss:Type="String">旅行者，你好！[P=.5]&#10;我听说#Location_HL;被可怕的牛头人袭击了！&#10;所以我想我还是放弃我的风车我的农场，&#10;搬到#Location_Veiditorp;去。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -129,9 +119,7 @@
             <Data ss:Type="String">#HL_Text_beasts2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">听说，那里有很多发着光带刺青的
-牛头怪，还有红色有角三倍速！！
-毫不夸张地说，吓着哥了!</Data>
+            <Data ss:Type="String">听说，那里有很多发着光带刺青的&#10;牛头怪，还有红色有角三倍速！！&#10;毫不夸张地说，吓着哥了!</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -145,8 +133,7 @@
             <Data ss:Type="String">#HL_Text_village_intro1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">欢迎来到#Location_dunderhead;，皇家火药供应基地！
-你要去哪里？</Data>
+            <Data ss:Type="String">欢迎来到#Location_dunderhead;，皇家火药供应基地！&#10;你要去哪里？</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -160,9 +147,7 @@
             <Data ss:Type="String">#HL_Text_village_intro2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你打算一路地奔去#Location_hv;？
-等你到达那都要猴年马月了…
-鞋也不知要跑坏多少双！</Data>
+            <Data ss:Type="String">你打算一路地奔去#Location_hv;？&#10;等你到达那都要猴年马月了…&#10;鞋也不知要跑坏多少双！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Must be commuter - star wars ref. (computer). Navigating an asteroid field(?)… "That's impossible even for a computer."</Data>
@@ -176,8 +161,7 @@
             <Data ss:Type="String">#HL_Text_village_intro3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我们刚好准备运货到那儿，
-你愿意的话我们可以带上你。</Data>
+            <Data ss:Type="String">我们刚好准备运货到那儿，&#10;你愿意的话我们可以带上你。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">the second sentence was revised, to be less colloquial/familiar/casual.</Data>
@@ -191,8 +175,7 @@
             <Data ss:Type="String">#HL_Text_village_intro4</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">啊啊啊啊！！[P=1]
-牛，牛人…牛头人来了！</Data>
+            <Data ss:Type="String">啊啊啊啊！！[P=1]&#10;牛，牛人…牛头人来了！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -206,10 +189,7 @@
             <Data ss:Type="String">#HL_Text_village_intro5</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我擦！不能在这里当活靶子！
-[P=1]所有人，快，进入火药储存室！
-[P=.5]这些房子能完整保存就再好不过了，
-会升值的，你懂的！</Data>
+            <Data ss:Type="String">我擦！不能在这里当活靶子！&#10;[P=1]所有人，快，进入火药储存室！&#10;[P=.5]这些房子能完整保存就再好不过了，&#10;会升值的，你懂的！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">this line was revised, the final sentence added.</Data>
@@ -223,8 +203,7 @@
             <Data ss:Type="String">#HL_Text_chief_intro1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">所有人类！在牛头人部落的力量前颤抖吧！[P=0.5]
-灭了这个小山寨！</Data>
+            <Data ss:Type="String">所有人类！在牛头人部落的力量前颤抖吧！[P=0.5]&#10;灭了这个小山寨！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">big goblin chief is the final boss of this mission</Data>
@@ -280,8 +259,7 @@
             <Data ss:Type="String">#HL_Text_village_perf1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哇，你竟然成功地保护了大家的房子！
-来，这个很带感的玩意儿给你，就当作对你的答谢。</Data>
+            <Data ss:Type="String">哇，你竟然成功地保护了大家的房子！&#10;来，这个很带感的玩意儿给你，就当作对你的答谢。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -295,8 +273,7 @@
             <Data ss:Type="String">#HL_Text_village_perf2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我们的铁匠#Her_Angus;只用了一些别针
-[P=1]和一把猎枪，就造出了这货！给力吧！</Data>
+            <Data ss:Type="String">我们的铁匠#Her_Angus;只用了一些别针&#10;[P=1]和一把猎枪，就造出了这货！给力吧！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -310,9 +287,7 @@
             <Data ss:Type="String">#HL_Text_village_perf3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">基本上可以出发啦, 
-准备好了就坐到前面来,
- 我们就会前往 #Location_HV;.</Data>
+            <Data ss:Type="String">基本上可以出发啦, &#10;准备好了就坐到前面来,&#10; 我们就会前往 #Location_HV;.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -354,8 +329,7 @@
             <Data ss:Type="String">#HL_Text_helped_f1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">真丢人#CiMN7;，你呆在这儿！
-现在谁去风车那边看看？</Data>
+            <Data ss:Type="String">真丢人#CiMN7;，你呆在这儿！&#10;现在谁去风车那边看看？</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Hrafn</Data>
@@ -411,8 +385,7 @@
             <Data ss:Type="String">#HL_Text_Vlad_bridge2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">啊，我有个主意…[P=1]
-咱们偷了旁边这艘飞艇，然后开往#location_hv;！</Data>
+            <Data ss:Type="String">啊，我有个主意…[P=1]&#10;咱们偷了旁边这艘飞艇，然后开往#location_hv;！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -426,8 +399,7 @@
             <Data ss:Type="String">#HL_Text_Vlad_preship</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我们该去没些这吸血…学者的地方…额，他先走了，
-我来驾驶！你继续放哨！</Data>
+            <Data ss:Type="String">我们该去没些这吸血…学者的地方…额，他先走了，&#10;我来驾驶！你继续放哨！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -441,8 +413,7 @@
             <Data ss:Type="String">#HL_Text_Vlad_Airship</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我感应到城里出了大骚乱，我要立即回去一趟…
-你来掌舵！</Data>
+            <Data ss:Type="String">我感应到城里出了大骚乱，我要立即回去一趟…&#10;你来掌舵！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">they are flying over the swamps in their airship. Vlad senses that the "imposters" are approaching his castle, and therefore has to bail. Tells the player to take the helm of the airship, so Vlad can disappear. (Star Wars reference. I sense a great disturbance in the force.) </Data>
@@ -693,8 +664,7 @@
             <Data ss:Type="String">#HL_PoI_storage</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">看起来是个勉强能算的上是储藏室的房间…[P=1]
-…当然，门是锁着的。</Data>
+            <Data ss:Type="String">看起来是个勉强能算的上是储藏室的房间…[P=1]&#10;…当然，门是锁着的。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Looks like a storage room of sorts…[P=1]    ...The door is locked, of course.</Data>
@@ -722,8 +692,7 @@
             <Data ss:Type="String">#HL_PoI_picnic</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哥布林的野餐…[P=1]
-…够摆一茶几的啦！</Data>
+            <Data ss:Type="String">哥布林的野餐…[P=1]&#10;…够摆一茶几的啦！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -779,8 +748,7 @@
             <Data ss:Type="String">#HL_PoI_ruins1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">据传闻，这座城堡的名字是“哎哎哎呀”…[P=1]
-…不可能这么囧吧。</Data>
+            <Data ss:Type="String">据传闻，这座城堡的名字是“哎哎哎呀”…[P=1]&#10;…不可能这么囧吧。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Monty Python ref.</Data>

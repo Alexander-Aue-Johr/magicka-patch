@@ -21,10 +21,7 @@
             <Data ss:Type="String">#VTN_Vlad_intro1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">欢迎来到越南！要不惜一切代价冲入敌人基地，
-释放被关押的囚犯！虽然很危险，
-但希望你不要放过任何弹药仓库
-还有无线电塔，总之炸光所有敌方设施。</Data>
+            <Data ss:Type="String">欢迎来到越南！要不惜一切代价冲入敌人基地，&#10;释放被关押的囚犯！虽然很危险，&#10;但希望你不要放过任何弹药仓库&#10;还有无线电塔，总之炸光所有敌方设施。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The blue lines are recorded with "gibberish" language.</Data>
@@ -38,9 +35,7 @@
             <Data ss:Type="String">#VTN_Vlad_intro2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这里太阳真火辣，作为一名吸血鬼我感到压力很大！
-所以我不能像之前那样一路陪着你，让我们在汇合点相聚。
-祝你好运！</Data>
+            <Data ss:Type="String">这里太阳真火辣，作为一名吸血鬼我感到压力很大！&#10;所以我不能像之前那样一路陪着你，让我们在汇合点相聚。&#10;祝你好运！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -54,9 +49,7 @@
             <Data ss:Type="String">#VTN_Vlad_napalm</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">&gt;我已经给了你请求空中支援的权限，只需甩出一颗烟雾弹来定位，
-熊熊烈火就会神奇地从天而降！很带感的！[p=1.5]
-玻璃咿咿咿！</Data>
+            <Data ss:Type="String">&gt;我已经给了你请求空中支援的权限，只需甩出一颗烟雾弹来定位，&#10;熊熊烈火就会神奇地从天而降！很带感的！[p=1.5]&#10;玻璃咿咿咿！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Vlad is explaining about summoning napalm. You throw a smoke grenade, and then liquid fire rains down from the sky, in the area marked by the smoke. (Vlad calls in a napalm bomber in response to your smoke signal.)  Note that these two lines will have a "radio"/"walkie-talkie" effect. This can effect the actor's performance.</Data>
@@ -70,9 +63,7 @@
             <Data ss:Type="String">#VTN_Vlad_rendevouz</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">什么？你已经在汇合点了！？不要害怕，人类朋友！
-待在那儿别动，我们很快就到！
-玻璃咿咿咿！</Data>
+            <Data ss:Type="String">什么？你已经在汇合点了！？不要害怕，人类朋友！&#10;待在那儿别动，我们很快就到！&#10;玻璃咿咿咿！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Note that these two lines will have a "radio"/"walkie-talkie" effect. This can effect the actor's performance.</Data>
@@ -142,9 +133,7 @@
             <Data ss:Type="String">#VTN_private_comment3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">雨林里的路踩起来有种黏答答湿乎乎的感觉。
-呃，就是字面意思，
-我想可能有只虫子在我靴子里。</Data>
+            <Data ss:Type="String">雨林里的路踩起来有种黏答答湿乎乎的感觉。&#10;呃，就是字面意思，&#10;我想可能有只虫子在我靴子里。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">This jungle is giving me the creeps. Literally, I think I got bugs in my boots.</Data>
@@ -172,8 +161,7 @@
             <Data ss:Type="String">#VTN_private_comment5</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">好，我们就在这里等待下一道命令，
-你继续往前走吧。</Data>
+            <Data ss:Type="String">好，我们就在这里等待下一道命令，&#10;你继续往前走吧。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">nice one = good job with the battle you just finished.  A NPC soldier congratulates the player(s) for defeating the enemies. Then in a comically cowardly way, they “stay here” (where it’s safe), and send the player(s) on ahead, where there will be more enemies.  you=singular or plural. It's possible to stay singular because each player feels personally addressed. It's a psychological effect.</Data>
@@ -271,8 +259,7 @@
             <Data ss:Type="String">#VTN_pow_rambo2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我有一条座右铭，
-不能为战友而生，但求为战友而死。</Data>
+            <Data ss:Type="String">我有一条座右铭，&#10;不能为战友而生，但求为战友而死。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Quote from Rambo 2</Data>
@@ -300,8 +287,7 @@
             <Data ss:Type="String">#VTN_tooltip_duck</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">装备热武器时注意使用格挡键来躲闪，
-躲在掩体后面能更好地避开冷枪暗弹。</Data>
+            <Data ss:Type="String">装备热武器时注意使用格挡键来躲闪，&#10;躲在掩体后面能更好地避开冷枪暗弹。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">It’s the game giving the player tips.</Data>
@@ -403,8 +389,7 @@
             <Data ss:Type="String">#VTN_PoI_mortars</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一些迫击炮。都湿透了，
-散发着难闻的尿味。</Data>
+            <Data ss:Type="String">一些迫击炮。都湿透了，&#10;散发着难闻的尿味。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Reference to the film "We Were Soldiers" where they urinate on the mortars to cool them off.</Data>
@@ -478,10 +463,7 @@
             <Data ss:Type="String">#VI_WE_M16D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一款轻便的突击步枪，5.56毫米，
-CCTV军事频道推荐。
-#DMG;中物理伤害
-#ROF;800发每分钟</Data>
+            <Data ss:Type="String">一款轻便的突击步枪，5.56毫米，&#10;CCTV军事频道推荐。&#10;#DMG;中物理伤害&#10;#ROF;800发每分钟</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">comically over-wrought description.</Data>
@@ -509,10 +491,7 @@ CCTV军事频道推荐。
             <Data ss:Type="String">#VI_WE_AK47D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一款火力强大的突击步枪，
-7.62x39毫米，广销中东！
-#DMG;中物理伤害
-#ROF;600发每分钟</Data>
+            <Data ss:Type="String">一款火力强大的突击步枪，&#10;7.62x39毫米，广销中东！&#10;#DMG;中物理伤害&#10;#ROF;600发每分钟</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Description</Data>
@@ -540,9 +519,7 @@ CCTV军事频道推荐。
             <Data ss:Type="String">#VI_WE_RPG7D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一款应用广泛的火箭炮，40毫米，
-便携式，肩扛发射，反坦克。
-…可惜不会飞</Data>
+            <Data ss:Type="String">一款应用广泛的火箭炮，40毫米，&#10;便携式，肩扛发射，反坦克。&#10;…可惜不会飞</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Description</Data>
@@ -570,10 +547,7 @@ CCTV军事频道推荐。
             <Data ss:Type="String">#VI_WE_RPDD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一部轻机枪，7.62x39毫米，
-会连射的好物！
-#DMG;中物理伤害
-#ROF;650发/每分钟</Data>
+            <Data ss:Type="String">一部轻机枪，7.62x39毫米，&#10;会连射的好物！&#10;#DMG;中物理伤害&#10;#ROF;650发/每分钟</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Description</Data>
@@ -601,10 +575,7 @@ CCTV军事频道推荐。
             <Data ss:Type="String">#VI_WE_NAGD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一款军用步枪，7.62x54毫米。
-似乎是古董！
-#DMG;高物理伤害
-#ROF;单发</Data>
+            <Data ss:Type="String">一款军用步枪，7.62x54毫米。&#10;似乎是古董！&#10;#DMG;高物理伤害&#10;#ROF;单发</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Description</Data>
@@ -632,10 +603,7 @@ CCTV军事频道推荐。
             <Data ss:Type="String">#VI_WE_MAT49D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一款法国制造的全自动机枪，
-9x19毫米，没啥特别的。
-#DMG;低物理伤害
-#ROF;600发每分钟</Data>
+            <Data ss:Type="String">一款法国制造的全自动机枪，&#10;9x19毫米，没啥特别的。&#10;#DMG;低物理伤害&#10;#ROF;600发每分钟</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Description</Data>
@@ -663,10 +631,7 @@ CCTV军事频道推荐。
             <Data ss:Type="String">#VI_WE_M60D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一款G.I.s.赋予"小猪"绰号的机枪，
-7.62x51毫米，很棒的武器。
-#DMG;高物理伤害
-#ROF;550发每分钟</Data>
+            <Data ss:Type="String">一款G.I.s.赋予"小猪"绰号的机枪，&#10;7.62x51毫米，很棒的武器。&#10;#DMG;高物理伤害&#10;#ROF;550发每分钟</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Description</Data>
@@ -694,9 +659,7 @@ CCTV军事频道推荐。
             <Data ss:Type="String">#VI_IT_STAFFD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">星条旗赋予勇气，白头鹰衔来自豪
-#PA;无
-#AA;自由手雷</Data>
+            <Data ss:Type="String">星条旗赋予勇气，白头鹰衔来自豪&#10;#PA;无&#10;#AA;自由手雷</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">comically (tastelessly) over-nationalistic. Supposed to be poking fun at militarism, but not in a harsh way. Amusing but not distrubing. Please adjust as appropriate.</Data>
@@ -742,8 +705,7 @@ CCTV军事频道推荐。
             <Data ss:Type="String">#magick_napalmD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">召唤幻影战机抛下大量
-凝固汽油弹来消灭敌人。</Data>
+            <Data ss:Type="String">召唤幻影战机抛下大量&#10;凝固汽油弹来消灭敌人。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Summons a phantom to consume your enemies in liquid fire.</Data>
@@ -831,10 +793,7 @@ CCTV军事频道推荐。
             <Data ss:Type="String">#CHALLENGE_VIETNAMSD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">在四面八方都是
-敌人的情况下，
-谁站到最后
-谁就是英雄。</Data>
+            <Data ss:Type="String">在四面八方都是&#10;敌人的情况下，&#10;谁站到最后&#10;谁就是英雄。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Make a heroic last stand, as Vietcong forces assail you from all directions.</Data>

@@ -35,16 +35,7 @@
             <Data ss:Type="String">#PACK_GADGETSD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">-#item_gadget_weapon01;
--#item_gadget_weapon02;
--#item_gadget_weapon03;
--#item_gadget_weapon04;
--#item_gadget_weapon05;
--#item_gadget_weapon06;
--#item_gadget_weapon07;
--#item_gadget_staff01;
--#item_gadget_staff02;
--#item_gadget_staff03;</Data>
+            <Data ss:Type="String">-#item_gadget_weapon01;&#10;-#item_gadget_weapon02;&#10;-#item_gadget_weapon03;&#10;-#item_gadget_weapon04;&#10;-#item_gadget_weapon05;&#10;-#item_gadget_weapon06;&#10;-#item_gadget_weapon07;&#10;-#item_gadget_staff01;&#10;-#item_gadget_staff02;&#10;-#item_gadget_staff03;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Do not translate</Data>
@@ -72,16 +63,7 @@
             <Data ss:Type="String">#PACK_HEIRLOOMSD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">-#item_heirloom_weapon01;
--#item_heirloom_weapon02;
--#item_heirloom_weapon03;
--#item_heirloom_weapon04;
--#item_heirloom_weapon05;
--#item_heirloom_weapon06;
--#item_heirloom_staff01;
--#item_heirloom_staff02;
--#item_heirloom_staff04;
--#item_heirloom_staff05;</Data>
+            <Data ss:Type="String">-#item_heirloom_weapon01;&#10;-#item_heirloom_weapon02;&#10;-#item_heirloom_weapon03;&#10;-#item_heirloom_weapon04;&#10;-#item_heirloom_weapon05;&#10;-#item_heirloom_weapon06;&#10;-#item_heirloom_staff01;&#10;-#item_heirloom_staff02;&#10;-#item_heirloom_staff04;&#10;-#item_heirloom_staff05;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Do not translate</Data>
@@ -141,10 +123,7 @@
             <Data ss:Type="String">#item_gadget_weapon01d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">矮人出品，必属精品，
-电动开关设计好温馨
-#DMG;低物理伤害
-#SP;打了就跑</Data>
+            <Data ss:Type="String">矮人出品，必属精品，&#10;电动开关设计好温馨&#10;#DMG;低物理伤害&#10;#SP;打了就跑</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">hit the target with a garbage collector claw, inflict some damage and teleports player at the same time</Data>
@@ -172,9 +151,7 @@
             <Data ss:Type="String">#item_gadget_weapon02d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">自然而然地...你们就是“伙伴”了
-#DMG;治疗目标
-#SP;魅惑</Data>
+            <Data ss:Type="String">自然而然地...你们就是“伙伴”了&#10;#DMG;治疗目标&#10;#SP;魅惑</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">charms and heals target</Data>
@@ -202,9 +179,7 @@
             <Data ss:Type="String">#item_gadget_weapon03d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">在对手的脑门上制造亿万只小虫
-#DMG;低物理伤害
-#SP;小虫能引起恐慌</Data>
+            <Data ss:Type="String">在对手的脑门上制造亿万只小虫&#10;#DMG;低物理伤害&#10;#SP;小虫能引起恐慌</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">damages target and inflicts "fear". "apply directly to the forehead" is a reference to the HeadOn internet meme.</Data>
@@ -232,9 +207,7 @@
             <Data ss:Type="String">#item_gadget_weapon04d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">慵懒纵火者的得力助手
-#DMG;低火系伤害
-#SP;燃烧</Data>
+            <Data ss:Type="String">慵懒纵火者的得力助手&#10;#DMG;低火系伤害&#10;#SP;燃烧</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">fires a glob of fire that ignites things</Data>
@@ -262,10 +235,7 @@
             <Data ss:Type="String">#item_gadget_weapon05d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">为了能在夏季举办冬运会而设计，
-不过很快就被应用于防爆和外科手术
-#DMG;低寒冷伤害
-#SP;冰冻</Data>
+            <Data ss:Type="String">为了能在夏季举办冬运会而设计，&#10;不过很快就被应用于防爆和外科手术&#10;#DMG;低寒冷伤害&#10;#SP;冰冻</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">fires a ball of ice that chills targets in an area on impact</Data>
@@ -293,10 +263,7 @@
             <Data ss:Type="String">#item_gadget_weapon06d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">它的前一个拥有者绝不是森林巨魔，
-绝不...
-#DMG;无
-#SP;推搡</Data>
+            <Data ss:Type="String">它的前一个拥有者绝不是森林巨魔，&#10;绝不...&#10;#DMG;无&#10;#SP;推搡</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">a big rifle that pushes things away</Data>
@@ -324,9 +291,7 @@
             <Data ss:Type="String">#item_gadget_weapon07d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">用于制造大范围毁灭效果的装置
-#DMG;威力无穷的火箭
-#SP;无</Data>
+            <Data ss:Type="String">用于制造大范围毁灭效果的装置&#10;#DMG;威力无穷的火箭&#10;#SP;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">launches a ball/rocket that inflicts healing in an area on impact. The rocket itself can, theoretically, inflict direct physical damage to its target; but mostly it just heals the enemy. The joke is that the description does not mention that it's useless for damaging your enemy (except to say it's malfunctioning). Instead the description says what it's *supposed* to do, and says that the rockets are *powerful*, without mentioning what that power is.</Data>
@@ -354,10 +319,7 @@
             <Data ss:Type="String">#item_gadget_staff01d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">适合任何人使用,如抽脂医师,
-专业酒驾人士等...
-#PA;增强物理和闪电抵抗
-#AA;油腻</Data>
+            <Data ss:Type="String">适合任何人使用,如抽脂医师,&#10;专业酒驾人士等...&#10;#PA;增强物理和闪电抵抗&#10;#AA;油腻</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">casts "grease"</Data>
@@ -385,10 +347,7 @@
             <Data ss:Type="String">#item_gadget_staff02d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">长期暴露在放射源下
-可能会死得很滑稽哦.
-#PA;加强闪电法术伤害
-#AA;消除热源</Data>
+            <Data ss:Type="String">长期暴露在放射源下&#10;可能会死得很滑稽哦.&#10;#PA;加强闪电法术伤害&#10;#AA;消除热源</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Purge heat simply launches a fire bolt, the idea being that the rod is releasing its energy, like in a nuclear reactor. "severe death" is meant to be an amusingly redundant hyperbole.</Data>
@@ -416,10 +375,7 @@
             <Data ss:Type="String">#item_gadget_staff03d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">无法反抗，无法对抗，
-只有一种可能…
-#PA;加强奥术法术伤害
-#AA;拉扯</Data>
+            <Data ss:Type="String">无法反抗，无法对抗，&#10;只有一种可能…&#10;#PA;加强奥术法术伤害&#10;#AA;拉扯</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">casts "inverse push" or tractor beam. In experimental physics, a fusion engine has never been achieved, and may not be feasible. Hence probably impossible, or to make it amusing "probably not probable". "Improbability" is a slight hint to Hitchhiker's guide's "improbability drive".</Data>
@@ -1151,10 +1107,7 @@
             <Data ss:Type="String">#item_heirloom_weapon01d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">不仅仅可以挂在墙上……
-还能拿在手里,化在舌尖
-#DMG;中物理伤害
-#SP;慢速,击退</Data>
+            <Data ss:Type="String">不仅仅可以挂在墙上……&#10;还能拿在手里,化在舌尖&#10;#DMG;中物理伤害&#10;#SP;慢速,击退</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">slow melee thrust weapon that inflicts heavy damage and knockback</Data>
@@ -1182,9 +1135,7 @@
             <Data ss:Type="String">#item_heirloom_weapon02d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">睹物思人,犹记那年祖母的微笑…
-#DMG;低物理伤害
-#SP;中毒</Data>
+            <Data ss:Type="String">睹物思人,犹记那年祖母的微笑…&#10;#DMG;低物理伤害&#10;#SP;中毒</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">punching or slashing weapon that inflicts low physical damage and poison</Data>
@@ -1212,9 +1163,7 @@
             <Data ss:Type="String">#item_heirloom_weapon03d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">某场战争的遗留物,没人用过
-#DMG;中物理伤害
-#SP;无</Data>
+            <Data ss:Type="String">某场战争的遗留物,没人用过&#10;#DMG;中物理伤害&#10;#SP;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">simple and fast thrust weapon that increases wielder's movement speed slightly</Data>
@@ -1242,9 +1191,7 @@
             <Data ss:Type="String">#item_heirloom_weapon04d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">已经锈透的老爷枪,威力貌似不错
-#DMG;高物理伤害
-#SP;非常慢</Data>
+            <Data ss:Type="String">已经锈透的老爷枪,威力貌似不错&#10;#DMG;高物理伤害&#10;#SP;非常慢</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">simple, very slow but very powerful rifle</Data>
@@ -1272,9 +1219,7 @@
             <Data ss:Type="String">#item_heirloom_weapon05d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">唔,俗话说千万别浪费“生命”…
-#DMG;低奥术伤害
-#SP;中毒,溅射</Data>
+            <Data ss:Type="String">唔,俗话说千万别浪费“生命”…&#10;#DMG;低奥术伤害&#10;#SP;中毒,溅射</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">throws body parts that on impact inflict arcane damage and fear. It "throws" the opposite of Life -- arcane spells and dead parts.</Data>
@@ -1302,9 +1247,7 @@
             <Data ss:Type="String">#item_heirloom_weapon06d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我曾经和你一样是个冒险者...
-#DMG;中物理伤害
-#SP;穿甲弹</Data>
+            <Data ss:Type="String">我曾经和你一样是个冒险者...&#10;#DMG;中物理伤害&#10;#SP;穿甲弹</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">simple fast-firing rifle (a glock with attached stock and flashlight). Magazine - the kind that holds bullets.</Data>
@@ -1332,10 +1275,7 @@
             <Data ss:Type="String">#item_heirloom_staff01d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">到底是反抗还是对抗啊
-尼玛我分不清了！
-#PA;增强生命法术,消耗生命
-#AA;无</Data>
+            <Data ss:Type="String">到底是反抗还是对抗啊&#10;尼玛我分不清了！&#10;#PA;增强生命法术,消耗生命&#10;#AA;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">greatly increases player health and Life spells but constantly drains the player's health</Data>
@@ -1363,9 +1303,7 @@
             <Data ss:Type="String">#item_heirloom_staff02d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">直到我的膝盖中了一箭...
-#PA;扭曲时间,减少所有抗性
-#AA;无</Data>
+            <Data ss:Type="String">直到我的膝盖中了一箭...&#10;#PA;扭曲时间,减少所有抗性&#10;#AA;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">doubles the player's movement speed and vulnerabilities</Data>
@@ -1393,9 +1331,7 @@
             <Data ss:Type="String">#item_heirloom_staff03d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">代表太阳逮捕你，我就是王法！
-#PA;无
-#AA;捕获陷阱</Data>
+            <Data ss:Type="String">代表太阳逮捕你，我就是王法！&#10;#PA;无&#10;#AA;捕获陷阱</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">either fires a glob that on impact erects a shield bubble OR erects a shield bubble around the player and then teleports the player away. Sentence = legal sentence/punishment</Data>
@@ -1423,10 +1359,7 @@
             <Data ss:Type="String">#item_heirloom_staff04d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">老人家出门再也不怕下雨和卖拐了
-#PA;获得水系免疫,大地抵抗
-但是会削弱水系法术
-#AA;无</Data>
+            <Data ss:Type="String">老人家出门再也不怕下雨和卖拐了&#10;#PA;获得水系免疫,大地抵抗&#10;但是会削弱水系法术&#10;#AA;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">It's too old to bother unfolding, but due to its sheer stubbornness it works perfectly well nevertheless. #PA;Water Immunity and Earth Resistance, but Weaker Water spells #AA;None</Data>
@@ -1454,9 +1387,7 @@
             <Data ss:Type="String">#item_heirloom_staff05d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">还记得那些年被抽打的愉悦吗?
-#PA;轻微增强所有法术
-#AA;净化(都安静!坐直了!)</Data>
+            <Data ss:Type="String">还记得那些年被抽打的愉悦吗?&#10;#PA;轻微增强所有法术&#10;#AA;净化(都安静!坐直了!)</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A teacher's stick with a suitable Nullify-spell ("Quiet! Stop it!")</Data>
@@ -1920,9 +1851,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_MetalD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">"节操？节操是神马,有化肥好吃吗?"
-- 或北漂或南下的乡村巫师
-- 其实你想说的是"节奏"吧？</Data>
+            <Data ss:Type="String">"节操？节操是神马,有化肥好吃吗?"&#10;- 或北漂或南下的乡村巫师&#10;- 其实你想说的是"节奏"吧？</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Reference to AC-DC's song "Highway to Hell"  (the line is "Don't need reason, don't need rhyme"). Going south = going to hell.</Data>
@@ -1950,10 +1879,7 @@
             <Data ss:Type="String">#item_musician_staff01d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">法杖的一头粘着一枚巨大的麦克风
-"农业重金属,乡村杀马特"
-#PA;增强闪电法术
-#AA;魅惑</Data>
+            <Data ss:Type="String">法杖的一头粘着一枚巨大的麦克风&#10;"农业重金属,乡村杀马特"&#10;#PA;增强闪电法术&#10;#AA;魅惑</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1981,10 +1907,7 @@
             <Data ss:Type="String">#item_musician_weapon01d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一切为了粗暴艺术
-"农业重金属,乡村杀马特"
-#DMG;高物理,闪电伤害
-#SP;慢速</Data>
+            <Data ss:Type="String">一切为了粗暴艺术&#10;"农业重金属,乡村杀马特"&#10;#DMG;高物理,闪电伤害&#10;#SP;慢速</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">trashing, as in violently slamming (and usually breaking) the guitar into the ground.</Data>
@@ -2013,8 +1936,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_DrummerD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">砰砰砰！啪啪啪！
-- 曾经手持大锤,性格孤僻</Data>
+            <Data ss:Type="String">砰砰砰！啪啪啪！&#10;- 曾经手持大锤,性格孤僻</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Reference to M.C. Hammer's rap song "Can't Touch This". The word "hammered" (which also means "highly intoxicated") reinforces the joke.  "once upon a time" is refering to the line "hammer time".</Data>
@@ -2042,9 +1964,7 @@
             <Data ss:Type="String">#item_musician_staff02d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">此鼓只应天上有,人间能得几回闻
-#PA;大地抵抗
-#AA;范围击退</Data>
+            <Data ss:Type="String">此鼓只应天上有,人间能得几回闻&#10;#PA;大地抵抗&#10;#AA;范围击退</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -2072,9 +1992,7 @@
             <Data ss:Type="String">#item_musician_weapon02d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">有了它,啥都可以当鼓敲！
-#DMG;中物理伤害
-#SP;打昏</Data>
+            <Data ss:Type="String">有了它,啥都可以当鼓敲！&#10;#DMG;中物理伤害&#10;#SP;打昏</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -2103,9 +2021,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_JazzD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这儿真是个好地方…不过我想回家！
-- “哦,回诶家,回诶诶家……”
-- 说着说着就唱了起来</Data>
+            <Data ss:Type="String">这儿真是个好地方…不过我想回家！&#10;- “哦,回诶家,回诶诶家……”&#10;- 说着说着就唱了起来</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Reference to "What a Wonderful World" by Louie Armstrong. "strong arms" = armstrong.</Data>
@@ -2133,10 +2049,7 @@
             <Data ss:Type="String">#item_musician_staff03d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">据说每件萨克斯管里
-都住着一只口水小精灵哦！
-#PA;加强水系,蒸汽法术
-#AA;龙卷风</Data>
+            <Data ss:Type="String">据说每件萨克斯管里&#10;都住着一只口水小精灵哦！&#10;#PA;加强水系,蒸汽法术&#10;#AA;龙卷风</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">absorbant because saxophones generate and collect a lot of spittle. (ugh, yes -- gross)</Data>
@@ -2164,9 +2077,7 @@
             <Data ss:Type="String">#item_musician_weapon03d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哼哼哈嘿！快使用唱片机！
-#DMG;低物理伤害
-#SP;击退,流血效果</Data>
+            <Data ss:Type="String">哼哼哈嘿！快使用唱片机！&#10;#DMG;低物理伤害&#10;#SP;击退,流血效果</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Puns on Armstrong's songs "Sometimes I Feel Like a Motherless Child" ("faceless man" suits the wizards in Magicka since you never see their faces) and "Moon River" ("Spittle" because saxophone)</Data>
@@ -2212,13 +2123,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_ElectrobeD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">"电荷们都哪里去了？"
-- 羊毛长袍始终带着静电
--#ITEM_electrobe_weapon01;
--#ITEM_electrobe_staff01;
--吸收闪电回复生命
--生命元素抵抗
--易受水系和大地伤害</Data>
+            <Data ss:Type="String">"电荷们都哪里去了？"&#10;- 羊毛长袍始终带着静电&#10;-#ITEM_electrobe_weapon01;&#10;-#ITEM_electrobe_staff01;&#10;-吸收闪电回复生命&#10;-生命元素抵抗&#10;-易受水系和大地伤害</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -2246,9 +2151,7 @@
             <Data ss:Type="String">#ITEM_electrobe_staff01D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">与羊毛长袍很搭配
-#PA;加强闪电法术
-#AA;复活</Data>
+            <Data ss:Type="String">与羊毛长袍很搭配&#10;#PA;加强闪电法术&#10;#AA;复活</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Fleece as a material is very static electricity prone</Data>
@@ -2276,9 +2179,7 @@
             <Data ss:Type="String">#ITEM_electrobe_weapon01D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">长得像个接力棒
-#DMG;轻微闪电,物理伤害
-#SP;击晕敌人</Data>
+            <Data ss:Type="String">长得像个接力棒&#10;#DMG;轻微闪电,物理伤害&#10;#SP;击晕敌人</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Pun on stunning being both the status effect and meaning breathtaking</Data>
@@ -2306,13 +2207,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_FlamosD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">"来,靠近点儿,感受我的火热！"
-- 焰动,形不动,行动,心不动
--#ITEM_flamos_weapon01;
--#ITEM_flamos_staff01;
--吸收火焰回复生命
--生命元素抵抗
--易受雪系,冰冻伤害</Data>
+            <Data ss:Type="String">"来,靠近点儿,感受我的火热！"&#10;- 焰动,形不动,行动,心不动&#10;-#ITEM_flamos_weapon01;&#10;-#ITEM_flamos_staff01;&#10;-吸收火焰回复生命&#10;-生命元素抵抗&#10;-易受雪系,冰冻伤害</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">After a heated argument with his former employer, inevitably leaving him fired and with the wizard law enforcement hot on his trail, Flamos' found himself with but two infernal options: To fight flame with flame or burn out!</Data>
@@ -2340,9 +2235,7 @@
             <Data ss:Type="String">#ITEM_flamos_staff01D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">太闪耀了,无处可藏
-#PA;加强热系(火,蒸汽)法术
-#AA;无</Data>
+            <Data ss:Type="String">太闪耀了,无处可藏&#10;#PA;加强热系(火,蒸汽)法术&#10;#AA;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">it being a burning staff, it's hard to conceal</Data>
@@ -2370,9 +2263,7 @@
             <Data ss:Type="String">#ITEM_flamos_weapon01D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我戳,我戳,我戳戳戳戳...
-#DMG;轻微火系,物理伤害
-#SP;点燃敌人</Data>
+            <Data ss:Type="String">我戳,我戳,我戳戳戳戳...&#10;#DMG;轻微火系,物理伤害&#10;#SP;点燃敌人</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Poke. Poke poke poke poke poke. #DMG;Light Fire and Physical damage #SP;Sets enemies on fire</Data>
@@ -2400,14 +2291,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_ColdarrD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">"我要把你冻上!什么?你想要双关语?"
-- 一个很严肃的家伙,不会讲笑话
--#ITEM_coldarr_weapon01;
--#ITEM_coldarr_staff01;
--吸收雪,冰回复生命
--生命元素抵抗
--免疫冻结
--易受火系,蒸汽伤害</Data>
+            <Data ss:Type="String">"我要把你冻上!什么?你想要双关语?"&#10;- 一个很严肃的家伙,不会讲笑话&#10;-#ITEM_coldarr_weapon01;&#10;-#ITEM_coldarr_staff01;&#10;-吸收雪,冰回复生命&#10;-生命元素抵抗&#10;-免疫冻结&#10;-易受火系,蒸汽伤害</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">In a chilling moment Coldarr, a once highly respected cryomancer, accidentally set loose a deadly spell towards his beloved. Blaming him for his recklessness, his wizard friends gave him the cold shoulder, slowly turning his heart to ice.</Data>
@@ -2435,9 +2319,7 @@
             <Data ss:Type="String">#ITEM_coldarr_staff01D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">忍住想要舔它的欲望！
-#PA;加强冷系(雪,冰冻)法术
-#AA;无</Data>
+            <Data ss:Type="String">忍住想要舔它的欲望！&#10;#PA;加强冷系(雪,冰冻)法术&#10;#AA;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Resist the urge to lick it. #PA;Boosts Cold spells #AA;None</Data>
@@ -2465,11 +2347,7 @@
             <Data ss:Type="String">#ITEM_coldarr_weapon01D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">魔能的究极哲学问题便是你永远
-无法搞懂为何其他巫师会突然锹
-你一下,当然,还不赶紧锹回去!
-#DMG;轻微寒冷,物理伤害
-#SP;减速目标</Data>
+            <Data ss:Type="String">魔能的究极哲学问题便是你永远&#10;无法搞懂为何其他巫师会突然锹&#10;你一下,当然,还不赶紧锹回去!&#10;#DMG;轻微寒冷,物理伤害&#10;#SP;减速目标</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">"berg" is short for iceberg</Data>
@@ -2593,8 +2471,7 @@
             <Data ss:Type="String">#Challenge_End_of_World_Description</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">还记得你在边缘之境忙活的
-那些事儿吗？这里也需要你！</Data>
+            <Data ss:Type="String">还记得你在边缘之境忙活的&#10;那些事儿吗？这里也需要你！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A large floating cluster of islands (3) with bridges inbetween. Waves of daemonic and nightmarish creatures from edges and magical symbols from the center of all islands.</Data>

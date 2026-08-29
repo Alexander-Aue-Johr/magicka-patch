@@ -21,8 +21,7 @@
             <Data ss:Type="String">#WC_Text_HM1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我是#Her_HM;。[P=0.5]
-我很伟大！</Data>
+            <Data ss:Type="String">我是#Her_HM;。[P=0.5]&#10;我很伟大！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -134,9 +133,7 @@
             <Data ss:Type="String">#WC_Text_lect1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">早上好，我是这所学院的高级魔导师#Her_Vlad;，
-不是吸血鬼弗拉德。[P=1]
-你被选中前往#Location_HV;，协助#Her_King;保卫伟大的首都。</Data>
+            <Data ss:Type="String">早上好，我是这所学院的高级魔导师#Her_Vlad;，&#10;不是吸血鬼弗拉德。[P=1]&#10;你被选中前往#Location_HV;，协助#Her_King;保卫伟大的首都。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -150,12 +147,7 @@
             <Data ss:Type="String">#WC_Text_lect2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">在你出发之前先给你一个简报：[P=2]
-#Boss_N07;已被放逐。[P=0.5]
-怪物在大陆中游荡。[P=0.5]
-#Her_King;非常需要你的帮助！[P=0.5]
-我是#Her_Vlad;, 不是吸血鬼弗拉德。[P=0.5]
-你必须前往#Location_HV;。</Data>
+            <Data ss:Type="String">在你出发之前先给你一个简报：[P=2]&#10;#Boss_N07;已被放逐。[P=0.5]&#10;怪物在大陆中游荡。[P=0.5]&#10;#Her_King;非常需要你的帮助！[P=0.5]&#10;我是#Her_Vlad;, 不是吸血鬼弗拉德。[P=0.5]&#10;你必须前往#Location_HV;。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -169,8 +161,7 @@
             <Data ss:Type="String">#WC_Text_lect3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">就是现盐盐盐在！
-到#Location_HV;去，#Her_King;急需你的帮助！</Data>
+            <Data ss:Type="String">就是现盐盐盐在！&#10;到#Location_HV;去，#Her_King;急需你的帮助！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -184,8 +175,7 @@
             <Data ss:Type="String">#WC_Text_spoon1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我很想喝掉这碗汤，但是……[P=1]
-没有勺！</Data>
+            <Data ss:Type="String">我很想喝掉这碗汤，但是……[P=1]&#10;没有勺！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Matrix reference</Data>
@@ -199,9 +189,7 @@
             <Data ss:Type="String">#WC_Text_reader0a</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你好啊！楼下的那些人为你准备了
-一个主题为“拯救世界”的欢送派对！
-你最好在他们吃完所有的奶酪之前赶过去。</Data>
+            <Data ss:Type="String">你好啊！楼下的那些人为你准备了&#10;一个主题为“拯救世界”的欢送派对！&#10;你最好在他们吃完所有的奶酪之前赶过去。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -215,8 +203,7 @@
             <Data ss:Type="String">#WC_Text_reader0b</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">在这里？恩，这里真的什么看头都没有，
-只有性情暴躁而又讨厌派对的老巫师们[P=1]……和我。</Data>
+            <Data ss:Type="String">在这里？恩，这里真的什么看头都没有，&#10;只有性情暴躁而又讨厌派对的老巫师们[P=1]……和我。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -230,8 +217,7 @@
             <Data ss:Type="String">#WC_Text_reader1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">在你去楼下之前，让我读一下这个给你听[P=1]
-“汝若湿身，切莫沾电”。</Data>
+            <Data ss:Type="String">在你去楼下之前，让我读一下这个给你听[P=1]&#10;“汝若湿身，切莫沾电”。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -245,8 +231,7 @@
             <Data ss:Type="String">#WC_Text_reader2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">多震惊啊！哈哈！[P=1]
-是是，我知道，这东西的确很糟糕。抱歉……</Data>
+            <Data ss:Type="String">多震惊啊！哈哈！[P=1]&#10;是是，我知道，这东西的确很糟糕。抱歉……</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">shocking=surprising / shocking=electricity</Data>
@@ -260,8 +245,7 @@
             <Data ss:Type="String">#WC_Text_balcony1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我喜欢呆在这里。看看这风景！
-我连我的房子都能看见！[P=1]哦等一下……</Data>
+            <Data ss:Type="String">我喜欢呆在这里。看看这风景！&#10;我连我的房子都能看见！[P=1]哦等一下……</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -303,8 +287,7 @@
             <Data ss:Type="String">#WC_Text_robeandhat2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一起来角色扮演吧！
-我只需要穿上我的长袍和戴我的巫师帽。</Data>
+            <Data ss:Type="String">一起来角色扮演吧！&#10;我只需要穿上我的长袍和戴我的巫师帽。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Robe and wizard's hat ref.</Data>
@@ -332,8 +315,7 @@
             <Data ss:Type="String">#WC_Text_robeandhat4</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">真烦人……[P=1]
-你还在这儿。</Data>
+            <Data ss:Type="String">真烦人……[P=1]&#10;你还在这儿。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -347,9 +329,7 @@
             <Data ss:Type="String">#WC_Text_vladmire1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">#Her_Vlad;是一个很伟大的人。
-起初我还以为他是一只吸血鬼…
-[P=.5]但后来他使我相信了他其实并是不吸血鬼。</Data>
+            <Data ss:Type="String">#Her_Vlad;是一个很伟大的人。&#10;起初我还以为他是一只吸血鬼…&#10;[P=.5]但后来他使我相信了他其实并是不吸血鬼。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A wizard-student talking about Vlad</Data>
@@ -377,9 +357,7 @@
             <Data ss:Type="String">#WC_Text_headmire1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">#Her_HM;是一个真正的伟大人物。
-起初我还以为他只是个有胡须的魔法使，
-此外什么都不是…[P=0.5]但后来他告诉我他确实是伟大的人物。</Data>
+            <Data ss:Type="String">#Her_HM;是一个真正的伟大人物。&#10;起初我还以为他只是个有胡须的魔法使，&#10;此外什么都不是…[P=0.5]但后来他告诉我他确实是伟大的人物。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The joke has been altered. A wizard-student talking about the Headmaster</Data>
@@ -407,8 +385,7 @@
             <Data ss:Type="String">#WC_Text_trapped1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哦，你好啊！我已经有一段时间在这里没有见到任何人了。[P=.5]
-我不认为这地方有任何楼梯。我也没指望找到一个……</Data>
+            <Data ss:Type="String">哦，你好啊！我已经有一段时间在这里没有见到任何人了。[P=.5]&#10;我不认为这地方有任何楼梯。我也没指望找到一个……</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -422,8 +399,7 @@
             <Data ss:Type="String">#WC_Text_trapped2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">听起来他们似乎有个派对……
-我觉得我还是读我的书吧。</Data>
+            <Data ss:Type="String">听起来他们似乎有个派对……&#10;我觉得我还是读我的书吧。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -549,8 +525,7 @@
             <Data ss:Type="String">#WC_Text_fireplaceA5</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我以前拯救世界的时候，用了很多栅栏。
-它们把敌人阻挡在海湾边时很管用！</Data>
+            <Data ss:Type="String">我以前拯救世界的时候，用了很多栅栏。&#10;它们把敌人阻挡在海湾边时很管用！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">speaker1</Data>
@@ -620,8 +595,7 @@
             <Data ss:Type="String">#WC_Text_wallman2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">如果你在那儿遇见他们的话…[P=1]
-代我问声好！</Data>
+            <Data ss:Type="String">如果你在那儿遇见他们的话…[P=1]&#10;代我问声好！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -649,9 +623,7 @@
             <Data ss:Type="String">#WC_Text_busy2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我很愿意帮你一把，但是，恩…
-[P=1]我在5点的时候…[P=1.5]
-有件事要办…所以…</Data>
+            <Data ss:Type="String">我很愿意帮你一把，但是，恩…&#10;[P=1]我在5点的时候…[P=1.5]&#10;有件事要办…所以…</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -763,8 +735,7 @@
             <Data ss:Type="String">#WC_Text_from2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">额…派对早就开始了，而且奶酪似乎快被吃光了…
-[P=1]不过没啥好担心的，#WizN1;快去东边的塔再拿一点来！</Data>
+            <Data ss:Type="String">额…派对早就开始了，而且奶酪似乎快被吃光了…&#10;[P=1]不过没啥好担心的，#WizN1;快去东边的塔再拿一点来！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -778,9 +749,7 @@
             <Data ss:Type="String">#WC_Text_from3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你在下面没事儿吧！？[P=1.5]
-你再找一条路离开地牢吧，
-我们要赶紧把这块地板修好！</Data>
+            <Data ss:Type="String">你在下面没事儿吧！？[P=1.5]&#10;你再找一条路离开地牢吧，&#10;我们要赶紧把这块地板修好！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">the heroes fell through the floor, into the dungeon below. and the other wizards are "helpfully" boarding up the broken floor.</Data>
@@ -808,9 +777,7 @@
             <Data ss:Type="String">#WC_Text_from5</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哇，你做到了！
-我们派#Boss_N16;下去找你了。[P=1]你知道的，
-我们的宠物，可爱的名叫瞧瞧的大眼睛怪。</Data>
+            <Data ss:Type="String">哇，你做到了！&#10;我们派#Boss_N16;下去找你了。[P=1]你知道的，&#10;我们的宠物，可爱的名叫瞧瞧的大眼睛怪。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -824,10 +791,7 @@
             <Data ss:Type="String">#WC_Text_from6</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我猜你没遇见它。不过算了…[P=.5]
-考虑到#WizN12;的魔法失误，你最好学会这个：
-#Ent_Magick;
-吐出了很多魔法技能书。</Data>
+            <Data ss:Type="String">我猜你没遇见它。不过算了…[P=.5]&#10;考虑到#WizN12;的魔法失误，你最好学会这个：&#10;#Ent_Magick;&#10;吐出了很多魔法技能书。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -841,8 +805,7 @@
             <Data ss:Type="String">#WC_Text_from7</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">也许在我们触发更多的“意外”之前，
-你离开了反而是件好事。</Data>
+            <Data ss:Type="String">也许在我们触发更多的“意外”之前，&#10;你离开了反而是件好事。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -912,8 +875,7 @@
             <Data ss:Type="String">#WC_Text_oldfarts1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哈，又年轻了！我还记得上次我拯救了这个世界。
-毫不夸张的说，这可真让人兴奋！</Data>
+            <Data ss:Type="String">哈，又年轻了！我还记得上次我拯救了这个世界。&#10;毫不夸张的说，这可真让人兴奋！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">old men reminiscing</Data>
@@ -1025,8 +987,7 @@
             <Data ss:Type="String">#WC_Text_oldfarts_advice1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">好吧，不管怎么样，有一件事确定了：[P=1]
-他们不再像过去那样做电脑游戏了！</Data>
+            <Data ss:Type="String">好吧，不管怎么样，有一件事确定了：[P=1]&#10;他们不再像过去那样做电脑游戏了！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1068,9 +1029,7 @@
             <Data ss:Type="String">#WC_Text_moose2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哦，是你啊。你该向北走。
-不过光是看它的样子，
-你就该明白得小心那些哥布林。</Data>
+            <Data ss:Type="String">哦，是你啊。你该向北走。&#10;不过光是看它的样子，&#10;你就该明白得小心那些哥布林。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1112,8 +1071,7 @@
             <Data ss:Type="String">#WC_Text_guardB1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你是认真的吗？你只是扔了块石头过去
-然后比范跑跑跑得还快！</Data>
+            <Data ss:Type="String">你是认真的吗？你只是扔了块石头过去&#10;然后比范跑跑跑得还快！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1155,8 +1113,7 @@
             <Data ss:Type="String">#WC_Text_captain1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">啊，你好！我是#Her_bjorn;，
-一个勇士。我们一路从……</Data>
+            <Data ss:Type="String">啊，你好！我是#Her_bjorn;，&#10;一个勇士。我们一路从……</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1198,8 +1155,7 @@
             <Data ss:Type="String">#WC_Text_captain4</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我们被国王从#Location_HV;派来接应你，
-不过就我看来，你自己一路闯过去完全没问题。</Data>
+            <Data ss:Type="String">我们被国王从#Location_HV;派来接应你，&#10;不过就我看来，你自己一路闯过去完全没问题。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1213,8 +1169,7 @@
             <Data ss:Type="String">#WC_Text_captain5</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">所以…你继续走吧…我们就呆在这。
-呃，你可以带上我的斧头，如果能它让你好感觉好些的话。</Data>
+            <Data ss:Type="String">所以…你继续走吧…我们就呆在这。&#10;呃，你可以带上我的斧头，如果能它让你好感觉好些的话。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1228,8 +1183,7 @@
             <Data ss:Type="String">#WC_Text_captain6</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">还有什么事？门就在那，赶紧过去吧，
-#Location_HV;就在北边的…呃不远处。</Data>
+            <Data ss:Type="String">还有什么事？门就在那，赶紧过去吧，&#10;#Location_HV;就在北边的…呃不远处。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1257,8 +1211,7 @@
             <Data ss:Type="String">#WC_Text_private2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">噢不！将军已经阵亡了! 你必须前往#Location_HV;。
-只要从东门出去并沿着北方的小路前进！走！</Data>
+            <Data ss:Type="String">噢不！将军已经阵亡了! 你必须前往#Location_HV;。&#10;只要从东门出去并沿着北方的小路前进！走！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1300,8 +1253,7 @@
             <Data ss:Type="String">#WC_Text_bitten3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你介不介意帮我告诉#Her_bjorn;
-，那个，我，我午饭后就来？</Data>
+            <Data ss:Type="String">你介不介意帮我告诉#Her_bjorn;&#10;，那个，我，我午饭后就来？</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">he's going to take a nap, he'll be back later.</Data>
@@ -1315,9 +1267,7 @@
             <Data ss:Type="String">#WC_Text_cellarrats1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">嗨？你看起来有点像巫师！
-我的地下室里鼠患横行，希望你能帮我清理清理。
-我没法给你太多，但还是能付几个银币的。</Data>
+            <Data ss:Type="String">嗨？你看起来有点像巫师！&#10;我的地下室里鼠患横行，希望你能帮我清理清理。&#10;我没法给你太多，但还是能付几个银币的。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">a villager offers a "mission"</Data>
@@ -1331,9 +1281,7 @@
             <Data ss:Type="String">#WC_Text_cellarrats2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">谢谢你！我地下室里的鼠患看起来没有那么糟了。[P=1]
-不管怎么说我很乐意给你这几个银币，但你可能没处花…
-[P=.5]唉，总之很悲催啊。</Data>
+            <Data ss:Type="String">谢谢你！我地下室里的鼠患看起来没有那么糟了。[P=1]&#10;不管怎么说我很乐意给你这几个银币，但你可能没处花…&#10;[P=.5]唉，总之很悲催啊。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">After the "mission" is assigned, goblins appear. In fact, the rats are never dealt with. After the goblin encounter, the villager is no longer so concerned about the rats.</Data>
@@ -1403,8 +1351,7 @@
             <Data ss:Type="String">#WC_Text_targetdolls3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">天呐？！我的人偶们！你做了些什么！？
-我以后该怎么办？</Data>
+            <Data ss:Type="String">天呐？！我的人偶们！你做了些什么！？&#10;我以后该怎么办？</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">the player destroyed his targets</Data>
@@ -1418,9 +1365,7 @@
             <Data ss:Type="String">#WC2_text_FVlad_Intro1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我已经把你传送回过去的[P=1]#Location_WC;。
-呃，有些事情……算了以后再说。
-你现在的所处的时间略落后于过去出发的自己。</Data>
+            <Data ss:Type="String">我已经把你传送回过去的[P=1]#Location_WC;。&#10;呃，有些事情……算了以后再说。&#10;你现在的所处的时间略落后于过去出发的自己。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Adventure Time Ref. &amp; Flight of the conchords ref.</Data>
@@ -1434,10 +1379,7 @@
             <Data ss:Type="String">#WC2_text_FVlad_Intro2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">看起来#Boss_N07;已经被来自虚空领域的大恶魔控制，
-一个被称为#Boss_N15;的恐怖的存在。
-这情况比我一开始预料的还要可怕，
-更糟的是，我现在这种跨时空的状态，力量被大大限制了！</Data>
+            <Data ss:Type="String">看起来#Boss_N07;已经被来自虚空领域的大恶魔控制，&#10;一个被称为#Boss_N15;的恐怖的存在。&#10;这情况比我一开始预料的还要可怕，&#10;更糟的是，我现在这种跨时空的状态，力量被大大限制了！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">It seems that #Boss_N07; has been possessed by a daemon from the ethereal realm, a terrible being known as #Boss_N15;. The situation is more dire than I first suspected, and to make things worse, my power in the past is very limited.</Data>
@@ -1451,10 +1393,7 @@
             <Data ss:Type="String">#WC2_text_FVlad_Intro3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">拯救世界的唯一希望是把#Boss_N15;转化到现实世界，
-那样他才能被打败。你必须再次向北前进，
-找到并说服伟大的#Boss_N14;教你古老的魔法：
-#magick_corporealize;。</Data>
+            <Data ss:Type="String">拯救世界的唯一希望是把#Boss_N15;转化到现实世界，&#10;那样他才能被打败。你必须再次向北前进，&#10;找到并说服伟大的#Boss_N14;教你古老的魔法：&#10;#magick_corporealize;。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The only hope of saving the world is to draw #Boss_N15; into the material realm, where he can be defeated. You must go north once more, and convince the great #Boss_N14; to teach you the ancient magick #magick_corporealize;.</Data>
@@ -1468,8 +1407,7 @@
             <Data ss:Type="String">#WC2_text_soldier1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">又来了一拨巫师？只是路过吗？好吧，那我就不用
-向你解释拔出门闩又插回去有多困难了吧…那么……</Data>
+            <Data ss:Type="String">又来了一拨巫师？只是路过吗？好吧，那我就不用&#10;向你解释拔出门闩又插回去有多困难了吧…那么……</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">More wizards? Just passing through? Well, I don't have to explain to you how much of a hassle it would be to unbar the gate and then nail it back up… so…</Data>
@@ -1483,8 +1421,7 @@
             <Data ss:Type="String">#WC2_text_soldier2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">#Boss_n14;？没听说过。但如果你要向北走的话，
-你只需通过已经被遗弃的#location_mi;。</Data>
+            <Data ss:Type="String">#Boss_n14;？没听说过。但如果你要向北走的话，&#10;你只需通过已经被遗弃的#location_mi;。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">#Boss_n14;? Never heard of it. But if you're going north you could just as well travel through the abandoned #location_mi;.</Data>
@@ -1526,8 +1463,7 @@
             <Data ss:Type="String">#WC2_text_soldier5</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我忽悠了那些巫师，说#location_mi;已经
-被废弃并非常安全。</Data>
+            <Data ss:Type="String">我忽悠了那些巫师，说#location_mi;已经&#10;被废弃并非常安全。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">I lied -- told them that #location_mi; was abandoned and perfectly safe.</Data>
@@ -1645,8 +1581,7 @@
             <Data ss:Type="String">#WC_PoI_fallenwizard</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">倒霉的#WizN1;。他并没完全解决起司的问题
-但至少他好像为自己找到了#Ent_Magick;。</Data>
+            <Data ss:Type="String">倒霉的#WizN1;。他并没完全解决起司的问题&#10;但至少他好像为自己找到了#Ent_Magick;。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">the word Magick was parameterized.</Data>
@@ -1786,8 +1721,7 @@
             <Data ss:Type="String">#WC_POI_painting3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">#WizN1;他可真是[P=1]
-一个足智多谋的巫师！</Data>
+            <Data ss:Type="String">#WizN1;他可真是[P=1]&#10;一个足智多谋的巫师！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Baelyg (sp?), the guy who is trying to invent a cheeze magick, for creating cheeze.</Data>
@@ -1801,8 +1735,7 @@
             <Data ss:Type="String">#WC_POI_stone</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">现在，离开#Location_WC;吧。
-欢迎下次光临！</Data>
+            <Data ss:Type="String">现在，离开#Location_WC;吧。&#10;欢迎下次光临！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Now leaving #Location_WC; Please come again!</Data>

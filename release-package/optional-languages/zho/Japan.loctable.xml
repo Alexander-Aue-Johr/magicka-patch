@@ -35,9 +35,7 @@
             <Data ss:Type="String">#Item_staff_bamboo_d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">大魔导士之忍！巫师武士之道！
-#PA;增加抗性
-#AA;无</Data>
+            <Data ss:Type="String">大魔导士之忍！巫师武士之道！&#10;#PA;增加抗性&#10;#AA;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">This sturdy staff grants the Wizard tremendous resilience, and the power of withstanding much punishment. #PA;Increased resistance. #AA;None</Data>
@@ -83,11 +81,7 @@
             <Data ss:Type="String">#item_weapon_katana_d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这是一把来自神秘东方铸剑师的力
-作，它刀身极细，盈盈不堪一握，
-然而，相当锋利！
-#DMG;低物理伤害
-#SP;快速，破甲</Data>
+            <Data ss:Type="String">这是一把来自神秘东方铸剑师的力&#10;作，它刀身极细，盈盈不堪一握，&#10;然而，相当锋利！&#10;#DMG;低物理伤害&#10;#SP;快速，破甲</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>

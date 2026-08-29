@@ -35,9 +35,7 @@
             <Data ss:Type="String">#TWC_trapped_scholar1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我被困在这儿好几个世纪了！靠吃恶心的
-蛆虫和强大的意志而活了下来！
-最终,自由属于了我!</Data>
+            <Data ss:Type="String">我被困在这儿好几个世纪了！靠吃恶心的&#10;蛆虫和强大的意志而活了下来！&#10;最终,自由属于了我!</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Trapped Scholar</Data>
@@ -51,9 +49,7 @@
             <Data ss:Type="String">#TWC_trapped_scholar2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">呃，经历了这么多事...
-现在就离开有点使我感到不自在...
-[P=1]我想我还是留在这里多呆一会儿！</Data>
+            <Data ss:Type="String">呃，经历了这么多事...&#10;现在就离开有点使我感到不自在...&#10;[P=1]我想我还是留在这里多呆一会儿！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Trapped Scholar</Data>
@@ -67,9 +63,7 @@
             <Data ss:Type="String">#TWC_trapped_scholar3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你知道吗,[P=1]十几年前我曾看到有巫师从塔上
-丢魔法书下来...[P=0.5]我想它可能是卡在这棵树上了,
-[P=0.5]我敢打赌,你晃晃树会有惊喜的！</Data>
+            <Data ss:Type="String">你知道吗,[P=1]十几年前我曾看到有巫师从塔上&#10;丢魔法书下来...[P=0.5]我想它可能是卡在这棵树上了,&#10;[P=0.5]我敢打赌,你晃晃树会有惊喜的！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Trapped Scholar</Data>
@@ -83,8 +77,7 @@
             <Data ss:Type="String">#TWC_gardener_scholar0</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我对冒险和战斗从不感冒,
-[P=1]园艺才是我的全部！</Data>
+            <Data ss:Type="String">我对冒险和战斗从不感冒,&#10;[P=1]园艺才是我的全部！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Gardener Mogge</Data>
@@ -238,8 +231,7 @@
             <Data ss:Type="String">#TWC_poi_log1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一条巨大的树干挡住了去路,
-[P=1]这附近可再也找不到差不多大的了！</Data>
+            <Data ss:Type="String">一条巨大的树干挡住了去路,&#10;[P=1]这附近可再也找不到差不多大的了！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A giant log is blocking the road.\n[P=1]… There aren't any trees around here even close to this size.</Data>
@@ -295,9 +287,7 @@
             <Data ss:Type="String">#TWC_poi_baleyg</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">“这里躺着奶酪君,巫师城堡最伟大的巫师之一,
-死于不可抗拒的自然因素”
-额，真可怜...名字好像弄错了吧？</Data>
+            <Data ss:Type="String">“这里躺着奶酪君,巫师城堡最伟大的巫师之一,&#10;死于不可抗拒的自然因素”&#10;额，真可怜...名字好像弄错了吧？</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">"Here lies Baelig, one of the most resourceful wizards of the order. Died of natural causes." Sadly, his name was misspelled.</Data>
@@ -395,8 +385,7 @@
             <Data ss:Type="String">#TWC_poi_smallgate</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">在以前的日子里，这儿是能打开的...
-我还是别纠结啦，赶紧继续赶路吧！</Data>
+            <Data ss:Type="String">在以前的日子里，这儿是能打开的...&#10;我还是别纠结啦，赶紧继续赶路吧！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Back in the day, this used to be unlocked.</Data>
@@ -442,8 +431,7 @@
             <Data ss:Type="String">#TMD_guard0</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你好呀！[P=1]我认得你的...[P=0.5]脸？[P=1]
-我想我们很久以前曾经见过...[P=1]你要去哪儿？</Data>
+            <Data ss:Type="String">你好呀！[P=1]我认得你的...[P=0.5]脸？[P=1]&#10;我想我们很久以前曾经见过...[P=1]你要去哪儿？</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Hello there![P=1] I recognize your...[P=0.5] face?[P=1] I think we met before, a long time ago. [P=1]Where are you heading?</Data>
@@ -457,10 +445,7 @@
             <Data ss:Type="String">#TMD_guard1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">喵扑?[P=1]我听说那座村子里发生了一些疯狂的事儿。
-[P=1]你问是什么东西？[P=1]唔，首先他们停止向哈文德输送新鲜鱼类了,
-[P=1]有谣言说他们那儿的海水枯竭啦，但那是胡说八道！
-[P=1]我亲自驾船去了那里，水多的足够捕鱼的说！</Data>
+            <Data ss:Type="String">喵扑?[P=1]我听说那座村子里发生了一些疯狂的事儿。&#10;[P=1]你问是什么东西？[P=1]唔，首先他们停止向哈文德输送新鲜鱼类了,&#10;[P=1]有谣言说他们那儿的海水枯竭啦，但那是胡说八道！&#10;[P=1]我亲自驾船去了那里，水多的足够捕鱼的说！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Outsmouth?[P=1] I've heard some crazy things about that village of late.[P=1] What things you ask?[P=1] Well, for starters they have stopped delivering fish to Hávindr![P=1] Rumor has it that the ocean has grown barren -- but that's bollocks![P=1] I went out by the coast in my trusty ol' boat, and I was able to catch more fish than ever!</Data>
@@ -474,10 +459,7 @@
             <Data ss:Type="String">#TMD_guard2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我听说乔登到喵扑村拜访他的姑姑,但她不在那儿。
-[P=2]他听到了奇怪的传闻，说是当地人变得非常喜欢鱼，
-喜好到从不杀死它们。[P=1.5]成年人怎么会有这种奇怪爱好？
-[P=3.5]所以我讨厌死鱼了！</Data>
+            <Data ss:Type="String">我听说乔登到喵扑村拜访他的姑姑,但她不在那儿。&#10;[P=2]他听到了奇怪的传闻，说是当地人变得非常喜欢鱼，&#10;喜好到从不杀死它们。[P=1.5]成年人怎么会有这种奇怪爱好？&#10;[P=3.5]所以我讨厌死鱼了！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">I heard that Jörgen went to Outsmouth to visit his aunt, but she wasn't there.[P=2] He did hear some rather strange stories;[P=2] Apparently the Outsmouthians have taken quite a liking to their fish. And by that I mean to they don't kill them anymore.[P=1.5] I say it's strange that a grown man can become so obsessed and mesmerized by something as pathetic as those loathsome beings...[P=3.5] Oh, I do so hate fish!</Data>
@@ -491,10 +473,7 @@
             <Data ss:Type="String">#TMD_guard3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">无论如何，你想去喵扑村的话，[P=1.5]就走那条老路，
-搭乘#ViMN6;。[P=4]小心那座森林，一到晚上它就会...
-[P=2]突然活过来！[P=2]喔噢嗷嗷呜嗷！[P=2.5]...
-我只是想增加一点戏剧效果[P=0.5].[P=0.5].[P=0.5].</Data>
+            <Data ss:Type="String">无论如何，你想去喵扑村的话，[P=1.5]就走那条老路，&#10;搭乘#ViMN6;。[P=4]小心那座森林，一到晚上它就会...&#10;[P=2]突然活过来！[P=2]喔噢嗷嗷呜嗷！[P=2.5]...&#10;我只是想增加一点戏剧效果[P=0.5].[P=0.5].[P=0.5].</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Anyway, if you really want to go to Outsmouth,[P=1.5] just take the old road past #ViMN6;'s cabin.[P=4] Watch out for the forest though. At night it becomes...[P=2] Alive![P=2] WoOEoeoooeoeoOOo![P=2.5] ... I just added that last bit for dramatic effect.[P=0.5].[P=0.5].[P=0.5].</Data>
@@ -508,8 +487,7 @@
             <Data ss:Type="String">#TMD_guard4</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我已经把我知道的所有传闻秘史都告诉你啦！
-OK？你还不知足吗？</Data>
+            <Data ss:Type="String">我已经把我知道的所有传闻秘史都告诉你啦！&#10;OK？你还不知足吗？</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">I've already told you all the mysterious rumors I know of, ok? Wasn't that exciting enough for you?</Data>
@@ -537,8 +515,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#TMD_annoyed1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">但是…[P=1]好吧…[P=0.5]这里还有一个传言，
-[P=1]我听说巫师们严重缺乏社交技巧！</Data>
+            <Data ss:Type="String">但是…[P=1]好吧…[P=0.5]这里还有一个传言，&#10;[P=1]我听说巫师们严重缺乏社交技巧！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">C'mon...[P=1] Well...[P=0.5] alright here's another rumor:[P=1] I heard that Wizards lack social skills.</Data>
@@ -594,10 +571,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#TMD_annoyed5</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">好吧，如果我给你一本我发现的魔法书，你可不
-可以停止骚扰行为？[P=1]到那边的神奇商店，找那位
-老阿姨,告诉她你可以拥有那本我发现的那本旧书
-...只要你别再叨扰人家！</Data>
+            <Data ss:Type="String">好吧，如果我给你一本我发现的魔法书，你可不&#10;可以停止骚扰行为？[P=1]到那边的神奇商店，找那位&#10;老阿姨,告诉她你可以拥有那本我发现的那本旧书&#10;...只要你别再叨扰人家！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Fine. If I give you an old tome I found lying around, will you stop bothering me?[P=1] Just go to the curiosity shoppe and tell the old lady that I said you could have that old book I found the other day -- as long as you stop bothering me.</Data>
@@ -667,8 +641,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#TMD_magick1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这是我今天第一宗也是最后一宗生意了
-...[P=1]晚安！</Data>
+            <Data ss:Type="String">这是我今天第一宗也是最后一宗生意了&#10;...[P=1]晚安！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">And that concludes the business of the day.[P=1] Goodnight!</Data>
@@ -696,8 +669,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#TMD_curiosity1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">走开，你们这些小穷穷,[P=0.5]
-我一点儿也不感到抱歉，我就是这么认为的！[P=1]毫无油水的家伙们!</Data>
+            <Data ss:Type="String">走开，你们这些小穷穷,[P=0.5]&#10;我一点儿也不感到抱歉，我就是这么认为的！[P=1]毫无油水的家伙们!</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">language joke: poor = unfortunate. Poor = without money.</Data>
@@ -767,8 +739,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#TMD_curiosity6</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">如果你能走开，我就把我所有的钱都给你！
-但你都穷得没个钱袋撞它们！</Data>
+            <Data ss:Type="String">如果你能走开，我就把我所有的钱都给你！&#10;但你都穷得没个钱袋撞它们！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">I could give you all the money in my shoppe if you would go away -- but YOU DON'T HAVE AN INVENTORY!!!</Data>
@@ -824,8 +795,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#TMD_drunk3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">听...[P=0.5]听着...[P=1]你必须小心米...[P=1]*嗝呃*[P=0.75]小心鸣...[P=0.75]冥府...[P=1]万分小心！
-[P=1]让我告诉你汉化组的事儿先...</Data>
+            <Data ss:Type="String">听...[P=0.5]听着...[P=1]你必须小心米...[P=1]*嗝呃*[P=0.75]小心鸣...[P=0.75]冥府...[P=1]万分小心！&#10;[P=1]让我告诉你汉化组的事儿先...</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">He can't pronounce the word Chthonian, Lovecraft creatures. \n Spoof on the coming enemies in Minecraft, named the Endermen.</Data>
@@ -839,10 +809,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#TMD_drunk4</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">他们干的都是很吃力...[P=1.5]不讨好的事儿,
-[P=1.25]总是被催不说，还，还要[P=2.75]*嗝呃*[P=1]被批花了时间却整出一堆..
-[P=1.5]bug![P=0.25]*嗝呃*[P=1]不但要查大量背景资料...[P=0.5]还要
-考虑押韵,足够笑料...[P=0.5]这事儿本身...[P=0.5]就充满了bug！</Data>
+            <Data ss:Type="String">他们干的都是很吃力...[P=1.5]不讨好的事儿,&#10;[P=1.25]总是被催不说，还，还要[P=2.75]*嗝呃*[P=1]被批花了时间却整出一堆..&#10;[P=1.5]bug![P=0.25]*嗝呃*[P=1]不但要查大量背景资料...[P=0.5]还要&#10;考虑押韵,足够笑料...[P=0.5]这事儿本身...[P=0.5]就充满了bug！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Accidently says beans instead of beings. He's having trouble forming his words.</Data>
@@ -856,8 +823,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#TMD_drunk5</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">所以你是个正常人就别乱加汉化组...
-[P=0.5]珍爱生命，[P=0.75]*嗝呃*[P=1]远离汉化！这样你，或许，还能平安...</Data>
+            <Data ss:Type="String">所以你是个正常人就别乱加汉化组...&#10;[P=0.5]珍爱生命，[P=0.75]*嗝呃*[P=1]远离汉化！这样你，或许，还能平安...</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">So you best be stayin' clear o'em.[P=0.5] Avoid bein' [P=0.75]*hiccup*[P=1] in their gen'ral vishinity, and you migh' be ok...</Data>
@@ -885,9 +851,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#TMD_cultist0</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你不可能永远藏着![P=0.5]当那位大神苏醒,大量饥饿
-的精怪会来吃掉你, 你该祈祷你能彻底忘记...
-[P=0.5]而我们,被选中的神使,将高举星火,存在于那...[P=0.5]</Data>
+            <Data ss:Type="String">你不可能永远藏着![P=0.5]当那位大神苏醒,大量饥饿&#10;的精怪会来吃掉你, 你该祈祷你能彻底忘记...&#10;[P=0.5]而我们,被选中的神使,将高举星火,存在于那...[P=0.5]</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">You cannot hide for an eternity![P=0.5] When the great one awakens, a thousand hungry maws will devour you, and you shall pray for oblivion... [P=0.5]And we, the chosen ones, shall rise to the stars in a-[P=0.5]</Data>
@@ -901,9 +865,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#TMD_cultist1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这是啥？[P=0.5]老古董?[P=2.5]多可悲！[P=2]我想你还在坚持你那些
-老掉牙的东西吧！[P=2]你该来加入我们,接受这终极
-的力量,[P=2]无需法杖便能施展魔能的伟力！</Data>
+            <Data ss:Type="String">这是啥？[P=0.5]老古董?[P=2.5]多可悲！[P=2]我想你还在坚持你那些&#10;老掉牙的东西吧！[P=2]你该来加入我们,接受这终极&#10;的力量,[P=2]无需法杖便能施展魔能的伟力！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">What's this?[P=0.5] A practitioner of the false arts?[P=2.5] How pathetic.[P=2] I suppose you still hold up in that old school of yours?[P=2] You should join us instead, and receive infinite power![P=2] And the ability to cast spells without a staff!</Data>
@@ -945,8 +907,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#TMD_cultist4</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">沉默不予回应?哼?[P=0.5]好，有种！
-[P=0.5]我们立即送你上西天！</Data>
+            <Data ss:Type="String">沉默不予回应?哼?[P=0.5]好，有种！&#10;[P=0.5]我们立即送你上西天！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">We'll end you = we'll kill you.</Data>
@@ -1030,8 +991,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#TMD_scared_cultist5</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">真主！[P=0.5]耶稣基都！[P=1.5]圣母玛利亚！[P=0.5]救救我！
-[P=2]克苏鲁邪神！[P=0.5]您总该救我的吧！</Data>
+            <Data ss:Type="String">真主！[P=0.5]耶稣基都！[P=1.5]圣母玛利亚！[P=0.5]救救我！&#10;[P=2]克苏鲁邪神！[P=0.5]您总该救我的吧！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Odin![P=0.5] Thor!?[P=1.5] Shub-niggurath!? [P=0.5] Help me! [P=2] Cthulhu![P=0.5] -- You owe me!</Data>
@@ -1045,8 +1005,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#TMD_cultist_bridgekeeper0</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">停下！[P=0.5]一夫当关万夫莫开！[P=1.5]
-...持密码者方可通行！</Data>
+            <Data ss:Type="String">停下！[P=0.5]一夫当关万夫莫开！[P=1.5]&#10;...持密码者方可通行！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Halt![P=0.5] None shall pass![P=1.5]\n… Unless they know the password, of course.</Data>
@@ -1074,8 +1033,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#TMD_happy_lumberjack0</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">以前我一直认为巨魔吃掉了我妻子，后
-来我意识到，咱跟她并没有结婚！</Data>
+            <Data ss:Type="String">以前我一直认为巨魔吃掉了我妻子，后&#10;来我意识到，咱跟她并没有结婚！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">At first I was sad that a troll ate my wife...[P=2]\n… But then I realized that I wasn't even married!</Data>
@@ -1131,8 +1089,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#TMD_orc_leader1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">此树是我栽，此路是我开，
-欲要过此路，留下买路财！</Data>
+            <Data ss:Type="String">此树是我栽，此路是我开，&#10;欲要过此路，留下买路财！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">warez - as in pirated video games</Data>
@@ -1230,8 +1187,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#TMD_poi_hacked_log</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">他们扫清了道路，还封锁了捷径？[p=1]
-为什么不把这玩意儿放到其他地方？</Data>
+            <Data ss:Type="String">他们扫清了道路，还封锁了捷径？[p=1]&#10;为什么不把这玩意儿放到其他地方？</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">They cleared the road and blocked the shortcut?[p=1] Why didn't they put it somewhere else?</Data>
@@ -1375,8 +1331,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#Tu_Text_hint_fairy</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">居住在检查点的神奇小生物，
-能够给玩家带来一次复活的机会哟！</Data>
+            <Data ss:Type="String">居住在检查点的神奇小生物，&#10;能够给玩家带来一次复活的机会哟！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The fairy is a strange being. It resides at checkpoints and is attracted to lonely souls, longing to be a "friend" to those who have none.\nIt will sacrifice itself to selflessly revive those "friends", should they fall in battle.</Data>
@@ -1432,8 +1387,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#CHALLENGE_OUTSMOUTH_D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">充满了鱼香！
-猫咪们最爱的地方！</Data>
+            <Data ss:Type="String">充满了鱼香！&#10;猫咪们最爱的地方！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Trapped in the fishing village of Outsmouth, you must withstand wave after wave of horrible nightmares.</Data>
@@ -1447,10 +1401,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#TSAR_CUTSCENE0</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">二十年前，有一到四位神奇地小巫师从来自虚空的大黄袍阿萨多
-手里拯救了世界，现在，有些怪力乱神的东东正在
-骚扰哈文德的渔港喵扑村。于是，我，弗拉德，必须肩负起责任，带领那些
-宝刀未老的巫师英雄重返战场，再次拯救世界！</Data>
+            <Data ss:Type="String">二十年前，有一到四位神奇地小巫师从来自虚空的大黄袍阿萨多&#10;手里拯救了世界，现在，有些怪力乱神的东东正在&#10;骚扰哈文德的渔港喵扑村。于是，我，弗拉德，必须肩负起责任，带领那些&#10;宝刀未老的巫师英雄重返战场，再次拯救世界！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">referring to the original game. Magicka can be played by one to four players.\n\nJoke on the word "fishy" = suspicious.\n\nMinor joke on humane = human (Vlad denying that he's a vampire again, emphasizing his humanity)</Data>
@@ -1464,9 +1415,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#TSAR_CUTSCENE1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">当巨大的蜘蛛帕克倒下后，巫师英雄展开了更为惊险的旅程，
-他们逃出来没几个小时，天就黑了，并且即将进入
-寂静而神秘的喵扑村...有什么危险正在哪儿等待着！</Data>
+            <Data ss:Type="String">当巨大的蜘蛛帕克倒下后，巫师英雄展开了更为惊险的旅程，&#10;他们逃出来没几个小时，天就黑了，并且即将进入&#10;寂静而神秘的喵扑村...有什么危险正在哪儿等待着！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">It's not at all a sinister reason, in a couple of hours dusk really does turn to night.</Data>
@@ -1480,10 +1429,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#TSAR_CUTSCENE2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">巫师英雄再一次将世界带入了危机，唤醒了来自
-有点儿危机的孤岛的邪神克苏鲁，真是太难以置信，
-难以想象，难以接受...现在，英雄只有一个选择，
-那就是打败邪神，延续人类，星火犹存！</Data>
+            <Data ss:Type="String">巫师英雄再一次将世界带入了危机，唤醒了来自&#10;有点儿危机的孤岛的邪神克苏鲁，真是太难以置信，&#10;难以想象，难以接受...现在，英雄只有一个选择，&#10;那就是打败邪神，延续人类，星火犹存！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The wizards had, once again, accidentally brought peril upon the world, resulting in the awakening of the lost corpse-city of R'lyeh, home to an unspeakable, unnamable, and, well... untamable being.\nWith little hope of survival, the wizards now had only one choice: defeat the lord of R'lyeh, that they might return to the material realm.</Data>
@@ -1511,9 +1457,7 @@ OK？你还不知足吗？</Data>
             <Data ss:Type="String">#Magick_PortalD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">别只传送自己的“一部分”啊喂！
-在基友的配合下效果更好。
-FQAE</Data>
+            <Data ss:Type="String">别只传送自己的“一部分”啊喂！&#10;在基友的配合下效果更好。&#10;FQAE</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">If you constantly feel cornered, unappreciated, and headed for certain doom, maybe you are in need of a door to another location!\nWith astonishing new Portal(s), you can create gates between locations, and freely roam wherever you like.</Data>
@@ -1541,9 +1485,7 @@ FQAE</Data>
             <Data ss:Type="String">#Magick_ChainlightningD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">虽然不能像连锁店一般
-一开开个几百家，好歹也能
-多串几个敌人起来。</Data>
+            <Data ss:Type="String">虽然不能像连锁店一般&#10;一开开个几百家，好歹也能&#10;多串几个敌人起来。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A low ceiling preventing the use of Thunder Bolt? Several foes in need shock therapy?\nChain lightning is your answer: its new and improved formula will have enemies and friends alike crying out in agony as you unleash horizontal bolts of pure pain!</Data>
@@ -1571,8 +1513,7 @@ FQAE</Data>
             <Data ss:Type="String">#Magick_levitateD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">虽然速度不快，不过真的
-飘起来了哟！小心摔伤！</Data>
+            <Data ss:Type="String">虽然速度不快，不过真的&#10;飘起来了哟！小心摔伤！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Who hasn't come across a path or bridge covered in moose muck? Levitation solves this problem by allowing you to hover above fields of filthy fear.</Data>
@@ -1600,9 +1541,7 @@ FQAE</Data>
             <Data ss:Type="String">#Magick_proppmagickD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一路放炮千百度，蓦然回首，
-那烟却在灯火阑珊处
-FFQS</Data>
+            <Data ss:Type="String">一路放炮千百度，蓦然回首，&#10;那烟却在灯火阑珊处&#10;FFQS</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Originally intending to invent a "fun for the family" Magick, Propp accidentally created a very powerful and unpredictable spell capable of destroying even the most powerful of forest trolls. This amazing Magick, however, went missing after some "brave" wizards decided to go troll-hunting.</Data>
@@ -1630,9 +1569,7 @@ FFQS</Data>
             <Data ss:Type="String">#magick_tractorpullD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">所有巫师都知道怎么把东西推开，
-可如果需要拉过来呢？用这个吧！
-随便什么都能乱拉扯一把！</Data>
+            <Data ss:Type="String">所有巫师都知道怎么把东西推开，&#10;可如果需要拉过来呢？用这个吧！&#10;随便什么都能乱拉扯一把！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Every wizard knows how to push things around, but when it comes to attraction, most are clueless. This is precisely why Tractor Pull was created. It is very useful for pulling Books, Sausages, and other Items towards the caster. Use with caution around cutlery!</Data>
@@ -2153,8 +2090,7 @@ FFQS</Data>
             <Data ss:Type="String">#Chapter_Notification</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">现在改变章节会使游戏重新开始，
-确定要现在改变吗？</Data>
+            <Data ss:Type="String">现在改变章节会使游戏重新开始，&#10;确定要现在改变吗？</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Changing the chapter will reset your progress in the current chapter. Are you sure you wish to change chapters?</Data>
@@ -2168,8 +2104,7 @@ FFQS</Data>
             <Data ss:Type="String">#Script_Change_Notification</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">因该章节内容更新，导致所有存档丢失，
-我们对于您的损失感到很抱歉。</Data>
+            <Data ss:Type="String">因该章节内容更新，导致所有存档丢失，&#10;我们对于您的损失感到很抱歉。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The chapter you are playing has been updated. All progress on this level has been lost. We are sorry for any inconvenience.</Data>
@@ -2183,8 +2118,7 @@ FFQS</Data>
             <Data ss:Type="String">#Exit_Warning</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">确定要推出吗？
-未保存的内容会丢失哟？</Data>
+            <Data ss:Type="String">确定要推出吗？&#10;未保存的内容会丢失哟？</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Are you sure you wish to quit? Any unsaved data will be lost.</Data>
@@ -2216,9 +2150,7 @@ FFQS</Data>
             <Data ss:Type="String">#TWC_vlad_intro0</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">好久不见啊老伙计！
-你好像正在享受无聊的退休生活吧？[P=1]
-嗯...[P=1]好消息！我有一个任务给你！</Data>
+            <Data ss:Type="String">好久不见啊老伙计！&#10;你好像正在享受无聊的退休生活吧？[P=1]&#10;嗯...[P=1]好消息！我有一个任务给你！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Vlad is overly enthusiastic</Data>
@@ -2232,10 +2164,7 @@ FFQS</Data>
             <Data ss:Type="String">#TWC_vlad_intro1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你肯定听说过喵扑村这个盛产
-鱼类的地方吧？就在东北方？
-没听说？唔，很快你就会知道了，
-而且不仅仅是知道！</Data>
+            <Data ss:Type="String">你肯定听说过喵扑村这个盛产&#10;鱼类的地方吧？就在东北方？&#10;没听说？唔，很快你就会知道了，&#10;而且不仅仅是知道！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Still enthusiastic</Data>
@@ -2249,10 +2178,7 @@ FFQS</Data>
             <Data ss:Type="String">#TWC_vlad_intro2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">最近，那儿上报了几起人员无辜失踪，
-并且有奇怪的生物在他们的海岸礁石附近出没，
-于是镇上谣言四起。[P=1]更糟糕的是，他们向哈文德
-输送的鱼类大量下降！[P=1]这令人无法忍受！</Data>
+            <Data ss:Type="String">最近，那儿上报了几起人员无辜失踪，&#10;并且有奇怪的生物在他们的海岸礁石附近出没，&#10;于是镇上谣言四起。[P=1]更糟糕的是，他们向哈文德&#10;输送的鱼类大量下降！[P=1]这令人无法忍受！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">More mysterious as if he knows something</Data>
@@ -2266,10 +2192,7 @@ FFQS</Data>
             <Data ss:Type="String">#TWC_vlad_intro3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我建议... [P=1]我是指命令...[P=2]额，是任命...
-[P=2]反正你懂的，赶紧去喵扑村调查个究竟吧，
-你我上一次任务配合的天衣无缝，
-所以这次你一定能成功胜任！</Data>
+            <Data ss:Type="String">我建议... [P=1]我是指命令...[P=2]额，是任命...&#10;[P=2]反正你懂的，赶紧去喵扑村调查个究竟吧，&#10;你我上一次任务配合的天衣无缝，&#10;所以这次你一定能成功胜任！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Goes from mysterious to commanding and very demanding -- in the way only Vlad can be.</Data>
@@ -2283,9 +2206,7 @@ FFQS</Data>
             <Data ss:Type="String">#TWC_vlad_intro4</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你说天色已经晚了是什么意思？
-[P=0.5]明儿再走？[P=1] 不...[P=0.5]那不成，
-你必须现在出发！[P=2]玻璃咿咿咿！</Data>
+            <Data ss:Type="String">你说天色已经晚了是什么意思？&#10;[P=0.5]明儿再走？[P=1] 不...[P=0.5]那不成，&#10;你必须现在出发！[P=2]玻璃咿咿咿！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Vlad becomes irritated with the wizards' laziness.</Data>
@@ -2299,9 +2220,7 @@ FFQS</Data>
             <Data ss:Type="String">#TWC_vlad_intro5</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哦...[P=2]请记住一点，关于我其实是...呃，那是
-我们之间的小秘密，千万不能透露给其他人，
-[P=1]你知道我指的是啥。</Data>
+            <Data ss:Type="String">哦...[P=2]请记住一点，关于我其实是...呃，那是&#10;我们之间的小秘密，千万不能透露给其他人，&#10;[P=1]你知道我指的是啥。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Vlad refers to the fact that the wizards know he's actually a vampire, unlike the rest of the world.</Data>
@@ -2315,10 +2234,7 @@ FFQS</Data>
             <Data ss:Type="String">#TWC_vlad_intro6</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你如果不能保守秘密，我会很失望的...[P=2]很失很失望...
-[P=2.5]哦！我失望的时候无法控制自己,[P=2]如果你不能保守秘密...
-[P=2]你，你“失”去的可就不止是希“望”那么简单了
-[P=1.3]...[P=1.3]...[P=1.3] 懂伐？</Data>
+            <Data ss:Type="String">你如果不能保守秘密，我会很失望的...[P=2]很失很失望...&#10;[P=2.5]哦！我失望的时候无法控制自己,[P=2]如果你不能保守秘密...&#10;[P=2]你，你“失”去的可就不止是希“望”那么简单了&#10;[P=1.3]...[P=1.3]...[P=1.3] 懂伐？</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">threatening tone</Data>
@@ -2346,8 +2262,7 @@ FFQS</Data>
             <Data ss:Type="String">#TWC_vlad_log1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">似乎又有一颗巨大的树挡住了你们的去路。
-只能选择走这边的捷径啦！</Data>
+            <Data ss:Type="String">似乎又有一颗巨大的树挡住了你们的去路。&#10;只能选择走这边的捷径啦！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">It looks like another giant tree has fallen in your path. You have no choice but to take this shortcut instead. </Data>
@@ -2361,8 +2276,7 @@ FFQS</Data>
             <Data ss:Type="String">#TWC_vlad_log2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">在那边的路上,[P=1]
-可能有些“小问题”需要解决...</Data>
+            <Data ss:Type="String">在那边的路上,[P=1]&#10;可能有些“小问题”需要解决...</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">And along the way, you might as well take care of the "minor"... [P=1] "problem" up ahead.</Data>
@@ -2390,8 +2304,7 @@ FFQS</Data>
             <Data ss:Type="String">#TMD_vlad_outsmouth1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">既然村子已经空了，我想你四处逛逛调查一下应该是
-很安全的。[p=0.5]我从这边开始找，确保没人来打扰。</Data>
+            <Data ss:Type="String">既然村子已经空了，我想你四处逛逛调查一下应该是&#10;很安全的。[p=0.5]我从这边开始找，确保没人来打扰。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Still careles, and finishes off with a lie (as vlad disappears right after you leave)</Data>
@@ -2433,10 +2346,7 @@ FFQS</Data>
             <Data ss:Type="String">#TR_Vlad_intro0</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">人类啊！[P=2]似乎你“偶然间”将邪神克苏鲁从有点儿
-危机的孤岛上唤醒了！[P=3]你必须熄灭人类的星火
-[P=2]...我是指延续！战胜邪神，星火犹存！[P=1.5]这儿的
-大神可不太喜欢我们的世界,[P=1]或者其他任何地方...</Data>
+            <Data ss:Type="String">人类啊！[P=2]似乎你“偶然间”将邪神克苏鲁从有点儿&#10;危机的孤岛上唤醒了！[P=3]你必须熄灭人类的星火&#10;[P=2]...我是指延续！战胜邪神，星火犹存！[P=1.5]这儿的&#10;大神可不太喜欢我们的世界,[P=1]或者其他任何地方...</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Vlad confuses left with right. There is a language-specific joke here, "set this right" meaning fix things so everything is good. He accidentally says "set things left", sort-of echoing the joke from the game's title.\nAlso, he is angry and disappointed.</Data>
@@ -2450,11 +2360,7 @@ FFQS</Data>
             <Data ss:Type="String">#TR_Vlad_intro1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">是了，这位邪神可以很轻易地毁灭中原大陆，
-[P=2]我猜,[P=2]我是对的,[P=2]你必须找到办法阻止克苏鲁,遵循：[P=1]
-1.延长这座桥[P=1]
-2.打开那扇门[P=1]
-3.解开那些触手。</Data>
+            <Data ss:Type="String">是了，这位邪神可以很轻易地毁灭中原大陆，&#10;[P=2]我猜,[P=2]我是对的,[P=2]你必须找到办法阻止克苏鲁,遵循：[P=1]&#10;1.延长这座桥[P=1]&#10;2.打开那扇门[P=1]&#10;3.解开那些触手。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Angry and disappointed still. And also firm when he lists the problems that the wizards face</Data>
@@ -2468,9 +2374,7 @@ FFQS</Data>
             <Data ss:Type="String">#TR_Vlad_intro2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">现在，我有一些很重要的事情要做，
-[P=2], 太重要了以至于你们人类是无法理
-...[P=3]我是说...[P=1.5]再见！</Data>
+            <Data ss:Type="String">现在，我有一些很重要的事情要做，&#10;[P=2], 太重要了以至于你们人类是无法理&#10;...[P=3]我是说...[P=1.5]再见！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Lies to avoid work.\nHe's reluctant to say that he has things to do that mortals can't understand, because he's a vampire (not a mortal) himself, a fact that he's in the habit of denying. He catches himself accidentally admitting it, and then changes the subject.</Data>
@@ -2484,9 +2388,7 @@ FFQS</Data>
             <Data ss:Type="String">#TR_Vlad_lair0</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">在这儿！[P=1.5]
-这些球能帮助解开触手，
-这里毕竟是那怪物的封印之地！</Data>
+            <Data ss:Type="String">在这儿！[P=1.5]&#10;这些球能帮助解开触手，&#10;这里毕竟是那怪物的封印之地！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Vlad is on the other side of a huge room, yelling.</Data>
@@ -2500,8 +2402,7 @@ FFQS</Data>
             <Data ss:Type="String">#TR_Vlad_lair1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">千万小心，别把这儿无穷无尽的怪物都给
-惊醒了！保持低调，谨慎，细声！</Data>
+            <Data ss:Type="String">千万小心，别把这儿无穷无尽的怪物都给&#10;惊醒了！保持低调，谨慎，细声！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Vlad is on the other side of a huge room, yelling.</Data>
@@ -2529,8 +2430,7 @@ FFQS</Data>
             <Data ss:Type="String">#TR_Vlad_mirror0</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我永远看不见镜中英俊的脸庞...
-(吸血鬼无法看见镜中的自己)</Data>
+            <Data ss:Type="String">我永远看不见镜中英俊的脸庞...&#10;(吸血鬼无法看见镜中的自己)</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Vlad realizes that he has not seen his own, very (in his eyes) beautiful face.</Data>
@@ -2544,8 +2444,7 @@ FFQS</Data>
             <Data ss:Type="String">#TR_Vlad_mirror1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哦，巫师老伙计啊...
-[P=1]这镜子可以反射你的奥术法术还有生命法术...</Data>
+            <Data ss:Type="String">哦，巫师老伙计啊...&#10;[P=1]这镜子可以反射你的奥术法术还有生命法术...</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Vlad is sad and not at all in the mood for playing games.</Data>
@@ -2573,8 +2472,7 @@ FFQS</Data>
             <Data ss:Type="String">#TR_Vlad_cthulhu</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我只是忍不住想来这儿表达我的哀悼之情...[P=2]
-祝你“好运”！</Data>
+            <Data ss:Type="String">我只是忍不住想来这儿表达我的哀悼之情...[P=2]&#10;祝你“好运”！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">As if Vlad is attending the wizard's funeral</Data>
@@ -2588,9 +2486,7 @@ FFQS</Data>
             <Data ss:Type="String">#TR_Vlad_cthulhu_dead0</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">真的！[P=1]我真的认为打败克苏鲁后你就会神奇地
-回归我们的世界，[P=4]我还以为你要等到天荒地老，
-星火燎原[P=2]...我是说宝刀未老,[P=1.5]星火[P=1.5]犹存！</Data>
+            <Data ss:Type="String">真的！[P=1]我真的认为打败克苏鲁后你就会神奇地&#10;回归我们的世界，[P=4]我还以为你要等到天荒地老，&#10;星火燎原[P=2]...我是说宝刀未老,[P=1.5]星火[P=1.5]犹存！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Vlad really surprised that his plan didn't work out.\n\nPlease consider the title when you translate the joke in this line.</Data>
@@ -2604,9 +2500,7 @@ FFQS</Data>
             <Data ss:Type="String">#TR_Vlad_cthulhu_dead1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">嗯... [P=1.5]现在我必须传送回巫师城堡了，
-[P=1.5]那里有一场盛大的酒会需要我出席，
-[P=1.8]祝你“好运”！</Data>
+            <Data ss:Type="String">嗯... [P=1.5]现在我必须传送回巫师城堡了，&#10;[P=1.5]那里有一场盛大的酒会需要我出席，&#10;[P=1.8]祝你“好运”！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">He doesn't really care anymore, as if he tried to help the wizards but it didn't work and now he is late for something.</Data>

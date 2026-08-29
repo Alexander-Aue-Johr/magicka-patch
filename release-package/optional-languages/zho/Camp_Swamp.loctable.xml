@@ -35,8 +35,7 @@
             <Data ss:Type="String">#SW_Text_murray2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我刚和你说过，千万不要花超过20块钱来玩一款游戏。啥？你说你玩的是[P=1]…
-好吧，当我没说。</Data>
+            <Data ss:Type="String">我刚和你说过，千万不要花超过20块钱来玩一款游戏。啥？你说你玩的是[P=1]…&#10;好吧，当我没说。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Monkey Island</Data>
@@ -50,8 +49,7 @@
             <Data ss:Type="String">#SW_Text_fvlad_intro1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">好极了，你在#Location_MI;干得非常好！
-我们要找的人住在沼泽那头。</Data>
+            <Data ss:Type="String">好极了，你在#Location_MI;干得非常好！&#10;我们要找的人住在沼泽那头。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -65,9 +63,7 @@
             <Data ss:Type="String">#SW_Text_fvlad_intro2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">穿越沼泽吧，但要保护好自己哦！
-这个沼泽曾经发生过一场大战。
-现在#Boss_n07;的仆人在召唤不死物扰乱大地。</Data>
+            <Data ss:Type="String">穿越沼泽吧，但要保护好自己哦！&#10;这个沼泽曾经发生过一场大战。&#10;现在#Boss_n07;的仆人在召唤不死物扰乱大地。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -81,10 +77,7 @@
             <Data ss:Type="String">#SW_Text_fvlad_monastery</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">前面就是那个人统治的村子…
-呃好吧其实那个人是位伯爵。
-告诉他现在世界正面临极大的危险，[P=1.5]
-他肯定会送你去见#Boss_n14;的。</Data>
+            <Data ss:Type="String">前面就是那个人统治的村子…&#10;呃好吧其实那个人是位伯爵。&#10;告诉他现在世界正面临极大的危险，[P=1.5]&#10;他肯定会送你去见#Boss_n14;的。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -98,9 +91,7 @@
             <Data ss:Type="String">#SW_Text_fvlad_village_intro1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">伯爵很看重他村子里的人，
-如果你获得村民的尊重，
-也就获得了伯爵的信任！</Data>
+            <Data ss:Type="String">伯爵很看重他村子里的人，&#10;如果你获得村民的尊重，&#10;也就获得了伯爵的信任！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -128,8 +119,7 @@
             <Data ss:Type="String">#SW_Text_fvlad_village1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">村子里的人们都很虚弱，如果你帮他们疗伤，[p=1.5]
-他们也许会帮你安排与伯爵的会面。</Data>
+            <Data ss:Type="String">村子里的人们都很虚弱，如果你帮他们疗伤，[p=1.5]&#10;他们也许会帮你安排与伯爵的会面。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -157,8 +147,7 @@
             <Data ss:Type="String">#SW_Text_fvlad_Fail1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">村民被杀死了，你便得不到他们的信任…
-重新来过吧，我送你回去。</Data>
+            <Data ss:Type="String">村民被杀死了，你便得不到他们的信任…&#10;重新来过吧，我送你回去。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -172,8 +161,7 @@
             <Data ss:Type="String">#SW_Text_fvlad_Fail2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">是拯救不是摧毁！瞧你干的好事。
-我必须把你送回去再来过。</Data>
+            <Data ss:Type="String">是拯救不是摧毁！瞧你干的好事。&#10;我必须把你送回去再来过。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -187,9 +175,7 @@
             <Data ss:Type="String">#SW_Text_fvlad_castle1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">前面就是伯爵的房间，但是，我不能再往前走了，
-因为…呃，不说这些，
-那不重要，重要的是—</Data>
+            <Data ss:Type="String">前面就是伯爵的房间，但是，我不能再往前走了，&#10;因为…呃，不说这些，&#10;那不重要，重要的是—</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -203,9 +189,7 @@
             <Data ss:Type="String">#SW_Text_fvlad_castle2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">伯爵不喜欢外来访客，而且容易发怒。
-但是你只要说明你的处境…呃，他一定会理解的！[P=1.5]
-祝你“好运”！</Data>
+            <Data ss:Type="String">伯爵不喜欢外来访客，而且容易发怒。&#10;但是你只要说明你的处境…呃，他一定会理解的！[P=1.5]&#10;祝你“好运”！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -261,8 +245,7 @@
             <Data ss:Type="String">#SW_Text_greatlord1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我们的主人伯爵大人是一位伟大的魔导师，
-但很显然他没有帮我们解决民生疾苦。</Data>
+            <Data ss:Type="String">我们的主人伯爵大人是一位伟大的魔导师，&#10;但很显然他没有帮我们解决民生疾苦。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -276,8 +259,7 @@
             <Data ss:Type="String">#SW_Text_greatlord2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">主人不肯帮我们，亏我们为他勤勤恳恳干了这么多年，
-他真抠门！</Data>
+            <Data ss:Type="String">主人不肯帮我们，亏我们为他勤勤恳恳干了这么多年，&#10;他真抠门！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -291,8 +273,7 @@
             <Data ss:Type="String">#SW_Text_greatlord_pos</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我们的主人伯爵大人骗了我们！
-你看你这样轻松就医好了我们的疾病，说明只要想治，就有办法！</Data>
+            <Data ss:Type="String">我们的主人伯爵大人骗了我们！&#10;你看你这样轻松就医好了我们的疾病，说明只要想治，就有办法！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">the villagers don't think highly of wizards. If *you* can cure us, anyone can!</Data>
@@ -306,8 +287,7 @@
             <Data ss:Type="String">#SW_Text_healthy</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我们都这么的虚弱…
-[P=1]有时候我希望有一种咒语能还人们健康。</Data>
+            <Data ss:Type="String">我们都这么的虚弱…&#10;[P=1]有时候我希望有一种咒语能还人们健康。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -321,8 +301,7 @@
             <Data ss:Type="String">#SW_Text_healthy_pos</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">什么？真有可以让人健康的咒语？！
-太感谢了！！！</Data>
+            <Data ss:Type="String">什么？真有可以让人健康的咒语？！&#10;太感谢了！！！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -336,8 +315,7 @@
             <Data ss:Type="String">#SW_Text_crops1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">成长吧，庄稼…[P=1]…成长！
-我只是心里念而已，才没有动手去揠苗助长呢！</Data>
+            <Data ss:Type="String">成长吧，庄稼…[P=1]…成长！&#10;我只是心里念而已，才没有动手去揠苗助长呢！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -379,8 +357,7 @@
             <Data ss:Type="String">#SW_Text_crops_pos2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">…不？
-这太糟糕了……</Data>
+            <Data ss:Type="String">…不？&#10;这太糟糕了……</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -394,8 +371,7 @@
             <Data ss:Type="String">#SW_Text_bynow</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我们中很多人已经死了……[P=1]
-但我很感激，如果不是因为伟大的主人，我们早都死光了。</Data>
+            <Data ss:Type="String">我们中很多人已经死了……[P=1]&#10;但我很感激，如果不是因为伟大的主人，我们早都死光了。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">minor revision</Data>
@@ -409,8 +385,7 @@
             <Data ss:Type="String">#SW_Text_bynow_pos</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哦！但若不是为了主人守护村子，
-也许所有人都可以离开，都还能活着！</Data>
+            <Data ss:Type="String">哦！但若不是为了主人守护村子，&#10;也许所有人都可以离开，都还能活着！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -480,8 +455,7 @@
             <Data ss:Type="String">#SW_Text_mob_intro</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我们被“主人”欺骗了！伙儿快拿上杠杠叉叉，
-现在是愤怒的小农起义时刻！！</Data>
+            <Data ss:Type="String">我们被“主人”欺骗了！伙儿快拿上杠杠叉叉，&#10;现在是愤怒的小农起义时刻！！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -523,8 +497,7 @@
             <Data ss:Type="String">#SW_Text_mob_regret2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">仔细想想看…[P=1]
-…我可不想害了性命，万一是误解呢。</Data>
+            <Data ss:Type="String">仔细想想看…[P=1]&#10;…我可不想害了性命，万一是误解呢。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -538,9 +511,7 @@
             <Data ss:Type="String">#SW_Text_vlad_intro1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">是你？你怎么跟着我来了这儿？！
-拯救世界的活儿不够你忙的吗？
-你就这么闲的蛋疼，[P=1]疼的不行…？</Data>
+            <Data ss:Type="String">是你？你怎么跟着我来了这儿？！&#10;拯救世界的活儿不够你忙的吗？&#10;你就这么闲的蛋疼，[P=1]疼的不行…？</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">a new sentence was added at the beginning.  vlad has now been found out: this is his wretched home. And now he is mad at the players.</Data>
@@ -554,10 +525,7 @@
             <Data ss:Type="String">#SW_Text_vlad_intro2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哦我知道了，你一定是对我这座蜗居城堡幸灾
-乐祸来的…现在地皮那么贵…泥马不像个傻子一样
-盖在沼泽上，我能盖哪儿去呀！
-你来给我一块地？你有吗?有木有！…</Data>
+            <Data ss:Type="String">哦我知道了，你一定是对我这座蜗居城堡幸灾&#10;乐祸来的…现在地皮那么贵…泥马不像个傻子一样&#10;盖在沼泽上，我能盖哪儿去呀！&#10;你来给我一块地？你有吗?有木有！…</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -571,10 +539,7 @@
             <Data ss:Type="String">#SW_Text_vlad_intro3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">现在外面那群村汉民妇都在反抗我了…[P=1]
-都是你！你让我别无选择！我要代表月亮消灭你！
-这样就没有人会知道…[P=1]我拥有一坨简直让人羞射死
-了的蜗居，而且还是座城堡！！！</Data>
+            <Data ss:Type="String">现在外面那群村汉民妇都在反抗我了…[P=1]&#10;都是你！你让我别无选择！我要代表月亮消灭你！&#10;这样就没有人会知道…[P=1]我拥有一坨简直让人羞射死&#10;了的蜗居，而且还是座城堡！！！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -588,9 +553,7 @@
             <Data ss:Type="String">#SW_Text_vlad_intro4</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">但是在你死之前，我会告诉你一个秘密…
-也许令人无法置信，
-不过我要彻底动摇你对现实的看法……</Data>
+            <Data ss:Type="String">但是在你死之前，我会告诉你一个秘密…&#10;也许令人无法置信，&#10;不过我要彻底动摇你对现实的看法……</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -604,8 +567,7 @@
             <Data ss:Type="String">#SW_Text_vlad_intro5</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我[P=1]其实[P=1]是一个……[P=1]
-……吸血鬼！</Data>
+            <Data ss:Type="String">我[P=1]其实[P=1]是一个……[P=1]&#10;……吸血鬼！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">I [P=1]am....[P=1]    ...a Vampire!</Data>
@@ -675,8 +637,7 @@
             <Data ss:Type="String">#SW_Text_vlad_battle4</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">印象深刻！[P=1]
-真令人印象深刻！</Data>
+            <Data ss:Type="String">印象深刻！[P=1]&#10;真令人印象深刻！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Star wars ref.</Data>
@@ -690,9 +651,7 @@
             <Data ss:Type="String">#SW_Text_vlad_outro1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">啊啊噢！你打败了我！
-但你并没有你想象中那么强大！
-让我看看你如何在#Location_NH;永恒的黑暗中挣扎！</Data>
+            <Data ss:Type="String">啊啊噢！你打败了我！&#10;但你并没有你想象中那么强大！&#10;让我看看你如何在#Location_NH;永恒的黑暗中挣扎！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Niflheim (the underworld)</Data>
@@ -878,8 +837,7 @@
             <Data ss:Type="String">#SW_PoI_necronomicon</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">它说 "第5年度 Necronomi-con"[P=1]
-...这双关语真够差的.</Data>
+            <Data ss:Type="String">它说 "第5年度 Necronomi-con"[P=1]&#10;...这双关语真够差的.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">It says "5th annual Necronomi-con"[P=1]    ...That is such a bad pun.</Data>
@@ -907,9 +865,7 @@
             <Data ss:Type="String">#SW_PoI_ts2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">"这里安息着罗宾·西德霍姆"[P=1]
-上面没有任何文字, 只有3个山丘的图画[P=1]
-中间的那个稍高一点, 在山顶有一个裂痕.</Data>
+            <Data ss:Type="String">"这里安息着罗宾·西德霍姆"[P=1]&#10;上面没有任何文字, 只有3个山丘的图画[P=1]&#10;中间的那个稍高一点, 在山顶有一个裂痕.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">magicka developer</Data>
@@ -923,9 +879,7 @@
             <Data ss:Type="String">#SW_PoI_ts3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">"这里安息着罗宾·西德霍姆"[P=1]
-上面没有任何文字, 只有3个山丘的图画[P=1]
-中间的那个稍高一点, 在山顶有一个裂痕.</Data>
+            <Data ss:Type="String">"这里安息着罗宾·西德霍姆"[P=1]&#10;上面没有任何文字, 只有3个山丘的图画[P=1]&#10;中间的那个稍高一点, 在山顶有一个裂痕.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">magicka developer</Data>
@@ -967,8 +921,7 @@
             <Data ss:Type="String">#SW_PoI_ts6</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">”这里安息着彼得·林德格兰“
-明显是个不安的人</Data>
+            <Data ss:Type="String">”这里安息着彼得·林德格兰“&#10;明显是个不安的人</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">magicka developer</Data>
@@ -982,9 +935,7 @@
             <Data ss:Type="String">#SW_PoI_ts7</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">”这里安息着阿德利斯·阿姆斯特朗“[P=1]
-剩下的部分难以辨认了……[P=1]
-……被胡须盖着</Data>
+            <Data ss:Type="String">”这里安息着阿德利斯·阿姆斯特朗“[P=1]&#10;剩下的部分难以辨认了……[P=1]&#10;……被胡须盖着</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Our sound designer has ALOT of beard… easter egg</Data>
@@ -1068,8 +1019,7 @@
             <Data ss:Type="String">#SW_PoI_simon</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一个手持鞭子穿着皮装的人
-…爱闯城堡的西蒙？</Data>
+            <Data ss:Type="String">一个手持鞭子穿着皮装的人&#10;…爱闯城堡的西蒙？</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Reference to castlevania</Data>
@@ -1083,8 +1033,7 @@
             <Data ss:Type="String">#SW_PoI_tomb</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">劳拉！你肿么了劳拉！！[P=1]
-……她包里好像有件古董。</Data>
+            <Data ss:Type="String">劳拉！你肿么了劳拉！！[P=1]&#10;……她包里好像有件古董。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Lara croft =)</Data>

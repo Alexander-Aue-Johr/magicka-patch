@@ -242,6 +242,9 @@ function Copy-ReleasePayloadToDirectory {
     Copy-Item -LiteralPath $diagnosticsSource -Destination $diagnosticsTarget -Recurse -Force
     $languageSource = Join-PathChecked $RepoRoot 'release-package\optional-languages\zho'
     Assert-Directory $languageSource
+    $languageLineBreakCheck = Join-PathChecked $RepoRoot 'scripts\check-chinese-language-line-breaks.ps1'
+    Assert-File $languageLineBreakCheck
+    & $languageLineBreakCheck -LanguageDirectory $languageSource
     $languageParent = Join-PathChecked $DestinationDir 'optional-languages'
     New-Item -ItemType Directory -Force -Path $languageParent | Out-Null
     $languageTarget = Join-PathChecked $languageParent 'zho'

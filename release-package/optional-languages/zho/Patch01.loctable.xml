@@ -427,12 +427,7 @@
             <Data ss:Type="String">#NOTICE_MOD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你的魔能内容存在自定义修改，
-所以成就，在线积分以及
-VAC防作弊不能使用。
-如果不是故意为之，
-请重新使用Steam打开游戏，
-祝游戏开心</Data>
+            <Data ss:Type="String">你的魔能内容存在自定义修改，&#10;所以成就，在线积分以及&#10;VAC防作弊不能使用。&#10;如果不是故意为之，&#10;请重新使用Steam打开游戏，&#10;祝游戏开心</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Not shown to the avarage player. Only appears if one or more shared game files do not pass a hash-sum check.</Data>
@@ -446,12 +441,7 @@ VAC防作弊不能使用。
             <Data ss:Type="String">#NOTICE_MOD_CAMPAIGN</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">剧情内容存在自定义修改，
-所以成就，在线积分以及
-VAC防作弊不能使用。
-如果不是故意为之，
-请重新使用Steam打开游戏，
-祝游戏开心！</Data>
+            <Data ss:Type="String">剧情内容存在自定义修改，&#10;所以成就，在线积分以及&#10;VAC防作弊不能使用。&#10;如果不是故意为之，&#10;请重新使用Steam打开游戏，&#10;祝游戏开心！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Shown when starting an adventure when the adventure does not pass the hash-sum check.</Data>
@@ -465,10 +455,7 @@ VAC防作弊不能使用。
             <Data ss:Type="String">#NOTICE_MOD_CAMPAIGN_VAC</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">剧情内容存在自定义修改，无法使用VAC防作弊功能。
-如果不是故意为之，
-请重新使用Steam打开游戏，
-关闭VAC防作弊，祝游戏开心！</Data>
+            <Data ss:Type="String">剧情内容存在自定义修改，无法使用VAC防作弊功能。&#10;如果不是故意为之，&#10;请重新使用Steam打开游戏，&#10;关闭VAC防作弊，祝游戏开心！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Shown when trying to start hosting a game with VAC on and the campaign does not pass the hash-sum check.</Data>
@@ -482,9 +469,7 @@ VAC防作弊不能使用。
             <Data ss:Type="String">#NOTICE_MOD_CONTENT</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你现在使用的是自定义或者非官方内容。
-所以成就，在线积分以及
-VAC防作弊不能使用。</Data>
+            <Data ss:Type="String">你现在使用的是自定义或者非官方内容。&#10;所以成就，在线积分以及&#10;VAC防作弊不能使用。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Shown when selecting a custom level or avatar.</Data>

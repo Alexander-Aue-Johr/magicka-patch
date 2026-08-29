@@ -533,10 +533,7 @@
             <Data ss:Type="String">#CHALLENGE_xmas2012D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">巫师们被召唤来帮助约林纳
-从他竞争者的手下夺回自己的血汗工坊。
-而竞争者方面保证会对任何企图这样做的人
-释放20波打击！</Data>
+            <Data ss:Type="String">巫师们被召唤来帮助约林纳&#10;从他竞争者的手下夺回自己的血汗工坊。&#10;而竞争者方面保证会对任何企图这样做的人&#10;释放20波打击！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>

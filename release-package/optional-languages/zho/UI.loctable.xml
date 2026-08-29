@@ -3676,9 +3676,7 @@
             <Data ss:Type="String">#Tu_Text_hint_intro</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">在魔能里，你能进行试验并组合至多五种元素，创造出各种法术。
-由于有上千种元素组合可以供你使用，所以试验尤为重要。
-在施放元素之前，你需要一根法杖。现在，从武器架上取一把。</Data>
+            <Data ss:Type="String">在魔能里，你能进行试验并组合至多五种元素，创造出各种法术。&#10;由于有上千种元素组合可以供你使用，所以试验尤为重要。&#10;在施放元素之前，你需要一根法杖。现在，从武器架上取一把。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -3706,8 +3704,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room0b_pad</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">看来你掉下来时受了伤，既然你有了法杖，就能给自己治疗。
-用右摇杆选择一个生命元素。</Data>
+            <Data ss:Type="String">看来你掉下来时受了伤，既然你有了法杖，就能给自己治疗。&#10;用右摇杆选择一个生命元素。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -3721,8 +3718,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room0b_key</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">来你掉下来时受了伤，既然你有了法杖，就能给自己治疗。
-用W键按一个生命元素。</Data>
+            <Data ss:Type="String">来你掉下来时受了伤，既然你有了法杖，就能给自己治疗。&#10;用W键按一个生命元素。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">please localize the letter with the keyboard in mind. E.g., perhaps "pressing W" in French = "pressing Z".</Data>
@@ -3764,9 +3760,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room0d_pad</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">真棒！你痊愈了！
-现在用剑砍断挡住房间出口的绳索。
-按“攻击”使用剑。</Data>
+            <Data ss:Type="String">真棒！你痊愈了！&#10;现在用剑砍断挡住房间出口的绳索。&#10;按“攻击”使用剑。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -3780,9 +3774,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room0d_key</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">真棒！你痊愈了！
-现在用剑砍断挡住房间出口的绳索。
-按下SHIFT键和鼠标左键使用武器。</Data>
+            <Data ss:Type="String">真棒！你痊愈了！&#10;现在用剑砍断挡住房间出口的绳索。&#10;按下SHIFT键和鼠标左键使用武器。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -3796,8 +3788,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room1a_pad</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">选择三个大地元素，然后按住“RT键”来积蓄法术的力量。
-当法术充满能量后，对着木板施放。</Data>
+            <Data ss:Type="String">选择三个大地元素，然后按住“RT键”来积蓄法术的力量。&#10;当法术充满能量后，对着木板施放。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -3811,8 +3802,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room1a_key</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">按三次大地元素，然后按住鼠标右键来积蓄法术的力量。
-当法术充满能量后，对着木板施放。</Data>
+            <Data ss:Type="String">按三次大地元素，然后按住鼠标右键来积蓄法术的力量。&#10;当法术充满能量后，对着木板施放。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -3826,9 +3816,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room1b</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">做得很好。现在你必须点亮火坛，激发桥的伸展。
-选一个火焰元素，对着火坛喷射。
-长按“施放”可以一直维持喷射法术。</Data>
+            <Data ss:Type="String">做得很好。现在你必须点亮火坛，激发桥的伸展。&#10;选一个火焰元素，对着火坛喷射。&#10;长按“施放”可以一直维持喷射法术。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -3842,9 +3830,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room2a</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">在裂缝对面有另一个火把，但用喷射法术够不着。
-组合大地元素和火焰元素，创造出一个火球，作为投射物扔出去。
-试着用火球击中火炬。</Data>
+            <Data ss:Type="String">在裂缝对面有另一个火把，但用喷射法术够不着。&#10;组合大地元素和火焰元素，创造出一个火球，作为投射物扔出去。&#10;试着用火球击中火炬。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -3858,8 +3844,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room2b</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这扇门的机关需要电力来启动。
-选一个闪电元素，施放到发电机上。</Data>
+            <Data ss:Type="String">这扇门的机关需要电力来启动。&#10;选一个闪电元素，施放到发电机上。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -3873,9 +3858,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room3a</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你的衣服湿透了！众所周知湿着玩电不是个好主意。
-你必须先烘干自己，选一个火焰元素，施放在自己身上。
-注意：身体干燥的时候最好别这么干。</Data>
+            <Data ss:Type="String">你的衣服湿透了！众所周知湿着玩电不是个好主意。&#10;你必须先烘干自己，选一个火焰元素，施放在自己身上。&#10;注意：身体干燥的时候最好别这么干。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -3889,9 +3872,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room3b_pad</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">烘干自己之后，你需要同时给两个发电机供电。
-最简单的方法是施放区域法术。
-按住“LT键”以施放区域法术。</Data>
+            <Data ss:Type="String">烘干自己之后，你需要同时给两个发电机供电。&#10;最简单的方法是施放区域法术。&#10;按住“LT键”以施放区域法术。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -3905,9 +3886,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room3b_key</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">烘干自己之后，你需要同时给两个发电机供电。
-最简单的方法是施放区域法术。
-按住SHIFT和鼠标右键以施放区域法术。</Data>
+            <Data ss:Type="String">烘干自己之后，你需要同时给两个发电机供电。&#10;最简单的方法是施放区域法术。&#10;按住SHIFT和鼠标右键以施放区域法术。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -3921,9 +3900,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room4</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">下一扇门的发电机离得太远，单纯的闪电没法够着。
-而大地是不导电的，与闪电属性相反的，二者没法组合.
-所以为了增加闪电的距离，在法术输入槽添加一个奥术元素。</Data>
+            <Data ss:Type="String">下一扇门的发电机离得太远，单纯的闪电没法够着。&#10;而大地是不导电的，与闪电属性相反的，二者没法组合.&#10;所以为了增加闪电的距离，在法术输入槽添加一个奥术元素。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -3937,9 +3914,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room5</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">酒窖被淹没了！
-众所周知，巫师都是旱鸭子。别担心，
-雪一般的寒冷不仅能够使敌人减速，也能用来使液体结冰。</Data>
+            <Data ss:Type="String">酒窖被淹没了！&#10;众所周知，巫师都是旱鸭子。别担心，&#10;雪一般的寒冷不仅能够使敌人减速，也能用来使液体结冰。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -3953,9 +3928,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room6</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">用来给城堡取暖的炉子已经点上了，
-看上去路被堵住了，唯一的去路是从炉子上通过。
-然而因为巫师十分“易燃”，所以用水把火扑灭才是明智的。</Data>
+            <Data ss:Type="String">用来给城堡取暖的炉子已经点上了，&#10;看上去路被堵住了，唯一的去路是从炉子上通过。&#10;然而因为巫师十分“易燃”，所以用水把火扑灭才是明智的。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -3969,10 +3942,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room7a</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">很久以前，一个老巫师觉得安装这个粉碎机是个好主意。
-但实际证明这个粉碎机没什么用。
-看，书架上有本上古流传下来的魔法技能书！
-也许它能帮你穿过粉碎机……</Data>
+            <Data ss:Type="String">很久以前，一个老巫师觉得安装这个粉碎机是个好主意。&#10;但实际证明这个粉碎机没什么用。&#10;看，书架上有本上古流传下来的魔法技能书！&#10;也许它能帮你穿过粉碎机……</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -3986,10 +3956,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room7b_pad</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你应该能使用加速魔法通过粉碎机。
-用十字键滚动魔法列表，
-当加速魔法被选择时，所需要的元素会显示在魔法条的背景上。
-按顺序选出所需要的元素后，按“魔法键”施放法术。</Data>
+            <Data ss:Type="String">你应该能使用加速魔法通过粉碎机。&#10;用十字键滚动魔法列表，&#10;当加速魔法被选择时，所需要的元素会显示在魔法条的背景上。&#10;按顺序选出所需要的元素后，按“魔法键”施放法术。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -4003,10 +3970,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room7b_key</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你应该能使用加速魔法通过粉碎机。
-用鼠标滚轮滚动魔法列表，
-当加速魔法被选择时，所需要的元素会显示在魔法条的背景上。
-按顺序按出所需要的元素后，按空格键施放法术。</Data>
+            <Data ss:Type="String">你应该能使用加速魔法通过粉碎机。&#10;用鼠标滚轮滚动魔法列表，&#10;当加速魔法被选择时，所需要的元素会显示在魔法条的背景上。&#10;按顺序按出所需要的元素后，按空格键施放法术。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -4020,9 +3984,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room8_pad</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">小地精都是胆小鬼，但他们被逼到困境时会奋起反击。
-当法术输入槽空着的时候，用RT键或LT键来施放推击。
-隧道尽头的门锁上了，当入侵的小地精们全部被消灭后才能打开。</Data>
+            <Data ss:Type="String">小地精都是胆小鬼，但他们被逼到困境时会奋起反击。&#10;当法术输入槽空着的时候，用RT键或LT键来施放推击。&#10;隧道尽头的门锁上了，当入侵的小地精们全部被消灭后才能打开。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -4036,9 +3998,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room8_key</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">小地精都是胆小鬼，但他们被逼到困境时会奋起反击。
-当法术输入槽空着的时候，用SHIFT+鼠标右键或直接鼠标右键来施放冲击。
-隧道尽头的门锁上了，当入侵的小地精们全部被消灭后才能打开。</Data>
+            <Data ss:Type="String">小地精都是胆小鬼，但他们被逼到困境时会奋起反击。&#10;当法术输入槽空着的时候，用SHIFT+鼠标右键或直接鼠标右键来施放冲击。&#10;隧道尽头的门锁上了，当入侵的小地精们全部被消灭后才能打开。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -4066,9 +4026,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room10a_pad</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">用护盾保护自己免受他的远程攻击。
-反复按动支援键，增加护盾能承受的伤害。
-瞧瞧，一个大眼睛怪，击败它</Data>
+            <Data ss:Type="String">用护盾保护自己免受他的远程攻击。&#10;反复按动支援键，增加护盾能承受的伤害。&#10;瞧瞧，一个大眼睛怪，击败它</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -4082,9 +4040,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room10a_key</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">用护盾保护自己免受他的远程攻击。
-反复按动空格键，增加护盾能承受的伤害。
-瞧瞧，一个大眼睛怪，击败它。</Data>
+            <Data ss:Type="String">用护盾保护自己免受他的远程攻击。&#10;反复按动空格键，增加护盾能承受的伤害。&#10;瞧瞧，一个大眼睛怪，击败它。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -4112,8 +4068,7 @@
             <Data ss:Type="String">#Tu_Text_hint_room10c</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">记住施法时最重要的是：用不同元素进行组合试验，有几千种
-可能性，你已经学到的与你所能做的相比只是九牛一毛！</Data>
+            <Data ss:Type="String">记住施法时最重要的是：用不同元素进行组合试验，有几千种&#10;可能性，你已经学到的与你所能做的相比只是九牛一毛！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Remember, the most important part of spellcasting: experiment with the elements. There are several thousands of possible combinations, and what you have learned here is only a small fraction of what you can do!</Data>
@@ -4151,10 +4106,7 @@
             <Data ss:Type="String">#Tu_Text_hint_checkpoint</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">临时储存点能使你的体力回复，并让死掉的同伴复活。
-你死后，游戏会从最近激活的点重新开始。
-但如果你退出游戏，就只能从章节开头重新开始。
-整个游戏中你都会找到这样的储存点。另外，在困难的战斗前，它们会被自动激活。</Data>
+            <Data ss:Type="String">临时储存点能使你的体力回复，并让死掉的同伴复活。&#10;你死后，游戏会从最近激活的点重新开始。&#10;但如果你退出游戏，就只能从章节开头重新开始。&#10;整个游戏中你都会找到这样的储存点。另外，在困难的战斗前，它们会被自动激活。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Checkpoints restore your health and revive your fallen comrades. If you die you will restart at the latest checkpoint that you activated. If you exit the game, however, you will restart at the beginning of the level.  Throughout the game you will find checkpoins such as this one. In other cases they are automatically triggered before a difficult fight.</Data>
@@ -4500,9 +4452,7 @@
             <Data ss:Type="String">#TIP13</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">法杖通常有被动技能和主动技能。被动技能的效果一直存在，
-而主动技能需要按“对自己施放”或鼠标中键来激活。
-记住：当你这样做时，法术输入槽中不应有任何元素！</Data>
+            <Data ss:Type="String">法杖通常有被动技能和主动技能。被动技能的效果一直存在，&#10;而主动技能需要按“对自己施放”或鼠标中键来激活。&#10;记住：当你这样做时，法术输入槽中不应有任何元素！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Staffs often have both passive abilities whose effects are constant, and active abilities which can be activated by pressing Cast Self or the Middle Mouse button. Note: When you do this, be careful that your spellbar is clear of any elements!</Data>
@@ -4530,8 +4480,7 @@
             <Data ss:Type="String">#TIP15</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">按完了一种魔法技能的元素组合后并不一定要施放这种技能，
-用任一个施法键可把它当成一般法术施放。</Data>
+            <Data ss:Type="String">按完了一种魔法技能的元素组合后并不一定要施放这种技能，&#10;用任一个施法键可把它当成一般法术施放。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Even though you've conjured the combination for a Magick, you don't have to cast it as one. Just press any of the regular cast buttons to cast it normally.</Data>
@@ -7992,18 +7941,7 @@
             <Data ss:Type="String">#UI_Text_element_fire</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">火焰
-
-#TYPE;
- 喷射
-
-#PROP;
- -附着火焰伤害
- -引起慌乱
- -烘干潮湿目标
-
-#OPP;
- 雪系</Data>
+            <Data ss:Type="String">火焰&#10;&#10;#TYPE;&#10; 喷射&#10;&#10;#PROP;&#10; -附着火焰伤害&#10; -引起慌乱&#10; -烘干潮湿目标&#10;&#10;#OPP;&#10; 雪系</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -8017,16 +7955,7 @@
             <Data ss:Type="String">#UI_Text_element_earth</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">大地
-
-#TYPE;
- 投射
-
-#PROP;
- -物理伤害
-
-#OPP;
- 闪电</Data>
+            <Data ss:Type="String">大地&#10;&#10;#TYPE;&#10; 投射&#10;&#10;#PROP;&#10; -物理伤害&#10;&#10;#OPP;&#10; 闪电</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -8040,17 +7969,7 @@
             <Data ss:Type="String">#UI_Text_element_water</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">水系
-
-#TYPE;
- 喷射
-
-#PROP;
- -潮湿
- -扑灭火焰
-
-#OPP;
- 闪电</Data>
+            <Data ss:Type="String">水系&#10;&#10;#TYPE;&#10; 喷射&#10;&#10;#PROP;&#10; -潮湿&#10; -扑灭火焰&#10;&#10;#OPP;&#10; 闪电</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -8064,17 +7983,7 @@
             <Data ss:Type="String">#UI_Text_element_cold</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">雪系
-
-#TYPE;
- 喷射
-
-#PROP;
- -减速
- -冻结水系
-
-#OPP;
- 火焰</Data>
+            <Data ss:Type="String">雪系&#10;&#10;#TYPE;&#10; 喷射&#10;&#10;#PROP;&#10; -减速&#10; -冻结水系&#10;&#10;#OPP;&#10; 火焰</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -8088,17 +7997,7 @@
             <Data ss:Type="String">#UI_Text_element_lightning</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">闪电
-
-#TYPE;
- 闪电
-
-#PROP;
- -闪电伤害
- -在目标间弹射伤害
-
-#OPP;
- 大地 &amp; 水系</Data>
+            <Data ss:Type="String">闪电&#10;&#10;#TYPE;&#10; 闪电&#10;&#10;#PROP;&#10; -闪电伤害&#10; -在目标间弹射伤害&#10;&#10;#OPP;&#10; 大地 &amp; 水系</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -8112,16 +8011,7 @@
             <Data ss:Type="String">#UI_Text_element_shield</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">护盾
-
-#TYPE;
- 护盾
-
-#PROP;
- -保护性屏障
-
-#OPP;
- 护盾</Data>
+            <Data ss:Type="String">护盾&#10;&#10;#TYPE;&#10; 护盾&#10;&#10;#PROP;&#10; -保护性屏障&#10;&#10;#OPP;&#10; 护盾</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -8135,18 +8025,7 @@
             <Data ss:Type="String">#UI_Text_element_life</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">生命
-
-#TYPE;
- 束状
-
-#PROP;
- -治疗
- -治愈中毒
- -伤害不死系生物
-
-#OPP;
- 奥术</Data>
+            <Data ss:Type="String">生命&#10;&#10;#TYPE;&#10; 束状&#10;&#10;#PROP;&#10; -治疗&#10; -治愈中毒&#10; -伤害不死系生物&#10;&#10;#OPP;&#10; 奥术</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -8160,18 +8039,7 @@
             <Data ss:Type="String">#UI_Text_element_arcane</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">奥术
-
-#TYPE;
- 束状
-
-#PROP;
- -奥术伤害
- -爆炸性
- -治疗不死系生物
-
-#OPP;
- 生命</Data>
+            <Data ss:Type="String">奥术&#10;&#10;#TYPE;&#10; 束状&#10;&#10;#PROP;&#10; -奥术伤害&#10; -爆炸性&#10; -治疗不死系生物&#10;&#10;#OPP;&#10; 生命</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -8185,18 +8053,7 @@
             <Data ss:Type="String">#UI_Text_element_steam</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">蒸汽
-
-#TYPE;
- 喷射
-
-#PROP;
- -火焰伤害
- -潮湿
- -引起狂乱
-
-#OPP;
- 雪系</Data>
+            <Data ss:Type="String">蒸汽&#10;&#10;#TYPE;&#10; 喷射&#10;&#10;#PROP;&#10; -火焰伤害&#10; -潮湿&#10; -引起狂乱&#10;&#10;#OPP;&#10; 雪系</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -8210,18 +8067,7 @@
             <Data ss:Type="String">#UI_Text_element_ice</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">冰冻
-
-#TYPE;
- 投射
-
-#PROP;
- -物理伤害
- -多重碎片
- -穿透
-
-#OPP;
- 火焰</Data>
+            <Data ss:Type="String">冰冻&#10;&#10;#TYPE;&#10; 投射&#10;&#10;#PROP;&#10; -物理伤害&#10; -多重碎片&#10; -穿透&#10;&#10;#OPP;&#10; 火焰</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -8235,17 +8081,7 @@
             <Data ss:Type="String">#UI_Text_element_poison</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">剧毒
-
-#TYPE;
- 喷射
-
-#PROP;
- -持续毒损伤害
- -减速
-
-#OPP;
- 生命</Data>
+            <Data ss:Type="String">剧毒&#10;&#10;#TYPE;&#10; 喷射&#10;&#10;#PROP;&#10; -持续毒损伤害&#10; -减速&#10;&#10;#OPP;&#10; 生命</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -23035,12 +22871,7 @@
             <Data ss:Type="String">#STEAM_OVERLAY_INSTRUCTIONS</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">1.关闭游戏
-2. 从工具栏上的 Steam 菜单访问“设置”
-3. 选择游戏内设置
-4. 从设置菜单中启用“游戏中的 Steam 叠加”选项
-5.重新启动Magicka
-Steam &gt; 设置 &gt; 在游戏中 &gt; 在游戏中启用 Steam 叠加 &gt; 重新启动 Magicka</Data>
+            <Data ss:Type="String">1.关闭游戏&#10;2. 从工具栏上的 Steam 菜单访问“设置”&#10;3. 选择游戏内设置&#10;4. 从设置菜单中启用“游戏中的 Steam 叠加”选项&#10;5.重新启动Magicka&#10;Steam &gt; 设置 &gt; 在游戏中 &gt; 在游戏中启用 Steam 叠加 &gt; 重新启动 Magicka</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">1. Close the game

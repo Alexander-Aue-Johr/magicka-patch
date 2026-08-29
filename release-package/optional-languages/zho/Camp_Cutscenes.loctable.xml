@@ -21,10 +21,7 @@
             <Data ss:Type="String">#Cutscene_intro0</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">请静下心来听会儿，我要给你讲一个故事。
-一个关于龙与地下城，关于兽人与哥布林，关于
-盗墓者与幽灵，关于国王与王后，但最重要的是
-…关于巫师与荡妇，呃，关于巫师的故事。</Data>
+            <Data ss:Type="String">请静下心来听会儿，我要给你讲一个故事。&#10;一个关于龙与地下城，关于兽人与哥布林，关于&#10;盗墓者与幽灵，关于国王与王后，但最重要的是&#10;…关于巫师与荡妇，呃，关于巫师的故事。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">these are spoken lines. Please imagine the actor speaking, the sound of the line. Don't stop at translation, but read it out loud. Does it sound like a funny vampire narrator?</Data>
@@ -52,11 +49,7 @@
             <Data ss:Type="String">#Cutscene_intro2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">居住着一位有着强大魔法的巫师，名为格瑞姆尼，
-他试图学会所有的魔法。尽管有很多古老的字符，
-已经被遗忘在历史的角落。可一旦谁拥有了这样的魔法
-知识，也许他就能代替当权者，引领巫师们把永恒
-的和谐铺遍世界每一个角落……</Data>
+            <Data ss:Type="String">居住着一位有着强大魔法的巫师，名为格瑞姆尼，&#10;他试图学会所有的魔法。尽管有很多古老的字符，&#10;已经被遗忘在历史的角落。可一旦谁拥有了这样的魔法&#10;知识，也许他就能代替当权者，引领巫师们把永恒&#10;的和谐铺遍世界每一个角落……</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">intro</Data>
@@ -70,8 +63,7 @@
             <Data ss:Type="String">#Cutscene_intro3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">可是当权者发现了格瑞姆尼的野心，他们感到恐惧，
-所以暗中商议，制定了一个阴险的计划……</Data>
+            <Data ss:Type="String">可是当权者发现了格瑞姆尼的野心，他们感到恐惧，&#10;所以暗中商议，制定了一个阴险的计划……</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">intro</Data>
@@ -85,10 +77,7 @@
             <Data ss:Type="String">#Cutscene_intro4</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">…在这之后，格瑞姆尼的弟子受到驱逐，
-而他自己，则终其一生，都被囚禁在世界的尽头
-—边缘之境
-一切都是源于他对黑暗魔法的沉迷。</Data>
+            <Data ss:Type="String">…在这之后，格瑞姆尼的弟子受到驱逐，&#10;而他自己，则终其一生，都被囚禁在世界的尽头&#10;—边缘之境&#10;一切都是源于他对黑暗魔法的沉迷。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -102,9 +91,7 @@
             <Data ss:Type="String">#Cutscene_intro5</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">格瑞姆尼的野心消散了，
-当权者们自以为世界恢复了和平…
-但是越来越多无辜的居民受到怪物的攻击。</Data>
+            <Data ss:Type="String">格瑞姆尼的野心消散了，&#10;当权者们自以为世界恢复了和平…&#10;但是越来越多无辜的居民受到怪物的攻击。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">intro5 leads into intro6</Data>
@@ -118,9 +105,7 @@
             <Data ss:Type="String">#Cutscene_intro6</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">之后，很快，整个兽人部落被兽人军阀可汗统一，
-他四处烧杀掳掠，扩张领土…
-现在已经威胁到了人类的圣地哈文德城。</Data>
+            <Data ss:Type="String">之后，很快，整个兽人部落被兽人军阀可汗统一，&#10;他四处烧杀掳掠，扩张领土…&#10;现在已经威胁到了人类的圣地哈文德城。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">leading from intro5</Data>
@@ -134,9 +119,7 @@
             <Data ss:Type="String">#Cutscene_intro7</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">因此，在烟雾弥漫神秘晦暗的巫师城堡，
-一位杰出的魔导师和他最优秀的学生正筹划着一场远征，
-为了阻止世界陷入危机而奋斗，直到…永远……</Data>
+            <Data ss:Type="String">因此，在烟雾弥漫神秘晦暗的巫师城堡，&#10;一位杰出的魔导师和他最优秀的学生正筹划着一场远征，&#10;为了阻止世界陷入危机而奋斗，直到…永远……</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -150,10 +133,7 @@
             <Data ss:Type="String">#Cutscene_02</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">于是，我们年轻勇敢的小巫师决定启程去拯救世界，
-而指引他们跨越各种艰难险阻的，正是英俊帅气风流倜傥玉树临风名冠天下的魔导师弗拉德，
-他可不是个吸血鬼！
-当一行人到达神秘森林时，酝酿中的邪恶计划即将显山露水。</Data>
+            <Data ss:Type="String">于是，我们年轻勇敢的小巫师决定启程去拯救世界，&#10;而指引他们跨越各种艰难险阻的，正是英俊帅气风流倜傥玉树临风名冠天下的魔导师弗拉德，&#10;他可不是个吸血鬼！&#10;当一行人到达神秘森林时，酝酿中的邪恶计划即将显山露水。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">after mission 1 (that is, the wizard castle), this cutscene plays</Data>
@@ -167,10 +147,7 @@
             <Data ss:Type="String">#Cutscene_03</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">挽救了维德堡，杀死了巨蟒，弗拉德带领小巫师来到了长风海岸。
-在那里，牛头人暴走的谣言已经把大家吓得哭爹喊娘，有些甚至直接搬了家。
-不过，小巫师一点儿也不担心，因为魔导师弗拉德拥有吸血鬼般强悍的能力，
-胜利是必须的，妥妥的。</Data>
+            <Data ss:Type="String">挽救了维德堡，杀死了巨蟒，弗拉德带领小巫师来到了长风海岸。&#10;在那里，牛头人暴走的谣言已经把大家吓得哭爹喊娘，有些甚至直接搬了家。&#10;不过，小巫师一点儿也不担心，因为魔导师弗拉德拥有吸血鬼般强悍的能力，&#10;胜利是必须的，妥妥的。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">after mission 2, which ends with slaying the big serpent.</Data>
@@ -184,9 +161,7 @@
             <Data ss:Type="String">#Cutscene_04</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">犇旦村为了感激拯救他们的小巫师，特意提供了一辆能帮助救世主们尽快前往哈文德城的马车。
-伟大的国王正在巫师们旅途的终点静候。
-当一行人来到城门前，入冬以来的第一片雪花…正缓缓落下。</Data>
+            <Data ss:Type="String">犇旦村为了感激拯救他们的小巫师，特意提供了一辆能帮助救世主们尽快前往哈文德城的马车。&#10;伟大的国王正在巫师们旅途的终点静候。&#10;当一行人来到城门前，入冬以来的第一片雪花…正缓缓落下。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">after mission 3</Data>
@@ -200,10 +175,7 @@
             <Data ss:Type="String">#Cutscene_05</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哈文德城经历了战火的洗礼，虽残垣断壁无数，却毫不影响人类抗争的斗志，
-要把家仇国恨反馈给丑恶的敌人！
-当太阳升起，数千人…哦不…数百…至少有五十名英勇的战士矗立在晨光中！
-养兵千日用兵一时，现在他们已经做好准备迎击兽人军阀。</Data>
+            <Data ss:Type="String">哈文德城经历了战火的洗礼，虽残垣断壁无数，却毫不影响人类抗争的斗志，&#10;要把家仇国恨反馈给丑恶的敌人！&#10;当太阳升起，数千人…哦不…数百…至少有五十名英勇的战士矗立在晨光中！&#10;养兵千日用兵一时，现在他们已经做好准备迎击兽人军阀。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">after saving the king in Havindr</Data>
@@ -217,9 +189,7 @@
             <Data ss:Type="String">#Cutscene_06</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">随着兽人领主可汗的死亡，格瑞姆尼邪恶的计划揭开了面纱。
-聪明帅气的魔导师弗拉德建议小巫师做一件危险却意义重大的事情。
-与其等待剩下军队的到来，不如自己主动出击，说不定会发现阴谋背后的真相。</Data>
+            <Data ss:Type="String">随着兽人领主可汗的死亡，格瑞姆尼邪恶的计划揭开了面纱。&#10;聪明帅气的魔导师弗拉德建议小巫师做一件危险却意义重大的事情。&#10;与其等待剩下军队的到来，不如自己主动出击，说不定会发现阴谋背后的真相。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">after defeating Khan</Data>
@@ -233,10 +203,7 @@
             <Data ss:Type="String">#Cutscene_07</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">弗拉德的时间魔法，将无助的小巫师从格瑞姆尼以及他背后的
-神秘盟友阿萨多之魔掌中解救。现在，来自未来的弗拉德，
-将指引小巫师回到巫师城堡，重新开始旅程，去寻找巨龙法夫纳
-一位古老的魔法大师，也只有他能够告诉小巫师如何打败阿萨多。</Data>
+            <Data ss:Type="String">弗拉德的时间魔法，将无助的小巫师从格瑞姆尼以及他背后的&#10;神秘盟友阿萨多之魔掌中解救。现在，来自未来的弗拉德，&#10;将指引小巫师回到巫师城堡，重新开始旅程，去寻找巨龙法夫纳&#10;一位古老的魔法大师，也只有他能够告诉小巫师如何打败阿萨多。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -250,9 +217,7 @@
             <Data ss:Type="String">#Cutscene_08</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">小巫师又一次从他们的老家巫师城堡出发。依旧向北行进，只是中途改道去地下矿井，
-相传那儿很久以前就被遗弃了，应该很安全……
-然而事实并非如此。</Data>
+            <Data ss:Type="String">小巫师又一次从他们的老家巫师城堡出发。依旧向北行进，只是中途改道去地下矿井，&#10;相传那儿很久以前就被遗弃了，应该很安全……&#10;然而事实并非如此。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -266,11 +231,7 @@
             <Data ss:Type="String">#Cutscene_09</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">在摧毁了哥布林的地下城之后，小巫师离开了矿井，并树立了新的目标。
-—找到吸血鬼伯爵，只有他能指引小巫师到巨龙法夫纳那儿去。
-当玫瑰在黑暗的水面上沾染雾气，死亡的气息也沿着她们的刺尖阵阵散发出来。
-没有了导师弗拉德，以往身边存在的那股安全感已飘然而去，这让小巫师感到非常孤独
-……内心深处弥漫着恐惧。</Data>
+            <Data ss:Type="String">在摧毁了哥布林的地下城之后，小巫师离开了矿井，并树立了新的目标。&#10;—找到吸血鬼伯爵，只有他能指引小巫师到巨龙法夫纳那儿去。&#10;当玫瑰在黑暗的水面上沾染雾气，死亡的气息也沿着她们的刺尖阵阵散发出来。&#10;没有了导师弗拉德，以往身边存在的那股安全感已飘然而去，这让小巫师感到非常孤独&#10;……内心深处弥漫着恐惧。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -284,9 +245,7 @@
             <Data ss:Type="String">#Cutscene_10</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一场糟糕的会面，使得小巫师与既是导师又是吸血鬼伯爵的弗拉德展开了战斗。
-他别无选择，只得轻轻一弹指，击溃了小巫师，并将他曾经的学生放逐到死神领域。
-在那里，小巫师得自个儿想办法重返现实世界，而且还不能忘了要继续寻找巨龙法夫纳。</Data>
+            <Data ss:Type="String">一场糟糕的会面，使得小巫师与既是导师又是吸血鬼伯爵的弗拉德展开了战斗。&#10;他别无选择，只得轻轻一弹指，击溃了小巫师，并将他曾经的学生放逐到死神领域。&#10;在那里，小巫师得自个儿想办法重返现实世界，而且还不能忘了要继续寻找巨龙法夫纳。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">in fact, they beat him, then he cheats at the end and casts them into the underworld. He's pretending that he won the battle against the players.</Data>
@@ -300,10 +259,7 @@
             <Data ss:Type="String">#Cutscene_11</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">在继续找寻的任务中，小巫师与死神大战了一场，不知何故胜利来的如此容易。
-死神，其实是个好人。他决定帮助勇敢的小巫师，将之传送到了寒风呼啸的雪山遗址。
-据说古老的巨龙法夫纳就住在那片遗迹里。
-雪山上冷的冒泡，小巫师颤栗不已。但不远处勉强肉眼可见的那座城堡，给了大家一线希望。</Data>
+            <Data ss:Type="String">在继续找寻的任务中，小巫师与死神大战了一场，不知何故胜利来的如此容易。&#10;死神，其实是个好人。他决定帮助勇敢的小巫师，将之传送到了寒风呼啸的雪山遗址。&#10;据说古老的巨龙法夫纳就住在那片遗迹里。&#10;雪山上冷的冒泡，小巫师颤栗不已。但不远处勉强肉眼可见的那座城堡，给了大家一线希望。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -317,10 +273,7 @@
             <Data ss:Type="String">#Cutscene_12</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">说时迟那时快，小巫师与巨龙法夫纳展开了惨烈的战斗，最后差点儿就要杀死对方！
-幸好我…呃，未来的弗拉德及时出面阻止了大家。
-法夫纳赐予小巫师一种很给力的魔法，能够将阿萨多从虚空领域拖入现实世界。
-终于要进行最后的决战了！</Data>
+            <Data ss:Type="String">说时迟那时快，小巫师与巨龙法夫纳展开了惨烈的战斗，最后差点儿就要杀死对方！&#10;幸好我…呃，未来的弗拉德及时出面阻止了大家。&#10;法夫纳赐予小巫师一种很给力的魔法，能够将阿萨多从虚空领域拖入现实世界。&#10;终于要进行最后的决战了！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>

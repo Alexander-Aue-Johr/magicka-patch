@@ -266,8 +266,7 @@
             <Data ss:Type="String">#dungeons_ch1_sc3_cheese1c_morten</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">[P=0.5]现在所有人都不在了……[P=0.5]被一个叫做#Ent_Dungeons_Wurstmacher;的恶魔抓走了！
-[P=0.5]他挥舞着像斧子那么大的砍刀！[P=1]我们毫无还手之力！</Data>
+            <Data ss:Type="String">[P=0.5]现在所有人都不在了……[P=0.5]被一个叫做#Ent_Dungeons_Wurstmacher;的恶魔抓走了！&#10;[P=0.5]他挥舞着像斧子那么大的砍刀！[P=1]我们毫无还手之力！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Added a ; to the end of the #name tags, which is needed for it to work.</Data>
@@ -2530,11 +2529,7 @@
             <Data ss:Type="String">#dungeons_ch1_intro_sc1a_subtitle</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">伟大的弗拉德再次从危险而英勇的远征中回来了！这次，他打败了可怕的邪神，拯救了中原大陆！
-为了表示感谢，巫师们自发地决定举办一场宏大的派对来庆祝他们深深敬爱的老师所达成的荣耀功绩！
-准备活动都已经完成了，但是还差一样东西—奶酪。
-通过普选，一组巫师被选出来进入地下城找来一片“超旧蓝奶酪”……
-但是可怕的事情发生了……</Data>
+            <Data ss:Type="String">伟大的弗拉德再次从危险而英勇的远征中回来了！这次，他打败了可怕的邪神，拯救了中原大陆！&#10;为了表示感谢，巫师们自发地决定举办一场宏大的派对来庆祝他们深深敬爱的老师所达成的荣耀功绩！&#10;准备活动都已经完成了，但是还差一样东西—奶酪。&#10;通过普选，一组巫师被选出来进入地下城找来一片“超旧蓝奶酪”……&#10;但是可怕的事情发生了……</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Shown at the start of the level, narrated by Vlad.</Data>
@@ -2896,9 +2891,7 @@
             <Data ss:Type="String">#ITEM_dungeons_wurstmesserD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">奔跑。如果你不是拿着这个的人，你就无法这么做。
-#DMG;太大了
-#SP;太多了</Data>
+            <Data ss:Type="String">奔跑。如果你不是拿着这个的人，你就无法这么做。&#10;#DMG;太大了&#10;#SP;太多了</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -2937,9 +2930,7 @@
             <Data ss:Type="String">#ITEM_dungeons_barbarianbladeD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">古老，镀铬的野蛮之剑。
-#DMG;中等物理伤害
-#SP;物理免疫</Data>
+            <Data ss:Type="String">古老，镀铬的野蛮之剑。&#10;#DMG;中等物理伤害&#10;#SP;物理免疫</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Reference to Conan the Barbarian's sword "Crom".  "Riddle of Steel" = quote from movie "Chromed" = ref. to "Crom"</Data>

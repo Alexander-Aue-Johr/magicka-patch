@@ -1055,16 +1055,7 @@
             <Data ss:Type="String">#PACK_VANILLA_STICKSD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">-#Item_staff14;
--#Item_staff03;
--#Item_staff09;
--#Item_staff17;
--#Item_staff19;
--#Item_staff13;
--#Item_staff05;
--#Item_staff08;
--#Item_staff07;
--#Item_staff02;</Data>
+            <Data ss:Type="String">-#Item_staff14;&#10;-#Item_staff03;&#10;-#Item_staff09;&#10;-#Item_staff17;&#10;-#Item_staff19;&#10;-#Item_staff13;&#10;-#Item_staff05;&#10;-#Item_staff08;&#10;-#Item_staff07;&#10;-#Item_staff02;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Do not translate</Data>
@@ -1092,10 +1083,7 @@
             <Data ss:Type="String">#PACK_WARD_STAFFSD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">-#item_staff04;
--#item_staff15;
--#item_staff20;
--#item_staff12;</Data>
+            <Data ss:Type="String">-#item_staff04;&#10;-#item_staff15;&#10;-#item_staff20;&#10;-#item_staff12;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Do not translate</Data>
@@ -1123,11 +1111,7 @@
             <Data ss:Type="String">#PACK_PURPLE_PACKD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">-#item_staff10;
--#item_staff11;
--#item_staff18;
--#item_staff06;
--#item_staff16;</Data>
+            <Data ss:Type="String">-#item_staff10;&#10;-#item_staff11;&#10;-#item_staff18;&#10;-#item_staff06;&#10;-#item_staff16;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Do not translate</Data>
@@ -1155,13 +1139,7 @@
             <Data ss:Type="String">#PACK_MEAKY_PEAKYD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">-#item_weapon25;
--#item_weapon08;
--#item_weapon19;
--#item_weapon22;
--#item_weapon05;
--#item_weapon24;
--#item_weapon26;</Data>
+            <Data ss:Type="String">-#item_weapon25;&#10;-#item_weapon08;&#10;-#item_weapon19;&#10;-#item_weapon22;&#10;-#item_weapon05;&#10;-#item_weapon24;&#10;-#item_weapon26;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Do not translate</Data>
@@ -1189,11 +1167,7 @@
             <Data ss:Type="String">#PACK_HEAVY_HITTERSD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">-#item_weapon06;
--#item_weapon13;
--#item_weapon07;
--#item_weapon16;
--#item_weapon14;</Data>
+            <Data ss:Type="String">-#item_weapon06;&#10;-#item_weapon13;&#10;-#item_weapon07;&#10;-#item_weapon16;&#10;-#item_weapon14;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Do not translate</Data>
@@ -1221,16 +1195,7 @@
             <Data ss:Type="String">#PACK_POWER_PACKD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">-#item_weapon10;
--#item_weapon09;
--#item_weapon11;
--#item_weapon17;
--#item_weapon03;
--#item_weapon29;
--#item_weapon30;
--#item_weapon21;
--#item_weapon28;
--#item_weapon12;</Data>
+            <Data ss:Type="String">-#item_weapon10;&#10;-#item_weapon09;&#10;-#item_weapon11;&#10;-#item_weapon17;&#10;-#item_weapon03;&#10;-#item_weapon29;&#10;-#item_weapon30;&#10;-#item_weapon21;&#10;-#item_weapon28;&#10;-#item_weapon12;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Do not translate</Data>
@@ -1258,14 +1223,7 @@
             <Data ss:Type="String">#PACK_VIETNAM_GEARD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">-#VI_IT_STAFF;
--#VI_WE_M16;
--#VI_WE_M60;
--#VI_WE_AK47;
--#VI_WE_RPG7;
--#VI_WE_RPD;
--#VI_WE_NAG;
--#VI_WE_MAT49;</Data>
+            <Data ss:Type="String">-#VI_IT_STAFF;&#10;-#VI_WE_M16;&#10;-#VI_WE_M60;&#10;-#VI_WE_AK47;&#10;-#VI_WE_RPG7;&#10;-#VI_WE_RPD;&#10;-#VI_WE_NAG;&#10;-#VI_WE_MAT49;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Do not translate</Data>
@@ -1293,12 +1251,7 @@
             <Data ss:Type="String">#PACK_VANILLA_WEAPONSD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">-#item_weapon04;
--#item_weapon20;
--#item_weapon18;
--#item_weapon27;
--#item_weapon31;
--#item_weapon15;</Data>
+            <Data ss:Type="String">-#item_weapon04;&#10;-#item_weapon20;&#10;-#item_weapon18;&#10;-#item_weapon27;&#10;-#item_weapon31;&#10;-#item_weapon15;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Do not translate</Data>
@@ -1326,17 +1279,7 @@
             <Data ss:Type="String">#MPACK_BASICD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">-#magick_revive;
--#magick_grease;
--#magick_haste;
--#magick_invisibility;
--#magick_teleport;
--#magick_charm;
--#magick_rain;
--#magick_timewarp;
--#magick_sphoenix;
--#magick_nullify;
--#magick_corporealize;</Data>
+            <Data ss:Type="String">-#magick_revive;&#10;-#magick_grease;&#10;-#magick_haste;&#10;-#magick_invisibility;&#10;-#magick_teleport;&#10;-#magick_charm;&#10;-#magick_rain;&#10;-#magick_timewarp;&#10;-#magick_sphoenix;&#10;-#magick_nullify;&#10;-#magick_corporealize;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Do not translate</Data>
@@ -1364,11 +1307,7 @@
             <Data ss:Type="String">#MPACK_ADVANCEDD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">-#magick_fear;
--#magick_thunderB;
--#magick_tornado;
--#magick_blizzard;
--#magick_conflagration;</Data>
+            <Data ss:Type="String">-#magick_fear;&#10;-#magick_thunderB;&#10;-#magick_tornado;&#10;-#magick_blizzard;&#10;-#magick_conflagration;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Do not translate</Data>
@@ -1396,12 +1335,7 @@
             <Data ss:Type="String">#MPACK_TOO_ADVANCEDD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">-#magick_CTD;
--#magick_sDeath;
--#magick_sUndead;
--#magick_sElemental;
--#magick_vortex;
--#magick_thunderS;</Data>
+            <Data ss:Type="String">-#magick_CTD;&#10;-#magick_sDeath;&#10;-#magick_sUndead;&#10;-#magick_sElemental;&#10;-#magick_vortex;&#10;-#magick_thunderS;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Do not translate</Data>
@@ -1511,11 +1445,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_VanillaD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">因曾用法杖搅拌香草咖啡而得名,
-魔能最基本的人物;
--戴帽子的都是坏家伙!
--#Item_staff01;
--#Item_weapon01;</Data>
+            <Data ss:Type="String">因曾用法杖搅拌香草咖啡而得名,&#10;魔能最基本的人物;&#10;-戴帽子的都是坏家伙!&#10;-#Item_staff01;&#10;-#Item_weapon01;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1543,10 +1473,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_HatD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">帽子最棒，帽子最猛，耶！;
--香草什么的可笨可笨了。
--#Item_staff21;
--#item_weapon23;</Data>
+            <Data ss:Type="String">帽子最棒，帽子最猛，耶！;&#10;-香草什么的可笨可笨了。&#10;-#Item_staff21;&#10;-#item_weapon23;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1574,10 +1501,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_PatchedD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">他发誓,他将继续"完善"他的长袍，
-虽不漂亮，但至少都还"完整"地呆在一起。
--#ITEM_STAFF_PATCH1;
--#ITEM_WEAPON_PATCH1;</Data>
+            <Data ss:Type="String">他发誓,他将继续"完善"他的长袍，&#10;虽不漂亮，但至少都还"完整"地呆在一起。&#10;-#ITEM_STAFF_PATCH1;&#10;-#ITEM_WEAPON_PATCH1;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Also referring to the Magicka game itself. The "Patched Robe" expansion was released as part of the Mea Culpa DLC (which was released to apologize that certain multiplayer modes were not always working in the original release)</Data>
@@ -1605,13 +1529,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_BathrobeD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">麻瓜们总是分不清浴袍与
-魔法袍的区别，但巫师们可以！
--#Item_staff_cup;
--#Item_weapon_paper;
--30%更轻
--30%更快
--30%更强</Data>
+            <Data ss:Type="String">麻瓜们总是分不清浴袍与&#10;魔法袍的区别，但巫师们可以！&#10;-#Item_staff_cup;&#10;-#Item_weapon_paper;&#10;-30%更轻&#10;-30%更快&#10;-30%更强</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1639,10 +1557,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_VietnamD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">星条旗永不倒！吼吼！
--声名远扬的越南人物
--#VI_IT_STAFF;
--#VI_WE_M16;</Data>
+            <Data ss:Type="String">星条旗永不倒！吼吼！&#10;-声名远扬的越南人物&#10;-#VI_IT_STAFF;&#10;-#VI_WE_M16;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1670,10 +1585,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_NipponD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">很少能有巫师穿上这么舒适的法袍哟！
---经典的武士帽.
--#Item_staff_bamboo;
--#item_weapon_katana;</Data>
+            <Data ss:Type="String">很少能有巫师穿上这么舒适的法袍哟！&#10;--经典的武士帽.&#10;-#Item_staff_bamboo;&#10;-#item_weapon_katana;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1701,12 +1613,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_HeadcrabD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一大波僵尸正在接近！
--#ITEM_vs_staff01;
--#item_weapon24;
--软绵绵
--速度慢
--免疫中毒</Data>
+            <Data ss:Type="String">一大波僵尸正在接近！&#10;-#ITEM_vs_staff01;&#10;-#item_weapon24;&#10;-软绵绵&#10;-速度慢&#10;-免疫中毒</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Half-Life 2 reference, Ravenholm was a town that got overrun by headcrabs turning the population to zombies. The quotes are the same except for the name of the place</Data>
@@ -1734,10 +1641,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_ReservoirD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">人家才不想跟没内涵的巫师交谈呢！
--当屌丝遭遇文艺青年…
--#Item_staff01;
--#ITEM_vs_weapon01;</Data>
+            <Data ss:Type="String">人家才不想跟没内涵的巫师交谈呢！&#10;-当屌丝遭遇文艺青年…&#10;-#Item_staff01;&#10;-#ITEM_vs_weapon01;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Obscure reference to the story behind the name of the movie Reservoir Dogs by Tarantino</Data>
@@ -1765,12 +1669,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_StarTrekD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">也许黄色衣服的人物总是第
-一个被干掉，但是来自星际迷航的
-瓦肯巫师知道，制服总是红色的
--繁荣昌盛，生生不息！
--#ITEM_vs_staff02;
--#ITEM_vs_weapon02;</Data>
+            <Data ss:Type="String">也许黄色衣服的人物总是第&#10;一个被干掉，但是来自星际迷航的&#10;瓦肯巫师知道，制服总是红色的&#10;-繁荣昌盛，生生不息！&#10;-#ITEM_vs_staff02;&#10;-#ITEM_vs_weapon02;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Reference to Star Trek</Data>
@@ -1798,11 +1697,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_DragonbornD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">“巨龙之血流过了他的静脉，火焰吞噬了他的双眸。他就是救世主，龙裔。”
-- 《中原大陆的著名私生子》的手抄本
--#ITEM_vs_staff03;
--#ITEM_vs_weapon03;
--火焰免疫</Data>
+            <Data ss:Type="String">“巨龙之血流过了他的静脉，火焰吞噬了他的双眸。他就是救世主，龙裔。”&#10;- 《中原大陆的著名私生子》的手抄本&#10;-#ITEM_vs_staff03;&#10;-#ITEM_vs_weapon03;&#10;-火焰免疫</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1830,13 +1725,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_TankD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">巫师不该穿那么重的盔甲的！
-人家会体力不支的啦！
--来自巫师城堡院长的批判
--#ITEM_vs_staff04;
--#ITEM_vs_weapon04;
--有盔甲
--重如泰山啊你妹的！</Data>
+            <Data ss:Type="String">巫师不该穿那么重的盔甲的！&#10;人家会体力不支的啦！&#10;-来自巫师城堡院长的批判&#10;-#ITEM_vs_staff04;&#10;-#ITEM_vs_weapon04;&#10;-有盔甲&#10;-重如泰山啊你妹的！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1864,12 +1753,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_RogueD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我速度很快，我还会使毒，还有烟雾弹！
--想雇佣人家吗？人家可贵啦！
--#ITEM_vs_staff05;
--#ITEM_vs_weapon05;
--真的好快
--轻如鹅毛的说～</Data>
+            <Data ss:Type="String">我速度很快，我还会使毒，还有烟雾弹！&#10;-想雇佣人家吗？人家可贵啦！&#10;-#ITEM_vs_staff05;&#10;-#ITEM_vs_weapon05;&#10;-真的好快&#10;-轻如鹅毛的说～</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1897,10 +1781,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_SupportD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">有奶便是娘是不对的，人家可是奶爸！
--别忽略的奶爸的作用啊喂！
--#ITEM_vs_staff06;
--#ITEM_vs_weapon06;</Data>
+            <Data ss:Type="String">有奶便是娘是不对的，人家可是奶爸！&#10;-别忽略的奶爸的作用啊喂！&#10;-#ITEM_vs_staff06;&#10;-#ITEM_vs_weapon06;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1946,10 +1827,7 @@
             <Data ss:Type="String">#ITEM_vs_staff01d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">据说牧羊女曾用它勾到胡迪警长
-(玩具总动员)为啥僵尸手上会有？
-#PA;无
-#AA;范围撒毒</Data>
+            <Data ss:Type="String">据说牧羊女曾用它勾到胡迪警长&#10;(玩具总动员)为啥僵尸手上会有？&#10;#PA;无&#10;#AA;范围撒毒</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1977,12 +1855,7 @@
             <Data ss:Type="String">#ITEM_vs_staff02d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">本想做成可以引导奥术能量的神器，
-结果材料方面不允许...好吧，
-只好用于肉搏战啦
--偶尔用来当晾衣架
-#PA;无
-#AA;“我最摇摆！”</Data>
+            <Data ss:Type="String">本想做成可以引导奥术能量的神器，&#10;结果材料方面不允许...好吧，&#10;只好用于肉搏战啦&#10;-偶尔用来当晾衣架&#10;#PA;无&#10;#AA;“我最摇摆！”</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -2010,9 +1883,7 @@
             <Data ss:Type="String">#ITEM_vs_staff03d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">人们深信这根法杖是在龙之世纪打造的，但是关于它的起源还有众多谜团。只有很少很少的巫师使用过它，并且传说只有身体内流着龙族之血的巫师才有能力驾驭它。不过，传说这东西也有很多是非常愚蠢的。
-#PA;无
-#AA;召唤喷火鳄</Data>
+            <Data ss:Type="String">人们深信这根法杖是在龙之世纪打造的，但是关于它的起源还有众多谜团。只有很少很少的巫师使用过它，并且传说只有身体内流着龙族之血的巫师才有能力驾驭它。不过，传说这东西也有很多是非常愚蠢的。&#10;#PA;无&#10;#AA;召唤喷火鳄</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Reference to Dragon Age: Origins</Data>
@@ -2040,9 +1911,7 @@
             <Data ss:Type="String">#ITEM_vs_staff04d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">转职近战战士的法师你伤不起！
-#PA;显著降低法伤
-#AA;盾牌冲击</Data>
+            <Data ss:Type="String">转职近战战士的法师你伤不起！&#10;#PA;显著降低法伤&#10;#AA;盾牌冲击</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -2070,11 +1939,7 @@
             <Data ss:Type="String">#ITEM_vs_staff05d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">尽管被许多人不齿，但烟雾弹
-逃生具备非常高的实用性，好比让
-一只兽人在高速公路收费站工作...
-#PA;无
-#AA;制造烟雾向后退</Data>
+            <Data ss:Type="String">尽管被许多人不齿，但烟雾弹&#10;逃生具备非常高的实用性，好比让&#10;一只兽人在高速公路收费站工作...&#10;#PA;无&#10;#AA;制造烟雾向后退</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -2102,10 +1967,7 @@
             <Data ss:Type="String">#ITEM_vs_staff06d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">人人有奶喝，人人有肉吃，
-好男人就是我，我就是奶爸！
-#PA;降低法伤,范围支持光环
-#AA;无</Data>
+            <Data ss:Type="String">人人有奶喝，人人有肉吃，&#10;好男人就是我，我就是奶爸！&#10;#PA;降低法伤,范围支持光环&#10;#AA;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -2133,10 +1995,7 @@
             <Data ss:Type="String">#ITEM_vs_weapon01d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">独自生存在都市深处的巫师常常
-会使用这种奇怪的神兵利器
-#DMG;低物理伤害
-#SP;范围攻击</Data>
+            <Data ss:Type="String">独自生存在都市深处的巫师常常&#10;会使用这种奇怪的神兵利器&#10;#DMG;低物理伤害&#10;#SP;范围攻击</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -2164,10 +2023,7 @@
             <Data ss:Type="String">#ITEM_vs_weapon02d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">在巫师城堡的某个箱子里发现的
-先进武器，已被设定为闪电攻击.
-#DMG;无
-#SP;电击昏迷</Data>
+            <Data ss:Type="String">在巫师城堡的某个箱子里发现的&#10;先进武器，已被设定为闪电攻击.&#10;#DMG;无&#10;#SP;电击昏迷</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -2195,9 +2051,7 @@
             <Data ss:Type="String">#ITEM_vs_weapon03d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这把沉重而残忍的巨剑是无法通过魔法来锻造的。它剑身上雕刻着古代符文，钢材天然形成却又坚硬无比。
-#DMG;高
-#SP;慢</Data>
+            <Data ss:Type="String">这把沉重而残忍的巨剑是无法通过魔法来锻造的。它剑身上雕刻着古代符文，钢材天然形成却又坚硬无比。&#10;#DMG;高&#10;#SP;慢</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -2225,10 +2079,7 @@
             <Data ss:Type="String">#ITEM_vs_weapon04d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我很笨可是我很坚韧，
-我很丑可是我很温柔
-#DMG;低物伤+慢速
-#SP;无</Data>
+            <Data ss:Type="String">我很笨可是我很坚韧，&#10;我很丑可是我很温柔&#10;#DMG;低物伤+慢速&#10;#SP;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -2256,10 +2107,7 @@
             <Data ss:Type="String">#ITEM_vs_weapon05d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">小巧便捷的快速式毒箭弓弩,无需
-很大手劲也能使用,深受巫师喜爱
-#DMG;低物理伤害
-#SP;毒箭</Data>
+            <Data ss:Type="String">小巧便捷的快速式毒箭弓弩,无需&#10;很大手劲也能使用,深受巫师喜爱&#10;#DMG;低物理伤害&#10;#SP;毒箭</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -2287,10 +2135,7 @@
             <Data ss:Type="String">#ITEM_vs_weapon06d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">合格的奶爸拥有美丽心灵,他们的
-手能够治愈一切,而不是握着刀剑
-#DMG;极低物伤
-#SP;无</Data>
+            <Data ss:Type="String">合格的奶爸拥有美丽心灵,他们的&#10;手能够治愈一切,而不是握着刀剑&#10;#DMG;极低物伤&#10;#SP;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>

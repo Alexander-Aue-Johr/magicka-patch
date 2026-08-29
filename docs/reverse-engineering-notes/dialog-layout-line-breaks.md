@@ -1,10 +1,12 @@
 # Dialog and tutorial line breaks
 
 The original localization tables encode structured text in two different ways.
-The Simplified Chinese tables contain literal line feeds. The original shipped
-language tables instead place spaces between the logical sections and rely on
-automatic font wrapping. This can merge multiple dialogue beats or tutorial
-properties onto one line.
+The Simplified Chinese tables use `&#10;` XML character references for intended
+line feeds. Keeping the reference in the source prevents a Windows checkout
+from changing an embedded LF to CRLF and exposing the carriage return as a
+missing-glyph question mark. The original shipped language tables instead place
+spaces between the logical sections and rely on automatic font wrapping. This
+can merge multiple dialogue beats or tutorial properties onto one line.
 
 `Magicka.GameLogic.UI.Message.Initialize` now passes the resolved dialogue
 through `DialogLayoutCompatibility.RestoreDialogListBreaks` before calling
@@ -21,5 +23,5 @@ restores a blank line before each of those section headings and one line break
 between entries within a section. Other tutorial hints and prose remain
 unchanged.
 
-Existing line feeds remain intact. In particular, the Simplified Chinese
-element and dialogue layouts do not receive duplicate breaks.
+Existing decoded line feeds remain intact. In particular, the Simplified
+Chinese element and dialogue layouts do not receive duplicate breaks.

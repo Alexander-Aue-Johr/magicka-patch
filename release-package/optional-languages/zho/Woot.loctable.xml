@@ -35,9 +35,7 @@
             <Data ss:Type="String">#WOOT_item_staff01d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一个有固定跳跃范围的撑杆，以防止参与者感到不适
-#PA;没有
-#AA;北方跳跃</Data>
+            <Data ss:Type="String">一个有固定跳跃范围的撑杆，以防止参与者感到不适&#10;#PA;没有&#10;#AA;北方跳跃</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Teleports wielder and then performs an area cold spell. Description is another joke on how illogical and "missing the point" that the wizarding sports events are.</Data>
@@ -65,10 +63,7 @@
             <Data ss:Type="String">#WOOT_item_staff02d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">如果你把所有目击者都杀光这就不算作弊了。
-注：可能有副作用
-#PA;没有
-#AA;性能增强</Data>
+            <Data ss:Type="String">如果你把所有目击者都杀光这就不算作弊了。&#10;注：可能有副作用&#10;#PA;没有&#10;#AA;性能增强</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Casts a spell that buffs the wielder for a time after which the caster will become weakened with withdrawal. Description is a simple "it's not cheating if..." joke.  "Performance enhancement" is the idiom for steroids and other "performance enhancing" drugs used by atheletes.</Data>
@@ -96,12 +91,7 @@
             <Data ss:Type="String">#WOOT_item_staff03d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">萨美修斯本人使用这个装置
-从泽维留斯那里带来了永远炙口的辣酱，
-因为这是世界上唯一能够驾驭传说辣酱，
-不让它变质的东西。
-#PA;提升你和附近伙伴的寒冰法术，提升火焰抗性
-#AA;无</Data>
+            <Data ss:Type="String">萨美修斯本人使用这个装置&#10;从泽维留斯那里带来了永远炙口的辣酱，&#10;因为这是世界上唯一能够驾驭传说辣酱，&#10;不让它变质的东西。&#10;#PA;提升你和附近伙伴的寒冰法术，提升火焰抗性&#10;#AA;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Simple staff, the only thing that can hold the olympick event's symbol the "Incessantly Sizzling Spicy Sausage". That extremely strong chilli sausage is never a part of the game mechanic and is just a fun backstory element. Saumetheus = Prometheus, Zovilleus = Zeus + Scoville (of the "strong taste" scale)</Data>
@@ -213,9 +203,7 @@
             <Data ss:Type="String">#WOOT_item_weapon01d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">噢，湿度！
-#DMG;没有
-#SP;远程，潮湿</Data>
+            <Data ss:Type="String">噢，湿度！&#10;#DMG;没有&#10;#SP;远程，潮湿</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Ranged weapon that makes targets wet. Description is a pun/wordplay on "humiliation" or "humanity"</Data>
@@ -243,9 +231,7 @@
             <Data ss:Type="String">#WOOT_item_weapon02d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">滑膛弹是一道冲击波！……后面连接着一大串冲击波！
-#DMG;爆炸力很强
-#SP;远程，造成群体伤害</Data>
+            <Data ss:Type="String">滑膛弹是一道冲击波！……后面连接着一大串冲击波！&#10;#DMG;爆炸力很强&#10;#SP;远程，造成群体伤害</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Shoots a ball that breaks on impact into a cluster of bombs that blow after a few seconds. Description is a wordplay on being fun ("a blast") and actually explosive blasts. Name is a wordplay on "basketball" and "musket".</Data>
@@ -273,9 +259,7 @@
             <Data ss:Type="String">#WOOT_item_weapon03d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">有它哥哥一点儿影子
-#DMG;严重的火焰伤害
-#SP;灼热大炮</Data>
+            <Data ss:Type="String">有它哥哥一点儿影子&#10;#DMG;严重的火焰伤害&#10;#SP;灼热大炮</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -303,9 +287,7 @@
             <Data ss:Type="String">#WOOT_item_weapon04d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">大分部被这个击中的人都会变傻，除了我
-#DMG;中等物理伤害
-#SP;远程，迷惑目标</Data>
+            <Data ss:Type="String">大分部被这个击中的人都会变傻，除了我&#10;#DMG;中等物理伤害&#10;#SP;远程，迷惑目标</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Throws dumbbells. The description is a joke on bad grammar from becoming stupid after having been hit by the dumbbell.</Data>
@@ -333,9 +315,7 @@
             <Data ss:Type="String">#WOOT_item_weapon05d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">带有尖刺的关节和球，它比它的名字有趣多了
-#DMG;极大的物理伤害
-#SP;近程，远程皆可</Data>
+            <Data ss:Type="String">带有尖刺的关节和球，它比它的名字有趣多了&#10;#DMG;极大的物理伤害&#10;#SP;近程，远程皆可</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The weapon is a spiked glove that both hits in melee and launches a ball as a weapon. The description is a "vague" under-the-belt joke. The name is Magicka's version of "Pelota Mixteca", an old Mexican sport.</Data>
@@ -363,9 +343,7 @@
             <Data ss:Type="String">#WOOT_item_weapon06d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">含浓缩碳酸湿气！
-#DMG;中等物理伤害
-#SP;使目标变得潮湿</Data>
+            <Data ss:Type="String">含浓缩碳酸湿气！&#10;#DMG;中等物理伤害&#10;#SP;使目标变得潮湿</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A simple water bottle that is flung (melee) and makes targets in front of you wet. Description is a joke on how "exotic" water is to Wizards, and how convoluted things are in the Magicka wizarding world.</Data>
@@ -393,9 +371,7 @@
             <Data ss:Type="String">#WOOT_item_weapon07d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">11号整整比9号强大两倍，也要好两倍
-#DMG;中等物理伤害
-#SP;震退敌人</Data>
+            <Data ss:Type="String">11号整整比9号强大两倍，也要好两倍&#10;#DMG;中等物理伤害&#10;#SP;震退敌人</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A simple melee tennis racket. Description and name is a wordplay and illogical math joke on the "TEN" in tennis.</Data>
@@ -441,9 +417,7 @@
             <Data ss:Type="String">#CHALLENGE_bout_of_madnessD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">观众们喜欢传统而又疯狂的回合制，
-尤其是成堆的尸体被推入井中。
-把洞填满来赢得你的奖励！</Data>
+            <Data ss:Type="String">观众们喜欢传统而又疯狂的回合制，&#10;尤其是成堆的尸体被推入井中。&#10;把洞填满来赢得你的奖励！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">There are 4 large holes on the map into which units (enemies and players) can fall. If enough fall in, the hole will close for a few moments and become traversable, until it finally opens again. When a hole closes, rewards will spawn in the middle of the map.</Data>
@@ -471,10 +445,7 @@
             <Data ss:Type="String">#CHALLENGE_elemental_rouletteD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">如果你能掌握所有元素的话
-你就是个专家了，
-但只有当你在使用其中几个的情况下存活下来时，
-你才是个真正的大师！（这名号不是给胆小鬼的！）</Data>
+            <Data ss:Type="String">如果你能掌握所有元素的话&#10;你就是个专家了，&#10;但只有当你在使用其中几个的情况下存活下来时，&#10;你才是个真正的大师！（这名号不是给胆小鬼的！）</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Each wave that passes will enable/disable different predetermined elements. Some wave might, for example, only allow healing and water to be cast, and so on.</Data>
@@ -502,9 +473,7 @@
             <Data ss:Type="String">#CHALLENGE_eye_sockey_rinkD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一个古老而又需要智慧的游戏，
-你得从几对低等巫师的攻击中存活下来……
-他们会攻击你的眼睛……很准！</Data>
+            <Data ss:Type="String">一个古老而又需要智慧的游戏，&#10;你得从几对低等巫师的攻击中存活下来……&#10;他们会攻击你的眼睛……很准！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The floor is slippery ice that can be melted, under which is very shallow water, making units standing in it wet (but capable of moving without slipping).</Data>
@@ -532,8 +501,7 @@
             <Data ss:Type="String">#VERSUS_elemental_rouletteD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">分辨出冠军选手和炮灰，
-适应元素猛烈波动的竞技场！</Data>
+            <Data ss:Type="String">分辨出冠军选手和炮灰，&#10;适应元素猛烈波动的竞技场！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Only 3 out of 8 elements are active at any one time and change randomly every 30 or so seconds.</Data>
@@ -589,10 +557,7 @@
             <Data ss:Type="String">#VERSUS_halls_of_moistureD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">难道这是一个奇葩的竞技场，
-或者巫师们本来就能游泳。
-自然情况下是不行的，
-你也许需要站着静静思考一会儿</Data>
+            <Data ss:Type="String">难道这是一个奇葩的竞技场，&#10;或者巫师们本来就能游泳。&#10;自然情况下是不行的，&#10;你也许需要站着静静思考一会儿</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The map's floor is comprised out of 9 platforms that randomly sink into deep water, drowning wizards that happen to fall in.</Data>
@@ -620,9 +585,7 @@
             <Data ss:Type="String">#VERSUS_prize_podiumD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你战斗到了最后，差点就一无所获。
-那么，按照惯例，只有一人能拿起那杯……
-冰镇安魂奶！</Data>
+            <Data ss:Type="String">你战斗到了最后，差点就一无所获。&#10;那么，按照惯例，只有一人能拿起那杯……&#10;冰镇安魂奶！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A simple arena where nothing special happens. It's the wizard world's prize podium with 4 platforms each representing the winners rankings, and in the middle of the map is a large trophy.</Data>
@@ -668,16 +631,7 @@
             <Data ss:Type="String">#PACK_SPORTING_GOODSD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">-#WOOT_item_weapon01;
--#WOOT_item_weapon02;
--#WOOT_item_weapon03;
--#WOOT_item_weapon04;
--#WOOT_item_weapon05;
--#WOOT_item_weapon06;
--#WOOT_item_weapon07;
--#WOOT_item_staff01;
--#WOOT_item_staff02;
--#WOOT_item_staff03;</Data>
+            <Data ss:Type="String">-#WOOT_item_weapon01;&#10;-#WOOT_item_weapon02;&#10;-#WOOT_item_weapon03;&#10;-#WOOT_item_weapon04;&#10;-#WOOT_item_weapon05;&#10;-#WOOT_item_weapon06;&#10;-#WOOT_item_weapon07;&#10;-#WOOT_item_staff01;&#10;-#WOOT_item_staff02;&#10;-#WOOT_item_staff03;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Do not translate</Data>
@@ -705,9 +659,7 @@
             <Data ss:Type="String">#MPACK_ATHLETIC_TECHNIQUESD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">-#magick_wave;
--#magick_performance;
--#magick_judgementspray;</Data>
+            <Data ss:Type="String">-#magick_wave;&#10;-#magick_performance;&#10;-#magick_judgementspray;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Do not translate</Data>
@@ -1403,8 +1355,7 @@
             <Data ss:Type="String">#magick_performanceD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">向你的静脉注射最无法察觉的魔法！
-可能引起的副作用：牙龈痒，虚弱，随后甚至有猝死的危险</Data>
+            <Data ss:Type="String">向你的静脉注射最无法察觉的魔法！&#10;可能引起的副作用：牙龈痒，虚弱，随后甚至有猝死的危险</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Makes the player stronger for a while and then (always) followed by "withdrawal", making him weaker for a while.</Data>
@@ -1440,8 +1391,7 @@
             <Data ss:Type="String">#magick_judgementsprayD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">放出一条吞噬虫，它能钻进敌人盔甲和皮肤，
-以他们灵魂为食，除非敌人先找到了一面墙</Data>
+            <Data ss:Type="String">放出一条吞噬虫，它能钻进敌人盔甲和皮肤，&#10;以他们灵魂为食，除非敌人先找到了一面墙</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Spawns a swarm of projectiles that home in on enemies.</Data>

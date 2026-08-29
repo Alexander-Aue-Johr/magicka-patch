@@ -35,17 +35,7 @@
             <Data ss:Type="String">#PACK_HOLIDAY_SPIRITD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">-#ITEM_TSAL_staff01;
--#ITEM_TSAL_staff02;
--#ITEM_TSAL_staff03;
--#ITEM_TSAL_staff04;
--#ITEM_TSAL_weapon01;
--#ITEM_TSAL_weapon02;
--#ITEM_TSAL_weapon03;
--#ITEM_TSAL_weapon04;
--#ITEM_TSAL_weapon05;
--#ITEM_TSAL_weapon06;
--#ITEM_TSAL_weapon07;</Data>
+            <Data ss:Type="String">-#ITEM_TSAL_staff01;&#10;-#ITEM_TSAL_staff02;&#10;-#ITEM_TSAL_staff03;&#10;-#ITEM_TSAL_staff04;&#10;-#ITEM_TSAL_weapon01;&#10;-#ITEM_TSAL_weapon02;&#10;-#ITEM_TSAL_weapon03;&#10;-#ITEM_TSAL_weapon04;&#10;-#ITEM_TSAL_weapon05;&#10;-#ITEM_TSAL_weapon06;&#10;-#ITEM_TSAL_weapon07;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">please do not change this cell</Data>
@@ -73,17 +63,7 @@
             <Data ss:Type="String">#PACK_HORROR_PROPSD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">-#ITEM_TSAL_staff05;
--#ITEM_TSAL_weapon08;
--#ITEM_TSAL_weapon09;
--#ITEM_TSAL_weapon10;
--#ITEM_TSAL_weapon11;
--#ITEM_TSAL_weapon12;
--#ITEM_TSAL_weapon13;
--#ITEM_TSAL_weapon14;
--#ITEM_TSAL_weapon15;
--#ITEM_TSAL_weapon16;
--#ITEM_TSAL_weapon17;</Data>
+            <Data ss:Type="String">-#ITEM_TSAL_staff05;&#10;-#ITEM_TSAL_weapon08;&#10;-#ITEM_TSAL_weapon09;&#10;-#ITEM_TSAL_weapon10;&#10;-#ITEM_TSAL_weapon11;&#10;-#ITEM_TSAL_weapon12;&#10;-#ITEM_TSAL_weapon13;&#10;-#ITEM_TSAL_weapon14;&#10;-#ITEM_TSAL_weapon15;&#10;-#ITEM_TSAL_weapon16;&#10;-#ITEM_TSAL_weapon17;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">please do not change this cell</Data>
@@ -209,10 +189,7 @@
             <Data ss:Type="String">#ITEM_TSAL_staff08D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">喜欢水的家伙一定会喜欢它，
-噢噢噢我湿了！
-#PA;湿身可用闪电元素
-#AA;无</Data>
+            <Data ss:Type="String">喜欢水的家伙一定会喜欢它，&#10;噢噢噢我湿了！&#10;#PA;湿身可用闪电元素&#10;#AA;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The choice weapon of ocean-lovers everywhere. Allows water and lightning to be safely combined. #PA;Can conjure Lightning while wet #AA;None</Data>
@@ -240,10 +217,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon20D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">充满了巫术的力量，每一鞭抽打
-都能汲取生命
-#DMG;中物理伤害
-#SP;吸取生命</Data>
+            <Data ss:Type="String">充满了巫术的力量，每一鞭抽打&#10;都能汲取生命&#10;#DMG;中物理伤害&#10;#SP;吸取生命</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">life=the health of the target</Data>
@@ -271,10 +245,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon21D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">来自官方的游戏道具！结合了僵尸,
-狼人还有吸血鬼的恐怖力量之爪！
-#DMG;低物理伤害
-#SP;中者流血不止</Data>
+            <Data ss:Type="String">来自官方的游戏道具！结合了僵尸,&#10;狼人还有吸血鬼的恐怖力量之爪！&#10;#DMG;低物理伤害&#10;#SP;中者流血不止</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">It's the official game prop! Combines the powers of zombies, vampires, and werewolfs into one deadly claw! #DMG;Low Physical #SP;Causes Bleeding</Data>
@@ -302,10 +273,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon22D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一个多情的剑客...
-额，能脱离主人独自战斗
-#DMG;中物理伤害
-#SP;无</Data>
+            <Data ss:Type="String">一个多情的剑客...&#10;额，能脱离主人独自战斗&#10;#DMG;中物理伤害&#10;#SP;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A sentient swordsman… er, swordsword. Can fight on its own without a wielder. #DMG;Medium Physical #SP;None</Data>
@@ -333,10 +301,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon23D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">被人形的邪神克苏鲁所使用,
-恐怖的旧日支配者
-#DMG;中物理伤害
-#SP;中者精神错乱</Data>
+            <Data ss:Type="String">被人形的邪神克苏鲁所使用,&#10;恐怖的旧日支配者&#10;#DMG;中物理伤害&#10;#SP;中者精神错乱</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Used by Cthulhu in his humanoid form, this fearful weapon inspires insanity by its mere presence. #DMG;Medium Physical #SP;Confuse on hit</Data>
@@ -364,10 +329,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon24D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这可是真家伙！
-而不是电影道具！
-#DMG;低物理伤害
-#SP;中者产生变形</Data>
+            <Data ss:Type="String">这可是真家伙！&#10;而不是电影道具！&#10;#DMG;低物理伤害&#10;#SP;中者产生变形</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The real deal, and not just some movie prop. This is the actual legendary Were-Zompire Claw. #DMG;Low Physical #SP;Polymorph</Data>

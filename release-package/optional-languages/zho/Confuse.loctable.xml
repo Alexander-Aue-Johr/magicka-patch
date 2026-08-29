@@ -35,10 +35,7 @@
             <Data ss:Type="String">#Magick_confuseD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">纠结于敌人的步步紧逼?别担心,
-试试这个,中招者将精神错乱,就
-近施暴...请确保你自己没有站在
-"近处"...</Data>
+            <Data ss:Type="String">纠结于敌人的步步紧逼?别担心,&#10;试试这个,中招者将精神错乱,就&#10;近施暴...请确保你自己没有站在&#10;"近处"...</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Tired of your foes always knowing what to do? Do they always head right for you and your "friends" without hesitation? Try the new Confuse Magick! It's guaranteed to make your enemies attack whatever is nearby, rather than coming directly at you. Just make sure you're not... nearby...</Data>

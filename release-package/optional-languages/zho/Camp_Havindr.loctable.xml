@@ -21,9 +21,7 @@
             <Data ss:Type="String">#HV_Text_inn</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你好(空格键跳过)[P=1]欢迎来到#Location_HV;！
-不巧的是#Her_King;今天没法抽出时间会见你们。
-先在这间旅馆住一晚，明日再安排。</Data>
+            <Data ss:Type="String">你好(空格键跳过)[P=1]欢迎来到#Location_HV;！&#10;不巧的是#Her_King;今天没法抽出时间会见你们。&#10;先在这间旅馆住一晚，明日再安排。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">"Welcome to Havindr. Unfortunately, the King cannot meet with you today. …." Admiral Agnar greets the heroes. This happens a little later in the mission. These lines are not in strict chronological order.</Data>
@@ -37,8 +35,7 @@
             <Data ss:Type="String">#HV_Text_airship0</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你看到外面那艘巨大的飞船了么？
-你能想象一个面色苍白的黑发瘦高男子走出那堆残骸却安然无恙吗？</Data>
+            <Data ss:Type="String">你看到外面那艘巨大的飞船了么？&#10;你能想象一个面色苍白的黑发瘦高男子走出那堆残骸却安然无恙吗？</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -80,8 +77,7 @@
             <Data ss:Type="String">#HV_Text_bitter2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哦，我感觉每天的生活就像“被围观的巫师”一样，
-你不能反抗，就好好享受吧。</Data>
+            <Data ss:Type="String">哦，我感觉每天的生活就像“被围观的巫师”一样，&#10;你不能反抗，就好好享受吧。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -151,8 +147,7 @@
             <Data ss:Type="String">#HV_Text_bathrobes3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我知道你觉得你很犀利，但还是让我给你个忠告：
-千万别穿着浴袍坐高铁！</Data>
+            <Data ss:Type="String">我知道你觉得你很犀利，但还是让我给你个忠告：&#10;千万别穿着浴袍坐高铁！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">townspeople chatter</Data>
@@ -166,8 +161,7 @@
             <Data ss:Type="String">#HV_Text_soldierleft1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">啊，你终于来了！快穿过这扇大门。
-#Her_agnar;在等着你呢。</Data>
+            <Data ss:Type="String">啊，你终于来了！快穿过这扇大门。&#10;#Her_agnar;在等着你呢。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">please check that the capitalization works as intended. This is the lowercase form, but it starts a sentence.</Data>
@@ -181,8 +175,7 @@
             <Data ss:Type="String">#HV_Text_soldierleft2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你还想让我多说什么？
-你户口本没掉，欢迎入境。</Data>
+            <Data ss:Type="String">你还想让我多说什么？&#10;你户口本没掉，欢迎入境。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">guard2's second greeting</Data>
@@ -224,8 +217,7 @@
             <Data ss:Type="String">#HV_Text_vlad_appear0</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你居然在这！[P=1]
-那之前出现在…[P=1]难道…[P=1]算了！八成是冒牌货。</Data>
+            <Data ss:Type="String">你居然在这！[P=1]&#10;那之前出现在…[P=1]难道…[P=1]算了！八成是冒牌货。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">He sees that the wizards he defeated in his home-town were actually the "imposters" and not really the heroes</Data>
@@ -239,10 +231,7 @@
             <Data ss:Type="String">#HV_Text_vlad_appear1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">敌人有点古怪，狡猾的术士居然会跟愚蠢的
-兽人结成盟友。总之保护好你自己！我会前往东门，
-那里正在进行混战，肯定会有一些能让我吸…
-呃，对了，现在你必须前去会见#Her_King;。</Data>
+            <Data ss:Type="String">敌人有点古怪，狡猾的术士居然会跟愚蠢的&#10;兽人结成盟友。总之保护好你自己！我会前往东门，&#10;那里正在进行混战，肯定会有一些能让我吸…&#10;呃，对了，现在你必须前去会见#Her_King;。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -284,9 +273,7 @@
             <Data ss:Type="String">#HV_Text_first_warlock</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哈[P=.5]哈[P=.5]哈[P=.5]哈[P=.5]哈！
-你永远赶不及拯救你们的#Her_king;！[P=.5]
-说起赶时间……是时候轮到你赶着去—投胎啦！</Data>
+            <Data ss:Type="String">哈[P=.5]哈[P=.5]哈[P=.5]哈[P=.5]哈！&#10;你永远赶不及拯救你们的#Her_king;！[P=.5]&#10;说起赶时间……是时候轮到你赶着去—投胎啦！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -300,8 +287,7 @@
             <Data ss:Type="String">#HV_Text_castlegate1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">那些兽人绑走了#Her_King;并从里面反锁了大门。
-[P=1]……我们忘记带破门而入的工具了！</Data>
+            <Data ss:Type="String">那些兽人绑走了#Her_King;并从里面反锁了大门。&#10;[P=1]……我们忘记带破门而入的工具了！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">the guard is outside the castle</Data>
@@ -315,9 +301,7 @@
             <Data ss:Type="String">#HV_Text_castlegate1b</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">幸运的是我们正好收到了来自#Location_Dunderhead;的货物，
-里面装有猛烈的火药，还有一条很长的导火线！[P=1]
-因此我们打算把门炸开！</Data>
+            <Data ss:Type="String">幸运的是我们正好收到了来自#Location_Dunderhead;的货物，&#10;里面装有猛烈的火药，还有一条很长的导火线！[P=1]&#10;因此我们打算把门炸开！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -359,9 +343,7 @@
             <Data ss:Type="String">#HV_Text_machine_intro2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哈！只是路过的流浪魔法使，
-哎？来看你们高贵的国王怎么死？
-哈哈！没人能阻止[P=1]#Boss_N04;！</Data>
+            <Data ss:Type="String">哈！只是路过的流浪魔法使，&#10;哎？来看你们高贵的国王怎么死？&#10;哈哈！没人能阻止[P=1]#Boss_N04;！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">enemy boss taunt</Data>
@@ -431,8 +413,7 @@
             <Data ss:Type="String">#HV_Text_king_saved0</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这就是一个狂妄自大的术士
-敢在国王面前卖弄的下场！</Data>
+            <Data ss:Type="String">这就是一个狂妄自大的术士&#10;敢在国王面前卖弄的下场！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">this text has been revised.</Data>
@@ -446,8 +427,7 @@
             <Data ss:Type="String">#HV_Text_king_saved1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">兽人领主，#Boss_N06;……只是一个有勇无谋的老匹夫，
-肯定料不到我们这么快就能反击。</Data>
+            <Data ss:Type="String">兽人领主，#Boss_N06;……只是一个有勇无谋的老匹夫，&#10;肯定料不到我们这么快就能反击。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">this text has been revised.</Data>
@@ -461,8 +441,7 @@
             <Data ss:Type="String">#HV_Text_king_saved2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">将军，整备大部队！进军#Location_BF;。[P=1]
-我们要为反抗兽人的侵略而战斗！</Data>
+            <Data ss:Type="String">将军，整备大部队！进军#Location_BF;。[P=1]&#10;我们要为反抗兽人的侵略而战斗！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">this text has been revised.</Data>
@@ -476,8 +455,7 @@
             <Data ss:Type="String">#HV_Text_otherside1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">嗨，那边的！路被堵住了，
-你必须穿过小旅社才能到达这边。</Data>
+            <Data ss:Type="String">嗨，那边的！路被堵住了，&#10;你必须穿过小旅社才能到达这边。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -491,8 +469,7 @@
             <Data ss:Type="String">#HV_Text_otherside2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">干得好，你最好继续前进，去帮助其他的战士。
-我，我会…[P=1]一直在这儿守着。</Data>
+            <Data ss:Type="String">干得好，你最好继续前进，去帮助其他的战士。&#10;我，我会…[P=1]一直在这儿守着。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -506,8 +483,7 @@
             <Data ss:Type="String">#HV_Text_freedom1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">#Boss_N05;攻破了我们的城墙！
-在它毁灭我们的城市之前必须阻止它！</Data>
+            <Data ss:Type="String">#Boss_N05;攻破了我们的城墙！&#10;在它毁灭我们的城市之前必须阻止它！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">"The Town Grinder has broken through…" "FOR FREEDOM" must be a movie quote… I don't remember which one. Mel Gibson in The Patriot?</Data>
@@ -521,8 +497,7 @@
             <Data ss:Type="String">#HV_Text_freedom2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">就是现在！为了#Location_HV;！！[P=1.5]
-为了自日日日日由！！！</Data>
+            <Data ss:Type="String">就是现在！为了#Location_HV;！！[P=1.5]&#10;为了自日日日日由！！！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">this text has been revised.</Data>
@@ -536,8 +511,7 @@
             <Data ss:Type="String">#HV_Text_GO</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">游戏结束了，伙计，
-该回家吃饭了！</Data>
+            <Data ss:Type="String">游戏结束了，伙计，&#10;该回家吃饭了！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Guard panicks. Quote from the film "Alien 2"</Data>

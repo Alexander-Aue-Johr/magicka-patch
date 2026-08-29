@@ -1411,10 +1411,7 @@
             <Data ss:Type="String">#Challenge_SwampD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一场死亡之旅，
-你和同伴们要与潮
-水般涌现的怪物
-军团战斗。</Data>
+            <Data ss:Type="String">一场死亡之旅，&#10;你和同伴们要与潮&#10;水般涌现的怪物&#10;军团战斗。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1442,9 +1439,7 @@
             <Data ss:Type="String">#Challenge_GladeD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">当你和同伴在林间野炊时，
-突然出现了一群恶狠狠的丛林生物
-要抢你们的野餐篮。</Data>
+            <Data ss:Type="String">当你和同伴在林间野炊时，&#10;突然出现了一群恶狠狠的丛林生物&#10;要抢你们的野餐篮。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1472,8 +1467,7 @@
             <Data ss:Type="String">#Challenge_CavernD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">在地下世界的阴影中，
-你与同伴将面临中原大陆最黑暗的地底深处……</Data>
+            <Data ss:Type="String">在地下世界的阴影中，&#10;你与同伴将面临中原大陆最黑暗的地底深处……</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">changed the final word to Midgård.</Data>
@@ -1501,8 +1495,7 @@
             <Data ss:Type="String">#Challenge_ArenaD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">被丢进巨大的哈文德竞技场之后，
-你将面对来自四面八方的洪水猛兽。</Data>
+            <Data ss:Type="String">被丢进巨大的哈文德竞技场之后，&#10;你将面对来自四面八方的洪水猛兽。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1558,9 +1551,7 @@
             <Data ss:Type="String">#Versus_LakeD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">只有巫师才会傻到在结冰的湖面上解决纷争，
-而他们根本不会游泳！
-地球人都知道！</Data>
+            <Data ss:Type="String">只有巫师才会傻到在结冰的湖面上解决纷争，&#10;而他们根本不会游泳！&#10;地球人都知道！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1588,8 +1579,7 @@
             <Data ss:Type="String">#Versus_TrainingD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">训练场本是城堡中不可或缺的一部分，
-但现在大部分时间都是空荡荡的。</Data>
+            <Data ss:Type="String">训练场本是城堡中不可或缺的一部分，&#10;但现在大部分时间都是空荡荡的。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1617,8 +1607,7 @@
             <Data ss:Type="String">#Versus_TopD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">山顶之了望塔既是一片瑰丽的名胜古迹，
-也是与其他巫师进行激情决斗的好地方。</Data>
+            <Data ss:Type="String">山顶之了望塔既是一片瑰丽的名胜古迹，&#10;也是与其他巫师进行激情决斗的好地方。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>

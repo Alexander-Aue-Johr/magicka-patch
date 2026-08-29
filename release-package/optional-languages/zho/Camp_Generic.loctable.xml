@@ -35,9 +35,7 @@
             <Data ss:Type="String">#GEN_text_vlad_dmg2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">立刻停下！
-不然我将不得不使用我类似于吸血鬼的法力！[P=1]
-—额，我，我依旧是个人类!</Data>
+            <Data ss:Type="String">立刻停下！&#10;不然我将不得不使用我类似于吸血鬼的法力！[P=1]&#10;—额，我，我依旧是个人类!</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Vlad battle remarks. He's been more damaged by the player's attacks Still pretending he's human (not a vampire)</Data>
@@ -51,8 +49,7 @@
             <Data ss:Type="String">#GEN_text_vlad_dmg3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你最好别惹我生气，[P=1]
-后果很严重。</Data>
+            <Data ss:Type="String">你最好别惹我生气，[P=1]&#10;后果很严重。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">"the Hulk" reference</Data>
@@ -66,8 +63,7 @@
             <Data ss:Type="String">#GEN_text_vlad_dmg4</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">如果你击败我，
-我会进化成超乎你想象的强大姿态！</Data>
+            <Data ss:Type="String">如果你击败我，&#10;我会进化成超乎你想象的强大姿态！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Star Wars Reference</Data>
@@ -969,8 +965,7 @@
             <Data ss:Type="String">#GEN_PoI_Moose01</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这些驼鹿都是怎么了？
-呃…驼鹿？羊驼鹿？</Data>
+            <Data ss:Type="String">这些驼鹿都是怎么了？&#10;呃…驼鹿？羊驼鹿？</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">there are moose around the forest. Sometimes they are lying dead, having been killed by Goblins.</Data>
@@ -1124,8 +1119,7 @@
             <Data ss:Type="String">#GEN_PoI_Locked05</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">打开啦！[P=1]
-……不…等等，当我没说。</Data>
+            <Data ss:Type="String">打开啦！[P=1]&#10;……不…等等，当我没说。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>

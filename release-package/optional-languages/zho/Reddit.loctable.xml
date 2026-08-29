@@ -35,12 +35,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_RedditD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">爱游戏,爱挑战爱八卦,最爱魔能,
-不爱对抗不爱反抗,是逆来顺受,
-也是愤怒的小清新,我就是涯客!
-- 喜欢在X涯里八卦的巫师
--#ITEM_reddit_weapon01;
--#ITEM_reddit_staff01;</Data>
+            <Data ss:Type="String">爱游戏,爱挑战爱八卦,最爱魔能,&#10;不爱对抗不爱反抗,是逆来顺受,&#10;也是愤怒的小清新,我就是涯客!&#10;- 喜欢在X涯里八卦的巫师&#10;-#ITEM_reddit_weapon01;&#10;-#ITEM_reddit_staff01;</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">people post links on reddit, and they're up or down voted. The up-voted ones stay at the top of the page. The down-voted ones eventually disappear.  AAWA is a made-up reddit category. Please change to any other "appropriate" acronym.</Data>
@@ -68,11 +63,7 @@
             <Data ss:Type="String">#ITEM_reddit_staff01D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">所有的涯客都爱夸大其辞,但是没
-有任何一部法典规定吹牛也犯法,
-所以,你懂的...
-#PA;无
-#AA;元素雷区</Data>
+            <Data ss:Type="String">所有的涯客都爱夸大其辞,但是没&#10;有任何一部法典规定吹牛也犯法,&#10;所以,你懂的...&#10;#PA;无&#10;#AA;元素雷区</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">minefield figurative/idiomatic expression: e.g., talking about politics with someone you strongly disagree with. Every topic figuratively blows up.  Minefield literal: this staff creates literal mines in the game, which literally blow up.</Data>
@@ -100,11 +91,7 @@
             <Data ss:Type="String">#ITEM_reddit_weapon01D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这把威力无穷的杀器能帮助涯客
-分泌足量口水,淹死所有掉入辩论
-陷阱中的倒霉蛋
-#DMG;低物理伤害
-#SP;慢速,提供多种特效</Data>
+            <Data ss:Type="String">这把威力无穷的杀器能帮助涯客&#10;分泌足量口水,淹死所有掉入辩论&#10;陷阱中的倒霉蛋&#10;#DMG;低物理伤害&#10;#SP;慢速,提供多种特效</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">This powerful sword supposedly also has the power to “upvote”, though strangely enough, wizards never seem to use this power. #DMG;Low Physical #SP;Slow, Applies various effects</Data>

@@ -35,10 +35,7 @@
             <Data ss:Type="String">#Item_staff01d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">记住法杖是用来施法！
-而不是搅拌香草咖啡的！
-#PA;无
-#AA;无</Data>
+            <Data ss:Type="String">记住法杖是用来施法！&#10;而不是搅拌香草咖啡的！&#10;#PA;无&#10;#AA;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The Staff is the most important part of a Wizard's arsenal. It grants you the power to direct spells. #PA;None #AA;None</Data>
@@ -66,9 +63,7 @@
             <Data ss:Type="String">#Item_staff02d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">出色的防守就是最好的进攻
-#PA;提升护盾效果
-#AA;释放一个护盾</Data>
+            <Data ss:Type="String">出色的防守就是最好的进攻&#10;#PA;提升护盾效果&#10;#AA;释放一个护盾</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">playing off the (sport) slogan "a good offense is the best defense"</Data>
@@ -96,9 +91,7 @@
             <Data ss:Type="String">#Item_staff03d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">来自敌方术士的恩惠
-#PA;使持有者免疫中毒
-#AA;召唤树精</Data>
+            <Data ss:Type="String">来自敌方术士的恩惠&#10;#PA;使持有者免疫中毒&#10;#AA;召唤树精</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -126,10 +119,7 @@
             <Data ss:Type="String">#Item_staff04d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">小心副作用,包括冻伤，
-体温过低，还有发烧感冒。
-#PA;冰冻免疫光环
-#AA;无</Data>
+            <Data ss:Type="String">小心副作用,包括冻伤，&#10;体温过低，还有发烧感冒。&#10;#PA;冰冻免疫光环&#10;#AA;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -157,10 +147,7 @@
             <Data ss:Type="String">#Item_staff05d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">拥有死灵法杖在手，成为快乐僵尸之友。
-#PA;
-复活范围光环内的亡灵
-#AA;召唤亡灵</Data>
+            <Data ss:Type="String">拥有死灵法杖在手，成为快乐僵尸之友。&#10;#PA;&#10;复活范围光环内的亡灵&#10;#AA;召唤亡灵</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -188,11 +175,7 @@
             <Data ss:Type="String">#Item_staff06d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这个法杖特别为战斗设计，旨在帮
-助持有者获得多一点点的存活时间。
-#PA;物理攻击免疫光环
-以及双倍生命值
-#AA;奥术魔法弹</Data>
+            <Data ss:Type="String">这个法杖特别为战斗设计，旨在帮&#10;助持有者获得多一点点的存活时间。&#10;#PA;物理攻击免疫光环&#10;以及双倍生命值&#10;#AA;奥术魔法弹</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -220,10 +203,7 @@
             <Data ss:Type="String">#Item_staff07d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这是一把带着死神诅咒的镰刀
-会使持有者的肌肤一片片撕裂。
-#PA;生命魔法抵抗
-#AA;喷溅毒液</Data>
+            <Data ss:Type="String">这是一把带着死神诅咒的镰刀&#10;会使持有者的肌肤一片片撕裂。&#10;#PA;生命魔法抵抗&#10;#AA;喷溅毒液</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -251,11 +231,7 @@
             <Data ss:Type="String">#Item_staff08d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">属于巨魔之王的古老而迷人的权杖，
-貌似遗失了很久。
-#PA;
-使敌人对持有者的攻击性减弱
-#AA;魅惑目标</Data>
+            <Data ss:Type="String">属于巨魔之王的古老而迷人的权杖，&#10;貌似遗失了很久。&#10;#PA;&#10;使敌人对持有者的攻击性减弱&#10;#AA;魅惑目标</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -283,11 +259,7 @@
             <Data ss:Type="String">#Item_staff09d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">想长寿吗？快用哥布林法杖吧！
-叽叽叽！
-#PA;增加物理抵抗
-#AA;免疫所有伤害
-（只是暂时的）</Data>
+            <Data ss:Type="String">想长寿吗？快用哥布林法杖吧！&#10;叽叽叽！&#10;#PA;增加物理抵抗&#10;#AA;免疫所有伤害&#10;（只是暂时的）</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -315,10 +287,7 @@
             <Data ss:Type="String">#Item_staff10d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">胜者为王败者为寇，这根古老而残
-破的法杖只愿意跟着前者走。
-#PA;抵抗所有元素
-#AA;瞬间传送</Data>
+            <Data ss:Type="String">胜者为王败者为寇，这根古老而残&#10;破的法杖只愿意跟着前者走。&#10;#PA;抵抗所有元素&#10;#AA;瞬间传送</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -346,11 +315,7 @@
             <Data ss:Type="String">#Item_staff11d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">从某只恶魔身上掉下来的断臂，
-它拥有无尽的神秘力量。
-#PA;
-光束类法术持续时间无限
-#AA;无</Data>
+            <Data ss:Type="String">从某只恶魔身上掉下来的断臂，&#10;它拥有无尽的神秘力量。&#10;#PA;&#10;光束类法术持续时间无限&#10;#AA;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -378,11 +343,7 @@
             <Data ss:Type="String">#Item_staff12d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">它赋予持有者近乎于吸血鬼的力量！
-#PA;生命魔法从此伤害你！
-奥术魔法免疫
-#AA;
-从最近目标吸取生命</Data>
+            <Data ss:Type="String">它赋予持有者近乎于吸血鬼的力量！&#10;#PA;生命魔法从此伤害你！&#10;奥术魔法免疫&#10;#AA;&#10;从最近目标吸取生命</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -410,10 +371,7 @@
             <Data ss:Type="String">#Item_staff13d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">生命法杖是一个奇特的物品：
-看着像从土壤中自然生长出来的。
-#PA;范围再生光环
-#AA;复活同伴玩家</Data>
+            <Data ss:Type="String">生命法杖是一个奇特的物品：&#10;看着像从土壤中自然生长出来的。&#10;#PA;范围再生光环&#10;#AA;复活同伴玩家</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">originally found "concealed", growing in a garden row.</Data>
@@ -441,12 +399,7 @@
             <Data ss:Type="String">#Item_staff14d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">在紧急情况下非常有用，可以使你
-脱离自身所处的不利环境到安全一
-些的地方去。
-#PA;无
-#AA;
-传送持有者至随机位置</Data>
+            <Data ss:Type="String">在紧急情况下非常有用，可以使你&#10;脱离自身所处的不利环境到安全一&#10;些的地方去。&#10;#PA;无&#10;#AA;&#10;传送持有者至随机位置</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -474,11 +427,7 @@
             <Data ss:Type="String">#Item_staff15d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">“穿越火焰”100%保证。
-(福娃欢欢，我就喜欢)
-#PA;火系抵抗
-#AA;
-火系范围免疫光环</Data>
+            <Data ss:Type="String">“穿越火焰”100%保证。&#10;(福娃欢欢，我就喜欢)&#10;#PA;火系抵抗&#10;#AA;&#10;火系范围免疫光环</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -506,11 +455,7 @@
             <Data ss:Type="String">#Item_staff16d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">“只有我的超远程电磁炮才能狠
-狠地激射至无尽的天边……”
-这根叉叉会自己唱歌？
-#PA;增加放电范围
-#AA;电磁炮</Data>
+            <Data ss:Type="String">“只有我的超远程电磁炮才能狠&#10;狠地激射至无尽的天边……”&#10;这根叉叉会自己唱歌？&#10;#PA;增加放电范围&#10;#AA;电磁炮</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">haphazardous is a joke word</Data>
@@ -538,10 +483,7 @@
             <Data ss:Type="String">#Item_staff17d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">远程好远程妙…遇到反射就乱套
-#PA;无
-#AA;
-反射范围光环</Data>
+            <Data ss:Type="String">远程好远程妙…遇到反射就乱套&#10;#PA;无&#10;#AA;&#10;反射范围光环</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -569,11 +511,7 @@
             <Data ss:Type="String">#Item_staff18d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">白袍巫师曾经是个灰袍。因同伴们
-的强烈要求，他再一次回到了中原
-大地协助他们作战，随后领了便当。
-#PA;增加光照半径
-#AA;恐惧</Data>
+            <Data ss:Type="String">白袍巫师曾经是个灰袍。因同伴们&#10;的强烈要求，他再一次回到了中原&#10;大地协助他们作战，随后领了便当。&#10;#PA;增加光照半径&#10;#AA;恐惧</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -601,9 +539,7 @@
             <Data ss:Type="String">#Item_staff19d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">卖给刺客应该会有个好价钱
-#PA;无
-#AA;隐形术</Data>
+            <Data ss:Type="String">卖给刺客应该会有个好价钱&#10;#PA;无&#10;#AA;隐形术</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -631,11 +567,7 @@
             <Data ss:Type="String">#Item_staff20d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">矮人祭祀还有大厨们使用的擀面杖，
-哦不，是法杖。
-#PA;闪电范围免疫光环
-#AA;
-闪电范围攻击光环</Data>
+            <Data ss:Type="String">矮人祭祀还有大厨们使用的擀面杖，&#10;哦不，是法杖。&#10;#PA;闪电范围免疫光环&#10;#AA;&#10;闪电范围攻击光环</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -663,10 +595,7 @@
             <Data ss:Type="String">#Item_staff21d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">曾经有一名巫师打造了一个法杖来
-增强自身的魔法，想借此超越他人
-#PA;所有魔法伤害+1
-#AA;无</Data>
+            <Data ss:Type="String">曾经有一名巫师打造了一个法杖来&#10;增强自身的魔法，想借此超越他人&#10;#PA;所有魔法伤害+1&#10;#AA;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -712,11 +641,7 @@
             <Data ss:Type="String">#item_weapon01d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">为了避免发生意外，当权者发布了
-刀具管制令，所有刀刃都被钝
-化了。
-#DMG;低物理伤害
-#SP;无</Data>
+            <Data ss:Type="String">为了避免发生意外，当权者发布了&#10;刀具管制令，所有刀刃都被钝&#10;化了。&#10;#DMG;低物理伤害&#10;#SP;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -744,10 +669,7 @@
             <Data ss:Type="String">#item_weapon02d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">由若干可拆卸部分构成的奇怪装置，
-对于一部魔幻游戏来说太超前啦。
-#DMG;近距离挥动低物理伤害
-#SP;快速，远程高伤害</Data>
+            <Data ss:Type="String">由若干可拆卸部分构成的奇怪装置，&#10;对于一部魔幻游戏来说太超前啦。&#10;#DMG;近距离挥动低物理伤害&#10;#SP;快速，远程高伤害</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -775,10 +697,7 @@
             <Data ss:Type="String">#item_weapon03d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一把精心制作的战斗用刀，
-……似乎在哪儿见过！
-#DMG;低物理伤害
-#SP;快速, 增加移动速度</Data>
+            <Data ss:Type="String">一把精心制作的战斗用刀，&#10;……似乎在哪儿见过！&#10;#DMG;低物理伤害&#10;#SP;快速, 增加移动速度</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -806,10 +725,7 @@
             <Data ss:Type="String">#item_weapon04d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">亚瑟王的咖喱棒，很出名哟！呃还
-带着石头…
-#DMG;中物理伤害
-#SP;慢速, 击倒</Data>
+            <Data ss:Type="String">亚瑟王的咖喱棒，很出名哟！呃还&#10;带着石头…&#10;#DMG;中物理伤害&#10;#SP;慢速, 击倒</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -837,10 +753,7 @@
             <Data ss:Type="String">#item_weapon05d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">大师打造的精灵之刃。
-#DMG;中物理伤害
-#SP;快速，当敌人接近时发光
-(喂喂真的吗)</Data>
+            <Data ss:Type="String">大师打造的精灵之刃。&#10;#DMG;中物理伤害&#10;#SP;快速，当敌人接近时发光&#10;(喂喂真的吗)</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -868,10 +781,7 @@
             <Data ss:Type="String">#item_weapon06d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一把来自东洋的快刀，刀把上
-刻着这样的文字“独一无二”
-#DMG;中物理伤害
-#SP;快速，穿甲</Data>
+            <Data ss:Type="String">一把来自东洋的快刀，刀把上&#10;刻着这样的文字“独一无二”&#10;#DMG;中物理伤害&#10;#SP;快速，穿甲</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Highlander reference</Data>
@@ -899,10 +809,7 @@
             <Data ss:Type="String">#item_weapon07d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">它很轻，挥动迅捷，能够烧穿几乎
-所有物质。
-#DMG;高奥术伤害
-#SP;快速</Data>
+            <Data ss:Type="String">它很轻，挥动迅捷，能够烧穿几乎&#10;所有物质。&#10;#DMG;高奥术伤害&#10;#SP;快速</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -930,10 +837,7 @@
             <Data ss:Type="String">#item_weapon08d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一只骷髅形状的戒指。这家伙在肉
-搏战中一定能留下印记。
-#DMG;低物理伤害
-#SP;击倒</Data>
+            <Data ss:Type="String">一只骷髅形状的戒指。这家伙在肉&#10;搏战中一定能留下印记。&#10;#DMG;低物理伤害&#10;#SP;击倒</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -961,10 +865,7 @@
             <Data ss:Type="String">#item_weapon09d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">如果没有一把火焰剑，这还能叫做
-魔幻游戏么？
-#DMG;中物理伤害和火焰伤害
-#SP;引燃目标</Data>
+            <Data ss:Type="String">如果没有一把火焰剑，这还能叫做&#10;魔幻游戏么？&#10;#DMG;中物理伤害和火焰伤害&#10;#SP;引燃目标</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -992,10 +893,7 @@
             <Data ss:Type="String">#item_weapon10d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这把需要在暴风雪中打磨的剑
-在铸造时一定是困难重重。
-#DMG;中物理伤害和雪系伤害
-#SP;慢速，在持有者面前制造雪系冲击</Data>
+            <Data ss:Type="String">这把需要在暴风雪中打磨的剑&#10;在铸造时一定是困难重重。&#10;#DMG;中物理伤害和雪系伤害&#10;#SP;慢速，在持有者面前制造雪系冲击</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1023,11 +921,7 @@
             <Data ss:Type="String">#item_weapon11d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">“泛着蓝光的兵刃会让持有者的心
-跟着一同变冷，从此不再爱人…”
-—这都写得啥跟啥？
-#DMG;中物理伤害
-#SP;冻结目标</Data>
+            <Data ss:Type="String">“泛着蓝光的兵刃会让持有者的心&#10;跟着一同变冷，从此不再爱人…”&#10;—这都写得啥跟啥？&#10;#DMG;中物理伤害&#10;#SP;冻结目标</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The blades of the goblin captains are as cold as their hearts… So very cold... #DMG;Medium Physical #SP;Freezes its target</Data>
@@ -1055,10 +949,7 @@
             <Data ss:Type="String">#item_weapon12d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一把带着邪恶病毒的刀，
-用360是杀不掉的。
-#DMG;中物理伤害和剧毒伤害
-#SP;慢速, 击中时释放毒素</Data>
+            <Data ss:Type="String">一把带着邪恶病毒的刀，&#10;用360是杀不掉的。&#10;#DMG;中物理伤害和剧毒伤害&#10;#SP;慢速, 击中时释放毒素</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1086,11 +977,7 @@
             <Data ss:Type="String">#item_weapon13d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">由强悍的矮人制造，
-能把人切成两半。
-不会无缘无故交给你的。
-#DMG;高物理伤害
-#SP;慢速, 穿甲</Data>
+            <Data ss:Type="String">由强悍的矮人制造，&#10;能把人切成两半。&#10;不会无缘无故交给你的。&#10;#DMG;高物理伤害&#10;#SP;慢速, 穿甲</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1118,9 +1005,7 @@
             <Data ss:Type="String">#item_weapon14d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这是一把永远能击中目标的神剑。
-#DMG;中物理伤害
-#SP;永远命中，试试就知</Data>
+            <Data ss:Type="String">这是一把永远能击中目标的神剑。&#10;#DMG;中物理伤害&#10;#SP;永远命中，试试就知</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1148,9 +1033,7 @@
             <Data ss:Type="String">#item_weapon15d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一把充满暗黑力量的坚实战锤。
-#DMG;中物理伤害
-#SP;击退目标</Data>
+            <Data ss:Type="String">一把充满暗黑力量的坚实战锤。&#10;#DMG;中物理伤害&#10;#SP;击退目标</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A powerful hammer of the dark and gritty sort. #DMG;Medium Physical #SP;Pushes target back</Data>
@@ -1178,9 +1061,7 @@
             <Data ss:Type="String">#item_weapon16d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">充满了闪电力量的锤子。
-#DMG;中物理伤害
-#SP;慢速, 击中时闪电打击目标</Data>
+            <Data ss:Type="String">充满了闪电力量的锤子。&#10;#DMG;中物理伤害&#10;#SP;慢速, 击中时闪电打击目标</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1208,11 +1089,7 @@
             <Data ss:Type="String">#item_weapon17d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">投掷出去并且总能返回主人身边的
-矛，就像其他北欧神话里的投掷
-武器一样。
-#DMG;中物理伤害
-#SP;慢速, 远程, 穿甲</Data>
+            <Data ss:Type="String">投掷出去并且总能返回主人身边的&#10;矛，就像其他北欧神话里的投掷&#10;武器一样。&#10;#DMG;中物理伤害&#10;#SP;慢速, 远程, 穿甲</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1240,9 +1117,7 @@
             <Data ss:Type="String">#item_weapon18d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">矮人出品，冠军必备。
-#DMG;高物理伤害
-#SP;慢速</Data>
+            <Data ss:Type="String">矮人出品，冠军必备。&#10;#DMG;高物理伤害&#10;#SP;慢速</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1270,10 +1145,7 @@
             <Data ss:Type="String">#item_weapon19d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">乍看它就像一根普通的棍子。但这
-根棍子上穿着十分美味的香肠。
-#DMG;低物理伤害
-#SP;快速,吸引敌人攻击</Data>
+            <Data ss:Type="String">乍看它就像一根普通的棍子。但这&#10;根棍子上穿着十分美味的香肠。&#10;#DMG;低物理伤害&#10;#SP;快速,吸引敌人攻击</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1301,10 +1173,7 @@
             <Data ss:Type="String">#item_weapon20d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一把精致的剑，最适于屠龙…
-附近有龙吗？
-#DMG;中物理伤害
-#SP;能够杀死龙哦</Data>
+            <Data ss:Type="String">一把精致的剑，最适于屠龙…&#10;附近有龙吗？&#10;#DMG;中物理伤害&#10;#SP;能够杀死龙哦</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1332,10 +1201,7 @@
             <Data ss:Type="String">#item_weapon21d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">有些人把它叫做“诛恶者”
-一把内含奥术力量的古代之剑。
-#DMG;中物理伤害
-#SP;生命全满时放出奥术</Data>
+            <Data ss:Type="String">有些人把它叫做“诛恶者”&#10;一把内含奥术力量的古代之剑。&#10;#DMG;中物理伤害&#10;#SP;生命全满时放出奥术</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1363,10 +1229,7 @@
             <Data ss:Type="String">#item_weapon22d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">只是一把斧头，但也许比巫师们配
-备的钝剑要好
-#DMG;中物理伤害
-#SP;无</Data>
+            <Data ss:Type="String">只是一把斧头，但也许比巫师们配&#10;备的钝剑要好&#10;#DMG;中物理伤害&#10;#SP;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1394,11 +1257,7 @@
             <Data ss:Type="String">#item_weapon23d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">在巫师城堡偶尔能找到一把利剑，
-一般情况下应该立即磨钝的，
-不过……
-#DMG;中物理伤害
-#SP;无</Data>
+            <Data ss:Type="String">在巫师城堡偶尔能找到一把利剑，&#10;一般情况下应该立即磨钝的，&#10;不过……&#10;#DMG;中物理伤害&#10;#SP;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1426,9 +1285,7 @@
             <Data ss:Type="String">#item_weapon24d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">能撬开…比如盔甲。
-#DMG;低物理伤害
-#SP;快速, 穿甲</Data>
+            <Data ss:Type="String">能撬开…比如盔甲。&#10;#DMG;低物理伤害&#10;#SP;快速, 穿甲</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1456,11 +1313,7 @@
             <Data ss:Type="String">#item_weapon25d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一般哥布林制造的装备不值得大家
-上心，不过这些高层哥布林用的
-好玩意是个例外。
-#DMG;低物理伤害
-#SP;快速</Data>
+            <Data ss:Type="String">一般哥布林制造的装备不值得大家&#10;上心，不过这些高层哥布林用的&#10;好玩意是个例外。&#10;#DMG;低物理伤害&#10;#SP;快速</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1488,9 +1341,7 @@
             <Data ss:Type="String">#item_weapon26d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">由上古时期的传奇人物制造。
-#DMG;低物理伤害
-#SP;毒伤害</Data>
+            <Data ss:Type="String">由上古时期的传奇人物制造。&#10;#DMG;低物理伤害&#10;#SP;毒伤害</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1518,10 +1369,7 @@
             <Data ss:Type="String">#item_weapon27d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">拥有强大的破空之闪光，由长风海
-岸曾经存在的德鲁伊制造.
-#DMG;中物理伤害和闪电伤害
-#SP;无</Data>
+            <Data ss:Type="String">拥有强大的破空之闪光，由长风海&#10;岸曾经存在的德鲁伊制造.&#10;#DMG;中物理伤害和闪电伤害&#10;#SP;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1549,10 +1397,7 @@
             <Data ss:Type="String">#item_weapon28d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">拥有汹涌的潮汐之拍劲，由长风海
-岸曾经存在的德鲁伊制造。
-#DMG; 中物理伤害
-#SP;击退, 潮湿目标</Data>
+            <Data ss:Type="String">拥有汹涌的潮汐之拍劲，由长风海&#10;岸曾经存在的德鲁伊制造。&#10;#DMG; 中物理伤害&#10;#SP;击退, 潮湿目标</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1580,10 +1425,7 @@
             <Data ss:Type="String">#item_weapon29d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">拥有开山辟地之震势，由长风海岸
-曾经存在的德鲁伊制造。
-#DMG;高物理伤害
-#SP;慢速, 击退目标</Data>
+            <Data ss:Type="String">拥有开山辟地之震势，由长风海岸&#10;曾经存在的德鲁伊制造。&#10;#DMG;高物理伤害&#10;#SP;慢速, 击退目标</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1611,10 +1453,7 @@
             <Data ss:Type="String">#item_weapon30d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">拥有融解万物的热能，由长风海岸
-曾经存在的德鲁伊制造。
-#DMG;高物理伤害
-#SP;慢速, 使目标着火</Data>
+            <Data ss:Type="String">拥有融解万物的热能，由长风海岸&#10;曾经存在的德鲁伊制造。&#10;#DMG;高物理伤害&#10;#SP;慢速, 使目标着火</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1642,11 +1481,7 @@
             <Data ss:Type="String">#item_weapon31d</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一把简单的带着闪电力量的刀。
-由术士制造并交给半兽人，
-代表了二者间结盟的信物。
-#DMG;中物理伤害和闪电伤害
-#SP;无</Data>
+            <Data ss:Type="String">一把简单的带着闪电力量的刀。&#10;由术士制造并交给半兽人，&#10;代表了二者间结盟的信物。&#10;#DMG;中物理伤害和闪电伤害&#10;#SP;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1692,10 +1527,7 @@
             <Data ss:Type="String">#magick_blizzardD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">想体验“敌不动我动”的绝佳境地吗？
-现在你的愿望可以实现啦！
-待到念咒空中摇，我召唤后你躲好。
-冲天风暴透心凉，满屏尽带雪花飘。</Data>
+            <Data ss:Type="String">想体验“敌不动我动”的绝佳境地吗？&#10;现在你的愿望可以实现啦！&#10;待到念咒空中摇，我召唤后你躲好。&#10;冲天风暴透心凉，满屏尽带雪花飘。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1723,9 +1555,7 @@
             <Data ss:Type="String">#magick_charmD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">与人打交道的终极魔法，
-只对意志薄弱的家伙起作用。
-顺带一提，它们数量可观。</Data>
+            <Data ss:Type="String">与人打交道的终极魔法，&#10;只对意志薄弱的家伙起作用。&#10;顺带一提，它们数量可观。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1753,10 +1583,7 @@
             <Data ss:Type="String">#magick_conflagrationD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">感觉像气波功？
-用它的热浪，
-你可以点燃大量的敌人，
-或者大量的香肠.</Data>
+            <Data ss:Type="String">感觉像气波功？&#10;用它的热浪，&#10;你可以点燃大量的敌人，&#10;或者大量的香肠.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1784,10 +1611,7 @@
             <Data ss:Type="String">#magick_nullifyD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">洗去烦人的污点，
-法术和状态效果，
-更多洁净更多欢乐，
-我就喜欢！</Data>
+            <Data ss:Type="String">洗去烦人的污点，&#10;法术和状态效果，&#10;更多洁净更多欢乐，&#10;我就喜欢！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -1815,10 +1639,7 @@
             <Data ss:Type="String">#magick_fearD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">发出冷彻灵魂的号叫，
-把最强的敌人吓跑。
-这玩意能使你的主角光环大亮，
-珍爱生命，拒绝配角，远离便当。</Data>
+            <Data ss:Type="String">发出冷彻灵魂的号叫，&#10;把最强的敌人吓跑。&#10;这玩意能使你的主角光环大亮，&#10;珍爱生命，拒绝配角，远离便当。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Unleash a soul-chilling howl that scares off even the most hardened foe. This baby will make your black-metal-band so famous that you might even be able to quit your day job.</Data>
@@ -1846,9 +1667,7 @@
             <Data ss:Type="String">#magick_greaseD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">用奶酪般油滑的易燃物
-浇灌附近的花花草草，别黏到小朋友了。
-尝一下，恩呃，有“中奖”的味道。</Data>
+            <Data ss:Type="String">用奶酪般油滑的易燃物&#10;浇灌附近的花花草草，别黏到小朋友了。&#10;尝一下，恩呃，有“中奖”的味道。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Coats the immediate area with a greasy,  highly flammable, slippery, cheese-like substance. The smell is a bonus.</Data>
@@ -1876,9 +1695,7 @@
             <Data ss:Type="String">#magick_hasteD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">当危险出现时，
-这个魔法能让你轻松地英勇逃离。
-跟范老师比一下谁更快！</Data>
+            <Data ss:Type="String">当危险出现时，&#10;这个魔法能让你轻松地英勇逃离。&#10;跟范老师比一下谁更快！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Monty Python Ref.</Data>
@@ -1906,8 +1723,7 @@
             <Data ss:Type="String">#magick_invisibilityD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你拥有了一双隐形的翅膀。
-关键时刻可以令自己从对手眼前消失，远离尴尬的境地。</Data>
+            <Data ss:Type="String">你拥有了一双隐形的翅膀。&#10;关键时刻可以令自己从对手眼前消失，远离尴尬的境地。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The power of invisibility has long been associated with  shiny jewelry, hairy feet, and cowardice. This magick hides the caster from the eyes of his foes, and allows him to make a quick exit from an awkward situation.</Data>
@@ -1935,8 +1751,7 @@
             <Data ss:Type="String">#magick_meteorsD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">数星星一颗两颗三颗四颗连成线…
-…哦不，快跑！FDFQDF</Data>
+            <Data ss:Type="String">数星星一颗两颗三颗四颗连成线…&#10;…哦不，快跑！FDFQDF</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">In certain situations you just want to go out with a blast – or even several blasts – raining down from the sky in the form of fiery rocks.</Data>
@@ -1964,8 +1779,7 @@
             <Data ss:Type="String">#magick_rainD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">不需要祈雨就能召唤雨神，
-人行道乐了，下水道哭了。</Data>
+            <Data ss:Type="String">不需要祈雨就能召唤雨神，&#10;人行道乐了，下水道哭了。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Call upon the rain Gods without having to resort to dancing. Makes crops happy and lava streams sad.</Data>
@@ -1993,11 +1807,7 @@
             <Data ss:Type="String">#magick_reviveD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">当你的玩家基友一个个挂掉，
-也许你会想要复活他们…
-只需“哇”一声，就能让他
-们从地底蹦出来，代替你承受伤害。
- 当然，他们也想这样回敬你。</Data>
+            <Data ss:Type="String">当你的玩家基友一个个挂掉，&#10;也许你会想要复活他们…&#10;只需“哇”一声，就能让他&#10;们从地底蹦出来，代替你承受伤害。&#10; 当然，他们也想这样回敬你。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -2025,10 +1835,7 @@
             <Data ss:Type="String">#magick_sDeathD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这个法术很给力，
-能够召唤死神领域的领主来帮助你。
-但要小心，这位收割者喜怒无常，
-喜欢勾走离他最近的家伙。</Data>
+            <Data ss:Type="String">这个法术很给力，&#10;能够召唤死神领域的领主来帮助你。&#10;但要小心，这位收割者喜怒无常，&#10;喜欢勾走离他最近的家伙。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -2056,9 +1863,7 @@
             <Data ss:Type="String">#magick_sElementalD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">让施法者召唤出百变的元素精怪，
-你用啥魔法碰它们，
-它们就会变成啥属性。</Data>
+            <Data ss:Type="String">让施法者召唤出百变的元素精怪，&#10;你用啥魔法碰它们，&#10;它们就会变成啥属性。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The caster summons an elemental from the ethereal realm which will asume the form of the first element it comes into contact with.</Data>
@@ -2086,9 +1891,7 @@
             <Data ss:Type="String">#magick_sPhoenixD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">召唤稀有而傲娇的凤凰，
-它会直冲地面，横扫战场，
-飞舞的火焰将成为新生的摇篮。</Data>
+            <Data ss:Type="String">召唤稀有而傲娇的凤凰，&#10;它会直冲地面，横扫战场，&#10;飞舞的火焰将成为新生的摇篮。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The rare and proud phoenix sweeps over the battlefield, and as it perishes in flame, it revives all fallen wizards in its fiery blast.</Data>
@@ -2116,8 +1919,7 @@
             <Data ss:Type="String">#magick_sUndeadD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">让施法者召唤僵尸帮助战斗，
-完全蔑视死神的权威。</Data>
+            <Data ss:Type="String">让施法者召唤僵尸帮助战斗，&#10;完全蔑视死神的权威。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Showing total disregard for the permanence of death, the caster calls upon the deceased to aid him in battle.</Data>
@@ -2145,9 +1947,7 @@
             <Data ss:Type="String">#magick_teleportD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">急着赶路？被烦人的屏障挡住？
-瞬间移动让你以光速旅行。
-从此不用再搭11路啦！</Data>
+            <Data ss:Type="String">急着赶路？被烦人的屏障挡住？&#10;瞬间移动让你以光速旅行。&#10;从此不用再搭11路啦！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -2175,11 +1975,7 @@
             <Data ss:Type="String">#magick_thunderbD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">有些人认为这是雷神的把戏。
-其他人认为这是科学。
-不管怎样，当这个巨大的光束带给
-你的敌人(和朋友！) 灭顶之灾时，
-他们都该跑着找掩护！</Data>
+            <Data ss:Type="String">有些人认为这是雷神的把戏。&#10;其他人认为这是科学。&#10;不管怎样，当这个巨大的光束带给&#10;你的敌人(和朋友！) 灭顶之灾时，&#10;他们都该跑着找掩护！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -2207,8 +2003,7 @@
             <Data ss:Type="String">#magick_thundersD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">带大家体验2012震撼的末日效果，
-当然也包括你自己。</Data>
+            <Data ss:Type="String">带大家体验2012震撼的末日效果，&#10;当然也包括你自己。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Same old weather lost its intrigue? The creators of 'Rain' and 'Thunderbolt' now bring you the all-new Magick: 'Thunder Storm'! A combination of rain and multiple thunder bolts makes this the ideal spell for destroy everything in the vicinity, including yourself!</Data>
@@ -2264,11 +2059,7 @@
             <Data ss:Type="String">#magick_vortexD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">当你想搞破坏时，使用黑洞漩涡法术
-绝对是明智之选！它能制造一个把所有
-东西都吞进去的神秘漩涡。这吸力
-是如此之强，以至于所有接近的东西
-都会被撕成碎片！</Data>
+            <Data ss:Type="String">当你想搞破坏时，使用黑洞漩涡法术&#10;绝对是明智之选！它能制造一个把所有&#10;东西都吞进去的神秘漩涡。这吸力&#10;是如此之强，以至于所有接近的东西&#10;都会被撕成碎片！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Sometimes you just want to tear reality a new one. With Vortex magick you can! This spell creates a singularity that sucks everything into its infinite center. The forces involved are so strong that anything that approaches will be torn to shreds.</Data>
@@ -2296,8 +2087,7 @@
             <Data ss:Type="String">#magick_corporealizeD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">如果你的附近……有奇怪的东西……用这个法术能把虚空的怪物
-扯进现实空间。</Data>
+            <Data ss:Type="String">如果你的附近……有奇怪的东西……用这个法术能把虚空的怪物&#10;扯进现实空间。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -2325,9 +2115,7 @@
             <Data ss:Type="String">#magick_timewarpD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">感觉时间不够用？
-这个法术能够让你减速时间，
-慢慢体味那些珍贵的时刻。</Data>
+            <Data ss:Type="String">感觉时间不够用？&#10;这个法术能够让你减速时间，&#10;慢慢体味那些珍贵的时刻。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -2355,9 +2143,7 @@
             <Data ss:Type="String">#magick_88mphD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">当你不小心犯了错，
-最简而有效的解决办法，
-就是回到过去改变它！</Data>
+            <Data ss:Type="String">当你不小心犯了错，&#10;最简而有效的解决办法，&#10;就是回到过去改变它！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>

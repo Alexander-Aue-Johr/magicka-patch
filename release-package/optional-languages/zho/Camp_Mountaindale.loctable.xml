@@ -21,8 +21,7 @@
             <Data ss:Type="String">#MD_Text_watermill1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">走开！我…[P=1]
-……我，我没穿衣服！</Data>
+            <Data ss:Type="String">走开！我…[P=1]&#10;……我，我没穿衣服！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Star Trek reference  Look at the ID (column 1). Each character/dialogue has a different suffix. One character is "watermill". The next is "negative", the next character is "havindr", and so on.</Data>
@@ -50,9 +49,7 @@
             <Data ss:Type="String">#MD_Text_negative1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你们来这里干什么！
-所有人都知道巫师代表着麻烦。
-哪儿凉快呆哪儿去！</Data>
+            <Data ss:Type="String">你们来这里干什么！&#10;所有人都知道巫师代表着麻烦。&#10;哪儿凉快呆哪儿去！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -66,8 +63,7 @@
             <Data ss:Type="String">#MD_Text_negative2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">别拿你们巫师那套来吓唬我们，
-对，我就这么说了！怎么着！咬我啊？</Data>
+            <Data ss:Type="String">别拿你们巫师那套来吓唬我们，&#10;对，我就这么说了！怎么着！咬我啊？</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Star Wars ref.</Data>
@@ -95,9 +91,7 @@
             <Data ss:Type="String">#MD_Text_havindr2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我去过那儿一次。一个有着很多商店的大地方
-城市生活不适合我。并不是说我受不了，而是…
-我更喜欢别的事，比如园艺……</Data>
+            <Data ss:Type="String">我去过那儿一次。一个有着很多商店的大地方&#10;城市生活不适合我。并不是说我受不了，而是…&#10;我更喜欢别的事，比如园艺……</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">minor revision</Data>
@@ -251,8 +245,7 @@
             <Data ss:Type="String">#MD_Text_afraid1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">到处都是哥布林，这些长耳朵的恶魔，
-它们都要来抓我了！</Data>
+            <Data ss:Type="String">到处都是哥布林，这些长耳朵的恶魔，&#10;它们都要来抓我了！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -280,8 +273,7 @@
             <Data ss:Type="String">#MD_Text_afraid3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">是哥布林！[P=.5]
-快去山上逃命吧！</Data>
+            <Data ss:Type="String">是哥布林！[P=.5]&#10;快去山上逃命吧！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">"Run to the hills, run for your life" is a reference to the iron maiden song "run to the hills" also remoed "AAAH!!!" To better fit the recorded voice.</Data>
@@ -309,8 +301,7 @@
             <Data ss:Type="String">#MD_Text_lumberjack2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">噢，等等…这只是一只死鹿。[P=1]
-那些巨魔真是太恐怖了，它们平时都不伤人的。</Data>
+            <Data ss:Type="String">噢，等等…这只是一只死鹿。[P=1]&#10;那些巨魔真是太恐怖了，它们平时都不伤人的。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -380,8 +371,7 @@
             <Data ss:Type="String">#MD_Text_goblins_bird1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">当我在河边散步的时候，那些哥布林突然攻击我，
-幸运的是，一只鸟发现了这些哥布林，把他们给吓跑了。</Data>
+            <Data ss:Type="String">当我在河边散步的时候，那些哥布林突然攻击我，&#10;幸运的是，一只鸟发现了这些哥布林，把他们给吓跑了。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -395,8 +385,7 @@
             <Data ss:Type="String">#MD_Text_goblins_bird2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我的意思是说，虽然我不喜欢这些哥布林，
-但是整天躲避鸟儿的追捕，它们也真是疲于奔命了。</Data>
+            <Data ss:Type="String">我的意思是说，虽然我不喜欢这些哥布林，&#10;但是整天躲避鸟儿的追捕，它们也真是疲于奔命了。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -438,10 +427,7 @@
             <Data ss:Type="String">#MD_Text_Vlad1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">我还没听说过哥布林敢袭击比它们体积大的东西。
-但还是要当心，[P=1]前面是你去#Location_HV;之前要
-经过的第一个村庄。那些村民并不太友好，
-但请尝试善待他们。毕竟，农耕乃一国之本…</Data>
+            <Data ss:Type="String">我还没听说过哥布林敢袭击比它们体积大的东西。&#10;但还是要当心，[P=1]前面是你去#Location_HV;之前要&#10;经过的第一个村庄。那些村民并不太友好，&#10;但请尝试善待他们。毕竟，农耕乃一国之本…</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">star wars episode 4 feed as in, brings food to our table, also ambigious as Vlad literarilly feeds on the villagers by sucking their tasty blood.</Data>
@@ -455,9 +441,7 @@
             <Data ss:Type="String">#MD_Text_Vlad2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你能走到这么远我感到十分意…呃，欣慰。
-#Location_MD;前面路上的那些树荫下藏着哥布林，
-保护好自己哟！</Data>
+            <Data ss:Type="String">你能走到这么远我感到十分意…呃，欣慰。&#10;#Location_MD;前面路上的那些树荫下藏着哥布林，&#10;保护好自己哟！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -471,8 +455,7 @@
             <Data ss:Type="String">#MD_Text_Vlad3</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一定是哥布林封锁了这条路，你应该前往森林深处。
-但你要知道那里潜伏着可怕的#Boss_N02;。</Data>
+            <Data ss:Type="String">一定是哥布林封锁了这条路，你应该前往森林深处。&#10;但你要知道那里潜伏着可怕的#Boss_N02;。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -486,8 +469,7 @@
             <Data ss:Type="String">#MD_Text_Vlad4</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这儿曾经是#Boss_N02;的巢穴，
-但现在似乎已经不是了。</Data>
+            <Data ss:Type="String">这儿曾经是#Boss_N02;的巢穴，&#10;但现在似乎已经不是了。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -501,8 +483,7 @@
             <Data ss:Type="String">#MD_Text_Vlad5</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">呃，看来是我错了…它的弱点是头部！[P=0.5]
-祝你 "好运"！</Data>
+            <Data ss:Type="String">呃，看来是我错了…它的弱点是头部！[P=0.5]&#10;祝你 "好运"！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"/>
@@ -672,8 +653,7 @@
             <Data ss:Type="String">#MD_PoI_fallentree</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这条路被堵住了。
-我们得去找另外一条路绕过去。</Data>
+            <Data ss:Type="String">这条路被堵住了。&#10;我们得去找另外一条路绕过去。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">a big tree blocks the path.</Data>

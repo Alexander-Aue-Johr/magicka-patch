@@ -71,9 +71,7 @@
             <Data ss:Type="String">#ITEM_WEAPON_PATCH1D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">尽管大众点评网上说这把剑太"稳
-定"，太易碎，但是巫师城堡的硬
-件开发砖家声称"我脆我自豪"！</Data>
+            <Data ss:Type="String">尽管大众点评网上说这把剑太"稳&#10;定"，太易碎，但是巫师城堡的硬&#10;件开发砖家声称"我脆我自豪"！</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The reviews of this batch of swords contain such phrases as "unstable" and "simply broken". The hardware developers at Aldrheim castle claim that, although they may be slightly on the frail side, the swords are nevertheless perfectly sharp and well within specifications.</Data>
@@ -101,9 +99,7 @@
             <Data ss:Type="String">#ITEM_STAFF_PATCH1D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">不久前,魔导师们决定从海南岛进
-一批金闪闪的法杖，结果这批商品
-携带了无法驱净的虫子(bug自嘲)</Data>
+            <Data ss:Type="String">不久前,魔导师们决定从海南岛进&#10;一批金闪闪的法杖，结果这批商品&#10;携带了无法驱净的虫子(bug自嘲)</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A while back, the Order of Wizards decided to order a shipment of shiny staves from the southlands. The merchandise later turned out to contain a seemingly endless supply of bugs.</Data>
@@ -164,8 +160,7 @@
             <Data ss:Type="String">#Magick_CTDD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">因为极端bug的释放,随机将在场
-的一位活物给崩溃回桌面.</Data>
+            <Data ss:Type="String">因为极端bug的释放,随机将在场&#10;的一位活物给崩溃回桌面.</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Crash To Desktop</Data>

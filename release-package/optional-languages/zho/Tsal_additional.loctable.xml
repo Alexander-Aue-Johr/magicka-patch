@@ -361,8 +361,7 @@
             <Data ss:Type="String">#TMD_poi_door05_2</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">小条儿说：“俺们去联欢啦！如果你正在看这条信息，
-那么说明他们没邀请你，哈哈撸sir…”剩下的就是一堆得瑟废话。</Data>
+            <Data ss:Type="String">小条儿说：“俺们去联欢啦！如果你正在看这条信息，&#10;那么说明他们没邀请你，哈哈撸sir…”剩下的就是一堆得瑟废话。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The note says "Gone to the great meeting. If you're reading this, then you're not invited, you..." ...the rest is just a bunch of incoherent foul language.</Data>
@@ -390,8 +389,7 @@
             <Data ss:Type="String">#TMD_poi_church1</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">有人说“三大妈”？哦，等等，
-他们好像是在讨论某个游戏论坛。</Data>
+            <Data ss:Type="String">有人说“三大妈”？哦，等等，&#10;他们好像是在讨论某个游戏论坛。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Somebody is talking about a "weakening"? Or was it "awakening?"</Data>
@@ -791,11 +789,7 @@
             <Data ss:Type="String">#ITEM_TSAL_staff01D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">有些巫师对于躲闪攻击很不在行，
-或者懒得用法术防护，现在有
-了这把杖神马都解决啦！
-#PA;反射范围光环
-#AA;无</Data>
+            <Data ss:Type="String">有些巫师对于躲闪攻击很不在行，&#10;或者懒得用法术防护，现在有&#10;了这把杖神马都解决啦！&#10;#PA;反射范围光环&#10;#AA;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">2.0 as in the latest version. there is a more "ordinary" deflection staff in the original game.</Data>
@@ -823,9 +817,7 @@
             <Data ss:Type="String">#ITEM_TSAL_staff02D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">空虚寂寞冷，羡慕嫉妒恨...
-#PA;无
-#AA;大量魅惑</Data>
+            <Data ss:Type="String">空虚寂寞冷，羡慕嫉妒恨...&#10;#PA;无&#10;#AA;大量魅惑</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Lonely wizards often bring this staff to parties in the hopes of quickly making new friends -- which actually works! But only for a short time, leaving the wizard lonely again soon thereafter. #PA;None #AA;Mass charm</Data>
@@ -853,10 +845,7 @@
             <Data ss:Type="String">#ITEM_TSAL_staff03D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">不可思议地流行在巫师中,无论哪
-儿的巫师在庆祝，都有它的身影！
-#PA;无
-#AA;坑爹香肠雨</Data>
+            <Data ss:Type="String">不可思议地流行在巫师中,无论哪&#10;儿的巫师在庆祝，都有它的身影！&#10;#PA;无&#10;#AA;坑爹香肠雨</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Everybody loves sausages in Magicka</Data>
@@ -884,10 +873,7 @@
             <Data ss:Type="String">#ITEM_TSAL_staff04D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">向天朝王国致敬，额等等...
-是天国王朝！
-#PA;无
-#AA;神圣手雷</Data>
+            <Data ss:Type="String">向天朝王国致敬，额等等...&#10;是天国王朝！&#10;#PA;无&#10;#AA;神圣手雷</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A quote from Monty Python and the Holy Grail: http://www.imdb.com/title/tt0071853/quotes?qt=qt0470612</Data>
@@ -915,10 +901,7 @@
             <Data ss:Type="String">#ITEM_TSAL_staff05D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">来自地狱深处的锻造工艺,
-到底是地狱还是深渊啊？
-#PA;None
-#AA;火弩箭</Data>
+            <Data ss:Type="String">来自地狱深处的锻造工艺,&#10;到底是地狱还是深渊啊？&#10;#PA;None&#10;#AA;火弩箭</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Forged in the most hellish of places, possibly the west wing of Castle Aldrheim. This staff is shunned by many wizards due to its evil nature. Many wizards also tend to avoid them since burnt wizards generally shun fire. #PA;None #AA;Firebolt</Data>
@@ -946,10 +929,7 @@
             <Data ss:Type="String">#ITEM_TSAL_staff06D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">一个具备放大镜的优良法杖,
-充分满足拥有好奇心的巫师们
-#PA;无
-#AA;局部视野放大</Data>
+            <Data ss:Type="String">一个具备放大镜的优良法杖,&#10;充分满足拥有好奇心的巫师们&#10;#PA;无&#10;#AA;局部视野放大</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A fine staff crowned with a convex lens, used to produce a magnified image of an object. The lens is mounted in a frame. This staff is very popular among curious wizards with a taste for mystery solving.  #PA;None #AA;Zoom and enhance</Data>
@@ -977,10 +957,7 @@
             <Data ss:Type="String">#ITEM_TSAL_staff07D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">有人猜它是黑暗精灵的作品，
-然而更像是某个疯狂渔夫打造...
-#PA;无
-#AA;召唤自主火焰</Data>
+            <Data ss:Type="String">有人猜它是黑暗精灵的作品，&#10;然而更像是某个疯狂渔夫打造...&#10;#PA;无&#10;#AA;召唤自主火焰</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The staff has an octopus on its top.</Data>
@@ -1008,11 +985,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon01D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">有人认为是流星,有人认为是吸血
-鬼...而一些巫师认为是冰冻
-...杀死了恐龙！
-#DMG;中寒冷伤害
-#SP;远程冰冻目标</Data>
+            <Data ss:Type="String">有人认为是流星,有人认为是吸血&#10;鬼...而一些巫师认为是冰冻&#10;...杀死了恐龙！&#10;#DMG;中寒冷伤害&#10;#SP;远程冰冻目标</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Spoofs Batman and Robin where Mr. Freeze (from which the Freeze Ray gun is designed from) who claims very cheesy'ly that ice killed the dinosaurs which sounds very stupid when he says it.</Data>
@@ -1040,10 +1013,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon02D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">当你想揍你的朋友一顿时，用它
-来发泄吧，只引起很小的伤害哟！
-#DMG;低物理伤害
-#SP;减少挫折</Data>
+            <Data ss:Type="String">当你想揍你的朋友一顿时，用它&#10;来发泄吧，只引起很小的伤害哟！&#10;#DMG;低物理伤害&#10;#SP;减少挫折</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A terrible weapon to use in combat -- not that it's fearsome or dangerous. Indeed, it causes very little harm to one's opponent. It is quite decent, though, when you need to wallop one of your "friends" to get rid of some built up frustration. #DMG;Low Physical #SP;Reduced frustration</Data>
@@ -1071,9 +1041,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon03D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">七万个嫂夫人挨个儿帮我把它爆喽！
-#DMG;中寒冷伤害
-#SP;无</Data>
+            <Data ss:Type="String">七万个嫂夫人挨个儿帮我把它爆喽！&#10;#DMG;中寒冷伤害&#10;#SP;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Partially Snowy Plains is an actual place on the campaign map of Midgård. The quote spoofs Warcrafts "Whomsoever takes up this blade shall wield power eternal. Just as the blade rends flesh, so must power scar the spirit.", describing Frostmourne.</Data>
@@ -1101,10 +1069,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon04D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">不仅可以拿来擀面，还可
-以给予敌人当头棒喝！
-#DMG;中物理伤害
-#SP;远程击昏目标</Data>
+            <Data ss:Type="String">不仅可以拿来擀面，还可&#10;以给予敌人当头棒喝！&#10;#DMG;中物理伤害&#10;#SP;远程击昏目标</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The obvious weapon of choice for any pastry-making-wizard. Swinging a robust wooden rolling pin down upon the head of any foe is sure to cause the target great pain -- and give them a severe headache to boot. #DMG;Medium Physical #SP;Ranged, Stuns target</Data>
@@ -1132,9 +1097,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon05D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">还记得死神是怎么来了的吗？(死神来了系列)
-#DMG;中物理伤害
-#SP;远程,流血状态</Data>
+            <Data ss:Type="String">还记得死神是怎么来了的吗？(死神来了系列)&#10;#DMG;中物理伤害&#10;#SP;远程,流血状态</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Bleeding is a status effect</Data>
@@ -1162,10 +1125,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon06D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">被它敲一下还不是最坏的，
-关键是它还很烫！
-#DMG;中物+火伤害
-#SP;无</Data>
+            <Data ss:Type="String">被它敲一下还不是最坏的，&#10;关键是它还很烫！&#10;#DMG;中物+火伤害&#10;#SP;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">As if getting hit by a heavy frying pan isn't bad enough, this one is still (constantly) hot, which adds to the painful experience. #DMG;Medium Physical/Fire #SP;None</Data>
@@ -1193,9 +1153,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon07D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">赐予我力量吧！我是希曼！
-#DMG;高物理伤害
-#SP;很凉爽,降低火伤</Data>
+            <Data ss:Type="String">赐予我力量吧！我是希曼！&#10;#DMG;高物理伤害&#10;#SP;很凉爽,降低火伤</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Imbued with the power of a once-great king, this sword is said to grant the wielder fantastic powers. Wielders are sometimes referred to as "He-Wizards" because they look so manly when wielding the sword.  Though there is no concrete proof that the sword contains any special powers, it still seems able to inflict quite a bit of damage in combat. #DMG;High Physical #SP;Looks really cool</Data>
@@ -1223,9 +1181,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon08D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">"你好,小巫师,我想跟你玩个游戏!"
-#DMG;高物理伤害
-#SP;流血状态</Data>
+            <Data ss:Type="String">"你好,小巫师,我想跟你玩个游戏!"&#10;#DMG;高物理伤害&#10;#SP;流血状态</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">General reference to zombie movies like Dawn of the Dead and Evil Dead: Army of Darkness where chainsaws are used to disperse of zombies and other undead creatures.</Data>
@@ -1253,11 +1209,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon09D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">既是农具又是凶器,喉咙什么的
-最喜欢了！并且神奇的是，
-与"锤子"一起用特别合适呢
-#DMG;中物理伤害
-#SP;流血状态</Data>
+            <Data ss:Type="String">既是农具又是凶器,喉咙什么的&#10;最喜欢了！并且神奇的是，&#10;与"锤子"一起用特别合适呢&#10;#DMG;中物理伤害&#10;#SP;流血状态</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Once again, Children of the Corn but also Soviets Sickle &amp; Hammer symbol.</Data>
@@ -1285,10 +1237,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon10D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">看起来普通的肉丸子,可是似乎
-加了什么奇怪的配料...
-#DMG;高火系伤害
-#SP;远程,延时自爆</Data>
+            <Data ss:Type="String">看起来普通的肉丸子,可是似乎&#10;加了什么奇怪的配料...&#10;#DMG;高火系伤害&#10;#SP;远程,延时自爆</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Nobody knows who found or created this weapon, but clearly the amount of incredible destruction it causes is quite impressive, even by wizardly standards.  #DMG;High Fire #SP;Ranged, Delayed explosion</Data>
@@ -1316,11 +1265,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon11D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">流线外形的棒子,用来敲脑袋可爽了！
-通常是双手武器，但巫师们只有
-一只手可用...
-#DMG;中物理伤害
-#SP;击昏目标</Data>
+            <Data ss:Type="String">流线外形的棒子,用来敲脑袋可爽了！&#10;通常是双手武器，但巫师们只有&#10;一只手可用...&#10;#DMG;中物理伤害&#10;#SP;击昏目标</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String"> A smooth wooden club used to hit people in the head. It is no more than 2.75 inches in diameter at the thickest part and no more than 42 inches in length. Normally it's supposed to be swung using both hands, but wizards usually just use the one arm.  #DMG;Medium Physical #SP;Stuns target</Data>
@@ -1348,9 +1293,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon12D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">就是根棒子,上面粘了个骷髅...
-#DMG;低物理伤害
-#SP;击昏目标</Data>
+            <Data ss:Type="String">就是根棒子,上面粘了个骷髅...&#10;#DMG;低物理伤害&#10;#SP;击昏目标</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">The club is quite boring, so is the description</Data>
@@ -1378,9 +1321,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon13D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">哔哔,叭叭,砰砰,咚咚...
-#DMG;低物理伤害
-#SP;远程</Data>
+            <Data ss:Type="String">哔哔,叭叭,砰砰,咚咚...&#10;#DMG;低物理伤害&#10;#SP;远程</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">"stutter" as in jam  and "message is in need of delivering" as in shooting someone. </Data>
@@ -1408,10 +1349,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon14D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">外形如此邪恶的剑一定是被某个
-非常邪恶的家伙制造的...
-#DMG;中物理伤害
-#SP;流血状态</Data>
+            <Data ss:Type="String">外形如此邪恶的剑一定是被某个&#10;非常邪恶的家伙制造的...&#10;#DMG;中物理伤害&#10;#SP;流血状态</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">This sword just screams "ill will". Whoever created this must surely hate many a thing. The sword is made of black steel and actually has blood and gore imbued into the blade.  #DMG;Medium Physical #SP;Causes bleeding</Data>
@@ -1439,9 +1377,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon15D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">你问威震天在哪里?去找擎天柱啊！
-#DMG;低物理伤害
-#SP;击中引发恐惧</Data>
+            <Data ss:Type="String">你问威震天在哪里?去找擎天柱啊！&#10;#DMG;低物理伤害&#10;#SP;击中引发恐惧</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">"sons of the northern darkness" is an Immortal album. "true" is a term used among some metalheads, that when music is "too progressive" it's not true.</Data>
@@ -1469,10 +1405,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon16D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">专治各种不服...咳，治各种会
-瞬移,困惑且打不死的精怪...
-#DMG;低物理伤害
-#SP;对精怪有额外伤害</Data>
+            <Data ss:Type="String">专治各种不服...咳，治各种会&#10;瞬移,困惑且打不死的精怪...&#10;#DMG;低物理伤害&#10;#SP;对精怪有额外伤害</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">There aren't any elves at all in Magicka, not yet anyway.</Data>
@@ -1500,10 +1433,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon17D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">喜欢用左轮手枪吗?
-...你西部电影看多了吧!
-#DMG;中物理伤害
-#SP;单发,慢速</Data>
+            <Data ss:Type="String">喜欢用左轮手枪吗?&#10;...你西部电影看多了吧!&#10;#DMG;中物理伤害&#10;#SP;单发,慢速</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">A revolver (whatever that means) that has a cylinder containing multiple chambers for, ammunition and at least one barrel for firing. This item is quite common amongst some wizards, since it's easy to handle and conceal. Many wizards also approve of the weight of the weapon. #DMG;Medium Physical #SP;Ranged</Data>
@@ -1531,9 +1461,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon18D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">这叫咱该如何吐槽...朋克系？
-#DMG;中物理伤害
-#SP;无</Data>
+            <Data ss:Type="String">这叫咱该如何吐槽...朋克系？&#10;#DMG;中物理伤害&#10;#SP;无</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Five knuckle sanwich as in a punch</Data>
@@ -1561,10 +1489,7 @@
             <Data ss:Type="String">#ITEM_TSAL_weapon19D</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">经典的诡异造型毒匕首,
-你绝对不想被它割上一口 
-#DMG;低物理伤害
-#SP;中毒</Data>
+            <Data ss:Type="String">经典的诡异造型毒匕首,&#10;你绝对不想被它割上一口 &#10;#DMG;低物理伤害&#10;#SP;中毒</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Your typical sinister-looking blade, strangely shaped, with its tip dipped in poison. This is clearly something you don't want to get stabbed with.  #DMG;Low Physical #SP;Poison</Data>
@@ -1694,12 +1619,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_DetectiveD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">华生，把我的烟斗点上。
-那里绝对有不对劲的事儿发生！
--穿着酷风衣的侦探
--#ITEM_TSAL_staff06;
--#ITEM_TSAL_weapon18;
--可解开特殊谜题</Data>
+            <Data ss:Type="String">华生，把我的烟斗点上。&#10;那里绝对有不对劲的事儿发生！&#10;-穿着酷风衣的侦探&#10;-#ITEM_TSAL_staff06;&#10;-#ITEM_TSAL_weapon18;&#10;-可解开特殊谜题</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">"There's definitely something fishy going on here." - Trenchcoat-wearing wizard upon investigating missing deliveries from Outsmouth -#ITEM_TSAL_staff06; -#ITEM_TSAL_weapon18; -Able to detect secrets</Data>
@@ -1727,11 +1647,7 @@
             <Data ss:Type="String">#TOOLTIP_AVATAR_CultistD</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">那条触手动了吗？我发誓我看见它动了！
--祭司中的新人新猪肉，慢慢待宰.
--#ITEM_TSAL_staff07;
--#ITEM_TSAL_weapon19;
--防水不湿身</Data>
+            <Data ss:Type="String">那条触手动了吗？我发誓我看见它动了！&#10;-祭司中的新人新猪肉，慢慢待宰.&#10;-#ITEM_TSAL_staff07;&#10;-#ITEM_TSAL_weapon19;&#10;-防水不湿身</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">"Did that tentacle just move? I could have sworn that tentacle just moved..." - Newly inducted cultist wizard on the verge of expected madness. -#ITEM_TSAL_staff07; -#ITEM_TSAL_weapon19; -Water repellent</Data>
@@ -1777,9 +1693,7 @@
             <Data ss:Type="String">#TMD_vlad_outsmouth0</Data>
           </Cell>
           <Cell>
-            <Data ss:Type="String">好！你终于来了,喵扑村就在前面,我无法
-用我狼一般的嗅觉侦测到那些当地居民，
-所以只好当作他们神奇地失踪啦。</Data>
+            <Data ss:Type="String">好！你终于来了,喵扑村就在前面,我无法&#10;用我狼一般的嗅觉侦测到那些当地居民，&#10;所以只好当作他们神奇地失踪啦。</Data>
           </Cell>
           <Cell>
             <Data ss:Type="String">Guud! Du komma hit entligen, Utmun ligga precis her borta. Ji kan null nogra bybor lukta med mitt varja-sinne ji skulle tro de vara longt bort i skogen.</Data>
