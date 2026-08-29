@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.0.50] - 2026-08-29
+
+### Fixed
+
+- Release all static special-ability `CharacterTemplate` caches during play-state
+  teardown. Cached templates, including every `SummonUndead` variant, no longer
+  survive through their static ability fields after disposal.
+
+### Telemetry
+
+- Resolve CLR-2 static fields and reference-array indices in GC-root paths.
+  Named static roots replace the opaque pinned handle-table prefix when CLRMD
+  supplies an exact match; bounded array context remains as the fallback.
+- Group GC-retention findings by expectation, type, and lifecycle. Identical
+  paths now carry an occurrence count, repeated types cannot hide other groups,
+  and the runtime sender omits only complete rows at its telemetry limit.
+- Report separate finding-group, serialized-row, omitted-finding, and telemetry
+  truncation counters without changing the meaning of an incomplete heap
+  analysis.
+
 ## [0.0.49] - 2026-08-29
 
 ### Fixed

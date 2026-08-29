@@ -429,8 +429,8 @@ void main() {
     ));
     await tester.pump();
 
-    expect(find.text('MAGICKA COMMUNITY PATCH 0.0.49'), findsOneWidget);
-    expect(find.text('Patch-Update 0.0.49'), findsOneWidget);
+    expect(find.text('MAGICKA COMMUNITY PATCH 0.0.50'), findsOneWidget);
+    expect(find.text('Patch-Update 0.0.50'), findsOneWidget);
     expect(find.text('SonofKalas'), findsWidgets);
     expect(find.text('莎德娜丝（Sadness）'), findsWidgets);
     expect(find.text('Extensive bug reports, playtesting & screen sharing'),

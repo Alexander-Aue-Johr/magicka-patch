@@ -10,9 +10,9 @@
 > 
 > 🚀 **Latest release downloads:**
 >
-> - [Installer](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.49/magicka-community-patch-0.0.49-installer.zip)
-> - [Linux installer](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.49/magicka-community-patch-0.0.49-linux-installer.zip)
-> - [Files only / manual installation](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.49/magicka-community-patch-0.0.49-files-only.zip)
+> - [Installer](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.50/magicka-community-patch-0.0.50-installer.zip)
+> - [Linux installer](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.50/magicka-community-patch-0.0.50-linux-installer.zip)
+> - [Files only / manual installation](https://github.com/Alexander-Aue-Johr/magicka-patch/releases/download/0.0.50/magicka-community-patch-0.0.50-files-only.zip)
 >
 > 🐛 **Report issues:** https://github.com/Alexander-Aue-Johr/magicka-patch/issues
 >
