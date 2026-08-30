@@ -118,6 +118,18 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
+    && args[0] == "--patch-game-thread-affinity-null")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchGameThreadAffinityNullOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": skipped unavailable ProcessThread entries during startup");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--patch-character-template-static-caches")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -271,6 +283,9 @@ if (args.Length != 4)
         + " <reference-assembly> <assembly> <output-assembly>\n"
         + "   or: RetentionPatcher"
         + " --patch-character-template-static-caches"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-game-thread-affinity-null"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-polygon-light-scene-detach"
@@ -2967,6 +2982,58 @@ static void PatchJormungandrNullTargetOnly(
     Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairJormungandrNullTarget(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void PatchGameThreadAffinityNullOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    ModuleDefinition module = assembly.MainModule;
+    Dictionary<string, TypeDefinition> types = AllTypes(module)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    MethodDefinition constructor = RequireType(types, "Magicka.Game")
+        .Methods.Single(method => method.IsConstructor
+                                  && !method.IsStatic
+                                  && method.Parameters.Count == 0);
+    constructor.Body.SimplifyMacros();
+    Instruction getCurrent = constructor.Body.Instructions.Single(instruction =>
+        instruction.OpCode == OpCodes.Callvirt
+        && instruction.Operand is MethodReference method
+        && method.DeclaringType.FullName == "System.Collections.IEnumerator"
+        && method.Name == "get_Current");
+    Instruction castThread = getCurrent.Next;
+    Instruction storeThread = castThread.Next;
+    if (castThread.OpCode != OpCodes.Castclass
+        || castThread.Operand is not TypeReference castType
+        || castType.FullName != "System.Diagnostics.ProcessThread"
+        || storeThread.OpCode != OpCodes.Stloc
+        || storeThread.Operand is not VariableDefinition threadLocal)
+    {
+        throw new InvalidOperationException(
+            "Unexpected ProcessThread assignment in Magicka.Game..ctor.");
+    }
+
+    Instruction moveNextCall = constructor.Body.Instructions.Single(instruction =>
+        instruction.OpCode == OpCodes.Callvirt
+        && instruction.Operand is MethodReference method
+        && method.DeclaringType.FullName == "System.Collections.IEnumerator"
+        && method.Name == "MoveNext");
+    Instruction continueLoop = moveNextCall.Previous;
+    if (continueLoop.OpCode != OpCodes.Ldloc
+        || continueLoop.Operand is not VariableDefinition enumeratorLocal)
+    {
+        throw new InvalidOperationException(
+            "Unexpected ProcessThread loop continuation in Magicka.Game..ctor.");
+    }
+    ILProcessor il = constructor.Body.GetILProcessor();
+    Instruction loadThread = Instruction.Create(OpCodes.Ldloc, threadLocal);
+    Instruction skipNullThread = Instruction.Create(OpCodes.Brfalse, continueLoop);
+    il.InsertAfter(storeThread, loadThread);
+    il.InsertAfter(loadThread, skipNullThread);
+    constructor.Body.OptimizeMacros();
+
     WriteAssembly(assembly, outputPath);
 }
 
