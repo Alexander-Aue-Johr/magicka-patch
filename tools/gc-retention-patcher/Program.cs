@@ -250,6 +250,18 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
+    && args[0] == "--patch-physics-manager-clear-references")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchPhysicsManagerClearReferencesOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": cleared body and skin references before physics teardown");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--patch-gc-event-patch-version")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -351,6 +363,9 @@ if (args.Length != 4)
         + " --patch-shadow-blobs-scene-detach"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
+        + " --patch-physics-manager-clear-references"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
         + " --patch-gc-event-patch-version"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
@@ -406,6 +421,7 @@ static PatchReport PatchMagicka(
     RepairJudgementSprayConditionCache(module, types);
     RepairRainSceneDetach(types);
     RepairShadowBlobsSceneDetach(types);
+    RepairPhysicsManagerClearReferences(types);
     RepairGcEventPatchVersion(module, types);
     RepairPlayerGameDeinitialize(types);
     RepairEntityCollisionCallbackCleanup(module, types);
@@ -3308,6 +3324,17 @@ static void PatchShadowBlobsSceneDetachOnly(
     WriteAssembly(assembly, outputPath);
 }
 
+static void PatchPhysicsManagerClearReferencesOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairPhysicsManagerClearReferences(types);
+    WriteAssembly(assembly, outputPath);
+}
+
 static void PatchGcEventPatchVersionOnly(
     string inputPath,
     string outputPath)
@@ -4021,6 +4048,262 @@ static void RepairShadowBlobsSceneDetach(
         loadPlayState,
         Instruction.Create(OpCodes.Callvirt, detachScene));
     dispose.Body.MaxStackSize = Math.Max(dispose.Body.MaxStackSize, 2);
+}
+
+static void RepairPhysicsManagerClearReferences(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition physicsManager = RequireType(
+        types,
+        "Magicka.Physics.PhysicsManager");
+    MethodDefinition clear = RequireMethod(
+        physicsManager,
+        "Clear",
+        parameterCount: 0);
+    MethodDefinition dispose = RequireMethod(
+        physicsManager,
+        "Dispose",
+        parameterCount: 0);
+    if (clear.Body.Instructions.Any(instruction =>
+            instruction.OpCode == OpCodes.Stfld
+            && instruction.Operand is FieldReference field
+            && field.DeclaringType.FullName == "JigLibX.Physics.Body"
+            && field.Name == "Tag"))
+    {
+        throw new InvalidOperationException(
+            "PhysicsManager.Clear body cleanup already exists.");
+    }
+
+    VariableDefinition simulator = clear.Body.Variables.Single(variable =>
+        variable.VariableType.FullName
+            == "JigLibX.Physics.PhysicsSystem");
+    VariableDefinition bodyList = clear.Body.Variables.Single(variable =>
+        variable.VariableType.FullName
+            == "System.Collections.Generic.List`1<JigLibX.Physics.Body>");
+    VariableDefinition skinList = clear.Body.Variables.Single(variable =>
+        variable.VariableType.FullName
+            == "System.Collections.Generic.List`1<"
+               + "JigLibX.Collision.CollisionSkin>");
+    VariableDefinition body = clear.Body.Variables.Single(variable =>
+        variable.VariableType.FullName == "JigLibX.Physics.Body");
+    VariableDefinition skin = clear.Body.Variables.Single(variable =>
+        variable.VariableType.FullName
+            == "JigLibX.Collision.CollisionSkin");
+
+    MethodReference bodySetCollisionSkin = dispose.Body.Instructions
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .Single(method =>
+            method.DeclaringType.FullName == "JigLibX.Physics.Body"
+            && method.Name == "set_CollisionSkin");
+    FieldReference bodyTag = dispose.Body.Instructions
+        .Where(instruction => instruction.OpCode == OpCodes.Stfld)
+        .Select(instruction => instruction.Operand)
+        .OfType<FieldReference>()
+        .Single(field =>
+            field.DeclaringType.FullName == "JigLibX.Physics.Body"
+            && field.Name == "Tag");
+    MethodReference setOwner = RequireCallReference(
+        dispose,
+        "JigLibX.Collision.CollisionSkin",
+        "set_Owner");
+    MethodReference setCollisionSystem = RequireCallReference(
+        dispose,
+        "JigLibX.Collision.CollisionSkin",
+        "set_CollisionSystem");
+    MethodReference setTag = RequireCallReference(
+        dispose,
+        "JigLibX.Collision.CollisionSkin",
+        "set_Tag");
+    MethodReference getCollisions = RequireCallReference(
+        dispose,
+        "JigLibX.Collision.CollisionSkin",
+        "get_Collisions");
+    MethodReference getNonCollidables = RequireCallReference(
+        dispose,
+        "JigLibX.Collision.CollisionSkin",
+        "get_NonCollidables");
+    MethodReference removeAllPrimitives = RequireCallReference(
+        dispose,
+        "JigLibX.Collision.CollisionSkin",
+        "RemoveAllPrimitives");
+    Instruction disposeGetCollisions = dispose.Body.Instructions.Single(
+        instruction => instruction.Operand is MethodReference called
+            && called.FullName == getCollisions.FullName);
+    MethodReference clearCollisionList = disposeGetCollisions.Next?.Operand
+        as MethodReference
+        ?? throw new InvalidOperationException(
+            "PhysicsManager.Dispose collision-list clear is missing.");
+    Instruction disposeGetNonCollidables = dispose.Body.Instructions.Single(
+        instruction => instruction.Operand is MethodReference called
+            && called.FullName == getNonCollidables.FullName);
+    MethodReference clearNonCollidables = disposeGetNonCollidables.Next?.Operand
+        as MethodReference
+        ?? throw new InvalidOperationException(
+            "PhysicsManager.Dispose non-collidable clear is missing.");
+
+    Instruction skinSnapshotStore = clear.Body.Instructions.Single(
+        instruction => StoredVariable(instruction, clear.Body) == skinList
+            && instruction.Previous?.OpCode == OpCodes.Newobj);
+    Instruction skinListConstructor = skinSnapshotStore.Previous!;
+    Instruction getCollisionSkins = skinListConstructor.Previous
+        ?? throw new InvalidOperationException(
+            "PhysicsManager.Clear skin snapshot is incomplete.");
+    Instruction getCollisionSystem = getCollisionSkins.Previous
+        ?? throw new InvalidOperationException(
+            "PhysicsManager.Clear collision system load is missing.");
+    Instruction loadSimulator = getCollisionSystem.Previous
+        ?? throw new InvalidOperationException(
+            "PhysicsManager.Clear simulator load is missing.");
+    if (LoadedVariable(loadSimulator, clear.Body) != simulator
+        || getCollisionSystem.Operand is not MethodReference
+        || getCollisionSkins.Operand is not MethodReference
+        || skinListConstructor.Operand is not MethodReference)
+    {
+        throw new InvalidOperationException(
+            "Unexpected PhysicsManager.Clear skin snapshot.");
+    }
+
+    Instruction bodySnapshotStore = clear.Body.Instructions.Single(
+        instruction => StoredVariable(instruction, clear.Body) == bodyList
+            && instruction.Previous?.OpCode == OpCodes.Newobj);
+    ILProcessor processor = clear.Body.GetILProcessor();
+    Instruction snapshotCursor = bodySnapshotStore;
+    Instruction[] earlySkinSnapshot =
+    [
+        Instruction.Create(OpCodes.Ldloc, simulator),
+        Instruction.Create(
+            OpCodes.Callvirt,
+            (MethodReference)getCollisionSystem.Operand),
+        Instruction.Create(
+            OpCodes.Callvirt,
+            (MethodReference)getCollisionSkins.Operand),
+        Instruction.Create(
+            OpCodes.Newobj,
+            (MethodReference)skinListConstructor.Operand),
+        Instruction.Create(OpCodes.Stloc, skinList),
+    ];
+    foreach (Instruction instruction in earlySkinSnapshot)
+    {
+        processor.InsertAfter(snapshotCursor, instruction);
+        snapshotCursor = instruction;
+    }
+    foreach (Instruction instruction in new[]
+             {
+                 loadSimulator,
+                 getCollisionSystem,
+                 getCollisionSkins,
+                 skinListConstructor,
+                 skinSnapshotStore,
+             })
+    {
+        instruction.OpCode = OpCodes.Nop;
+        instruction.Operand = null;
+    }
+
+    Instruction containsBody = clear.Body.Instructions.Single(instruction =>
+        instruction.Operand is MethodReference called
+        && called.Name == "Contains"
+        && called.Parameters.Count == 1
+        && called.DeclaringType.FullName
+            == "System.Collections.ObjectModel.ReadOnlyCollection`1<"
+               + "JigLibX.Physics.Body>");
+    Instruction bodySkip = containsBody.Next?.Operand as Instruction
+        ?? throw new InvalidOperationException(
+            "PhysicsManager.Clear body-loop branch is missing.");
+    Instruction[] bodyCleanup =
+    [
+        Instruction.Create(OpCodes.Ldloc, body),
+        Instruction.Create(OpCodes.Ldnull),
+        Instruction.Create(OpCodes.Callvirt, bodySetCollisionSkin),
+        Instruction.Create(OpCodes.Ldloc, body),
+        Instruction.Create(OpCodes.Ldnull),
+        Instruction.Create(OpCodes.Stfld, bodyTag),
+    ];
+    containsBody.Next!.Operand = bodyCleanup[0];
+    foreach (Instruction instruction in bodyCleanup)
+    {
+        processor.InsertBefore(bodySkip, instruction);
+    }
+
+    Instruction removeSkin = clear.Body.Instructions.Single(instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName
+            == "JigLibX.Collision.CollisionSystem"
+        && called.Name == "RemoveCollisionSkin");
+    Instruction removeSkinStart = removeSkin.Previous?.Previous?.Previous
+        ?? throw new InvalidOperationException(
+            "PhysicsManager.Clear collision-skin removal is incomplete.");
+    Instruction[] skinCleanup =
+    [
+        Instruction.Create(OpCodes.Ldloc, skin),
+        Instruction.Create(OpCodes.Ldnull),
+        Instruction.Create(OpCodes.Callvirt, setOwner),
+        Instruction.Create(OpCodes.Ldloc, skin),
+        Instruction.Create(OpCodes.Ldnull),
+        Instruction.Create(OpCodes.Callvirt, setCollisionSystem),
+        Instruction.Create(OpCodes.Ldloc, skin),
+        Instruction.Create(OpCodes.Ldnull),
+        Instruction.Create(OpCodes.Callvirt, setTag),
+        Instruction.Create(OpCodes.Ldloc, skin),
+        Instruction.Create(OpCodes.Callvirt, getCollisions),
+        Instruction.Create(OpCodes.Callvirt, clearCollisionList),
+        Instruction.Create(OpCodes.Ldloc, skin),
+        Instruction.Create(OpCodes.Callvirt, getNonCollidables),
+        Instruction.Create(OpCodes.Callvirt, clearNonCollidables),
+        Instruction.Create(OpCodes.Ldloc, skin),
+        Instruction.Create(OpCodes.Callvirt, removeAllPrimitives),
+    ];
+    foreach (Instruction instruction in skinCleanup)
+    {
+        processor.InsertBefore(removeSkinStart, instruction);
+    }
+
+    Instruction oldGetCollisions = clear.Body.Instructions.Single(
+        instruction => instruction.Operand is MethodReference called
+            && called.FullName == getCollisions.FullName
+            && !skinCleanup.Contains(instruction));
+    Instruction oldLoadSkin = oldGetCollisions.Previous
+        ?? throw new InvalidOperationException(
+            "PhysicsManager.Clear collision-list load is missing.");
+    Instruction oldClearCollisions = oldGetCollisions.Next
+        ?? throw new InvalidOperationException(
+            "PhysicsManager.Clear collision-list clear is missing.");
+    foreach (Instruction instruction in new[]
+             {
+                 oldLoadSkin,
+                 oldGetCollisions,
+                 oldClearCollisions,
+             })
+    {
+        instruction.OpCode = OpCodes.Nop;
+        instruction.Operand = null;
+    }
+    clear.Body.MaxStackSize = Math.Max(clear.Body.MaxStackSize, 2);
+}
+
+static MethodReference RequireCallReference(
+    MethodDefinition method,
+    string declaringType,
+    string name)
+{
+    MethodReference[] matches = method.Body.Instructions
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .Where(called =>
+            called.DeclaringType.FullName == declaringType
+            && called.Name == name)
+        .DistinctBy(called => called.FullName)
+        .ToArray();
+    if (matches.Length != 1)
+    {
+        throw new InvalidOperationException(
+            "Expected one " + declaringType + "." + name
+            + " reference in " + method.FullName
+            + ", found " + matches.Length + ".");
+    }
+
+    return matches[0];
 }
 
 static void RepairJudgementSprayConditionCache(

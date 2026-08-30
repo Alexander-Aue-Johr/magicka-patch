@@ -71,6 +71,7 @@ ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
 ValidateRainSceneDetach(magicka);
 ValidateShadowBlobsSceneDetach(magicka);
+ValidatePhysicsManagerClearReferences(magicka);
 ValidateCharacterTemplateStaticCaches(magicka);
 ValidateWarlordAbilityDiagnostic(magicka);
 ValidateRailgunParentCycleRepair(magicka);
@@ -1555,6 +1556,74 @@ static void ValidateShadowBlobsSceneDetach(AssemblyDefinition magicka)
         throw new InvalidDataException(
             "PlayState.Dispose does not detach ShadowBlobs before clearing"
             + " its scene.");
+    }
+}
+
+static void ValidatePhysicsManagerClearReferences(AssemblyDefinition magicka)
+{
+    MethodDefinition clear = RequireMethod(
+        magicka,
+        "Magicka.Physics.PhysicsManager",
+        "Clear",
+        parameterCount: 0);
+    Instruction[] body = clear.Body.Instructions.ToArray();
+    int skinSnapshot = Array.FindIndex(
+        body,
+        instruction => instruction.OpCode == OpCodes.Newobj
+            && instruction.Operand is MethodReference constructor
+            && constructor.DeclaringType.FullName
+                == "System.Collections.Generic.List`1<"
+                   + "JigLibX.Collision.CollisionSkin>");
+    int removeBody = Array.FindIndex(
+        body,
+        instruction => instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "JigLibX.Physics.PhysicsSystem"
+            && called.Name == "RemoveBody");
+    int clearBodySkin = Array.FindIndex(
+        body,
+        instruction => instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "JigLibX.Physics.Body"
+            && called.Name == "set_CollisionSkin"
+            && instruction.Previous?.OpCode == OpCodes.Ldnull);
+    int clearBodyTag = Array.FindIndex(
+        body,
+        instruction => instruction.OpCode == OpCodes.Stfld
+            && instruction.Operand is FieldReference field
+            && field.DeclaringType.FullName == "JigLibX.Physics.Body"
+            && field.Name == "Tag"
+            && instruction.Previous?.OpCode == OpCodes.Ldnull);
+    int removeSkin = Array.FindIndex(
+        body,
+        instruction => instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "JigLibX.Collision.CollisionSystem"
+            && called.Name == "RemoveCollisionSkin");
+    string[] requiredSkinCleanup =
+    [
+        "set_Owner",
+        "set_CollisionSystem",
+        "set_Tag",
+        "get_Collisions",
+        "get_NonCollidables",
+        "RemoveAllPrimitives",
+    ];
+    int[] skinCleanupIndices = requiredSkinCleanup.Select(name =>
+        Array.FindIndex(
+            body,
+            instruction => instruction.Operand is MethodReference called
+                && called.DeclaringType.FullName
+                    == "JigLibX.Collision.CollisionSkin"
+                && called.Name == name)).ToArray();
+    if (skinSnapshot < 0
+        || removeBody <= skinSnapshot
+        || clearBodySkin <= removeBody
+        || clearBodyTag <= removeBody
+        || removeSkin < 0
+        || skinCleanupIndices.Any(index => index < 0 || index >= removeSkin))
+    {
+        throw new InvalidDataException(
+            "PhysicsManager.Clear does not preserve and clear body/skin"
+            + " references before losing the simulator collections.");
     }
 }
 
