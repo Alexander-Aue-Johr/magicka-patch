@@ -71,6 +71,23 @@ if (args.Length == 4
     return 0;
 }
 
+if (args.Length == 4
+    && args[0] == "--restore-recompiled-method-bodies")
+{
+    string referencePath = Path.GetFullPath(args[1]);
+    string inputPath = Path.GetFullPath(args[2]);
+    string outputPath = Path.GetFullPath(args[3]);
+    int restoredMethods = RestoreRecompiledMethodBodies(
+        referencePath,
+        inputPath,
+        outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": restored " + restoredMethods
+        + " semantically unchanged recompiled method bodies");
+    return 0;
+}
+
 if (args.Length == 3
     && args[0] == "--patch-character-template-static-caches")
 {
@@ -207,6 +224,9 @@ if (args.Length != 4)
         + " <reference-assembly> <assembly> <output-assembly>\n"
         + "   or: RetentionPatcher"
         + " --restore-lock-lowering"
+        + " <reference-assembly> <assembly> <output-assembly>\n"
+        + "   or: RetentionPatcher"
+        + " --restore-recompiled-method-bodies"
         + " <reference-assembly> <assembly> <output-assembly>\n"
         + "   or: RetentionPatcher"
         + " --patch-character-template-static-caches"
@@ -874,6 +894,74 @@ static VariableDefinition? StoredVariable(
             instruction.Operand as VariableDefinition,
         _ => null,
     };
+}
+
+static int RestoreRecompiledMethodBodies(
+    string referencePath,
+    string inputPath,
+    string outputPath)
+{
+    (string TypeName, string MethodName, int ParameterCount)[] targets =
+    [
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities"
+                + ".GreaseLump",
+            "OnCollision",
+            2),
+        ("Magicka.GameLogic.UI.SpellWheel", ".ctor", 2),
+        ("Magicka.GameLogic.UI.Tome", "OnLoggedIn", 2),
+        (
+            "Magicka.GameLogic.GameStates.Menu.Main"
+                + ".SubMenuCharacterSelect",
+            "Draw",
+            2),
+        (
+            "Magicka.GameLogic.GameStates.Menu.Main"
+                + ".SubMenuCharacterSelect",
+            "ControllerMouseMove",
+            4),
+        (
+            "Magicka.GameLogic.GameStates.Menu.Main"
+                + ".SubMenuCharacterSelect",
+            "HitPackList",
+            2),
+        (
+            "Magicka.GameLogic.GameStates.Menu.Main"
+                + ".SubMenuCharacterSelect",
+            "LevelValidation",
+            0),
+    ];
+
+    using AssemblyDefinition reference = ReadAssembly(referencePath);
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> referenceTypes = AllTypes(
+            reference.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    Dictionary<string, TypeDefinition> targetTypes = AllTypes(
+            assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    BodyReferencePool referencePool = new BodyReferencePool(
+        assembly.MainModule);
+    foreach ((string typeName, string methodName, int parameterCount) in
+             targets)
+    {
+        MethodDefinition sourceMethod = RequireMethod(
+            RequireType(referenceTypes, typeName),
+            methodName,
+            parameterCount);
+        MethodDefinition targetMethod = FindMatchingMethod(
+            RequireType(targetTypes, typeName),
+            sourceMethod);
+        CloneMethodBody(
+            sourceMethod,
+            targetMethod,
+            assembly.MainModule,
+            targetTypes,
+            referencePool);
+    }
+
+    WriteAssembly(assembly, outputPath);
+    return targets.Length;
 }
 
 static int RestoreLocalRenameMethodBodies(
