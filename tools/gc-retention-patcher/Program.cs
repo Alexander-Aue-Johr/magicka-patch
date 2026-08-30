@@ -1103,8 +1103,221 @@ static int RestoreRecompiledMethodBodies(
         InsertEmptyMissileTargetHandle(targetMethod);
     }
 
+    int playStateRestores = RestoreRecentPlayStateMethods(
+        referenceTypes,
+        targetTypes,
+        assembly.MainModule,
+        referencePool);
+
     WriteAssembly(assembly, outputPath);
-    return targets.Length + shieldDamageMethods.Length + 4;
+    return targets.Length + shieldDamageMethods.Length + 4
+        + playStateRestores;
+}
+
+static int RestoreRecentPlayStateMethods(
+    IReadOnlyDictionary<string, TypeDefinition> referenceTypes,
+    IReadOnlyDictionary<string, TypeDefinition> targetTypes,
+    ModuleDefinition targetModule,
+    BodyReferencePool referencePool)
+{
+    const string SpawnSlimeType =
+        "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SpawnSlime";
+    const string SpawnSlimeOverkillType =
+        "Magicka.GameLogic.Entities.Abilities.SpecialAbilities"
+        + ".SpawnSlimeOverkill";
+    const string GreaseType =
+        "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Grease";
+
+    TypeDefinition sourceSpawnSlime = RequireType(
+        referenceTypes,
+        SpawnSlimeType);
+    TypeDefinition targetSpawnSlime = RequireType(
+        targetTypes,
+        SpawnSlimeType);
+    MethodDefinition targetCreateEntities = RequireMethod(
+        targetSpawnSlime,
+        "CreateEntities",
+        1);
+    MethodReference recentPlayState = RequireBodyCall(
+        targetCreateEntities,
+        "Magicka.GameLogic.GameStates.PlayState",
+        "get_RecentPlayState");
+
+    MethodDefinition sourceExecute = RequireMethod(
+        sourceSpawnSlime,
+        "Execute",
+        3);
+    RemovePlayStateFieldStores(
+        sourceExecute,
+        SpawnSlimeType,
+        expectedCount: 1);
+    CloneMethodBody(
+        sourceExecute,
+        FindMatchingMethod(targetSpawnSlime, sourceExecute),
+        targetModule,
+        targetTypes,
+        referencePool);
+
+    foreach ((string methodName, int parameterCount) in new[]
+             {
+                 ("CreateEntities", 1),
+                 ("SpawnSlimes", 2),
+             })
+    {
+        MethodDefinition sourceMethod = RequireMethod(
+            sourceSpawnSlime,
+            methodName,
+            parameterCount);
+        ReplacePlayStateFieldLoads(
+            sourceMethod,
+            SpawnSlimeType,
+            recentPlayState,
+            expectedCount: 1);
+        CloneMethodBody(
+            sourceMethod,
+            FindMatchingMethod(targetSpawnSlime, sourceMethod),
+            targetModule,
+            targetTypes,
+            referencePool);
+    }
+
+    TypeDefinition sourceOverkill = RequireType(
+        referenceTypes,
+        SpawnSlimeOverkillType);
+    TypeDefinition targetOverkill = RequireType(
+        targetTypes,
+        SpawnSlimeOverkillType);
+    MethodDefinition sourceOverkillExecute = RequireMethod(
+        sourceOverkill,
+        "Execute",
+        3);
+    RemovePlayStateFieldStores(
+        sourceOverkillExecute,
+        SpawnSlimeType,
+        expectedCount: 1);
+    CloneMethodBody(
+        sourceOverkillExecute,
+        FindMatchingMethod(targetOverkill, sourceOverkillExecute),
+        targetModule,
+        targetTypes,
+        referencePool);
+
+    TypeDefinition sourceGrease = RequireType(referenceTypes, GreaseType);
+    TypeDefinition targetGrease = RequireType(targetTypes, GreaseType);
+    MethodDefinition sourceGreaseUpdate = RequireMethod(
+        sourceGrease,
+        "Update",
+        2);
+    ReplacePlayStateFieldLoads(
+        sourceGreaseUpdate,
+        GreaseType,
+        recentPlayState,
+        expectedCount: 4);
+    CloneMethodBody(
+        sourceGreaseUpdate,
+        FindMatchingMethod(targetGrease, sourceGreaseUpdate),
+        targetModule,
+        targetTypes,
+        referencePool);
+
+    return 5;
+}
+
+static void RemovePlayStateFieldStores(
+    MethodDefinition method,
+    string declaringType,
+    int expectedCount)
+{
+    Instruction[] stores = method.Body.Instructions
+        .Where(instruction => instruction.OpCode == OpCodes.Stfld
+            && instruction.Operand is FieldReference field
+            && field.DeclaringType.FullName == declaringType
+            && field.Name == "mPlayState")
+        .ToArray();
+    if (stores.Length != expectedCount
+        || stores.Any(store => store.Previous?.Previous is null))
+    {
+        throw new InvalidOperationException(
+            "Unexpected PlayState field stores in " + method.FullName);
+    }
+
+    foreach (Instruction store in stores)
+    {
+        Instruction value = store.Previous!;
+        Instruction owner = value.Previous!;
+        if (owner.OpCode.Code != Code.Ldarg_0
+            || value.OpCode.Code is not Code.Ldarg
+            and not Code.Ldarg_S
+            and not Code.Ldarg_1
+            and not Code.Ldarg_2
+            and not Code.Ldarg_3)
+        {
+            throw new InvalidOperationException(
+                "Unexpected PlayState assignment shape in " + method.FullName);
+        }
+        RemoveUntargetedInstructions(method, owner, value, store);
+    }
+}
+
+static void ReplacePlayStateFieldLoads(
+    MethodDefinition method,
+    string declaringType,
+    MethodReference recentPlayState,
+    int expectedCount)
+{
+    Instruction[] loads = method.Body.Instructions
+        .Where(instruction => instruction.OpCode == OpCodes.Ldfld
+            && instruction.Operand is FieldReference field
+            && field.DeclaringType.FullName == declaringType
+            && field.Name == "mPlayState")
+        .ToArray();
+    if (loads.Length != expectedCount
+        || loads.Any(load => load.Previous?.OpCode.Code != Code.Ldarg_0))
+    {
+        throw new InvalidOperationException(
+            "Unexpected PlayState field loads in " + method.FullName);
+    }
+
+    foreach (Instruction load in loads)
+    {
+        load.Previous!.OpCode = OpCodes.Nop;
+        load.Previous.Operand = null;
+        load.OpCode = OpCodes.Call;
+        load.Operand = recentPlayState;
+    }
+}
+
+static void RemoveUntargetedInstructions(
+    MethodDefinition method,
+    params Instruction[] removed)
+{
+    HashSet<Instruction> targets = method.Body.Instructions
+        .SelectMany(instruction => instruction.Operand switch
+        {
+            Instruction target => [target],
+            Instruction[] many => many,
+            _ => [],
+        })
+        .Concat(method.Body.ExceptionHandlers.SelectMany(handler => new[]
+        {
+            handler.TryStart,
+            handler.TryEnd,
+            handler.HandlerStart,
+            handler.HandlerEnd,
+            handler.FilterStart,
+        }).Where(instruction => instruction is not null)!)
+        .ToHashSet();
+    if (removed.Any(targets.Contains))
+    {
+        throw new InvalidOperationException(
+            "Cannot remove a targeted instruction from " + method.FullName);
+    }
+
+    ILProcessor processor = method.Body.GetILProcessor();
+    foreach (Instruction instruction in removed)
+    {
+        processor.Remove(instruction);
+    }
 }
 
 static void RestoreShieldConstructor(
