@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.0.53] - 2026-08-30
+
+### Fixed
+
+- Fix the Linux startup crash in `PatchTelemetry.SendStartup`. The telemetry
+  sender now uses the CLR-2 generic `Dictionary<string, string>.set_Item`
+  member signature that Mono requires.
+- Isolate startup telemetry failures from game startup. A telemetry failure can
+  no longer prevent Magicka from launching.
+
+### Validation
+
+- JIT-compile `PatchTelemetry.SendAsync` with Mono during release packaging so
+  malformed managed method references fail the build on Windows as well.
+
 ## [0.0.52] - 2026-08-29
 
 ### Fixed
