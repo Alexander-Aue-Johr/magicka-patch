@@ -70,6 +70,7 @@ ValidateEntityCollisionCallbackCleanup(magicka);
 ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
 ValidateRainSceneDetach(magicka);
+ValidateShadowBlobsSceneDetach(magicka);
 ValidateCharacterTemplateStaticCaches(magicka);
 ValidateWarlordAbilityDiagnostic(magicka);
 ValidateRailgunParentCycleRepair(magicka);
@@ -1505,6 +1506,55 @@ static void ValidateRainSceneDetach(AssemblyDefinition magicka)
         throw new InvalidDataException(
             "Thunderstorm.OnRemove must preserve its permanent mRain"
             + " singleton dependency.");
+    }
+}
+
+static void ValidateShadowBlobsSceneDetach(AssemblyDefinition magicka)
+{
+    TypeDefinition shadowBlobs = AllTypes(magicka.MainModule).Single(type =>
+        type.FullName == "Magicka.GameLogic.UI.ShadowBlobs");
+    FieldDefinition scene = shadowBlobs.Fields.Single(field =>
+        field.Name == "mScene"
+        && field.FieldType.FullName == "PolygonHead.Scene");
+    MethodDefinition detach = shadowBlobs.Methods.Single(method =>
+        method.Name == "CommunityPatchDetachScene"
+        && !method.IsStatic
+        && method.Parameters.Count == 1
+        && method.Parameters[0].ParameterType.FullName == "PolygonHead.Scene");
+    Instruction[] detachBody = detach.Body.Instructions.ToArray();
+    if (FindNullFieldStore(detachBody, scene) < 0
+        || !detachBody.Any(instruction =>
+            instruction.OpCode == OpCodes.Bne_Un
+            || instruction.OpCode == OpCodes.Bne_Un_S))
+    {
+        throw new InvalidDataException(
+            "ShadowBlobs scene detach is not conditional on the expected scene.");
+    }
+
+    MethodDefinition playStateDispose = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.GameStates.PlayState",
+        "Dispose",
+        parameterCount: 0);
+    FieldDefinition playStateScene = AllTypes(magicka.MainModule)
+        .Single(type =>
+            type.FullName == "Magicka.GameLogic.GameStates.GameState")
+        .Fields.Single(field =>
+            field.Name == "mScene"
+            && field.FieldType.FullName == "PolygonHead.Scene");
+    Instruction[] disposeBody = playStateDispose.Body.Instructions.ToArray();
+    int detachCall = Array.FindIndex(
+        disposeBody,
+        instruction => IsCallTo(instruction, detach));
+    int sceneReset = Array.FindIndex(
+        disposeBody,
+        instruction => instruction.OpCode == OpCodes.Stfld
+            && IsReferenceTo(instruction.Operand, playStateScene));
+    if (detachCall < 0 || sceneReset <= detachCall)
+    {
+        throw new InvalidDataException(
+            "PlayState.Dispose does not detach ShadowBlobs before clearing"
+            + " its scene.");
     }
 }
 

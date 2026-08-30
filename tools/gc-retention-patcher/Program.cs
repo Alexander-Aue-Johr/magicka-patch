@@ -238,6 +238,18 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
+    && args[0] == "--patch-shadow-blobs-scene-detach")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchShadowBlobsSceneDetachOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": detached ShadowBlobs from its unloaded scene");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--patch-gc-event-patch-version")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -336,6 +348,9 @@ if (args.Length != 4)
         + " --patch-rain-scene-detach"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
+        + " --patch-shadow-blobs-scene-detach"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
         + " --patch-gc-event-patch-version"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
@@ -390,6 +405,7 @@ static PatchReport PatchMagicka(
     RepairJormungandrNullTarget(types);
     RepairJudgementSprayConditionCache(module, types);
     RepairRainSceneDetach(types);
+    RepairShadowBlobsSceneDetach(types);
     RepairGcEventPatchVersion(module, types);
     RepairPlayerGameDeinitialize(types);
     RepairEntityCollisionCallbackCleanup(module, types);
@@ -3281,6 +3297,17 @@ static void PatchRainSceneDetachOnly(
     WriteAssembly(assembly, outputPath);
 }
 
+static void PatchShadowBlobsSceneDetachOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairShadowBlobsSceneDetach(types);
+    WriteAssembly(assembly, outputPath);
+}
+
 static void PatchGcEventPatchVersionOnly(
     string inputPath,
     string outputPath)
@@ -3911,6 +3938,89 @@ static void RepairRainSceneDetach(
     thunderstormOnRemove.Body.MaxStackSize = Math.Max(
         thunderstormOnRemove.Body.MaxStackSize,
         2);
+}
+
+static void RepairShadowBlobsSceneDetach(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition shadowBlobs = RequireType(
+        types,
+        "Magicka.GameLogic.UI.ShadowBlobs");
+    FieldDefinition sceneField = shadowBlobs.Fields.Single(field =>
+        field.Name == "mScene"
+        && !field.IsStatic
+        && field.FieldType.FullName == "PolygonHead.Scene");
+    TypeReference scene = sceneField.FieldType;
+    if (shadowBlobs.Methods.Any(method =>
+            method.Name == "CommunityPatchDetachScene"))
+    {
+        throw new InvalidOperationException(
+            "ShadowBlobs scene detach already exists.");
+    }
+
+    MethodDefinition detachScene = new MethodDefinition(
+        "CommunityPatchDetachScene",
+        MethodAttributes.Assembly | MethodAttributes.HideBySig,
+        shadowBlobs.Module.TypeSystem.Void);
+    detachScene.Parameters.Add(new ParameterDefinition(
+        "expected",
+        ParameterAttributes.None,
+        scene));
+    shadowBlobs.Methods.Add(detachScene);
+    ILProcessor detachProcessor = detachScene.Body.GetILProcessor();
+    Instruction returnInstruction = Instruction.Create(OpCodes.Ret);
+    detachProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    detachProcessor.Append(Instruction.Create(OpCodes.Ldfld, sceneField));
+    detachProcessor.Append(Instruction.Create(OpCodes.Ldarg_1));
+    detachProcessor.Append(Instruction.Create(OpCodes.Bne_Un, returnInstruction));
+    detachProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    detachProcessor.Append(Instruction.Create(OpCodes.Ldnull));
+    detachProcessor.Append(Instruction.Create(OpCodes.Stfld, sceneField));
+    detachProcessor.Append(returnInstruction);
+    detachScene.Body.MaxStackSize = 2;
+
+    MethodDefinition getInstance = RequireMethod(
+        shadowBlobs,
+        "get_Instance",
+        parameterCount: 0);
+    TypeDefinition playState = RequireType(types, PlayStateTypeName);
+    MethodDefinition dispose = RequireMethod(
+        playState,
+        "Dispose",
+        parameterCount: 0);
+    FieldDefinition playStateScene = RequireType(types, GameStateTypeName)
+        .Fields.Single(field =>
+            field.Name == "mScene"
+            && !field.IsStatic
+            && field.FieldType.FullName == scene.FullName);
+    Instruction clearPlayStateScene = dispose.Body.Instructions.Single(
+        instruction => instruction.OpCode == OpCodes.Stfld
+            && instruction.Operand is FieldReference stored
+            && stored.FullName == playStateScene.FullName);
+    Instruction loadPlayState = clearPlayStateScene.Previous?.Previous
+        ?? throw new InvalidOperationException(
+            "PlayState.Dispose scene reset is incomplete.");
+    if (loadPlayState.OpCode != OpCodes.Ldarg_0
+        || clearPlayStateScene.Previous?.OpCode != OpCodes.Ldnull)
+    {
+        throw new InvalidOperationException(
+            "Unexpected PlayState.Dispose scene reset.");
+    }
+
+    ILProcessor disposeProcessor = dispose.Body.GetILProcessor();
+    disposeProcessor.InsertBefore(
+        loadPlayState,
+        Instruction.Create(OpCodes.Call, getInstance));
+    disposeProcessor.InsertBefore(
+        loadPlayState,
+        Instruction.Create(OpCodes.Ldarg_0));
+    disposeProcessor.InsertBefore(
+        loadPlayState,
+        Instruction.Create(OpCodes.Ldfld, playStateScene));
+    disposeProcessor.InsertBefore(
+        loadPlayState,
+        Instruction.Create(OpCodes.Callvirt, detachScene));
+    dispose.Body.MaxStackSize = Math.Max(dispose.Body.MaxStackSize, 2);
 }
 
 static void RepairJudgementSprayConditionCache(
