@@ -37,6 +37,23 @@ if (args.Length == 4
     return 0;
 }
 
+if (args.Length == 4
+    && args[0] == "--restore-local-rename-bodies")
+{
+    string referencePath = Path.GetFullPath(args[1]);
+    string inputPath = Path.GetFullPath(args[2]);
+    string outputPath = Path.GetFullPath(args[3]);
+    int restoredMethods = RestoreLocalRenameMethodBodies(
+        referencePath,
+        inputPath,
+        outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": restored " + restoredMethods
+        + " local-rename-only method bodies");
+    return 0;
+}
+
 if (args.Length == 3
     && args[0] == "--patch-character-template-static-caches")
 {
@@ -167,6 +184,9 @@ if (args.Length != 4)
         + " <assembly> <output-assembly>\n"
         + "   or: RetentionPatcher"
         + " --restore-interface-order"
+        + " <reference-assembly> <assembly> <output-assembly>\n"
+        + "   or: RetentionPatcher"
+        + " --restore-local-rename-bodies"
         + " <reference-assembly> <assembly> <output-assembly>\n"
         + "   or: RetentionPatcher"
         + " --patch-character-template-static-caches"
@@ -693,6 +713,236 @@ static int RestoreOriginalInterfaceOrder(
 
     WriteAssembly(assembly, outputPath);
     return reorderedTypes;
+}
+
+static int RestoreLocalRenameMethodBodies(
+    string referencePath,
+    string inputPath,
+    string outputPath)
+{
+    (string TypeName, string MethodName, int ParameterCount)[] targets =
+    [
+        ("Magicka.GameLogic.GameStates.PlayState", "SyncEntities", 1),
+        ("Magicka.GameLogic.GameStates.PlayState", "HandleWorldSync", 0),
+        ("Magicka.GameLogic.Spells.ArcaneBlade/RenderData", "Draw", 2),
+        ("Magicka.GameLogic.Entities.Items.Item", "Update", 2),
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Portal"
+                + "/PortalEntity/RenderData",
+            "Draw",
+            2),
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Revive"
+                + "/GodRayRenderData",
+            "Draw",
+            2),
+        (
+            "Magicka.GameLogic.GameStates.Menu.Main.SubMenuCharacterSelect",
+            "DrawAvatars",
+            2),
+    ];
+
+    using AssemblyDefinition reference = ReadAssembly(referencePath);
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> referenceTypes = AllTypes(
+            reference.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    Dictionary<string, TypeDefinition> targetTypes = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    BodyReferencePool referencePool = new BodyReferencePool(
+        assembly.MainModule);
+    foreach ((string typeName, string methodName, int parameterCount) in targets)
+    {
+        MethodDefinition sourceMethod = RequireMethod(
+            RequireType(referenceTypes, typeName),
+            methodName,
+            parameterCount);
+        MethodDefinition targetMethod = FindMatchingMethod(
+            RequireType(targetTypes, typeName),
+            sourceMethod);
+        CloneMethodBody(
+            sourceMethod,
+            targetMethod,
+            assembly.MainModule,
+            targetTypes,
+            referencePool);
+    }
+
+    WriteAssembly(assembly, outputPath);
+    return targets.Length;
+}
+
+static MethodDefinition FindMatchingMethod(
+    TypeDefinition targetType,
+    MethodReference sourceMethod)
+{
+    return targetType.Methods.Single(method =>
+        method.Name == sourceMethod.Name
+        && method.GenericParameters.Count == sourceMethod.GenericParameters.Count
+        && method.ReturnType.FullName == sourceMethod.ReturnType.FullName
+        && method.Parameters.Select(parameter => parameter.ParameterType.FullName)
+            .SequenceEqual(
+                sourceMethod.Parameters.Select(
+                    parameter => parameter.ParameterType.FullName),
+                StringComparer.Ordinal));
+}
+
+static void CloneMethodBody(
+    MethodDefinition sourceMethod,
+    MethodDefinition targetMethod,
+    ModuleDefinition targetModule,
+    IReadOnlyDictionary<string, TypeDefinition> targetTypes,
+    BodyReferencePool referencePool)
+{
+    if (!sourceMethod.HasBody || !targetMethod.HasBody)
+    {
+        throw new InvalidOperationException(
+            "Cannot clone a missing method body: " + sourceMethod.FullName);
+    }
+
+    MethodBody sourceBody = sourceMethod.Body;
+    MethodBody targetBody = new MethodBody(targetMethod)
+    {
+        InitLocals = sourceBody.InitLocals,
+        MaxStackSize = sourceBody.MaxStackSize,
+    };
+    Dictionary<VariableDefinition, VariableDefinition> variables = [];
+    foreach (VariableDefinition sourceVariable in sourceBody.Variables)
+    {
+        VariableDefinition targetVariable = new VariableDefinition(
+            ImportBodyType(
+                sourceVariable.VariableType,
+                targetMethod,
+                targetModule,
+                targetTypes,
+                referencePool));
+        targetBody.Variables.Add(targetVariable);
+        variables[sourceVariable] = targetVariable;
+    }
+
+    Dictionary<Instruction, Instruction> instructions = [];
+    foreach (Instruction sourceInstruction in sourceBody.Instructions)
+    {
+        Instruction targetInstruction = Instruction.Create(OpCodes.Nop);
+        targetInstruction.OpCode = sourceInstruction.OpCode;
+        targetBody.Instructions.Add(targetInstruction);
+        instructions[sourceInstruction] = targetInstruction;
+    }
+
+    foreach (Instruction sourceInstruction in sourceBody.Instructions)
+    {
+        instructions[sourceInstruction].Operand = ImportBodyOperand(
+            sourceInstruction.Operand,
+            sourceMethod,
+            targetMethod,
+            targetModule,
+            targetTypes,
+            referencePool,
+            variables,
+            instructions);
+    }
+
+    foreach (ExceptionHandler sourceHandler in sourceBody.ExceptionHandlers)
+    {
+        targetBody.ExceptionHandlers.Add(new ExceptionHandler(
+            sourceHandler.HandlerType)
+        {
+            TryStart = MapInstruction(sourceHandler.TryStart, instructions),
+            TryEnd = MapInstruction(sourceHandler.TryEnd, instructions),
+            HandlerStart = MapInstruction(
+                sourceHandler.HandlerStart,
+                instructions),
+            HandlerEnd = MapInstruction(sourceHandler.HandlerEnd, instructions),
+            FilterStart = MapInstruction(
+                sourceHandler.FilterStart,
+                instructions),
+            CatchType = sourceHandler.CatchType is null
+                ? null
+                : ImportBodyType(
+                    sourceHandler.CatchType,
+                    targetMethod,
+                    targetModule,
+                    targetTypes,
+                    referencePool),
+        });
+    }
+
+    targetMethod.Body = targetBody;
+}
+
+static object? ImportBodyOperand(
+    object? operand,
+    MethodDefinition sourceMethod,
+    MethodDefinition targetMethod,
+    ModuleDefinition targetModule,
+    IReadOnlyDictionary<string, TypeDefinition> targetTypes,
+    BodyReferencePool referencePool,
+    IReadOnlyDictionary<VariableDefinition, VariableDefinition> variables,
+    IReadOnlyDictionary<Instruction, Instruction> instructions)
+{
+    return operand switch
+    {
+        null => null,
+        Instruction instruction => instructions[instruction],
+        Instruction[] targets => targets.Select(instruction =>
+            instructions[instruction]).ToArray(),
+        VariableDefinition variable => variables[variable],
+        ParameterDefinition parameter => targetMethod.Parameters[
+            sourceMethod.Parameters.IndexOf(parameter)],
+        MethodDefinition method => FindMatchingMethod(
+            RequireType(targetTypes, method.DeclaringType.FullName),
+            method),
+        FieldDefinition field => RequireType(
+                targetTypes,
+                field.DeclaringType.FullName)
+            .Fields.Single(candidate =>
+                candidate.Name == field.Name
+                && candidate.FieldType.FullName == field.FieldType.FullName),
+        TypeDefinition type => RequireType(targetTypes, type.FullName),
+        MethodReference method => referencePool.RequireMethod(method),
+        FieldReference field => referencePool.RequireField(field),
+        TypeReference type => ImportBodyType(
+            type,
+            targetMethod,
+            targetModule,
+            targetTypes,
+            referencePool),
+        CallSite callSite => referencePool.RequireCallSite(callSite),
+        _ => operand,
+    };
+}
+
+static TypeReference ImportBodyType(
+    TypeReference type,
+    MethodDefinition targetMethod,
+    ModuleDefinition targetModule,
+    IReadOnlyDictionary<string, TypeDefinition> targetTypes,
+    BodyReferencePool referencePool)
+{
+    if (targetTypes.TryGetValue(type.FullName, out TypeDefinition? targetType))
+    {
+        return targetType;
+    }
+
+    if (type is GenericParameter genericParameter)
+    {
+        IGenericParameterProvider targetOwner = genericParameter.Type
+            == GenericParameterType.Method
+                ? targetMethod
+                : RequireType(
+                    targetTypes,
+                    ((TypeReference)genericParameter.Owner).FullName);
+        return targetOwner.GenericParameters[genericParameter.Position];
+    }
+
+    return referencePool.RequireType(type);
+}
+
+static Instruction? MapInstruction(
+    Instruction? instruction,
+    IReadOnlyDictionary<Instruction, Instruction> instructions)
+{
+    return instruction is null ? null : instructions[instruction];
 }
 
 static void PatchWarlordAbilityDiagnosticOnly(
@@ -3458,6 +3708,168 @@ static MethodDefinition RequireRuntimeMethod(
     }
 
     return methods[0];
+}
+
+sealed class BodyReferencePool
+{
+    private readonly Dictionary<string, TypeReference> types =
+        new(StringComparer.Ordinal);
+    private readonly Dictionary<string, FieldReference> fields =
+        new(StringComparer.Ordinal);
+    private readonly Dictionary<string, MethodReference> methods =
+        new(StringComparer.Ordinal);
+    private readonly Dictionary<string, CallSite> callSites =
+        new(StringComparer.Ordinal);
+
+    public BodyReferencePool(ModuleDefinition module)
+    {
+        foreach (TypeDefinition type in module.Types.SelectMany(FlattenTypes))
+        {
+            AddType(type);
+            foreach (FieldDefinition field in type.Fields)
+            {
+                AddField(field);
+            }
+            foreach (MethodDefinition method in type.Methods)
+            {
+                AddMethod(method);
+                if (!method.HasBody)
+                {
+                    continue;
+                }
+
+                foreach (VariableDefinition variable in method.Body.Variables)
+                {
+                    AddType(variable.VariableType);
+                }
+                foreach (ExceptionHandler handler in
+                         method.Body.ExceptionHandlers)
+                {
+                    if (handler.CatchType is not null)
+                    {
+                        AddType(handler.CatchType);
+                    }
+                }
+                foreach (Instruction instruction in method.Body.Instructions)
+                {
+                    AddOperand(instruction.Operand);
+                }
+            }
+        }
+
+        foreach (TypeReference type in module.GetTypeReferences())
+        {
+            AddType(type);
+        }
+        foreach (MemberReference member in module.GetMemberReferences())
+        {
+            AddOperand(member);
+        }
+    }
+
+    public TypeReference RequireType(TypeReference source)
+    {
+        return types.TryGetValue(source.FullName, out TypeReference? target)
+            ? target
+            : throw MissingReference("type", source.FullName);
+    }
+
+    public FieldReference RequireField(FieldReference source)
+    {
+        return fields.TryGetValue(source.FullName, out FieldReference? target)
+            ? target
+            : throw MissingReference("field", source.FullName);
+    }
+
+    public MethodReference RequireMethod(MethodReference source)
+    {
+        string key = MethodKey(source);
+        return methods.TryGetValue(key, out MethodReference? target)
+            ? target
+            : throw MissingReference("method", key);
+    }
+
+    public CallSite RequireCallSite(CallSite source)
+    {
+        string key = CallSiteKey(source);
+        return callSites.TryGetValue(key, out CallSite? target)
+            ? target
+            : throw MissingReference("call site", key);
+    }
+
+    private void AddOperand(object? operand)
+    {
+        switch (operand)
+        {
+            case MethodReference method:
+                AddMethod(method);
+                break;
+            case FieldReference field:
+                AddField(field);
+                break;
+            case TypeReference type:
+                AddType(type);
+                break;
+            case CallSite callSite:
+                callSites.TryAdd(CallSiteKey(callSite), callSite);
+                break;
+        }
+    }
+
+    private static IEnumerable<TypeDefinition> FlattenTypes(
+        TypeDefinition type)
+    {
+        yield return type;
+        foreach (TypeDefinition nested in type.NestedTypes)
+        {
+            foreach (TypeDefinition descendant in FlattenTypes(nested))
+            {
+                yield return descendant;
+            }
+        }
+    }
+
+    private void AddType(TypeReference type)
+    {
+        types.TryAdd(type.FullName, type);
+    }
+
+    private void AddField(FieldReference field)
+    {
+        fields.TryAdd(field.FullName, field);
+    }
+
+    private void AddMethod(MethodReference method)
+    {
+        methods.TryAdd(MethodKey(method), method);
+    }
+
+    private static string MethodKey(MethodReference method)
+    {
+        return method.FullName
+               + "|this=" + method.HasThis
+               + "|explicit=" + method.ExplicitThis
+               + "|call=" + method.CallingConvention
+               + "|generic=" + method.GenericParameters.Count;
+    }
+
+    private static string CallSiteKey(CallSite callSite)
+    {
+        return callSite.ReturnType.FullName
+               + " (" + string.Join(",", callSite.Parameters.Select(
+                   parameter => parameter.ParameterType.FullName)) + ")"
+               + "|this=" + callSite.HasThis
+               + "|explicit=" + callSite.ExplicitThis
+               + "|call=" + callSite.CallingConvention;
+    }
+
+    private static InvalidOperationException MissingReference(
+        string kind,
+        string identity)
+    {
+        return new InvalidOperationException(
+            "No existing target " + kind + " reference matches " + identity);
+    }
 }
 
 sealed record HelperMethods(
