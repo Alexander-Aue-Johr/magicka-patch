@@ -740,6 +740,20 @@ static void ValidateClr2Assembly(AssemblyDefinition assembly)
             assembly.Name.Name + " no longer targets CLR 2.0.");
     }
 
+    AssemblyNameReference[] selfReferences = assembly.MainModule
+        .AssemblyReferences
+        .Where(reference => string.Equals(
+            reference.FullName,
+            assembly.Name.FullName,
+            StringComparison.Ordinal))
+        .ToArray();
+    if (selfReferences.Length != 0)
+    {
+        throw new InvalidDataException(
+            assembly.Name.Name + " references its own assembly identity: "
+            + string.Join(", ", selfReferences.Select(reference => reference.FullName)));
+    }
+
     string[] forbiddenReferenceNames =
     [
         "System.Private.CoreLib",

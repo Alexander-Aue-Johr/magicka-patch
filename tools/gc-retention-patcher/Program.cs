@@ -7,6 +7,21 @@ const string GameStateTypeName = "Magicka.GameLogic.GameStates.GameState";
 const string RegistryTypeName = "Magicka.GcDiagnostics.RetentionRegistry";
 
 if (args.Length == 3
+    && args[0] == "--normalize-self-references")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    (int directReferences, int totalReferences) =
+        NormalizeSelfReferencesOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": rebound " + directReferences
+        + " directly self-scoped TypeRef roots ("
+        + totalReferences + " rows including nested types)");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--patch-character-template-static-caches")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -131,6 +146,9 @@ if (args.Length != 4)
     Console.Error.WriteLine(
         "Usage: RetentionPatcher <Magicka.exe> <PolygonHead.dll>"
         + " <Magicka.GcDiagnostics.dll> <output-directory>\n"
+        + "   or: RetentionPatcher"
+        + " --normalize-self-references"
+        + " <assembly> <output-assembly>\n"
         + "   or: RetentionPatcher"
         + " --patch-character-template-static-caches"
         + " <Magicka.exe> <output-Magicka.exe>\n"
@@ -585,6 +603,14 @@ static void PatchCharacterTemplateStaticCachesOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairCharacterTemplateStaticCaches(assembly.MainModule, types);
     WriteAssembly(assembly, outputPath);
+}
+
+static (int DirectReferences, int TotalReferences) NormalizeSelfReferencesOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    return WriteAssembly(assembly, outputPath);
 }
 
 static void PatchWarlordAbilityDiagnosticOnly(
@@ -2657,8 +2683,11 @@ static AssemblyDefinition ReadAssembly(string path)
         });
 }
 
-static void WriteAssembly(AssemblyDefinition assembly, string outputPath)
+static (int DirectReferences, int TotalReferences) WriteAssembly(
+    AssemblyDefinition assembly,
+    string outputPath)
 {
+    (int directReferences, int totalReferences) = RebindSelfReferences(assembly);
     string temporaryPath = outputPath + ".tmp";
     if (File.Exists(temporaryPath))
     {
@@ -2669,6 +2698,77 @@ static void WriteAssembly(AssemblyDefinition assembly, string outputPath)
         temporaryPath,
         new WriterParameters { WriteSymbols = false });
     File.Move(temporaryPath, outputPath, overwrite: true);
+    return (directReferences, totalReferences);
+}
+
+static (int DirectReferences, int TotalReferences) RebindSelfReferences(
+    AssemblyDefinition assembly)
+{
+    ModuleDefinition module = assembly.MainModule;
+    AssemblyNameReference[] selfReferences = module.AssemblyReferences
+        .Where(reference => string.Equals(
+            reference.FullName,
+            assembly.Name.FullName,
+            StringComparison.Ordinal))
+        .ToArray();
+    if (selfReferences.Length == 0)
+    {
+        return (0, 0);
+    }
+
+    Dictionary<string, TypeDefinition> localTypes = AllTypes(module)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    int directReferences = 0;
+    int totalReferences = 0;
+    foreach (AssemblyNameReference selfReference in selfReferences)
+    {
+        ExportedType[] exportedTypes = module.ExportedTypes
+            .Where(type => type.Scope == selfReference)
+            .ToArray();
+        if (exportedTypes.Length != 0)
+        {
+            throw new InvalidOperationException(
+                assembly.Name.Name + " has exported types scoped through its"
+                + " self-reference: "
+                + string.Join(", ", exportedTypes.Select(type => type.FullName)));
+        }
+
+        TypeReference[] typeReferences = module.GetTypeReferences()
+            .Where(type => type.Scope == selfReference)
+            .ToArray();
+        foreach (TypeReference typeReference in typeReferences)
+        {
+            if (!localTypes.ContainsKey(typeReference.FullName))
+            {
+                throw new InvalidOperationException(
+                    "Self-scoped type reference does not resolve to a local type: "
+                    + typeReference.FullName);
+            }
+
+            typeReference.Scope = module;
+            totalReferences++;
+            if (typeReference.DeclaringType is null)
+            {
+                directReferences++;
+            }
+        }
+
+        module.AssemblyReferences.Remove(selfReference);
+    }
+
+    AssemblyNameReference[] remainingSelfReferences = module.AssemblyReferences
+        .Where(reference => string.Equals(
+            reference.FullName,
+            assembly.Name.FullName,
+            StringComparison.Ordinal))
+        .ToArray();
+    if (remainingSelfReferences.Length != 0)
+    {
+        throw new InvalidOperationException(
+            assembly.Name.Name + " still references its own assembly identity.");
+    }
+
+    return (directReferences, totalReferences);
 }
 
 static void EnsureNotAlreadyPatched(AssemblyDefinition assembly)
