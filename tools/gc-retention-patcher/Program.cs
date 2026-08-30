@@ -798,10 +798,6 @@ static (int Methods, int Sites) RestoreOriginalLockLowering(
                             StringComparer.Ordinal));
             if (referenceMethod is null
                 || !referenceMethod.HasBody
-                || (targetType.FullName
-                        == "Magicka.GameLogic.Spells.SpellEffects.ProjectileSpell"
-                    && targetMethod.Name == "SpawnMissile"
-                    && targetMethod.Parameters.Count == 9)
                 || FindCachedLockEntries(referenceMethod).Count != 0)
             {
                 continue;
@@ -824,6 +820,14 @@ static (int Methods, int Sites) RestoreOriginalLockLowering(
                 load.Operand = storeOperand;
             }
 
+            if (targetType.FullName
+                    == "Magicka.GameLogic.Spells.SpellEffects.ProjectileSpell"
+                && targetMethod.Name == "SpawnMissile"
+                && targetMethod.Parameters.Count == 9)
+            {
+                RestoreProjectileFirstLockEntry(targetMethod);
+            }
+
             targetMethod.Body.MaxStackSize = Math.Max(
                 targetMethod.Body.MaxStackSize,
                 referenceMethod.Body.MaxStackSize);
@@ -834,6 +838,35 @@ static (int Methods, int Sites) RestoreOriginalLockLowering(
 
     WriteAssembly(assembly, outputPath);
     return (restoredMethods, restoredSites);
+}
+
+static void RestoreProjectileFirstLockEntry(MethodDefinition method)
+{
+    IList<Instruction> instructions = method.Body.Instructions;
+    int enterIndex = instructions.ToList().FindIndex(instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == "System.Threading.Monitor"
+        && called.Name == "Enter");
+    if (enterIndex < 5
+        || instructions[enterIndex - 5].OpCode != OpCodes.Ldsfld
+        || instructions[enterIndex - 4].OpCode != OpCodes.Ldnull
+        || StoredVariable(instructions[enterIndex - 3], method.Body) is null
+        || instructions[enterIndex - 2].OpCode != OpCodes.Dup
+        || StoredVariable(instructions[enterIndex - 1], method.Body) is null)
+    {
+        throw new InvalidOperationException(
+            "Unexpected ProjectileSpell.SpawnMissile first lock entry.");
+    }
+
+    object field = instructions[enterIndex - 5].Operand;
+    OpCode conditionStoreOpCode = instructions[enterIndex - 3].OpCode;
+    object? conditionStoreOperand = instructions[enterIndex - 3].Operand;
+    instructions[enterIndex - 5].OpCode = OpCodes.Ldnull;
+    instructions[enterIndex - 5].Operand = null;
+    instructions[enterIndex - 4].OpCode = conditionStoreOpCode;
+    instructions[enterIndex - 4].Operand = conditionStoreOperand;
+    instructions[enterIndex - 3].OpCode = OpCodes.Ldsfld;
+    instructions[enterIndex - 3].Operand = field;
 }
 
 static IReadOnlyList<(Instruction Store, Instruction Load)>
