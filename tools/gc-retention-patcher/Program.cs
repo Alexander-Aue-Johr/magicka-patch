@@ -963,6 +963,50 @@ static int RestoreRecompiledMethodBodies(
                 + ".SubMenuCharacterSelect",
             "LevelValidation",
             0),
+        (
+            "Magicka.GameLogic.GameStates.Menu.Main"
+                + ".SubMenuCharacterSelect",
+            "PreloadTextures",
+            0),
+        (
+            "Magicka.GameLogic.GameStates.Menu.Main"
+                + ".SubMenuCharacterSelect",
+            "DefaultAvatars",
+            0),
+        (
+            "Magicka.GameLogic.GameStates.Menu.Main"
+                + ".SubMenuCharacterSelect",
+            "UpdateAvailableLevels",
+            1),
+        (
+            "Magicka.GameLogic.GameStates.Menu.Main"
+                + ".SubMenuCharacterSelect",
+            "UpdateLevelDescriptions",
+            0),
+        (
+            "Magicka.GameLogic.GameStates.Menu.Main"
+                + ".SubMenuCharacterSelect",
+            "OnLevelChange",
+            3),
+        (
+            "Magicka.GameLogic.Spells.SpellEffects.ProjectileSpell",
+            "AnimationEnd",
+            1),
+        ("Magicka.GameLogic.GameStates.PlayState", "UpdateMiscA", 2),
+        (
+            "Magicka.GameLogic.GameStates.PlayState/State",
+            "ApplyState",
+            1),
+        ("Magicka.GameLogic.GameStates.PlayState", "SyncPlayers", 1),
+        ("Magicka.GameLogic.GameStates.PlayState", "SyncSpells", 1),
+        (
+            "Magicka.GameLogic.GameStates.PlayState",
+            "SendLatestCheckpoint",
+            1),
+        (
+            "Magicka.GameLogic.GameStates.PlayState",
+            "get_IsGameEnded",
+            0),
     ];
 
     using AssemblyDefinition reference = ReadAssembly(referencePath);
@@ -993,8 +1037,223 @@ static int RestoreRecompiledMethodBodies(
             referencePool);
     }
 
+    TypeDefinition sourceShield = RequireType(
+        referenceTypes,
+        "Magicka.GameLogic.Entities.Shield");
+    TypeDefinition targetShield = RequireType(
+        targetTypes,
+        "Magicka.GameLogic.Entities.Shield");
+    MethodDefinition[] shieldDamageMethods = sourceShield.Methods
+        .Where(method => method.Name == "InternalDamage"
+            && method.Parameters.Count == 5)
+        .ToArray();
+    if (shieldDamageMethods.Length != 2)
+    {
+        throw new InvalidOperationException(
+            "Expected both original Shield.InternalDamage overloads.");
+    }
+    foreach (MethodDefinition sourceMethod in shieldDamageMethods)
+    {
+        CloneMethodBody(
+            sourceMethod,
+            FindMatchingMethod(targetShield, sourceMethod),
+            assembly.MainModule,
+            targetTypes,
+            referencePool);
+    }
+
+    RestoreShieldConstructor(
+        sourceShield,
+        targetShield,
+        assembly.MainModule,
+        targetTypes,
+        referencePool);
+    RestoreShieldInitialize(
+        sourceShield,
+        targetShield,
+        assembly.MainModule,
+        targetTypes,
+        referencePool);
+
+    TypeDefinition sourceMissile = RequireType(
+        referenceTypes,
+        "Magicka.GameLogic.Entities.MissileEntity");
+    TypeDefinition targetMissile = RequireType(
+        targetTypes,
+        "Magicka.GameLogic.Entities.MissileEntity");
+    foreach ((string methodName, int parameterCount) in new[]
+             {
+                 ("Update", 2),
+                 ("OnCollision", 4),
+             })
+    {
+        MethodDefinition sourceMethod = RequireMethod(
+            sourceMissile,
+            methodName,
+            parameterCount);
+        MethodDefinition targetMethod = FindMatchingMethod(
+            targetMissile,
+            sourceMethod);
+        CloneMethodBody(
+            sourceMethod,
+            targetMethod,
+            assembly.MainModule,
+            targetTypes,
+            referencePool);
+        InsertEmptyMissileTargetHandle(targetMethod);
+    }
+
     WriteAssembly(assembly, outputPath);
-    return targets.Length;
+    return targets.Length + shieldDamageMethods.Length + 4;
+}
+
+static void RestoreShieldConstructor(
+    TypeDefinition sourceShield,
+    TypeDefinition targetShield,
+    ModuleDefinition targetModule,
+    IReadOnlyDictionary<string, TypeDefinition> targetTypes,
+    BodyReferencePool referencePool)
+{
+    MethodDefinition sourceMethod = RequireMethod(sourceShield, ".ctor", 1);
+    MethodDefinition targetMethod = FindMatchingMethod(targetShield, sourceMethod);
+    MethodReference gameInstance = RequireBodyCall(
+        targetMethod,
+        "Magicka.Game",
+        "get_Instance");
+    MethodReference gameContent = RequireBodyCall(
+        targetMethod,
+        "Microsoft.Xna.Framework.Game",
+        "get_Content");
+    CloneMethodBody(
+        sourceMethod,
+        targetMethod,
+        targetModule,
+        targetTypes,
+        referencePool);
+
+    Instruction[] playStateContentCalls = targetMethod.Body.Instructions
+        .Where(instruction => instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "Magicka.GameLogic.GameStates.PlayState"
+            && called.Name == "get_Content")
+        .ToArray();
+    if (playStateContentCalls.Length != 2
+        || playStateContentCalls.Any(call =>
+            call.Previous is null
+            || call.Previous.OpCode.Code != Code.Ldarg_1))
+    {
+        throw new InvalidOperationException(
+            "Unexpected original Shield content accesses.");
+    }
+
+    foreach (Instruction contentCall in playStateContentCalls)
+    {
+        contentCall.Previous!.OpCode = OpCodes.Call;
+        contentCall.Previous.Operand = gameInstance;
+        contentCall.OpCode = OpCodes.Callvirt;
+        contentCall.Operand = gameContent;
+    }
+}
+
+static void RestoreShieldInitialize(
+    TypeDefinition sourceShield,
+    TypeDefinition targetShield,
+    ModuleDefinition targetModule,
+    IReadOnlyDictionary<string, TypeDefinition> targetTypes,
+    BodyReferencePool referencePool)
+{
+    MethodDefinition sourceMethod = RequireMethod(sourceShield, "Initialize", 7);
+    MethodDefinition targetMethod = FindMatchingMethod(targetShield, sourceMethod);
+    MethodReference markActive = RequireBodyCall(
+        targetMethod,
+        "Magicka.GcDiagnostics.RetentionRegistry",
+        "MarkActive");
+    CloneMethodBody(
+        sourceMethod,
+        targetMethod,
+        targetModule,
+        targetTypes,
+        referencePool);
+    int hooks = InstrumentSelfAtReturns(
+        targetMethod,
+        markActive,
+        "Magicka.GameLogic.Entities.Shield.Initialize");
+    if (hooks != 1)
+    {
+        throw new InvalidOperationException(
+            "Expected one Shield.Initialize return hook.");
+    }
+}
+
+static void InsertEmptyMissileTargetHandle(MethodDefinition method)
+{
+    Instruction[] handleStores = method.Body.Instructions
+        .Where(instruction => instruction.OpCode == OpCodes.Stfld
+            && instruction.Operand is FieldReference field
+            && field.DeclaringType.FullName
+                == "Magicka.Network.MissileEntityEventMessage"
+            && field.Name == "Handle")
+        .ToArray();
+    FieldReference[] targetHandleFields = method.Body.Instructions
+        .Where(instruction => instruction.OpCode == OpCodes.Stfld
+            && instruction.Operand is FieldReference field
+            && field.DeclaringType.FullName
+                == "Magicka.Network.MissileEntityEventMessage"
+            && field.Name == "TargetHandle")
+        .Select(instruction => (FieldReference)instruction.Operand)
+        .DistinctBy(field => field.FullName)
+        .ToArray();
+    if (handleStores.Length != 1 || targetHandleFields.Length != 1)
+    {
+        throw new InvalidOperationException(
+            "Unexpected missile event-message field stores in "
+            + method.FullName);
+    }
+
+    Instruction handleStore = handleStores[0];
+    Instruction? addressLoad = handleStore.Previous;
+    while (addressLoad is not null
+           && addressLoad.OpCode.Code is not Code.Ldloca
+           and not Code.Ldloca_S)
+    {
+        addressLoad = addressLoad.Previous;
+    }
+    if (addressLoad?.Operand is not VariableDefinition message)
+    {
+        throw new InvalidOperationException(
+            "Missile event-message address load was not found in "
+            + method.FullName);
+    }
+
+    ILProcessor processor = method.Body.GetILProcessor();
+    Instruction loadAddress = Instruction.Create(OpCodes.Ldloca, message);
+    Instruction emptyHandle = Instruction.Create(OpCodes.Ldc_I4, 65535);
+    Instruction storeTarget = Instruction.Create(
+        OpCodes.Stfld,
+        targetHandleFields[0]);
+    processor.InsertAfter(handleStore, loadAddress);
+    processor.InsertAfter(loadAddress, emptyHandle);
+    processor.InsertAfter(emptyHandle, storeTarget);
+    method.Body.MaxStackSize = Math.Max(method.Body.MaxStackSize, 2);
+}
+
+static MethodReference RequireBodyCall(
+    MethodDefinition method,
+    string declaringType,
+    string methodName)
+{
+    MethodReference[] matches = method.Body.Instructions
+        .Where(instruction => instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == declaringType
+            && called.Name == methodName)
+        .Select(instruction => (MethodReference)instruction.Operand)
+        .DistinctBy(called => called.FullName)
+        .ToArray();
+    return matches.Length == 1
+        ? matches[0]
+        : throw new InvalidOperationException(
+            $"Expected one {declaringType}::{methodName} reference in "
+            + method.FullName);
 }
 
 static int RestoreLocalRenameMethodBodies(
@@ -1059,7 +1318,7 @@ static MethodDefinition FindMatchingMethod(
     TypeDefinition targetType,
     MethodReference sourceMethod)
 {
-    return targetType.Methods.Single(method =>
+    MethodDefinition? match = targetType.Methods.SingleOrDefault(method =>
         method.Name == sourceMethod.Name
         && method.GenericParameters.Count == sourceMethod.GenericParameters.Count
         && method.ReturnType.FullName == sourceMethod.ReturnType.FullName
@@ -1068,6 +1327,19 @@ static MethodDefinition FindMatchingMethod(
                 sourceMethod.Parameters.Select(
                     parameter => parameter.ParameterType.FullName),
                 StringComparer.Ordinal));
+    return match ?? throw new InvalidOperationException(
+        "No matching target method for " + sourceMethod.FullName
+        + " on " + targetType.FullName
+        + "; signature candidates: "
+        + string.Join(", ", targetType.Methods.Where(method =>
+                method.ReturnType.FullName == sourceMethod.ReturnType.FullName
+                && method.Parameters.Select(
+                        parameter => parameter.ParameterType.FullName)
+                    .SequenceEqual(
+                        sourceMethod.Parameters.Select(
+                            parameter => parameter.ParameterType.FullName),
+                        StringComparer.Ordinal))
+            .Select(method => method.Name)));
 }
 
 static void CloneMethodBody(
@@ -1216,6 +1488,106 @@ static TypeReference ImportBodyType(
                     targetTypes,
                     ((TypeReference)genericParameter.Owner).FullName);
         return targetOwner.GenericParameters[genericParameter.Position];
+    }
+
+    if (type is ArrayType array)
+    {
+        return new ArrayType(
+            ImportBodyType(
+                array.ElementType,
+                targetMethod,
+                targetModule,
+                targetTypes,
+                referencePool),
+            array.Rank);
+    }
+    if (type is ByReferenceType byReference)
+    {
+        return new ByReferenceType(ImportBodyType(
+            byReference.ElementType,
+            targetMethod,
+            targetModule,
+            targetTypes,
+            referencePool));
+    }
+    if (type is PointerType pointer)
+    {
+        return new PointerType(ImportBodyType(
+            pointer.ElementType,
+            targetMethod,
+            targetModule,
+            targetTypes,
+            referencePool));
+    }
+    if (type is PinnedType pinned)
+    {
+        return new PinnedType(ImportBodyType(
+            pinned.ElementType,
+            targetMethod,
+            targetModule,
+            targetTypes,
+            referencePool));
+    }
+    if (type is SentinelType sentinel)
+    {
+        return new SentinelType(ImportBodyType(
+            sentinel.ElementType,
+            targetMethod,
+            targetModule,
+            targetTypes,
+            referencePool));
+    }
+    if (type is OptionalModifierType optionalModifier)
+    {
+        return new OptionalModifierType(
+            ImportBodyType(
+                optionalModifier.ModifierType,
+                targetMethod,
+                targetModule,
+                targetTypes,
+                referencePool),
+            ImportBodyType(
+                optionalModifier.ElementType,
+                targetMethod,
+                targetModule,
+                targetTypes,
+                referencePool));
+    }
+    if (type is RequiredModifierType requiredModifier)
+    {
+        return new RequiredModifierType(
+            ImportBodyType(
+                requiredModifier.ModifierType,
+                targetMethod,
+                targetModule,
+                targetTypes,
+                referencePool),
+            ImportBodyType(
+                requiredModifier.ElementType,
+                targetMethod,
+                targetModule,
+                targetTypes,
+                referencePool));
+    }
+    if (type is GenericInstanceType genericInstance)
+    {
+        GenericInstanceType imported = new GenericInstanceType(
+            ImportBodyType(
+                genericInstance.ElementType,
+                targetMethod,
+                targetModule,
+                targetTypes,
+                referencePool));
+        foreach (TypeReference argument in genericInstance.GenericArguments)
+        {
+            imported.GenericArguments.Add(ImportBodyType(
+                argument,
+                targetMethod,
+                targetModule,
+                targetTypes,
+                referencePool));
+        }
+        return imported;
     }
 
     return referencePool.RequireType(type);
