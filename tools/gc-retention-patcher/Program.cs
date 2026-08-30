@@ -1108,10 +1108,111 @@ static int RestoreRecompiledMethodBodies(
         targetTypes,
         assembly.MainModule,
         referencePool);
+    int iconRendererRestores = RestoreIconRendererMethods(
+        referenceTypes,
+        targetTypes,
+        assembly.MainModule,
+        referencePool);
 
     WriteAssembly(assembly, outputPath);
     return targets.Length + shieldDamageMethods.Length + 4
-        + playStateRestores;
+        + playStateRestores + iconRendererRestores;
+}
+
+static int RestoreIconRendererMethods(
+    IReadOnlyDictionary<string, TypeDefinition> referenceTypes,
+    IReadOnlyDictionary<string, TypeDefinition> targetTypes,
+    ModuleDefinition targetModule,
+    BodyReferencePool referencePool)
+{
+    const string IconRendererType = "Magicka.GameLogic.UI.IconRenderer";
+    TypeDefinition sourceRenderer = RequireType(
+        referenceTypes,
+        IconRendererType);
+    TypeDefinition targetRenderer = RequireType(targetTypes, IconRendererType);
+
+    foreach ((string methodName, int parameterCount) in new[]
+             {
+                 (".ctor", 2),
+                 ("Initialize", 1),
+             })
+    {
+        MethodDefinition sourceMethod = RequireMethod(
+            sourceRenderer,
+            methodName,
+            parameterCount);
+        RemovePlayStateFieldStores(
+            sourceMethod,
+            IconRendererType,
+            expectedCount: 1);
+        CloneMethodBody(
+            sourceMethod,
+            FindMatchingMethod(targetRenderer, sourceMethod),
+            targetModule,
+            targetTypes,
+            referencePool);
+    }
+
+    MethodDefinition sourceUpdate = RequireMethod(
+        sourceRenderer,
+        "Update",
+        2);
+    CloneMethodBody(
+        sourceUpdate,
+        FindMatchingMethod(targetRenderer, sourceUpdate),
+        targetModule,
+        targetTypes,
+        referencePool);
+
+    MethodDefinition sourceTomeMagick = RequireMethod(
+        sourceRenderer,
+        "set_TomeMagick",
+        1);
+    MethodDefinition targetTomeMagick = FindMatchingMethod(
+        targetRenderer,
+        sourceTomeMagick);
+    MethodReference recentPlayState = RequireBodyCall(
+        targetTomeMagick,
+        "Magicka.GameLogic.GameStates.PlayState",
+        "get_RecentPlayState");
+    ReplacePlayStateFieldLoads(
+        sourceTomeMagick,
+        IconRendererType,
+        recentPlayState,
+        expectedCount: 1);
+    CloneMethodBody(
+        sourceTomeMagick,
+        targetTomeMagick,
+        targetModule,
+        targetTypes,
+        referencePool);
+
+    const string RenderDataType = IconRendererType + "/RenderData";
+    TypeDefinition sourceRenderData = RequireType(referenceTypes, RenderDataType);
+    TypeDefinition targetRenderData = RequireType(targetTypes, RenderDataType);
+    MethodDefinition sourceDraw = RequireMethod(sourceRenderData, "Draw", 1);
+    MethodDefinition targetDraw = FindMatchingMethod(targetRenderData, sourceDraw);
+    MethodReference adjustPosition = RequireBodyCall(
+        targetDraw,
+        "PolygonHead.CommunityPatch.InGameUiRenderScale",
+        "AdjustProjectedPosition");
+    FieldDefinition position = targetRenderData.Fields.Single(
+        field => field.Name == "mPosition"
+            && field.FieldType.FullName == "Microsoft.Xna.Framework.Vector2");
+    CloneMethodBody(
+        sourceDraw,
+        targetDraw,
+        targetModule,
+        targetTypes,
+        referencePool);
+    ILProcessor processor = targetDraw.Body.GetILProcessor();
+    Instruction first = targetDraw.Body.Instructions[0];
+    processor.InsertBefore(first, Instruction.Create(OpCodes.Ldarg_0));
+    processor.InsertBefore(first, Instruction.Create(OpCodes.Ldflda, position));
+    processor.InsertBefore(first, Instruction.Create(OpCodes.Call, adjustPosition));
+    targetDraw.Body.MaxStackSize = Math.Max(targetDraw.Body.MaxStackSize, 2);
+
+    return 5;
 }
 
 static int RestoreRecentPlayStateMethods(
