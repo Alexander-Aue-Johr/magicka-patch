@@ -4,6 +4,7 @@ param(
     [int]$BuildNumber = -1,
     [string]$OldExeVersion = "",
     [string]$Flutter = "",
+    [string]$Mono = "",
     [string]$OutputDir = "",
     [string]$Locale = "",
     [string]$MagickaDir = "",
@@ -754,6 +755,33 @@ function Resolve-Flutter {
     throw "Flutter was not found. Pass -Flutter C:\path\to\flutter.bat or add flutter to PATH."
 }
 
+function Resolve-Mono {
+    param([string]$Requested)
+
+    if (-not [string]::IsNullOrWhiteSpace($Requested)) {
+        if (-not (Test-Path -LiteralPath $Requested -PathType Leaf)) {
+            throw "Mono executable not found: $Requested"
+        }
+        return (Resolve-Path $Requested).Path
+    }
+
+    $command = Get-Command mono -ErrorAction SilentlyContinue
+    if ($null -ne $command) {
+        return $command.Source
+    }
+
+    foreach ($candidate in @(
+            'C:\Program Files\Mono\bin\mono.exe',
+            'C:\Program Files (x86)\Mono\bin\mono.exe'
+        )) {
+        if (Test-Path -LiteralPath $candidate -PathType Leaf) {
+            return (Resolve-Path $candidate).Path
+        }
+    }
+
+    throw "Mono was not found. Install Mono 6.12.0.206, pass -Mono C:\path\to\mono.exe, or add mono to PATH. Release validation requires the Mono JIT gate."
+}
+
 function Invoke-Tool {
     param(
         [Parameter(Mandatory = $true)][string]$FilePath,
@@ -917,6 +945,7 @@ $version = $installerVersion.Semantic
 $releaseLocale = Resolve-ReleaseLocale $Locale
 $releaseSuffix = if ([string]::IsNullOrWhiteSpace($releaseLocale)) { "" } else { "-$releaseLocale" }
 $flutterExe = Resolve-Flutter $Flutter
+$monoExe = Resolve-Mono $Mono
 if ([string]::IsNullOrWhiteSpace($OutputDir)) {
     $OutputDir = Join-PathChecked $repoRoot 'release'
 }
@@ -964,6 +993,25 @@ Invoke-Tool $dotnetCommand.Source @(
     'run',
     '--project', $gcAnalyzerTestsProject,
     '--configuration', 'Release'
+) $repoRoot
+$monoRoot = Split-Path -Parent (Split-Path -Parent $monoExe)
+$monoCompiler = Join-PathChecked $monoRoot 'lib\mono\4.5\mcs.exe'
+Assert-File $monoCompiler
+$monoProbeSource = Join-PathChecked $repoRoot 'tools\mono-startup-probe\Program.cs'
+Assert-File $monoProbeSource
+$monoProbeDir = Join-PathChecked $repoRoot 'tmp\release-validation'
+New-Item -ItemType Directory -Force -Path $monoProbeDir | Out-Null
+$monoProbe = Join-PathChecked $monoProbeDir 'MonoStartupProbe.exe'
+Invoke-Tool $monoExe @(
+    $monoCompiler,
+    '-nologo',
+    '-sdk:2',
+    "-out:$monoProbe",
+    $monoProbeSource
+) $repoRoot
+Invoke-Tool $monoExe @(
+    $monoProbe,
+    (Join-PathChecked $repoRoot 'Magicka.exe')
 ) $repoRoot
 Invoke-Tool $dotnetCommand.Source @(
     'run',

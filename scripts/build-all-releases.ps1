@@ -3,6 +3,7 @@ param(
     [string]$MinVersion = "0.0.12",
     [string]$MaxVersion = "",
     [string]$Flutter = "",
+    [string]$Mono = "",
     [string]$OutputDir = "",
     [string]$WorktreeRoot = "",
     [string]$MagickaDir = "",
@@ -208,6 +209,9 @@ foreach ($release in $releases) {
     }
     if (-not [string]::IsNullOrWhiteSpace($Flutter)) {
         $arguments["Flutter"] = $Flutter
+    }
+    if (-not [string]::IsNullOrWhiteSpace($Mono)) {
+        $arguments["Mono"] = $Mono
     }
     if (-not [string]::IsNullOrWhiteSpace($MagickaDir)) {
         $arguments["MagickaDir"] = $MagickaDir

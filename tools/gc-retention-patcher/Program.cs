@@ -202,6 +202,18 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
+    && args[0] == "--repair-mono-telemetry-startup")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    RepairMonoTelemetryStartupOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": repaired Mono telemetry startup compatibility");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--patch-player-game-deinitialize")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -2919,6 +2931,96 @@ static void PatchGcEventPatchVersionOnly(
     WriteAssembly(assembly, outputPath);
 }
 
+static void RepairMonoTelemetryStartupOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairMonoTelemetryStartup(assembly.MainModule, types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairMonoTelemetryStartup(
+    ModuleDefinition module,
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition patchTelemetry = RequireType(
+        types,
+        "Magicka.CommunityPatch.PatchTelemetry");
+    MethodDefinition sendAsync = RequireMethod(
+        patchTelemetry,
+        "SendAsync",
+        parameterCount: 2);
+    MethodDefinition addCommonProperties = RequireMethod(
+        patchTelemetry,
+        "AddCommonProperties",
+        parameterCount: 1);
+    MethodReference compatibleSetItem = addCommonProperties.Body.Instructions
+        .Where(instruction => instruction.OpCode == OpCodes.Callvirt)
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .First(method => method.Name == "set_Item"
+            && method.DeclaringType.FullName
+                == sendAsync.Parameters[1].ParameterType.FullName
+            && method.Parameters.Count == 2
+            && method.Parameters[0].ParameterType is GenericParameter key
+            && key.Position == 0
+            && method.Parameters[1].ParameterType is GenericParameter value
+            && value.Position == 1);
+    Instruction patchVersionKey = sendAsync.Body.Instructions.Single(
+        instruction => instruction.OpCode == OpCodes.Ldstr
+            && string.Equals(
+                instruction.Operand as string,
+                "patch_version",
+                StringComparison.Ordinal));
+    Instruction setterCall = patchVersionKey.Next?.Next
+        ?? throw new InvalidOperationException(
+            "PatchTelemetry.SendAsync patch-version setter was not found.");
+    if (setterCall.OpCode != OpCodes.Callvirt
+        || setterCall.Operand is not MethodReference setter
+        || setter.Name != "set_Item")
+    {
+        throw new InvalidOperationException(
+            "PatchTelemetry.SendAsync patch-version setter was not found.");
+    }
+    setterCall.Operand = compatibleSetItem;
+
+    MethodDefinition sendStartup = RequireMethod(
+        patchTelemetry,
+        "SendStartup",
+        parameterCount: 0);
+    if (sendStartup.Body.ExceptionHandlers.Count != 0)
+    {
+        throw new InvalidOperationException(
+            "PatchTelemetry.SendStartup already has exception handling.");
+    }
+    Instruction originalReturn = sendStartup.Body.Instructions[^1];
+    if (originalReturn.OpCode != OpCodes.Ret)
+    {
+        throw new InvalidOperationException(
+            "PatchTelemetry.SendStartup has an unexpected exit.");
+    }
+    ILProcessor processor = sendStartup.Body.GetILProcessor();
+    Instruction handlerStart = Instruction.Create(OpCodes.Pop);
+    Instruction finalReturn = Instruction.Create(OpCodes.Ret);
+    originalReturn.OpCode = OpCodes.Leave;
+    originalReturn.Operand = finalReturn;
+    processor.Append(handlerStart);
+    processor.Append(Instruction.Create(OpCodes.Leave, finalReturn));
+    processor.Append(finalReturn);
+    sendStartup.Body.ExceptionHandlers.Add(new ExceptionHandler(
+        ExceptionHandlerType.Catch)
+    {
+        CatchType = module.TypeSystem.Object,
+        TryStart = sendStartup.Body.Instructions[0],
+        TryEnd = handlerStart,
+        HandlerStart = handlerStart,
+        HandlerEnd = finalReturn,
+    });
+}
+
 static void PatchPlayerGameDeinitializeOnly(
     string inputPath,
     string outputPath)
@@ -3277,12 +3379,21 @@ static void RepairGcEventPatchVersion(
             && constructor.Name == ".ctor"
             && constructor.DeclaringType.FullName
                 == "Magicka.CommunityPatch.PatchTelemetry/TelemetrySendState");
-    MethodReference setItem = CreateInstanceMethodReference(
-        "set_Item",
-        propertiesType,
-        module.TypeSystem.Void,
-        module.TypeSystem.String,
-        module.TypeSystem.String);
+    MethodDefinition addCommonProperties = RequireMethod(
+        patchTelemetry,
+        "AddCommonProperties",
+        parameterCount: 1);
+    MethodReference setItem = addCommonProperties.Body.Instructions
+        .Where(instruction => instruction.OpCode == OpCodes.Callvirt)
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .First(method => method.Name == "set_Item"
+            && method.DeclaringType.FullName == propertiesType.FullName
+            && method.Parameters.Count == 2
+            && method.Parameters[0].ParameterType is GenericParameter key
+            && key.Position == 0
+            && method.Parameters[1].ParameterType is GenericParameter value
+            && value.Position == 1);
     ILProcessor processor = sendAsync.Body.GetILProcessor();
     processor.InsertBefore(
         queueStateCreation,

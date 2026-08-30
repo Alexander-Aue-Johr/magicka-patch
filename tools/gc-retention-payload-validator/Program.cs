@@ -1548,13 +1548,31 @@ static void ValidateTelemetryPatchVersion(AssemblyDefinition magicka)
         || setItem.DeclaringType.FullName
             != sendAsync.Parameters[1].ParameterType.FullName
         || setItem.Parameters.Count != 2
-        || setItem.Parameters.Any(parameter =>
-            parameter.ParameterType.FullName != "System.String")
+        || setItem.Parameters[0].ParameterType is not GenericParameter key
+        || key.Position != 0
+        || setItem.Parameters[1].ParameterType is not GenericParameter value
+        || value.Position != 1
         || queueStateIndex <= keyIndex + 2)
     {
         throw new InvalidDataException(
             "PatchTelemetry.SendAsync does not add patch_version before"
             + " queueing the event.");
+    }
+
+    MethodDefinition sendStartup = patchTelemetry.Methods.Single(method =>
+        method.Name == "SendStartup"
+        && method.IsStatic
+        && method.Parameters.Count == 0
+        && method.HasBody);
+    if (!sendStartup.Body.ExceptionHandlers.Any(handler =>
+            handler.HandlerType == ExceptionHandlerType.Catch
+            && handler.CatchType?.FullName == "System.Object"
+            && handler.TryStart == sendStartup.Body.Instructions[0]
+            && handler.HandlerEnd == sendStartup.Body.Instructions[^1]))
+    {
+        throw new InvalidDataException(
+            "PatchTelemetry.SendStartup is not isolated from telemetry"
+            + " failures.");
     }
 }
 

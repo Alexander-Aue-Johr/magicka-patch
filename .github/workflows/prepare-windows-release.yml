@@ -75,6 +75,21 @@ jobs:
           $ErrorActionPreference = 'Stop'
           & $env:FLUTTER_BIN doctor -v
 
+      - name: Install pinned Mono JIT validator
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          choco install mono --version 6.12.0.206 --yes --no-progress
+          if ($LASTEXITCODE -notin @(0, 1641, 3010)) {
+            throw "Mono installation failed with exit code $LASTEXITCODE."
+          }
+          $mono = 'C:\Program Files\Mono\bin\mono.exe'
+          if (-not (Test-Path -LiteralPath $mono -PathType Leaf)) {
+            throw "Mono executable was not installed: $mono"
+          }
+          "MONO_BIN=$mono" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          & $mono --version
+
       - name: Build both release ZIPs
         shell: pwsh
         run: |
@@ -83,6 +98,7 @@ jobs:
             -File '.\scripts\build-release.ps1' `
             -Version '${{ steps.version.outputs.semantic }}' `
             -Flutter $env:FLUTTER_BIN `
+            -Mono $env:MONO_BIN `
             -SkipSteamPayloadSync `
             -SkipExeVersionPatch
           if ($LASTEXITCODE -ne 0) {

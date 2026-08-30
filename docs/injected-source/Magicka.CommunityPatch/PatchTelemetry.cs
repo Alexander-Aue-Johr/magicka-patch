@@ -15,27 +15,33 @@ namespace Magicka.CommunityPatch
 	{
 		public static void SendStartup()
 		{
-			PatchTelemetry.ConfigureGcRetentionDiagnostics();
-			AnimationClipCompatibility.InitializeSession();
-			PatchTelemetry.SendAsync("magicka_patch_start", new Dictionary<string, string>
+			try
 			{
+				PatchTelemetry.ConfigureGcRetentionDiagnostics();
+				AnimationClipCompatibility.InitializeSession();
+				PatchTelemetry.SendAsync("magicka_patch_start", new Dictionary<string, string>
 				{
-					"patch_name",
-					CommunityPatchInfo.Name
-				},
-				{
-					"patch_version",
-					PatchTelemetry.GetPatchVersion()
-				},
-				{
-					"game_version",
-					PatchTelemetry.Safe(Application.ProductVersion)
-				},
-				{
-					"os",
-					PatchTelemetry.Safe(Environment.OSVersion.ToString())
-				}
-			});
+					{
+						"patch_name",
+						CommunityPatchInfo.Name
+					},
+					{
+						"patch_version",
+						PatchTelemetry.GetPatchVersion()
+					},
+					{
+						"game_version",
+						PatchTelemetry.Safe(Application.ProductVersion)
+					},
+					{
+						"os",
+						PatchTelemetry.Safe(Environment.OSVersion.ToString())
+					}
+				});
+			}
+			catch
+			{
+			}
 		}
 
 		private static void ConfigureGcRetentionDiagnostics()
