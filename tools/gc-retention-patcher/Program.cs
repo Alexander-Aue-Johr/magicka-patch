@@ -89,6 +89,22 @@ if (args.Length == 4
     return 0;
 }
 
+if (args.Length == 4
+    && args[0] == "--restore-network-client-methods")
+{
+    string referencePath = Path.GetFullPath(args[1]);
+    string inputPath = Path.GetFullPath(args[2]);
+    string outputPath = Path.GetFullPath(args[3]);
+    int restoredMethods = RestoreNetworkClientMethodsOnly(
+        referencePath,
+        inputPath,
+        outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": restored NetworkClient IL in " + restoredMethods + " methods");
+    return 0;
+}
+
 if (args.Length == 3
     && args[0] == "--patch-character-template-static-caches")
 {
@@ -1121,10 +1137,131 @@ static int RestoreRecompiledMethodBodies(
         targetTypes,
         assembly.MainModule,
         referencePool);
+    int networkClientRestores = RestoreNetworkClientMethods(
+        inputPath,
+        referenceTypes,
+        targetTypes,
+        assembly.MainModule,
+        referencePool);
 
     WriteAssembly(assembly, outputPath);
     return targets.Length + shieldDamageMethods.Length + 4
-        + playStateRestores + iconRendererRestores + networkServerRestores;
+        + playStateRestores + iconRendererRestores + networkServerRestores
+        + networkClientRestores;
+}
+
+static int RestoreNetworkClientMethods(
+    string semanticPath,
+    IReadOnlyDictionary<string, TypeDefinition> referenceTypes,
+    IReadOnlyDictionary<string, TypeDefinition> targetTypes,
+    ModuleDefinition targetModule,
+    BodyReferencePool referencePool)
+{
+    const string TypeName = "Magicka.Network.NetworkClient";
+    TypeDefinition originalType = RequireType(referenceTypes, TypeName);
+    TypeDefinition targetType = RequireType(targetTypes, TypeName);
+    using AssemblyDefinition semanticAssembly = ReadAssembly(semanticPath);
+    Dictionary<string, TypeDefinition> semanticTypes = AllTypes(
+            semanticAssembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    TypeDefinition semanticType = RequireType(semanticTypes, TypeName);
+
+    MethodDefinition originalRead = RequireMethod(originalType, "ReadMessage", 2);
+    MethodDefinition semanticRead = RequireMethod(semanticType, "ReadMessage", 2);
+    MethodDefinition targetRead = FindMatchingMethod(targetType, originalRead);
+    CloneMethodBody(
+        originalRead,
+        targetRead,
+        targetModule,
+        targetTypes,
+        referencePool);
+    foreach (string messageType in new[]
+             {
+                 "Magicka.Network.TriggerActionMessage",
+                 "Magicka.Network.EntityUpdateMessage",
+                 "Magicka.Network.CharacterActionMessage",
+                 "Magicka.Network.SpawnPlayerMessage",
+                 "Magicka.Network.SpawnMissileMessage",
+                 "Magicka.Network.SpawnShieldMessage",
+                 "Magicka.Network.SpawnBarrierMessage",
+                 "Magicka.Network.SpawnWaveMessage",
+                 "Magicka.Network.SpawnMineMessage",
+                 "Magicka.Network.SpawnVortexMessage",
+                 "Magicka.Network.EntityRemoveMessage",
+                 "Magicka.Network.CharacterDieMessage",
+                 "Magicka.Network.MissileEntityEventMessage",
+                 "Magicka.Network.DamageRequestMessage",
+             })
+    {
+        ReplaceMessageCaseFragments(
+            semanticRead,
+            targetRead,
+            messageType,
+            targetModule,
+            targetTypes,
+            referencePool,
+            useMainTryExit: false);
+    }
+
+    MethodDefinition originalInitializer = originalType.Methods.Single(
+        method => method.Name == ".cctor");
+    CloneMethodBody(
+        originalInitializer,
+        FindMatchingMethod(targetType, originalInitializer),
+        targetModule,
+        targetTypes,
+        referencePool);
+
+    MethodDefinition? authenticationHelper = targetType.Methods.SingleOrDefault(
+        method => method.Name == "InitiateAuthentication");
+    if (authenticationHelper is not null
+        && AllTypes(targetModule).SelectMany(type => type.Methods)
+        .SelectMany(method => method.HasBody
+            ? method.Body.Instructions
+            : Enumerable.Empty<Instruction>())
+        .Any(instruction => instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == authenticationHelper.DeclaringType.FullName
+            && called.FullName == authenticationHelper.FullName))
+    {
+        throw new InvalidOperationException(
+            "Cannot remove referenced NetworkClient authentication helper.");
+    }
+    if (authenticationHelper is not null)
+    {
+        targetType.Methods.Remove(authenticationHelper);
+    }
+
+    targetRead.Body.MaxStackSize = Math.Max(
+        targetRead.Body.MaxStackSize,
+        semanticRead.Body.MaxStackSize);
+    ExpandShortBranches(targetRead);
+    targetRead.Body.OptimizeMacros();
+    return 2;
+}
+
+static int RestoreNetworkClientMethodsOnly(
+    string referencePath,
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition reference = ReadAssembly(referencePath);
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> referenceTypes = AllTypes(
+            reference.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    Dictionary<string, TypeDefinition> targetTypes = AllTypes(
+            assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    BodyReferencePool referencePool = new BodyReferencePool(
+        assembly.MainModule);
+    int restored = RestoreNetworkClientMethods(
+        inputPath,
+        referenceTypes,
+        targetTypes,
+        assembly.MainModule,
+        referencePool);
+    WriteAssembly(assembly, outputPath);
+    return restored;
 }
 
 static int RestoreNetworkServerMethods(
@@ -1208,8 +1345,12 @@ static int RestoreNetworkServerMethods(
                  "SendCheckpointRaw",
              })
     {
-        MethodDefinition helper = targetType.Methods.Single(
+        MethodDefinition? helper = targetType.Methods.SingleOrDefault(
             method => method.Name == helperName);
+        if (helper is null)
+        {
+            continue;
+        }
         if (AllTypes(targetModule).SelectMany(type => type.Methods)
             .SelectMany(method => method.HasBody
                 ? method.Body.Instructions
@@ -1368,7 +1509,8 @@ static void ReplaceMessageCaseFragments(
     string messageType,
     ModuleDefinition targetModule,
     IReadOnlyDictionary<string, TypeDefinition> targetTypes,
-    BodyReferencePool referencePool)
+    BodyReferencePool referencePool,
+    bool useMainTryExit = true)
 {
     Instruction[] semanticStarts = FindMessageCaseStarts(semantic, messageType);
     Instruction[] targetStarts = FindMessageCaseStarts(target, messageType);
@@ -1387,7 +1529,8 @@ static void ReplaceMessageCaseFragments(
             targetStarts[index],
             targetModule,
             targetTypes,
-            referencePool);
+            referencePool,
+            useMainTryExit);
     }
 }
 
@@ -1434,10 +1577,15 @@ static void CloneCaseFragment(
     Instruction targetStart,
     ModuleDefinition targetModule,
     IReadOnlyDictionary<string, TypeDefinition> targetTypes,
-    BodyReferencePool referencePool)
+    BodyReferencePool referencePool,
+    bool useMainTryExit)
 {
-    Instruction semanticExit = MainTryExit(semantic);
-    Instruction targetExit = MainTryExit(target);
+    Instruction semanticExit = useMainTryExit
+        ? MainTryExit(semantic)
+        : semantic.Body.Instructions[^1];
+    Instruction targetExit = useMainTryExit
+        ? MainTryExit(target)
+        : target.Body.Instructions[^1];
     HashSet<Instruction> replacedFragment = ReachableFragment(
         target,
         targetStart,
@@ -1469,14 +1617,20 @@ static void ReplaceNullReferenceHandler(
     IReadOnlyDictionary<string, TypeDefinition> targetTypes,
     BodyReferencePool referencePool)
 {
+    ExceptionHandler semanticIoHandler = semantic.Body.ExceptionHandlers.Single(
+        handler => handler.HandlerType == ExceptionHandlerType.Catch
+            && handler.CatchType?.FullName == "System.IO.IOException");
     ExceptionHandler semanticHandler = semantic.Body.ExceptionHandlers.Single(
         handler => handler.HandlerType == ExceptionHandlerType.Catch
             && handler.CatchType?.FullName == "System.NullReferenceException"
-            && handler.TryStart == semantic.Body.Instructions[10]);
+            && handler.TryStart == semanticIoHandler.TryStart);
+    ExceptionHandler targetIoHandler = target.Body.ExceptionHandlers.Single(
+        handler => handler.HandlerType == ExceptionHandlerType.Catch
+            && handler.CatchType?.FullName == "System.IO.IOException");
     ExceptionHandler targetHandler = target.Body.ExceptionHandlers.Single(
         handler => handler.HandlerType == ExceptionHandlerType.Catch
             && handler.CatchType?.FullName == "System.NullReferenceException"
-            && handler.TryStart == target.Body.Instructions[12]);
+            && handler.TryStart == targetIoHandler.TryStart);
     HashSet<Instruction> replacedFragment = InstructionsInRange(
         target,
         targetHandler.HandlerStart,
@@ -1498,10 +1652,7 @@ static void ReplaceNullReferenceHandler(
         referencePool,
         targetHandler,
         ReferencedVariables(target, replacedFragment));
-    ExceptionHandler ioHandler = target.Body.ExceptionHandlers.Single(handler =>
-        handler.HandlerType == ExceptionHandlerType.Catch
-        && handler.CatchType?.FullName == "System.IO.IOException");
-    ioHandler.HandlerEnd = targetHandler.HandlerStart;
+    targetIoHandler.HandlerEnd = targetHandler.HandlerStart;
     RemoveReplacedFragment(target, replacedFragment);
 }
 
@@ -1654,22 +1805,22 @@ static void CloneFragment(
     Dictionary<string, TypeDefinition> sourceMethodTypes = AllTypes(
             sourceMethod.Module)
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
-    VariableDefinition sourceClosure = sourceMethod.Body.Variables.Single(
-        variable => sourceMethodTypes.TryGetValue(
+    VariableDefinition? sourceClosure = sourceMethod.Body.Variables.SingleOrDefault(
+            variable => sourceMethodTypes.TryGetValue(
                 variable.VariableType.FullName,
                 out TypeDefinition? type)
-            && type.Fields.Any(field => field.Name == "iSender")
             && type.Fields.Any(field => field.Name == "<>4__this"));
-    VariableDefinition targetClosure = targetMethod.Body.Variables.Single(
-        variable => targetTypes.TryGetValue(
+    VariableDefinition? targetClosure = targetMethod.Body.Variables.SingleOrDefault(
+            variable => targetTypes.TryGetValue(
                 variable.VariableType.FullName,
                 out TypeDefinition? type)
-            && type.Fields.Any(field => field.Name == "iSender")
             && type.Fields.Any(field => field.Name == "<>4__this"));
-    TypeDefinition sourceClosureType = sourceMethodTypes[
-        sourceClosure.VariableType.FullName];
-    TypeDefinition targetClosureType = targetTypes[
-        targetClosure.VariableType.FullName];
+    TypeDefinition? sourceClosureType = sourceClosure is null
+        ? null
+        : sourceMethodTypes[sourceClosure.VariableType.FullName];
+    TypeDefinition? targetClosureType = targetClosure is null
+        ? null
+        : targetTypes[targetClosure.VariableType.FullName];
     VariableDefinition sourcePacket = sourceMethod.Body.Variables.First(
         variable => variable.VariableType.FullName == "Magicka.Network.PacketType");
     VariableDefinition targetPacket = targetMethod.Body.Variables.First(
@@ -1677,9 +1828,25 @@ static void CloneFragment(
 
     Dictionary<VariableDefinition, VariableDefinition> variables = new()
     {
-        [sourceClosure] = targetClosure,
         [sourcePacket] = targetPacket,
     };
+    if (sourceClosure is not null && targetClosure is not null)
+    {
+        variables[sourceClosure] = targetClosure;
+    }
+    VariableDefinition[] sourceStateFlags = sourceMethod.Body.Variables
+        .Where(variable => variable.VariableType.FullName == "System.Boolean")
+        .Take(2)
+        .ToArray();
+    VariableDefinition[] targetStateFlags = targetMethod.Body.Variables
+        .Where(variable => variable.VariableType.FullName == "System.Boolean")
+        .Take(2)
+        .ToArray();
+    if (sourceStateFlags.Length == 2 && targetStateFlags.Length == 2)
+    {
+        variables[sourceStateFlags[0]] = targetStateFlags[0];
+        variables[sourceStateFlags[1]] = targetStateFlags[1];
+    }
     HashSet<VariableDefinition> claimedVariables = variables.Values.ToHashSet();
     foreach (VariableDefinition sourceVariable in ReferencedVariables(
                  sourceMethod,
@@ -1760,12 +1927,15 @@ static void CloneFragment(
                     "Unmapped fragment variable V" + variable.Index),
         ParameterDefinition parameter => targetMethod.Parameters[
             sourceMethod.Parameters.IndexOf(parameter)],
-        FieldDefinition field when field.DeclaringType == sourceClosureType
+        FieldDefinition field when sourceClosureType is not null
+                && targetClosureType is not null
+                && field.DeclaringType == sourceClosureType
             => targetClosureType.Fields.Single(candidate =>
                 candidate.Name == field.Name
                 && candidate.FieldType.FullName == field.FieldType.FullName),
-        FieldReference field when field.DeclaringType.FullName
-                == sourceClosureType.FullName
+        FieldReference field when sourceClosureType is not null
+                && targetClosureType is not null
+                && field.DeclaringType.FullName == sourceClosureType.FullName
             => targetClosureType.Fields.Single(candidate =>
                 candidate.Name == field.Name
                 && candidate.FieldType.FullName == field.FieldType.FullName),
