@@ -887,6 +887,7 @@ static int RestoreLocalRenameMethodBodies(
         ("Magicka.GameLogic.GameStates.PlayState", "HandleWorldSync", 0),
         ("Magicka.GameLogic.Spells.ArcaneBlade/RenderData", "Draw", 2),
         ("Magicka.GameLogic.Entities.Items.Item", "Update", 2),
+        ("Magicka.GameLogic.Entities.Items.Item", "MjolnirStrike", 1),
         (
             "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Portal"
                 + "/PortalEntity/RenderData",
