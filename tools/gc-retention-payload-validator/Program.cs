@@ -62,6 +62,7 @@ using AssemblyDefinition polygonHead = AssemblyDefinition.ReadAssembly(
 ValidateClr2Assembly(runtime);
 ValidateClr2Assembly(magicka);
 ValidateClr2Assembly(polygonHead);
+ValidateExceptionHandlerNestingOrder(magicka);
 ValidateRuntimeCompatibilityGuards(magicka);
 ValidateTelemetryPatchVersion(magicka);
 ValidatePlayerGameDeinitialize(magicka);
@@ -1573,6 +1574,48 @@ static void ValidateTelemetryPatchVersion(AssemblyDefinition magicka)
         throw new InvalidDataException(
             "PatchTelemetry.SendStartup is not isolated from telemetry"
             + " failures.");
+    }
+}
+
+static void ValidateExceptionHandlerNestingOrder(
+    AssemblyDefinition assembly)
+{
+    foreach (MethodDefinition method in AllTypes(assembly.MainModule)
+                 .SelectMany(type => type.Methods)
+                 .Where(method => method.HasBody
+                     && method.Body.ExceptionHandlers.Count > 1))
+    {
+        List<Instruction> instructions = method.Body.Instructions.ToList();
+        for (int innerIndex = 0;
+             innerIndex < method.Body.ExceptionHandlers.Count;
+             innerIndex++)
+        {
+            ExceptionHandler inner = method.Body.ExceptionHandlers[innerIndex];
+            int innerStart = instructions.IndexOf(inner.TryStart);
+            int innerEnd = instructions.IndexOf(inner.TryEnd);
+            for (int outerIndex = 0;
+                 outerIndex < method.Body.ExceptionHandlers.Count;
+                 outerIndex++)
+            {
+                if (outerIndex == innerIndex)
+                {
+                    continue;
+                }
+                ExceptionHandler outer = method.Body.ExceptionHandlers[outerIndex];
+                int outerStart = instructions.IndexOf(outer.TryStart);
+                int outerEnd = instructions.IndexOf(outer.TryEnd);
+                bool strictlyNested = outerStart <= innerStart
+                    && innerEnd <= outerEnd
+                    && (outerStart < innerStart || innerEnd < outerEnd);
+                if (strictlyNested && innerIndex > outerIndex)
+                {
+                    throw new InvalidDataException(
+                        method.FullName
+                        + " stores a nested exception clause after its enclosing clause;"
+                        + " CLR 2 can reject the method during JIT compilation.");
+                }
+            }
+        }
     }
 }
 

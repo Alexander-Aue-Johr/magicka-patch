@@ -106,6 +106,18 @@ if (args.Length == 4
 }
 
 if (args.Length == 3
+    && args[0] == "--repair-network-server-handler-order")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    RepairNetworkServerHandlerOrderOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": restored CLR-compatible NetworkServer exception-handler order");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--patch-character-template-static-caches")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -1380,9 +1392,68 @@ static int RestoreNetworkServerMethods(
     targetRead.Body.MaxStackSize = Math.Max(
         targetRead.Body.MaxStackSize,
         semanticRead.Body.MaxStackSize);
+    OrderExceptionHandlersByNesting(targetRead);
     ExpandShortBranches(targetRead);
     targetRead.Body.OptimizeMacros();
     return 3;
+}
+
+static void RepairNetworkServerHandlerOrderOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    TypeDefinition networkServer = AllTypes(assembly.MainModule).Single(type =>
+        type.FullName == "Magicka.Network.NetworkServer");
+    MethodDefinition readMessage = RequireMethod(
+        networkServer,
+        "ReadMessage",
+        parameterCount: 2);
+    OrderExceptionHandlersByNesting(readMessage);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void OrderExceptionHandlersByNesting(MethodDefinition method)
+{
+    List<Instruction> instructions = method.Body.Instructions.ToList();
+    ExceptionHandler[] original = method.Body.ExceptionHandlers.ToArray();
+    ExceptionHandler[] ordered = original
+        .Select((handler, index) => new { Handler = handler, Index = index })
+        .OrderByDescending(item =>
+            ExceptionHandlerNestingDepth(item.Handler, original, instructions))
+        .ThenBy(item => item.Index)
+        .Select(item => item.Handler)
+        .ToArray();
+    if (original.SequenceEqual(ordered))
+    {
+        return;
+    }
+    method.Body.ExceptionHandlers.Clear();
+    foreach (ExceptionHandler handler in ordered)
+    {
+        method.Body.ExceptionHandlers.Add(handler);
+    }
+}
+
+static int ExceptionHandlerNestingDepth(
+    ExceptionHandler candidate,
+    IReadOnlyCollection<ExceptionHandler> handlers,
+    List<Instruction> instructions)
+{
+    int start = instructions.IndexOf(candidate.TryStart);
+    int end = instructions.IndexOf(candidate.TryEnd);
+    return handlers.Count(container =>
+    {
+        if (container == candidate)
+        {
+            return false;
+        }
+        int containerStart = instructions.IndexOf(container.TryStart);
+        int containerEnd = instructions.IndexOf(container.TryEnd);
+        return containerStart <= start
+            && end <= containerEnd
+            && (containerStart < start || end < containerEnd);
+    });
 }
 
 static void ExpandShortBranches(MethodDefinition method)
@@ -2068,6 +2139,7 @@ static void CloneFragment(
                     referencePool),
         });
     }
+    OrderExceptionHandlersByNesting(targetMethod);
 }
 
 static int RestoreIconRendererMethods(
