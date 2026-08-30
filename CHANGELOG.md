@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.0.54] - 2026-08-30
+
+### Fixed
+
+- Fix an `InvalidProgramException` when hosting a multiplayer game. CLR 2 now
+  accepts `NetworkServer.ReadMessage` because its nested exception clause is
+  stored before the enclosing clauses.
+
+### Validation
+
+- Compare managed assemblies by stable method signature and JIT-compile every
+  added or changed concrete method under Microsoft CLR 2 and Mono before
+  release. Generic methods are validated with concrete compatible types.
+- Reject nested exception clauses stored after their enclosing clauses during
+  payload validation.
+
 ## [0.0.53] - 2026-08-30
 
 ### Fixed
