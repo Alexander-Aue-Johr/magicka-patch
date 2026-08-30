@@ -1,5 +1,6 @@
 using Mono.Cecil;
 using Mono.Cecil.Cil;
+using Mono.Cecil.Rocks;
 
 const string EntityTypeName = "Magicka.GameLogic.Entities.Entity";
 const string PlayStateTypeName = "Magicka.GameLogic.GameStates.PlayState";
@@ -1113,10 +1114,778 @@ static int RestoreRecompiledMethodBodies(
         targetTypes,
         assembly.MainModule,
         referencePool);
+    int networkServerRestores = RestoreNetworkServerMethods(
+        referencePath,
+        inputPath,
+        referenceTypes,
+        targetTypes,
+        assembly.MainModule,
+        referencePool);
 
     WriteAssembly(assembly, outputPath);
     return targets.Length + shieldDamageMethods.Length + 4
-        + playStateRestores + iconRendererRestores;
+        + playStateRestores + iconRendererRestores + networkServerRestores;
+}
+
+static int RestoreNetworkServerMethods(
+    string referencePath,
+    string semanticPath,
+    IReadOnlyDictionary<string, TypeDefinition> referenceTypes,
+    IReadOnlyDictionary<string, TypeDefinition> targetTypes,
+    ModuleDefinition targetModule,
+    BodyReferencePool referencePool)
+{
+    const string TypeName = "Magicka.Network.NetworkServer";
+    TypeDefinition originalType = RequireType(referenceTypes, TypeName);
+    TypeDefinition targetType = RequireType(targetTypes, TypeName);
+    using AssemblyDefinition semanticAssembly = ReadAssembly(semanticPath);
+    Dictionary<string, TypeDefinition> semanticTypes = AllTypes(
+            semanticAssembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    TypeDefinition semanticType = RequireType(semanticTypes, TypeName);
+
+    MethodDefinition originalRead = RequireMethod(originalType, "ReadMessage", 2);
+    MethodDefinition semanticRead = RequireMethod(semanticType, "ReadMessage", 2);
+    MethodDefinition targetRead = FindMatchingMethod(targetType, originalRead);
+    NeutralizeOriginalNullReferenceHandler(originalRead);
+    CloneMethodBody(
+        originalRead,
+        targetRead,
+        targetModule,
+        targetTypes,
+        referencePool);
+    foreach (string messageType in new[]
+             {
+                 "Magicka.Network.SpawnShieldRequestMessage",
+                 "Magicka.Network.SpawnBarrierRequestMessage",
+                 "Magicka.Network.SpawnWaveRequestMessage",
+                 "Magicka.Network.SpawnMineRequestMessage",
+                 "Magicka.Network.SpawnVortexMessage",
+                 "Magicka.Network.DamageRequestMessage",
+                 "Magicka.Network.EntityUpdateMessage",
+                 "Magicka.Network.CharacterActionMessage",
+                 "Magicka.Network.SpawnMissileMessage",
+                 "Magicka.Network.MissileEntityEventMessage",
+                 "Magicka.Network.RequestForcedPlayerStatusSync",
+             })
+    {
+        ReplaceMessageCaseFragments(
+            semanticRead,
+            targetRead,
+            messageType,
+            targetModule,
+            targetTypes,
+            referencePool);
+    }
+    ReplaceNullReferenceHandler(
+        semanticRead,
+        targetRead,
+        targetModule,
+        targetTypes,
+        referencePool);
+
+    RestoreHotjoinBroadcastMethod(
+        originalType,
+        semanticType,
+        targetType,
+        targetModule,
+        targetTypes,
+        referencePool);
+    MethodDefinition semanticForcedSync = semanticType.Methods.Single(method =>
+        method.Name == "SendForcedSyncMessageToClient"
+        && method.Parameters.Count == 2
+        && method.Parameters[0].ParameterType.FullName == "System.Int32");
+    CloneMethodBody(
+        semanticForcedSync,
+        FindMatchingMethod(targetType, semanticForcedSync),
+        targetModule,
+        targetTypes,
+        referencePool);
+
+    foreach (string helperName in new[]
+             {
+                 "AuthenticateSteamUser",
+                 "SendCheckpointRaw",
+             })
+    {
+        MethodDefinition helper = targetType.Methods.Single(
+            method => method.Name == helperName);
+        if (AllTypes(targetModule).SelectMany(type => type.Methods)
+            .SelectMany(method => method.HasBody
+                ? method.Body.Instructions
+                : Enumerable.Empty<Instruction>())
+            .Any(instruction => instruction.Operand is MethodReference called
+                && called.DeclaringType.FullName == helper.DeclaringType.FullName
+                && called.FullName == helper.FullName))
+        {
+            throw new InvalidOperationException(
+                "Cannot remove referenced NetworkServer helper " + helperName);
+        }
+        targetType.Methods.Remove(helper);
+    }
+
+    targetRead.Body.MaxStackSize = Math.Max(
+        targetRead.Body.MaxStackSize,
+        semanticRead.Body.MaxStackSize);
+    ExpandShortBranches(targetRead);
+    targetRead.Body.OptimizeMacros();
+    return 3;
+}
+
+static void ExpandShortBranches(MethodDefinition method)
+{
+    foreach (Instruction instruction in method.Body.Instructions)
+    {
+        instruction.OpCode = instruction.OpCode.Code switch
+        {
+            Code.Br_S => OpCodes.Br,
+            Code.Brfalse_S => OpCodes.Brfalse,
+            Code.Brtrue_S => OpCodes.Brtrue,
+            Code.Beq_S => OpCodes.Beq,
+            Code.Bge_S => OpCodes.Bge,
+            Code.Bge_Un_S => OpCodes.Bge_Un,
+            Code.Bgt_S => OpCodes.Bgt,
+            Code.Bgt_Un_S => OpCodes.Bgt_Un,
+            Code.Ble_S => OpCodes.Ble,
+            Code.Ble_Un_S => OpCodes.Ble_Un,
+            Code.Blt_S => OpCodes.Blt,
+            Code.Blt_Un_S => OpCodes.Blt_Un,
+            Code.Bne_Un_S => OpCodes.Bne_Un,
+            Code.Leave_S => OpCodes.Leave,
+            _ => instruction.OpCode,
+        };
+    }
+}
+
+static void NeutralizeOriginalNullReferenceHandler(MethodDefinition method)
+{
+    ExceptionHandler handler = method.Body.ExceptionHandlers.Single(candidate =>
+        candidate.HandlerType == ExceptionHandlerType.Catch
+        && candidate.CatchType?.FullName == "System.NullReferenceException");
+    ExceptionHandler preceding = method.Body.ExceptionHandlers.Single(candidate =>
+        candidate.HandlerType == ExceptionHandlerType.Catch
+        && candidate.CatchType?.FullName == "System.IO.IOException");
+    Instruction ret = method.Body.Instructions[^1];
+    List<Instruction> obsolete = [];
+    for (Instruction? instruction = handler.HandlerStart;
+         instruction is not null && instruction != handler.HandlerEnd;
+         instruction = instruction.Next)
+    {
+        obsolete.Add(instruction);
+    }
+    ILProcessor processor = method.Body.GetILProcessor();
+    foreach (Instruction instruction in obsolete)
+    {
+        processor.Remove(instruction);
+    }
+    Instruction pop = Instruction.Create(OpCodes.Pop);
+    Instruction leave = Instruction.Create(OpCodes.Leave, ret);
+    processor.InsertBefore(ret, pop);
+    processor.InsertBefore(ret, leave);
+    handler.HandlerStart = pop;
+    handler.HandlerEnd = ret;
+    preceding.HandlerEnd = pop;
+}
+
+static void RestoreHotjoinBroadcastMethod(
+    TypeDefinition originalType,
+    TypeDefinition semanticType,
+    TypeDefinition targetType,
+    ModuleDefinition targetModule,
+    IReadOnlyDictionary<string, TypeDefinition> targetTypes,
+    BodyReferencePool referencePool)
+{
+    MethodDefinition original = originalType.Methods.Single(method =>
+        method.Name == "SendMessage"
+        && method.Parameters.Count == 2
+        && method.Parameters[1].ParameterType.FullName
+            == "SteamWrapper.P2PSend");
+    MethodDefinition semantic = FindMatchingMethod(semanticType, original);
+    MethodDefinition target = FindMatchingMethod(targetType, original);
+    CloneMethodBody(
+        original,
+        target,
+        targetModule,
+        targetTypes,
+        referencePool);
+
+    MethodReference report = RequireBodyCall(
+        semantic,
+        "Magicka.CommunityPatch.NetworkLifecycleCompatibility",
+        "ReportHotjoinBroadcastContinue");
+    MethodReference getCount = RequireBodyCall(
+        target,
+        "System.Collections.Generic.List`1<Magicka.Network.NetworkServer/Connection>",
+        "get_Count");
+    FieldReference clients = targetType.Fields.Single(
+        field => field.Name == "mClients");
+    FieldReference sendable = target.Body.Instructions
+        .Select(instruction => instruction.Operand)
+        .OfType<FieldReference>()
+        .Single(field => field.DeclaringType.FullName
+            == "Magicka.Network.CachedMessage" && field.Name == "Sendable");
+    Instruction add = target.Body.Instructions.Single(instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == "Magicka.GameLogic.Player"
+        && called.Name == "AddSyncMessage");
+    Instruction oldExit = add.Next ?? throw new InvalidOperationException(
+        "Missing original hotjoin exit.");
+    if (oldExit.OpCode.Code is not Code.Leave and not Code.Leave_S)
+    {
+        throw new InvalidOperationException("Unexpected original hotjoin exit.");
+    }
+    VariableDefinition cached = target.Body.Variables.Single(variable =>
+        variable.VariableType.FullName == "Magicka.Network.CachedMessage");
+    VariableDefinition index = target.Body.Variables[1];
+    Instruction loopIncrement = target.Body.Instructions
+        .Skip(target.Body.Instructions.IndexOf(oldExit) + 1)
+        .First(instruction => LoadedVariable(instruction, target.Body) == index
+            && instruction.Next?.OpCode == OpCodes.Ldc_I4_1
+            && instruction.Next.Next?.OpCode == OpCodes.Add);
+    ILProcessor processor = target.Body.GetILProcessor();
+    oldExit.OpCode = OpCodes.Ldloca;
+    oldExit.Operand = cached;
+    foreach (Instruction instruction in new[]
+             {
+                 Instruction.Create(OpCodes.Ldfld, sendable),
+                 Instruction.Create(OpCodes.Ldloc, index),
+                 Instruction.Create(OpCodes.Ldarg_0),
+                 Instruction.Create(OpCodes.Ldfld, clients),
+                 Instruction.Create(OpCodes.Callvirt, getCount),
+                 Instruction.Create(OpCodes.Call, referencePool.RequireMethod(report)),
+                 Instruction.Create(OpCodes.Br, loopIncrement),
+             })
+    {
+        processor.InsertAfter(oldExit, instruction);
+        oldExit = instruction;
+    }
+    target.Body.MaxStackSize = Math.Max(target.Body.MaxStackSize, 3);
+}
+
+static void ReplaceMessageCaseFragments(
+    MethodDefinition semantic,
+    MethodDefinition target,
+    string messageType,
+    ModuleDefinition targetModule,
+    IReadOnlyDictionary<string, TypeDefinition> targetTypes,
+    BodyReferencePool referencePool)
+{
+    Instruction[] semanticStarts = FindMessageCaseStarts(semantic, messageType);
+    Instruction[] targetStarts = FindMessageCaseStarts(target, messageType);
+    if (semanticStarts.Length != targetStarts.Length || semanticStarts.Length == 0)
+    {
+        throw new InvalidOperationException(
+            $"Unexpected {messageType} case count: semantic "
+            + semanticStarts.Length + ", original " + targetStarts.Length);
+    }
+    for (int index = 0; index < semanticStarts.Length; index++)
+    {
+        CloneCaseFragment(
+            semantic,
+            target,
+            semanticStarts[index],
+            targetStarts[index],
+            targetModule,
+            targetTypes,
+            referencePool);
+    }
+}
+
+static Instruction[] FindMessageCaseStarts(
+    MethodDefinition method,
+    string messageType)
+{
+    List<Instruction> instructions = method.Body.Instructions.ToList();
+    return instructions.Where(instruction =>
+            instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == messageType
+            && called.Name == "Read")
+        .Select(read =>
+        {
+            int readIndex = instructions.IndexOf(read);
+            int initIndex = instructions.FindLastIndex(
+                readIndex - 1,
+                Math.Min(8, readIndex),
+                instruction => instruction.OpCode == OpCodes.Initobj
+                    && instruction.Operand is TypeReference type
+                    && type.FullName == messageType);
+            if (initIndex < 1)
+            {
+                throw new InvalidOperationException(
+                    "Message initializer not found for " + messageType);
+            }
+            int start = initIndex - 1;
+            while (start > 0
+                   && instructions[start].OpCode == OpCodes.Dup
+                   && LoadedVariable(instructions[start - 1], method.Body)
+                       is not null)
+            {
+                start--;
+            }
+            return instructions[start];
+        })
+        .ToArray();
+}
+
+static void CloneCaseFragment(
+    MethodDefinition semantic,
+    MethodDefinition target,
+    Instruction semanticStart,
+    Instruction targetStart,
+    ModuleDefinition targetModule,
+    IReadOnlyDictionary<string, TypeDefinition> targetTypes,
+    BodyReferencePool referencePool)
+{
+    Instruction semanticExit = MainTryExit(semantic);
+    Instruction targetExit = MainTryExit(target);
+    HashSet<Instruction> replacedFragment = ReachableFragment(
+        target,
+        targetStart,
+        targetExit);
+    HashSet<Instruction> fragment = ReachableFragment(
+        semantic,
+        semanticStart,
+        semanticExit);
+    CloneFragment(
+        semantic,
+        target,
+        fragment,
+        semanticStart,
+        targetStart,
+        semanticExit,
+        targetExit,
+        targetModule,
+        targetTypes,
+        referencePool,
+        replaceHandler: null,
+        reusableVariables: ReferencedVariables(target, replacedFragment));
+    RemoveReplacedFragment(target, replacedFragment);
+}
+
+static void ReplaceNullReferenceHandler(
+    MethodDefinition semantic,
+    MethodDefinition target,
+    ModuleDefinition targetModule,
+    IReadOnlyDictionary<string, TypeDefinition> targetTypes,
+    BodyReferencePool referencePool)
+{
+    ExceptionHandler semanticHandler = semantic.Body.ExceptionHandlers.Single(
+        handler => handler.HandlerType == ExceptionHandlerType.Catch
+            && handler.CatchType?.FullName == "System.NullReferenceException"
+            && handler.TryStart == semantic.Body.Instructions[10]);
+    ExceptionHandler targetHandler = target.Body.ExceptionHandlers.Single(
+        handler => handler.HandlerType == ExceptionHandlerType.Catch
+            && handler.CatchType?.FullName == "System.NullReferenceException"
+            && handler.TryStart == target.Body.Instructions[12]);
+    HashSet<Instruction> replacedFragment = InstructionsInRange(
+        target,
+        targetHandler.HandlerStart,
+        targetHandler.HandlerEnd);
+    HashSet<Instruction> fragment = InstructionsInRange(
+        semantic,
+        semanticHandler.HandlerStart,
+        semanticHandler.HandlerEnd);
+    CloneFragment(
+        semantic,
+        target,
+        fragment,
+        semanticHandler.HandlerStart,
+        targetHandler.HandlerStart,
+        semantic.Body.Instructions[^1],
+        target.Body.Instructions[^1],
+        targetModule,
+        targetTypes,
+        referencePool,
+        targetHandler,
+        ReferencedVariables(target, replacedFragment));
+    ExceptionHandler ioHandler = target.Body.ExceptionHandlers.Single(handler =>
+        handler.HandlerType == ExceptionHandlerType.Catch
+        && handler.CatchType?.FullName == "System.IO.IOException");
+    ioHandler.HandlerEnd = targetHandler.HandlerStart;
+    RemoveReplacedFragment(target, replacedFragment);
+}
+
+static void RemoveReplacedFragment(
+    MethodDefinition method,
+    HashSet<Instruction> fragment)
+{
+    foreach (ExceptionHandler handler in method.Body.ExceptionHandlers
+                 .Where(handler => fragment.Contains(handler.TryStart))
+                 .ToArray())
+    {
+        method.Body.ExceptionHandlers.Remove(handler);
+    }
+    foreach (Instruction instruction in method.Body.Instructions
+                 .Where(instruction => !fragment.Contains(instruction)))
+    {
+        bool referencesRemoved = instruction.Operand switch
+        {
+            Instruction target => fragment.Contains(target),
+            Instruction[] targets => targets.Any(fragment.Contains),
+            _ => false,
+        };
+        if (referencesRemoved)
+        {
+            throw new InvalidOperationException(
+                "Live instruction still references a replaced fragment at IL_"
+                + instruction.Offset.ToString("x4") + ": "
+                + instruction.OpCode + " " + instruction.Operand);
+        }
+    }
+    ILProcessor processor = method.Body.GetILProcessor();
+    foreach (Instruction instruction in method.Body.Instructions
+                 .Where(fragment.Contains)
+                 .ToArray())
+    {
+        processor.Remove(instruction);
+    }
+}
+
+static Instruction MainTryExit(MethodDefinition method)
+{
+    ExceptionHandler ioHandler = method.Body.ExceptionHandlers.Single(handler =>
+        handler.HandlerType == ExceptionHandlerType.Catch
+        && handler.CatchType?.FullName == "System.IO.IOException");
+    return ioHandler.TryEnd.Previous ?? throw new InvalidOperationException(
+        "Main ReadMessage leave was not found.");
+}
+
+static HashSet<Instruction> ReachableFragment(
+    MethodDefinition method,
+    Instruction start,
+    Instruction exit)
+{
+    HashSet<Instruction> result = [];
+    Queue<Instruction> pending = new();
+    pending.Enqueue(start);
+    while (pending.Count != 0)
+    {
+        Instruction instruction = pending.Dequeue();
+        if (instruction == exit
+            || instruction == method.Body.Instructions[^1]
+            || !result.Add(instruction))
+        {
+            continue;
+        }
+        if (instruction.Operand is Instruction branch)
+        {
+            pending.Enqueue(branch);
+        }
+        else if (instruction.Operand is Instruction[] branches)
+        {
+            foreach (Instruction target in branches)
+            {
+                pending.Enqueue(target);
+            }
+        }
+        if (instruction.OpCode.FlowControl is not FlowControl.Branch
+            and not FlowControl.Return
+            and not FlowControl.Throw
+            && instruction.Next is not null)
+        {
+            pending.Enqueue(instruction.Next);
+        }
+    }
+    foreach (ExceptionHandler handler in method.Body.ExceptionHandlers
+                 .Where(handler => handler.TryStart != method.Body.Instructions[10]
+                     && result.Contains(handler.TryStart)))
+    {
+        result.UnionWith(InstructionsInRange(
+            method,
+            handler.HandlerStart,
+            handler.HandlerEnd));
+    }
+    return result;
+}
+
+static HashSet<Instruction> InstructionsInRange(
+    MethodDefinition method,
+    Instruction start,
+    Instruction? end)
+{
+    HashSet<Instruction> result = [];
+    for (Instruction? instruction = start;
+         instruction is not null && instruction != end;
+         instruction = instruction.Next)
+    {
+        result.Add(instruction);
+    }
+    return result;
+}
+
+static IReadOnlyList<VariableDefinition> ReferencedVariables(
+    MethodDefinition method,
+    IEnumerable<Instruction> instructions)
+{
+    List<VariableDefinition> result = [];
+    foreach (Instruction instruction in instructions)
+    {
+        VariableDefinition? variable = instruction.Operand as VariableDefinition
+            ?? instruction.OpCode.Code switch
+            {
+                Code.Ldloc_0 or Code.Stloc_0 => method.Body.Variables[0],
+                Code.Ldloc_1 or Code.Stloc_1 => method.Body.Variables[1],
+                Code.Ldloc_2 or Code.Stloc_2 => method.Body.Variables[2],
+                Code.Ldloc_3 or Code.Stloc_3 => method.Body.Variables[3],
+                _ => null,
+            };
+        if (variable is not null && !result.Contains(variable))
+        {
+            result.Add(variable);
+        }
+    }
+    return result;
+}
+
+static void CloneFragment(
+    MethodDefinition sourceMethod,
+    MethodDefinition targetMethod,
+    HashSet<Instruction> sourceFragment,
+    Instruction sourceStart,
+    Instruction replacedTargetStart,
+    Instruction sourceExit,
+    Instruction targetExit,
+    ModuleDefinition targetModule,
+    IReadOnlyDictionary<string, TypeDefinition> targetTypes,
+    BodyReferencePool referencePool,
+    ExceptionHandler? replaceHandler,
+    IReadOnlyList<VariableDefinition> reusableVariables)
+{
+    Dictionary<string, TypeDefinition> sourceMethodTypes = AllTypes(
+            sourceMethod.Module)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    VariableDefinition sourceClosure = sourceMethod.Body.Variables.Single(
+        variable => sourceMethodTypes.TryGetValue(
+                variable.VariableType.FullName,
+                out TypeDefinition? type)
+            && type.Fields.Any(field => field.Name == "iSender")
+            && type.Fields.Any(field => field.Name == "<>4__this"));
+    VariableDefinition targetClosure = targetMethod.Body.Variables.Single(
+        variable => targetTypes.TryGetValue(
+                variable.VariableType.FullName,
+                out TypeDefinition? type)
+            && type.Fields.Any(field => field.Name == "iSender")
+            && type.Fields.Any(field => field.Name == "<>4__this"));
+    TypeDefinition sourceClosureType = sourceMethodTypes[
+        sourceClosure.VariableType.FullName];
+    TypeDefinition targetClosureType = targetTypes[
+        targetClosure.VariableType.FullName];
+    VariableDefinition sourcePacket = sourceMethod.Body.Variables.First(
+        variable => variable.VariableType.FullName == "Magicka.Network.PacketType");
+    VariableDefinition targetPacket = targetMethod.Body.Variables.First(
+        variable => variable.VariableType.FullName == "Magicka.Network.PacketType");
+
+    Dictionary<VariableDefinition, VariableDefinition> variables = new()
+    {
+        [sourceClosure] = targetClosure,
+        [sourcePacket] = targetPacket,
+    };
+    HashSet<VariableDefinition> claimedVariables = variables.Values.ToHashSet();
+    foreach (VariableDefinition sourceVariable in ReferencedVariables(
+                 sourceMethod,
+                 sourceFragment))
+    {
+        if (variables.ContainsKey(sourceVariable))
+        {
+            continue;
+        }
+        VariableDefinition? targetVariable = reusableVariables.FirstOrDefault(
+            candidate => !claimedVariables.Contains(candidate)
+                && candidate.VariableType.FullName
+                    == sourceVariable.VariableType.FullName);
+        if (targetVariable is null)
+        {
+            targetVariable = new VariableDefinition(
+                ImportBodyType(
+                    sourceVariable.VariableType,
+                    targetMethod,
+                    targetModule,
+                    targetTypes,
+                    referencePool));
+            targetMethod.Body.Variables.Add(targetVariable);
+        }
+        variables[sourceVariable] = targetVariable;
+        claimedVariables.Add(targetVariable);
+    }
+
+    Dictionary<Instruction, Instruction> instructions = [];
+    foreach (Instruction sourceInstruction in sourceMethod.Body.Instructions
+                 .Where(sourceFragment.Contains))
+    {
+        Instruction clone = Instruction.Create(OpCodes.Nop);
+        clone.OpCode = sourceInstruction.OpCode.Code switch
+        {
+            Code.Ldloc_0 or Code.Ldloc_1 or Code.Ldloc_2 or Code.Ldloc_3
+                => OpCodes.Ldloc,
+            Code.Stloc_0 or Code.Stloc_1 or Code.Stloc_2 or Code.Stloc_3
+                => OpCodes.Stloc,
+            _ => sourceInstruction.OpCode,
+        };
+        instructions[sourceInstruction] = clone;
+        targetMethod.Body.GetILProcessor().InsertBefore(
+            replacedTargetStart,
+            clone);
+    }
+    Instruction fragmentEnd = Instruction.Create(OpCodes.Nop);
+    targetMethod.Body.GetILProcessor().InsertBefore(
+        replacedTargetStart,
+        fragmentEnd);
+    Instruction clonedStart = instructions[sourceStart];
+    HashSet<Instruction> sourceBoundaries = sourceMethod.Body.ExceptionHandlers
+        .Where(handler => sourceFragment.Contains(handler.TryStart))
+        .SelectMany(handler => new[] { handler.TryEnd, handler.HandlerEnd })
+        .Where(instruction => instruction is not null)
+        .Cast<Instruction>()
+        .ToHashSet();
+
+    object? ImportFragmentOperand(object? operand) => operand switch
+    {
+        null => null,
+        Instruction instruction when instruction == sourceExit => targetExit,
+        Instruction instruction when instructions.TryGetValue(
+            instruction, out Instruction? clone) => clone,
+        Instruction instruction when instruction == sourceMethod.Body.Instructions[^1]
+            => targetMethod.Body.Instructions[^1],
+        Instruction instruction when sourceBoundaries.Contains(instruction)
+            => fragmentEnd,
+        Instruction instruction => throw new InvalidOperationException(
+            "Fragment branch escaped to IL_" + instruction.Offset.ToString("x4")),
+        Instruction[] branches => branches.Select(branch =>
+            (Instruction)(ImportFragmentOperand(branch)
+                ?? throw new InvalidOperationException("Null branch"))).ToArray(),
+        VariableDefinition variable => variables.TryGetValue(
+            variable, out VariableDefinition? mapped)
+                ? mapped
+                : throw new InvalidOperationException(
+                    "Unmapped fragment variable V" + variable.Index),
+        ParameterDefinition parameter => targetMethod.Parameters[
+            sourceMethod.Parameters.IndexOf(parameter)],
+        FieldDefinition field when field.DeclaringType == sourceClosureType
+            => targetClosureType.Fields.Single(candidate =>
+                candidate.Name == field.Name
+                && candidate.FieldType.FullName == field.FieldType.FullName),
+        FieldReference field when field.DeclaringType.FullName
+                == sourceClosureType.FullName
+            => targetClosureType.Fields.Single(candidate =>
+                candidate.Name == field.Name
+                && candidate.FieldType.FullName == field.FieldType.FullName),
+        MethodDefinition method => FindMatchingMethod(
+            RequireType(targetTypes, method.DeclaringType.FullName), method),
+        FieldDefinition field => RequireType(
+                targetTypes,
+                field.DeclaringType.FullName)
+            .Fields.Single(candidate => candidate.Name == field.Name
+                && candidate.FieldType.FullName == field.FieldType.FullName),
+        TypeDefinition type => RequireType(targetTypes, type.FullName),
+        MethodReference method => referencePool.RequireMethod(method),
+        FieldReference field => referencePool.RequireField(field),
+        TypeReference type => ImportBodyType(
+            type,
+            targetMethod,
+            targetModule,
+            targetTypes,
+            referencePool),
+        CallSite callSite => referencePool.RequireCallSite(callSite),
+        _ => operand,
+    };
+    foreach (Instruction sourceInstruction in sourceFragment)
+    {
+        object? sourceOperand = sourceInstruction.OpCode.Code switch
+        {
+            Code.Ldloc_0 or Code.Stloc_0 => sourceMethod.Body.Variables[0],
+            Code.Ldloc_1 or Code.Stloc_1 => sourceMethod.Body.Variables[1],
+            Code.Ldloc_2 or Code.Stloc_2 => sourceMethod.Body.Variables[2],
+            Code.Ldloc_3 or Code.Stloc_3 => sourceMethod.Body.Variables[3],
+            _ => sourceInstruction.Operand,
+        };
+        instructions[sourceInstruction].Operand = ImportFragmentOperand(
+            sourceOperand);
+    }
+
+    if (replaceHandler is null)
+    {
+        int incoming = 0;
+        foreach (Instruction instruction in targetMethod.Body.Instructions
+                     .Where(instruction => !instructions.Values.Contains(instruction)))
+        {
+            if (instruction.Operand == replacedTargetStart)
+            {
+                instruction.Operand = clonedStart;
+                incoming++;
+            }
+            else if (instruction.Operand is Instruction[] targets)
+            {
+                for (int index = 0; index < targets.Length; index++)
+                {
+                    if (targets[index] == replacedTargetStart)
+                    {
+                        targets[index] = clonedStart;
+                        incoming++;
+                    }
+                }
+            }
+        }
+        if (incoming == 0)
+        {
+            throw new InvalidOperationException(
+                "No incoming branch found for original case IL_"
+                + replacedTargetStart.Offset.ToString("x4"));
+        }
+        foreach (ExceptionHandler handler in targetMethod.Body.ExceptionHandlers)
+        {
+            if (handler.TryStart == replacedTargetStart)
+            {
+                handler.TryStart = clonedStart;
+            }
+            if (handler.TryEnd == replacedTargetStart)
+            {
+                handler.TryEnd = clonedStart;
+            }
+            if (handler.HandlerStart == replacedTargetStart)
+            {
+                handler.HandlerStart = clonedStart;
+            }
+            if (handler.HandlerEnd == replacedTargetStart)
+            {
+                handler.HandlerEnd = clonedStart;
+            }
+            if (handler.FilterStart == replacedTargetStart)
+            {
+                handler.FilterStart = clonedStart;
+            }
+        }
+    }
+    else
+    {
+        replaceHandler.HandlerStart = clonedStart;
+        replaceHandler.HandlerEnd = targetMethod.Body.Instructions[^1];
+    }
+
+    foreach (ExceptionHandler sourceHandler in sourceMethod.Body.ExceptionHandlers
+                 .Where(handler => sourceFragment.Contains(handler.TryStart)))
+    {
+        targetMethod.Body.ExceptionHandlers.Add(new ExceptionHandler(
+            sourceHandler.HandlerType)
+        {
+            TryStart = (Instruction)ImportFragmentOperand(sourceHandler.TryStart)!,
+            TryEnd = (Instruction)ImportFragmentOperand(sourceHandler.TryEnd)!,
+            HandlerStart = (Instruction)ImportFragmentOperand(
+                sourceHandler.HandlerStart)!,
+            HandlerEnd = (Instruction)ImportFragmentOperand(
+                sourceHandler.HandlerEnd)!,
+            FilterStart = sourceHandler.FilterStart is null
+                ? null
+                : (Instruction)ImportFragmentOperand(sourceHandler.FilterStart)!,
+            CatchType = sourceHandler.CatchType is null
+                ? null
+                : ImportBodyType(
+                    sourceHandler.CatchType,
+                    targetMethod,
+                    targetModule,
+                    targetTypes,
+                    referencePool),
+        });
+    }
 }
 
 static int RestoreIconRendererMethods(
