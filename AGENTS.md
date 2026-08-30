@@ -90,6 +90,11 @@ or claims that are not supported by the code or supplied telemetry.
   decompiler noise. Remove incidental local-variable renames, control-flow
   reshaping, cast changes, and unrelated method rewrites so the final diff shows
   only the intended semantic changes.
+- Before committing a changed managed assembly, run
+  `scripts/test-changed-method-jit.ps1` against the previous assembly and a
+  complete Magicka dependency directory. Require every concrete changed method,
+  including representative closed generic instantiations, to JIT successfully
+  under Microsoft CLR 2 and Mono; review every explicit non-IL skip.
 - Back up the input executable before patching it. Work under the ignored
   `tmp/` directory and keep generated decompiler output, probes, replacement
   assemblies, and intermediate executables there.
