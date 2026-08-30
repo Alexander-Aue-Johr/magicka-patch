@@ -21,6 +21,22 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 4
+    && args[0] == "--restore-interface-order")
+{
+    string referencePath = Path.GetFullPath(args[1]);
+    string inputPath = Path.GetFullPath(args[2]);
+    string outputPath = Path.GetFullPath(args[3]);
+    int reorderedTypes = RestoreOriginalInterfaceOrder(
+        referencePath,
+        inputPath,
+        outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": restored interface order on " + reorderedTypes + " types");
+    return 0;
+}
+
 if (args.Length == 3
     && args[0] == "--patch-character-template-static-caches")
 {
@@ -149,6 +165,9 @@ if (args.Length != 4)
         + "   or: RetentionPatcher"
         + " --normalize-self-references"
         + " <assembly> <output-assembly>\n"
+        + "   or: RetentionPatcher"
+        + " --restore-interface-order"
+        + " <reference-assembly> <assembly> <output-assembly>\n"
         + "   or: RetentionPatcher"
         + " --patch-character-template-static-caches"
         + " <Magicka.exe> <output-Magicka.exe>\n"
@@ -611,6 +630,69 @@ static (int DirectReferences, int TotalReferences) NormalizeSelfReferencesOnly(
 {
     using AssemblyDefinition assembly = ReadAssembly(inputPath);
     return WriteAssembly(assembly, outputPath);
+}
+
+static int RestoreOriginalInterfaceOrder(
+    string referencePath,
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition reference = ReadAssembly(referencePath);
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> targetTypes = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    int reorderedTypes = 0;
+    foreach (TypeDefinition referenceType in AllTypes(reference.MainModule))
+    {
+        if (!targetTypes.TryGetValue(
+                referenceType.FullName,
+                out TypeDefinition? targetType))
+        {
+            continue;
+        }
+
+        string[] referenceOrder = referenceType.Interfaces
+            .Select(item => item.InterfaceType.FullName)
+            .ToArray();
+        string[] targetOrder = targetType.Interfaces
+            .Select(item => item.InterfaceType.FullName)
+            .ToArray();
+        if (referenceOrder.SequenceEqual(targetOrder, StringComparer.Ordinal))
+        {
+            continue;
+        }
+
+        string[] sortedReference = referenceOrder
+            .OrderBy(name => name, StringComparer.Ordinal)
+            .ToArray();
+        string[] sortedTarget = targetOrder
+            .OrderBy(name => name, StringComparer.Ordinal)
+            .ToArray();
+        if (!sortedReference.SequenceEqual(sortedTarget, StringComparer.Ordinal))
+        {
+            continue;
+        }
+
+        Dictionary<string, Queue<InterfaceImplementation>> implementations =
+            targetType.Interfaces
+                .GroupBy(
+                    item => item.InterfaceType.FullName,
+                    StringComparer.Ordinal)
+                .ToDictionary(
+                    group => group.Key,
+                    group => new Queue<InterfaceImplementation>(group),
+                    StringComparer.Ordinal);
+        targetType.Interfaces.Clear();
+        foreach (string interfaceName in referenceOrder)
+        {
+            targetType.Interfaces.Add(implementations[interfaceName].Dequeue());
+        }
+
+        reorderedTypes++;
+    }
+
+    WriteAssembly(assembly, outputPath);
+    return reorderedTypes;
 }
 
 static void PatchWarlordAbilityDiagnosticOnly(
