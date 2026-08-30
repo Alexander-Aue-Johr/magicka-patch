@@ -54,6 +54,23 @@ if (args.Length == 4
     return 0;
 }
 
+if (args.Length == 4
+    && args[0] == "--restore-lock-lowering")
+{
+    string referencePath = Path.GetFullPath(args[1]);
+    string inputPath = Path.GetFullPath(args[2]);
+    string outputPath = Path.GetFullPath(args[3]);
+    (int restoredMethods, int restoredSites) = RestoreOriginalLockLowering(
+        referencePath,
+        inputPath,
+        outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": restored direct lock lowering at " + restoredSites
+        + " sites in " + restoredMethods + " methods");
+    return 0;
+}
+
 if (args.Length == 3
     && args[0] == "--patch-character-template-static-caches")
 {
@@ -187,6 +204,9 @@ if (args.Length != 4)
         + " <reference-assembly> <assembly> <output-assembly>\n"
         + "   or: RetentionPatcher"
         + " --restore-local-rename-bodies"
+        + " <reference-assembly> <assembly> <output-assembly>\n"
+        + "   or: RetentionPatcher"
+        + " --restore-lock-lowering"
         + " <reference-assembly> <assembly> <output-assembly>\n"
         + "   or: RetentionPatcher"
         + " --patch-character-template-static-caches"
@@ -713,6 +733,147 @@ static int RestoreOriginalInterfaceOrder(
 
     WriteAssembly(assembly, outputPath);
     return reorderedTypes;
+}
+
+static (int Methods, int Sites) RestoreOriginalLockLowering(
+    string referencePath,
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition reference = ReadAssembly(referencePath);
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> referenceTypes = AllTypes(
+            reference.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    int restoredMethods = 0;
+    int restoredSites = 0;
+    foreach (TypeDefinition targetType in AllTypes(assembly.MainModule))
+    {
+        if (!referenceTypes.TryGetValue(
+                targetType.FullName,
+                out TypeDefinition? referenceType))
+        {
+            continue;
+        }
+
+        foreach (MethodDefinition targetMethod in targetType.Methods)
+        {
+            if (!targetMethod.HasBody)
+            {
+                continue;
+            }
+
+            MethodDefinition? referenceMethod = referenceType.Methods
+                .SingleOrDefault(method =>
+                    method.Name == targetMethod.Name
+                    && method.GenericParameters.Count
+                        == targetMethod.GenericParameters.Count
+                    && method.ReturnType.FullName
+                        == targetMethod.ReturnType.FullName
+                    && method.Parameters.Select(
+                            parameter => parameter.ParameterType.FullName)
+                        .SequenceEqual(
+                            targetMethod.Parameters.Select(
+                                parameter => parameter.ParameterType.FullName),
+                            StringComparer.Ordinal));
+            if (referenceMethod is null
+                || !referenceMethod.HasBody
+                || (targetType.FullName
+                        == "Magicka.GameLogic.Spells.SpellEffects.ProjectileSpell"
+                    && targetMethod.Name == "SpawnMissile"
+                    && targetMethod.Parameters.Count == 9)
+                || FindCachedLockEntries(referenceMethod).Count != 0)
+            {
+                continue;
+            }
+
+            IReadOnlyList<(Instruction Store, Instruction Load)>
+                cachedEntries = FindCachedLockEntries(targetMethod);
+            if (cachedEntries.Count == 0)
+            {
+                continue;
+            }
+
+            foreach ((Instruction store, Instruction load) in cachedEntries)
+            {
+                OpCode storeOpCode = store.OpCode;
+                object? storeOperand = store.Operand;
+                store.OpCode = OpCodes.Dup;
+                store.Operand = null;
+                load.OpCode = storeOpCode;
+                load.Operand = storeOperand;
+            }
+
+            targetMethod.Body.MaxStackSize = Math.Max(
+                targetMethod.Body.MaxStackSize,
+                referenceMethod.Body.MaxStackSize);
+            restoredMethods++;
+            restoredSites += cachedEntries.Count;
+        }
+    }
+
+    WriteAssembly(assembly, outputPath);
+    return (restoredMethods, restoredSites);
+}
+
+static IReadOnlyList<(Instruction Store, Instruction Load)>
+    FindCachedLockEntries(MethodDefinition method)
+{
+    List<(Instruction Store, Instruction Load)> entries = [];
+    IList<Instruction> instructions = method.Body.Instructions;
+    for (int index = 2; index < instructions.Count; index++)
+    {
+        if (instructions[index].Operand is not MethodReference called
+            || called.DeclaringType.FullName != "System.Threading.Monitor"
+            || called.Name != "Enter")
+        {
+            continue;
+        }
+
+        VariableDefinition? loaded = LoadedVariable(
+            instructions[index - 1],
+            method.Body);
+        VariableDefinition? stored = StoredVariable(
+            instructions[index - 2],
+            method.Body);
+        if (loaded is not null && loaded == stored)
+        {
+            entries.Add((instructions[index - 2], instructions[index - 1]));
+        }
+    }
+    return entries;
+}
+
+static VariableDefinition? LoadedVariable(
+    Instruction instruction,
+    MethodBody body)
+{
+    return instruction.OpCode.Code switch
+    {
+        Code.Ldloc_0 => body.Variables[0],
+        Code.Ldloc_1 => body.Variables[1],
+        Code.Ldloc_2 => body.Variables[2],
+        Code.Ldloc_3 => body.Variables[3],
+        Code.Ldloc or Code.Ldloc_S =>
+            instruction.Operand as VariableDefinition,
+        _ => null,
+    };
+}
+
+static VariableDefinition? StoredVariable(
+    Instruction instruction,
+    MethodBody body)
+{
+    return instruction.OpCode.Code switch
+    {
+        Code.Stloc_0 => body.Variables[0],
+        Code.Stloc_1 => body.Variables[1],
+        Code.Stloc_2 => body.Variables[2],
+        Code.Stloc_3 => body.Variables[3],
+        Code.Stloc or Code.Stloc_S =>
+            instruction.Operand as VariableDefinition,
+        _ => null,
+    };
 }
 
 static int RestoreLocalRenameMethodBodies(
