@@ -18,10 +18,20 @@ HashSet<string> changedKeys = currentMethods
         || MethodBodyKey(method) != MethodBodyKey(old))
     .Select(MethodKey)
     .ToHashSet(StringComparer.Ordinal);
+HashSet<string> requiredTypeNames = new(StringComparer.Ordinal)
+{
+    "Magicka.Network.NetworkServer",
+    "Magicka.Network.NetworkClient",
+};
+HashSet<string> selectedKeys = currentMethods
+    .Where(method => changedKeys.Contains(MethodKey(method))
+        || requiredTypeNames.Contains(method.DeclaringType.FullName))
+    .Select(MethodKey)
+    .ToHashSet(StringComparer.Ordinal);
 
 List<string> entries = [];
 foreach (MethodDefinition method in currentMethods
-             .Where(method => changedKeys.Contains(MethodKey(method)))
+             .Where(method => selectedKeys.Contains(MethodKey(method)))
              .OrderBy(MethodKey, StringComparer.Ordinal))
 {
     if (!method.HasGenericParameters && !method.DeclaringType.HasGenericParameters)
@@ -40,7 +50,9 @@ foreach (MethodDefinition method in currentMethods
                 == method.DeclaringType.FullName
             && instance.ElementMethod.Parameters.Count == method.Parameters.Count
             && instance.ElementMethod.GenericParameters.Count
-                == method.GenericParameters.Count)
+                == method.GenericParameters.Count
+            && instance.GenericArguments.All(argument =>
+                !argument.ContainsGenericParameter))
         .GroupBy(instance => string.Join(",", instance.GenericArguments
             .Select(argument => argument.MetadataToken.ToInt32())))
         .Select(group => group.First())
@@ -67,6 +79,9 @@ foreach (MethodDefinition method in currentMethods
 File.WriteAllLines(Path.GetFullPath(args[2]), entries);
 Console.WriteLine(
     "Changed methods: " + changedKeys.Count
+    + "; required network methods: "
+    + currentMethods.Count(method => requiredTypeNames.Contains(
+        method.DeclaringType.FullName))
     + "; JIT entries: " + entries.Count(line => line.StartsWith("JIT\t"))
     + "; explicit skips: " + entries.Count(line => line.StartsWith("SKIP\t")));
 return 0;

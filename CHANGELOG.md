@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.0.55] - 2026-08-31
+
+### Fixed
+
+- Skip unavailable process-thread records while setting processor affinity.
+  Mono and Proton can no longer crash during startup when their process-thread
+  collection contains a null entry.
+- Accept incoming `EntityUpdateMessage` packets that carry Magicka's original
+  `Character` feature bit. The server now decodes the remaining known fields
+  instead of throwing the original `NotImplementedException`.
+
+### Telemetry
+
+- Add `game_integrity` to every PostHog event. The bounded value reports
+  Magicka's existing core-file result as `original`, `modded`, `pending`, or
+  `unknown`; no file names, hashes, or additional file contents are sent.
+- Record the bounded `entity_update_character_feature` diagnostic after an
+  incoming Character-marked entity update has been decoded.
+
+### Validation
+
+- JIT-compile every method in `NetworkServer` and `NetworkClient` under
+  Microsoft CLR 2 and Mono for every release, even when a method is unchanged.
+  This extends the changed-method gate to catch future network-class rewrite
+  regressions before packaging.
+
 ## [0.0.54] - 2026-08-30
 
 ### Fixed

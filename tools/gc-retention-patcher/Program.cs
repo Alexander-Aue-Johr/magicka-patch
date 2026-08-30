@@ -130,6 +130,30 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
+    && args[0] == "--diagnose-character-entity-update")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    DiagnoseCharacterEntityUpdateOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": diagnosed incoming EntityUpdateMessage Character flags");
+    return 0;
+}
+
+if (args.Length == 3
+    && args[0] == "--patch-telemetry-game-integrity")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchTelemetryGameIntegrityOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": added the game integrity state to telemetry");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--patch-character-template-static-caches")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -286,6 +310,12 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-game-thread-affinity-null"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --diagnose-character-entity-update"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-telemetry-game-integrity"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-polygon-light-scene-detach"
@@ -3033,6 +3063,198 @@ static void PatchGameThreadAffinityNullOnly(
     il.InsertAfter(storeThread, loadThread);
     il.InsertAfter(loadThread, skipNullThread);
     constructor.Body.OptimizeMacros();
+
+    WriteAssembly(assembly, outputPath);
+}
+
+static void DiagnoseCharacterEntityUpdateOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    TypeDefinition message = RequireType(
+        types, "Magicka.Network.EntityUpdateMessage");
+    MethodDefinition read = RequireMethod(message, "Read", parameterCount: 1);
+    Instruction throwInstruction = read.Body.Instructions.Single(
+        instruction => instruction.OpCode == OpCodes.Throw
+            && instruction.Previous?.OpCode == OpCodes.Newobj
+            && instruction.Previous.Operand is MethodReference constructor
+            && constructor.DeclaringType.FullName
+                == "System.NotImplementedException");
+    Instruction createException = throwInstruction.Previous;
+    createException.OpCode = OpCodes.Nop;
+    createException.Operand = null;
+    throwInstruction.OpCode = OpCodes.Nop;
+    throwInstruction.Operand = null;
+
+    TypeDefinition patchTelemetry = RequireType(
+        types, "Magicka.CommunityPatch.PatchTelemetry");
+    MethodReference sendDiagnostic = RequireMethod(
+        patchTelemetry, "SendNetworkDiagnostic", parameterCount: 5);
+    MethodReference format = new MethodReference(
+        "Format", assembly.MainModule.TypeSystem.String,
+        assembly.MainModule.TypeSystem.String)
+    {
+        HasThis = false,
+    };
+    format.Parameters.Add(new ParameterDefinition(
+        assembly.MainModule.TypeSystem.String));
+    format.Parameters.Add(new ParameterDefinition(
+        new ArrayType(assembly.MainModule.TypeSystem.Object)));
+
+    string[] fieldNames =
+    [
+        "Handle", "UDPStamp", "Features", "Position", "Direction",
+        "Velocity", "Orientation", "HitPoints", "StatusEffects",
+        "GenericBool", "GenericInt", "GenericFloat", "GenericUShort",
+        "WanderAngle", "SelfShieldType", "SelfShieldHealth",
+        "EtherealState",
+    ];
+    FieldDefinition[] fields = fieldNames.Select(name =>
+        message.Fields.Single(field => field.Name == name)).ToArray();
+    string detailsFormat = string.Join(";", fieldNames.Select(
+        (name, index) => name + "={" + index + "}"));
+
+    Instruction returnInstruction = read.Body.Instructions.Last();
+    if (returnInstruction.OpCode != OpCodes.Ret)
+    {
+        throw new InvalidOperationException(
+            "Unexpected EntityUpdateMessage.Read exit.");
+    }
+    Instruction[] existingExitBranches = read.Body.Instructions
+        .Where(instruction => ReferenceEquals(
+            instruction.Operand, returnInstruction))
+        .ToArray();
+    FieldDefinition features = fields.Single(field => field.Name == "Features");
+    ILProcessor il = read.Body.GetILProcessor();
+    List<Instruction> telemetry =
+    [
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, features),
+        Instruction.Create(OpCodes.Ldc_I4_S, (sbyte)16),
+        Instruction.Create(OpCodes.And),
+        Instruction.Create(OpCodes.Conv_U2),
+        Instruction.Create(OpCodes.Brfalse, returnInstruction),
+        Instruction.Create(OpCodes.Ldstr, "network"),
+        Instruction.Create(OpCodes.Ldstr, "EntityUpdate"),
+        Instruction.Create(OpCodes.Ldstr, "entity_update_character_feature"),
+        Instruction.Create(OpCodes.Ldstr, "Character"),
+        Instruction.Create(OpCodes.Ldstr, detailsFormat),
+        Instruction.Create(OpCodes.Ldc_I4, fields.Length),
+        Instruction.Create(OpCodes.Newarr, assembly.MainModule.TypeSystem.Object),
+    ];
+    for (int index = 0; index < fields.Length; index++)
+    {
+        telemetry.Add(Instruction.Create(OpCodes.Dup));
+        telemetry.Add(Instruction.Create(OpCodes.Ldc_I4, index));
+        telemetry.Add(Instruction.Create(OpCodes.Ldarg_0));
+        telemetry.Add(Instruction.Create(OpCodes.Ldfld, fields[index]));
+        telemetry.Add(Instruction.Create(OpCodes.Box, fields[index].FieldType));
+        telemetry.Add(Instruction.Create(OpCodes.Stelem_Ref));
+    }
+    telemetry.Add(Instruction.Create(OpCodes.Call, format));
+    telemetry.Add(Instruction.Create(OpCodes.Call, sendDiagnostic));
+    foreach (Instruction branch in existingExitBranches)
+    {
+        branch.Operand = telemetry[0];
+    }
+    foreach (Instruction instruction in telemetry)
+    {
+        il.InsertBefore(returnInstruction, instruction);
+    }
+
+    WriteAssembly(assembly, outputPath);
+}
+
+static void PatchTelemetryGameIntegrityOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    TypeDefinition patchTelemetry = RequireType(
+        types, "Magicka.CommunityPatch.PatchTelemetry");
+    if (patchTelemetry.Methods.Any(method =>
+            method.Name == "GetGameIntegrityStatus"))
+    {
+        throw new InvalidOperationException(
+            "PatchTelemetry.GetGameIntegrityStatus already exists.");
+    }
+
+    TypeDefinition hackHelper = RequireType(types, "Magicka.DRM.HackHelper");
+    MethodReference getLicenseStatus = RequireMethod(
+        hackHelper, "get_LicenseStatus", parameterCount: 0);
+    MethodDefinition getIntegrity = new MethodDefinition(
+        "GetGameIntegrityStatus",
+        MethodAttributes.Private | MethodAttributes.Static
+        | MethodAttributes.HideBySig,
+        assembly.MainModule.TypeSystem.String);
+    patchTelemetry.Methods.Add(getIntegrity);
+    ILProcessor statusIl = getIntegrity.Body.GetILProcessor();
+    Instruction pendingTarget = Instruction.Create(OpCodes.Nop);
+    Instruction originalTarget = Instruction.Create(OpCodes.Nop);
+    Instruction original = Instruction.Create(OpCodes.Ldstr, "original");
+    Instruction modded = Instruction.Create(OpCodes.Ldstr, "modded");
+    Instruction unknown = Instruction.Create(OpCodes.Ldstr, "unknown");
+    statusIl.Append(Instruction.Create(OpCodes.Call, getLicenseStatus));
+    statusIl.Append(Instruction.Create(OpCodes.Dup));
+    statusIl.Append(Instruction.Create(OpCodes.Brfalse_S, pendingTarget));
+    statusIl.Append(Instruction.Create(OpCodes.Dup));
+    statusIl.Append(Instruction.Create(OpCodes.Ldc_I4_1));
+    statusIl.Append(Instruction.Create(OpCodes.Beq_S, originalTarget));
+    statusIl.Append(Instruction.Create(OpCodes.Ldc_I4_2));
+    statusIl.Append(Instruction.Create(OpCodes.Beq_S, modded));
+    statusIl.Append(Instruction.Create(OpCodes.Br_S, unknown));
+    statusIl.Append(pendingTarget);
+    statusIl.Append(Instruction.Create(OpCodes.Pop));
+    statusIl.Append(Instruction.Create(OpCodes.Ldstr, "pending"));
+    statusIl.Append(Instruction.Create(OpCodes.Ret));
+    statusIl.Append(originalTarget);
+    statusIl.Append(Instruction.Create(OpCodes.Pop));
+    statusIl.Append(original);
+    statusIl.Append(Instruction.Create(OpCodes.Ret));
+    statusIl.Append(modded);
+    statusIl.Append(Instruction.Create(OpCodes.Ret));
+    statusIl.Append(unknown);
+    statusIl.Append(Instruction.Create(OpCodes.Ret));
+
+    MethodDefinition addCommonProperties = RequireMethod(
+        patchTelemetry, "AddCommonProperties", parameterCount: 1);
+    addCommonProperties.Body.SimplifyMacros();
+    MethodReference dictionarySetter = addCommonProperties.Body.Instructions
+        .Where(instruction => instruction.OpCode == OpCodes.Callvirt)
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .First(method => method.Name == "set_Item"
+            && method.DeclaringType.FullName
+                == addCommonProperties.Parameters[0].ParameterType.FullName
+            && method.Parameters.Count == 2);
+    Instruction commonReturn = addCommonProperties.Body.Instructions[^1];
+    ILProcessor commonIl = addCommonProperties.Body.GetILProcessor();
+    commonIl.InsertBefore(commonReturn, Instruction.Create(OpCodes.Ldarg_0));
+    commonIl.InsertBefore(commonReturn, Instruction.Create(
+        OpCodes.Ldstr, "game_integrity"));
+    commonIl.InsertBefore(commonReturn, Instruction.Create(OpCodes.Call, getIntegrity));
+    commonIl.InsertBefore(commonReturn, Instruction.Create(
+        OpCodes.Callvirt, dictionarySetter));
+    addCommonProperties.Body.OptimizeMacros();
+
+    MethodDefinition sendBlocking = RequireMethod(
+        patchTelemetry, "SendBlocking", parameterCount: 3);
+    sendBlocking.Body.SimplifyMacros();
+    Instruction buildJsonCall = sendBlocking.Body.Instructions.Single(
+        instruction => instruction.OpCode == OpCodes.Call
+            && instruction.Operand is MethodReference method
+            && method.Name == "BuildPostHogJson"
+            && method.DeclaringType.FullName == patchTelemetry.FullName);
+    ILProcessor sendIl = sendBlocking.Body.GetILProcessor();
+    sendIl.InsertBefore(buildJsonCall, Instruction.Create(OpCodes.Ldarg_1));
+    sendIl.InsertBefore(buildJsonCall, Instruction.Create(
+        OpCodes.Call, addCommonProperties));
+    sendBlocking.Body.OptimizeMacros();
 
     WriteAssembly(assembly, outputPath);
 }

@@ -87,6 +87,7 @@ namespace Magicka.CommunityPatch
 					catch
 					{
 					}
+					PatchTelemetry.AddCommonProperties(properties);
 					string s = PatchTelemetry.BuildPostHogJson(eventName, properties);
 					byte[] bytes = Encoding.UTF8.GetBytes(s);
 					HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create("https://eu.i.posthog.com/capture/");
@@ -128,6 +129,21 @@ namespace Magicka.CommunityPatch
 			stringBuilder.Append("}");
 			stringBuilder.Append("}");
 			return stringBuilder.ToString();
+		}
+
+		private static string GetGameIntegrityStatus()
+		{
+			switch (DRM.HackHelper.LicenseStatus)
+			{
+			case DRM.HackHelper.Status.Pending:
+				return "pending";
+			case DRM.HackHelper.Status.Valid:
+				return "original";
+			case DRM.HackHelper.Status.Hacked:
+				return "modded";
+			default:
+				return "unknown";
+			}
 		}
 
 		internal static void CommunityPatchRecordKeyboardElementSelection()
@@ -567,6 +583,7 @@ namespace Magicka.CommunityPatch
 			properties["patch_version"] = PatchTelemetry.GetPatchVersion();
 			properties["game_version"] = PatchTelemetry.Safe(Application.ProductVersion);
 			properties["os"] = PatchTelemetry.Safe(Environment.OSVersion.ToString());
+			properties["game_integrity"] = PatchTelemetry.GetGameIntegrityStatus();
 		}
 
 		private static string SafeLong(string value)

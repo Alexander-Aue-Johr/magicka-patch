@@ -16,6 +16,7 @@ The guards currently cover these high-risk areas:
 | `Magicka.GameLogic.Entities.Character.NetworkAction` | Drop unsafe remote grip actions before they dereference missing actors, bodies, grippers, animation controllers, skeletons, or out-of-range grip joints. |
 | `Magicka.Network.NetworkClient` | Route all 21 `Entity.GetFromHandle` call sites through a caller-local usability guard and reject cache-dependent CharacterAction/SpawnPlayer template application when its template is unavailable. |
 | `Magicka.Network.NetworkServer` | Route all 17 `Entity.GetFromHandle` call sites through the same caller-local guard, validate host-side spawn requests, and catch last-resort `NullReferenceException` failures during message handling. |
+| `Magicka.Network.EntityUpdateMessage` | Parse incoming messages that carry the original `Character` feature bit and record their decoded state instead of throwing the original `NotImplementedException`. |
 | `Magicka.GameLogic.GameStates.PlayState.AddWorldSyncMessage` | Drop `SpawnNPC` WorldSync messages before queueing when their handle is not a usable NPC in the receiving play state. |
 | `Magicka.Rendering.TypingText.Update` | Catch an out-of-range text reveal state, report diagnostic counters, and reveal the rest of the text instead of crashing. |
 
@@ -94,6 +95,7 @@ Network guard events include:
 | `patch_version` | Value returned by `CommunityPatchInfo.Version`; should match the shipped `Magicka.exe`. |
 | `game_version` | `Application.ProductVersion` reported by the game process. |
 | `os` | Operating system string reported by .NET. |
+| `game_integrity` | Magicka's existing core-file result: `original`, `modded`, `pending`, or `unknown`. The value is added immediately before every PostHog request is serialized. |
 | `side` | Guard origin, such as `client`, `server`, `missile_entity`, or `projectile_spell`. |
 | `packet_type` | Network packet or subsystem being guarded. |
 | `sender_steam_id` | Steam ID associated with the remote sender when available. |
@@ -148,6 +150,7 @@ counted over time:
 | `railgun_parent_cycle_check_limit_reached` | The Railgun parent traversal reached its fixed work-set limit and rejected the attachment fail-safe. |
 | `railgun_parent_cycle_check_failed` | The Railgun parent traversal encountered an unexpected error and rejected the attachment fail-safe. |
 | `judgement_spray_condition_cache_empty_recovered` | JudgementSpray found the shared projectile `ConditionCollection` queue empty, allocated an equivalent replacement, and continued the valid projectile spawn. |
+| `entity_update_character_feature` | The server received and fully decoded an `EntityUpdateMessage` carrying the original `Character` feature bit. The diagnostic records the bounded `Character` similarity key and the decoded feature fields so future reports can identify what the sender supplied. |
 
 When a reason code becomes frequent, the next step is to reproduce that specific
 state and replace the guard with a narrower root-cause fix where possible.
