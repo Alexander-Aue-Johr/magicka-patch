@@ -85,6 +85,11 @@ or claims that are not supported by the code or supplied telemetry.
 
 ### Managed assembly changes
 
+- Before committing, compare the working-tree assembly with the previous
+  committed version and check every changed method body for recompilation or
+  decompiler noise. Remove incidental local-variable renames, control-flow
+  reshaping, cast changes, and unrelated method rewrites so the final diff shows
+  only the intended semantic changes.
 - Back up the input executable before patching it. Work under the ignored
   `tmp/` directory and keep generated decompiler output, probes, replacement
   assemblies, and intermediate executables there.
