@@ -166,6 +166,18 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
+    && args[0] == "--patch-character-cast-spell-gamer-null")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchCharacterCastSpellGamerNullOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": skipped optional spell statistics for a detached Gamer");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--diagnose-character-entity-update")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -412,6 +424,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-avatar-find-interactable-null"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-character-cast-spell-gamer-null"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --diagnose-character-entity-update"
@@ -3377,6 +3392,94 @@ static void RepairAvatarFindInteractableNull(
     findInteractable.Body.MaxStackSize = Math.Max(
         findInteractable.Body.MaxStackSize,
         1);
+}
+
+static void PatchCharacterCastSpellGamerNullOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairCharacterCastSpellGamerNull(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairCharacterCastSpellGamerNull(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition guards = RequireType(
+        types,
+        "Magicka.CommunityPatch.RuntimeCompatibilityGuards");
+    if (guards.Methods.Any(method =>
+            method.Name == "CanRecordLocalSpellUsage"))
+    {
+        throw new InvalidOperationException(
+            "RuntimeCompatibilityGuards.CanRecordLocalSpellUsage already exists.");
+    }
+    TypeDefinition gamerType = RequireType(types, "Magicka.Gamers.Gamer");
+    TypeDefinition networkGamerType = RequireType(
+        types,
+        "Magicka.Gamers.NetworkGamer");
+    MethodDefinition canRecord = new MethodDefinition(
+        "CanRecordLocalSpellUsage",
+        MethodAttributes.Public
+        | MethodAttributes.Static
+        | MethodAttributes.HideBySig,
+        guards.Module.TypeSystem.Boolean);
+    canRecord.Parameters.Add(new ParameterDefinition(
+        "gamer",
+        ParameterAttributes.None,
+        gamerType));
+    ILProcessor helperProcessor = canRecord.Body.GetILProcessor();
+    Instruction returnFalse = Instruction.Create(OpCodes.Ldc_I4_0);
+    helperProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    helperProcessor.Append(Instruction.Create(OpCodes.Brfalse, returnFalse));
+    helperProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    helperProcessor.Append(Instruction.Create(OpCodes.Isinst, networkGamerType));
+    helperProcessor.Append(Instruction.Create(OpCodes.Ldnull));
+    helperProcessor.Append(Instruction.Create(OpCodes.Ceq));
+    helperProcessor.Append(Instruction.Create(OpCodes.Ret));
+    helperProcessor.Append(returnFalse);
+    helperProcessor.Append(Instruction.Create(OpCodes.Ret));
+    canRecord.Body.MaxStackSize = 2;
+    guards.Methods.Add(canRecord);
+
+    MethodDefinition castSpell = RequireMethod(
+        RequireType(types, "Magicka.GameLogic.Entities.Character"),
+        "CastSpell",
+        parameterCount: 2);
+    Instruction[] instructions = castSpell.Body.Instructions.ToArray();
+    Instruction usedElements = instructions.Single(instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == "Magicka.GameLogic.Profile"
+        && called.Name == "UsedElements");
+    int usedElementsIndex = Array.IndexOf(instructions, usedElements);
+    Instruction getGamer = instructions.Take(usedElementsIndex)
+        .Last(instruction => instruction.Operand is MethodReference called
+                             && called.DeclaringType.FullName
+                                 == "Magicka.GameLogic.Player"
+                             && called.Name == "get_Gamer");
+    Instruction isNetworkGamer = getGamer.Next
+        ?? throw new InvalidOperationException(
+            "Character.CastSpell Gamer check has no successor.");
+    if (isNetworkGamer.OpCode != OpCodes.Isinst
+        || isNetworkGamer.Operand is not TypeReference networkGamer
+        || networkGamer.FullName != "Magicka.Gamers.NetworkGamer"
+        || isNetworkGamer.Next is not Instruction skipStatisticsBranch
+        || skipStatisticsBranch.OpCode.FlowControl != FlowControl.Cond_Branch
+        || skipStatisticsBranch.Operand is not Instruction skipStatistics
+        || Array.IndexOf(instructions, skipStatistics) <= usedElementsIndex)
+    {
+        throw new InvalidOperationException(
+            "Unexpected Character.CastSpell statistics Gamer check.");
+    }
+
+    isNetworkGamer.OpCode = OpCodes.Call;
+    isNetworkGamer.Operand = canRecord;
+    skipStatisticsBranch.OpCode = skipStatisticsBranch.OpCode == OpCodes.Brtrue_S
+        ? OpCodes.Brfalse_S
+        : OpCodes.Brfalse;
 }
 
 static void DiagnoseCharacterEntityUpdateOnly(

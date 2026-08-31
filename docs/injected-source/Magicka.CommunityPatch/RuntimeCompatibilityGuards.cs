@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Magicka.GameLogic.Controls;
 using Magicka.GameLogic.GameStates.Menu.Main.Options;
 using Magicka.GameLogic.UI.UISystem.Popup;
+using Magicka.Gamers;
 using Magicka.Misc;
 using Magicka.WebTools;
 using Magicka.WebTools.Paradox;
@@ -21,6 +22,11 @@ namespace Magicka.CommunityPatch
 		private static int sDirectInputWarningPending;
 
 		private static int sParadoxStorePriceUpdatePending;
+
+		public static bool CanRecordLocalSpellUsage(Gamer gamer)
+		{
+			return gamer != null && !(gamer is NetworkGamer);
+		}
 
 		public static void QueueParadoxStorePriceUpdate(ThreadStart update)
 		{

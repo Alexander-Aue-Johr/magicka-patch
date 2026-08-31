@@ -67,6 +67,7 @@ ValidateNetworkServerForcedSyncExit(magicka);
 ValidateRuntimeCompatibilityGuards(magicka);
 ValidateArrayEqualsNullGuard(magicka);
 ValidateAvatarFindInteractableNullGuard(magicka);
+ValidateCharacterCastSpellGamerNullGuard(magicka);
 ValidateTelemetryPatchVersion(magicka);
 ValidatePlayerGameDeinitialize(magicka);
 ValidateEntityCollisionCallbackCleanup(magicka);
@@ -943,6 +944,66 @@ static void ValidateAvatarFindInteractableNullGuard(AssemblyDefinition magicka)
     {
         throw new InvalidDataException(
             "Avatar.FindInteractable does not guard the captured scene chain.");
+    }
+}
+
+static void ValidateCharacterCastSpellGamerNullGuard(AssemblyDefinition magicka)
+{
+    MethodDefinition helper = AllTypes(magicka.MainModule)
+        .Single(type => type.FullName
+                        == "Magicka.CommunityPatch.RuntimeCompatibilityGuards")
+        .Methods.Single(candidate =>
+            candidate.Name == "CanRecordLocalSpellUsage"
+            && candidate.Parameters.Count == 1);
+    if (helper.Parameters[0].ParameterType.FullName != "Magicka.Gamers.Gamer"
+        || !helper.Body.Instructions.Any(instruction =>
+            instruction.OpCode == OpCodes.Brfalse
+            && instruction.Operand is Instruction target
+            && target.OpCode == OpCodes.Ldc_I4_0
+            && target.Next?.OpCode == OpCodes.Ret)
+        || !helper.Body.Instructions.Any(instruction =>
+            instruction.OpCode == OpCodes.Isinst
+            && instruction.Operand is TypeReference type
+            && type.FullName == "Magicka.Gamers.NetworkGamer"))
+    {
+        throw new InvalidDataException(
+            "CanRecordLocalSpellUsage does not reject detached and remote Gamers.");
+    }
+
+    MethodDefinition method = AllTypes(magicka.MainModule)
+        .Single(type => type.FullName == "Magicka.GameLogic.Entities.Character")
+        .Methods.Single(candidate => candidate.Name == "CastSpell"
+                                     && candidate.Parameters.Count == 2);
+    Instruction usedElements = method.Body.Instructions.Single(instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == "Magicka.GameLogic.Profile"
+        && called.Name == "UsedElements");
+    int usedElementsIndex = method.Body.Instructions.IndexOf(usedElements);
+    Instruction getGamer = method.Body.Instructions.Take(usedElementsIndex)
+        .Last(instruction => instruction.Operand is MethodReference called
+                             && called.DeclaringType.FullName
+                                 == "Magicka.GameLogic.Player"
+                             && called.Name == "get_Gamer");
+    Instruction helperCall = getGamer.Next
+        ?? throw new InvalidDataException(
+            "Character.CastSpell Gamer load has no guard call.");
+    Instruction skipBranch = helperCall.Next
+        ?? throw new InvalidDataException(
+            "Character.CastSpell Gamer guard has no statistics branch.");
+    if (helperCall.OpCode != OpCodes.Call
+        || helperCall.Operand is not MethodReference calledHelper
+        || calledHelper.FullName != helper.FullName
+        || skipBranch.OpCode.FlowControl != FlowControl.Cond_Branch
+        || skipBranch.OpCode.Code is not Code.Brfalse and not Code.Brfalse_S
+        || skipBranch.Operand is not Instruction skipStatistics
+        || method.Body.Instructions.IndexOf(skipStatistics) <= usedElementsIndex
+        || method.Body.Instructions
+            .Skip(method.Body.Instructions.IndexOf(getGamer))
+            .Take(3)
+            .Any(instruction => instruction.OpCode == OpCodes.Isinst))
+    {
+        throw new InvalidDataException(
+            "Character.CastSpell does not skip only optional statistics when Gamer is null.");
     }
 }
 
