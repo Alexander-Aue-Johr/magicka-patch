@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.0.57] - 2026-08-31
+
+### Fixed
+
+- Clear stale spatial-index entries when a scene discards its previous
+  entities, preventing startup cutscenes from querying deinitialized physics
+  objects whose bodies have already been detached.
+- Skip null or bodyless entries defensively during EntityManager radius
+  queries so one inconsistent QuadGrid entry cannot crash the loader thread.
+
+### Validation
+
+- Validate the scene-transition QuadGrid refresh and the query guard as part
+  of the managed payload gate.
+
 ## [0.0.56] - 2026-08-31
 
 ### Fixed
