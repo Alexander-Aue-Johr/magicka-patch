@@ -1789,6 +1789,12 @@ static void ValidateTelemetryPatchVersion(AssemblyDefinition magicka)
             && constructor.Name == ".ctor"
             && constructor.DeclaringType.FullName
                 == "Magicka.CommunityPatch.PatchTelemetry/TelemetrySendState");
+    Instruction? patchStart = keyIndex > 0 ? body[keyIndex - 1] : null;
+    bool patchBlockIsReachable = patchStart is not null
+        && body.Take(keyIndex).Any(instruction =>
+            (instruction.OpCode == OpCodes.Brfalse
+             || instruction.OpCode == OpCodes.Brfalse_S)
+            && ReferenceEquals(instruction.Operand, patchStart));
     if (keyIndex <= 0
         || keyIndex + 2 >= body.Length
         || body[keyIndex - 1].OpCode != OpCodes.Ldarg_1
@@ -1803,11 +1809,34 @@ static void ValidateTelemetryPatchVersion(AssemblyDefinition magicka)
         || key.Position != 0
         || setItem.Parameters[1].ParameterType is not GenericParameter value
         || value.Position != 1
-        || queueStateIndex <= keyIndex + 2)
+        || queueStateIndex <= keyIndex + 2
+        || !patchBlockIsReachable)
     {
         throw new InvalidDataException(
-            "PatchTelemetry.SendAsync does not add patch_version before"
-            + " queueing the event.");
+            "PatchTelemetry.SendAsync does not reachably add patch_version"
+            + " before queueing the event.");
+    }
+
+    MethodDefinition addCommonProperties = patchTelemetry.Methods.Single(
+        method => method.Name == "AddCommonProperties"
+            && method.IsStatic
+            && method.Parameters.Count == 1);
+    MethodDefinition sendBlocking = patchTelemetry.Methods.Single(method =>
+        method.Name == "SendBlocking"
+            && method.IsStatic
+            && method.Parameters.Count == 3);
+    Instruction[] blockingBody = sendBlocking.Body.Instructions.ToArray();
+    int buildJsonIndex = Array.FindIndex(
+        blockingBody,
+        instruction => instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == patchTelemetry.FullName
+            && called.Name == "BuildPostHogJson");
+    if (buildJsonIndex <= 0
+        || !IsCallTo(blockingBody[buildJsonIndex - 1], addCommonProperties))
+    {
+        throw new InvalidDataException(
+            "PatchTelemetry.SendBlocking does not add common properties"
+            + " at the serialization boundary.");
     }
 
     MethodDefinition sendStartup = patchTelemetry.Methods.Single(method =>

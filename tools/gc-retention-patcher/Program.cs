@@ -3858,23 +3858,55 @@ static void RepairGcEventPatchVersion(
         "GetPatchVersion",
         parameterCount: 0);
     TypeReference propertiesType = sendAsync.Parameters[1].ParameterType;
-    if (sendAsync.Body.Instructions.Any(instruction =>
-            instruction.OpCode == OpCodes.Ldstr
-            && string.Equals(
-                instruction.Operand as string,
-                "patch_version",
-                StringComparison.Ordinal)))
-    {
-        throw new InvalidOperationException(
-            "PatchTelemetry.SendAsync already adds patch_version.");
-    }
-
     Instruction queueStateCreation = sendAsync.Body.Instructions.Single(
         instruction => instruction.OpCode == OpCodes.Newobj
             && instruction.Operand is MethodReference constructor
             && constructor.Name == ".ctor"
             && constructor.DeclaringType.FullName
                 == "Magicka.CommunityPatch.PatchTelemetry/TelemetrySendState");
+    Instruction[] existingPatchVersionKeys = sendAsync.Body.Instructions
+        .Where(instruction =>
+            instruction.OpCode == OpCodes.Ldstr
+            && string.Equals(
+                instruction.Operand as string,
+                "patch_version",
+                StringComparison.Ordinal))
+        .ToArray();
+    if (existingPatchVersionKeys.Length == 1)
+    {
+        Instruction patchStart = existingPatchVersionKeys[0].Previous
+            ?? throw new InvalidOperationException(
+                "PatchTelemetry.SendAsync patch-version load is missing.");
+        if (patchStart.OpCode != OpCodes.Ldarg_1)
+        {
+            throw new InvalidOperationException(
+                "Unexpected PatchTelemetry.SendAsync patch-version block.");
+        }
+
+        Instruction[] bypasses = sendAsync.Body.Instructions
+            .Where(instruction =>
+                ReferenceEquals(instruction.Operand, queueStateCreation))
+            .ToArray();
+        if (bypasses.Length != 1
+            || (bypasses[0].OpCode != OpCodes.Brfalse
+                && bypasses[0].OpCode != OpCodes.Brfalse_S))
+        {
+            throw new InvalidOperationException(
+                "Expected one disabled-check branch bypassing the"
+                + " SendAsync patch-version block, found "
+                + bypasses.Length + ".");
+        }
+
+        bypasses[0].Operand = patchStart;
+        return;
+    }
+    if (existingPatchVersionKeys.Length != 0)
+    {
+        throw new InvalidOperationException(
+            "Expected at most one SendAsync patch_version key, found "
+            + existingPatchVersionKeys.Length + ".");
+    }
+
     MethodDefinition addCommonProperties = RequireMethod(
         patchTelemetry,
         "AddCommonProperties",
@@ -3891,9 +3923,8 @@ static void RepairGcEventPatchVersion(
             && method.Parameters[1].ParameterType is GenericParameter value
             && value.Position == 1);
     ILProcessor processor = sendAsync.Body.GetILProcessor();
-    processor.InsertBefore(
-        queueStateCreation,
-        Instruction.Create(OpCodes.Ldarg_1));
+    Instruction patchStartInstruction = Instruction.Create(OpCodes.Ldarg_1);
+    processor.InsertBefore(queueStateCreation, patchStartInstruction);
     processor.InsertBefore(
         queueStateCreation,
         Instruction.Create(OpCodes.Ldstr, "patch_version"));
@@ -3903,6 +3934,13 @@ static void RepairGcEventPatchVersion(
     processor.InsertBefore(
         queueStateCreation,
         Instruction.Create(OpCodes.Callvirt, setItem));
+    foreach (Instruction branch in sendAsync.Body.Instructions.Where(
+                 instruction => ReferenceEquals(
+                     instruction.Operand,
+                     queueStateCreation)))
+    {
+        branch.Operand = patchStartInstruction;
+    }
     sendAsync.Body.MaxStackSize = Math.Max(sendAsync.Body.MaxStackSize, 3);
 }
 
