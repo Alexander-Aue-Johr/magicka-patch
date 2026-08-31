@@ -66,6 +66,7 @@ ValidateExceptionHandlerNestingOrder(magicka);
 ValidateNetworkServerForcedSyncExit(magicka);
 ValidateRuntimeCompatibilityGuards(magicka);
 ValidateArrayEqualsNullGuard(magicka);
+ValidateAvatarFindInteractableNullGuard(magicka);
 ValidateTelemetryPatchVersion(magicka);
 ValidatePlayerGameDeinitialize(magicka);
 ValidateEntityCollisionCallbackCleanup(magicka);
@@ -906,6 +907,42 @@ static void ValidateArrayEqualsNullGuard(AssemblyDefinition magicka)
     {
         throw new InvalidDataException(
             "Helper.ArrayEquals does not reject either null input.");
+    }
+}
+
+static void ValidateAvatarFindInteractableNullGuard(AssemblyDefinition magicka)
+{
+    MethodDefinition method = AllTypes(magicka.MainModule)
+        .Single(type => type.FullName == "Magicka.GameLogic.Entities.Avatar")
+        .Methods.Single(candidate => candidate.Name == "FindInteractable"
+                                     && candidate.Parameters.Count == 1);
+    Instruction[] instructions = method.Body.Instructions.ToArray();
+    Instruction[] nullBranches = instructions.Take(24)
+        .Where(instruction => instruction.OpCode.FlowControl
+                                  == FlowControl.Cond_Branch
+                              && instruction.Operand is Instruction target
+                              && target.OpCode == OpCodes.Ldnull
+                              && target.Next?.OpCode == OpCodes.Ret)
+        .ToArray();
+    string[] expectedGetters =
+    [
+        "Magicka.GameLogic.GameStates.PlayState::get_Level",
+        "Magicka.Levels.Level::get_CurrentScene",
+        "Magicka.Levels.GameScene::get_Triggers",
+    ];
+    string[] entryGetters = instructions.Take(24)
+        .Where(instruction => instruction.Operand is MethodReference called
+                              && expectedGetters.Any(expected =>
+                                  called.FullName.Contains(
+                                      expected,
+                                      StringComparison.Ordinal)))
+        .Select(instruction => ((MethodReference)instruction.Operand).Name)
+        .ToArray();
+    if (nullBranches.Length != 4
+        || entryGetters.Length != expectedGetters.Length)
+    {
+        throw new InvalidDataException(
+            "Avatar.FindInteractable does not guard the captured scene chain.");
     }
 }
 

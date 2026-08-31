@@ -154,6 +154,18 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
+    && args[0] == "--patch-avatar-find-interactable-null")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchAvatarFindInteractableNullOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": skipped interaction lookup after scene teardown");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--diagnose-character-entity-update")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -397,6 +409,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-array-equals-null"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-avatar-find-interactable-null"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --diagnose-character-entity-update"
@@ -3273,6 +3288,95 @@ static void RepairArrayEqualsNull(
     processor.Append(returnFalse);
     processor.Append(Instruction.Create(OpCodes.Ret));
     arrayEquals.Body.MaxStackSize = Math.Max(arrayEquals.Body.MaxStackSize, 1);
+}
+
+static void PatchAvatarFindInteractableNullOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairAvatarFindInteractableNull(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairAvatarFindInteractableNull(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    MethodDefinition findInteractable = RequireMethod(
+        RequireType(types, "Magicka.GameLogic.Entities.Avatar"),
+        "FindInteractable",
+        parameterCount: 1);
+    Instruction[] instructions = findInteractable.Body.Instructions.ToArray();
+    if (instructions.Length < 7
+        || instructions[0].OpCode != OpCodes.Ldarg_0
+        || instructions[1].OpCode != OpCodes.Ldfld
+        || instructions[1].Operand is not FieldReference playStateField
+        || playStateField.FullName
+            != "Magicka.GameLogic.GameStates.PlayState Magicka.GameLogic.Entities.Entity::mPlayState"
+        || instructions[2].Operand is not MethodReference getLevel
+        || getLevel.Name != "get_Level"
+        || instructions[3].Operand is not MethodReference getCurrentScene
+        || getCurrentScene.Name != "get_CurrentScene"
+        || instructions[4].Operand is not MethodReference getTriggers
+        || getTriggers.Name != "get_Triggers"
+        || instructions[5].OpCode != OpCodes.Stloc_0)
+    {
+        throw new InvalidOperationException(
+            "Unexpected Avatar.FindInteractable entry.");
+    }
+
+    VariableDefinition playState = new VariableDefinition(
+        RequireType(types, "Magicka.GameLogic.GameStates.PlayState"));
+    VariableDefinition level = new VariableDefinition(
+        RequireType(types, "Magicka.Levels.Level"));
+    VariableDefinition scene = new VariableDefinition(
+        RequireType(types, "Magicka.Levels.GameScene"));
+    findInteractable.Body.Variables.Add(playState);
+    findInteractable.Body.Variables.Add(level);
+    findInteractable.Body.Variables.Add(scene);
+    findInteractable.Body.InitLocals = true;
+
+    Instruction originalBody = instructions[6];
+    Instruction returnNull = Instruction.Create(OpCodes.Ldnull);
+    ILProcessor processor = findInteractable.Body.GetILProcessor();
+    foreach (Instruction instruction in instructions.Take(6))
+    {
+        processor.Remove(instruction);
+    }
+
+    foreach (Instruction instruction in new[]
+             {
+                 Instruction.Create(OpCodes.Ldarg_0),
+                 Instruction.Create(OpCodes.Ldfld, playStateField),
+                 Instruction.Create(OpCodes.Stloc, playState),
+                 Instruction.Create(OpCodes.Ldloc, playState),
+                 Instruction.Create(OpCodes.Brfalse, returnNull),
+                 Instruction.Create(OpCodes.Ldloc, playState),
+                 Instruction.Create(OpCodes.Callvirt, getLevel),
+                 Instruction.Create(OpCodes.Stloc, level),
+                 Instruction.Create(OpCodes.Ldloc, level),
+                 Instruction.Create(OpCodes.Brfalse, returnNull),
+                 Instruction.Create(OpCodes.Ldloc, level),
+                 Instruction.Create(OpCodes.Callvirt, getCurrentScene),
+                 Instruction.Create(OpCodes.Stloc, scene),
+                 Instruction.Create(OpCodes.Ldloc, scene),
+                 Instruction.Create(OpCodes.Brfalse, returnNull),
+                 Instruction.Create(OpCodes.Ldloc, scene),
+                 Instruction.Create(OpCodes.Callvirt, getTriggers),
+                 Instruction.Create(OpCodes.Stloc_0),
+                 Instruction.Create(OpCodes.Ldloc_0),
+                 Instruction.Create(OpCodes.Brfalse, returnNull),
+             })
+    {
+        processor.InsertBefore(originalBody, instruction);
+    }
+    processor.Append(returnNull);
+    processor.Append(Instruction.Create(OpCodes.Ret));
+    findInteractable.Body.MaxStackSize = Math.Max(
+        findInteractable.Body.MaxStackSize,
+        1);
 }
 
 static void DiagnoseCharacterEntityUpdateOnly(
