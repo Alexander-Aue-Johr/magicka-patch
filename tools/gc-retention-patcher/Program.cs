@@ -214,6 +214,18 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
+    && args[0] == "--patch-gc-diagnostics-startup-check")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchGcDiagnosticsStartupCheckOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": added the GC diagnostics payload startup check");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--diagnose-character-entity-update")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -472,6 +484,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-graphics-startup-errors"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-gc-diagnostics-startup-check"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --diagnose-character-entity-update"
@@ -3921,6 +3936,93 @@ static void RepairGraphicsStartupErrors(
     writeReport.Body.MaxStackSize = Math.Max(
         writeReport.Body.MaxStackSize,
         4);
+}
+
+static void PatchGcDiagnosticsStartupCheckOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairGcDiagnosticsStartupCheck(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairGcDiagnosticsStartupCheck(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    MethodDefinition main = RequireMethod(
+        RequireType(types, "Magicka.Program"),
+        "Main",
+        parameterCount: 1);
+    MethodReference[] calls = types.Values
+        .SelectMany(type => type.Methods)
+        .SelectMany(method => method.HasBody
+            ? method.Body.Instructions.ToArray()
+            : Array.Empty<Instruction>())
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .ToArray();
+    MethodReference setCurrentDirectory = calls.First(method =>
+        method.DeclaringType.FullName == "System.IO.Directory"
+        && method.Name == "SetCurrentDirectory"
+        && method.Parameters.Count == 1);
+    Instruction setDirectoryCall = main.Body.Instructions.Single(instruction =>
+        instruction.Operand is MethodReference called
+        && called.FullName == setCurrentDirectory.FullName);
+    Instruction originalNext = setDirectoryCall.Next
+        ?? throw new InvalidOperationException(
+            "Program.Main has no code after SetCurrentDirectory.");
+    MethodReference executablePath = calls.First(method =>
+        method.DeclaringType.FullName == "System.Windows.Forms.Application"
+        && method.Name == "get_ExecutablePath");
+    MethodReference getDirectoryName = calls.First(method =>
+        method.DeclaringType.FullName == "System.IO.Path"
+        && method.Name == "GetDirectoryName");
+    MethodReference combine = calls.First(method =>
+        method.DeclaringType.FullName == "System.IO.Path"
+        && method.Name == "Combine"
+        && method.Parameters.Count == 2);
+    MethodReference fileExists = calls.First(method =>
+        method.DeclaringType.FullName == "System.IO.File"
+        && method.Name == "Exists"
+        && method.Parameters.Count == 1);
+    MethodReference messageBox = calls.First(method =>
+        method.DeclaringType.FullName == "System.Windows.Forms.MessageBox"
+        && method.Name == "Show"
+        && method.Parameters.Count == 4
+        && method.Parameters.All(parameter =>
+            parameter.ParameterType.FullName
+                != "System.Windows.Forms.IWin32Window"));
+    ILProcessor processor = main.Body.GetILProcessor();
+    foreach (Instruction instruction in new[]
+             {
+                 Instruction.Create(OpCodes.Call, executablePath),
+                 Instruction.Create(OpCodes.Call, getDirectoryName),
+                 Instruction.Create(OpCodes.Ldstr, "Magicka.GcDiagnostics.dll"),
+                 Instruction.Create(OpCodes.Call, combine),
+                 Instruction.Create(OpCodes.Call, fileExists),
+                 Instruction.Create(OpCodes.Brtrue, originalNext),
+                 Instruction.Create(
+                     OpCodes.Ldstr,
+                     "Magicka.GcDiagnostics.dll is missing from the game folder. "
+                     + "Please include this file from the Community Patch or reinstall the complete patch. "
+                     + "It is used to find the remaining memory leaks and out-of-memory errors."),
+                 Instruction.Create(
+                     OpCodes.Ldstr,
+                     "Incomplete Community Patch installation"),
+                 Instruction.Create(OpCodes.Ldc_I4_0),
+                 Instruction.Create(OpCodes.Ldc_I4_S, (sbyte)16),
+                 Instruction.Create(OpCodes.Call, messageBox),
+                 Instruction.Create(OpCodes.Pop),
+                 Instruction.Create(OpCodes.Ldc_I4_1),
+                 Instruction.Create(OpCodes.Ret),
+             })
+    {
+        processor.InsertBefore(originalNext, instruction);
+    }
+    main.Body.MaxStackSize = Math.Max(main.Body.MaxStackSize, 4);
 }
 
 static void DiagnoseCharacterEntityUpdateOnly(

@@ -71,6 +71,7 @@ ValidateCharacterCastSpellGamerNullGuard(magicka);
 ValidateCharacterSelectDisposedIconGuard(magicka);
 ValidateNetworkClientRulesetTeardownGuard(magicka);
 ValidateGraphicsStartupErrors(magicka);
+ValidateGcDiagnosticsStartupCheck(magicka);
 ValidateTelemetryPatchVersion(magicka);
 ValidatePlayerGameDeinitialize(magicka);
 ValidateEntityCollisionCallbackCleanup(magicka);
@@ -1164,6 +1165,48 @@ static void ValidateGraphicsStartupErrors(AssemblyDefinition magicka)
     {
         throw new InvalidDataException(
             "Program.WriteReport does not show both actionable graphics startup errors.");
+    }
+}
+
+static void ValidateGcDiagnosticsStartupCheck(AssemblyDefinition magicka)
+{
+    MethodDefinition main = AllTypes(magicka.MainModule)
+        .Single(type => type.FullName == "Magicka.Program")
+        .Methods.Single(method => method.Name == "Main"
+                                  && method.Parameters.Count == 1);
+    Instruction[] instructions = main.Body.Instructions.ToArray();
+    int setDirectory = Array.FindIndex(instructions, instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == "System.IO.Directory"
+        && called.Name == "SetCurrentDirectory");
+    int fileExists = Array.FindIndex(instructions, instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == "System.IO.File"
+        && called.Name == "Exists");
+    int startupTelemetry = Array.FindIndex(instructions, instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName
+            == "Magicka.CommunityPatch.PatchTelemetry"
+        && called.Name == "SendStartup");
+    if (setDirectory < 0
+        || fileExists <= setDirectory
+        || startupTelemetry <= fileExists
+        || !instructions.Skip(setDirectory).Take(fileExists - setDirectory + 1)
+            .Any(instruction =>
+            string.Equals(
+                instruction.Operand as string,
+                "Magicka.GcDiagnostics.dll",
+                StringComparison.Ordinal))
+        || !instructions.Skip(fileExists).Take(16).Any(instruction =>
+            (instruction.Operand as string)?.Contains(
+                "remaining memory leaks and out-of-memory errors",
+                StringComparison.Ordinal) == true)
+        || !instructions.Skip(fileExists).Take(16).Any(instruction =>
+            instruction.OpCode == OpCodes.Ldc_I4_1
+            && instruction.Next?.OpCode == OpCodes.Ret))
+    {
+        throw new InvalidDataException(
+            "Program.Main does not stop early with the GC diagnostics installation message.");
     }
 }
 
