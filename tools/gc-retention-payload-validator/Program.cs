@@ -2118,6 +2118,12 @@ static void ValidatePhysicsManagerClearReferences(AssemblyDefinition magicka)
         "Clear",
         parameterCount: 0);
     Instruction[] body = clear.Body.Instructions.ToArray();
+    int bodySnapshot = Array.FindIndex(
+        body,
+        instruction => instruction.OpCode == OpCodes.Newobj
+            && instruction.Operand is MethodReference constructor
+            && constructor.DeclaringType.FullName
+                == "System.Collections.Generic.List`1<JigLibX.Physics.Body>");
     int skinSnapshot = Array.FindIndex(
         body,
         instruction => instruction.OpCode == OpCodes.Newobj
@@ -2149,32 +2155,89 @@ static void ValidatePhysicsManagerClearReferences(AssemblyDefinition magicka)
             && called.DeclaringType.FullName
                 == "JigLibX.Collision.CollisionSystem"
             && called.Name == "RemoveCollisionSkin");
-    string[] requiredSkinCleanup =
+    int clearSkinCollisions = Array.FindIndex(
+        body,
+        instruction => instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "JigLibX.Collision.CollisionSkin"
+            && called.Name == "get_Collisions");
+    string[] destructiveSkinCleanup =
     [
         "set_Owner",
         "set_CollisionSystem",
         "set_Tag",
-        "get_Collisions",
         "get_NonCollidables",
         "RemoveAllPrimitives",
     ];
-    int[] skinCleanupIndices = requiredSkinCleanup.Select(name =>
+    int[] destructiveSkinCleanupIndices = destructiveSkinCleanup.Select(name =>
         Array.FindIndex(
             body,
             instruction => instruction.Operand is MethodReference called
                 && called.DeclaringType.FullName
                     == "JigLibX.Collision.CollisionSkin"
                 && called.Name == name)).ToArray();
-    if (skinSnapshot < 0
-        || removeBody <= skinSnapshot
-        || clearBodySkin <= removeBody
-        || clearBodyTag <= removeBody
-        || removeSkin < 0
-        || skinCleanupIndices.Any(index => index < 0 || index >= removeSkin))
+    if (bodySnapshot < 0
+        || removeBody <= bodySnapshot
+        || skinSnapshot <= removeBody
+        || removeSkin <= skinSnapshot
+        || clearSkinCollisions <= removeSkin
+        || clearBodySkin >= 0
+        || clearBodyTag >= 0
+        || destructiveSkinCleanupIndices.Any(index => index >= 0))
     {
         throw new InvalidDataException(
-            "PhysicsManager.Clear does not preserve and clear body/skin"
-            + " references before losing the simulator collections.");
+            "PhysicsManager.Clear destroys reusable body/skin topology instead"
+            + " of only removing it from the active simulator.");
+    }
+
+    MethodDefinition entityDispose = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Entity",
+        "Dispose",
+        parameterCount: 0);
+    Instruction[] disposeBody = entityDispose.Body.Instructions.ToArray();
+    int detachBodySkin = Array.FindIndex(
+        disposeBody,
+        instruction => instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "JigLibX.Physics.Body"
+            && called.Name == "set_CollisionSkin"
+            && instruction.Previous?.OpCode == OpCodes.Ldnull);
+    int clearDisposedBodyTag = Array.FindIndex(
+        disposeBody,
+        instruction => instruction.OpCode == OpCodes.Stfld
+            && instruction.Operand is FieldReference field
+            && field.DeclaringType.FullName == "JigLibX.Physics.Body"
+            && field.Name == "Tag"
+            && instruction.Previous?.OpCode == OpCodes.Ldnull);
+    string[] requiredDisposedSkinCleanup =
+    [
+        "get_Collisions",
+        "get_NonCollidables",
+        "set_Tag",
+        "set_Owner",
+        "set_CollisionSystem",
+    ];
+    int[] disposedSkinCleanupIndices = requiredDisposedSkinCleanup.Select(name =>
+        Array.FindIndex(
+            disposeBody,
+            instruction => instruction.Operand is MethodReference called
+                && called.DeclaringType.FullName
+                    == "JigLibX.Collision.CollisionSkin"
+                && called.Name == name)).ToArray();
+    int clearCollisionCallbacks = Array.FindIndex(
+        disposeBody,
+        instruction => instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "Magicka.CommunityPatch.CollisionCallbackCleanup"
+            && called.Name == "Clear");
+    if (detachBodySkin < 0
+        || clearDisposedBodyTag < 0
+        || clearCollisionCallbacks < 0
+        || disposedSkinCleanupIndices.Any(index => index < 0))
+    {
+        throw new InvalidDataException(
+            "Entity.Dispose does not release all final Body/CollisionSkin"
+            + " ownership and callback references.");
     }
 }
 

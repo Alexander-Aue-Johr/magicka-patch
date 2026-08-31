@@ -92,6 +92,19 @@ if (args.Length == 4
 }
 
 if (args.Length == 4
+    && args[0] == "--restore-physics-manager-clear")
+{
+    string referencePath = Path.GetFullPath(args[1]);
+    string inputPath = Path.GetFullPath(args[2]);
+    string outputPath = Path.GetFullPath(args[3]);
+    RestorePhysicsManagerClearOnly(referencePath, inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": restored reusable PhysicsManager.Clear semantics");
+    return 0;
+}
+
+if (args.Length == 4
     && args[0] == "--restore-network-client-methods")
 {
     string referencePath = Path.GetFullPath(args[1]);
@@ -375,18 +388,6 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
-    && args[0] == "--patch-physics-manager-clear-references")
-{
-    string inputPath = Path.GetFullPath(args[1]);
-    string outputPath = Path.GetFullPath(args[2]);
-    PatchPhysicsManagerClearReferencesOnly(inputPath, outputPath);
-    Console.WriteLine(
-        Path.GetFileName(inputPath)
-        + ": cleared body and skin references before physics teardown");
-    return 0;
-}
-
-if (args.Length == 3
     && args[0] == "--patch-meteor-shower-remove-references")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -491,6 +492,9 @@ if (args.Length != 4)
         + " --restore-recompiled-method-bodies"
         + " <reference-assembly> <assembly> <output-assembly>\n"
         + "   or: RetentionPatcher"
+        + " --restore-physics-manager-clear"
+        + " <reference-assembly> <assembly> <output-assembly>\n"
+        + "   or: RetentionPatcher"
         + " --patch-character-template-static-caches"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
@@ -549,9 +553,6 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-shadow-blobs-scene-detach"
-        + " <Magicka.exe> <output-Magicka.exe>\n"
-        + "   or: RetentionPatcher"
-        + " --patch-physics-manager-clear-references"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-meteor-shower-remove-references"
@@ -618,7 +619,6 @@ static PatchReport PatchMagicka(
     RepairJudgementSprayConditionCache(module, types);
     RepairRainSceneDetach(types);
     RepairShadowBlobsSceneDetach(types);
-    RepairPhysicsManagerClearReferences(types);
     RepairMeteorShowerRemoveReferences(types);
     RepairBlizzardRemoveReferences(types);
     RepairControllerAvatarDetach(types);
@@ -4831,6 +4831,89 @@ static void PatchShadowBlobsSceneDetachOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairShadowBlobsSceneDetach(types);
     WriteAssembly(assembly, outputPath);
+}
+
+static void RestorePhysicsManagerClearOnly(
+    string referencePath,
+    string inputPath,
+    string outputPath)
+{
+    const string PhysicsManagerTypeName = "Magicka.Physics.PhysicsManager";
+    using AssemblyDefinition reference = ReadAssembly(referencePath);
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> referenceTypes = AllTypes(
+            reference.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    Dictionary<string, TypeDefinition> targetTypes = AllTypes(
+            assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    MethodDefinition sourceClear = RequireMethod(
+        RequireType(referenceTypes, PhysicsManagerTypeName),
+        "Clear",
+        parameterCount: 0);
+    MethodDefinition targetClear = RequireMethod(
+        RequireType(targetTypes, PhysicsManagerTypeName),
+        "Clear",
+        parameterCount: 0);
+    BodyReferencePool referencePool = new BodyReferencePool(
+        assembly.MainModule);
+    CloneMethodBody(
+        sourceClear,
+        targetClear,
+        assembly.MainModule,
+        targetTypes,
+        referencePool);
+    VerifyEntityDisposeOwnsPhysicsReferences(targetTypes);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void VerifyEntityDisposeOwnsPhysicsReferences(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    MethodDefinition dispose = RequireMethod(
+        RequireType(types, EntityTypeName),
+        "Dispose",
+        parameterCount: 0);
+    string[] requiredCalls =
+    [
+        "System.Void JigLibX.Physics.Body::set_CollisionSkin("
+            + "JigLibX.Collision.CollisionSkin)",
+        "System.Void JigLibX.Collision.CollisionSkin::set_Owner("
+            + "JigLibX.Physics.Body)",
+        "System.Void JigLibX.Collision.CollisionSkin::set_CollisionSystem("
+            + "JigLibX.Collision.CollisionSystem)",
+    ];
+    foreach (string requiredCall in requiredCalls)
+    {
+        if (!dispose.Body.Instructions.Any(instruction =>
+                instruction.Operand is MethodReference called
+                && called.FullName == requiredCall))
+        {
+            throw new InvalidOperationException(
+                "Entity.Dispose no longer owns required physics cleanup: "
+                + requiredCall);
+        }
+    }
+    if (!dispose.Body.Instructions.Any(instruction =>
+            instruction.OpCode == OpCodes.Stfld
+            && instruction.Operand is FieldReference field
+            && field.DeclaringType.FullName == "JigLibX.Physics.Body"
+            && field.Name == "Tag"))
+    {
+        throw new InvalidOperationException(
+            "Entity.Dispose no longer clears JigLibX.Physics.Body.Tag.");
+    }
+    if (!dispose.Body.Instructions.Any(instruction =>
+            instruction.OpCode == OpCodes.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "JigLibX.Collision.CollisionSkin"
+            && called.Name == "set_Tag"))
+    {
+        throw new InvalidOperationException(
+            "Entity.Dispose no longer clears "
+            + "JigLibX.Collision.CollisionSkin.Tag.");
+    }
 }
 
 static void PatchPhysicsManagerClearReferencesOnly(
