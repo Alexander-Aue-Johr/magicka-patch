@@ -72,6 +72,7 @@ ValidateCharacterSelectDisposedIconGuard(magicka);
 ValidateNetworkClientRulesetTeardownGuard(magicka);
 ValidateGraphicsStartupErrors(magicka);
 ValidateGcDiagnosticsStartupCheck(magicka);
+ValidateLevelHashMissingFile(magicka);
 ValidateTelemetryPatchVersion(magicka);
 ValidatePlayerGameDeinitialize(magicka);
 ValidateEntityCollisionCallbackCleanup(magicka);
@@ -1207,6 +1208,46 @@ static void ValidateGcDiagnosticsStartupCheck(AssemblyDefinition magicka)
     {
         throw new InvalidDataException(
             "Program.Main does not stop early with the GC diagnostics installation message.");
+    }
+}
+
+static void ValidateLevelHashMissingFile(AssemblyDefinition magicka)
+{
+    MethodDefinition method = AllTypes(magicka.MainModule)
+        .Single(type => type.FullName
+                        == "Magicka.Levels.Campaign.LevelManager")
+        .Methods.Single(candidate => candidate.Name == "ComputeHashes"
+                                     && candidate.Parameters.Count == 0);
+    ExceptionHandler handler = method.Body.ExceptionHandlers.Single(candidate =>
+        candidate.HandlerType == ExceptionHandlerType.Catch
+        && candidate.CatchType?.FullName == "System.IO.FileNotFoundException");
+    int start = method.Body.Instructions.IndexOf(handler.HandlerStart);
+    int end = method.Body.Instructions.IndexOf(handler.HandlerEnd);
+    Instruction[] body = method.Body.Instructions.Skip(start)
+        .Take(end - start)
+        .ToArray();
+    if (!body.Any(instruction =>
+            instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "System.IO.FileNotFoundException"
+            && called.Name == "get_FileName")
+        || !body.Any(instruction =>
+            instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "System.Windows.Forms.MessageBox"
+            && called.Name == "Show")
+        || !body.Any(instruction =>
+            instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "System.Environment"
+            && called.Name == "Exit"
+            && called.Parameters.Count == 1)
+        || body.Any(instruction =>
+            instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "Magicka.CommunityPatch.PatchTelemetry"))
+    {
+        throw new InvalidDataException(
+            "LevelManager.ComputeHashes does not report the missing file locally without telemetry.");
     }
 }
 

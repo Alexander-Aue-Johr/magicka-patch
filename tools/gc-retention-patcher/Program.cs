@@ -226,6 +226,18 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
+    && args[0] == "--patch-level-hash-missing-file")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchLevelHashMissingFileOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": reported missing level hash inputs without crash telemetry");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--diagnose-character-entity-update")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -487,6 +499,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-gc-diagnostics-startup-check"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-level-hash-missing-file"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --diagnose-character-entity-update"
@@ -4023,6 +4038,187 @@ static void RepairGcDiagnosticsStartupCheck(
         processor.InsertBefore(originalNext, instruction);
     }
     main.Body.MaxStackSize = Math.Max(main.Body.MaxStackSize, 4);
+}
+
+static void PatchLevelHashMissingFileOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairLevelHashMissingFile(assembly.MainModule, types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairLevelHashMissingFile(
+    ModuleDefinition module,
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    MethodDefinition computeHashes = RequireMethod(
+        RequireType(types, "Magicka.Levels.Campaign.LevelManager"),
+        "ComputeHashes",
+        parameterCount: 0);
+    if (computeHashes.Body.ExceptionHandlers.Count != 0)
+    {
+        AddExitToExistingLevelHashMissingFileHandler(
+            module,
+            computeHashes);
+        return;
+    }
+    TypeReference fileNotFound = types.Values
+        .SelectMany(type => type.Methods)
+        .Where(method => method.HasBody)
+        .SelectMany(method => method.Body.ExceptionHandlers)
+        .Select(handler => handler.CatchType)
+        .OfType<TypeReference>()
+        .First(type => type.FullName == "System.IO.FileNotFoundException");
+    MethodReference getFileName = new MethodReference(
+        "get_FileName",
+        module.TypeSystem.String,
+        fileNotFound)
+    {
+        HasThis = true,
+    };
+    MethodReference[] calls = types.Values
+        .SelectMany(type => type.Methods)
+        .SelectMany(method => method.HasBody
+            ? method.Body.Instructions.ToArray()
+            : Array.Empty<Instruction>())
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .ToArray();
+    MethodReference concat = calls.First(method =>
+        method.DeclaringType.FullName == "System.String"
+        && method.Name == "Concat"
+        && method.Parameters.Count == 3
+        && method.Parameters.All(parameter =>
+            parameter.ParameterType.FullName == "System.String"));
+    MethodReference messageBox = calls.First(method =>
+        method.DeclaringType.FullName == "System.Windows.Forms.MessageBox"
+        && method.Name == "Show"
+        && method.Parameters.Count == 4
+        && method.Parameters.All(parameter =>
+            parameter.ParameterType.FullName
+                != "System.Windows.Forms.IWin32Window"));
+    MethodReference environmentExit = CreateEnvironmentExitReference(module);
+
+    VariableDefinition exception = new VariableDefinition(fileNotFound);
+    computeHashes.Body.Variables.Add(exception);
+    computeHashes.Body.InitLocals = true;
+    Instruction tryStart = computeHashes.Body.Instructions[0];
+    Instruction originalReturn = computeHashes.Body.Instructions.Last();
+    if (originalReturn.OpCode != OpCodes.Ret)
+    {
+        throw new InvalidOperationException(
+            "Unexpected LevelManager.ComputeHashes exit.");
+    }
+    Instruction handlerStart = Instruction.Create(OpCodes.Stloc, exception);
+    Instruction exit = Instruction.Create(OpCodes.Ret);
+    originalReturn.OpCode = OpCodes.Leave;
+    originalReturn.Operand = exit;
+    ILProcessor processor = computeHashes.Body.GetILProcessor();
+    processor.Append(handlerStart);
+    processor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "Magicka could not load this required level file:\n\n"));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, exception));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, getFileName));
+    processor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "\n\nRestore the file or verify the game files. "
+        + "Modded installations must provide every referenced level file."));
+    processor.Append(Instruction.Create(OpCodes.Call, concat));
+    processor.Append(Instruction.Create(OpCodes.Ldstr, "Missing level file"));
+    processor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    processor.Append(Instruction.Create(OpCodes.Ldc_I4_S, (sbyte)16));
+    processor.Append(Instruction.Create(OpCodes.Call, messageBox));
+    processor.Append(Instruction.Create(OpCodes.Pop));
+    processor.Append(Instruction.Create(OpCodes.Ldc_I4_1));
+    processor.Append(Instruction.Create(OpCodes.Call, environmentExit));
+    processor.Append(Instruction.Create(OpCodes.Leave, exit));
+    processor.Append(exit);
+    computeHashes.Body.ExceptionHandlers.Add(new ExceptionHandler(
+        ExceptionHandlerType.Catch)
+    {
+        TryStart = tryStart,
+        TryEnd = handlerStart,
+        HandlerStart = handlerStart,
+        HandlerEnd = exit,
+        CatchType = fileNotFound,
+    });
+    computeHashes.Body.MaxStackSize = Math.Max(
+        computeHashes.Body.MaxStackSize,
+        4);
+}
+
+static void AddExitToExistingLevelHashMissingFileHandler(
+    ModuleDefinition module,
+    MethodDefinition computeHashes)
+{
+    ExceptionHandler handler = computeHashes.Body.ExceptionHandlers.Single(
+        candidate =>
+            candidate.HandlerType == ExceptionHandlerType.Catch
+            && candidate.CatchType?.FullName
+                == "System.IO.FileNotFoundException");
+    Instruction[] handlerBody = computeHashes.Body.Instructions
+        .Skip(computeHashes.Body.Instructions.IndexOf(handler.HandlerStart))
+        .Take(computeHashes.Body.Instructions.IndexOf(handler.HandlerEnd)
+              - computeHashes.Body.Instructions.IndexOf(handler.HandlerStart))
+        .ToArray();
+    if (handlerBody.Any(instruction =>
+            instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "System.Environment"
+            && called.Name == "Exit"))
+    {
+        throw new InvalidOperationException(
+            "LevelManager.ComputeHashes already exits after a missing file.");
+    }
+    Instruction messageBox = handlerBody.Single(instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName
+            == "System.Windows.Forms.MessageBox"
+        && called.Name == "Show");
+    Instruction insertionPoint = messageBox.Next?.Next
+        ?? throw new InvalidOperationException(
+            "Missing-level dialog has no handler exit.");
+    if (messageBox.Next.OpCode != OpCodes.Pop
+        || (insertionPoint.OpCode != OpCodes.Leave
+            && insertionPoint.OpCode != OpCodes.Leave_S))
+    {
+        throw new InvalidOperationException(
+            "Unexpected missing-level dialog handler shape.");
+    }
+    ILProcessor processor = computeHashes.Body.GetILProcessor();
+    processor.InsertBefore(
+        insertionPoint,
+        Instruction.Create(OpCodes.Ldc_I4_1));
+    processor.InsertBefore(
+        insertionPoint,
+        Instruction.Create(
+            OpCodes.Call,
+            CreateEnvironmentExitReference(module)));
+    computeHashes.Body.MaxStackSize = Math.Max(
+        computeHashes.Body.MaxStackSize,
+        4);
+}
+
+static MethodReference CreateEnvironmentExitReference(ModuleDefinition module)
+{
+    TypeReference environment = new TypeReference(
+        "System",
+        "Environment",
+        module,
+        module.TypeSystem.CoreLibrary);
+    MethodReference exit = new MethodReference(
+        "Exit",
+        module.TypeSystem.Void,
+        environment)
+    {
+        HasThis = false,
+    };
+    exit.Parameters.Add(new ParameterDefinition(module.TypeSystem.Int32));
+    return exit;
 }
 
 static void DiagnoseCharacterEntityUpdateOnly(
