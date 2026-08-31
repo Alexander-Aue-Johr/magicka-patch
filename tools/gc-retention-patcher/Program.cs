@@ -483,6 +483,18 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--patch-entity-manager-quadgrid-lifecycle")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchEntityManagerQuadGridLifecycleOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": cleared stale QuadGrid entries and skipped bodyless queries");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -586,6 +598,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --repair-entity-physics-lifecycle"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-entity-manager-quadgrid-lifecycle"
         + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
@@ -5273,6 +5288,147 @@ static void RepairEntityPhysicsLifecycleOnly(
     physicsDeinitialize.Body.OptimizeMacros();
     entityDispose.Body.OptimizeMacros();
     WriteAssembly(assembly, outputPath);
+}
+
+static void PatchEntityManagerQuadGridLifecycleOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairEntityManagerQuadGridLifecycle(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairEntityManagerQuadGridLifecycle(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition entityManager = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.EntityManager");
+    TypeDefinition entity = RequireType(types, EntityTypeName);
+    MethodDefinition getEntities = entityManager.Methods.Single(method =>
+        method.Name == "GetEntities"
+        && !method.IsStatic
+        && method.Parameters.Count == 4);
+    MethodDefinition clearAndStore = RequireMethod(
+        entityManager,
+        "ClearAndStore",
+        1);
+    MethodDefinition updateQuadGrid = RequireMethod(
+        entityManager,
+        "UpdateQuadGrid",
+        0);
+    MethodDefinition getDead = RequireMethod(entity, "get_Dead", 0);
+    MethodDefinition getBody = RequireMethod(entity, "get_Body", 0);
+
+    if (getEntities.Body.Instructions.Any(instruction =>
+            IsCallTo(instruction, getBody)))
+    {
+        throw new InvalidOperationException(
+            "EntityManager.GetEntities already contains a Body guard.");
+    }
+    Instruction deadCall = getEntities.Body.Instructions.Single(
+        instruction => IsCallTo(instruction, getDead));
+    Instruction entityLoad = deadCall.Previous
+        ?? throw new InvalidOperationException(
+            "EntityManager.GetEntities Dead owner load is missing.");
+    Instruction deadBranch = deadCall.Next
+        ?? throw new InvalidOperationException(
+            "EntityManager.GetEntities Dead branch is missing.");
+    if (!IsLocalLoad(entityLoad)
+        || deadBranch.OpCode.Code is not Code.Brtrue and not Code.Brtrue_S
+        || deadBranch.Operand is not Instruction continueTarget)
+    {
+        throw new InvalidOperationException(
+            "EntityManager.GetEntities has an unexpected Dead guard.");
+    }
+
+    Instruction[] crossingShortBranches = getEntities.Body.Instructions
+        .Where(instruction =>
+            instruction.OpCode.Code == Code.Blt_S
+            && instruction.Offset > entityLoad.Offset
+            && instruction.Operand is Instruction target
+            && target.Offset <= entityLoad.Offset)
+        .ToArray();
+    if (crossingShortBranches.Length != 1)
+    {
+        throw new InvalidOperationException(
+            "Expected one short entity-loop back edge in"
+            + " EntityManager.GetEntities, found "
+            + crossingShortBranches.Length + ".");
+    }
+    crossingShortBranches[0].OpCode = OpCodes.Blt;
+
+    ILProcessor getEntitiesProcessor = getEntities.Body.GetILProcessor();
+    getEntitiesProcessor.InsertBefore(
+        entityLoad,
+        CloneLocalLoad(entityLoad));
+    getEntitiesProcessor.InsertBefore(
+        entityLoad,
+        Instruction.Create(OpCodes.Brfalse, continueTarget));
+    Instruction bodyLoad = CloneLocalLoad(entityLoad);
+    Instruction bodyCall = Instruction.Create(OpCodes.Callvirt, getBody);
+    Instruction bodyBranch = Instruction.Create(
+        OpCodes.Brfalse,
+        continueTarget);
+    getEntitiesProcessor.InsertAfter(deadBranch, bodyLoad);
+    getEntitiesProcessor.InsertAfter(bodyLoad, bodyCall);
+    getEntitiesProcessor.InsertAfter(bodyCall, bodyBranch);
+
+    if (clearAndStore.Body.Instructions.Any(instruction =>
+            IsCallTo(instruction, updateQuadGrid)))
+    {
+        throw new InvalidOperationException(
+            "EntityManager.ClearAndStore already refreshes the QuadGrid.");
+    }
+    FieldDefinition entitiesField = entityManager.Fields.Single(field =>
+        field.Name == "mEntities"
+        && !field.IsStatic);
+    Instruction clearEntities = clearAndStore.Body.Instructions.Single(
+        instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.Name == "Clear"
+            && instruction.Previous?.OpCode.Code == Code.Ldfld
+            && instruction.Previous.Operand is FieldReference field
+            && field.FullName == entitiesField.FullName);
+    ILProcessor clearProcessor = clearAndStore.Body.GetILProcessor();
+    Instruction loadManager = Instruction.Create(OpCodes.Ldarg_0);
+    clearProcessor.InsertAfter(clearEntities, loadManager);
+    clearProcessor.InsertAfter(
+        loadManager,
+        Instruction.Create(OpCodes.Call, updateQuadGrid));
+}
+
+static bool IsLocalLoad(Instruction instruction)
+{
+    return instruction.OpCode.Code is Code.Ldloc
+        or Code.Ldloc_0
+        or Code.Ldloc_1
+        or Code.Ldloc_2
+        or Code.Ldloc_3
+        or Code.Ldloc_S;
+}
+
+static Instruction CloneLocalLoad(Instruction instruction)
+{
+    return instruction.OpCode.Code switch
+    {
+        Code.Ldloc_0 => Instruction.Create(OpCodes.Ldloc_0),
+        Code.Ldloc_1 => Instruction.Create(OpCodes.Ldloc_1),
+        Code.Ldloc_2 => Instruction.Create(OpCodes.Ldloc_2),
+        Code.Ldloc_3 => Instruction.Create(OpCodes.Ldloc_3),
+        Code.Ldloc_S => Instruction.Create(
+            OpCodes.Ldloc_S,
+            (VariableDefinition)instruction.Operand),
+        Code.Ldloc => Instruction.Create(
+            OpCodes.Ldloc,
+            (VariableDefinition)instruction.Operand),
+        _ => throw new InvalidOperationException(
+            "Instruction is not a local load."),
+    };
 }
 
 static void RepairCollisionCallbackCleanup(

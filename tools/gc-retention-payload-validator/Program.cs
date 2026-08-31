@@ -77,6 +77,7 @@ ValidatePolygonPayloadContract(magicka, polygonHead);
 ValidateTelemetryPatchVersion(magicka);
 ValidatePlayerGameDeinitialize(magicka);
 ValidateEntityCollisionCallbackCleanup(magicka);
+ValidateEntityManagerQuadGridLifecycle(magicka);
 ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
 ValidateRainSceneDetach(magicka);
@@ -3535,6 +3536,130 @@ static void ValidateJudgementSprayConditionCacheRepair(
             "JudgementSpray cache acquisition is no longer protected by"
             + " the original monitor-finally region.");
     }
+}
+
+static void ValidateEntityManagerQuadGridLifecycle(
+    AssemblyDefinition magicka)
+{
+    TypeDefinition entityManager = AllTypes(magicka.MainModule).Single(
+        type => type.FullName
+            == "Magicka.GameLogic.Entities.EntityManager");
+    MethodDefinition getEntities = entityManager.Methods.Single(method =>
+        method.Name == "GetEntities"
+        && !method.IsStatic
+        && method.Parameters.Count == 4);
+    if (!getEntities.HasBody)
+    {
+        throw new InvalidDataException(
+            "The four-parameter EntityManager.GetEntities has no IL body.");
+    }
+    MethodDefinition clearAndStore = entityManager.Methods.Single(method =>
+        method.Name == "ClearAndStore"
+        && !method.IsStatic
+        && method.Parameters.Count == 1);
+    MethodDefinition updateQuadGrid = entityManager.Methods.Single(method =>
+        method.Name == "UpdateQuadGrid"
+        && !method.IsStatic
+        && method.Parameters.Count == 0);
+    TypeDefinition entity = AllTypes(magicka.MainModule).Single(type =>
+        type.FullName == "Magicka.GameLogic.Entities.Entity");
+    MethodDefinition getDead = entity.Methods.Single(method =>
+        method.Name == "get_Dead" && method.Parameters.Count == 0);
+    MethodDefinition getBody = entity.Methods.Single(method =>
+        method.Name == "get_Body" && method.Parameters.Count == 0);
+    MethodDefinition getPosition = entity.Methods.Single(method =>
+        method.Name == "get_Position" && method.Parameters.Count == 0);
+    if (!clearAndStore.HasBody
+        || !updateQuadGrid.HasBody
+        || !getBody.HasBody
+        || !getPosition.HasBody)
+    {
+        throw new InvalidDataException(
+            "The EntityManager QuadGrid lifecycle dependencies must all have"
+            + " IL bodies: ClearAndStore=" + clearAndStore.HasBody
+            + ", UpdateQuadGrid=" + updateQuadGrid.HasBody
+            + ", Body=" + getBody.HasBody
+            + ", Position=" + getPosition.HasBody + ".");
+    }
+
+    Instruction[] query = getEntities.Body.Instructions.ToArray();
+    int deadCallIndex = Array.FindIndex(
+        query,
+        instruction => IsCallTo(instruction, getDead));
+    if (deadCallIndex < 2 || deadCallIndex + 5 >= query.Length)
+    {
+        throw new InvalidDataException(
+            "EntityManager.GetEntities has no recognizable Dead query guard.");
+    }
+    Instruction deadBranch = query[deadCallIndex + 1];
+    if (deadBranch.OpCode.Code is not Code.Brtrue and not Code.Brtrue_S
+        || deadBranch.Operand is not Instruction continueTarget
+        || query[deadCallIndex - 1].OpCode.Code is not (
+            Code.Ldloc or Code.Ldloc_0 or Code.Ldloc_1
+            or Code.Ldloc_2 or Code.Ldloc_3 or Code.Ldloc_S))
+    {
+        throw new InvalidDataException(
+            "EntityManager.GetEntities has an unexpected Dead query guard.");
+    }
+    Instruction nullLoad = query[deadCallIndex - 3];
+    Instruction nullBranch = query[deadCallIndex - 2];
+    Instruction bodyLoad = query[deadCallIndex + 2];
+    Instruction bodyCall = query[deadCallIndex + 3];
+    Instruction bodyBranch = query[deadCallIndex + 4];
+    Instruction positionCall = query.Skip(deadCallIndex + 5)
+        .FirstOrDefault(instruction => IsCallTo(instruction, getPosition))
+        ?? throw new InvalidDataException(
+            "EntityManager.GetEntities no longer reads Entity.Position.");
+    if (!SameLocalLoad(nullLoad, query[deadCallIndex - 1])
+        || nullBranch.OpCode.Code is not Code.Brfalse and not Code.Brfalse_S
+        || !ReferenceEquals(nullBranch.Operand, continueTarget)
+        || !SameLocalLoad(bodyLoad, query[deadCallIndex - 1])
+        || !IsCallTo(bodyCall, getBody)
+        || bodyBranch.OpCode.Code is not Code.Brfalse and not Code.Brfalse_S
+        || !ReferenceEquals(bodyBranch.Operand, continueTarget)
+        || Array.IndexOf(query, positionCall) <= deadCallIndex + 4)
+    {
+        throw new InvalidDataException(
+            "EntityManager.GetEntities must skip null and bodyless entries"
+            + " before reading Entity.Position.");
+    }
+
+    Instruction[] clear = clearAndStore.Body.Instructions.ToArray();
+    int refreshIndex = Array.FindIndex(
+        clear,
+        instruction => IsCallTo(instruction, updateQuadGrid));
+    int entityListClearIndex = Array.FindIndex(
+        clear,
+        instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.Name == "Clear"
+            && instruction.Previous?.Operand is FieldReference field
+            && field.DeclaringType.FullName
+                == "Magicka.GameLogic.Entities.EntityManager"
+            && field.Name == "mEntities");
+    if (refreshIndex <= entityListClearIndex
+        || entityListClearIndex < 0
+        || clear.Count(instruction =>
+            IsCallTo(instruction, updateQuadGrid)) != 1)
+    {
+        throw new InvalidDataException(
+            "EntityManager.ClearAndStore must rebuild the QuadGrid exactly"
+            + " once after clearing mEntities.");
+    }
+}
+
+static bool SameLocalLoad(Instruction left, Instruction right)
+{
+    if (left.OpCode.Code != right.OpCode.Code)
+    {
+        return false;
+    }
+    return left.OpCode.Code is Code.Ldloc_0
+        or Code.Ldloc_1
+        or Code.Ldloc_2
+        or Code.Ldloc_3
+        || ReferenceEquals(left.Operand, right.Operand);
 }
 
 static bool HasCatchAll(MethodDefinition method)
