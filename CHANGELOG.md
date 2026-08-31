@@ -10,6 +10,22 @@
 - Accept incoming `EntityUpdateMessage` packets that carry Magicka's original
   `Character` feature bit. The server now decodes the remaining known fields
   instead of throwing the original `NotImplementedException`.
+- Restore the normal exit from the forced-player-status-sync packet handler.
+  A successful host-revival sync can no longer fall through into the entity
+  update packet handler.
+- Ignore late ruleset updates after their play state, level, or scene has been
+  detached during a transition.
+- Skip controller icons whose sprite atlas has already been disposed.
+- Guard avatar interaction lookup while its play state or scene is being torn
+  down, and skip optional spell-use statistics when a player has no Gamer.
+- Treat missing level hashes as unequal instead of dereferencing a null hash.
+- Release stale scene, entity, avatar, collision, and player references during
+  teardown. This covers physics data, ShadowBlob, Blizzard, MeteorShower, and
+  controller-to-avatar references found by the retention diagnostics.
+- Show focused startup dialogs for unsupported graphics configurations,
+  incomplete patch payloads, and missing required level files.
+- Verify that `PolygonHead.dll` matches the installed patch payload before game
+  initialization.
 
 ### Telemetry
 
@@ -18,6 +34,7 @@
   `unknown`; no file names, hashes, or additional file contents are sent.
 - Record the bounded `entity_update_character_feature` diagnostic after an
   incoming Character-marked entity update has been decoded.
+- Ensure the patch version is included in GC-retention telemetry.
 
 ### Validation
 
