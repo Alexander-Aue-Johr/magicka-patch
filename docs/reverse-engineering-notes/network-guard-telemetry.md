@@ -151,6 +151,7 @@ counted over time:
 | `railgun_parent_cycle_check_failed` | The Railgun parent traversal encountered an unexpected error and rejected the attachment fail-safe. |
 | `judgement_spray_condition_cache_empty_recovered` | JudgementSpray found the shared projectile `ConditionCollection` queue empty, allocated an equivalent replacement, and continued the valid projectile spawn. |
 | `entity_update_character_feature` | The server received and fully decoded an `EntityUpdateMessage` carrying the original `Character` feature bit. The diagnostic records the bounded `Character` similarity key and the decoded feature fields so future reports can identify what the sender supplied. |
+| `ruleset_update_ignored_not_ready` | A late client `RulesetUpdate` arrived after the recent play state, level, scene, or ruleset had already detached, so it was dropped with the normal bounded network-guard backoff. |
 
 When a reason code becomes frequent, the next step is to reproduce that specific
 state and replace the guard with a narrower root-cause fix where possible.

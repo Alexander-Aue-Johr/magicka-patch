@@ -69,6 +69,7 @@ ValidateArrayEqualsNullGuard(magicka);
 ValidateAvatarFindInteractableNullGuard(magicka);
 ValidateCharacterCastSpellGamerNullGuard(magicka);
 ValidateCharacterSelectDisposedIconGuard(magicka);
+ValidateNetworkClientRulesetTeardownGuard(magicka);
 ValidateTelemetryPatchVersion(magicka);
 ValidatePlayerGameDeinitialize(magicka);
 ValidateEntityCollisionCallbackCleanup(magicka);
@@ -1038,6 +1039,77 @@ static void ValidateCharacterSelectDisposedIconGuard(AssemblyDefinition magicka)
     {
         throw new InvalidDataException(
             "SubMenuCharacterSelect.DrawWidget does not skip null or disposed image textures.");
+    }
+}
+
+static void ValidateNetworkClientRulesetTeardownGuard(AssemblyDefinition magicka)
+{
+    TypeDefinition compatibility = AllTypes(magicka.MainModule).Single(type =>
+        type.FullName
+        == "Magicka.CommunityPatch.NetworkLifecycleCompatibility");
+    MethodDefinition helper = compatibility.Methods.Single(method =>
+        method.Name == "ApplyRulesetUpdate"
+        && method.Parameters.Count == 2);
+    string[] expectedGetters =
+    [
+        "Magicka.GameLogic.GameStates.PlayState::get_Level",
+        "Magicka.Levels.Level::get_CurrentScene",
+        "Magicka.Levels.GameScene::get_RuleSet",
+    ];
+    if (helper.Parameters[0].ParameterType.FullName
+            != "Magicka.GameLogic.GameStates.PlayState"
+        || helper.Parameters[1].ParameterType.FullName
+            != "Magicka.Network.RulesetMessage&"
+        || expectedGetters.Any(expected =>
+            !helper.Body.Instructions.Any(instruction =>
+                instruction.Operand is MethodReference called
+                && called.FullName.Contains(expected, StringComparison.Ordinal)))
+        || helper.Body.Instructions.Count(instruction =>
+            instruction.OpCode.FlowControl == FlowControl.Cond_Branch
+            && instruction.Operand is Instruction target
+            && target.OpCode == OpCodes.Ldstr
+            && string.Equals(
+                target.Operand as string,
+                "client",
+                StringComparison.Ordinal))
+            != 4
+        || !helper.Body.Instructions.Any(instruction =>
+            string.Equals(
+                instruction.Operand as string,
+                "ruleset_update_ignored_not_ready",
+                StringComparison.Ordinal))
+        || !helper.Body.Instructions.Any(instruction =>
+            instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "Magicka.Levels.IRuleset"
+            && called.Name == "NetworkUpdate"))
+    {
+        throw new InvalidDataException(
+            "ApplyRulesetUpdate does not guard and report the full play-state chain.");
+    }
+
+    MethodDefinition readMessage = AllTypes(magicka.MainModule)
+        .Single(type => type.FullName == "Magicka.Network.NetworkClient")
+        .Methods.Single(method => method.Name == "ReadMessage"
+                                  && method.Parameters.Count == 2);
+    Instruction[] helperCalls = readMessage.Body.Instructions.Where(
+        instruction => instruction.OpCode == OpCodes.Call
+                       && instruction.Operand is MethodReference called
+                       && called.FullName == helper.FullName).ToArray();
+    Instruction helperCall = helperCalls.Length == 1
+        ? helperCalls[0]
+        : throw new InvalidDataException(
+            "NetworkClient.ReadMessage has an unexpected RulesetUpdate guard call count.");
+    if (helperCall.Previous?.OpCode.Code
+            is not Code.Ldloca and not Code.Ldloca_S
+        || helperCall.Previous?.Previous?.OpCode.Code
+            is not Code.Ldloc and not Code.Ldloc_S
+        || readMessage.Body.Instructions.Any(instruction =>
+            instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "Magicka.Levels.IRuleset"
+            && called.Name == "NetworkUpdate"))
+    {
+        throw new InvalidDataException(
+            "NetworkClient.ReadMessage does not route RulesetUpdate through the teardown guard.");
     }
 }
 

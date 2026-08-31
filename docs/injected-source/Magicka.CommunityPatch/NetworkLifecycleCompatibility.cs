@@ -3,6 +3,7 @@ using Magicka.GameLogic;
 using Magicka.GameLogic.Entities;
 using Magicka.GameLogic.GameStates;
 using Magicka.Gamers;
+using Magicka.Levels;
 using Magicka.Network;
 using SteamWrapper;
 
@@ -15,6 +16,26 @@ namespace Magicka.CommunityPatch
 	/// </summary>
 	internal static class NetworkLifecycleCompatibility
 	{
+		internal static void ApplyRulesetUpdate(PlayState playState, ref RulesetMessage iMsg)
+		{
+			Level level = playState == null ? null : playState.Level;
+			GameScene scene = level == null ? null : level.CurrentScene;
+			IRuleset ruleset = scene == null ? null : scene.RuleSet;
+			if (ruleset == null)
+			{
+				PatchTelemetry.SendNetworkGuardDrop(
+					"client",
+					"RulesetUpdate",
+					string.Empty,
+					string.Empty,
+					"ruleset_update_ignored_not_ready",
+					string.Empty);
+				return;
+			}
+
+			ruleset.NetworkUpdate(ref iMsg);
+		}
+
 		internal static Entity ResolveActive(int handle, string side, string reason, bool emitTelemetry)
 		{
 			Entity entity = GetEntitySafely(handle);

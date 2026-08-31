@@ -190,6 +190,18 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
+    && args[0] == "--patch-network-client-ruleset-teardown")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchNetworkClientRulesetTeardownOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": dropped late RulesetUpdate packets after play-state teardown");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--diagnose-character-entity-update")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -442,6 +454,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-character-select-disposed-icon"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-network-client-ruleset-teardown"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --diagnose-character-entity-update"
@@ -3566,6 +3581,188 @@ static void RepairCharacterSelectDisposedIcon(
     }
     processor.Append(skipDraw);
     drawWidget.Body.MaxStackSize = Math.Max(drawWidget.Body.MaxStackSize, 1);
+}
+
+static void PatchNetworkClientRulesetTeardownOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairNetworkClientRulesetTeardown(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairNetworkClientRulesetTeardown(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition compatibility = RequireType(
+        types,
+        "Magicka.CommunityPatch.NetworkLifecycleCompatibility");
+    if (compatibility.Methods.Any(method =>
+            method.Name == "ApplyRulesetUpdate"))
+    {
+        throw new InvalidOperationException(
+            "NetworkLifecycleCompatibility.ApplyRulesetUpdate already exists.");
+    }
+    TypeDefinition rulesetMessage = RequireType(
+        types,
+        "Magicka.Network.RulesetMessage");
+    TypeDefinition playState = RequireType(
+        types,
+        "Magicka.GameLogic.GameStates.PlayState");
+    TypeDefinition level = RequireType(types, "Magicka.Levels.Level");
+    TypeDefinition gameScene = RequireType(types, "Magicka.Levels.GameScene");
+    TypeDefinition ruleset = RequireType(types, "Magicka.Levels.IRuleset");
+
+    MethodDefinition getRecentPlayState = RequireMethod(
+        playState,
+        "get_RecentPlayState",
+        parameterCount: 0);
+    MethodDefinition getLevel = RequireMethod(
+        playState,
+        "get_Level",
+        parameterCount: 0);
+    MethodDefinition getCurrentScene = RequireMethod(
+        level,
+        "get_CurrentScene",
+        parameterCount: 0);
+    MethodDefinition getRuleSet = RequireMethod(
+        gameScene,
+        "get_RuleSet",
+        parameterCount: 0);
+    MethodDefinition networkUpdate = RequireMethod(
+        ruleset,
+        "NetworkUpdate",
+        parameterCount: 1);
+    MethodDefinition sendDrop = RequireMethod(
+        RequireType(types, "Magicka.CommunityPatch.PatchTelemetry"),
+        "SendNetworkGuardDrop",
+        parameterCount: 6);
+
+    MethodDefinition helper = new MethodDefinition(
+        "ApplyRulesetUpdate",
+        MethodAttributes.Assembly
+        | MethodAttributes.Static
+        | MethodAttributes.HideBySig,
+        compatibility.Module.TypeSystem.Void);
+    helper.Parameters.Add(new ParameterDefinition(
+        "playState",
+        ParameterAttributes.None,
+        playState));
+    helper.Parameters.Add(new ParameterDefinition(
+        "iMsg",
+        ParameterAttributes.None,
+        new ByReferenceType(rulesetMessage)));
+    VariableDefinition capturedLevel = new VariableDefinition(level);
+    VariableDefinition capturedScene = new VariableDefinition(gameScene);
+    VariableDefinition capturedRuleset = new VariableDefinition(ruleset);
+    helper.Body.Variables.Add(capturedLevel);
+    helper.Body.Variables.Add(capturedScene);
+    helper.Body.Variables.Add(capturedRuleset);
+    helper.Body.InitLocals = true;
+    ILProcessor helperProcessor = helper.Body.GetILProcessor();
+    Instruction drop = Instruction.Create(OpCodes.Ldstr, "client");
+    foreach (Instruction instruction in new[]
+             {
+                 Instruction.Create(OpCodes.Ldarg_0),
+                 Instruction.Create(OpCodes.Brfalse, drop),
+                 Instruction.Create(OpCodes.Ldarg_0),
+                 Instruction.Create(OpCodes.Callvirt, getLevel),
+                 Instruction.Create(OpCodes.Stloc, capturedLevel),
+                 Instruction.Create(OpCodes.Ldloc, capturedLevel),
+                 Instruction.Create(OpCodes.Brfalse, drop),
+                 Instruction.Create(OpCodes.Ldloc, capturedLevel),
+                 Instruction.Create(OpCodes.Callvirt, getCurrentScene),
+                 Instruction.Create(OpCodes.Stloc, capturedScene),
+                 Instruction.Create(OpCodes.Ldloc, capturedScene),
+                 Instruction.Create(OpCodes.Brfalse, drop),
+                 Instruction.Create(OpCodes.Ldloc, capturedScene),
+                 Instruction.Create(OpCodes.Callvirt, getRuleSet),
+                 Instruction.Create(OpCodes.Stloc, capturedRuleset),
+                 Instruction.Create(OpCodes.Ldloc, capturedRuleset),
+                 Instruction.Create(OpCodes.Brfalse, drop),
+                 Instruction.Create(OpCodes.Ldloc, capturedRuleset),
+                 Instruction.Create(OpCodes.Ldarg_1),
+                 Instruction.Create(OpCodes.Callvirt, networkUpdate),
+                 Instruction.Create(OpCodes.Ret),
+             })
+    {
+        helperProcessor.Append(instruction);
+    }
+    helperProcessor.Append(drop);
+    helperProcessor.Append(Instruction.Create(OpCodes.Ldstr, "RulesetUpdate"));
+    helperProcessor.Append(Instruction.Create(OpCodes.Ldstr, string.Empty));
+    helperProcessor.Append(Instruction.Create(OpCodes.Ldstr, string.Empty));
+    helperProcessor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "ruleset_update_ignored_not_ready"));
+    helperProcessor.Append(Instruction.Create(OpCodes.Ldstr, string.Empty));
+    helperProcessor.Append(Instruction.Create(OpCodes.Call, sendDrop));
+    helperProcessor.Append(Instruction.Create(OpCodes.Ret));
+    helper.Body.MaxStackSize = 6;
+    compatibility.Methods.Add(helper);
+
+    MethodDefinition readMessage = RequireMethod(
+        RequireType(types, "Magicka.Network.NetworkClient"),
+        "ReadMessage",
+        parameterCount: 2);
+    Instruction updateCall = readMessage.Body.Instructions.Single(instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == "Magicka.Levels.IRuleset"
+        && called.Name == "NetworkUpdate");
+    Instruction messageLoad = updateCall.Previous
+        ?? throw new InvalidOperationException(
+            "RulesetUpdate message load is missing.");
+    if (messageLoad.OpCode.Code is not Code.Ldloca and not Code.Ldloca_S
+        || messageLoad.Operand is not VariableDefinition messageVariable)
+    {
+        throw new InvalidOperationException(
+            "Unexpected RulesetUpdate message load.");
+    }
+    Instruction getRuleSetCall = messageLoad.Previous!;
+    Instruction getCurrentSceneCall = getRuleSetCall.Previous!;
+    Instruction getLevelCall = getCurrentSceneCall.Previous!;
+    Instruction playStateLoad = getLevelCall.Previous!;
+    if (playStateLoad.Operand is not VariableDefinition playStateVariable
+        || getLevelCall.Operand is not MethodReference existingGetLevel
+        || existingGetLevel.Name != "get_Level"
+        || getCurrentSceneCall.Operand is not MethodReference existingGetScene
+        || existingGetScene.Name != "get_CurrentScene"
+        || getRuleSetCall.Operand is not MethodReference existingGetRuleset
+        || existingGetRuleset.Name != "get_RuleSet")
+    {
+        throw new InvalidOperationException(
+            "Unexpected NetworkClient RulesetUpdate call chain.");
+    }
+    Instruction storePlayState = readMessage.Body.Instructions
+        .Take(readMessage.Body.Instructions.IndexOf(playStateLoad))
+        .Last(instruction => instruction.Operand == playStateVariable
+                             && instruction.OpCode.Code
+                                 is Code.Stloc or Code.Stloc_S);
+    Instruction recentPlayStateCall = storePlayState.Previous!;
+    if (recentPlayStateCall.Operand is not MethodReference existingRecent
+        || existingRecent.Name != "get_RecentPlayState")
+    {
+        throw new InvalidOperationException(
+            "RulesetUpdate RecentPlayState snapshot was not found.");
+    }
+
+    getLevelCall.OpCode = OpCodes.Ldloca;
+    getLevelCall.Operand = messageVariable;
+    getCurrentSceneCall.OpCode = OpCodes.Call;
+    getCurrentSceneCall.Operand = helper;
+    foreach (Instruction instruction in new[]
+             {
+                 getRuleSetCall,
+                 messageLoad,
+                 updateCall,
+             })
+    {
+        instruction.OpCode = OpCodes.Nop;
+        instruction.Operand = null;
+    }
 }
 
 static void DiagnoseCharacterEntityUpdateOnly(
