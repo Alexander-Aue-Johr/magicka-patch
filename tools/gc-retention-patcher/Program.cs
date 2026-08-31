@@ -202,6 +202,18 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
+    && args[0] == "--patch-graphics-startup-errors")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchGraphicsStartupErrorsOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": added actionable graphics startup errors");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--diagnose-character-entity-update")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -457,6 +469,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-network-client-ruleset-teardown"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-graphics-startup-errors"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --diagnose-character-entity-update"
@@ -3763,6 +3778,149 @@ static void RepairNetworkClientRulesetTeardown(
         instruction.OpCode = OpCodes.Nop;
         instruction.Operand = null;
     }
+}
+
+static void PatchGraphicsStartupErrorsOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairGraphicsStartupErrors(assembly.MainModule, types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairGraphicsStartupErrors(
+    ModuleDefinition module,
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    _ = module;
+    MethodDefinition gameConstructor = RequireType(types, "Magicka.Game")
+        .Methods.Single(method => method.IsConstructor
+                                  && !method.IsStatic
+                                  && method.Parameters.Count == 0);
+    Instruction applyCall = gameConstructor.Body.Instructions.Single(
+        instruction => instruction.Operand is MethodReference called
+                       && called.DeclaringType.FullName
+                           == "Microsoft.Xna.Framework.GraphicsDeviceManager"
+                       && called.Name == "ApplyChanges");
+    MethodDefinition writeReport = RequireMethod(
+        RequireType(types, "Magicka.Program"),
+        "WriteReport",
+        parameterCount: 2);
+    MethodReference messageBox = types.Values
+        .SelectMany(type => type.Methods)
+        .SelectMany(method => method.HasBody
+            ? method.Body.Instructions.ToArray()
+            : Array.Empty<Instruction>())
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .First(method => method.DeclaringType.FullName
+                         == "System.Windows.Forms.MessageBox"
+                         && method.Name == "Show"
+                         && method.Parameters.Count == 4
+                         && method.Parameters.All(parameter =>
+                             parameter.ParameterType.FullName
+                                 != "System.Windows.Forms.IWin32Window"));
+    MethodReference[] existingCalls = types.Values
+        .SelectMany(type => type.Methods)
+        .SelectMany(method => method.HasBody
+            ? method.Body.Instructions.ToArray()
+            : Array.Empty<Instruction>())
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .ToArray();
+    MethodReference getType = existingCalls.First(method =>
+        method.DeclaringType.FullName == "System.Object"
+        && method.Name == "GetType"
+        && method.Parameters.Count == 0);
+    MethodReference getFullName = existingCalls.First(method =>
+        method.DeclaringType.FullName == "System.Type"
+        && method.Name == "get_FullName"
+        && method.Parameters.Count == 0);
+    MethodReference stringEquality = existingCalls.First(method =>
+        method.DeclaringType.FullName == "System.String"
+        && method.Name == "op_Equality"
+        && method.Parameters.Count == 2);
+    MethodReference getExceptionObject = existingCalls.First(method =>
+        method.DeclaringType.FullName == "System.UnhandledExceptionEventArgs"
+        && method.Name == "get_ExceptionObject"
+        && method.Parameters.Count == 0);
+    MethodReference objectToString = existingCalls.First(method =>
+        method.DeclaringType.FullName == "System.Object"
+        && method.Name == "ToString"
+        && method.Parameters.Count == 0);
+    MethodReference stringContains = existingCalls.First(method =>
+        method.DeclaringType.FullName == "System.String"
+        && method.Name == "Contains"
+        && method.Parameters.Count == 1);
+    TypeReference argumentException = existingCalls
+        .Select(method => method.DeclaringType)
+        .First(type => type.FullName == "System.ArgumentException");
+
+    Instruction originalBody = writeReport.Body.Instructions[0];
+    ILProcessor processor = writeReport.Body.GetILProcessor();
+    Instruction hasException = Instruction.Create(
+        OpCodes.Isinst,
+        argumentException);
+    Instruction checkNoSuitable = Instruction.Create(
+        OpCodes.Ldarg_1);
+    Instruction[] guardInstructions =
+    [
+        Instruction.Create(OpCodes.Ldarg_1),
+        Instruction.Create(OpCodes.Callvirt, getExceptionObject),
+        Instruction.Create(OpCodes.Dup),
+        Instruction.Create(OpCodes.Brtrue, hasException),
+        Instruction.Create(OpCodes.Pop),
+        Instruction.Create(OpCodes.Br, originalBody),
+        hasException,
+        Instruction.Create(OpCodes.Brfalse, checkNoSuitable),
+        Instruction.Create(OpCodes.Ldarg_1),
+        Instruction.Create(OpCodes.Callvirt, getExceptionObject),
+        Instruction.Create(OpCodes.Callvirt, objectToString),
+        Instruction.Create(OpCodes.Ldstr, "Microsoft.Xna.Framework"),
+        Instruction.Create(OpCodes.Callvirt, stringContains),
+        Instruction.Create(OpCodes.Brfalse, originalBody),
+        Instruction.Create(
+            OpCodes.Ldstr,
+            "Magicka could not map the selected graphics adapter to a monitor. "
+            + "Update the graphics driver, disconnect virtual displays, and avoid Remote Desktop. "
+            + "On Linux or Proton, also verify the display and Proton configuration."),
+        Instruction.Create(OpCodes.Ldstr, "Magicka graphics startup error"),
+        Instruction.Create(OpCodes.Ldc_I4_0),
+        Instruction.Create(OpCodes.Ldc_I4_S, (sbyte)16),
+        Instruction.Create(OpCodes.Call, messageBox),
+        Instruction.Create(OpCodes.Pop),
+        Instruction.Create(OpCodes.Br, originalBody),
+        checkNoSuitable,
+        Instruction.Create(OpCodes.Callvirt, getExceptionObject),
+        Instruction.Create(OpCodes.Callvirt, getType),
+        Instruction.Create(OpCodes.Callvirt, getFullName),
+        Instruction.Create(
+            OpCodes.Ldstr,
+            "Microsoft.Xna.Framework.NoSuitableGraphicsDeviceException"),
+        Instruction.Create(OpCodes.Call, stringEquality),
+        Instruction.Create(OpCodes.Brfalse, originalBody),
+        Instruction.Create(
+            OpCodes.Ldstr,
+            "Magicka could not find a suitable graphics device. "
+            + "Install a supported graphics driver and verify the DirectX/XNA runtime. "
+            + "On Linux or Proton, also verify the selected Proton version and display configuration."),
+        Instruction.Create(OpCodes.Ldstr, "Magicka graphics startup error"),
+        Instruction.Create(OpCodes.Ldc_I4_0),
+        Instruction.Create(OpCodes.Ldc_I4_S, (sbyte)16),
+        Instruction.Create(OpCodes.Call, messageBox),
+        Instruction.Create(OpCodes.Pop),
+        Instruction.Create(OpCodes.Br, originalBody),
+    ];
+    foreach (Instruction instruction in guardInstructions)
+    {
+        processor.InsertBefore(originalBody, instruction);
+    }
+    writeReport.Body.MaxStackSize = Math.Max(
+        writeReport.Body.MaxStackSize,
+        4);
 }
 
 static void DiagnoseCharacterEntityUpdateOnly(

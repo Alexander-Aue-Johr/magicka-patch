@@ -70,6 +70,7 @@ ValidateAvatarFindInteractableNullGuard(magicka);
 ValidateCharacterCastSpellGamerNullGuard(magicka);
 ValidateCharacterSelectDisposedIconGuard(magicka);
 ValidateNetworkClientRulesetTeardownGuard(magicka);
+ValidateGraphicsStartupErrors(magicka);
 ValidateTelemetryPatchVersion(magicka);
 ValidatePlayerGameDeinitialize(magicka);
 ValidateEntityCollisionCallbackCleanup(magicka);
@@ -1110,6 +1111,59 @@ static void ValidateNetworkClientRulesetTeardownGuard(AssemblyDefinition magicka
     {
         throw new InvalidDataException(
             "NetworkClient.ReadMessage does not route RulesetUpdate through the teardown guard.");
+    }
+}
+
+static void ValidateGraphicsStartupErrors(AssemblyDefinition magicka)
+{
+    MethodDefinition constructor = AllTypes(magicka.MainModule)
+        .Single(type => type.FullName == "Magicka.Game")
+        .Methods.Single(method => method.IsConstructor
+                                  && !method.IsStatic
+                                  && method.Parameters.Count == 0);
+    if (constructor.Body.Instructions.Count(instruction =>
+            instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "Microsoft.Xna.Framework.GraphicsDeviceManager"
+            && called.Name == "ApplyChanges") != 1)
+    {
+        throw new InvalidDataException(
+            "Game constructor graphics startup call changed unexpectedly.");
+    }
+    MethodDefinition writeReport = AllTypes(magicka.MainModule)
+        .Single(type => type.FullName == "Magicka.Program")
+        .Methods.Single(method => method.Name == "WriteReport"
+                                  && method.Parameters.Count == 2);
+    Instruction[] entry = writeReport.Body.Instructions.Take(48).ToArray();
+    if (!entry.Any(instruction =>
+            instruction.OpCode == OpCodes.Isinst
+            && instruction.Operand is TypeReference type
+            && type.FullName == "System.ArgumentException")
+        || !entry.Any(instruction =>
+            string.Equals(
+                instruction.Operand as string,
+                "Microsoft.Xna.Framework",
+                StringComparison.Ordinal))
+        || !entry.Any(instruction =>
+            string.Equals(
+                instruction.Operand as string,
+                "Microsoft.Xna.Framework.NoSuitableGraphicsDeviceException",
+                StringComparison.Ordinal))
+        || !entry.Any(instruction =>
+            (instruction.Operand as string)?.Contains(
+                "graphics adapter to a monitor",
+                StringComparison.Ordinal) == true)
+        || !entry.Any(instruction =>
+            (instruction.Operand as string)?.Contains(
+                "suitable graphics device",
+                StringComparison.Ordinal) == true)
+        || entry.Count(instruction =>
+            instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "System.Windows.Forms.MessageBox"
+            && called.Name == "Show") != 2)
+    {
+        throw new InvalidDataException(
+            "Program.WriteReport does not show both actionable graphics startup errors.");
     }
 }
 
