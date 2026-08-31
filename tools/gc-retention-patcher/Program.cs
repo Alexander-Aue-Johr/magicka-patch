@@ -142,6 +142,18 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
+    && args[0] == "--patch-array-equals-null")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchArrayEqualsNullOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": treated unavailable byte arrays as unequal");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--diagnose-character-entity-update")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -382,6 +394,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-game-thread-affinity-null"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-array-equals-null"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --diagnose-character-entity-update"
@@ -3216,6 +3231,48 @@ static void PatchGameThreadAffinityNullOnly(
     constructor.Body.OptimizeMacros();
 
     WriteAssembly(assembly, outputPath);
+}
+
+static void PatchArrayEqualsNullOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairArrayEqualsNull(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairArrayEqualsNull(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    MethodDefinition arrayEquals = RequireMethod(
+        RequireType(types, "Magicka.Helper"),
+        "ArrayEquals",
+        parameterCount: 2);
+    if (arrayEquals.Parameters.Any(parameter =>
+            parameter.ParameterType.FullName != "System.Byte[]")
+        || arrayEquals.ReturnType.FullName != "System.Boolean")
+    {
+        throw new InvalidOperationException(
+            "Unexpected Helper.ArrayEquals signature.");
+    }
+
+    Instruction originalEntry = arrayEquals.Body.Instructions[0];
+    Instruction returnFalse = Instruction.Create(OpCodes.Ldc_I4_0);
+    ILProcessor processor = arrayEquals.Body.GetILProcessor();
+    processor.InsertBefore(originalEntry, Instruction.Create(OpCodes.Ldarg_0));
+    processor.InsertBefore(
+        originalEntry,
+        Instruction.Create(OpCodes.Brfalse, returnFalse));
+    processor.InsertBefore(originalEntry, Instruction.Create(OpCodes.Ldarg_1));
+    processor.InsertBefore(
+        originalEntry,
+        Instruction.Create(OpCodes.Brfalse, returnFalse));
+    processor.Append(returnFalse);
+    processor.Append(Instruction.Create(OpCodes.Ret));
+    arrayEquals.Body.MaxStackSize = Math.Max(arrayEquals.Body.MaxStackSize, 1);
 }
 
 static void DiagnoseCharacterEntityUpdateOnly(

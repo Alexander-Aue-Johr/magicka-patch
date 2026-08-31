@@ -65,6 +65,7 @@ ValidateClr2Assembly(polygonHead);
 ValidateExceptionHandlerNestingOrder(magicka);
 ValidateNetworkServerForcedSyncExit(magicka);
 ValidateRuntimeCompatibilityGuards(magicka);
+ValidateArrayEqualsNullGuard(magicka);
 ValidateTelemetryPatchVersion(magicka);
 ValidatePlayerGameDeinitialize(magicka);
 ValidateEntityCollisionCallbackCleanup(magicka);
@@ -883,6 +884,28 @@ static void ValidateRuntimeCompatibilityGuards(AssemblyDefinition magicka)
     {
         throw new InvalidDataException(
             "The Paradox price worker does not cast and invoke ThreadStart.");
+    }
+}
+
+static void ValidateArrayEqualsNullGuard(AssemblyDefinition magicka)
+{
+    MethodDefinition arrayEquals = AllTypes(magicka.MainModule)
+        .Single(type => type.FullName == "Magicka.Helper")
+        .Methods.Single(method => method.Name == "ArrayEquals"
+                                  && method.Parameters.Count == 2);
+    Instruction[] instructions = arrayEquals.Body.Instructions.ToArray();
+    if (instructions.Length < 8
+        || instructions[0].OpCode != OpCodes.Ldarg_0
+        || instructions[1].OpCode.FlowControl != FlowControl.Cond_Branch
+        || instructions[2].OpCode != OpCodes.Ldarg_1
+        || instructions[3].OpCode.FlowControl != FlowControl.Cond_Branch
+        || instructions[1].Operand is not Instruction firstNullExit
+        || instructions[3].Operand != firstNullExit
+        || firstNullExit.OpCode != OpCodes.Ldc_I4_0
+        || firstNullExit.Next?.OpCode != OpCodes.Ret)
+    {
+        throw new InvalidDataException(
+            "Helper.ArrayEquals does not reject either null input.");
     }
 }
 
