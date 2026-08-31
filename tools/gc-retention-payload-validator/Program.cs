@@ -2190,55 +2190,6 @@ static void ValidatePhysicsManagerClearReferences(AssemblyDefinition magicka)
             + " of only removing it from the active simulator.");
     }
 
-    MethodDefinition entityDispose = RequireMethod(
-        magicka,
-        "Magicka.GameLogic.Entities.Entity",
-        "Dispose",
-        parameterCount: 0);
-    Instruction[] disposeBody = entityDispose.Body.Instructions.ToArray();
-    int detachBodySkin = Array.FindIndex(
-        disposeBody,
-        instruction => instruction.Operand is MethodReference called
-            && called.DeclaringType.FullName == "JigLibX.Physics.Body"
-            && called.Name == "set_CollisionSkin"
-            && instruction.Previous?.OpCode == OpCodes.Ldnull);
-    int clearDisposedBodyTag = Array.FindIndex(
-        disposeBody,
-        instruction => instruction.OpCode == OpCodes.Stfld
-            && instruction.Operand is FieldReference field
-            && field.DeclaringType.FullName == "JigLibX.Physics.Body"
-            && field.Name == "Tag"
-            && instruction.Previous?.OpCode == OpCodes.Ldnull);
-    string[] requiredDisposedSkinCleanup =
-    [
-        "get_Collisions",
-        "get_NonCollidables",
-        "set_Tag",
-        "set_Owner",
-        "set_CollisionSystem",
-    ];
-    int[] disposedSkinCleanupIndices = requiredDisposedSkinCleanup.Select(name =>
-        Array.FindIndex(
-            disposeBody,
-            instruction => instruction.Operand is MethodReference called
-                && called.DeclaringType.FullName
-                    == "JigLibX.Collision.CollisionSkin"
-                && called.Name == name)).ToArray();
-    int clearCollisionCallbacks = Array.FindIndex(
-        disposeBody,
-        instruction => instruction.Operand is MethodReference called
-            && called.DeclaringType.FullName
-                == "Magicka.CommunityPatch.CollisionCallbackCleanup"
-            && called.Name == "Clear");
-    if (detachBodySkin < 0
-        || clearDisposedBodyTag < 0
-        || clearCollisionCallbacks < 0
-        || disposedSkinCleanupIndices.Any(index => index < 0))
-    {
-        throw new InvalidDataException(
-            "Entity.Dispose does not release all final Body/CollisionSkin"
-            + " ownership and callback references.");
-    }
 }
 
 static void ValidateMeteorShowerRemoveReferences(AssemblyDefinition magicka)
@@ -2675,42 +2626,87 @@ static void ValidateEntityCollisionCallbackCleanup(
         && field.IsStatic
         && field.IsInitOnly
         && field.FieldType.FullName == "System.Reflection.FieldInfo");
+    FieldDefinition postCallbackField = helper.Fields.Single(field =>
+        field.Name == "sPostCollisionCallbackField"
+        && field.IsStatic
+        && field.IsInitOnly
+        && field.FieldType.FullName == "System.Reflection.FieldInfo");
     MethodDefinition initialize = helper.Methods.Single(method =>
         method.IsConstructor
         && method.IsStatic
         && method.HasBody);
     Instruction[] initializeBody = initialize.Body.Instructions.ToArray();
-    bool resolvesExactField = initializeBody.Any(instruction =>
-            instruction.OpCode == OpCodes.Ldstr
-            && string.Equals(
-                instruction.Operand as string,
-                "callbackFn",
-                StringComparison.Ordinal))
-        && initializeBody.Any(instruction =>
+    MethodDefinition resolveField = helper.Methods.Single(method =>
+        method.Name == "ResolveField"
+        && method.IsStatic
+        && method.Parameters.Count == 1
+        && method.Parameters[0].ParameterType.FullName == "System.String"
+        && method.ReturnType.FullName == "System.Reflection.FieldInfo");
+    string[] resolvedNames = initializeBody
+        .Where(instruction => instruction.OpCode == OpCodes.Ldstr)
+        .Select(instruction => instruction.Operand as string)
+        .Where(value => value is not null)
+        .Cast<string>()
+        .ToArray();
+    if (!resolvedNames.SequenceEqual(
+            new[] { "callbackFn", "postCollisionCallbackFn" })
+        || initializeBody.Count(instruction =>
+            IsCallTo(instruction, resolveField)) != 2
+        || initializeBody.Count(instruction =>
+            instruction.OpCode == OpCodes.Stsfld
+            && (IsReferenceTo(instruction.Operand, callbackField)
+                || IsReferenceTo(instruction.Operand, postCallbackField))) != 2)
+    {
+        throw new InvalidDataException(
+            "CollisionCallbackCleanup must initialize both exact JigLibX"
+            + " collision event backing fields.");
+    }
+    Instruction[] resolveBody = resolveField.Body.Instructions.ToArray();
+    if (!resolveBody.Any(instruction =>
             instruction.OpCode == OpCodes.Ldc_I4_S
             && instruction.Operand is sbyte flags
             && flags == 36)
-        && initializeBody.Any(instruction =>
+        || resolveBody.Count(instruction =>
             instruction.OpCode == OpCodes.Callvirt
             && instruction.Operand is MethodReference called
             && called.DeclaringType.FullName == "System.Type"
             && called.Name == "GetField"
-            && called.Parameters.Count == 2)
-        && initializeBody.Any(instruction =>
-            instruction.OpCode == OpCodes.Stsfld
-            && IsReferenceTo(instruction.Operand, callbackField));
-    if (!resolvesExactField
-        || initialize.Body.ExceptionHandlers.Count != 1
-        || initialize.Body.ExceptionHandlers[0].HandlerType
+            && called.Parameters.Count == 2) != 1
+        || resolveField.Body.ExceptionHandlers.Count != 1
+        || resolveField.Body.ExceptionHandlers[0].HandlerType
             != ExceptionHandlerType.Catch
-        || initialize.Body.ExceptionHandlers[0].CatchType?.FullName
+        || resolveField.Body.ExceptionHandlers[0].CatchType?.FullName
             != "System.Exception")
     {
         throw new InvalidDataException(
-            "CollisionCallbackCleanup does not safely resolve the exact"
-            + " private callbackFn field.");
+            "CollisionCallbackCleanup.ResolveField must use Instance and"
+            + " NonPublic binding flags and contain reflection failures.");
     }
 
+    MethodDefinition clearField = helper.Methods.Single(method =>
+        method.Name == "ClearField"
+        && method.IsStatic
+        && method.Parameters.Count == 2
+        && method.Parameters[0].ParameterType.FullName
+            == "System.Reflection.FieldInfo"
+        && method.Parameters[1].ParameterType.FullName
+            == "JigLibX.Collision.CollisionSkin");
+    if (clearField.Body.Instructions.Count(instruction =>
+            instruction.OpCode == OpCodes.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "System.Reflection.FieldInfo"
+            && called.Name == "SetValue"
+            && called.Parameters.Count == 2) != 1
+        || clearField.Body.ExceptionHandlers.Count != 1
+        || clearField.Body.ExceptionHandlers[0].HandlerType
+            != ExceptionHandlerType.Catch
+        || clearField.Body.ExceptionHandlers[0].CatchType?.FullName
+            != "System.Exception")
+    {
+        throw new InvalidDataException(
+            "CollisionCallbackCleanup.ClearField must clear one delegate"
+            + " and contain reflection failures.");
+    }
     MethodDefinition clear = helper.Methods.Single(method =>
         method.Name == "Clear"
         && method.IsStatic
@@ -2719,54 +2715,280 @@ static void ValidateEntityCollisionCallbackCleanup(
             == "JigLibX.Collision.CollisionSkin");
     Instruction[] clearBody = clear.Body.Instructions.ToArray();
     if (clearBody.Count(instruction =>
-            instruction.OpCode == OpCodes.Callvirt
-            && instruction.Operand is MethodReference called
-            && called.DeclaringType.FullName == "System.Reflection.FieldInfo"
-            && called.Name == "SetValue"
-            && called.Parameters.Count == 2) != 1
-        || clear.Body.ExceptionHandlers.Count != 1
-        || clear.Body.ExceptionHandlers[0].HandlerType
-            != ExceptionHandlerType.Catch
-        || clear.Body.ExceptionHandlers[0].CatchType?.FullName
-            != "System.Exception")
+            IsCallTo(instruction, clearField)) != 2
+        || !clearBody.Any(instruction =>
+            instruction.OpCode == OpCodes.Ldsfld
+            && IsReferenceTo(instruction.Operand, callbackField))
+        || !clearBody.Any(instruction =>
+            instruction.OpCode == OpCodes.Ldsfld
+            && IsReferenceTo(instruction.Operand, postCallbackField)))
     {
         throw new InvalidDataException(
-            "CollisionCallbackCleanup.Clear must clear the backing delegate"
-            + " once and contain reflection failures.");
+            "CollisionCallbackCleanup.Clear must clear both callback"
+            + " invocation lists.");
     }
 
     TypeDefinition entity = types["Magicka.GameLogic.Entities.Entity"];
+    FieldDefinition bodyField = entity.Fields.Single(field =>
+        field.Name == "mBody"
+        && field.FieldType.FullName == "JigLibX.Physics.Body");
+    FieldDefinition collisionField = entity.Fields.Single(field =>
+        field.Name == "mCollision"
+        && field.FieldType.FullName == "JigLibX.Collision.CollisionSkin");
+    MethodDefinition detach = entity.Methods.Single(method =>
+        method.Name == "DetachPhysicsReferences"
+        && !method.IsStatic
+        && method.IsFamily
+        && method.Parameters.Count == 0);
+    Instruction[] detachBody = detach.Body.Instructions.ToArray();
+    int disableBodyIndex = Array.FindIndex(detachBody, instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == "JigLibX.Physics.Body"
+        && called.Name == "DisableBody");
+    int detachBodySkinIndex = Array.FindIndex(detachBody, instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == "JigLibX.Physics.Body"
+        && called.Name == "set_CollisionSkin");
+    string[] requiredSkinCalls =
+    [
+        "get_Collisions",
+        "get_NonCollidables",
+        "set_Tag",
+        "set_Owner",
+        "set_CollisionSystem",
+    ];
+    if (disableBodyIndex < 0
+        || detachBodySkinIndex <= disableBodyIndex
+        || detachBody.Count(instruction => IsCallTo(instruction, clear)) != 1
+        || requiredSkinCalls.Any(name => !detachBody.Any(instruction =>
+            instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "JigLibX.Collision.CollisionSkin"
+            && called.Name == name))
+        || !detachBody.Any(instruction =>
+            instruction.OpCode == OpCodes.Stfld
+            && instruction.Operand is FieldReference field
+            && field.DeclaringType.FullName == "JigLibX.Physics.Body"
+            && field.Name == "Tag")
+        || FindNullFieldStore(detachBody, bodyField) < 0
+        || FindNullFieldStore(detachBody, collisionField) < 0)
+    {
+        throw new InvalidDataException(
+            "Entity.DetachPhysicsReferences does not completely detach the"
+            + " body, collision skin, callbacks, and Entity fields.");
+    }
+
     MethodDefinition dispose = entity.Methods.Single(method =>
         method.Name == "Dispose"
         && !method.IsStatic
         && method.Parameters.Count == 0);
     Instruction[] disposeBody = dispose.Body.Instructions.ToArray();
-    int cleanupIndex = Array.FindIndex(
-        disposeBody,
-        instruction => IsCallTo(instruction, clear));
-    int clearCollisionsIndex = Array.FindIndex(
-        disposeBody,
-        instruction => instruction.OpCode == OpCodes.Callvirt
-            && instruction.Operand is MethodReference called
-            && called.DeclaringType.FullName
-                == "JigLibX.Collision.CollisionSkin"
-            && called.Name == "get_Collisions");
-    int detachSystemIndex = Array.FindIndex(
-        disposeBody,
-        instruction => instruction.OpCode == OpCodes.Callvirt
-            && instruction.Operand is MethodReference called
-            && called.DeclaringType.FullName
-                == "JigLibX.Collision.CollisionSkin"
-            && called.Name == "set_CollisionSystem");
-    if (cleanupIndex < 0
-        || cleanupIndex >= clearCollisionsIndex
-        || cleanupIndex >= detachSystemIndex
-        || disposeBody.Count(instruction => IsCallTo(instruction, clear)) != 1)
+    if (disposeBody.Count(instruction => IsCallTo(instruction, detach)) != 1
+        || disposeBody.Any(instruction => IsCallTo(instruction, clear)))
     {
         throw new InvalidDataException(
-            "Entity.Dispose must clear collision callbacks exactly once before"
-            + " detaching collision state.");
+            "Entity.Dispose must delegate physics cleanup exactly once to"
+            + " Entity.DetachPhysicsReferences.");
     }
+
+    MethodDefinition entityDeinitialize = entity.Methods.Single(method =>
+        method.Name == "Deinitialize"
+        && !method.IsStatic
+        && method.Parameters.Count == 0);
+    if (entityDeinitialize.Body.Instructions.Any(instruction =>
+            IsCallTo(instruction, detach)))
+    {
+        throw new InvalidDataException(
+            "General Entity.Deinitialize must preserve reusable body and skin"
+            + " relationships.");
+    }
+    TypeDefinition physicsEntity =
+        types["Magicka.GameLogic.Entities.PhysicsEntity"];
+    MethodDefinition physicsDeinitialize = physicsEntity.Methods.Single(
+        method => method.Name == "Deinitialize"
+            && !method.IsStatic
+            && method.Parameters.Count == 0);
+    Instruction[] deinitializeBody =
+        physicsDeinitialize.Body.Instructions.ToArray();
+    int baseDeinitializeIndex = Array.FindIndex(
+        deinitializeBody,
+        instruction => IsCallTo(instruction, entityDeinitialize));
+    int detachDeinitializeIndex = Array.FindIndex(
+        deinitializeBody,
+        instruction => IsCallTo(instruction, detach));
+    if (baseDeinitializeIndex < 0
+        || detachDeinitializeIndex <= baseDeinitializeIndex
+        || deinitializeBody.Count(instruction =>
+            IsCallTo(instruction, detach)) != 1)
+    {
+        throw new InvalidDataException(
+            "PhysicsEntity.Deinitialize must detach its replaceable physics"
+            + " pair after Entity.Deinitialize disables it.");
+    }
+    MethodDefinition initializePhysics = physicsEntity.Methods.Single(method =>
+        method.Name == "Initialize"
+        && !method.IsStatic
+        && method.Parameters.Count == 3);
+    MethodDefinition createBody = physicsEntity.Methods.Single(method =>
+        method.Name == "CreateBody"
+        && !method.IsStatic
+        && method.Parameters.Count == 0);
+    Instruction[] initializePhysicsBody =
+        initializePhysics.Body.Instructions.ToArray();
+    int detachInitializeIndex = Array.FindIndex(
+        initializePhysicsBody,
+        instruction => IsCallTo(instruction, detach));
+    int createBodyIndex = Array.FindIndex(
+        initializePhysicsBody,
+        instruction => IsCallTo(instruction, createBody));
+    if (detachInitializeIndex < 0
+        || createBodyIndex <= detachInitializeIndex
+        || initializePhysicsBody.Count(instruction =>
+            IsCallTo(instruction, detach)) != 1)
+    {
+        throw new InvalidDataException(
+            "PhysicsEntity.Initialize must detach any old pair before"
+            + " CreateBody overwrites it.");
+    }
+
+    TypeDefinition[] entityTypes = types.Values.Where(type =>
+            type.FullName != entity.FullName
+            && ValidationInheritsFrom(type, entity.FullName, types))
+        .ToArray();
+    if (entityTypes.Any(type => type.Fields.Any(field =>
+            !field.IsStatic
+            && field.Name == "mDisposed"
+            && field.FieldType.FullName == "System.Boolean")))
+    {
+        throw new InvalidDataException(
+            "A concrete Entity type still declares a redundant mDisposed"
+            + " field.");
+    }
+    MethodDefinition[] concreteDisposals = entityTypes
+        .SelectMany(type => type.Methods)
+        .Where(method => method.Name == "Dispose"
+            && !method.IsStatic
+            && method.Parameters.Count == 0)
+        .ToArray();
+    if (concreteDisposals.Length != 14)
+    {
+        throw new InvalidDataException(
+            "Expected 14 concrete Entity Dispose overrides, found "
+            + concreteDisposals.Length + ".");
+    }
+    foreach (MethodDefinition concreteDispose in concreteDisposals)
+    {
+        MethodDefinition baseDispose = ValidationFindBaseDispose(
+            concreteDispose.DeclaringType,
+            types);
+        ExceptionHandler[] baseFinalizers = concreteDispose.Body
+            .ExceptionHandlers.Where(handler =>
+                handler.HandlerType == ExceptionHandlerType.Finally
+                && InstructionsBetween(
+                    concreteDispose,
+                    handler.HandlerStart,
+                    handler.HandlerEnd).Any(instruction =>
+                        IsCallTo(instruction, baseDispose)))
+            .ToArray();
+        if (baseFinalizers.Length != 1
+            || concreteDispose.Body.Instructions.Count(instruction =>
+                IsCallTo(instruction, baseDispose)) != 1
+            || concreteDispose.Body.Instructions.Any(instruction =>
+                instruction.OpCode == OpCodes.Stfld
+                && instruction.Operand is FieldReference field
+                && (field.FullName == bodyField.FullName
+                    || field.FullName == collisionField.FullName))
+            || concreteDispose.Body.Instructions.Any(instruction =>
+                instruction.Operand is MethodReference called
+                && called.DeclaringType.FullName
+                    == "JigLibX.Collision.CollisionSkin"
+                && called.Name is "remove_callbackFn"
+                    or "remove_postCollisionCallbackFn"))
+        {
+            throw new InvalidDataException(
+                concreteDispose.FullName
+                + " must leave inherited physics cleanup to Entity and call"
+                + " its base Dispose exactly once from a finally block.");
+        }
+    }
+
+    TypeDefinition item = types["Magicka.GameLogic.Entities.Items.Item"];
+    MethodDefinition itemDispose = item.Methods.Single(method =>
+        method.Name == "Dispose"
+        && !method.IsStatic
+        && method.Parameters.Count == 0);
+    Instruction[] itemDisposeBody = itemDispose.Body.Instructions.ToArray();
+    int referenceCheckIndex = Array.FindIndex(itemDisposeBody, instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == "System.Object"
+        && called.Name == "ReferenceEquals");
+    int cacheRemoveIndex = Array.FindIndex(itemDisposeBody, instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName
+            == "System.Collections.Generic.Dictionary`2<System.Int32,Magicka.GameLogic.Entities.Items.Item>"
+        && called.Name == "Remove");
+    if (referenceCheckIndex < 0 || cacheRemoveIndex <= referenceCheckIndex)
+    {
+        throw new InvalidDataException(
+            "Item.Dispose must verify cache entry identity before removal.");
+    }
+}
+
+static IEnumerable<Instruction> InstructionsBetween(
+    MethodDefinition method,
+    Instruction start,
+    Instruction? end)
+{
+    for (Instruction? instruction = start;
+         instruction is not null && instruction != end;
+         instruction = instruction.Next)
+    {
+        yield return instruction;
+    }
+}
+
+static bool ValidationInheritsFrom(
+    TypeDefinition type,
+    string baseTypeName,
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeReference? current = type.BaseType;
+    while (current is not null)
+    {
+        if (current.FullName == baseTypeName)
+        {
+            return true;
+        }
+        current = types.TryGetValue(current.FullName, out TypeDefinition? parent)
+            ? parent.BaseType
+            : null;
+    }
+    return false;
+}
+
+static MethodDefinition ValidationFindBaseDispose(
+    TypeDefinition type,
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeReference? current = type.BaseType;
+    while (current is not null)
+    {
+        if (!types.TryGetValue(current.FullName, out TypeDefinition? parent))
+        {
+            break;
+        }
+        MethodDefinition? dispose = parent.Methods.SingleOrDefault(method =>
+            method.Name == "Dispose"
+            && !method.IsStatic
+            && method.Parameters.Count == 0);
+        if (dispose is not null)
+        {
+            return dispose;
+        }
+        current = parent.BaseType;
+    }
+    throw new InvalidDataException(
+        "No base Dispose method found for " + type.FullName + ".");
 }
 
 static void ValidateCharacterTemplateStaticCaches(

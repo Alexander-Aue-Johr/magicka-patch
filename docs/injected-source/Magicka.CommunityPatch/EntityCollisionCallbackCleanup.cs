@@ -9,14 +9,17 @@ namespace Magicka.CommunityPatch
 	internal static class CollisionCallbackCleanup
 	{
 		private static readonly FieldInfo sCallbackField =
-			ResolveCallbackField();
+			ResolveField("callbackFn");
 
-		private static FieldInfo ResolveCallbackField()
+		private static readonly FieldInfo sPostCollisionCallbackField =
+			ResolveField("postCollisionCallbackFn");
+
+		private static FieldInfo ResolveField(string name)
 		{
 			try
 			{
 				return typeof(CollisionSkin).GetField(
-					"callbackFn",
+					name,
 					BindingFlags.Instance | BindingFlags.NonPublic);
 			}
 			catch
@@ -27,14 +30,24 @@ namespace Magicka.CommunityPatch
 
 		internal static void Clear(CollisionSkin skin)
 		{
-			if (skin == null || sCallbackField == null)
+			if (skin == null)
 			{
 				return;
 			}
 
+			ClearField(sCallbackField, skin);
+			ClearField(sPostCollisionCallbackField, skin);
+		}
+
+		private static void ClearField(FieldInfo field, CollisionSkin skin)
+		{
+			if (field == null)
+			{
+				return;
+			}
 			try
 			{
-				sCallbackField.SetValue(skin, null);
+				field.SetValue(skin, null);
 			}
 			catch
 			{
@@ -43,6 +56,5 @@ namespace Magicka.CommunityPatch
 	}
 }
 
-// Injected into Entity.Dispose after the mCollision null check and before
-// clearing Collisions, NonCollidables, Tag, Owner, and CollisionSystem:
-// CollisionCallbackCleanup.Clear(collision);
+// Called by Entity.DetachPhysicsReferences before clearing Collisions,
+// NonCollidables, Tag, Owner, and CollisionSystem.

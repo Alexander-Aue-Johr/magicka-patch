@@ -471,6 +471,18 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--repair-entity-physics-lifecycle")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    RepairEntityPhysicsLifecycleOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": centralized Entity physics teardown and pooled reuse cleanup");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -571,6 +583,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-entity-collision-callback-cleanup"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --repair-entity-physics-lifecycle"
         + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
@@ -5081,6 +5096,855 @@ static void PatchEntityCollisionCallbackCleanupOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairEntityCollisionCallbackCleanup(assembly.MainModule, types);
     WriteAssembly(assembly, outputPath);
+}
+
+static void RepairEntityPhysicsLifecycleOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    ModuleDefinition module = assembly.MainModule;
+    Dictionary<string, TypeDefinition> types = AllTypes(module)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+
+    TypeDefinition entity = RequireType(types, EntityTypeName);
+    TypeDefinition physicsEntity = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.PhysicsEntity");
+    MethodDefinition entityDispose = RequireMethod(entity, "Dispose", 0);
+    MethodDefinition isDisposed = RequireMethod(entity, "get_IsDisposed", 0);
+    FieldDefinition bodyField = entity.Fields.Single(field =>
+        field.Name == "mBody"
+        && !field.IsStatic
+        && field.FieldType.FullName == "JigLibX.Physics.Body");
+    FieldDefinition collisionField = entity.Fields.Single(field =>
+        field.Name == "mCollision"
+        && !field.IsStatic
+        && field.FieldType.FullName
+            == "JigLibX.Collision.CollisionSkin");
+
+    TypeDefinition callbackCleanup = RequireType(
+        types,
+        "Magicka.CommunityPatch.CollisionCallbackCleanup");
+    RepairCollisionCallbackCleanup(
+        module,
+        callbackCleanup,
+        collisionField.FieldType);
+    MethodDefinition clearCallbacks = RequireMethod(
+        callbackCleanup,
+        "Clear",
+        1);
+
+    MethodDefinition detachPhysics = AddEntityDetachPhysicsReferences(
+        module,
+        entity,
+        entityDispose,
+        bodyField,
+        collisionField,
+        clearCallbacks);
+    ReplaceEntityDisposePhysicsCleanup(
+        entityDispose,
+        bodyField,
+        collisionField,
+        detachPhysics);
+
+    MethodDefinition physicsInitialize = RequireMethod(
+        physicsEntity,
+        "Initialize",
+        3);
+    MethodDefinition createBody = RequireMethod(
+        physicsEntity,
+        "CreateBody",
+        0);
+    Instruction createBodyCall = physicsInitialize.Body.Instructions.Single(
+        instruction => IsCallTo(instruction, createBody));
+    Instruction createBodyOwner = createBodyCall.Previous
+        ?? throw new InvalidOperationException(
+            "PhysicsEntity.Initialize CreateBody owner is missing.");
+    if (createBodyOwner.OpCode.Code != Code.Ldarg_0)
+    {
+        throw new InvalidOperationException(
+            "PhysicsEntity.Initialize has an unexpected CreateBody call.");
+    }
+    ILProcessor initializeProcessor = physicsInitialize.Body.GetILProcessor();
+    initializeProcessor.InsertBefore(
+        createBodyOwner,
+        Instruction.Create(OpCodes.Ldarg_0));
+    initializeProcessor.InsertBefore(
+        createBodyOwner,
+        Instruction.Create(OpCodes.Call, detachPhysics));
+
+    MethodDefinition physicsDeinitialize = RequireMethod(
+        physicsEntity,
+        "Deinitialize",
+        0);
+    MethodDefinition entityDeinitialize = RequireMethod(
+        entity,
+        "Deinitialize",
+        0);
+    Instruction baseDeinitialize = physicsDeinitialize.Body.Instructions.Single(
+        instruction => IsCallTo(instruction, entityDeinitialize));
+    ILProcessor deinitializeProcessor =
+        physicsDeinitialize.Body.GetILProcessor();
+    Instruction loadForDetach = Instruction.Create(OpCodes.Ldarg_0);
+    deinitializeProcessor.InsertAfter(baseDeinitialize, loadForDetach);
+    deinitializeProcessor.InsertAfter(
+        loadForDetach,
+        Instruction.Create(OpCodes.Call, detachPhysics));
+
+    (string TypeName, bool CollisionBlock, bool BodyBlock)[] duplicateCleanup =
+    [
+        (
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Grease/GreaseField",
+            true,
+            true),
+        ("Magicka.GameLogic.Entities.Character", true, false),
+        ("Magicka.GameLogic.Entities.ElementalEgg", true, true),
+        ("Magicka.GameLogic.Entities.Fairy", false, true),
+        ("Magicka.GameLogic.Entities.Gib", true, true),
+        ("Magicka.GameLogic.Entities.MissileEntity", true, true),
+    ];
+    foreach ((string typeName, bool collisionBlock, bool bodyBlock)
+             in duplicateCleanup)
+    {
+        MethodDefinition dispose = RequireMethod(
+            RequireType(types, typeName),
+            "Dispose",
+            0);
+        dispose.Body.SimplifyMacros();
+        if (collisionBlock)
+        {
+            NopGuardedFieldCleanup(dispose, collisionField);
+        }
+        if (bodyBlock)
+        {
+            NopGuardedFieldCleanup(dispose, bodyField);
+        }
+        NopNullFieldStores(dispose, bodyField);
+        NopNullFieldStores(dispose, collisionField);
+    }
+
+    string[] disposedFieldOwners =
+    [
+        "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Grease/GreaseField",
+        "Magicka.GameLogic.Entities.Barrier",
+        "Magicka.GameLogic.Entities.ElementalEgg",
+        "Magicka.GameLogic.Entities.Fairy",
+        "Magicka.GameLogic.Entities.Gib",
+        "Magicka.GameLogic.Entities.MissileEntity",
+        "Magicka.GameLogic.Entities.PhysicsEntity",
+        "Magicka.GameLogic.Entities.DamageablePhysicsEntity",
+        "Magicka.GameLogic.Entities.Items.Item",
+        "Magicka.GameLogic.Entities.NonPlayerCharacter",
+        "Magicka.GameLogic.Entities.AnimatedPhysicsEntity",
+    ];
+    foreach (string typeName in disposedFieldOwners)
+    {
+        RemoveDerivedDisposedField(
+            module,
+            RequireType(types, typeName),
+            isDisposed);
+    }
+
+    RepairItemDisposeCacheOwnership(
+        module,
+        RequireType(types, "Magicka.GameLogic.Entities.Items.Item"));
+
+    TypeDefinition[] entityTypes = types.Values
+        .Where(type => type.FullName != entity.FullName
+            && IsSameModuleSubclassOf(type, entity.FullName, types))
+        .ToArray();
+    foreach (TypeDefinition type in entityTypes)
+    {
+        MethodDefinition? dispose = type.Methods.SingleOrDefault(method =>
+            method.Name == "Dispose"
+            && !method.IsStatic
+            && method.Parameters.Count == 0);
+        if (dispose is null)
+        {
+            continue;
+        }
+        MethodDefinition baseDispose = FindNearestBaseDispose(type, types);
+        WrapDisposeBaseCallInFinally(dispose, baseDispose, isDisposed);
+        dispose.Body.OptimizeMacros();
+    }
+
+    physicsInitialize.Body.OptimizeMacros();
+    physicsDeinitialize.Body.OptimizeMacros();
+    entityDispose.Body.OptimizeMacros();
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairCollisionCallbackCleanup(
+    ModuleDefinition module,
+    TypeDefinition helper,
+    TypeReference collisionSkin)
+{
+    FieldDefinition callbackField = helper.Fields.Single(field =>
+        field.Name == "sCallbackField"
+        && field.IsStatic
+        && field.FieldType.FullName == "System.Reflection.FieldInfo");
+    if (helper.Fields.Any(field =>
+            field.Name == "sPostCollisionCallbackField"))
+    {
+        throw new InvalidOperationException(
+            "Collision callback cleanup is already repaired.");
+    }
+    FieldDefinition postCallbackField = new FieldDefinition(
+        "sPostCollisionCallbackField",
+        FieldAttributes.Private
+        | FieldAttributes.Static
+        | FieldAttributes.InitOnly,
+        callbackField.FieldType);
+    helper.Fields.Add(postCallbackField);
+
+    MethodDefinition initialize = helper.Methods.Single(method =>
+        method.IsConstructor && method.IsStatic);
+    MethodReference getTypeFromHandle = initialize.Body.Instructions
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .Single(method => method.DeclaringType.FullName == "System.Type"
+            && method.Name == "GetTypeFromHandle");
+    MethodReference getField = initialize.Body.Instructions
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .Single(method => method.DeclaringType.FullName == "System.Type"
+            && method.Name == "GetField"
+            && method.Parameters.Count == 2);
+    MethodDefinition oldClear = RequireMethod(helper, "Clear", 1);
+    MethodReference setValue = oldClear.Body.Instructions
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .Single(method =>
+            method.DeclaringType.FullName == "System.Reflection.FieldInfo"
+            && method.Name == "SetValue"
+            && method.Parameters.Count == 2);
+    TypeReference exceptionType = initialize.Body.ExceptionHandlers
+        .Concat(oldClear.Body.ExceptionHandlers)
+        .Select(handler => handler.CatchType)
+        .First(type => type?.FullName == "System.Exception")!;
+
+    MethodDefinition resolveField = new MethodDefinition(
+        "ResolveField",
+        MethodAttributes.Private
+        | MethodAttributes.Static
+        | MethodAttributes.HideBySig,
+        callbackField.FieldType);
+    resolveField.Parameters.Add(new ParameterDefinition(
+        "name",
+        ParameterAttributes.None,
+        module.TypeSystem.String));
+    VariableDefinition resolvedField = new VariableDefinition(
+        callbackField.FieldType);
+    resolveField.Body.Variables.Add(resolvedField);
+    resolveField.Body.InitLocals = true;
+    helper.Methods.Add(resolveField);
+    ILProcessor resolveProcessor = resolveField.Body.GetILProcessor();
+    Instruction resolveTry = Instruction.Create(OpCodes.Nop);
+    Instruction resolveHandler = Instruction.Create(OpCodes.Pop);
+    Instruction loadResolvedField = Instruction.Create(
+        OpCodes.Ldloc,
+        resolvedField);
+    resolveProcessor.Append(resolveTry);
+    resolveProcessor.Append(Instruction.Create(OpCodes.Ldtoken, collisionSkin));
+    resolveProcessor.Append(Instruction.Create(OpCodes.Call, getTypeFromHandle));
+    resolveProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    resolveProcessor.Append(Instruction.Create(OpCodes.Ldc_I4_S, (sbyte)36));
+    resolveProcessor.Append(Instruction.Create(OpCodes.Callvirt, getField));
+    resolveProcessor.Append(Instruction.Create(OpCodes.Stloc, resolvedField));
+    resolveProcessor.Append(Instruction.Create(
+        OpCodes.Leave,
+        loadResolvedField));
+    resolveProcessor.Append(resolveHandler);
+    resolveProcessor.Append(Instruction.Create(OpCodes.Ldnull));
+    resolveProcessor.Append(Instruction.Create(OpCodes.Stloc, resolvedField));
+    resolveProcessor.Append(Instruction.Create(
+        OpCodes.Leave,
+        loadResolvedField));
+    resolveProcessor.Append(loadResolvedField);
+    resolveProcessor.Append(Instruction.Create(OpCodes.Ret));
+    resolveField.Body.ExceptionHandlers.Add(new ExceptionHandler(
+        ExceptionHandlerType.Catch)
+    {
+        CatchType = exceptionType,
+        TryStart = resolveTry,
+        TryEnd = resolveHandler,
+        HandlerStart = resolveHandler,
+        HandlerEnd = loadResolvedField,
+    });
+    resolveField.Body.MaxStackSize = 3;
+
+    MethodDefinition clearField = new MethodDefinition(
+        "ClearField",
+        MethodAttributes.Private
+        | MethodAttributes.Static
+        | MethodAttributes.HideBySig,
+        module.TypeSystem.Void);
+    clearField.Parameters.Add(new ParameterDefinition(
+        "field",
+        ParameterAttributes.None,
+        callbackField.FieldType));
+    clearField.Parameters.Add(new ParameterDefinition(
+        "skin",
+        ParameterAttributes.None,
+        collisionSkin));
+    helper.Methods.Add(clearField);
+    ILProcessor clearFieldProcessor = clearField.Body.GetILProcessor();
+    Instruction clearFieldTry = Instruction.Create(OpCodes.Nop);
+    Instruction clearFieldHandler = Instruction.Create(OpCodes.Pop);
+    Instruction clearFieldReturn = Instruction.Create(OpCodes.Ret);
+    clearFieldProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    clearFieldProcessor.Append(Instruction.Create(
+        OpCodes.Brfalse,
+        clearFieldReturn));
+    clearFieldProcessor.Append(clearFieldTry);
+    clearFieldProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    clearFieldProcessor.Append(Instruction.Create(OpCodes.Ldarg_1));
+    clearFieldProcessor.Append(Instruction.Create(OpCodes.Ldnull));
+    clearFieldProcessor.Append(Instruction.Create(OpCodes.Callvirt, setValue));
+    clearFieldProcessor.Append(Instruction.Create(
+        OpCodes.Leave,
+        clearFieldReturn));
+    clearFieldProcessor.Append(clearFieldHandler);
+    clearFieldProcessor.Append(Instruction.Create(
+        OpCodes.Leave,
+        clearFieldReturn));
+    clearFieldProcessor.Append(clearFieldReturn);
+    clearField.Body.ExceptionHandlers.Add(new ExceptionHandler(
+        ExceptionHandlerType.Catch)
+    {
+        CatchType = exceptionType,
+        TryStart = clearFieldTry,
+        TryEnd = clearFieldHandler,
+        HandlerStart = clearFieldHandler,
+        HandlerEnd = clearFieldReturn,
+    });
+    clearField.Body.MaxStackSize = 3;
+
+    initialize.Body.Instructions.Clear();
+    initialize.Body.ExceptionHandlers.Clear();
+    initialize.Body.Variables.Clear();
+    ILProcessor initializeProcessor = initialize.Body.GetILProcessor();
+    initializeProcessor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "callbackFn"));
+    initializeProcessor.Append(Instruction.Create(OpCodes.Call, resolveField));
+    initializeProcessor.Append(Instruction.Create(
+        OpCodes.Stsfld,
+        callbackField));
+    initializeProcessor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "postCollisionCallbackFn"));
+    initializeProcessor.Append(Instruction.Create(OpCodes.Call, resolveField));
+    initializeProcessor.Append(Instruction.Create(
+        OpCodes.Stsfld,
+        postCallbackField));
+    initializeProcessor.Append(Instruction.Create(OpCodes.Ret));
+    initialize.Body.MaxStackSize = 1;
+
+    oldClear.Body.Instructions.Clear();
+    oldClear.Body.ExceptionHandlers.Clear();
+    oldClear.Body.Variables.Clear();
+    ILProcessor clearProcessor = oldClear.Body.GetILProcessor();
+    Instruction clearReturn = Instruction.Create(OpCodes.Ret);
+    clearProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    clearProcessor.Append(Instruction.Create(
+        OpCodes.Brfalse,
+        clearReturn));
+    clearProcessor.Append(Instruction.Create(OpCodes.Ldsfld, callbackField));
+    clearProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    clearProcessor.Append(Instruction.Create(OpCodes.Call, clearField));
+    clearProcessor.Append(Instruction.Create(
+        OpCodes.Ldsfld,
+        postCallbackField));
+    clearProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    clearProcessor.Append(Instruction.Create(OpCodes.Call, clearField));
+    clearProcessor.Append(clearReturn);
+    oldClear.Body.MaxStackSize = 2;
+}
+
+static MethodDefinition AddEntityDetachPhysicsReferences(
+    ModuleDefinition module,
+    TypeDefinition entity,
+    MethodDefinition dispose,
+    FieldDefinition bodyField,
+    FieldDefinition collisionField,
+    MethodDefinition clearCallbacks)
+{
+    if (entity.Methods.Any(method =>
+            method.Name == "DetachPhysicsReferences"))
+    {
+        throw new InvalidOperationException(
+            "Entity.DetachPhysicsReferences already exists.");
+    }
+
+    MethodReference disableBody = RequireBodyCall(
+        dispose,
+        "JigLibX.Physics.Body",
+        "DisableBody");
+    MethodReference getBodySkin = RequireBodyCall(
+        dispose,
+        "JigLibX.Physics.Body",
+        "get_CollisionSkin");
+    MethodReference setBodySkin = RequireBodyCall(
+        dispose,
+        "JigLibX.Physics.Body",
+        "set_CollisionSkin");
+    MethodReference referenceEquals = RequireBodyCall(
+        dispose,
+        "System.Object",
+        "ReferenceEquals");
+    MethodReference getCollisions = RequireBodyCall(
+        dispose,
+        "JigLibX.Collision.CollisionSkin",
+        "get_Collisions");
+    MethodReference getNonCollidables = RequireBodyCall(
+        dispose,
+        "JigLibX.Collision.CollisionSkin",
+        "get_NonCollidables");
+    MethodReference setSkinTag = RequireBodyCall(
+        dispose,
+        "JigLibX.Collision.CollisionSkin",
+        "set_Tag");
+    MethodReference setSkinOwner = RequireBodyCall(
+        dispose,
+        "JigLibX.Collision.CollisionSkin",
+        "set_Owner");
+    MethodReference setCollisionSystem = RequireBodyCall(
+        dispose,
+        "JigLibX.Collision.CollisionSkin",
+        "set_CollisionSystem");
+    MethodReference clearCollisions = dispose.Body.Instructions
+        .SkipWhile(instruction => !IsCallTo(instruction, getCollisions))
+        .Skip(1)
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .First(method => method.Name == "Clear");
+    MethodReference clearNonCollidables = dispose.Body.Instructions
+        .SkipWhile(instruction => !IsCallTo(instruction, getNonCollidables))
+        .Skip(1)
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .First(method => method.Name == "Clear");
+    FieldReference bodyTag = AllTypes(module)
+        .SelectMany(type => type.Methods)
+        .SelectMany(method => method.HasBody
+            ? method.Body.Instructions
+            : [])
+        .Select(instruction => instruction.Operand)
+        .OfType<FieldReference>()
+        .Where(field => field.DeclaringType.FullName == "JigLibX.Physics.Body"
+            && field.Name == "Tag")
+        .DistinctBy(field => field.FullName)
+        .Single();
+
+    MethodDefinition detach = new MethodDefinition(
+        "DetachPhysicsReferences",
+        MethodAttributes.Family
+        | MethodAttributes.HideBySig,
+        module.TypeSystem.Void);
+    VariableDefinition body = new VariableDefinition(bodyField.FieldType);
+    VariableDefinition skin = new VariableDefinition(collisionField.FieldType);
+    detach.Body.Variables.Add(body);
+    detach.Body.Variables.Add(skin);
+    detach.Body.InitLocals = true;
+    entity.Methods.Add(detach);
+    ILProcessor processor = detach.Body.GetILProcessor();
+    Instruction bodyTagCleanup = Instruction.Create(OpCodes.Ldloc, body);
+    Instruction skinCleanup = Instruction.Create(OpCodes.Ldloc, skin);
+    Instruction clearEntityFields = Instruction.Create(OpCodes.Ldarg_0);
+
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Ldfld, bodyField));
+    processor.Append(Instruction.Create(OpCodes.Stloc, body));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Ldfld, collisionField));
+    processor.Append(Instruction.Create(OpCodes.Stloc, skin));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, body));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, skinCleanup));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, body));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, disableBody));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, body));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, getBodySkin));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, skin));
+    processor.Append(Instruction.Create(OpCodes.Call, referenceEquals));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, bodyTagCleanup));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, body));
+    processor.Append(Instruction.Create(OpCodes.Ldnull));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, setBodySkin));
+    processor.Append(bodyTagCleanup);
+    processor.Append(Instruction.Create(OpCodes.Ldnull));
+    processor.Append(Instruction.Create(OpCodes.Stfld, bodyTag));
+    processor.Append(skinCleanup);
+    processor.Append(Instruction.Create(OpCodes.Brfalse, clearEntityFields));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, skin));
+    processor.Append(Instruction.Create(OpCodes.Call, clearCallbacks));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, skin));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, getCollisions));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, clearCollisions));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, skin));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, getNonCollidables));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, clearNonCollidables));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, skin));
+    processor.Append(Instruction.Create(OpCodes.Ldnull));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, setSkinTag));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, skin));
+    processor.Append(Instruction.Create(OpCodes.Ldnull));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, setSkinOwner));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, skin));
+    processor.Append(Instruction.Create(OpCodes.Ldnull));
+    processor.Append(Instruction.Create(
+        OpCodes.Callvirt,
+        setCollisionSystem));
+    processor.Append(clearEntityFields);
+    processor.Append(Instruction.Create(OpCodes.Ldnull));
+    processor.Append(Instruction.Create(OpCodes.Stfld, bodyField));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Ldnull));
+    processor.Append(Instruction.Create(OpCodes.Stfld, collisionField));
+    processor.Append(Instruction.Create(OpCodes.Ret));
+    detach.Body.MaxStackSize = 2;
+    return detach;
+}
+
+static void ReplaceEntityDisposePhysicsCleanup(
+    MethodDefinition dispose,
+    FieldDefinition bodyField,
+    FieldDefinition collisionField,
+    MethodDefinition detach)
+{
+    dispose.Body.SimplifyMacros();
+    Instruction bodyStore = dispose.Body.Instructions.Single(instruction =>
+        instruction.OpCode == OpCodes.Stloc
+        && instruction.Operand is VariableDefinition variable
+        && variable.VariableType.FullName == bodyField.FieldType.FullName
+        && instruction.Previous?.Operand is FieldReference field
+        && field.FullName == bodyField.FullName);
+    Instruction start = bodyStore.Previous?.Previous
+        ?? throw new InvalidOperationException(
+            "Entity.Dispose physics cleanup start is missing.");
+    Instruction detachSystem = dispose.Body.Instructions.Single(instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == collisionField.FieldType.FullName
+        && called.Name == "set_CollisionSystem");
+    Instruction? end = detachSystem.Next;
+    if (start.OpCode.Code is not Code.Ldarg_0 and not Code.Ldarg
+        || end is null)
+    {
+        throw new InvalidOperationException(
+            "Entity.Dispose physics cleanup has an unexpected shape.");
+    }
+    start.OpCode = OpCodes.Ldarg_0;
+    start.Operand = null;
+    Instruction call = start.Next!;
+    call.OpCode = OpCodes.Call;
+    call.Operand = detach;
+    for (Instruction? instruction = call.Next;
+         instruction is not null && instruction != end;
+         instruction = instruction.Next)
+    {
+        instruction.OpCode = OpCodes.Nop;
+        instruction.Operand = null;
+    }
+    VariableDefinition[] unusedPhysicsLocals = dispose.Body.Variables
+        .Where(variable => variable.VariableType.FullName
+            == bodyField.FieldType.FullName
+            || variable.VariableType.FullName
+                == collisionField.FieldType.FullName)
+        .ToArray();
+    foreach (VariableDefinition variable in unusedPhysicsLocals)
+    {
+        dispose.Body.Variables.Remove(variable);
+    }
+}
+
+static void NopGuardedFieldCleanup(
+    MethodDefinition method,
+    FieldDefinition field)
+{
+    Instruction[] headers = method.Body.Instructions.Where(instruction =>
+            instruction.OpCode == OpCodes.Ldfld
+            && instruction.Operand is FieldReference referenced
+            && referenced.FullName == field.FullName
+            && instruction.Previous?.OpCode.Code
+                is Code.Ldarg_0 or Code.Ldarg
+            && instruction.Next?.OpCode.FlowControl == FlowControl.Cond_Branch
+            && instruction.Next.Operand is Instruction)
+        .ToArray();
+    if (headers.Length != 1)
+    {
+        throw new InvalidOperationException(
+            "Expected one guarded " + field.Name + " cleanup in "
+            + method.FullName + ", found " + headers.Length + ".");
+    }
+    Instruction start = headers[0].Previous!;
+    Instruction end = (Instruction)headers[0].Next!.Operand;
+    for (Instruction? instruction = start;
+         instruction is not null && instruction != end;
+         instruction = instruction.Next)
+    {
+        instruction.OpCode = OpCodes.Nop;
+        instruction.Operand = null;
+    }
+}
+
+static void NopNullFieldStores(
+    MethodDefinition method,
+    FieldDefinition field)
+{
+    Instruction[] stores = method.Body.Instructions.Where(instruction =>
+            instruction.OpCode == OpCodes.Stfld
+            && instruction.Operand is FieldReference referenced
+            && referenced.FullName == field.FullName
+            && instruction.Previous?.OpCode == OpCodes.Ldnull
+            && instruction.Previous.Previous?.OpCode.Code
+                is Code.Ldarg_0 or Code.Ldarg)
+        .ToArray();
+    foreach (Instruction store in stores)
+    {
+        Instruction value = store.Previous!;
+        Instruction owner = value.Previous!;
+        owner.OpCode = OpCodes.Nop;
+        owner.Operand = null;
+        value.OpCode = OpCodes.Nop;
+        value.Operand = null;
+        store.OpCode = OpCodes.Nop;
+        store.Operand = null;
+    }
+}
+
+static void RemoveDerivedDisposedField(
+    ModuleDefinition module,
+    TypeDefinition type,
+    MethodDefinition isDisposed)
+{
+    FieldDefinition field = type.Fields.Single(candidate =>
+        candidate.Name == "mDisposed"
+        && !candidate.IsStatic
+        && candidate.FieldType.FullName == "System.Boolean");
+    foreach (MethodDefinition method in AllTypes(module)
+                 .SelectMany(candidate => candidate.Methods)
+                 .Where(candidate => candidate.HasBody))
+    {
+        foreach (Instruction instruction in method.Body.Instructions.Where(
+                     instruction => instruction.Operand is FieldReference used
+                         && used.FullName == field.FullName).ToArray())
+        {
+            if (instruction.OpCode == OpCodes.Ldfld)
+            {
+                instruction.OpCode = OpCodes.Call;
+                instruction.Operand = isDisposed;
+                continue;
+            }
+            if (instruction.OpCode != OpCodes.Stfld
+                || instruction.Previous is null
+                || instruction.Previous.Previous is null
+                || instruction.Previous.Previous.OpCode.Code
+                    is not Code.Ldarg_0 and not Code.Ldarg)
+            {
+                throw new InvalidOperationException(
+                    "Unexpected use of " + field.FullName + " in "
+                    + method.FullName + ".");
+            }
+            Instruction value = instruction.Previous;
+            Instruction owner = value.Previous!;
+            owner.OpCode = OpCodes.Nop;
+            owner.Operand = null;
+            value.OpCode = OpCodes.Nop;
+            value.Operand = null;
+            instruction.OpCode = OpCodes.Nop;
+            instruction.Operand = null;
+        }
+    }
+    type.Fields.Remove(field);
+}
+
+static void RepairItemDisposeCacheOwnership(
+    ModuleDefinition module,
+    TypeDefinition item)
+{
+    MethodDefinition dispose = RequireMethod(item, "Dispose", 0);
+    FieldDefinition cache = item.Fields.Single(field =>
+        field.Name == "CachedWeapons" && field.IsStatic);
+    FieldDefinition typeField = RequireType(
+            AllTypes(module).ToDictionary(
+                type => type.FullName,
+                StringComparer.Ordinal),
+            "Magicka.GameLogic.Entities.Items.Pickable")
+        .Fields.Single(field => field.Name == "mType" && !field.IsStatic);
+    Instruction contains = dispose.Body.Instructions.Single(instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == cache.FieldType.FullName
+        && called.Name == "ContainsKey");
+    Instruction skipRemove = contains.Next?.Operand as Instruction
+        ?? throw new InvalidOperationException(
+            "Item.Dispose cache guard target is missing.");
+    Instruction removeOwner = contains.Next?.Next
+        ?? throw new InvalidOperationException(
+            "Item.Dispose cache removal is missing.");
+    MethodReference getItem = item.Methods
+        .Where(method => method.HasBody)
+        .SelectMany(method => method.Body.Instructions)
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .Where(method => method.DeclaringType.FullName == cache.FieldType.FullName
+            && method.Name == "get_Item")
+        .DistinctBy(method => method.FullName)
+        .Single();
+    MethodReference referenceEquals = FindMethodReference(
+        module,
+        "System.Object",
+        "ReferenceEquals",
+        2,
+        "System.Boolean");
+    ILProcessor processor = dispose.Body.GetILProcessor();
+    processor.InsertBefore(
+        removeOwner,
+        Instruction.Create(OpCodes.Ldsfld, cache));
+    processor.InsertBefore(
+        removeOwner,
+        Instruction.Create(OpCodes.Ldarg_0));
+    processor.InsertBefore(
+        removeOwner,
+        Instruction.Create(OpCodes.Ldfld, typeField));
+    processor.InsertBefore(
+        removeOwner,
+        Instruction.Create(OpCodes.Callvirt, getItem));
+    processor.InsertBefore(
+        removeOwner,
+        Instruction.Create(OpCodes.Ldarg_0));
+    processor.InsertBefore(
+        removeOwner,
+        Instruction.Create(OpCodes.Call, referenceEquals));
+    processor.InsertBefore(
+        removeOwner,
+        Instruction.Create(OpCodes.Brfalse, skipRemove));
+}
+
+static MethodDefinition FindNearestBaseDispose(
+    TypeDefinition type,
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeReference? current = type.BaseType;
+    while (current is not null)
+    {
+        if (!types.TryGetValue(current.FullName, out TypeDefinition? parent))
+        {
+            break;
+        }
+        MethodDefinition? dispose = parent.Methods.SingleOrDefault(method =>
+            method.Name == "Dispose"
+            && !method.IsStatic
+            && method.Parameters.Count == 0);
+        if (dispose is not null)
+        {
+            return dispose;
+        }
+        current = parent.BaseType;
+    }
+    throw new InvalidOperationException(
+        "No base Dispose method found for " + type.FullName + ".");
+}
+
+static bool IsCallTo(Instruction instruction, MethodReference method)
+{
+    return instruction.OpCode.Code is Code.Call or Code.Callvirt
+        && instruction.Operand is MethodReference called
+        && called.FullName == method.FullName;
+}
+
+static void WrapDisposeBaseCallInFinally(
+    MethodDefinition method,
+    MethodDefinition baseDispose,
+    MethodDefinition isDisposed)
+{
+    method.Body.SimplifyMacros();
+    Instruction baseCall = method.Body.Instructions.Single(instruction =>
+        IsCallTo(instruction, baseDispose));
+    Instruction baseOwner = baseCall.Previous
+        ?? throw new InvalidOperationException(
+            "Base Dispose owner is missing in " + method.FullName + ".");
+    Instruction oldReturn = baseCall.Next
+        ?? throw new InvalidOperationException(
+            "Base Dispose return is missing in " + method.FullName + ".");
+    if (baseOwner.OpCode.Code is not Code.Ldarg_0 and not Code.Ldarg
+        || oldReturn.OpCode != OpCodes.Ret)
+    {
+        throw new InvalidOperationException(
+            "Unexpected base Dispose call shape in " + method.FullName + ".");
+    }
+
+    Instruction? guardReturn = method.Body.Instructions
+        .TakeWhile(instruction => instruction != baseOwner)
+        .FirstOrDefault(instruction => instruction.OpCode == OpCodes.Ret);
+    if (guardReturn is null)
+    {
+        Instruction firstCleanup = method.Body.Instructions.First();
+        Instruction? lifecycleCall = method.Body.Instructions.FirstOrDefault(
+            instruction => instruction.Operand is MethodReference called
+                && called.DeclaringType.FullName
+                    == "Magicka.GcDiagnostics.RetentionRegistry"
+                && called.Name == "MarkMustCollect");
+        if (lifecycleCall is not null)
+        {
+            firstCleanup = lifecycleCall.Next
+                ?? throw new InvalidOperationException(
+                    "Dispose lifecycle hook has no successor in "
+                    + method.FullName + ".");
+        }
+        ILProcessor guardProcessor = method.Body.GetILProcessor();
+        Instruction cleanupTarget = firstCleanup;
+        Instruction loadThis = Instruction.Create(OpCodes.Ldarg_0);
+        Instruction loadDisposed = Instruction.Create(OpCodes.Call, isDisposed);
+        Instruction continueCleanup = Instruction.Create(
+            OpCodes.Brfalse,
+            cleanupTarget);
+        guardReturn = Instruction.Create(OpCodes.Ret);
+        guardProcessor.InsertBefore(cleanupTarget, loadThis);
+        guardProcessor.InsertBefore(cleanupTarget, loadDisposed);
+        guardProcessor.InsertBefore(cleanupTarget, continueCleanup);
+        guardProcessor.InsertBefore(cleanupTarget, guardReturn);
+    }
+    Instruction tryStart = guardReturn.Next
+        ?? throw new InvalidOperationException(
+            "Dispose cleanup start is missing in " + method.FullName + ".");
+    if (method.Body.Instructions.Any(instruction =>
+            instruction != oldReturn
+            && instruction.Operand switch
+            {
+                Instruction target => target == oldReturn,
+                Instruction[] targets => targets.Contains(oldReturn),
+                _ => false,
+            }))
+    {
+        throw new InvalidOperationException(
+            "Dispose final return is an unexpected branch target in "
+            + method.FullName + ".");
+    }
+
+    ILProcessor processor = method.Body.GetILProcessor();
+    Instruction handlerStart = Instruction.Create(OpCodes.Ldarg_0);
+    Instruction finalReturn = Instruction.Create(OpCodes.Ret);
+    baseOwner.OpCode = OpCodes.Leave;
+    baseOwner.Operand = finalReturn;
+    baseCall.OpCode = OpCodes.Nop;
+    baseCall.Operand = null;
+    oldReturn.OpCode = OpCodes.Nop;
+    oldReturn.Operand = null;
+    processor.Append(handlerStart);
+    processor.Append(Instruction.Create(OpCodes.Call, baseDispose));
+    processor.Append(Instruction.Create(OpCodes.Endfinally));
+    processor.Append(finalReturn);
+    method.Body.ExceptionHandlers.Add(new ExceptionHandler(
+        ExceptionHandlerType.Finally)
+    {
+        TryStart = tryStart,
+        TryEnd = handlerStart,
+        HandlerStart = handlerStart,
+        HandlerEnd = finalReturn,
+    });
+    OrderExceptionHandlersByNesting(method);
+    method.Body.MaxStackSize = Math.Max(method.Body.MaxStackSize, 1);
 }
 
 static void RepairEntityCollisionCallbackCleanup(
