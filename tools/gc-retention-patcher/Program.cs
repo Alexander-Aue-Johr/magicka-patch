@@ -286,6 +286,18 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
+    && args[0] == "--patch-controller-avatar-detach")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchControllerAvatarDetachOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": detached cleared Avatars from player controllers");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--patch-gc-event-patch-version")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -396,6 +408,9 @@ if (args.Length != 4)
         + " --patch-blizzard-remove-references"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
+        + " --patch-controller-avatar-detach"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
         + " --patch-gc-event-patch-version"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
@@ -454,6 +469,7 @@ static PatchReport PatchMagicka(
     RepairPhysicsManagerClearReferences(types);
     RepairMeteorShowerRemoveReferences(types);
     RepairBlizzardRemoveReferences(types);
+    RepairControllerAvatarDetach(types);
     RepairGcEventPatchVersion(module, types);
     RepairPlayerGameDeinitialize(types);
     RepairEntityCollisionCallbackCleanup(module, types);
@@ -3389,6 +3405,17 @@ static void PatchBlizzardRemoveReferencesOnly(
     WriteAssembly(assembly, outputPath);
 }
 
+static void PatchControllerAvatarDetachOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairControllerAvatarDetach(types);
+    WriteAssembly(assembly, outputPath);
+}
+
 static void PatchGcEventPatchVersionOnly(
     string inputPath,
     string outputPath)
@@ -4519,6 +4546,108 @@ static void RepairBlizzardRemoveReferences(
     processor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
     processor.Append(Instruction.Create(OpCodes.Callvirt, stop));
     processor.Append(returnInstruction);
+}
+
+static void RepairControllerAvatarDetach(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition avatar = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.Avatar");
+    TypeDefinition controller = RequireType(
+        types,
+        "Magicka.GameLogic.Controls.Controller");
+    FieldDefinition controllerAvatar = controller.Fields.Single(field =>
+        field.Name == "mAvatar"
+        && !field.IsStatic
+        && field.FieldType.FullName == avatar.FullName);
+    if (controller.Methods.Any(method =>
+            method.Name == "CommunityPatchDetachAvatar"))
+    {
+        throw new InvalidOperationException(
+            "Controller Avatar detach already exists.");
+    }
+
+    MethodDefinition detachAvatar = new MethodDefinition(
+        "CommunityPatchDetachAvatar",
+        MethodAttributes.Assembly | MethodAttributes.HideBySig,
+        controller.Module.TypeSystem.Void);
+    detachAvatar.Parameters.Add(new ParameterDefinition(
+        "expected",
+        ParameterAttributes.None,
+        avatar));
+    controller.Methods.Add(detachAvatar);
+    ILProcessor detachProcessor = detachAvatar.Body.GetILProcessor();
+    Instruction detachReturn = Instruction.Create(OpCodes.Ret);
+    detachProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    detachProcessor.Append(Instruction.Create(OpCodes.Ldfld, controllerAvatar));
+    detachProcessor.Append(Instruction.Create(OpCodes.Ldarg_1));
+    detachProcessor.Append(Instruction.Create(OpCodes.Bne_Un, detachReturn));
+    detachProcessor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    detachProcessor.Append(Instruction.Create(OpCodes.Ldnull));
+    detachProcessor.Append(Instruction.Create(OpCodes.Stfld, controllerAvatar));
+    detachProcessor.Append(detachReturn);
+    detachAvatar.Body.MaxStackSize = 2;
+
+    TypeDefinition player = RequireType(types, "Magicka.GameLogic.Player");
+    FieldDefinition playerAvatar = player.Fields.Single(field =>
+        field.Name == "mAvatar"
+        && !field.IsStatic
+        && field.FieldType.FullName == "System.WeakReference");
+    MethodDefinition getAvatar = RequireMethod(
+        player,
+        "get_Avatar",
+        parameterCount: 0);
+    MethodDefinition setAvatar = RequireMethod(
+        player,
+        "set_Avatar",
+        parameterCount: 1);
+    MethodDefinition getController = RequireMethod(
+        player,
+        "get_Controller",
+        parameterCount: 0);
+    MethodReference getWeakTarget = RequireCallReference(
+        getAvatar,
+        "System.WeakReference",
+        "get_Target");
+    if (setAvatar.Body.Instructions.Any(instruction =>
+            instruction.Operand is MethodReference called
+            && called.FullName == detachAvatar.FullName))
+    {
+        throw new InvalidOperationException(
+            "Player.Avatar already detaches the controller reference.");
+    }
+
+    VariableDefinition previousAvatar = new VariableDefinition(avatar);
+    VariableDefinition currentController = new VariableDefinition(controller);
+    setAvatar.Body.Variables.Add(previousAvatar);
+    setAvatar.Body.Variables.Add(currentController);
+    setAvatar.Body.InitLocals = true;
+    Instruction originalStart = setAvatar.Body.Instructions[0];
+    ILProcessor setterProcessor = setAvatar.Body.GetILProcessor();
+    Instruction[] detachOldAvatar =
+    [
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, playerAvatar),
+        Instruction.Create(OpCodes.Callvirt, getWeakTarget),
+        Instruction.Create(OpCodes.Isinst, avatar),
+        Instruction.Create(OpCodes.Stloc, previousAvatar),
+        Instruction.Create(OpCodes.Ldarg_1),
+        Instruction.Create(OpCodes.Brtrue, originalStart),
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Call, getController),
+        Instruction.Create(OpCodes.Stloc, currentController),
+        Instruction.Create(OpCodes.Ldloc, currentController),
+        Instruction.Create(OpCodes.Brfalse, originalStart),
+        Instruction.Create(OpCodes.Ldloc, currentController),
+        Instruction.Create(OpCodes.Ldloc, previousAvatar),
+        Instruction.Create(OpCodes.Callvirt, detachAvatar),
+    ];
+    foreach (Instruction instruction in detachOldAvatar)
+    {
+        setterProcessor.InsertBefore(originalStart, instruction);
+    }
+    setAvatar.Body.MaxStackSize = Math.Max(setAvatar.Body.MaxStackSize, 2);
 }
 
 static void RepairJudgementSprayConditionCache(

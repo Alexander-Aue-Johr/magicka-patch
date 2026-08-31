@@ -74,6 +74,7 @@ ValidateShadowBlobsSceneDetach(magicka);
 ValidatePhysicsManagerClearReferences(magicka);
 ValidateMeteorShowerRemoveReferences(magicka);
 ValidateBlizzardRemoveReferences(magicka);
+ValidateControllerAvatarDetach(magicka);
 ValidateCharacterTemplateStaticCaches(magicka);
 ValidateWarlordAbilityDiagnostic(magicka);
 ValidateRailgunParentCycleRepair(magicka);
@@ -1696,6 +1697,64 @@ static void ValidateBlizzardRemoveReferences(AssemblyDefinition magicka)
         throw new InvalidDataException(
             "Blizzard.OnRemove does not clear singleton references before"
             + " ambience cleanup.");
+    }
+}
+
+static void ValidateControllerAvatarDetach(AssemblyDefinition magicka)
+{
+    TypeDefinition controller = AllTypes(magicka.MainModule).Single(type =>
+        type.FullName == "Magicka.GameLogic.Controls.Controller");
+    FieldDefinition controllerAvatar = controller.Fields.Single(field =>
+        field.Name == "mAvatar"
+        && field.FieldType.FullName == "Magicka.GameLogic.Entities.Avatar");
+    MethodDefinition detach = controller.Methods.Single(method =>
+        method.Name == "CommunityPatchDetachAvatar"
+        && method.Parameters.Count == 1
+        && method.Parameters[0].ParameterType.FullName
+            == controllerAvatar.FieldType.FullName);
+    Instruction[] detachBody = detach.Body.Instructions.ToArray();
+    if (FindNullFieldStore(detachBody, controllerAvatar) < 0
+        || !detachBody.Any(instruction =>
+            instruction.OpCode == OpCodes.Bne_Un
+            || instruction.OpCode == OpCodes.Bne_Un_S))
+    {
+        throw new InvalidDataException(
+            "Controller Avatar detach is not conditional on the expected"
+            + " Avatar.");
+    }
+
+    MethodDefinition setter = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Player",
+        "set_Avatar",
+        parameterCount: 1);
+    Instruction[] setterBody = setter.Body.Instructions.ToArray();
+    int getOldAvatar = Array.FindIndex(
+        setterBody,
+        instruction => instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "System.WeakReference"
+            && called.Name == "get_Target");
+    int detachCall = Array.FindIndex(
+        setterBody,
+        instruction => IsCallTo(instruction, detach));
+    int setNewAvatar = Array.FindLastIndex(
+        setterBody,
+        instruction => instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "System.WeakReference"
+            && called.Name == "set_Target");
+    bool nullOnly = setterBody
+        .Skip(getOldAvatar + 1)
+        .Take(Math.Max(0, detachCall - getOldAvatar - 1))
+        .Any(instruction => instruction.OpCode == OpCodes.Brtrue
+            || instruction.OpCode == OpCodes.Brtrue_S);
+    if (getOldAvatar < 0
+        || detachCall <= getOldAvatar
+        || setNewAvatar <= detachCall
+        || !nullOnly)
+    {
+        throw new InvalidDataException(
+            "Player.set_Avatar does not conditionally detach the previous"
+            + " Avatar before clearing its WeakReference.");
     }
 }
 
