@@ -72,6 +72,7 @@ ValidateLightSceneDetach(magicka, polygonHead);
 ValidateRainSceneDetach(magicka);
 ValidateShadowBlobsSceneDetach(magicka);
 ValidatePhysicsManagerClearReferences(magicka);
+ValidateMeteorShowerRemoveReferences(magicka);
 ValidateCharacterTemplateStaticCaches(magicka);
 ValidateWarlordAbilityDiagnostic(magicka);
 ValidateRailgunParentCycleRepair(magicka);
@@ -1624,6 +1625,44 @@ static void ValidatePhysicsManagerClearReferences(AssemblyDefinition magicka)
         throw new InvalidDataException(
             "PhysicsManager.Clear does not preserve and clear body/skin"
             + " references before losing the simulator collections.");
+    }
+}
+
+static void ValidateMeteorShowerRemoveReferences(AssemblyDefinition magicka)
+{
+    TypeDefinition meteor = AllTypes(magicka.MainModule).Single(type =>
+        type.FullName
+            == "Magicka.GameLogic.Entities.Abilities.SpecialAbilities."
+               + "MeteorShower");
+    MethodDefinition onRemove = meteor.Methods.Single(method =>
+        method.Name == "OnRemove" && method.Parameters.Count == 0);
+    Instruction[] body = onRemove.Body.Instructions.ToArray();
+    FieldDefinition scene = meteor.Fields.Single(field => field.Name == "mScene");
+    FieldDefinition owner = meteor.Fields.Single(field => field.Name == "mOwner");
+    FieldDefinition rumble = meteor.Fields.Single(field => field.Name == "mRumble");
+    int clearScene = FindNullFieldStore(body, scene);
+    int clearOwner = FindNullFieldStore(body, owner);
+    int clearRumble = FindNullFieldStore(body, rumble);
+    int restoreLight = Array.FindIndex(
+        body,
+        instruction => instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "Magicka.Levels.GameScene"
+            && called.Name == "set_LightTargetIntensity");
+    int stopRumble = Array.FindIndex(
+        body,
+        instruction => instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "Microsoft.Xna.Framework.Audio.Cue"
+            && called.Name == "Stop");
+    if (clearScene < 0
+        || clearOwner < 0
+        || clearRumble < 0
+        || restoreLight <= clearScene
+        || stopRumble <= clearRumble)
+    {
+        throw new InvalidDataException(
+            "MeteorShower.OnRemove does not clear singleton references"
+            + " before light and rumble cleanup.");
     }
 }
 

@@ -262,6 +262,18 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
+    && args[0] == "--patch-meteor-shower-remove-references")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchMeteorShowerRemoveReferencesOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": released MeteorShower singleton references");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--patch-gc-event-patch-version")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -366,6 +378,9 @@ if (args.Length != 4)
         + " --patch-physics-manager-clear-references"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
+        + " --patch-meteor-shower-remove-references"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
         + " --patch-gc-event-patch-version"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
@@ -422,6 +437,7 @@ static PatchReport PatchMagicka(
     RepairRainSceneDetach(types);
     RepairShadowBlobsSceneDetach(types);
     RepairPhysicsManagerClearReferences(types);
+    RepairMeteorShowerRemoveReferences(types);
     RepairGcEventPatchVersion(module, types);
     RepairPlayerGameDeinitialize(types);
     RepairEntityCollisionCallbackCleanup(module, types);
@@ -3335,6 +3351,17 @@ static void PatchPhysicsManagerClearReferencesOnly(
     WriteAssembly(assembly, outputPath);
 }
 
+static void PatchMeteorShowerRemoveReferencesOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairMeteorShowerRemoveReferences(types);
+    WriteAssembly(assembly, outputPath);
+}
+
 static void PatchGcEventPatchVersionOnly(
     string inputPath,
     string outputPath)
@@ -4304,6 +4331,97 @@ static MethodReference RequireCallReference(
     }
 
     return matches[0];
+}
+
+static void RepairMeteorShowerRemoveReferences(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition meteorShower = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.MeteorShower");
+    MethodDefinition onRemove = RequireMethod(
+        meteorShower,
+        "OnRemove",
+        parameterCount: 0);
+    FieldDefinition ttl = meteorShower.Fields.Single(field =>
+        field.Name == "mTTL" && field.FieldType.FullName == "System.Single");
+    FieldDefinition scene = meteorShower.Fields.Single(field =>
+        field.Name == "mScene"
+        && field.FieldType.FullName == "Magicka.Levels.GameScene");
+    FieldDefinition owner = meteorShower.Fields.Single(field =>
+        field.Name == "mOwner"
+        && field.FieldType.FullName
+            == "Magicka.GameLogic.Entities.ISpellCaster");
+    FieldDefinition rumble = meteorShower.Fields.Single(field =>
+        field.Name == "mRumble"
+        && field.FieldType.FullName
+            == "Microsoft.Xna.Framework.Audio.Cue");
+    if (onRemove.Body.Instructions.Any(instruction =>
+            instruction.OpCode == OpCodes.Stfld
+            && instruction.Operand is FieldReference stored
+            && (stored.FullName == scene.FullName
+                || stored.FullName == owner.FullName
+                || stored.FullName == rumble.FullName)))
+    {
+        throw new InvalidOperationException(
+            "MeteorShower.OnRemove reference cleanup already exists.");
+    }
+
+    MethodReference setLightTargetIntensity = RequireCallReference(
+        onRemove,
+        "Magicka.Levels.GameScene",
+        "set_LightTargetIntensity");
+    MethodReference getIsStopping = RequireCallReference(
+        onRemove,
+        "Microsoft.Xna.Framework.Audio.Cue",
+        "get_IsStopping");
+    MethodReference stop = RequireCallReference(
+        onRemove,
+        "Microsoft.Xna.Framework.Audio.Cue",
+        "Stop");
+
+    MethodBody body = onRemove.Body;
+    body.Instructions.Clear();
+    body.ExceptionHandlers.Clear();
+    body.Variables.Clear();
+    body.InitLocals = true;
+    body.MaxStackSize = 2;
+    VariableDefinition oldScene = new VariableDefinition(scene.FieldType);
+    VariableDefinition oldRumble = new VariableDefinition(rumble.FieldType);
+    body.Variables.Add(oldScene);
+    body.Variables.Add(oldRumble);
+    ILProcessor processor = body.GetILProcessor();
+    Instruction returnInstruction = Instruction.Create(OpCodes.Ret);
+
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Ldc_R4, 0f));
+    processor.Append(Instruction.Create(OpCodes.Stfld, ttl));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Ldfld, scene));
+    processor.Append(Instruction.Create(OpCodes.Stloc, oldScene));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Ldfld, rumble));
+    processor.Append(Instruction.Create(OpCodes.Stloc, oldRumble));
+    foreach (FieldDefinition field in new[] { scene, owner, rumble })
+    {
+        processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+        processor.Append(Instruction.Create(OpCodes.Ldnull));
+        processor.Append(Instruction.Create(OpCodes.Stfld, field));
+    }
+    processor.Append(Instruction.Create(OpCodes.Ldloc, oldScene));
+    processor.Append(Instruction.Create(OpCodes.Ldc_R4, 1f));
+    processor.Append(Instruction.Create(
+        OpCodes.Callvirt,
+        setLightTargetIntensity));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, oldRumble));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, returnInstruction));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, oldRumble));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, getIsStopping));
+    processor.Append(Instruction.Create(OpCodes.Brtrue, returnInstruction));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, oldRumble));
+    processor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, stop));
+    processor.Append(returnInstruction);
 }
 
 static void RepairJudgementSprayConditionCache(
