@@ -274,6 +274,18 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
+    && args[0] == "--patch-blizzard-remove-references")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchBlizzardRemoveReferencesOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": released Blizzard singleton references");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--patch-gc-event-patch-version")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -381,6 +393,9 @@ if (args.Length != 4)
         + " --patch-meteor-shower-remove-references"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
+        + " --patch-blizzard-remove-references"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
         + " --patch-gc-event-patch-version"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
@@ -438,6 +453,7 @@ static PatchReport PatchMagicka(
     RepairShadowBlobsSceneDetach(types);
     RepairPhysicsManagerClearReferences(types);
     RepairMeteorShowerRemoveReferences(types);
+    RepairBlizzardRemoveReferences(types);
     RepairGcEventPatchVersion(module, types);
     RepairPlayerGameDeinitialize(types);
     RepairEntityCollisionCallbackCleanup(module, types);
@@ -3362,6 +3378,17 @@ static void PatchMeteorShowerRemoveReferencesOnly(
     WriteAssembly(assembly, outputPath);
 }
 
+static void PatchBlizzardRemoveReferencesOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairBlizzardRemoveReferences(types);
+    WriteAssembly(assembly, outputPath);
+}
+
 static void PatchGcEventPatchVersionOnly(
     string inputPath,
     string outputPath)
@@ -4419,6 +4446,76 @@ static void RepairMeteorShowerRemoveReferences(
     processor.Append(Instruction.Create(OpCodes.Callvirt, getIsStopping));
     processor.Append(Instruction.Create(OpCodes.Brtrue, returnInstruction));
     processor.Append(Instruction.Create(OpCodes.Ldloc, oldRumble));
+    processor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, stop));
+    processor.Append(returnInstruction);
+}
+
+static void RepairBlizzardRemoveReferences(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition blizzard = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Blizzard");
+    MethodDefinition onRemove = RequireMethod(
+        blizzard,
+        "OnRemove",
+        parameterCount: 0);
+    FieldDefinition ttl = blizzard.Fields.Single(field =>
+        field.Name == "mTTL" && field.FieldType.FullName == "System.Single");
+    FieldDefinition scene = blizzard.Fields.Single(field =>
+        field.Name == "mScene"
+        && field.FieldType.FullName == "Magicka.Levels.GameScene");
+    FieldDefinition caster = blizzard.Fields.Single(field =>
+        field.Name == "mCaster"
+        && field.FieldType.FullName
+            == "Magicka.GameLogic.Entities.ISpellCaster");
+    FieldDefinition ambience = blizzard.Fields.Single(field =>
+        field.Name == "mAmbience"
+        && field.FieldType.FullName
+            == "Microsoft.Xna.Framework.Audio.Cue");
+    if (onRemove.Body.Instructions.Any(instruction =>
+            instruction.OpCode == OpCodes.Stfld
+            && instruction.Operand is FieldReference stored
+            && (stored.FullName == scene.FullName
+                || stored.FullName == caster.FullName
+                || stored.FullName == ambience.FullName)))
+    {
+        throw new InvalidOperationException(
+            "Blizzard.OnRemove reference cleanup already exists.");
+    }
+
+    MethodReference stop = RequireCallReference(
+        onRemove,
+        "Microsoft.Xna.Framework.Audio.Cue",
+        "Stop");
+    MethodBody body = onRemove.Body;
+    body.Instructions.Clear();
+    body.ExceptionHandlers.Clear();
+    body.Variables.Clear();
+    body.InitLocals = true;
+    body.MaxStackSize = 2;
+    VariableDefinition oldAmbience = new VariableDefinition(
+        ambience.FieldType);
+    body.Variables.Add(oldAmbience);
+    ILProcessor processor = body.GetILProcessor();
+    Instruction returnInstruction = Instruction.Create(OpCodes.Ret);
+
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Ldc_R4, 0f));
+    processor.Append(Instruction.Create(OpCodes.Stfld, ttl));
+    processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+    processor.Append(Instruction.Create(OpCodes.Ldfld, ambience));
+    processor.Append(Instruction.Create(OpCodes.Stloc, oldAmbience));
+    foreach (FieldDefinition field in new[] { scene, caster, ambience })
+    {
+        processor.Append(Instruction.Create(OpCodes.Ldarg_0));
+        processor.Append(Instruction.Create(OpCodes.Ldnull));
+        processor.Append(Instruction.Create(OpCodes.Stfld, field));
+    }
+    processor.Append(Instruction.Create(OpCodes.Ldloc, oldAmbience));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, returnInstruction));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, oldAmbience));
     processor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
     processor.Append(Instruction.Create(OpCodes.Callvirt, stop));
     processor.Append(returnInstruction);

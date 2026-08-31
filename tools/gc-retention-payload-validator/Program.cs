@@ -73,6 +73,7 @@ ValidateRainSceneDetach(magicka);
 ValidateShadowBlobsSceneDetach(magicka);
 ValidatePhysicsManagerClearReferences(magicka);
 ValidateMeteorShowerRemoveReferences(magicka);
+ValidateBlizzardRemoveReferences(magicka);
 ValidateCharacterTemplateStaticCaches(magicka);
 ValidateWarlordAbilityDiagnostic(magicka);
 ValidateRailgunParentCycleRepair(magicka);
@@ -1663,6 +1664,38 @@ static void ValidateMeteorShowerRemoveReferences(AssemblyDefinition magicka)
         throw new InvalidDataException(
             "MeteorShower.OnRemove does not clear singleton references"
             + " before light and rumble cleanup.");
+    }
+}
+
+static void ValidateBlizzardRemoveReferences(AssemblyDefinition magicka)
+{
+    TypeDefinition blizzard = AllTypes(magicka.MainModule).Single(type =>
+        type.FullName
+            == "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Blizzard");
+    MethodDefinition onRemove = blizzard.Methods.Single(method =>
+        method.Name == "OnRemove" && method.Parameters.Count == 0);
+    Instruction[] body = onRemove.Body.Instructions.ToArray();
+    FieldDefinition scene = blizzard.Fields.Single(field => field.Name == "mScene");
+    FieldDefinition caster = blizzard.Fields.Single(field => field.Name == "mCaster");
+    FieldDefinition ambience = blizzard.Fields.Single(field =>
+        field.Name == "mAmbience");
+    int clearScene = FindNullFieldStore(body, scene);
+    int clearCaster = FindNullFieldStore(body, caster);
+    int clearAmbience = FindNullFieldStore(body, ambience);
+    int stopAmbience = Array.FindIndex(
+        body,
+        instruction => instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "Microsoft.Xna.Framework.Audio.Cue"
+            && called.Name == "Stop");
+    if (clearScene < 0
+        || clearCaster < 0
+        || clearAmbience < 0
+        || stopAmbience <= clearAmbience)
+    {
+        throw new InvalidDataException(
+            "Blizzard.OnRemove does not clear singleton references before"
+            + " ambience cleanup.");
     }
 }
 
