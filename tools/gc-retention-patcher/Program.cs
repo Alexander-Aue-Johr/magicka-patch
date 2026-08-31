@@ -178,6 +178,18 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
+    && args[0] == "--patch-character-select-disposed-icon")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchCharacterSelectDisposedIconOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": skipped disposed character-select controller icons");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--diagnose-character-entity-update")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -427,6 +439,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-character-cast-spell-gamer-null"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-character-select-disposed-icon"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --diagnose-character-entity-update"
@@ -3480,6 +3495,77 @@ static void RepairCharacterCastSpellGamerNull(
     skipStatisticsBranch.OpCode = skipStatisticsBranch.OpCode == OpCodes.Brtrue_S
         ? OpCodes.Brfalse_S
         : OpCodes.Brfalse;
+}
+
+static void PatchCharacterSelectDisposedIconOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairCharacterSelectDisposedIcon(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairCharacterSelectDisposedIcon(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    MethodDefinition drawWidget = RequireMethod(
+        RequireType(
+            types,
+            "Magicka.GameLogic.GameStates.Menu.Main.SubMenuCharacterSelect"),
+        "DrawWidget",
+        parameterCount: 1);
+    TypeDefinition imageType = RequireType(
+        types,
+        "Magicka.GameLogic.UI.UISystem.Image");
+    MethodDefinition getTexture = RequireMethod(
+        imageType,
+        "get_Texture",
+        parameterCount: 0);
+    MethodReference isDisposed = types.Values
+        .SelectMany(type => type.Methods)
+        .SelectMany(method => method.HasBody
+            ? method.Body.Instructions.ToArray()
+            : Array.Empty<Instruction>())
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .First(method => method.DeclaringType.FullName
+                         == "Microsoft.Xna.Framework.Graphics.GraphicsResource"
+                         && method.Name == "get_IsDisposed");
+
+    VariableDefinition image = new VariableDefinition(imageType);
+    VariableDefinition texture = new VariableDefinition(
+        drawWidget.Module.ImportReference(getTexture.ReturnType));
+    drawWidget.Body.Variables.Add(image);
+    drawWidget.Body.Variables.Add(texture);
+    drawWidget.Body.InitLocals = true;
+
+    Instruction originalBody = drawWidget.Body.Instructions[0];
+    Instruction skipDraw = Instruction.Create(OpCodes.Ret);
+    ILProcessor processor = drawWidget.Body.GetILProcessor();
+    foreach (Instruction instruction in new[]
+             {
+                 Instruction.Create(OpCodes.Ldarg_1),
+                 Instruction.Create(OpCodes.Isinst, imageType),
+                 Instruction.Create(OpCodes.Stloc, image),
+                 Instruction.Create(OpCodes.Ldloc, image),
+                 Instruction.Create(OpCodes.Brfalse, originalBody),
+                 Instruction.Create(OpCodes.Ldloc, image),
+                 Instruction.Create(OpCodes.Callvirt, getTexture),
+                 Instruction.Create(OpCodes.Stloc, texture),
+                 Instruction.Create(OpCodes.Ldloc, texture),
+                 Instruction.Create(OpCodes.Brfalse, skipDraw),
+                 Instruction.Create(OpCodes.Ldloc, texture),
+                 Instruction.Create(OpCodes.Callvirt, isDisposed),
+                 Instruction.Create(OpCodes.Brtrue, skipDraw),
+             })
+    {
+        processor.InsertBefore(originalBody, instruction);
+    }
+    processor.Append(skipDraw);
+    drawWidget.Body.MaxStackSize = Math.Max(drawWidget.Body.MaxStackSize, 1);
 }
 
 static void DiagnoseCharacterEntityUpdateOnly(

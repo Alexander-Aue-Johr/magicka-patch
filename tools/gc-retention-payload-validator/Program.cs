@@ -68,6 +68,7 @@ ValidateRuntimeCompatibilityGuards(magicka);
 ValidateArrayEqualsNullGuard(magicka);
 ValidateAvatarFindInteractableNullGuard(magicka);
 ValidateCharacterCastSpellGamerNullGuard(magicka);
+ValidateCharacterSelectDisposedIconGuard(magicka);
 ValidateTelemetryPatchVersion(magicka);
 ValidatePlayerGameDeinitialize(magicka);
 ValidateEntityCollisionCallbackCleanup(magicka);
@@ -1004,6 +1005,39 @@ static void ValidateCharacterCastSpellGamerNullGuard(AssemblyDefinition magicka)
     {
         throw new InvalidDataException(
             "Character.CastSpell does not skip only optional statistics when Gamer is null.");
+    }
+}
+
+static void ValidateCharacterSelectDisposedIconGuard(AssemblyDefinition magicka)
+{
+    MethodDefinition method = AllTypes(magicka.MainModule)
+        .Single(type => type.FullName
+                        == "Magicka.GameLogic.GameStates.Menu.Main.SubMenuCharacterSelect")
+        .Methods.Single(candidate => candidate.Name == "DrawWidget"
+                                     && candidate.Parameters.Count == 1);
+    Instruction[] entry = method.Body.Instructions.Take(13).ToArray();
+    Instruction finalReturn = method.Body.Instructions.Last();
+    if (entry.Length != 13
+        || entry[0].OpCode != OpCodes.Ldarg_1
+        || entry[1].OpCode != OpCodes.Isinst
+        || entry[1].Operand is not TypeReference image
+        || image.FullName != "Magicka.GameLogic.UI.UISystem.Image"
+        || !entry.Any(instruction =>
+            instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "Magicka.GameLogic.UI.UISystem.Image"
+            && called.Name == "get_Texture")
+        || !entry.Any(instruction =>
+            instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "Microsoft.Xna.Framework.Graphics.GraphicsResource"
+            && called.Name == "get_IsDisposed")
+        || entry.Count(instruction =>
+            instruction.OpCode.FlowControl == FlowControl.Cond_Branch
+            && instruction.Operand == finalReturn) != 2)
+    {
+        throw new InvalidDataException(
+            "SubMenuCharacterSelect.DrawWidget does not skip null or disposed image textures.");
     }
 }
 
