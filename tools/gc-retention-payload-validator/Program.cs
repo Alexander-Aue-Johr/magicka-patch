@@ -63,6 +63,7 @@ ValidateClr2Assembly(runtime);
 ValidateClr2Assembly(magicka);
 ValidateClr2Assembly(polygonHead);
 ValidateExceptionHandlerNestingOrder(magicka);
+ValidateNetworkServerForcedSyncExit(magicka);
 ValidateRuntimeCompatibilityGuards(magicka);
 ValidateTelemetryPatchVersion(magicka);
 ValidatePlayerGameDeinitialize(magicka);
@@ -882,6 +883,52 @@ static void ValidateRuntimeCompatibilityGuards(AssemblyDefinition magicka)
     {
         throw new InvalidDataException(
             "The Paradox price worker does not cast and invoke ThreadStart.");
+    }
+}
+
+static void ValidateNetworkServerForcedSyncExit(AssemblyDefinition magicka)
+{
+    TypeDefinition networkServer = AllTypes(magicka.MainModule).Single(type =>
+        type.FullName == "Magicka.Network.NetworkServer");
+    MethodDefinition readMessage = networkServer.Methods.Single(method =>
+        method.Name == "ReadMessage"
+        && method.Parameters.Count == 2);
+    Instruction[] instructions = readMessage.Body.Instructions.ToArray();
+    Instruction[] sendCalls = instructions.Where(instruction =>
+            instruction.OpCode == OpCodes.Call
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "Magicka.Network.NetworkServer"
+            && called.Name == "SendForcedSyncMessageToClient"
+            && called.Parameters.Count == 2
+            && called.Parameters[0].ParameterType.FullName
+                == "SteamWrapper.SteamID"
+            && called.Parameters[1].ParameterType.FullName == "System.Boolean")
+        .ToArray();
+    if (sendCalls.Length != 1)
+    {
+        throw new InvalidDataException(
+            "Expected one SteamID forced-sync send in NetworkServer.ReadMessage;"
+            + " found " + sendCalls.Length + ".");
+    }
+
+    ExceptionHandler ioHandler = readMessage.Body.ExceptionHandlers.Single(
+        handler => handler.HandlerType == ExceptionHandlerType.Catch
+            && handler.CatchType?.FullName == "System.IO.IOException");
+    Instruction expectedExit = ioHandler.TryEnd.Previous
+        ?? throw new InvalidDataException(
+            "NetworkServer.ReadMessage main try exit is missing.");
+    Instruction? branch = sendCalls[0].Next;
+    while (branch?.OpCode == OpCodes.Nop)
+    {
+        branch = branch.Next;
+    }
+    if (branch is null
+        || branch.OpCode.FlowControl != FlowControl.Branch
+        || branch.Operand != expectedExit)
+    {
+        throw new InvalidDataException(
+            "RequestForcedPlayerStatusSync does not exit NetworkServer.ReadMessage"
+            + " after sending its response.");
     }
 }
 

@@ -118,6 +118,18 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
+    && args[0] == "--repair-network-server-forced-sync-exit")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    RepairNetworkServerForcedSyncExitOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": restored the NetworkServer forced-sync case exit");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--patch-game-thread-affinity-null")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -1469,6 +1481,7 @@ static int RestoreNetworkServerMethods(
         targetModule,
         targetTypes,
         referencePool);
+    RestoreNetworkServerForcedSyncExit(targetRead);
 
     RestoreHotjoinBroadcastMethod(
         originalType,
@@ -1536,6 +1549,64 @@ static void RepairNetworkServerHandlerOrderOnly(
         parameterCount: 2);
     OrderExceptionHandlersByNesting(readMessage);
     WriteAssembly(assembly, outputPath);
+}
+
+static void RepairNetworkServerForcedSyncExitOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    TypeDefinition networkServer = AllTypes(assembly.MainModule).Single(type =>
+        type.FullName == "Magicka.Network.NetworkServer");
+    MethodDefinition readMessage = RequireMethod(
+        networkServer,
+        "ReadMessage",
+        parameterCount: 2);
+    RestoreNetworkServerForcedSyncExit(readMessage);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RestoreNetworkServerForcedSyncExit(MethodDefinition readMessage)
+{
+    Instruction[] instructions = readMessage.Body.Instructions.ToArray();
+    Instruction[] sendCalls = instructions.Where(instruction =>
+            instruction.OpCode == OpCodes.Call
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "Magicka.Network.NetworkServer"
+            && called.Name == "SendForcedSyncMessageToClient"
+            && called.Parameters.Count == 2
+            && called.Parameters[0].ParameterType.FullName
+                == "SteamWrapper.SteamID"
+            && called.Parameters[1].ParameterType.FullName == "System.Boolean")
+        .ToArray();
+    if (sendCalls.Length != 1)
+    {
+        throw new InvalidOperationException(
+            "Expected one SteamID forced-sync send in NetworkServer.ReadMessage;"
+            + " found " + sendCalls.Length + ".");
+    }
+
+    Instruction? branch = NextNonNop(sendCalls[0]);
+    if (branch?.OpCode.FlowControl != FlowControl.Branch
+        || branch.Operand is not Instruction)
+    {
+        branch = Instruction.Create(OpCodes.Br, MainTryExit(readMessage));
+        readMessage.Body.GetILProcessor().InsertAfter(sendCalls[0], branch);
+        return;
+    }
+
+    branch.OpCode = OpCodes.Br;
+    branch.Operand = MainTryExit(readMessage);
+}
+
+static Instruction? NextNonNop(Instruction instruction)
+{
+    Instruction? next = instruction.Next;
+    while (next?.OpCode == OpCodes.Nop)
+    {
+        next = next.Next;
+    }
+    return next;
 }
 
 static void OrderExceptionHandlersByNesting(MethodDefinition method)
