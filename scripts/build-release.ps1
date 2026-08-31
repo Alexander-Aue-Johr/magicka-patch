@@ -498,79 +498,6 @@ function Set-UpdaterLockPackageVersion {
     }
 }
 
-function Initialize-ByteSearchType {
-    if ($null -ne ('ReleaseByteSearch' -as [type])) {
-        return
-    }
-
-    Add-Type -TypeDefinition @'
-using System;
-
-public static class ReleaseByteSearch {
-    public static int Count(byte[] haystack, byte[] needle) {
-        if (haystack == null || needle == null || needle.Length == 0 || haystack.Length < needle.Length) return 0;
-        int count = 0;
-        for (int i = 0; i <= haystack.Length - needle.Length; i++) {
-            int j = 0;
-            for (; j < needle.Length; j++) {
-                if (haystack[i + j] != needle[j]) break;
-            }
-            if (j == needle.Length) count++;
-        }
-        return count;
-    }
-
-    public static int IndexOf(byte[] haystack, byte[] needle) {
-        if (haystack == null || needle == null || needle.Length == 0 || haystack.Length < needle.Length) return -1;
-        for (int i = 0; i <= haystack.Length - needle.Length; i++) {
-            int j = 0;
-            for (; j < needle.Length; j++) {
-                if (haystack[i + j] != needle[j]) break;
-            }
-            if (j == needle.Length) return i;
-        }
-        return -1;
-    }
-}
-'@
-}
-
-function Read-AllBytesWithRetry {
-    param([Parameter(Mandatory = $true)][string]$Path)
-
-    for ($attempt = 1; $attempt -le 20; $attempt++) {
-        try {
-            return [System.IO.File]::ReadAllBytes($Path)
-        }
-        catch [System.IO.IOException] {
-            if ($attempt -eq 20) {
-                throw
-            }
-            Start-Sleep -Milliseconds 250
-        }
-    }
-}
-
-function Write-AllBytesWithRetry {
-    param(
-        [Parameter(Mandatory = $true)][string]$Path,
-        [Parameter(Mandatory = $true)][byte[]]$Bytes
-    )
-
-    for ($attempt = 1; $attempt -le 20; $attempt++) {
-        try {
-            [System.IO.File]::WriteAllBytes($Path, $Bytes)
-            return
-        }
-        catch [System.IO.IOException] {
-            if ($attempt -eq 20) {
-                throw
-            }
-            Start-Sleep -Milliseconds 250
-        }
-    }
-}
-
 function Get-FileHashWithRetry {
     param([Parameter(Mandatory = $true)][string]$Path)
 
@@ -598,50 +525,12 @@ function Set-ExeVersionString {
         throw "Cannot binary patch $Path from '$OldVersion' to '$NewVersion': string lengths differ. Rebuild or patch the assembly source instead."
     }
 
-    Initialize-ByteSearchType
-    $bytes = Read-AllBytesWithRetry $Path
-    $oldBytes = [System.Text.Encoding]::Unicode.GetBytes($OldVersion)
-    $newBytes = [System.Text.Encoding]::Unicode.GetBytes($NewVersion)
-    $oldCount = [ReleaseByteSearch]::Count($bytes, $oldBytes)
-    $newCount = [ReleaseByteSearch]::Count($bytes, $newBytes)
-    $explicitOldVersion = -not [string]::IsNullOrWhiteSpace($script:OldExeVersion)
-
-    if ($OldVersion -eq $NewVersion) {
-        if ($newCount -eq 1) {
-            Write-Host "Magicka.exe already contains version $NewVersion" -ForegroundColor DarkGray
-            return
-        }
-        if ($newCount -eq 0 -and -not $explicitOldVersion) {
-            Write-Warning "Magicka.exe does not contain UTF-16 patch version '$NewVersion'. Skipping binary EXE version patch."
-            return
-        }
-        throw "Expected exactly one UTF-16 version string '$NewVersion' in $Path, found $newCount"
+    $patcherProject = Join-PathChecked $script:repoRoot 'tools\community-patch-version-patcher\CommunityPatchVersionPatcher.csproj'
+    Assert-File $patcherProject
+    & dotnet run --project $patcherProject --configuration Release -- $Path $OldVersion $NewVersion
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to update CommunityPatchInfo.Version in $Path"
     }
-
-    if ($oldCount -eq 0 -and $newCount -eq 1) {
-        Write-Host "Magicka.exe already contains version $NewVersion" -ForegroundColor DarkGray
-        return
-    }
-
-    if ($oldCount -ne 1) {
-        if ($oldCount -eq 0 -and -not $explicitOldVersion) {
-            Write-Warning "Magicka.exe does not contain expected UTF-16 patch version '$OldVersion'. Skipping binary EXE version patch. If the game-side version still needs changing, update the Steam Magicka.exe or pass -OldExeVersion."
-            return
-        }
-        throw "Expected exactly one UTF-16 version string '$OldVersion' in $Path, found $oldCount. Pass -OldExeVersion or -SkipExeVersionPatch."
-    }
-
-    $offset = [ReleaseByteSearch]::IndexOf($bytes, $oldBytes)
-    [System.Array]::Copy($newBytes, 0, $bytes, $offset, $newBytes.Length)
-    Write-AllBytesWithRetry $Path $bytes
-
-    $verifyBytes = Read-AllBytesWithRetry $Path
-    $verifyCount = [ReleaseByteSearch]::Count($verifyBytes, $newBytes)
-    if ($verifyCount -ne 1) {
-        throw "Version patch verification failed for $Path. Expected one '$NewVersion', found $verifyCount."
-    }
-
-    Write-Host "Updated Magicka.exe version: $OldVersion -> $NewVersion" -ForegroundColor DarkGray
 }
 
 function Sync-VersionedExeToMagickaDirectory {

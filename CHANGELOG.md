@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.0.56] - 2026-08-31
+
+### Fixed
+
+- Preserve reusable JigLibX bodies and collision skins while clearing the
+  active physics simulator. Pooled entities can rebuild the next scene without
+  losing their collision primitives, body tags, or body-to-skin relationship.
+- Centralize final entity physics teardown in `Entity.Dispose()`. Every
+  concrete entity cleanup now reaches its base implementation even if its own
+  cleanup fails, and no subclass can hide the inherited body or collision skin
+  before the shared cleanup runs.
+- Clear both JigLibX collision callback lists together with body tags, skin
+  ownership, collision lists, and simulator references. Deinitialized
+  `PhysicsEntity` instances also release the body and skin that their next
+  initialization replaces.
+- Remove redundant per-class disposal flags and prevent repeated Item cleanup
+  from removing a newer cached weapon of the same type.
+
+### Validation
+
+- Validate the complete Entity disposal chain, both private JigLibX callback
+  fields, and the pooled `PhysicsEntity` deinitialization/reinitialization
+  sequence as part of the managed payload gate.
+
 ## [0.0.55] - 2026-08-31
 
 ### Fixed
