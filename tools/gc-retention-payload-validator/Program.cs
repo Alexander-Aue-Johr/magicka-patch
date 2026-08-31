@@ -73,6 +73,7 @@ ValidateNetworkClientRulesetTeardownGuard(magicka);
 ValidateGraphicsStartupErrors(magicka);
 ValidateGcDiagnosticsStartupCheck(magicka);
 ValidateLevelHashMissingFile(magicka);
+ValidatePolygonPayloadContract(magicka, polygonHead);
 ValidateTelemetryPatchVersion(magicka);
 ValidatePlayerGameDeinitialize(magicka);
 ValidateEntityCollisionCallbackCleanup(magicka);
@@ -1248,6 +1249,141 @@ static void ValidateLevelHashMissingFile(AssemblyDefinition magicka)
     {
         throw new InvalidDataException(
             "LevelManager.ComputeHashes does not report the missing file locally without telemetry.");
+    }
+}
+
+static void ValidatePolygonPayloadContract(
+    AssemblyDefinition magicka,
+    AssemblyDefinition polygonHead)
+{
+    const string ExpectedId =
+        "magicka-community-patch-payload-0.0.55-r1";
+    TypeDefinition magickaContract = AllTypes(magicka.MainModule)
+        .Single(type => type.FullName
+                        == "Magicka.CommunityPatch.PayloadContract");
+    TypeDefinition polygonContract = AllTypes(polygonHead.MainModule)
+        .Single(type => type.FullName
+                        == "PolygonHead.CommunityPatch.PayloadContract");
+    foreach (TypeDefinition contract in new[]
+             {
+                 magickaContract,
+                 polygonContract,
+             })
+    {
+        FieldDefinition id = contract.Fields.Single(field =>
+            field.Name == "Id");
+        if (!id.IsPublic
+            || !id.IsStatic
+            || !id.IsLiteral
+            || id.Constant is not string value
+            || value != ExpectedId)
+        {
+            throw new InvalidDataException(
+                contract.FullName + ".Id does not match the payload contract.");
+        }
+    }
+
+    TypeDefinition renderScale = AllTypes(polygonHead.MainModule)
+        .Single(type => type.FullName
+                        == "PolygonHead.CommunityPatch.InGameUiRenderScale");
+    MethodDefinition begin = renderScale.Methods.Single(method =>
+        method.Name == "Begin"
+        && method.IsPublic
+        && method.IsStatic
+        && method.ReturnType.FullName == "Microsoft.Xna.Framework.Point"
+        && method.Parameters.Select(parameter => parameter.ParameterType.FullName)
+            .SequenceEqual(new[]
+            {
+                "Microsoft.Xna.Framework.Graphics.GraphicsDevice",
+                "Microsoft.Xna.Framework.Graphics.RenderTarget2D",
+                "Microsoft.Xna.Framework.Point",
+            }));
+    MethodDefinition end = renderScale.Methods.Single(method =>
+        method.Name == "End"
+        && method.IsPublic
+        && method.IsStatic
+        && method.ReturnType.FullName == "System.Void"
+        && method.Parameters.Select(parameter => parameter.ParameterType.FullName)
+            .SequenceEqual(new[]
+            {
+                "Microsoft.Xna.Framework.Graphics.GraphicsDevice",
+                "Microsoft.Xna.Framework.Graphics.RenderTarget2D",
+                "Microsoft.Xna.Framework.Graphics.DepthStencilBuffer",
+                "Microsoft.Xna.Framework.Point",
+            }));
+    _ = begin;
+    _ = end;
+
+    MethodDefinition check = magickaContract.Methods.Single(method =>
+        method.Name == "IsPolygonHeadCompatible"
+        && method.IsPublic
+        && method.IsStatic
+        && method.ReturnType.FullName == "System.Boolean"
+        && method.Parameters.Count == 0);
+    string[] strings = check.Body.Instructions
+        .Where(instruction => instruction.OpCode == OpCodes.Ldstr)
+        .Select(instruction => (string)instruction.Operand)
+        .ToArray();
+    if (!strings.Contains(
+            "PolygonHead.CommunityPatch.PayloadContract, PolygonHead",
+            StringComparer.Ordinal)
+        || !strings.Contains(
+            "PolygonHead.CommunityPatch.InGameUiRenderScale, PolygonHead",
+            StringComparer.Ordinal)
+        || !strings.Contains(ExpectedId, StringComparer.Ordinal)
+        || check.Body.Instructions.Count(instruction =>
+            instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "System.Type"
+            && called.Name == "GetMethod"
+            && called.Parameters.Count == 2) != 2)
+    {
+        throw new InvalidDataException(
+            "Magicka does not reflect the PolygonHead payload contract and method signatures.");
+    }
+
+    MethodDefinition main = AllTypes(magicka.MainModule)
+        .Single(type => type.FullName == "Magicka.Program")
+        .Methods.Single(method => method.Name == "Main"
+                                  && method.Parameters.Count == 1);
+    Instruction contractCall = main.Body.Instructions.Single(instruction =>
+        instruction.OpCode == OpCodes.Call
+        && instruction.Operand is MethodReference called
+        && called.FullName == check.FullName);
+    Instruction shaCreate = main.Body.Instructions.Single(instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName
+            == "System.Security.Cryptography.SHA256"
+        && called.Name == "Create");
+    Instruction startupTelemetry = main.Body.Instructions.Single(instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName
+            == "Magicka.CommunityPatch.PatchTelemetry"
+        && called.Name == "SendStartup");
+    Instruction gameInstance = main.Body.Instructions.Single(instruction =>
+        instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == "Magicka.Game"
+        && called.Name == "get_Instance");
+    Instruction gcDiagnosticsExistsBranch = main.Body.Instructions.Single(
+        instruction =>
+            instruction.OpCode.FlowControl == FlowControl.Cond_Branch
+            && instruction.Previous?.Operand is MethodReference called
+            && called.DeclaringType.FullName == "System.IO.File"
+            && called.Name == "Exists");
+    if (main.Body.Instructions.IndexOf(contractCall)
+            >= main.Body.Instructions.IndexOf(shaCreate)
+        || main.Body.Instructions.IndexOf(contractCall)
+            >= main.Body.Instructions.IndexOf(startupTelemetry)
+        || main.Body.Instructions.IndexOf(contractCall)
+            >= main.Body.Instructions.IndexOf(gameInstance)
+        || gcDiagnosticsExistsBranch.Operand != contractCall
+        || !main.Body.Instructions.Any(instruction =>
+            instruction.OpCode == OpCodes.Ldstr
+            && ((string)instruction.Operand).Contains(
+                "PolygonHead.dll does not match",
+                StringComparison.Ordinal)))
+    {
+        throw new InvalidDataException(
+            "Program.Main does not reject a mismatched PolygonHead payload before startup.");
     }
 }
 

@@ -6,6 +6,8 @@ const string EntityTypeName = "Magicka.GameLogic.Entities.Entity";
 const string PlayStateTypeName = "Magicka.GameLogic.GameStates.PlayState";
 const string GameStateTypeName = "Magicka.GameLogic.GameStates.GameState";
 const string RegistryTypeName = "Magicka.GcDiagnostics.RetentionRegistry";
+const string PayloadContractId =
+    "magicka-community-patch-payload-0.0.55-r1";
 
 if (args.Length == 3
     && args[0] == "--normalize-self-references")
@@ -234,6 +236,21 @@ if (args.Length == 3
     Console.WriteLine(
         Path.GetFileName(inputPath)
         + ": reported missing level hash inputs without crash telemetry");
+    return 0;
+}
+
+if (args.Length == 4
+    && args[0] == "--patch-polygon-payload-contract")
+{
+    string contractMagickaPath = Path.GetFullPath(args[1]);
+    string contractPolygonHeadPath = Path.GetFullPath(args[2]);
+    string contractOutputDirectory = Path.GetFullPath(args[3]);
+    PatchPolygonPayloadContractOnly(
+        contractMagickaPath,
+        contractPolygonHeadPath,
+        contractOutputDirectory);
+    Console.WriteLine(
+        "Magicka.exe and PolygonHead.dll: added the shared payload contract");
     return 0;
 }
 
@@ -503,6 +520,9 @@ if (args.Length != 4)
         + "   or: RetentionPatcher"
         + " --patch-level-hash-missing-file"
         + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-polygon-payload-contract"
+        + " <Magicka.exe> <PolygonHead.dll> <output-directory>\n"
         + "   or: RetentionPatcher"
         + " --diagnose-character-entity-update"
         + " <Magicka.exe> <output-Magicka.exe>\n"
@@ -4219,6 +4239,373 @@ static MethodReference CreateEnvironmentExitReference(ModuleDefinition module)
     };
     exit.Parameters.Add(new ParameterDefinition(module.TypeSystem.Int32));
     return exit;
+}
+
+static void PatchPolygonPayloadContractOnly(
+    string magickaPath,
+    string polygonHeadPath,
+    string outputDirectory)
+{
+    Directory.CreateDirectory(outputDirectory);
+    using AssemblyDefinition magicka = ReadAssembly(magickaPath);
+    using AssemblyDefinition polygonHead = ReadAssembly(polygonHeadPath);
+    Dictionary<string, TypeDefinition> magickaTypes = AllTypes(
+            magicka.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+
+    MethodDefinition compatibilityCheck = AddMagickaPayloadContract(
+        magicka.MainModule,
+        magickaTypes);
+    AddPolygonHeadPayloadContract(polygonHead.MainModule);
+    AddPolygonHeadStartupCheck(
+        magicka.MainModule,
+        magickaTypes,
+        compatibilityCheck);
+
+    WriteAssembly(
+        magicka,
+        Path.Combine(outputDirectory, "Magicka.exe"));
+    WriteAssembly(
+        polygonHead,
+        Path.Combine(outputDirectory, "PolygonHead.dll"));
+}
+
+static MethodDefinition AddMagickaPayloadContract(
+    ModuleDefinition module,
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    const string TypeName = "Magicka.CommunityPatch.PayloadContract";
+    if (types.ContainsKey(TypeName))
+    {
+        throw new InvalidOperationException(
+            "Magicka payload contract already exists.");
+    }
+
+    TypeDefinition contract = CreatePayloadContractType(
+        module,
+        "Magicka.CommunityPatch");
+    TypeReference typeType = new TypeReference(
+        "System",
+        "Type",
+        module,
+        module.TypeSystem.CoreLibrary);
+    TypeReference fieldInfo = new TypeReference(
+        "System.Reflection",
+        "FieldInfo",
+        module,
+        module.TypeSystem.CoreLibrary);
+    TypeReference methodInfo = new TypeReference(
+        "System.Reflection",
+        "MethodInfo",
+        module,
+        module.TypeSystem.CoreLibrary);
+    TypeReference methodBase = new TypeReference(
+        "System.Reflection",
+        "MethodBase",
+        module,
+        module.TypeSystem.CoreLibrary);
+    TypeReference runtimeTypeHandle = new TypeReference(
+        "System",
+        "RuntimeTypeHandle",
+        module,
+        module.TypeSystem.CoreLibrary,
+        valueType: true);
+    TypeReference typeArray = new ArrayType(typeType);
+
+    MethodReference getType = new MethodReference(
+        "GetType",
+        typeType,
+        typeType)
+    {
+        HasThis = false,
+    };
+    getType.Parameters.Add(new ParameterDefinition(module.TypeSystem.String));
+    getType.Parameters.Add(new ParameterDefinition(module.TypeSystem.Boolean));
+    MethodReference getTypeFromHandle = new MethodReference(
+        "GetTypeFromHandle",
+        typeType,
+        typeType)
+    {
+        HasThis = false,
+    };
+    getTypeFromHandle.Parameters.Add(new ParameterDefinition(
+        runtimeTypeHandle));
+    MethodReference getField = CreateInstanceMethodReference(
+        "GetField",
+        typeType,
+        fieldInfo,
+        module.TypeSystem.String);
+    MethodReference getRawConstant = CreateInstanceMethodReference(
+        "GetRawConstantValue",
+        fieldInfo,
+        module.TypeSystem.Object);
+    MethodReference stringEquals = new MethodReference(
+        "op_Equality",
+        module.TypeSystem.Boolean,
+        module.TypeSystem.String)
+    {
+        HasThis = false,
+    };
+    stringEquals.Parameters.Add(new ParameterDefinition(
+        module.TypeSystem.String));
+    stringEquals.Parameters.Add(new ParameterDefinition(
+        module.TypeSystem.String));
+    MethodReference getMethod = CreateInstanceMethodReference(
+        "GetMethod",
+        typeType,
+        methodInfo,
+        module.TypeSystem.String,
+        typeArray);
+    MethodReference getIsStatic = CreateInstanceMethodReference(
+        "get_IsStatic",
+        methodBase,
+        module.TypeSystem.Boolean);
+    MethodReference getReturnType = CreateInstanceMethodReference(
+        "get_ReturnType",
+        methodInfo,
+        typeType);
+
+    TypeReference graphicsDevice = module.GetTypeReferences().First(type =>
+        type.FullName
+            == "Microsoft.Xna.Framework.Graphics.GraphicsDevice");
+    TypeReference renderTarget = module.GetTypeReferences().First(type =>
+        type.FullName
+            == "Microsoft.Xna.Framework.Graphics.RenderTarget2D");
+    TypeReference depthStencil = module.GetTypeReferences().First(type =>
+        type.FullName
+            == "Microsoft.Xna.Framework.Graphics.DepthStencilBuffer");
+    TypeReference point = module.GetTypeReferences().First(type =>
+        type.FullName == "Microsoft.Xna.Framework.Point");
+
+    MethodDefinition check = new MethodDefinition(
+        "IsPolygonHeadCompatible",
+        MethodAttributes.Public
+        | MethodAttributes.Static
+        | MethodAttributes.HideBySig,
+        module.TypeSystem.Boolean);
+    contract.Methods.Add(check);
+    VariableDefinition polygonContract = new VariableDefinition(typeType);
+    VariableDefinition idField = new VariableDefinition(fieldInfo);
+    VariableDefinition renderScale = new VariableDefinition(typeType);
+    VariableDefinition begin = new VariableDefinition(methodInfo);
+    VariableDefinition end = new VariableDefinition(methodInfo);
+    check.Body.Variables.Add(polygonContract);
+    check.Body.Variables.Add(idField);
+    check.Body.Variables.Add(renderScale);
+    check.Body.Variables.Add(begin);
+    check.Body.Variables.Add(end);
+    check.Body.InitLocals = true;
+
+    ILProcessor processor = check.Body.GetILProcessor();
+    Instruction returnFalse = Instruction.Create(OpCodes.Ldc_I4_0);
+    processor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "PolygonHead.CommunityPatch.PayloadContract, PolygonHead"));
+    processor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    processor.Append(Instruction.Create(OpCodes.Call, getType));
+    processor.Append(Instruction.Create(OpCodes.Stloc, polygonContract));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, polygonContract));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, returnFalse));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, polygonContract));
+    processor.Append(Instruction.Create(OpCodes.Ldstr, "Id"));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, getField));
+    processor.Append(Instruction.Create(OpCodes.Stloc, idField));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, idField));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, returnFalse));
+    processor.Append(Instruction.Create(OpCodes.Ldstr, PayloadContractId));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, idField));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, getRawConstant));
+    processor.Append(Instruction.Create(
+        OpCodes.Isinst,
+        module.TypeSystem.String));
+    processor.Append(Instruction.Create(OpCodes.Call, stringEquals));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, returnFalse));
+    processor.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "PolygonHead.CommunityPatch.InGameUiRenderScale, PolygonHead"));
+    processor.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    processor.Append(Instruction.Create(OpCodes.Call, getType));
+    processor.Append(Instruction.Create(OpCodes.Stloc, renderScale));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, renderScale));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, returnFalse));
+
+    processor.Append(Instruction.Create(OpCodes.Ldloc, renderScale));
+    processor.Append(Instruction.Create(OpCodes.Ldstr, "Begin"));
+    AppendTypeArray(
+        processor,
+        typeType,
+        getTypeFromHandle,
+        graphicsDevice,
+        renderTarget,
+        point);
+    processor.Append(Instruction.Create(OpCodes.Callvirt, getMethod));
+    processor.Append(Instruction.Create(OpCodes.Stloc, begin));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, begin));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, returnFalse));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, begin));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, getIsStatic));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, returnFalse));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, begin));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, getReturnType));
+    processor.Append(Instruction.Create(OpCodes.Ldtoken, point));
+    processor.Append(Instruction.Create(OpCodes.Call, getTypeFromHandle));
+    processor.Append(Instruction.Create(OpCodes.Ceq));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, returnFalse));
+
+    processor.Append(Instruction.Create(OpCodes.Ldloc, renderScale));
+    processor.Append(Instruction.Create(OpCodes.Ldstr, "End"));
+    AppendTypeArray(
+        processor,
+        typeType,
+        getTypeFromHandle,
+        graphicsDevice,
+        renderTarget,
+        depthStencil,
+        point);
+    processor.Append(Instruction.Create(OpCodes.Callvirt, getMethod));
+    processor.Append(Instruction.Create(OpCodes.Stloc, end));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, end));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, returnFalse));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, end));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, getIsStatic));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, returnFalse));
+    processor.Append(Instruction.Create(OpCodes.Ldloc, end));
+    processor.Append(Instruction.Create(OpCodes.Callvirt, getReturnType));
+    processor.Append(Instruction.Create(OpCodes.Ldtoken, module.TypeSystem.Void));
+    processor.Append(Instruction.Create(OpCodes.Call, getTypeFromHandle));
+    processor.Append(Instruction.Create(OpCodes.Ceq));
+    processor.Append(Instruction.Create(OpCodes.Brfalse, returnFalse));
+    processor.Append(Instruction.Create(OpCodes.Ldc_I4_1));
+    processor.Append(Instruction.Create(OpCodes.Ret));
+    processor.Append(returnFalse);
+    processor.Append(Instruction.Create(OpCodes.Ret));
+    check.Body.MaxStackSize = 7;
+    return check;
+}
+
+static void AppendTypeArray(
+    ILProcessor processor,
+    TypeReference typeType,
+    MethodReference getTypeFromHandle,
+    params TypeReference[] parameterTypes)
+{
+    processor.Append(Instruction.Create(
+        OpCodes.Ldc_I4,
+        parameterTypes.Length));
+    processor.Append(Instruction.Create(OpCodes.Newarr, typeType));
+    for (int index = 0; index < parameterTypes.Length; index++)
+    {
+        processor.Append(Instruction.Create(OpCodes.Dup));
+        processor.Append(Instruction.Create(OpCodes.Ldc_I4, index));
+        processor.Append(Instruction.Create(
+            OpCodes.Ldtoken,
+            parameterTypes[index]));
+        processor.Append(Instruction.Create(
+            OpCodes.Call,
+            getTypeFromHandle));
+        processor.Append(Instruction.Create(OpCodes.Stelem_Ref));
+    }
+}
+
+static void AddPolygonHeadPayloadContract(ModuleDefinition module)
+{
+    if (AllTypes(module).Any(type =>
+            type.FullName
+                == "PolygonHead.CommunityPatch.PayloadContract"))
+    {
+        throw new InvalidOperationException(
+            "PolygonHead payload contract already exists.");
+    }
+    CreatePayloadContractType(module, "PolygonHead.CommunityPatch");
+}
+
+static TypeDefinition CreatePayloadContractType(
+    ModuleDefinition module,
+    string typeNamespace)
+{
+    TypeDefinition contract = new TypeDefinition(
+        typeNamespace,
+        "PayloadContract",
+        TypeAttributes.Public
+        | TypeAttributes.Abstract
+        | TypeAttributes.Sealed
+        | TypeAttributes.Class
+        | TypeAttributes.BeforeFieldInit,
+        module.TypeSystem.Object);
+    contract.Fields.Add(new FieldDefinition(
+        "Id",
+        FieldAttributes.Public
+        | FieldAttributes.Static
+        | FieldAttributes.Literal
+        | FieldAttributes.HasDefault,
+        module.TypeSystem.String)
+    {
+        Constant = PayloadContractId,
+    });
+    module.Types.Add(contract);
+    return contract;
+}
+
+static void AddPolygonHeadStartupCheck(
+    ModuleDefinition module,
+    IReadOnlyDictionary<string, TypeDefinition> types,
+    MethodDefinition compatibilityCheck)
+{
+    MethodDefinition main = RequireMethod(
+        RequireType(types, "Magicka.Program"),
+        "Main",
+        parameterCount: 1);
+    Instruction shaCreate = main.Body.Instructions.Single(instruction =>
+        instruction.OpCode == OpCodes.Call
+        && instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName
+            == "System.Security.Cryptography.SHA256"
+        && called.Name == "Create");
+    Instruction[] incomingBranches = main.Body.Instructions
+        .Where(instruction => instruction.Operand == shaCreate)
+        .ToArray();
+    MethodReference messageBox = main.Body.Instructions
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .First(method =>
+            method.DeclaringType.FullName
+                == "System.Windows.Forms.MessageBox"
+            && method.Name == "Show"
+            && method.Parameters.Count == 4
+            && method.Parameters.All(parameter =>
+                parameter.ParameterType.FullName
+                    != "System.Windows.Forms.IWin32Window"));
+    ILProcessor processor = main.Body.GetILProcessor();
+    Instruction contractCall = Instruction.Create(
+        OpCodes.Call,
+        compatibilityCheck);
+    foreach (Instruction instruction in new[]
+             {
+                 contractCall,
+                 Instruction.Create(OpCodes.Brtrue, shaCreate),
+                 Instruction.Create(
+                     OpCodes.Ldstr,
+                     "PolygonHead.dll does not match this Community Patch. "
+                     + "Please include PolygonHead.dll from the same patch "
+                     + "package or reinstall the complete patch."),
+                 Instruction.Create(
+                     OpCodes.Ldstr,
+                     "Incomplete Community Patch installation"),
+                 Instruction.Create(OpCodes.Ldc_I4_0),
+                 Instruction.Create(OpCodes.Ldc_I4_S, (sbyte)16),
+                 Instruction.Create(OpCodes.Call, messageBox),
+                 Instruction.Create(OpCodes.Pop),
+                 Instruction.Create(OpCodes.Ldc_I4_1),
+                 Instruction.Create(OpCodes.Ret),
+             })
+    {
+        processor.InsertBefore(shaCreate, instruction);
+    }
+    foreach (Instruction incoming in incomingBranches)
+    {
+        incoming.Operand = contractCall;
+    }
+    main.Body.MaxStackSize = Math.Max(main.Body.MaxStackSize, 4);
 }
 
 static void DiagnoseCharacterEntityUpdateOnly(
