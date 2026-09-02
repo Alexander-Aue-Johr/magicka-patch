@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.0.58] - 2026-09-02
+
+### Fixed
+
+- Remove an animated-level-part collision registration when its entity no
+  longer exists or its physics body has already been detached. Moving level
+  geometry can no longer dereference that stale registration during scene
+  teardown.
+
+### Validation
+
+- Validate the detached-entity and detached-body paths as part of the managed
+  payload gate.
+- Stage Magicka's XNA and DirectX GAC dependencies for changed-method Mono JIT
+  validation.
+
 ## [0.0.57] - 2026-08-31
 
 ### Fixed
