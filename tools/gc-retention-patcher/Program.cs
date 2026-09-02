@@ -495,6 +495,18 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--patch-animated-level-part-detached-body")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchAnimatedLevelPartDetachedBodyOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": removed detached moving-platform entity registrations");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -601,6 +613,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-entity-manager-quadgrid-lifecycle"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-animated-level-part-detached-body"
         + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
@@ -5299,6 +5314,132 @@ static void PatchEntityManagerQuadGridLifecycleOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairEntityManagerQuadGridLifecycle(types);
     WriteAssembly(assembly, outputPath);
+}
+
+static void PatchAnimatedLevelPartDetachedBodyOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairAnimatedLevelPartDetachedBody(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairAnimatedLevelPartDetachedBody(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition animatedLevelPart = RequireType(
+        types,
+        "Magicka.Levels.AnimatedLevelPart");
+    TypeDefinition entity = RequireType(types, EntityTypeName);
+    MethodDefinition update = animatedLevelPart.Methods.Single(method =>
+        method.Name == "Update"
+        && !method.IsStatic
+        && method.Parameters.Count == 4);
+    MethodDefinition getFromHandle = RequireMethod(
+        entity,
+        "GetFromHandle",
+        1);
+    MethodDefinition getBody = RequireMethod(entity, "get_Body", 0);
+    FieldDefinition collidingEntities = animatedLevelPart.Fields.Single(field =>
+        field.Name == "mCollidingEntities"
+        && !field.IsStatic);
+
+    update.Body.SimplifyMacros();
+    Instruction handleLookup = update.Body.Instructions.Single(instruction =>
+        IsCallTo(instruction, getFromHandle));
+    Instruction entityStore = handleLookup.Next
+        ?? throw new InvalidOperationException(
+            "AnimatedLevelPart.Update entity store is missing.");
+    VariableDefinition entityLocal = StoredVariable(entityStore, update.Body)
+        ?? throw new InvalidOperationException(
+            "AnimatedLevelPart.Update has an unexpected entity store.");
+    Instruction originalEntryStart = entityStore.Next
+        ?? throw new InvalidOperationException(
+            "AnimatedLevelPart.Update entry processing is missing.");
+
+    Instruction bodyCall = update.Body.Instructions.Single(instruction =>
+        IsCallTo(instruction, getBody));
+    Instruction oldBodyOwner = bodyCall.Previous
+        ?? throw new InvalidOperationException(
+            "AnimatedLevelPart.Update Body owner is missing.");
+    Instruction oldBodyStore = bodyCall.Next
+        ?? throw new InvalidOperationException(
+            "AnimatedLevelPart.Update Body store is missing.");
+    VariableDefinition bodyLocal = StoredVariable(oldBodyStore, update.Body)
+        ?? throw new InvalidOperationException(
+            "AnimatedLevelPart.Update has an unexpected Body store.");
+    if (LoadedVariable(oldBodyOwner, update.Body) != entityLocal)
+    {
+        throw new InvalidOperationException(
+            "AnimatedLevelPart.Update Body is not read from the resolved entity.");
+    }
+
+    Instruction removeAtCall = update.Body.Instructions.First(instruction =>
+        instruction.OpCode.Code is Code.Call or Code.Callvirt
+        && instruction.Operand is MethodReference called
+        && called.Name == "RemoveAt"
+        && called.Parameters.Count == 1
+        && called.DeclaringType.FullName == collidingEntities.FieldType.FullName);
+    MethodReference removeAt = (MethodReference)removeAtCall.Operand;
+    VariableDefinition indexLocal = LoadedVariable(
+            removeAtCall.Previous
+                ?? throw new InvalidOperationException(
+                    "AnimatedLevelPart.Update RemoveAt index is missing."),
+            update.Body)
+        ?? throw new InvalidOperationException(
+            "AnimatedLevelPart.Update has an unexpected RemoveAt index.");
+    Instruction setBodyTransform = update.Body.Instructions.Single(instruction =>
+        instruction.OpCode.Code is Code.Call or Code.Callvirt
+        && instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == "JigLibX.Physics.Body"
+        && called.Name == "set_Transform"
+        && called.Parameters.Count == 1);
+    Instruction loopIncrement = setBodyTransform.Next
+        ?? throw new InvalidOperationException(
+            "AnimatedLevelPart.Update loop increment is missing.");
+    if (LoadedVariable(loopIncrement, update.Body) != indexLocal)
+    {
+        throw new InvalidOperationException(
+            "AnimatedLevelPart.Update has an unexpected loop increment.");
+    }
+
+    Instruction invalidStart = Instruction.Create(OpCodes.Ldarg_0);
+    Instruction[] guard =
+    [
+        Instruction.Create(OpCodes.Ldloc, entityLocal),
+        Instruction.Create(OpCodes.Brfalse, invalidStart),
+        Instruction.Create(OpCodes.Ldloc, entityLocal),
+        Instruction.Create(OpCodes.Callvirt, getBody),
+        Instruction.Create(OpCodes.Stloc, bodyLocal),
+        Instruction.Create(OpCodes.Ldloc, bodyLocal),
+        Instruction.Create(OpCodes.Brtrue, originalEntryStart),
+        invalidStart,
+        Instruction.Create(OpCodes.Ldfld, collidingEntities),
+        Instruction.Create(OpCodes.Ldloc, indexLocal),
+        Instruction.Create(OpCodes.Callvirt, removeAt),
+        Instruction.Create(OpCodes.Ldloc, indexLocal),
+        Instruction.Create(OpCodes.Ldc_I4_1),
+        Instruction.Create(OpCodes.Sub),
+        Instruction.Create(OpCodes.Stloc, indexLocal),
+        Instruction.Create(OpCodes.Br, loopIncrement),
+    ];
+    ILProcessor processor = update.Body.GetILProcessor();
+    foreach (Instruction instruction in guard)
+    {
+        processor.InsertBefore(originalEntryStart, instruction);
+    }
+
+    oldBodyOwner.OpCode = OpCodes.Nop;
+    oldBodyOwner.Operand = null;
+    bodyCall.OpCode = OpCodes.Nop;
+    bodyCall.Operand = null;
+    oldBodyStore.OpCode = OpCodes.Nop;
+    oldBodyStore.Operand = null;
+    update.Body.MaxStackSize = Math.Max(update.Body.MaxStackSize, 2);
+    update.Body.OptimizeMacros();
 }
 
 static void RepairEntityManagerQuadGridLifecycle(

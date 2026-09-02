@@ -78,6 +78,7 @@ ValidateTelemetryPatchVersion(magicka);
 ValidatePlayerGameDeinitialize(magicka);
 ValidateEntityCollisionCallbackCleanup(magicka);
 ValidateEntityManagerQuadGridLifecycle(magicka);
+ValidateAnimatedLevelPartDetachedBodyGuard(magicka);
 ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
 ValidateRainSceneDetach(magicka);
@@ -3660,6 +3661,128 @@ static bool SameLocalLoad(Instruction left, Instruction right)
         or Code.Ldloc_2
         or Code.Ldloc_3
         || ReferenceEquals(left.Operand, right.Operand);
+}
+
+static void ValidateAnimatedLevelPartDetachedBodyGuard(
+    AssemblyDefinition magicka)
+{
+    TypeDefinition animatedLevelPart = AllTypes(magicka.MainModule).Single(
+        type => type.FullName == "Magicka.Levels.AnimatedLevelPart");
+    TypeDefinition entity = AllTypes(magicka.MainModule).Single(
+        type => type.FullName == "Magicka.GameLogic.Entities.Entity");
+    MethodDefinition update = animatedLevelPart.Methods.Single(method =>
+        method.Name == "Update"
+        && !method.IsStatic
+        && method.Parameters.Count == 4);
+    MethodDefinition getBody = entity.Methods.Single(method =>
+        method.Name == "get_Body"
+        && !method.IsStatic
+        && method.Parameters.Count == 0);
+    FieldDefinition collidingEntities = animatedLevelPart.Fields.Single(field =>
+        field.Name == "mCollidingEntities"
+        && !field.IsStatic);
+    Instruction[] body = update.Body.Instructions.ToArray();
+    int bodyCallIndex = Array.FindIndex(
+        body,
+        instruction => IsCallTo(instruction, getBody));
+    if (bodyCallIndex < 3 || bodyCallIndex + 3 >= body.Length)
+    {
+        throw new InvalidDataException(
+            "AnimatedLevelPart.Update has no recognizable Entity.Body read.");
+    }
+
+    Instruction nullEntityLoad = body[bodyCallIndex - 3];
+    Instruction nullEntityBranch = body[bodyCallIndex - 2];
+    Instruction bodyEntityLoad = body[bodyCallIndex - 1];
+    Instruction bodyStore = body[bodyCallIndex + 1];
+    Instruction bodyLoad = body[bodyCallIndex + 2];
+    Instruction validBodyBranch = body[bodyCallIndex + 3];
+    if (!SameLocalLoad(nullEntityLoad, bodyEntityLoad)
+        || nullEntityBranch.OpCode.Code
+            is not Code.Brfalse and not Code.Brfalse_S
+        || bodyStore.OpCode.Code
+            is not Code.Stloc and not Code.Stloc_0 and not Code.Stloc_1
+            and not Code.Stloc_2 and not Code.Stloc_3 and not Code.Stloc_S
+        || !SameVariableLoadAndStore(bodyLoad, bodyStore)
+        || validBodyBranch.OpCode.Code
+            is not Code.Brtrue and not Code.Brtrue_S
+        || !ReferenceEquals(
+            nullEntityBranch.Operand,
+            validBodyBranch.Next))
+    {
+        throw new InvalidDataException(
+            "AnimatedLevelPart.Update must reject a missing entity before"
+            + " reading Body and reject a missing Body before processing"
+            + " the moving-platform registration.");
+    }
+
+    Instruction invalidStart = validBodyBranch.Next;
+    Instruction validStart = validBodyBranch.Operand as Instruction
+        ?? throw new InvalidDataException(
+            "AnimatedLevelPart.Update body guard has no valid-entry target.");
+    Instruction[] invalidPath = body
+        .Skip(Array.IndexOf(body, invalidStart))
+        .TakeWhile(instruction => instruction != validStart)
+        .ToArray();
+    Instruction? removeAt = invalidPath.FirstOrDefault(instruction =>
+        instruction.OpCode.Code is Code.Call or Code.Callvirt
+        && instruction.Operand is MethodReference called
+        && called.Name == "RemoveAt"
+        && called.Parameters.Count == 1
+        && invalidPath.TakeWhile(candidate => candidate != instruction)
+            .Any(candidate =>
+                candidate.OpCode == OpCodes.Ldfld
+                && IsReferenceTo(candidate.Operand, collidingEntities)));
+    Instruction? continueBranch = invalidPath.LastOrDefault(instruction =>
+        instruction.OpCode.Code is Code.Br or Code.Br_S);
+    Instruction getTransform = body.Single(instruction =>
+        instruction.OpCode.Code is Code.Call or Code.Callvirt
+        && instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == "JigLibX.Physics.Body"
+        && called.Name == "get_Transform"
+        && called.Parameters.Count == 0);
+    Instruction setTransform = body.Single(instruction =>
+        instruction.OpCode.Code is Code.Call or Code.Callvirt
+        && instruction.Operand is MethodReference called
+        && called.DeclaringType.FullName == "JigLibX.Physics.Body"
+        && called.Name == "set_Transform"
+        && called.Parameters.Count == 1);
+    if (removeAt is null
+        || continueBranch?.Operand is not Instruction continueTarget
+        || !ReferenceEquals(continueTarget, setTransform.Next)
+        || getTransform.Previous is null
+        || !SameVariableLoadAndStore(getTransform.Previous, bodyStore))
+    {
+        throw new InvalidDataException(
+            "AnimatedLevelPart.Update must remove a detached registration"
+            + " and continue at the loop increment without reaching its"
+            + " transform path; valid entries must use the cached Body.");
+    }
+
+    int originalBodyReadCount = update.Body.Instructions.Count(instruction =>
+        IsCallTo(instruction, getBody));
+    if (originalBodyReadCount != 1)
+    {
+        throw new InvalidDataException(
+            "AnimatedLevelPart.Update must cache Entity.Body exactly once;"
+            + " found " + originalBodyReadCount + " reads.");
+    }
+}
+
+static bool SameVariableLoadAndStore(
+    Instruction load,
+    Instruction store)
+{
+    return (load.OpCode.Code, store.OpCode.Code) switch
+    {
+        (Code.Ldloc_0, Code.Stloc_0) => true,
+        (Code.Ldloc_1, Code.Stloc_1) => true,
+        (Code.Ldloc_2, Code.Stloc_2) => true,
+        (Code.Ldloc_3, Code.Stloc_3) => true,
+        (Code.Ldloc or Code.Ldloc_S, Code.Stloc or Code.Stloc_S) =>
+            ReferenceEquals(load.Operand, store.Operand),
+        _ => false,
+    };
 }
 
 static bool HasCatchAll(MethodDefinition method)

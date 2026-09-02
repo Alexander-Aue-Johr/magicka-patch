@@ -10,6 +10,9 @@ $repoRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $previous = (Resolve-Path $PreviousAssembly).Path
 $current = (Resolve-Path $CurrentAssembly).Path
 $dependencies = (Resolve-Path $DependencyDirectory).Path
+if (-not [string]::IsNullOrWhiteSpace($Mono)) {
+    $Mono = (Resolve-Path -LiteralPath $Mono).Path
+}
 $work = Join-Path $repoRoot 'tmp\changed-method-jit'
 $payload = Join-Path $work 'payload'
 New-Item -ItemType Directory -Force $payload | Out-Null
@@ -21,6 +24,37 @@ foreach ($name in @('PolygonHead.dll', 'Magicka.GcDiagnostics.dll')) {
     if (Test-Path -LiteralPath $patchedDependency -PathType Leaf) {
         Copy-Item -LiteralPath $patchedDependency -Destination (Join-Path $payload $name)
     }
+}
+
+function Copy-GacDependency([string]$name, [Version]$version) {
+    $gacRoots = @(
+        (Join-Path $env:WINDIR 'assembly\GAC_32'),
+        (Join-Path $env:WINDIR 'assembly\GAC')
+    )
+    foreach ($gacRoot in $gacRoots) {
+        $assemblyRoot = Join-Path $gacRoot $name
+        if (-not (Test-Path -LiteralPath $assemblyRoot -PathType Container)) {
+            continue
+        }
+        foreach ($candidate in Get-ChildItem -LiteralPath $assemblyRoot -Recurse -Filter "$name.dll" -File) {
+            try {
+                $candidateName = [Reflection.AssemblyName]::GetAssemblyName($candidate.FullName)
+                if ($candidateName.Version -eq $version) {
+                    Copy-Item -LiteralPath $candidate.FullName -Destination $payload -Force
+                    return
+                }
+            }
+            catch [BadImageFormatException] {
+            }
+        }
+    }
+    throw "Required framework dependency was not found in the GAC: $name $version"
+}
+
+if (-not [string]::IsNullOrWhiteSpace($Mono)) {
+    Copy-GacDependency 'Microsoft.Xna.Framework' ([Version]'3.1.0.0')
+    Copy-GacDependency 'Microsoft.Xna.Framework.Game' ([Version]'3.1.0.0')
+    Copy-GacDependency 'Microsoft.DirectX.DirectInput' ([Version]'1.0.2902.0')
 }
 
 $manifest = Join-Path $work 'changed-methods.tsv'
