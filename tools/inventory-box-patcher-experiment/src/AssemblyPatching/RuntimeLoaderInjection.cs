@@ -13,7 +13,17 @@ public static class RuntimeLoaderInjection
         mainMethod.Body.GetILProcessor().InsertBefore(
             mainMethod.Body.Instructions[0],
             Instruction.Create(OpCodes.Call, bootstrap));
-        AssertLoaderIsFirstInstruction(mainMethod);
+        AssertApplied(module);
+    }
+
+    public static void AssertApplied(ModuleDefinition module)
+    {
+        MethodDefinition mainMethod = PatchTarget.FindMainMethod(module);
+        int matchingReferences = module.AssemblyReferences.Count(reference =>
+            reference.Name == PatchTarget.RuntimePatchAssemblyName);
+        if (matchingReferences != 1 || !IsBootstrapCall(mainMethod.Body.Instructions[0]))
+            throw new InvalidOperationException(
+                "Expected one runtime assembly reference and one bootstrap call as the first Main instruction.");
     }
 
     public static bool IsBootstrapCall(Instruction instruction)
@@ -33,7 +43,7 @@ public static class RuntimeLoaderInjection
         module.AssemblyReferences.Add(assembly);
 
         TypeReference bootstrapType = new(
-            "Magicka.InventoryBoxRuntimePatch",
+            "Magicka.CommunityPatch.Runtime",
             "Bootstrap",
             module,
             assembly,
@@ -54,11 +64,5 @@ public static class RuntimeLoaderInjection
 
         if (mainMethod.Body.Instructions.Any(IsBootstrapCall))
             throw new InvalidOperationException("The runtime patch bootstrap call is already present.");
-    }
-
-    private static void AssertLoaderIsFirstInstruction(MethodDefinition mainMethod)
-    {
-        if (!IsBootstrapCall(mainMethod.Body.Instructions[0]))
-            throw new InvalidOperationException("The runtime patch bootstrap is not the first Main instruction.");
     }
 }

@@ -15,7 +15,7 @@ namespace Magicka.CommunityPatch
                 null,
                 new Type[] { typeof(int) },
                 null).Invoke(null, new object[] { handle });
-            if (entity == null || ReadBoolean(entity, "IsDisposed"))
+            if (entity == null || ReadOptionalBoolean(entity, "IsDisposed", "mDisposed"))
                 return false;
 
             object entityPlayState = ReadProperty(entity, "PlayState");
@@ -27,19 +27,51 @@ namespace Magicka.CommunityPatch
                 Object.ReferenceEquals(entityPlayState, playState);
         }
 
-        private static bool ReadBoolean(object target, string propertyName)
+        private static bool ReadOptionalBoolean(
+            object target,
+            string propertyName,
+            string fieldName)
         {
-            return (bool)ReadProperty(target, propertyName);
+            PropertyInfo property = FindProperty(target.GetType(), propertyName);
+            if (property != null)
+                return (bool)property.GetValue(target, null);
+
+            FieldInfo field = FindField(target.GetType(), fieldName);
+            return field != null && (bool)field.GetValue(target);
         }
 
         private static object ReadProperty(object target, string propertyName)
         {
-            PropertyInfo property = target.GetType().GetProperty(
-                propertyName,
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            PropertyInfo property = FindProperty(target.GetType(), propertyName);
             if (property == null)
                 throw new MissingMemberException(target.GetType().FullName, propertyName);
             return property.GetValue(target, null);
+        }
+
+        private static PropertyInfo FindProperty(Type type, string name)
+        {
+            for (Type current = type; current != null; current = current.BaseType)
+            {
+                PropertyInfo property = current.GetProperty(
+                    name,
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                if (property != null)
+                    return property;
+            }
+            return null;
+        }
+
+        private static FieldInfo FindField(Type type, string name)
+        {
+            for (Type current = type; current != null; current = current.BaseType)
+            {
+                FieldInfo field = current.GetField(
+                    name,
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                if (field != null)
+                    return field;
+            }
+            return null;
         }
     }
 }

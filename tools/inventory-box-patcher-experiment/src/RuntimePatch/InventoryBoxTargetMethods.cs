@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Magicka.InventoryBoxRuntimePatch
+namespace Magicka.CommunityPatch.Runtime
 {
-    internal static class TargetMethod
+    internal static class InventoryBoxTargetMethods
     {
         internal const string RenderDataTypeName = "Magicka.GameLogic.UI.InventoryBox+RenderData";
 

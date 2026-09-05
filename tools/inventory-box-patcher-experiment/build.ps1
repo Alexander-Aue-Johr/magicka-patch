@@ -1,6 +1,7 @@
 param(
     [string]$OriginalExe = "..\..\Magicka_orig.exe",
     [string]$CurrentPatchExe = "..\..\Magicka.exe",
+    [string]$OldVersionsDirectory = "..\..\tmp\old_versions",
     [string]$OutputDirectory = "..\..\tmp\inventory-box-patcher-run",
     [switch]$SkipSourceAnalysis
 )
@@ -20,14 +21,16 @@ function Resolve-ArgumentPath([string]$path) {
 
 $originalPath = Resolve-ArgumentPath $OriginalExe
 $currentPatchPath = Resolve-ArgumentPath $CurrentPatchExe
+$oldVersionsPath = Resolve-ArgumentPath $OldVersionsDirectory
+$version14Path = Join-Path $oldVersionsPath "Magicka 1.4.16.0\Magicka.exe"
+$version15Path = Join-Path $oldVersionsPath "Magicka 1.5.1.0\Magicka.exe"
 $outputRoot = Resolve-ArgumentPath $OutputDirectory
 $backupDirectory = Join-Path $outputRoot "backup"
-$staticDirectory = Join-Path $outputRoot "static"
 $runtimeDirectory = Join-Path $outputRoot "runtime"
 $auditDirectory = Join-Path $outputRoot "audit"
 $toolBuildDirectory = Join-Path $outputRoot "tool-build"
 $sourceAnalysisDirectory = Join-Path $outputRoot "source-analysis"
-$expectedDiffPath = Join-Path $experimentRoot "expected\InventoryBox.cs.diff"
+$verifiedAssembliesPath = Join-Path $experimentRoot "reference\verified-assemblies.txt"
 
 function Invoke-Experiment {
     Assert-ExperimentInputs
@@ -37,14 +40,10 @@ function Invoke-Experiment {
     Build-ExperimentTools
     if (-not $SkipSourceAnalysis) {
         Analyze-SourceDifference
-        Assert-SelectedSourceDiff
     }
-    Create-StaticPatchVariant
     Create-RuntimePatchVariant
     Test-RuntimePatchRegistrationAgainstOriginal
-    Test-RuntimePatchBehavior
-    Verify-AssemblyChanges
-    Verify-DecompiledStaticDiff
+    Test-BehaviorMatrix
     Verify-RuntimeEffectiveDiff
     Write-ExperimentSummary
     Write-Output "Experiment: $outputRoot"
@@ -57,8 +56,32 @@ function Assert-ExperimentInputs {
     if (-not (Test-Path -LiteralPath $currentPatchPath -PathType Leaf)) {
         throw "Current patch executable does not exist: $currentPatchPath"
     }
-    if (-not (Test-Path -LiteralPath $expectedDiffPath -PathType Leaf)) {
-        throw "Expected diff does not exist: $expectedDiffPath"
+    if (-not (Test-Path -LiteralPath $version14Path -PathType Leaf)) {
+        throw "Magicka 1.4.16.0 does not exist: $version14Path"
+    }
+    if (-not (Test-Path -LiteralPath $version15Path -PathType Leaf)) {
+        throw "Magicka 1.5.1.0 does not exist: $version15Path"
+    }
+    Assert-FileHash $originalPath (Read-ReferenceValue "original_sha256") "original Magicka"
+    Assert-FileHash $currentPatchPath (Read-ReferenceValue "manual_patch_sha256") "manual patch"
+    Assert-FileHash $version14Path (Read-ReferenceValue "magicka_1.4.16.0_sha256") "Magicka 1.4.16.0"
+    Assert-FileHash $version15Path (Read-ReferenceValue "magicka_1.5.1.0_sha256") "Magicka 1.5.1.0"
+}
+
+function Read-ReferenceValue([string]$name) {
+    $prefix = $name + "="
+    $matches = @(Get-Content -LiteralPath $verifiedAssembliesPath |
+        Where-Object { $_.StartsWith($prefix) })
+    if ($matches.Count -ne 1) {
+        throw "Expected one $name entry in $verifiedAssembliesPath."
+    }
+    return $matches[0].Substring($prefix.Length)
+}
+
+function Assert-FileHash([string]$path, [string]$expected, [string]$label) {
+    $actual = (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash
+    if ($actual -cne $expected) {
+        throw "$label hash changed. Expected $expected, found $actual. Update the reference and coverage report intentionally."
     }
 }
 
@@ -69,7 +92,6 @@ function Prepare-FreshExperimentDirectory {
 
     New-Item -ItemType Directory -Path `
         $backupDirectory, `
-        $staticDirectory, `
         $runtimeDirectory, `
         $auditDirectory, `
         $toolBuildDirectory | Out-Null
@@ -96,12 +118,9 @@ function Restore-ExperimentTools {
 }
 
 function Build-ExperimentTools {
-    Build-Project "src\StaticPatcher\StaticPatcher.csproj" "static-patcher"
     Build-Project "src\RuntimeLoaderInjector\RuntimeLoaderInjector.csproj" "runtime-loader-injector"
-    Build-Project "src\RuntimeSelfTest\RuntimeSelfTest.csproj" "runtime-self-test"
+    Build-Project "src\BehaviorProbe\BehaviorProbe.csproj" "behavior-probe"
     Build-Project "src\RuntimeRegistrationProbe\RuntimeRegistrationProbe.csproj" "runtime-registration-probe"
-    Build-Project "src\AssemblyVerifier\AssemblyVerifier.csproj" "assembly-verifier"
-    Build-Project "src\SourceCommentStripper\SourceCommentStripper.csproj" "comment-stripper"
 }
 
 function Build-Project([string]$relativeProjectPath, [string]$outputName) {
@@ -118,47 +137,139 @@ function Analyze-SourceDifference {
         -CurrentPatchExe $currentPatchPath `
         -OutputDirectory $sourceAnalysisDirectory
     Assert-LastExitCode "source analysis"
-}
-
-function Assert-SelectedSourceDiff {
-    $selectedDiff = Join-Path $sourceAnalysisDirectory "file-diffs\Magicka\GameLogic\UI\InventoryBox.cs.diff"
-    $canonicalDiff = Join-Path $auditDirectory "selected-current-patch.diff"
-    Write-CanonicalDiff $selectedDiff $canonicalDiff
-    Assert-TextFilesEqual $expectedDiffPath $canonicalDiff "selected current-patch diff"
-}
-
-function Create-StaticPatchVariant {
-    $patcher = Join-Path $toolBuildDirectory "static-patcher\StaticPatcher.dll"
-    $output = Join-Path $staticDirectory "Magicka.exe"
-    & dotnet $patcher $originalPath $output
-    Assert-LastExitCode "static patching"
+    $rankingPath = Join-Path $sourceAnalysisDirectory "file-diff-ranking.csv"
+    $actualCount = @(Import-Csv -LiteralPath $rankingPath).Count
+    $expectedCount = [int](Read-ReferenceValue "source_diff_files")
+    if ($actualCount -ne $expectedCount) {
+        throw "Manual patch source inventory changed from $expectedCount to $actualCount files. Update the coverage report intentionally."
+    }
 }
 
 function Create-RuntimePatchVariant {
     $injector = Join-Path $toolBuildDirectory "runtime-loader-injector\RuntimeLoaderInjector.dll"
     $hostOutput = Join-Path $runtimeDirectory "Magicka.exe"
-    & dotnet $injector $originalPath $hostOutput
-    Assert-LastExitCode "runtime loader injection"
+    Create-RuntimeHost $injector $originalPath $hostOutput
+    Create-RuntimeHost $injector $version14Path `
+        (Join-Path $runtimeDirectory "compatibility\1.4.16.0\Magicka.exe")
+    Create-RuntimeHost $injector $version15Path `
+        (Join-Path $runtimeDirectory "compatibility\1.5.1.0\Magicka.exe")
 
-    $runtimeBuild = Join-Path $toolBuildDirectory "runtime-self-test"
+    $runtimeBuild = Join-Path $toolBuildDirectory "behavior-probe"
     Copy-Item -LiteralPath `
-        (Join-Path $runtimeBuild "Magicka.InventoryBox.RuntimePatch.dll"), `
+        (Join-Path $runtimeBuild "Magicka.CommunityPatch.Runtime.dll"), `
         (Join-Path $runtimeBuild "0Harmony.dll") `
         -Destination $runtimeDirectory
 }
 
-function Test-RuntimePatchBehavior {
-    $runtimeSelfTestDirectory = Join-Path $toolBuildDirectory "runtime-self-test"
-    Push-Location $runtimeSelfTestDirectory
-    try {
-        & ".\RuntimeSelfTest.exe" 2>&1 |
-            Tee-Object -FilePath (Join-Path $auditDirectory "runtime-self-test.txt")
-        Assert-LastExitCode "CLR-2 runtime patch self-test"
-        Copy-Item -LiteralPath ".\inventory-box-runtime-audit.txt" `
-            -Destination (Join-Path $auditDirectory "runtime-patch-audit.txt")
+function Create-RuntimeHost(
+    [string]$injector,
+    [string]$inputPath,
+    [string]$outputPath) {
+    & dotnet $injector $inputPath $outputPath
+    Assert-LastExitCode "runtime loader injection for $inputPath"
+}
+
+function Test-BehaviorMatrix {
+    $patchFailures = @(
+        "inventory.initial_screen_size",
+        "inventory.changed_screen_size",
+        "play_state.missing_spawn",
+        "play_state.non_npc_spawn",
+        "play_state.foreign_state_spawn"
+    )
+    $playStateNotAvailable = @(
+        "play_state.ordinary_message",
+        "play_state.other_action",
+        "play_state.missing_spawn",
+        "play_state.non_npc_spawn",
+        "play_state.same_state_spawn",
+        "play_state.foreign_state_spawn"
+    )
+    $matrix = New-Object System.Collections.Generic.List[string]
+
+    Test-BehaviorProfile "current-original" $originalPath "unpatched" $patchFailures @() $matrix
+    Test-BehaviorProfile "current-manual-patch" $currentPatchPath "unpatched" @() @() $matrix
+    Test-BehaviorProfile "current-runtime-patch" $originalPath "runtime" @() @() $matrix
+    Test-BehaviorProfile "1.4.16.0-original" $version14Path "unpatched" `
+        @("inventory.initial_screen_size", "inventory.changed_screen_size") `
+        $playStateNotAvailable $matrix
+    Test-BehaviorProfile "1.4.16.0-runtime-patch" $version14Path "runtime" `
+        @() $playStateNotAvailable $matrix
+    Test-BehaviorProfile "1.5.1.0-original" $version15Path "unpatched" `
+        @("inventory.initial_screen_size", "inventory.changed_screen_size") `
+        $playStateNotAvailable $matrix
+    Test-BehaviorProfile "1.5.1.0-runtime-patch" $version15Path "runtime" `
+        @() $playStateNotAvailable $matrix
+
+    $matrix.Insert(0, "result=PASS")
+    [System.IO.File]::WriteAllLines(
+        (Join-Path $auditDirectory "behavior-matrix.txt"),
+        $matrix.ToArray())
+}
+
+function Test-BehaviorProfile(
+    [string]$profile,
+    [string]$targetPath,
+    [string]$mode,
+    [string[]]$expectedFailures,
+    [string[]]$notApplicable,
+    [System.Collections.Generic.List[string]]$matrix) {
+    $probeDirectory = Join-Path $toolBuildDirectory "behavior-probe"
+    $probe = Join-Path $probeDirectory "BehaviorProbe.exe"
+    $runtimeAudit = Join-Path $probeDirectory "magicka-runtime-patch-audit.txt"
+    if (Test-Path -LiteralPath $runtimeAudit) {
+        Remove-Item -LiteralPath $runtimeAudit
     }
-    finally {
-        Pop-Location
+
+    $output = @(& $probe $targetPath $mode 2>&1)
+    Assert-LastExitCode "behavior profile $profile"
+    [System.IO.File]::WriteAllLines(
+        (Join-Path $auditDirectory ($profile + ".txt")),
+        [string[]]$output)
+
+    $assemblyName = [Reflection.AssemblyName]::GetAssemblyName($targetPath).FullName
+    $sha256 = (Get-FileHash -LiteralPath $targetPath -Algorithm SHA256).Hash
+    $matrix.Add("profile=$profile|assembly=$assemblyName|sha256=$sha256|mode=$mode")
+
+    $scenarioNames = @(
+        "inventory.initial_screen_size",
+        "inventory.changed_screen_size",
+        "play_state.ordinary_message",
+        "play_state.other_action",
+        "play_state.missing_spawn",
+        "play_state.non_npc_spawn",
+        "play_state.same_state_spawn",
+        "play_state.foreign_state_spawn"
+    )
+    foreach ($scenarioName in $scenarioNames) {
+        $prefix = "scenario.$scenarioName="
+        $matches = @($output | Where-Object { $_.StartsWith($prefix) })
+        if ($matches.Count -ne 1) {
+            throw "Behavior profile $profile produced $($matches.Count) results for $scenarioName."
+        }
+
+        $expectedStatus = if ($notApplicable -contains $scenarioName) {
+            "NOT_APPLICABLE"
+        }
+        elseif ($expectedFailures -contains $scenarioName) {
+            "FAIL"
+        }
+        else {
+            "PASS"
+        }
+        $actualStatus = $matches[0].Substring($prefix.Length)
+        if ($actualStatus -cne $expectedStatus) {
+            throw "Behavior profile $profile expected $scenarioName=$expectedStatus, found $actualStatus."
+        }
+        $matrix.Add("scenario=$profile|$scenarioName|$actualStatus")
+    }
+
+    if ($mode -eq "runtime") {
+        if (-not (Test-Path -LiteralPath $runtimeAudit -PathType Leaf)) {
+            throw "Behavior profile $profile did not create a runtime patch audit."
+        }
+        Copy-Item -LiteralPath $runtimeAudit `
+            -Destination (Join-Path $auditDirectory ($profile + "-runtime-audit.txt"))
     }
 }
 
@@ -169,7 +280,7 @@ function Test-RuntimePatchRegistrationAgainstOriginal {
         & ".\RuntimeRegistrationProbe.exe" $originalPath 2>&1 |
             Tee-Object -FilePath (Join-Path $auditDirectory "runtime-original-registration.txt")
         Assert-LastExitCode "runtime registration against the original Magicka assembly"
-        Copy-Item -LiteralPath ".\inventory-box-runtime-audit.txt" `
+        Copy-Item -LiteralPath ".\magicka-runtime-patch-audit.txt" `
             -Destination (Join-Path $auditDirectory "runtime-original-registration-audit.txt")
     }
     finally {
@@ -177,129 +288,34 @@ function Test-RuntimePatchRegistrationAgainstOriginal {
     }
 }
 
-function Verify-AssemblyChanges {
-    $verifier = Join-Path $toolBuildDirectory "assembly-verifier\AssemblyVerifier.dll"
-    & dotnet $verifier `
-        $originalPath `
-        $currentPatchPath `
-        (Join-Path $staticDirectory "Magicka.exe") `
-        (Join-Path $runtimeDirectory "Magicka.exe") `
-        (Join-Path $runtimeDirectory "Magicka.InventoryBox.RuntimePatch.dll") `
-        (Join-Path $runtimeDirectory "0Harmony.dll") `
-        $auditDirectory
-    Assert-LastExitCode "assembly verification"
-}
-
-function Verify-DecompiledStaticDiff {
-    $csharpDirectory = Join-Path $auditDirectory "csharp"
-    New-Item -ItemType Directory -Path $csharpDirectory | Out-Null
-    $originalSource = Join-Path $csharpDirectory "original.cs"
-    $currentSource = Join-Path $csharpDirectory "current-patch.cs"
-    $staticSource = Join-Path $csharpDirectory "static-patch.cs"
-
-    Decompile-InventoryBox $originalPath $originalSource
-    Decompile-InventoryBox $currentPatchPath $currentSource
-    Decompile-InventoryBox (Join-Path $staticDirectory "Magicka.exe") $staticSource
-    Remove-AuditSourceComments $csharpDirectory
-    Assert-TextFilesEqual $currentSource $staticSource "static decompilation versus current patch"
-
-    $actualDiff = Join-Path $auditDirectory "static-patch-full.diff"
-    & git -c core.safecrlf=false diff --no-index --output=$actualDiff --unified=3 -- $originalSource $staticSource
-    if ($LASTEXITCODE -notin 0, 1) {
-        throw "git diff failed for the static patch."
-    }
-
-    $canonicalDiff = Join-Path $auditDirectory "static-patch.diff"
-    Write-CanonicalDiff $actualDiff $canonicalDiff
-    Assert-TextFilesEqual $expectedDiffPath $canonicalDiff "decompiled static-patch diff"
-}
-
-function Decompile-InventoryBox([string]$assemblyPath, [string]$destination) {
-    Push-Location $experimentRoot
-    try {
-        $source = @(& dotnet tool run ilspycmd -- `
-            --disable-updatecheck `
-            --referencepath $repositoryRoot `
-            --languageversion CSharp3 `
-            --type "Magicka.GameLogic.UI.InventoryBox" `
-            $assemblyPath)
-        Assert-LastExitCode "InventoryBox decompilation of $assemblyPath"
-        [System.IO.File]::WriteAllLines($destination, [string[]]$source)
-    }
-    finally {
-        Pop-Location
-    }
-}
-
-function Remove-AuditSourceComments([string]$csharpDirectory) {
-    $stripper = Join-Path $toolBuildDirectory "comment-stripper\SourceCommentStripper.dll"
-    & dotnet $stripper $csharpDirectory
-    Assert-LastExitCode "audit-source comment stripping"
-}
-
 function Verify-RuntimeEffectiveDiff {
     $runtimeAuditPath = Join-Path $auditDirectory "runtime-original-registration-audit.txt"
     $auditLines = @(Get-Content -LiteralPath $runtimeAuditPath)
     if ($auditLines -notcontains "result=PASS" -or
-        $auditLines -notcontains "patch_end=InventoryBox screen size") {
-        throw "The runtime audit does not contain a successful InventoryBox patch result."
+        $auditLines -notcontains "patch_end=InventoryBox screen size" -or
+        $auditLines -notcontains "patch_end=PlayState SpawnNPC WorldSync guard" -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 2) {
+        throw "The runtime audit does not contain both registered Harmony prefixes."
     }
-    $start = [Array]::IndexOf($auditLines, "csharp_context_diff_begin")
-    $end = [Array]::IndexOf($auditLines, "csharp_context_diff_end")
-    if ($start -lt 0 -or $end -le $start) {
-        throw "The runtime audit does not contain a complete C# diff."
-    }
-
-    $runtimeDiffPath = Join-Path $auditDirectory "runtime-effective.diff"
-    $auditLines[($start + 1)..($end - 1)] |
-        Set-Content -LiteralPath $runtimeDiffPath -Encoding utf8
-}
-
-function Write-CanonicalDiff([string]$fullDiffPath, [string]$canonicalPath) {
-    $lines = @(Get-Content -LiteralPath $fullDiffPath)
-    $hunkStart = -1
-    for ($index = 0; $index -lt $lines.Count; $index++) {
-        if ($lines[$index].StartsWith("@@ ")) {
-            $hunkStart = $index
-            break
-        }
-    }
-    if ($hunkStart -lt 0) {
-        throw "No C# diff hunk found in $fullDiffPath"
-    }
-
-    $lines[$hunkStart..($lines.Count - 1)] |
-        Set-Content -LiteralPath $canonicalPath -Encoding utf8
-}
-
-function Assert-TextFilesEqual([string]$expectedPath, [string]$actualPath, [string]$label) {
-    $expected = Read-NormalizedText $expectedPath
-    $actual = Read-NormalizedText $actualPath
-    if ($expected -cne $actual) {
-        throw "$label does not match $expectedDiffPath"
-    }
-}
-
-function Read-NormalizedText([string]$path) {
-    return [System.IO.File]::ReadAllText($path).Replace("`r`n", "`n").TrimEnd([char[]]"`r`n")
 }
 
 function Write-ExperimentSummary {
     $artifactPaths = @(
-        (Join-Path $staticDirectory "Magicka.exe"),
         (Join-Path $runtimeDirectory "Magicka.exe"),
-        (Join-Path $runtimeDirectory "Magicka.InventoryBox.RuntimePatch.dll"),
+        (Join-Path $runtimeDirectory "compatibility\1.4.16.0\Magicka.exe"),
+        (Join-Path $runtimeDirectory "compatibility\1.5.1.0\Magicka.exe"),
+        (Join-Path $runtimeDirectory "Magicka.CommunityPatch.Runtime.dll"),
         (Join-Path $runtimeDirectory "0Harmony.dll")
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("selected_file=Magicka\GameLogic\UI\InventoryBox.cs")
-    $summary.Add("selected_change=mTextBoxEffect.ScreenSize = new Vector2(screenSize.X, screenSize.Y);")
-    $summary.Add("static_diff=PASS")
+    $summary.Add("implemented_patches=2")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
-    $summary.Add("assembly_verification=PASS")
+    $summary.Add("three_way_behavior=PASS")
+    $summary.Add("compatibility_1.4.16.0=PASS")
+    $summary.Add("compatibility_1.5.1.0=PASS")
 
     foreach ($artifactPath in $artifactPaths) {
         $file = Get-Item -LiteralPath $artifactPath

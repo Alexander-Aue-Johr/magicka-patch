@@ -1,10 +1,12 @@
 using System;
 using System.IO;
 using System.Reflection;
-using Magicka.InventoryBoxRuntimePatch;
+using Magicka.CommunityPatch.Runtime;
 
 internal static class Program
 {
+    private static Assembly originalAssembly;
+
     private static int Main(string[] arguments)
     {
         if (arguments.Length != 1)
@@ -20,16 +22,25 @@ internal static class Program
             return 3;
         }
 
-        Assembly originalAssembly = Assembly.LoadFrom(originalPath);
+        AppDomain.CurrentDomain.AssemblyResolve += ResolveOriginalAssembly;
+        originalAssembly = Assembly.LoadFrom(originalPath);
         Bootstrap.Apply(originalAssembly);
 
         string auditPath = Path.Combine(
             AppDomain.CurrentDomain.BaseDirectory,
-            "inventory-box-runtime-audit.txt");
+            "magicka-runtime-patch-audit.txt");
         bool auditPassed = File.Exists(auditPath) &&
             File.ReadAllText(auditPath).Contains("result=PASS");
 
         Console.WriteLine("original_registration=" + (auditPassed ? "PASS" : "FAIL"));
         return auditPassed ? 0 : 1;
+    }
+
+    private static Assembly ResolveOriginalAssembly(object sender, ResolveEventArgs arguments)
+    {
+        return originalAssembly != null &&
+            new AssemblyName(arguments.Name).Name == originalAssembly.GetName().Name
+            ? originalAssembly
+            : null;
     }
 }

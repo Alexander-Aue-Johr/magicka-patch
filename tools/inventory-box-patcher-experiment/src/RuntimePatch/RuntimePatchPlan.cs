@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace Magicka.InventoryBoxRuntimePatch
+namespace Magicka.CommunityPatch.Runtime
 {
     internal static class RuntimePatchPlan
     {
@@ -9,7 +9,7 @@ namespace Magicka.InventoryBoxRuntimePatch
             RuntimePatchAudit.BeginRun(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
-                InventoryBoxDrawTranspiler.Definition);
+                InventoryBoxDrawPatch.Definition);
             PlayStatePatchPlan.ApplyTo(targetAssembly);
         }
     }

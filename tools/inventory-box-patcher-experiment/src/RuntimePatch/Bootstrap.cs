@@ -2,7 +2,7 @@ using System;
 using System.Reflection;
 using System.Threading;
 
-namespace Magicka.InventoryBoxRuntimePatch
+namespace Magicka.CommunityPatch.Runtime
 {
     public static class Bootstrap
     {

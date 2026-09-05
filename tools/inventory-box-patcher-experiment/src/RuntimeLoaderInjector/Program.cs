@@ -20,6 +20,8 @@ internal static class RuntimeLoaderInjector
         using ModuleDefinition originalAssembly = AssemblyFile.Read(inputPath);
         RuntimeLoaderInjection.Apply(originalAssembly);
         AssemblyFile.WriteNew(originalAssembly, outputPath);
+        using ModuleDefinition runtimeHost = AssemblyFile.Read(outputPath);
+        RuntimeLoaderInjection.AssertApplied(runtimeHost);
 
         Console.WriteLine("Injected one runtime patch loader call at the beginning of Magicka.Program.Main.");
         Console.WriteLine($"Input:  {inputPath}");

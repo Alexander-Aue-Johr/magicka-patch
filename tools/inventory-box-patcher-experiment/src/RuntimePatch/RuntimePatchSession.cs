@@ -1,10 +1,9 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
 using Harmony;
 
-namespace Magicka.InventoryBoxRuntimePatch
+namespace Magicka.CommunityPatch.Runtime
 {
     internal static class RuntimePatchSession
     {
@@ -13,59 +12,60 @@ namespace Magicka.InventoryBoxRuntimePatch
             RuntimePatchDefinition definition)
         {
             MethodInfo targetMethod = definition.FindTarget(targetAssembly);
-            MethodInfo transpiler = definition.Transpiler;
+            MethodInfo prefix = definition.CreatePrefix == null
+                ? null
+                : definition.CreatePrefix(targetMethod);
+            MethodInfo postfix = definition.CreatePostfix == null
+                ? null
+                : definition.CreatePostfix(targetMethod);
             HarmonyInstance harmony = HarmonyInstance.Create(definition.HarmonyOwner);
 
-            PatchObservation.Reset();
-            DynamicMethod replacement = harmony.Patch(
+            harmony.Patch(
                 targetMethod,
-                null,
-                null,
-                new HarmonyMethod(transpiler));
+                AsHarmonyMethod(prefix),
+                AsHarmonyMethod(postfix),
+                AsHarmonyMethod(definition.Transpiler));
 
-            AssertReplacementWasCreated(replacement);
-            AssertTranspilerRanExactlyOnce();
-            AssertCSharpDiffMatchesDefinition(definition);
-            AssertTranspilerIsRegistered(harmony, targetMethod, definition);
+            AssertPatchIsRegistered(harmony, targetMethod, definition, prefix, postfix);
             RuntimePatchAudit.WriteSuccess(targetAssembly, targetMethod, definition);
         }
 
-        private static void AssertReplacementWasCreated(DynamicMethod replacement)
+        private static HarmonyMethod AsHarmonyMethod(MethodInfo method)
         {
-            if (replacement == null)
-                throw new InvalidOperationException("Harmony did not create a replacement method.");
+            return method == null ? null : new HarmonyMethod(method);
         }
 
-        private static void AssertTranspilerRanExactlyOnce()
-        {
-            if (PatchObservation.TranspilerCalls != 1)
-                throw new InvalidOperationException(
-                    "Expected one transpiler execution, observed " + PatchObservation.TranspilerCalls + ".");
-        }
-
-        private static void AssertCSharpDiffMatchesDefinition(RuntimePatchDefinition definition)
-        {
-            CSharpPatchDiff.AssertEqual(
-                definition.ExpectedCSharpDiff,
-                PatchObservation.CSharpDiff,
-                "The " + definition.Name + " patch produced a different C# diff.");
-        }
-
-        private static void AssertTranspilerIsRegistered(
+        private static void AssertPatchIsRegistered(
             HarmonyInstance harmony,
             MethodInfo targetMethod,
-            RuntimePatchDefinition definition)
+            RuntimePatchDefinition definition,
+            MethodInfo prefix,
+            MethodInfo postfix)
         {
             Patches patchInfo = harmony.GetPatchInfo(targetMethod);
-            int registrations = patchInfo == null
-                ? 0
-                : patchInfo.Transpilers.Count(patch =>
-                    patch.owner == definition.HarmonyOwner &&
-                    patch.patch == definition.Transpiler);
+            int registrations = CountRegistrations(patchInfo, definition, prefix, postfix);
 
             if (registrations != 1)
                 throw new InvalidOperationException(
-                    "Expected one registered transpiler, found " + registrations + ".");
+                    "Expected one registered patch, found " + registrations + ".");
+        }
+
+        private static int CountRegistrations(
+            Patches patches,
+            RuntimePatchDefinition definition,
+            MethodInfo prefix,
+            MethodInfo postfix)
+        {
+            if (patches == null)
+                return 0;
+            if (prefix != null)
+                return patches.Prefixes.Count(patch =>
+                    patch.owner == definition.HarmonyOwner && patch.patch == prefix);
+            if (postfix != null)
+                return patches.Postfixes.Count(patch =>
+                    patch.owner == definition.HarmonyOwner && patch.patch == postfix);
+            return patches.Transpilers.Count(patch =>
+                patch.owner == definition.HarmonyOwner && patch.patch == definition.Transpiler);
         }
     }
 }
