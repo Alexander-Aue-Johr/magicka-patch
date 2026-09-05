@@ -82,6 +82,7 @@ ValidateAnimatedLevelPartDetachedBodyGuard(magicka);
 ValidateAiDetachedTargetGuards(magicka);
 ValidateNetworkPickupDetachedTargetGuards(magicka);
 ValidateCharacterTemplatePlayStateTransition(magicka);
+ValidateInvalidAudioLocatorRecovery(magicka);
 ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
 ValidateRainSceneDetach(magicka);
@@ -3946,6 +3947,66 @@ static void ValidateCharacterTemplatePlayStateTransition(
         throw new InvalidDataException(
             "CharacterTemplate.GetCachedTemplate must return null when the"
             + " recent PlayState or its Content manager is unavailable.");
+    }
+}
+
+static void ValidateInvalidAudioLocatorRecovery(AssemblyDefinition magicka)
+{
+    MethodDefinition update = AllTypes(magicka.MainModule)
+        .Single(type => type.FullName == "Magicka.Levels.GameScene")
+        .Methods.Single(method =>
+            method.Name == "Update"
+            && !method.IsStatic
+            && method.Parameters.Count == 2
+            && method.Parameters[0].ParameterType.FullName
+                == "PolygonHead.DataChannel");
+    ExceptionHandler[] handlers = update.Body.ExceptionHandlers.Where(
+            handler => handler.HandlerType == ExceptionHandlerType.Catch)
+        .ToArray();
+    if (handlers.Length != 1
+        || handlers[0].CatchType?.FullName != "System.IndexOutOfRangeException")
+    {
+        throw new InvalidDataException(
+            "GameScene.Update must catch only IndexOutOfRangeException around"
+            + " the ambient audio-locator loop body.");
+    }
+    ExceptionHandler handler = handlers[0];
+    Instruction[] instructions = update.Body.Instructions.ToArray();
+    int tryStart = Array.IndexOf(instructions, handler.TryStart);
+    int tryEnd = Array.IndexOf(instructions, handler.TryEnd);
+    int handlerStart = Array.IndexOf(instructions, handler.HandlerStart);
+    int handlerEnd = Array.IndexOf(instructions, handler.HandlerEnd);
+    int locatorUpdate = Array.FindIndex(
+        instructions,
+        instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "Magicka.Levels.AudioLocator"
+            && called.Name == "Update");
+    int[] removeAt = instructions
+        .Select((instruction, index) => (instruction, index))
+        .Where(item =>
+            item.instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && item.instruction.Operand is MethodReference called
+            && called.Name == "RemoveAt"
+            && called.DeclaringType.FullName.StartsWith(
+                "System.Collections.Generic.SortedList`2<System.Int32,"
+                + "Magicka.Levels.AudioLocator>",
+                StringComparison.Ordinal))
+        .Select(item => item.index)
+        .ToArray();
+    if (tryStart < 0 || tryEnd <= tryStart
+        || locatorUpdate < tryStart || locatorUpdate >= tryEnd
+        || handlerStart != tryEnd || handlerEnd <= handlerStart
+        || removeAt.Count(index => index >= tryStart && index < tryEnd) != 1
+        || removeAt.Count(index => index >= handlerStart && index < handlerEnd)
+            != 1
+        || !instructions[handlerStart..handlerEnd].Any(instruction =>
+            instruction.OpCode.Code is Code.Leave or Code.Leave_S))
+    {
+        throw new InvalidDataException(
+            "GameScene.Update must remove an invalid locator, correct the"
+            + " loop index, and continue after the exact audio failure.");
     }
 }
 

@@ -543,6 +543,18 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--patch-invalid-audio-locator")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchInvalidAudioLocatorOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": removed invalid XACT audio locators after index failures");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -661,6 +673,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-character-template-playstate-transition"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-invalid-audio-locator"
         + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
@@ -5403,6 +5418,120 @@ static void PatchCharacterTemplatePlayStateTransitionOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairCharacterTemplatePlayStateTransition(types);
     WriteAssembly(assembly, outputPath);
+}
+
+static void PatchInvalidAudioLocatorOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairInvalidAudioLocator(assembly.MainModule, types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairInvalidAudioLocator(
+    ModuleDefinition module,
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition gameScene = RequireType(types, "Magicka.Levels.GameScene");
+    TypeDefinition audioLocator = RequireType(
+        types,
+        "Magicka.Levels.AudioLocator");
+    MethodDefinition update = gameScene.Methods.Single(method =>
+        method.Name == "Update"
+        && !method.IsStatic
+        && method.Parameters.Count == 2
+        && method.Parameters[0].ParameterType.FullName
+            == "PolygonHead.DataChannel");
+    MethodDefinition locatorUpdate = RequireMethod(
+        audioLocator,
+        "Update",
+        1);
+    FieldDefinition sounds = gameScene.Fields.Single(field =>
+        field.Name == "mSounds" && !field.IsStatic);
+
+    update.Body.SimplifyMacros();
+    if (update.Body.ExceptionHandlers.Any(handler =>
+            handler.HandlerType == ExceptionHandlerType.Catch
+            && handler.CatchType?.FullName
+                == "System.IndexOutOfRangeException"))
+    {
+        throw new InvalidOperationException(
+            "GameScene.Update already has an audio index handler.");
+    }
+    Instruction locatorCall = update.Body.Instructions.Single(
+        instruction => IsCallTo(instruction, locatorUpdate));
+    Instruction tryStart = update.Body.Instructions
+        .TakeWhile(instruction => instruction != locatorCall)
+        .Last(instruction =>
+            instruction.OpCode.Code is Code.Ldarg_0 or Code.Ldarg
+            && instruction.Next?.OpCode == OpCodes.Ldfld
+            && instruction.Next.Operand is FieldReference field
+            && field.FullName == sounds.FullName);
+    Instruction normalRemove = update.Body.Instructions.Single(instruction =>
+        instruction.OpCode.Code is Code.Call or Code.Callvirt
+        && instruction.Operand is MethodReference called
+        && called.Name == "RemoveAt"
+        && called.DeclaringType.FullName == sounds.FieldType.FullName);
+    Instruction indexStore = normalRemove.Next?.Next?.Next?.Next
+        ?? throw new InvalidOperationException(
+            "GameScene.Update sound-loop decrement is missing.");
+    VariableDefinition index = StoredVariable(indexStore, update.Body)
+        ?? throw new InvalidOperationException(
+            "GameScene.Update sound-loop index is not a local.");
+    Instruction incrementStart = indexStore.Next
+        ?? throw new InvalidOperationException(
+            "GameScene.Update sound-loop increment is missing.");
+    Instruction noRemoveBranch = update.Body.Instructions
+        .TakeWhile(instruction => instruction != normalRemove)
+        .Last(instruction =>
+            instruction.OpCode.Code is Code.Brfalse or Code.Brfalse_S
+            && ReferenceEquals(instruction.Operand, incrementStart));
+
+    ILProcessor processor = update.Body.GetILProcessor();
+    Instruction normalLeave = Instruction.Create(
+        OpCodes.Leave,
+        incrementStart);
+    Instruction handlerStart = Instruction.Create(OpCodes.Pop);
+    Instruction[] handler =
+    [
+        handlerStart,
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, sounds),
+        Instruction.Create(OpCodes.Ldloc, index),
+        Instruction.Create(
+            OpCodes.Callvirt,
+            (MethodReference)normalRemove.Operand),
+        Instruction.Create(OpCodes.Ldloc, index),
+        Instruction.Create(OpCodes.Ldc_I4_1),
+        Instruction.Create(OpCodes.Sub),
+        Instruction.Create(OpCodes.Stloc, index),
+        Instruction.Create(OpCodes.Leave, incrementStart),
+    ];
+    processor.InsertBefore(incrementStart, normalLeave);
+    foreach (Instruction instruction in handler)
+    {
+        processor.InsertBefore(incrementStart, instruction);
+    }
+    noRemoveBranch.Operand = normalLeave;
+    update.Body.ExceptionHandlers.Add(new ExceptionHandler(
+        ExceptionHandlerType.Catch)
+    {
+        TryStart = tryStart,
+        TryEnd = handlerStart,
+        HandlerStart = handlerStart,
+        HandlerEnd = incrementStart,
+        CatchType = new TypeReference(
+            "System",
+            "IndexOutOfRangeException",
+            module,
+            module.TypeSystem.CoreLibrary),
+    });
+    OrderExceptionHandlersByNesting(update);
+    update.Body.MaxStackSize = Math.Max(update.Body.MaxStackSize, 2);
+    update.Body.OptimizeMacros();
 }
 
 static void RepairCharacterTemplatePlayStateTransition(
