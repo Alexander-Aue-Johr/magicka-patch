@@ -84,6 +84,7 @@ ValidateNetworkPickupDetachedTargetGuards(magicka);
 ValidateCharacterTemplatePlayStateTransition(magicka);
 ValidateInvalidAudioLocatorRecovery(magicka);
 ValidateMagicksLanguageSelection(magicka);
+ValidateCameraDetachedFollowTarget(magicka);
 ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
 ValidateRainSceneDetach(magicka);
@@ -4043,6 +4044,65 @@ static void ValidateMagicksLanguageSelection(AssemblyDefinition magicka)
         throw new InvalidDataException(
             "InGameMenuMagicks.LanguageChanged must bounds-check the marked"
             + " item and clear the description when no selection exists.");
+    }
+}
+
+static void ValidateCameraDetachedFollowTarget(AssemblyDefinition magicka)
+{
+    MethodDefinition update = RequireMethod(
+        magicka,
+        "Magicka.Graphics.MagickCamera",
+        "Update",
+        2);
+    MethodDefinition getBody = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Entity",
+        "get_Body",
+        0);
+    MethodDefinition getPosition = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Entity",
+        "get_Position",
+        0);
+    Instruction[] instructions = update.Body.Instructions.ToArray();
+    int position = Array.FindIndex(
+        instructions,
+        instruction => IsCallTo(instruction, getPosition)
+            && instruction.Previous?.Operand is FieldReference field
+            && field.Name == "mFollowing");
+    int body = position <= 0
+        ? -1
+        : Array.FindLastIndex(
+            instructions,
+            position - 1,
+            position,
+            instruction => IsCallTo(instruction, getBody));
+    if (position < 0 || body < 0 || body >= position)
+    {
+        throw new InvalidDataException(
+            "MagickCamera.Update must test the followed Entity Body before"
+            + " reading its Position.");
+    }
+    Instruction? detachedBranch = instructions
+        .Skip(body + 1)
+        .Take(2)
+        .FirstOrDefault(instruction =>
+            instruction.OpCode.Code is Code.Brfalse or Code.Brfalse_S);
+    if (detachedBranch?.Operand is not Instruction clearStart)
+    {
+        throw new InvalidDataException(
+            "MagickCamera.Update detached-target branch is missing.");
+    }
+    int clearIndex = Array.IndexOf(instructions, clearStart);
+    bool clearsFollowing = clearIndex >= 0
+        && instructions.Skip(clearIndex).Take(4).Any(instruction =>
+            instruction.OpCode == OpCodes.Stfld
+            && instruction.Operand is FieldReference field
+            && field.Name == "mFollowing");
+    if (!clearsFollowing)
+    {
+        throw new InvalidDataException(
+            "MagickCamera.Update must release a detached follow target.");
     }
 }
 

@@ -567,6 +567,18 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--patch-camera-detached-follow-target")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchCameraDetachedFollowTargetOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": released detached camera follow targets");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -691,6 +703,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-magicks-language-selection"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-camera-detached-follow-target"
         + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
@@ -5455,6 +5470,87 @@ static void PatchMagicksLanguageSelectionOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairMagicksLanguageSelection(types);
     WriteAssembly(assembly, outputPath);
+}
+
+static void PatchCameraDetachedFollowTargetOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairCameraDetachedFollowTarget(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairCameraDetachedFollowTarget(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition camera = RequireType(
+        types,
+        "Magicka.Graphics.MagickCamera");
+    TypeDefinition entity = RequireType(types, EntityTypeName);
+    MethodDefinition update = RequireMethod(camera, "Update", 2);
+    MethodDefinition getBody = RequireMethod(entity, "get_Body", 0);
+    MethodDefinition getPosition = RequireMethod(entity, "get_Position", 0);
+    FieldDefinition following = camera.Fields.Single(field =>
+        field.Name == "mFollowing" && !field.IsStatic);
+
+    update.Body.SimplifyMacros();
+    Instruction positionCall = update.Body.Instructions.Single(instruction =>
+        IsCallTo(instruction, getPosition)
+        && instruction.Previous?.OpCode == OpCodes.Ldfld
+        && instruction.Previous.Operand is FieldReference field
+        && field.FullName == following.FullName);
+    Instruction validStart = positionCall.Previous?.Previous?.Previous
+        ?? throw new InvalidOperationException(
+            "MagickCamera.Update followed-position owner is missing.");
+    Instruction nullLoad = update.Body.Instructions
+        .TakeWhile(instruction => instruction != validStart)
+        .Last(instruction =>
+            instruction.OpCode == OpCodes.Ldfld
+            && instruction.Operand is FieldReference field
+            && field.FullName == following.FullName);
+    Instruction nullBranch = nullLoad.Next
+        ?? throw new InvalidOperationException(
+            "MagickCamera.Update follow-target branch is missing.");
+    if (nullBranch.OpCode.Code is not Code.Brtrue and not Code.Brtrue_S
+        || !ReferenceEquals(nullBranch.Operand, validStart))
+    {
+        throw new InvalidOperationException(
+            "MagickCamera.Update has an unexpected follow-target guard.");
+    }
+    Instruction invalidStart = nullBranch.Next
+        ?? throw new InvalidOperationException(
+            "MagickCamera.Update follow-target fallback is missing.");
+
+    ILProcessor processor = update.Body.GetILProcessor();
+    Instruction clearStart = Instruction.Create(OpCodes.Ldarg_0);
+    Instruction[] clear =
+    [
+        clearStart,
+        Instruction.Create(OpCodes.Ldnull),
+        Instruction.Create(OpCodes.Stfld, following),
+    ];
+    foreach (Instruction instruction in clear)
+    {
+        processor.InsertBefore(invalidStart, instruction);
+    }
+    Instruction bodyGuardStart = Instruction.Create(OpCodes.Ldarg_0);
+    Instruction[] bodyGuard =
+    [
+        bodyGuardStart,
+        Instruction.Create(OpCodes.Ldfld, following),
+        Instruction.Create(OpCodes.Callvirt, getBody),
+        Instruction.Create(OpCodes.Brfalse, clearStart),
+    ];
+    foreach (Instruction instruction in bodyGuard)
+    {
+        processor.InsertBefore(validStart, instruction);
+    }
+    nullBranch.Operand = bodyGuardStart;
+    update.Body.MaxStackSize = Math.Max(update.Body.MaxStackSize, 1);
+    update.Body.OptimizeMacros();
 }
 
 static void RepairMagicksLanguageSelection(
