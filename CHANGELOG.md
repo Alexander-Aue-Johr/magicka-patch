@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.0.59] - 2026-09-05
+
+### Fixed
+
+- Release stale AI targets before abilities or movement read a detached
+  physics body. This fixes the most frequent crash reported by 0.0.57 and
+  0.0.58 players.
+- Drop delayed multiplayer pickup actions after their item has been removed.
+- Return cleanly from network template lookup while the previous PlayState is
+  being torn down.
+- Remove an invalid ambient XACT cue after its variable or 3D state reports an
+  out-of-range index, instead of retrying it every frame.
+- Handle a language change while the Magicks menu has no selected item.
+- Release detached camera-follow targets and skip detached candidates in
+  closest-damageable queries and portal teleport queues.
+
+### Validation
+
+- Add structural payload checks for every new guard and recovery path.
+- Re-audit Entity and IDamageable Position callers that can outlive physics
+  teardown.
+
 ## [0.0.58] - 2026-09-02
 
 ### Fixed

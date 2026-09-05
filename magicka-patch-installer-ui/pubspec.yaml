@@ -1,7 +1,7 @@
 name: magicka_community_patch_installer_ui
 description: Flutter Windows and Linux UI for the Magicka Community Patch installer.
 publish_to: "none"
-version: 0.0.58+58
+version: 0.0.59+59
 
 environment:
   sdk: ">=3.4.0 <4.0.0"
