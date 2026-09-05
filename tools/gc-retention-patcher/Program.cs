@@ -519,6 +519,18 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--patch-network-pickup-detached-target")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchNetworkPickupDetachedTargetOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": dropped network pickups for detached targets");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -631,6 +643,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-ai-detached-targets"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-network-pickup-detached-target"
         + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
@@ -5351,6 +5366,87 @@ static void PatchAiDetachedTargetsOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairAiDetachedTargets(types);
     WriteAssembly(assembly, outputPath);
+}
+
+static void PatchNetworkPickupDetachedTargetOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairNetworkPickupDetachedTarget(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairNetworkPickupDetachedTarget(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition entity = RequireType(types, EntityTypeName);
+    TypeDefinition avatar = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.Avatar");
+    MethodDefinition networkAction = RequireMethod(
+        avatar,
+        "NetworkAction",
+        1);
+    MethodDefinition internalPickUp = RequireMethod(
+        avatar,
+        "InternalPickUp",
+        1);
+    MethodDefinition pickUp = RequireMethod(avatar, "PickUp", 1);
+    MethodDefinition getIsDisposed = RequireMethod(
+        entity,
+        "get_IsDisposed",
+        0);
+    MethodDefinition getBody = RequireMethod(entity, "get_Body", 0);
+
+    networkAction.Body.SimplifyMacros();
+    foreach (MethodDefinition target in new[] { internalPickUp, pickUp })
+    {
+        Instruction call = networkAction.Body.Instructions.Single(
+            instruction => IsCallTo(instruction, target));
+        Instruction pickableLoad = call.Previous
+            ?? throw new InvalidOperationException(
+                "Avatar.NetworkAction pickup argument is missing.");
+        Instruction ownerLoad = pickableLoad.Previous
+            ?? throw new InvalidOperationException(
+                "Avatar.NetworkAction pickup owner is missing.");
+        VariableDefinition pickable = LoadedVariable(
+                pickableLoad,
+                networkAction.Body)
+            ?? throw new InvalidOperationException(
+                "Avatar.NetworkAction pickup target is not a local.");
+        Instruction returnTarget = call.Next
+            ?? throw new InvalidOperationException(
+                "Avatar.NetworkAction pickup return target is missing.");
+        if (ownerLoad.OpCode.Code is not Code.Ldarg_0 and not Code.Ldarg)
+        {
+            throw new InvalidOperationException(
+                "Avatar.NetworkAction pickup call has an unexpected owner.");
+        }
+
+        Instruction[] guard =
+        [
+            Instruction.Create(OpCodes.Ldloc, pickable),
+            Instruction.Create(OpCodes.Brfalse, returnTarget),
+            Instruction.Create(OpCodes.Ldloc, pickable),
+            Instruction.Create(OpCodes.Callvirt, getIsDisposed),
+            Instruction.Create(OpCodes.Brtrue, returnTarget),
+            Instruction.Create(OpCodes.Ldloc, pickable),
+            Instruction.Create(OpCodes.Callvirt, getBody),
+            Instruction.Create(OpCodes.Brfalse, returnTarget),
+        ];
+        ILProcessor processor = networkAction.Body.GetILProcessor();
+        foreach (Instruction instruction in guard)
+        {
+            processor.InsertBefore(ownerLoad, instruction);
+        }
+    }
+    networkAction.Body.MaxStackSize = Math.Max(
+        networkAction.Body.MaxStackSize,
+        1);
+    networkAction.Body.OptimizeMacros();
 }
 
 static void RepairAiDetachedTargets(

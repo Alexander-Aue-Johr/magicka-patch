@@ -80,6 +80,7 @@ ValidateEntityCollisionCallbackCleanup(magicka);
 ValidateEntityManagerQuadGridLifecycle(magicka);
 ValidateAnimatedLevelPartDetachedBodyGuard(magicka);
 ValidateAiDetachedTargetGuards(magicka);
+ValidateNetworkPickupDetachedTargetGuards(magicka);
 ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
 ValidateRainSceneDetach(magicka);
@@ -3831,6 +3832,65 @@ static void ValidateAiDetachedTargetGuards(AssemblyDefinition magicka)
     {
         throw new InvalidDataException(
             "AIStateAttack detached-target guard is incomplete.");
+    }
+}
+
+static void ValidateNetworkPickupDetachedTargetGuards(
+    AssemblyDefinition magicka)
+{
+    MethodDefinition networkAction = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Avatar",
+        "NetworkAction",
+        1);
+    MethodDefinition internalPickUp = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Avatar",
+        "InternalPickUp",
+        1);
+    MethodDefinition pickUp = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Avatar",
+        "PickUp",
+        1);
+    MethodDefinition getIsDisposed = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Entity",
+        "get_IsDisposed",
+        0);
+    MethodDefinition getBody = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Entity",
+        "get_Body",
+        0);
+
+    Instruction[] instructions = networkAction.Body.Instructions.ToArray();
+    foreach (MethodDefinition target in new[] { internalPickUp, pickUp })
+    {
+        int callIndex = Array.FindIndex(
+            instructions,
+            instruction => IsCallTo(instruction, target));
+        if (callIndex < 9)
+        {
+            throw new InvalidDataException(
+                "Avatar.NetworkAction has no guarded call to "
+                + target.Name + ".");
+        }
+        Instruction returnTarget = instructions[callIndex + 1];
+        Instruction[] guard = instructions[(callIndex - 10)..callIndex];
+        bool hasDisposed = guard.Any(instruction =>
+            IsCallTo(instruction, getIsDisposed));
+        bool hasBody = guard.Any(instruction => IsCallTo(instruction, getBody));
+        int returnBranches = guard.Count(instruction =>
+            instruction.OpCode.Code is Code.Brfalse or Code.Brfalse_S
+                or Code.Brtrue or Code.Brtrue_S
+            && ReferenceEquals(instruction.Operand, returnTarget));
+        if (!hasDisposed || !hasBody || returnBranches < 3)
+        {
+            throw new InvalidDataException(
+                "Avatar.NetworkAction must reject a missing, disposed, or"
+                + " bodyless target before " + target.Name + ".");
+        }
     }
 }
 
