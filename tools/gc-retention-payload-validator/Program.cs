@@ -85,6 +85,7 @@ ValidateCharacterTemplatePlayStateTransition(magicka);
 ValidateInvalidAudioLocatorRecovery(magicka);
 ValidateMagicksLanguageSelection(magicka);
 ValidateCameraDetachedFollowTarget(magicka);
+ValidateClosestDamageableDetachedBody(magicka);
 ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
 ValidateRainSceneDetach(magicka);
@@ -4103,6 +4104,49 @@ static void ValidateCameraDetachedFollowTarget(AssemblyDefinition magicka)
     {
         throw new InvalidDataException(
             "MagickCamera.Update must release a detached follow target.");
+    }
+}
+
+static void ValidateClosestDamageableDetachedBody(AssemblyDefinition magicka)
+{
+    MethodDefinition method = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.EntityManager",
+        "GetClosestIDamageable",
+        4);
+    MethodDefinition getBody = AllTypes(magicka.MainModule).Single(type =>
+            type.FullName == "Magicka.GameLogic.Entities.IDamageable")
+        .Methods.Single(candidate =>
+            candidate.Name == "get_Body" && candidate.Parameters.Count == 0);
+    Instruction[] instructions = method.Body.Instructions.ToArray();
+    int body = Array.FindIndex(
+        instructions,
+        instruction => IsCallTo(instruction, getBody));
+    int position = Array.FindIndex(
+        instructions,
+        instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "Magicka.GameLogic.Entities.IDamageable"
+            && called.Name == "get_Position");
+    if (body < 0 || position < 0 || body >= position)
+    {
+        throw new InvalidDataException(
+            "EntityManager.GetClosestIDamageable must check Body before the"
+            + " first candidate Position read.");
+    }
+    Instruction? branch = instructions
+        .Skip(body + 1)
+        .Take(2)
+        .FirstOrDefault(instruction =>
+            instruction.OpCode.Code is Code.Brfalse or Code.Brfalse_S);
+    if (branch?.Operand is not Instruction target
+        || target.Offset <= position)
+    {
+        throw new InvalidDataException(
+            "EntityManager.GetClosestIDamageable Body guard must skip the"
+            + " detached candidate.");
     }
 }
 

@@ -579,6 +579,18 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--patch-closest-damageable-detached-body")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchClosestDamageableDetachedBodyOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": skipped detached closest-damageable candidates");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -706,6 +718,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-camera-detached-follow-target"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-closest-damageable-detached-body"
         + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
@@ -5481,6 +5496,65 @@ static void PatchCameraDetachedFollowTargetOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairCameraDetachedFollowTarget(types);
     WriteAssembly(assembly, outputPath);
+}
+
+static void PatchClosestDamageableDetachedBodyOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairClosestDamageableDetachedBody(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairClosestDamageableDetachedBody(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition manager = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.EntityManager");
+    TypeDefinition idamageable = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.IDamageable");
+    MethodDefinition getClosest = RequireMethod(
+        manager,
+        "GetClosestIDamageable",
+        4);
+    MethodDefinition getDead = RequireMethod(idamageable, "get_Dead", 0);
+    MethodDefinition getBody = RequireMethod(idamageable, "get_Body", 0);
+
+    getClosest.Body.SimplifyMacros();
+    Instruction deadCall = getClosest.Body.Instructions.Single(
+        instruction => IsCallTo(instruction, getDead));
+    VariableDefinition candidate = LoadedVariable(
+            deadCall.Previous
+                ?? throw new InvalidOperationException(
+                    "GetClosestIDamageable candidate owner is missing."),
+            getClosest.Body)
+        ?? throw new InvalidOperationException(
+            "GetClosestIDamageable candidate owner is not a local.");
+    Instruction rejectBranch = getClosest.Body.Instructions
+        .SkipWhile(instruction => instruction != deadCall)
+        .First(instruction =>
+            instruction.OpCode.Code is Code.Brtrue or Code.Brtrue_S);
+    Instruction rejectTarget = rejectBranch.Operand as Instruction
+        ?? throw new InvalidOperationException(
+            "GetClosestIDamageable rejection target is missing.");
+    ILProcessor processor = getClosest.Body.GetILProcessor();
+    Instruction candidateLoad = Instruction.Create(OpCodes.Ldloc, candidate);
+    Instruction bodyCall = Instruction.Create(OpCodes.Callvirt, getBody);
+    Instruction bodyBranch = Instruction.Create(
+        OpCodes.Brfalse,
+        rejectTarget);
+    processor.InsertAfter(rejectBranch, candidateLoad);
+    processor.InsertAfter(candidateLoad, bodyCall);
+    processor.InsertAfter(bodyCall, bodyBranch);
+    getClosest.Body.MaxStackSize = Math.Max(
+        getClosest.Body.MaxStackSize,
+        1);
+    getClosest.Body.OptimizeMacros();
 }
 
 static void RepairCameraDetachedFollowTarget(
