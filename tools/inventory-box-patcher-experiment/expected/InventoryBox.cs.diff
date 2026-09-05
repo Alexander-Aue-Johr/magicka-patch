@@ -1,0 +1,8 @@
+@@ -67,6 +67,7 @@ namespace Magicka.GameLogic.UI
+ 			public void Draw(float iDeltaTime)
+ 			{
+ 				Point screenSize = RenderManager.Instance.ScreenSize;
++				mTextBoxEffect.ScreenSize = new Vector2(screenSize.X, screenSize.Y);
+ 				mPosition.X = (float)screenSize.X * 0.5f;
+ 				mPosition.Y = (float)screenSize.Y * 0.5f;
+ 				mTextBoxEffect.Color = Vector4.One;
