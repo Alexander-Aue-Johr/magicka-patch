@@ -86,6 +86,7 @@ ValidateInvalidAudioLocatorRecovery(magicka);
 ValidateMagicksLanguageSelection(magicka);
 ValidateCameraDetachedFollowTarget(magicka);
 ValidateClosestDamageableDetachedBody(magicka);
+ValidatePortalDetachedTeleportTarget(magicka);
 ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
 ValidateRainSceneDetach(magicka);
@@ -4147,6 +4148,70 @@ static void ValidateClosestDamageableDetachedBody(AssemblyDefinition magicka)
         throw new InvalidDataException(
             "EntityManager.GetClosestIDamageable Body guard must skip the"
             + " detached candidate.");
+    }
+}
+
+static void ValidatePortalDetachedTeleportTarget(AssemblyDefinition magicka)
+{
+    MethodDefinition update = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Abilities.SpecialAbilities"
+            + ".Portal/PortalEntity",
+        "Update",
+        2);
+    MethodDefinition getBody = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Entity",
+        "get_Body",
+        0);
+    Instruction[] instructions = update.Body.Instructions.ToArray();
+    int dequeue = Array.FindIndex(
+        instructions,
+        instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.Name == "Dequeue"
+            && called.DeclaringType.FullName.StartsWith(
+                "System.Collections.Generic.Queue`1<"
+                + "Magicka.GameLogic.Entities.Entity>",
+                StringComparison.Ordinal));
+    int body = Array.FindIndex(
+        instructions,
+        Math.Max(dequeue + 1, 0),
+        instruction => IsCallTo(instruction, getBody));
+    if (dequeue < 0 || body <= dequeue)
+    {
+        throw new InvalidDataException(
+            "PortalEntity.Update queue processing is incomplete.");
+    }
+    Instruction[] guard = instructions[(dequeue + 1)..body];
+    Instruction? nullBranch = guard.FirstOrDefault(instruction =>
+        instruction.OpCode.Code is Code.Brfalse or Code.Brfalse_S);
+    Instruction? bodyBranch = instructions
+        .Skip(body + 1)
+        .Take(2)
+        .FirstOrDefault(instruction =>
+            instruction.OpCode.Code is Code.Brfalse or Code.Brfalse_S);
+    if (nullBranch?.Operand is not Instruction invalidStart
+        || bodyBranch?.Operand is not Instruction invalidBodyStart
+        || !ReferenceEquals(invalidStart, invalidBodyStart))
+    {
+        throw new InvalidDataException(
+            "PortalEntity.Update must reject null and bodyless queued"
+            + " entities before teleporting them.");
+    }
+    int invalidIndex = Array.IndexOf(instructions, invalidStart);
+    bool returnsToQueue = invalidIndex >= 0
+        && instructions.Skip(invalidIndex).Take(3).Any(instruction =>
+            instruction.OpCode.Code is Code.Br or Code.Br_S
+            && instruction.Operand is Instruction target
+            && target.Offset > instructions[body].Offset
+            && target.Offset < invalidStart.Offset);
+    if (!returnsToQueue)
+    {
+        throw new InvalidDataException(
+            "PortalEntity.Update invalid queue entries must continue at the"
+            + " queue condition.");
     }
 }
 

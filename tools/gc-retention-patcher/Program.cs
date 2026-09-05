@@ -591,6 +591,18 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--patch-portal-detached-teleport-target")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchPortalDetachedTeleportTargetOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": discarded detached portal teleport targets");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -721,6 +733,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-closest-damageable-detached-body"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-portal-detached-teleport-target"
         + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
@@ -5507,6 +5522,76 @@ static void PatchClosestDamageableDetachedBodyOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairClosestDamageableDetachedBody(types);
     WriteAssembly(assembly, outputPath);
+}
+
+static void PatchPortalDetachedTeleportTargetOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairPortalDetachedTeleportTarget(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairPortalDetachedTeleportTarget(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition entity = RequireType(types, EntityTypeName);
+    TypeDefinition portal = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.Abilities.SpecialAbilities"
+            + ".Portal/PortalEntity");
+    MethodDefinition update = RequireMethod(portal, "Update", 2);
+    MethodDefinition getBody = RequireMethod(entity, "get_Body", 0);
+    FieldDefinition queue = portal.Fields.Single(field =>
+        field.Name == "mTeleportQueue" && !field.IsStatic);
+
+    update.Body.SimplifyMacros();
+    Instruction dequeue = update.Body.Instructions.Single(instruction =>
+        instruction.OpCode.Code is Code.Call or Code.Callvirt
+        && instruction.Operand is MethodReference called
+        && called.Name == "Dequeue"
+        && called.DeclaringType.FullName == queue.FieldType.FullName);
+    Instruction firstBody = dequeue.Next?.Next
+        ?? throw new InvalidOperationException(
+            "PortalEntity.Update dequeued Body read is missing.");
+    if (!IsCallTo(firstBody, getBody))
+    {
+        throw new InvalidOperationException(
+            "PortalEntity.Update has an unexpected dequeued Body read.");
+    }
+    Instruction countCall = update.Body.Instructions
+        .SkipWhile(instruction => instruction != dequeue)
+        .First(instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.Name == "get_Count"
+            && called.DeclaringType.FullName == queue.FieldType.FullName);
+    Instruction loopCondition = countCall.Previous?.Previous
+        ?? throw new InvalidOperationException(
+            "PortalEntity.Update queue condition is missing.");
+
+    ILProcessor processor = update.Body.GetILProcessor();
+    Instruction invalidStart = Instruction.Create(OpCodes.Pop);
+    Instruction[] guard =
+    [
+        Instruction.Create(OpCodes.Dup),
+        Instruction.Create(OpCodes.Brfalse, invalidStart),
+        Instruction.Create(OpCodes.Dup),
+        Instruction.Create(OpCodes.Callvirt, getBody),
+        Instruction.Create(OpCodes.Brfalse, invalidStart),
+    ];
+    foreach (Instruction instruction in guard)
+    {
+        processor.InsertAfter(dequeue, instruction);
+        dequeue = instruction;
+    }
+    processor.Append(invalidStart);
+    processor.Append(Instruction.Create(OpCodes.Br, loopCondition));
+    update.Body.MaxStackSize = Math.Max(update.Body.MaxStackSize, 2);
+    update.Body.OptimizeMacros();
 }
 
 static void RepairClosestDamageableDetachedBody(
