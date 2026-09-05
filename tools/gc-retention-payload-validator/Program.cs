@@ -83,6 +83,7 @@ ValidateAiDetachedTargetGuards(magicka);
 ValidateNetworkPickupDetachedTargetGuards(magicka);
 ValidateCharacterTemplatePlayStateTransition(magicka);
 ValidateInvalidAudioLocatorRecovery(magicka);
+ValidateMagicksLanguageSelection(magicka);
 ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
 ValidateRainSceneDetach(magicka);
@@ -4007,6 +4008,41 @@ static void ValidateInvalidAudioLocatorRecovery(AssemblyDefinition magicka)
         throw new InvalidDataException(
             "GameScene.Update must remove an invalid locator, correct the"
             + " loop index, and continue after the exact audio failure.");
+    }
+}
+
+static void ValidateMagicksLanguageSelection(AssemblyDefinition magicka)
+{
+    MethodDefinition method = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.GameStates.InGameMenus.InGameMenuMagicks",
+        "LanguageChanged",
+        0);
+    Instruction[] instructions = method.Body.Instructions.ToArray();
+    int selectedRead = Array.FindLastIndex(
+        instructions,
+        instruction => instruction.OpCode == OpCodes.Ldelem_Ref);
+    if (selectedRead < 0)
+    {
+        throw new InvalidDataException(
+            "InGameMenuMagicks.LanguageChanged no longer reads a selection.");
+    }
+    Instruction[] beforeRead = instructions[..selectedRead];
+    bool rejectsNegative = beforeRead.Any(instruction =>
+        instruction.OpCode.Code is Code.Blt or Code.Blt_S);
+    bool rejectsPastEnd = beforeRead.Any(instruction =>
+        instruction.OpCode.Code is Code.Bge or Code.Bge_S);
+    bool clearsDescription = instructions.Skip(selectedRead + 1).Any(
+        instruction => instruction.OpCode == OpCodes.Ldstr
+            && string.Equals(
+                instruction.Operand as string,
+                string.Empty,
+                StringComparison.Ordinal));
+    if (!rejectsNegative || !rejectsPastEnd || !clearsDescription)
+    {
+        throw new InvalidDataException(
+            "InGameMenuMagicks.LanguageChanged must bounds-check the marked"
+            + " item and clear the description when no selection exists.");
     }
 }
 

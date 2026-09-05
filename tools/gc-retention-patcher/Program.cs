@@ -555,6 +555,18 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--patch-magicks-language-selection")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchMagicksLanguageSelectionOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": guarded magick descriptions before a selection exists");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -676,6 +688,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-invalid-audio-locator"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-magicks-language-selection"
         + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
@@ -5429,6 +5444,86 @@ static void PatchInvalidAudioLocatorOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairInvalidAudioLocator(assembly.MainModule, types);
     WriteAssembly(assembly, outputPath);
+}
+
+static void PatchMagicksLanguageSelectionOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairMagicksLanguageSelection(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairMagicksLanguageSelection(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition menu = RequireType(
+        types,
+        "Magicka.GameLogic.GameStates.InGameMenus.InGameMenuMagicks");
+    MethodDefinition languageChanged = RequireMethod(
+        menu,
+        "LanguageChanged",
+        0);
+    FieldDefinition descriptions = menu.Fields.Single(field =>
+        field.Name == "mDescriptions" && !field.IsStatic);
+    FieldDefinition markedItem = menu.Fields.Single(field =>
+        field.Name == "mMarkedItem" && !field.IsStatic);
+    FieldDefinition description = menu.Fields.Single(field =>
+        field.Name == "mDescription" && !field.IsStatic);
+
+    languageChanged.Body.SimplifyMacros();
+    Instruction selectedDescriptionStart = languageChanged.Body.Instructions
+        .First(instruction =>
+            instruction.OpCode.Code is Code.Ldarg_0 or Code.Ldarg
+            && instruction.Next?.OpCode == OpCodes.Ldfld
+            && instruction.Next.Operand is FieldReference field
+            && field.FullName == description.FullName);
+    Instruction originalReturn = languageChanged.Body.Instructions.Last();
+    if (originalReturn.OpCode != OpCodes.Ret)
+    {
+        throw new InvalidOperationException(
+            "InGameMenuMagicks.LanguageChanged has an unexpected exit.");
+    }
+
+    ILProcessor processor = languageChanged.Body.GetILProcessor();
+    Instruction invalidStart = Instruction.Create(OpCodes.Ldarg_0);
+    Instruction[] guard =
+    [
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, markedItem),
+        Instruction.Create(OpCodes.Ldc_I4_0),
+        Instruction.Create(OpCodes.Blt, invalidStart),
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, markedItem),
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, descriptions),
+        Instruction.Create(OpCodes.Ldlen),
+        Instruction.Create(OpCodes.Conv_I4),
+        Instruction.Create(OpCodes.Bge, invalidStart),
+    ];
+    foreach (Instruction instruction in guard)
+    {
+        processor.InsertBefore(selectedDescriptionStart, instruction);
+    }
+    processor.Append(invalidStart);
+    processor.Append(Instruction.Create(OpCodes.Ldfld, description));
+    processor.Append(Instruction.Create(OpCodes.Ldstr, string.Empty));
+    MethodReference setText = (MethodReference)languageChanged.Body.Instructions
+        .Single(instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "PolygonHead.Text"
+            && called.Name == "SetText")
+        .Operand;
+    processor.Append(Instruction.Create(OpCodes.Callvirt, setText));
+    processor.Append(Instruction.Create(OpCodes.Ret));
+    languageChanged.Body.MaxStackSize = Math.Max(
+        languageChanged.Body.MaxStackSize,
+        2);
+    languageChanged.Body.OptimizeMacros();
 }
 
 static void RepairInvalidAudioLocator(
