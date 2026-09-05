@@ -81,6 +81,7 @@ ValidateEntityManagerQuadGridLifecycle(magicka);
 ValidateAnimatedLevelPartDetachedBodyGuard(magicka);
 ValidateAiDetachedTargetGuards(magicka);
 ValidateNetworkPickupDetachedTargetGuards(magicka);
+ValidateCharacterTemplatePlayStateTransition(magicka);
 ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
 ValidateRainSceneDetach(magicka);
@@ -3891,6 +3892,60 @@ static void ValidateNetworkPickupDetachedTargetGuards(
                 "Avatar.NetworkAction must reject a missing, disposed, or"
                 + " bodyless target before " + target.Name + ".");
         }
+    }
+}
+
+static void ValidateCharacterTemplatePlayStateTransition(
+    AssemblyDefinition magicka)
+{
+    MethodDefinition method = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.CharacterTemplate",
+        "GetCachedTemplate",
+        1);
+    MethodDefinition recent = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.GameStates.PlayState",
+        "get_RecentPlayState",
+        0);
+    Instruction[] instructions = method.Body.Instructions.ToArray();
+    int recentIndex = Array.FindIndex(
+        instructions,
+        instruction => IsCallTo(instruction, recent));
+    int contentIndex = Array.FindIndex(
+        instructions,
+        instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.Name == "get_Content"
+            && called.DeclaringType.FullName
+                == "Magicka.GameLogic.GameStates.PlayState");
+    int loadIndex = Array.FindIndex(
+        instructions,
+        instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is GenericInstanceMethod called
+            && called.Name == "Load");
+    if (recentIndex < 0 || contentIndex <= recentIndex || loadIndex <= contentIndex)
+    {
+        throw new InvalidDataException(
+            "CharacterTemplate.GetCachedTemplate fallback is incomplete.");
+    }
+    bool recentGuard = instructions[(recentIndex + 1)..contentIndex].Any(
+        instruction => instruction.OpCode.Code is Code.Brtrue or Code.Brtrue_S);
+    bool contentGuard = instructions[(contentIndex + 1)..loadIndex].Any(
+        instruction => instruction.OpCode.Code is Code.Brtrue or Code.Brtrue_S);
+    int nullBranches = instructions[(recentIndex + 1)..loadIndex].Count(
+        instruction =>
+            instruction.OpCode.Code is Code.Br or Code.Br_S
+            && instruction.Operand is Instruction target
+            && target.OpCode == OpCodes.Ldnull
+            && target.Next?.OpCode == OpCodes.Ret);
+    if (!recentGuard || !contentGuard || nullBranches != 2)
+    {
+        throw new InvalidDataException(
+            "CharacterTemplate.GetCachedTemplate must return null when the"
+            + " recent PlayState or its Content manager is unavailable.");
     }
 }
 

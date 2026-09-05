@@ -531,6 +531,18 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--patch-character-template-playstate-transition")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchCharacterTemplatePlayStateTransitionOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": guarded template fallback during PlayState transitions");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -646,6 +658,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-network-pickup-detached-target"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-character-template-playstate-transition"
         + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
@@ -5377,6 +5392,85 @@ static void PatchNetworkPickupDetachedTargetOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairNetworkPickupDetachedTarget(types);
     WriteAssembly(assembly, outputPath);
+}
+
+static void PatchCharacterTemplatePlayStateTransitionOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairCharacterTemplatePlayStateTransition(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairCharacterTemplatePlayStateTransition(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition template = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.CharacterTemplate");
+    TypeDefinition playState = RequireType(
+        types,
+        "Magicka.GameLogic.GameStates.PlayState");
+    MethodDefinition getCachedTemplate = RequireMethod(
+        template,
+        "GetCachedTemplate",
+        1);
+    MethodDefinition getRecentPlayState = RequireMethod(
+        playState,
+        "get_RecentPlayState",
+        0);
+
+    getCachedTemplate.Body.SimplifyMacros();
+    Instruction recentCall = getCachedTemplate.Body.Instructions.Single(
+        instruction => IsCallTo(instruction, getRecentPlayState));
+    Instruction contentCall = recentCall.Next
+        ?? throw new InvalidOperationException(
+            "CharacterTemplate fallback Content read is missing.");
+    if (contentCall.OpCode.Code is not Code.Call and not Code.Callvirt
+        || contentCall.Operand is not MethodReference calledContent
+        || calledContent.Name != "get_Content")
+    {
+        throw new InvalidOperationException(
+            "CharacterTemplate fallback has an unexpected Content read.");
+    }
+    Instruction contentValidStart = contentCall.Next
+        ?? throw new InvalidOperationException(
+            "CharacterTemplate fallback load is missing.");
+    Instruction nullReturn = getCachedTemplate.Body.Instructions.Single(
+        instruction => instruction.OpCode == OpCodes.Ldnull
+            && instruction.Next?.OpCode == OpCodes.Ret);
+    ILProcessor processor = getCachedTemplate.Body.GetILProcessor();
+
+    Instruction[] playStateGuard =
+    [
+        Instruction.Create(OpCodes.Dup),
+        Instruction.Create(OpCodes.Brtrue, contentCall),
+        Instruction.Create(OpCodes.Pop),
+        Instruction.Create(OpCodes.Br, nullReturn),
+    ];
+    foreach (Instruction instruction in playStateGuard)
+    {
+        processor.InsertBefore(contentCall, instruction);
+    }
+
+    Instruction[] contentGuard =
+    [
+        Instruction.Create(OpCodes.Dup),
+        Instruction.Create(OpCodes.Brtrue, contentValidStart),
+        Instruction.Create(OpCodes.Pop),
+        Instruction.Create(OpCodes.Br, nullReturn),
+    ];
+    foreach (Instruction instruction in contentGuard)
+    {
+        processor.InsertBefore(contentValidStart, instruction);
+    }
+    getCachedTemplate.Body.MaxStackSize = Math.Max(
+        getCachedTemplate.Body.MaxStackSize,
+        2);
+    getCachedTemplate.Body.OptimizeMacros();
 }
 
 static void RepairNetworkPickupDetachedTarget(
