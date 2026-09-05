@@ -507,6 +507,18 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--patch-ai-detached-targets")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchAiDetachedTargetsOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": rejected detached AI targets before physics reads");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -616,6 +628,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-animated-level-part-detached-body"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-ai-detached-targets"
         + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
@@ -5325,6 +5340,188 @@ static void PatchAnimatedLevelPartDetachedBodyOnly(
         .ToDictionary(type => type.FullName, StringComparer.Ordinal);
     RepairAnimatedLevelPartDetachedBody(types);
     WriteAssembly(assembly, outputPath);
+}
+
+static void PatchAiDetachedTargetsOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairAiDetachedTargets(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairAiDetachedTargets(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition idamageable = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.IDamageable");
+    TypeDefinition agent = RequireType(types, "Magicka.AI.Agent");
+    TypeDefinition attackState = RequireType(
+        types,
+        "Magicka.AI.AgentStates.AIStateAttack");
+    TypeDefinition moveState = RequireType(
+        types,
+        "Magicka.AI.AgentStates.AIStateMove");
+    MethodDefinition getCurrentTarget = RequireMethod(
+        agent,
+        "get_CurrentTarget",
+        0);
+    MethodDefinition getBody = RequireMethod(idamageable, "get_Body", 0);
+
+    MethodDefinition attack = RequireMethod(attackState, "OnExecute", 2);
+    attack.Body.SimplifyMacros();
+    Instruction attackNullCall = attack.Body.Instructions.First(instruction =>
+        IsCallTo(instruction, getCurrentTarget)
+        && instruction.Next?.OpCode.Code is Code.Brtrue or Code.Brtrue_S);
+    Instruction attackNullBranch = attackNullCall.Next!;
+    Instruction attackValidStart = (Instruction)attackNullBranch.Operand;
+    Instruction attackInvalidStart = attackNullBranch.Next
+        ?? throw new InvalidOperationException(
+            "AIStateAttack target-null branch has no invalid path.");
+    VariableDefinition attackAgent = LoadedVariable(
+            attackNullCall.Previous
+                ?? throw new InvalidOperationException(
+                    "AIStateAttack target owner is missing."),
+            attack.Body)
+        ?? throw new InvalidOperationException(
+            "AIStateAttack target owner is not a local.");
+    Instruction attackBodyGuard = Instruction.Create(
+        OpCodes.Ldloc,
+        attackAgent);
+    Instruction[] attackGuard =
+    [
+        attackBodyGuard,
+        Instruction.Create(OpCodes.Callvirt, getCurrentTarget),
+        Instruction.Create(OpCodes.Callvirt, getBody),
+        Instruction.Create(OpCodes.Brfalse, attackInvalidStart),
+    ];
+    ILProcessor attackProcessor = attack.Body.GetILProcessor();
+    foreach (Instruction instruction in attackGuard)
+    {
+        attackProcessor.InsertBefore(attackValidStart, instruction);
+    }
+    attackNullBranch.Operand = attackBodyGuard;
+    attack.Body.MaxStackSize = Math.Max(attack.Body.MaxStackSize, 1);
+    attack.Body.OptimizeMacros();
+
+    MethodDefinition moveEnter = RequireMethod(moveState, "OnEnter", 1);
+    moveEnter.Body.SimplifyMacros();
+    Instruction enterPosition = moveEnter.Body.Instructions.Single(
+        instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == idamageable.FullName
+            && called.Name == "get_Position");
+    Instruction enterTargetCall = moveEnter.Body.Instructions
+        .TakeWhile(instruction => instruction != enterPosition)
+        .Last(instruction =>
+            IsCallTo(instruction, getCurrentTarget)
+            && instruction.Next?.OpCode.Code
+                is Code.Brfalse or Code.Brfalse_S);
+    Instruction enterTargetBranch = enterTargetCall.Next
+        ?? throw new InvalidOperationException(
+            "AIStateMove.OnEnter target branch is missing.");
+    if (enterTargetBranch.OpCode.Code is not Code.Brfalse and not Code.Brfalse_S
+        || enterTargetBranch.Operand is not Instruction enterContinue)
+    {
+        throw new InvalidOperationException(
+            "AIStateMove.OnEnter has an unexpected target-null guard.");
+    }
+    VariableDefinition enterAgent = LoadedVariable(
+            enterTargetCall.Previous
+                ?? throw new InvalidOperationException(
+                    "AIStateMove.OnEnter target owner is missing."),
+            moveEnter.Body)
+        ?? throw new InvalidOperationException(
+            "AIStateMove.OnEnter target owner is not a local.");
+    ILProcessor enterProcessor = moveEnter.Body.GetILProcessor();
+    Instruction enterOwner = Instruction.Create(OpCodes.Ldloc, enterAgent);
+    Instruction enterCurrentTarget = Instruction.Create(
+        OpCodes.Callvirt,
+        getCurrentTarget);
+    Instruction enterBody = Instruction.Create(OpCodes.Callvirt, getBody);
+    Instruction enterBodyBranch = Instruction.Create(
+        OpCodes.Brfalse,
+        enterContinue);
+    enterProcessor.InsertAfter(enterTargetBranch, enterOwner);
+    enterProcessor.InsertAfter(enterOwner, enterCurrentTarget);
+    enterProcessor.InsertAfter(enterCurrentTarget, enterBody);
+    enterProcessor.InsertAfter(enterBody, enterBodyBranch);
+    moveEnter.Body.MaxStackSize = Math.Max(moveEnter.Body.MaxStackSize, 1);
+    moveEnter.Body.OptimizeMacros();
+
+    MethodDefinition moveExecute = RequireMethod(moveState, "OnExecute", 2);
+    moveExecute.Body.SimplifyMacros();
+    Instruction moveDeadCall = moveExecute.Body.Instructions.Single(
+        instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == idamageable.FullName
+            && called.Name == "get_Dead");
+    Instruction moveDeadBranch = moveDeadCall.Next
+        ?? throw new InvalidOperationException(
+            "AIStateMove.OnExecute Dead branch is missing.");
+    if (moveDeadBranch.OpCode.Code is not Code.Brtrue and not Code.Brtrue_S
+        || moveDeadBranch.Operand is not Instruction moveInvalidStart)
+    {
+        throw new InvalidOperationException(
+            "AIStateMove.OnExecute has an unexpected Dead guard.");
+    }
+    VariableDefinition moveAgent = LoadedVariable(
+            moveDeadCall.Previous?.Previous
+                ?? throw new InvalidOperationException(
+                    "AIStateMove.OnExecute target owner is missing."),
+            moveExecute.Body)
+        ?? throw new InvalidOperationException(
+            "AIStateMove.OnExecute target owner is not a local.");
+    ILProcessor moveProcessor = moveExecute.Body.GetILProcessor();
+    Instruction moveOwner = Instruction.Create(OpCodes.Ldloc, moveAgent);
+    Instruction moveCurrentTarget = Instruction.Create(
+        OpCodes.Callvirt,
+        getCurrentTarget);
+    Instruction moveBody = Instruction.Create(OpCodes.Callvirt, getBody);
+    Instruction moveBodyBranch = Instruction.Create(
+        OpCodes.Brfalse,
+        moveInvalidStart);
+    moveProcessor.InsertAfter(moveDeadBranch, moveOwner);
+    moveProcessor.InsertAfter(moveOwner, moveCurrentTarget);
+    moveProcessor.InsertAfter(moveCurrentTarget, moveBody);
+    moveProcessor.InsertAfter(moveBody, moveBodyBranch);
+    moveExecute.Body.MaxStackSize = Math.Max(moveExecute.Body.MaxStackSize, 1);
+    moveExecute.Body.OptimizeMacros();
+
+    MethodDefinition chooseTarget = RequireMethod(agent, "ChooseTarget", 2);
+    chooseTarget.Body.SimplifyMacros();
+    MethodDefinition getDead = RequireMethod(idamageable, "get_Dead", 0);
+    Instruction candidateDeadCall = chooseTarget.Body.Instructions.First(
+        instruction => IsCallTo(instruction, getDead));
+    Instruction candidateRejectBranch = chooseTarget.Body.Instructions
+        .SkipWhile(instruction => instruction != candidateDeadCall)
+        .First(instruction =>
+            instruction.OpCode.Code is Code.Brtrue or Code.Brtrue_S);
+    Instruction candidateReject = (Instruction)candidateRejectBranch.Operand;
+    VariableDefinition candidate = LoadedVariable(
+            candidateDeadCall.Previous
+                ?? throw new InvalidOperationException(
+                    "Agent.ChooseTarget candidate owner is missing."),
+            chooseTarget.Body)
+        ?? throw new InvalidOperationException(
+            "Agent.ChooseTarget candidate owner is not a local.");
+    ILProcessor chooseProcessor = chooseTarget.Body.GetILProcessor();
+    Instruction candidateLoad = Instruction.Create(OpCodes.Ldloc, candidate);
+    Instruction candidateBody = Instruction.Create(OpCodes.Callvirt, getBody);
+    Instruction candidateBodyBranch = Instruction.Create(
+        OpCodes.Brfalse,
+        candidateReject);
+    chooseProcessor.InsertAfter(candidateRejectBranch, candidateLoad);
+    chooseProcessor.InsertAfter(candidateLoad, candidateBody);
+    chooseProcessor.InsertAfter(candidateBody, candidateBodyBranch);
+    chooseTarget.Body.MaxStackSize = Math.Max(chooseTarget.Body.MaxStackSize, 1);
+    chooseTarget.Body.OptimizeMacros();
 }
 
 static void RepairAnimatedLevelPartDetachedBody(

@@ -79,6 +79,7 @@ ValidatePlayerGameDeinitialize(magicka);
 ValidateEntityCollisionCallbackCleanup(magicka);
 ValidateEntityManagerQuadGridLifecycle(magicka);
 ValidateAnimatedLevelPartDetachedBodyGuard(magicka);
+ValidateAiDetachedTargetGuards(magicka);
 ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
 ValidateRainSceneDetach(magicka);
@@ -3766,6 +3767,106 @@ static void ValidateAnimatedLevelPartDetachedBodyGuard(
         throw new InvalidDataException(
             "AnimatedLevelPart.Update must cache Entity.Body exactly once;"
             + " found " + originalBodyReadCount + " reads.");
+    }
+}
+
+static void ValidateAiDetachedTargetGuards(AssemblyDefinition magicka)
+{
+    MethodDefinition getBody = AllTypes(magicka.MainModule).Single(type =>
+            type.FullName == "Magicka.GameLogic.Entities.IDamageable")
+        .Methods.Single(method =>
+            method.Name == "get_Body" && method.Parameters.Count == 0);
+    MethodDefinition getCurrentTarget = RequireMethod(
+        magicka,
+        "Magicka.AI.Agent",
+        "get_CurrentTarget",
+        0);
+    MethodDefinition attack = RequireMethod(
+        magicka,
+        "Magicka.AI.AgentStates.AIStateAttack",
+        "OnExecute",
+        2);
+    MethodDefinition moveEnter = RequireMethod(
+        magicka,
+        "Magicka.AI.AgentStates.AIStateMove",
+        "OnEnter",
+        1);
+    MethodDefinition moveExecute = RequireMethod(
+        magicka,
+        "Magicka.AI.AgentStates.AIStateMove",
+        "OnExecute",
+        2);
+    MethodDefinition chooseTarget = RequireMethod(
+        magicka,
+        "Magicka.AI.Agent",
+        "ChooseTarget",
+        2);
+
+    RequireBodyGuardBeforeTargetUse(
+        attack,
+        getBody,
+        called => called.Name == "GetDesiredDirection");
+    RequireBodyGuardBeforeTargetUse(
+        moveEnter,
+        getBody,
+        called => called.Name == "get_Position"
+            && called.DeclaringType.FullName
+                == "Magicka.GameLogic.Entities.IDamageable");
+    RequireBodyGuardBeforeTargetUse(
+        moveExecute,
+        getBody,
+        called => called.Name == "get_Position"
+            && called.DeclaringType.FullName
+                == "Magicka.GameLogic.Entities.IDamageable");
+    RequireBodyGuardBeforeTargetUse(
+        chooseTarget,
+        getBody,
+        called => called.Name == "get_Position"
+            && called.DeclaringType.FullName
+                == "Magicka.GameLogic.Entities.IDamageable");
+
+    int attackCurrentTargetCalls = attack.Body.Instructions.Count(
+        instruction => IsCallTo(instruction, getCurrentTarget));
+    if (attackCurrentTargetCalls < 2)
+    {
+        throw new InvalidDataException(
+            "AIStateAttack detached-target guard is incomplete.");
+    }
+}
+
+static void RequireBodyGuardBeforeTargetUse(
+    MethodDefinition method,
+    MethodDefinition getBody,
+    Func<MethodReference, bool> isTargetUse)
+{
+    Instruction[] instructions = method.Body.Instructions.ToArray();
+    int bodyCall = Array.FindIndex(
+        instructions,
+        instruction => IsCallTo(instruction, getBody));
+    int firstUse = bodyCall < 0
+        ? -1
+        : Array.FindIndex(
+        instructions,
+        bodyCall + 1,
+        instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && isTargetUse(called));
+    if (firstUse < 0 || bodyCall < 0 || bodyCall >= firstUse)
+    {
+        throw new InvalidDataException(
+            method.FullName
+            + " must reject a detached target before its first target use.");
+    }
+    Instruction? branch = instructions
+        .Skip(bodyCall + 1)
+        .Take(2)
+        .FirstOrDefault(instruction =>
+            instruction.OpCode.Code is Code.Brfalse or Code.Brfalse_S);
+    if (branch is null)
+    {
+        throw new InvalidDataException(
+            method.FullName + " Body read is not followed by a null branch.");
     }
 }
 
