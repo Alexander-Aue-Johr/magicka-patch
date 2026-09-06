@@ -24,6 +24,7 @@ internal static class BehaviorSuite
         PlayStateScenarios.Run(magicka, report);
         PortalTeleportQueueScenarios.Run(magicka, report);
         VersusRulesetScenarios.Run(magicka, report);
+        PackLicenseScenarios.Run(magicka, report);
         return report;
     }
 }

@@ -47,7 +47,7 @@ Diese Dateien in dieser Reihenfolge öffnen:
 11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
 12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-13. `src/BehaviorProbe/BehaviorSuite.cs` und die siebzehn `*Scenarios.cs`-Dateien
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die achtzehn `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
 14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
@@ -317,6 +317,23 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Magicka 1.4.16.0 und 1.5.1.0: der Transpiler registriert sich. Die alte
     `Gamer`-Initialisierung benötigt Grafikgerät und Content, deshalb sind die
     drei Headless-Szenarien dort `NOT_APPLICABLE`.
+- [x] `pack-custom-content-license`
+  - Ziele: `License`- und `Enabled`-Setter von `ItemPack` und `MagickPack`
+  - Technik: vier Transpiler; jeder ersetzt nur den vorhandenen Vergleich mit
+    `HackHelper.License.Yes` durch den gemeinsamen Runtime-Prädikatsaufruf
+  - Verhalten: `Yes` bleibt erlaubt; `Custom` ist offline oder in einer nicht
+    VAC-geschützten Sitzung erlaubt; alle anderen Lizenzen bleiben gesperrt
+  - Fehlerfälle: `Custom` über beide Setter, jeweils offline und in einer
+    nicht VAC-geschützten Sitzung
+  - Kontrollfälle: `Custom` mit VAC sowie `Yes` und `No`
+  - Original 1.10.4.2: die vier erlaubten Custom-Fälle schlagen erwartungsgemäß
+    fehl; alle Kontrollfälle bestehen
+  - Manuelle Patch-Assembly 0.0.60: alle acht Szenarien bestehen
+  - Original plus Runtime-Patch: alle acht Szenarien bestehen
+  - Magicka 1.4.16.0 und 1.5.1.0: alle vier Patches werden angewendet und alle
+    acht Szenarien bestehen
+  - Die vier gleichartigen Anzeigeprüfungen in `SubMenuCharacterSelect` sind
+    noch nicht Teil dieses Blocks.
 
 Die manuelle Hilfsmethode prüft außerdem `Entity.IsDisposed`. Dieses Mitglied
 existiert im Original nicht und gehört zu einer noch nicht migrierten Änderung
@@ -356,11 +373,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | Agent | Avatar | AIStateAttack | AIStateMove | BossHealthBar | EntityManager | EntityStateStorage | Helper | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PlayState | Portal | VersusRuleset |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
+| Magicka-Version | Runtime-Host | Agent | Avatar | AIStateAttack | AIStateMove | BossHealthBar | EntityManager | EntityStateStorage | Helper | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | Portal | VersusRuleset |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -374,7 +391,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 11 Dateien vollständig, 7 Dateien teilweise und 202 Dateien noch
+Aktueller Stand: 13 Dateien vollständig, 8 Dateien teilweise und 199 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -549,8 +566,8 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonBug.cs`
 - [x] `Magicka/Levels/Versus/VersusRuleset.cs` — VOLLSTÄNDIG: fehlender Avatar beim Wiederbeleben, Transpiler und 3 Drei-Wege-Szenarien.
 - [x] `Magicka/AI/AgentStates/AIStateMove.cs` — VOLLSTÄNDIG: Body-Guards in `OnEnter` und `OnExecute`, 2 Transpiler und 4 Drei-Wege-Szenarien.
-- [ ] `Magicka/Levels/Packs/MagickPack.cs`
-- [ ] `Magicka/Levels/Packs/ItemPack.cs`
+- [x] `Magicka/Levels/Packs/MagickPack.cs` — VOLLSTÄNDIG: Custom-Lizenz in beiden Settern, 2 Transpiler und gemeinsame Pack-Szenarien.
+- [x] `Magicka/Levels/Packs/ItemPack.cs` — VOLLSTÄNDIG: Custom-Lizenz in beiden Settern, 2 Transpiler und gemeinsame Pack-Szenarien.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/OtherworldlyDischarge.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/MutateBeastman.cs`
 - [ ] `Properties/AssemblyInfo.cs`
@@ -590,7 +607,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/EtherealClone.cs`
 - [ ] `Magicka/GameLogic/Entities/Snare.cs`
 - [ ] `Magicka/Levels/Triggers/Interactable.cs`
-- [ ] `Magicka/Levels/Packs/PackMan.cs`
+- [ ] `Magicka/Levels/Packs/PackMan.cs` — TEILWEISE: Lizenzprädikat für Pack-Setter migriert; die vier Aufrufe in `SubMenuCharacterSelect` sind noch offen.
 - [ ] `Magicka/GameLogic/Controls/ControlManager.cs`
 - [ ] `Magicka/GameLogic/Player.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonSpirit.cs`

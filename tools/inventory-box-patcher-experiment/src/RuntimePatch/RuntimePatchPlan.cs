@@ -69,6 +69,18 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 VersusRulesetRevivePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                PackLicensePatch.ItemLicenseDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                PackLicensePatch.ItemEnabledDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                PackLicensePatch.MagickLicenseDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                PackLicensePatch.MagickEnabledDefinition);
         }
     }
 }

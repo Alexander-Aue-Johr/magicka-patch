@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-twenty-two changes:
+twenty-six changes:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -39,14 +39,16 @@ twenty-two changes:
   physics body has already been detached.
 - `VersusRuleset.RevivePlayer` returns handle zero when the requested avatar
   cannot be obtained from the cache.
+- `ItemPack` and `MagickPack` apply the Community Patch custom-content license
+  policy in both their license and enabled setters.
 
 The Avatar, AI, BossHealthBar, Helper, InventoryBox, MagickCamera, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
-The Agent, EntityStateStorage, Machine, Jormungandr, Portal, VersusRuleset, and
-remaining EntityManager changes use narrowly checked transpilers for small
-branches inside their original methods. EntityStateStorage also uses a
-constructor postfix.
+The Agent, EntityStateStorage, Machine, Jormungandr, pack, Portal,
+VersusRuleset, and remaining EntityManager changes use narrowly checked
+transpilers for small branches inside their original methods. EntityStateStorage
+also uses a constructor postfix.
 
 ## Run
 
@@ -93,8 +95,9 @@ as a manually rewritten method.
 
 Magicka 1.4.16.0 and 1.5.1.0 contain the Agent, Avatar, AIStateAttack,
 AIStateMove, BossHealthBar, EntityManager, EntityStateStorage, Helper,
-InventoryBox, Jormungandr, MagickCamera, Machine, Portal, and VersusRuleset targets and accept their
-runtime patches. All headless-applicable scenarios pass. They contain
+InventoryBox, ItemPack, Jormungandr, MagickCamera, MagickPack, Machine, Portal,
+and VersusRuleset targets and accept their runtime patches. All
+headless-applicable scenarios pass. They contain
 neither the later `HUDManager`
 implementation nor `WorldSyncMessage` and `PlayState.AddWorldSyncMessage`; both
 unavailable patch groups therefore report `NOT_APPLICABLE` without preventing
