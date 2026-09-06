@@ -82,6 +82,7 @@ ValidateAnimatedLevelPartDetachedBodyGuard(magicka);
 ValidateAiDetachedTargetGuards(magicka);
 ValidateNetworkPickupDetachedTargetGuards(magicka);
 ValidateNetworkServerEnterSyncSenderGuard(magicka);
+ValidateShutdownTelemetryRuntimeContext(magicka);
 ValidateCharacterTemplatePlayStateTransition(magicka);
 ValidateInvalidAudioLocatorRecovery(magicka);
 ValidateMagicksLanguageSelection(magicka);
@@ -4249,6 +4250,187 @@ static void RequireBodyGuardBeforeTargetUse(
     {
         throw new InvalidDataException(
             method.FullName + " Body read is not followed by a null branch.");
+    }
+}
+
+static void ValidateShutdownTelemetryRuntimeContext(
+    AssemblyDefinition magicka)
+{
+    TypeDefinition context = magicka.MainModule.GetType(
+        "Magicka.CommunityPatch.TelemetryRuntimeContext")
+        ?? throw new InvalidDataException(
+            "TelemetryRuntimeContext is missing.");
+    MethodDefinition recordPlayState = RequireMethod(
+        magicka,
+        context.FullName,
+        "RecordPlayState",
+        parameterCount: 2);
+    MethodDefinition recordScene = RequireMethod(
+        magicka,
+        context.FullName,
+        "RecordScene",
+        parameterCount: 1);
+    MethodDefinition recordMenu = RequireMethod(
+        magicka,
+        context.FullName,
+        "RecordMenu",
+        parameterCount: 0);
+    MethodDefinition recordLanguage = RequireMethod(
+        magicka,
+        context.FullName,
+        "RecordLanguage",
+        parameterCount: 1);
+    MethodDefinition recordResolution = RequireMethod(
+        magicka,
+        context.FullName,
+        "RecordResolution",
+        parameterCount: 2);
+    MethodDefinition recordUiScale = RequireMethod(
+        magicka,
+        context.FullName,
+        "RecordUiScale",
+        parameterCount: 1);
+    MethodDefinition addProperties = RequireMethod(
+        magicka,
+        context.FullName,
+        "AddProperties",
+        parameterCount: 1);
+
+    string[] propertyKeys =
+    [
+        "navigation_history",
+        "playstate_count",
+        "scene_transition_count",
+        "navigation_history_truncated",
+        "language",
+        "glyph_font_source",
+        "glyph_file_count",
+        "glyph_total_bytes",
+        "glyph_sha256",
+        "glyph_fingerprint_status",
+        "resolution_width",
+        "resolution_height",
+        "ui_scale_percent",
+    ];
+    string[] actualKeys = addProperties.Body.Instructions
+        .Where(instruction => instruction.OpCode == OpCodes.Ldstr)
+        .Select(instruction => instruction.Operand as string)
+        .Where(value => value is not null)
+        .Cast<string>()
+        .Where(propertyKeys.Contains)
+        .ToArray();
+    if (!actualKeys.SequenceEqual(propertyKeys)
+        || addProperties.Body.Instructions.Any(instruction =>
+            instruction.Operand is MethodReference called
+            && (called.DeclaringType.Namespace == "System.IO"
+                || called.DeclaringType.Namespace
+                    == "System.Security.Cryptography")))
+    {
+        throw new InvalidDataException(
+            "Shutdown telemetry must copy exactly the cached runtime-context"
+            + " properties without file or hash work.");
+    }
+
+    if (!recordLanguage.Body.Instructions.Any(instruction =>
+            instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "System.IO.Directory"
+            && called.Name == "GetFiles")
+        || recordLanguage.Body.Instructions.Count(instruction =>
+            instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "System.Security.Cryptography.HashAlgorithm"
+            && called.Name == "ComputeHash"
+            && called.Parameters.Count == 1) < 2
+        || recordLanguage.Body.ExceptionHandlers.Count < 2)
+    {
+        throw new InvalidDataException(
+            "Language context must stream glyph files, aggregate a SHA-256"
+            + " fingerprint, and contain failures.");
+    }
+
+    TypeDefinition playState = magicka.MainModule.GetType(
+        "Magicka.GameLogic.GameStates.PlayState")!;
+    TypeDefinition level = magicka.MainModule.GetType("Magicka.Levels.Level")!;
+    TypeDefinition levelState = level.NestedTypes.Single(type =>
+        type.Name == "State");
+    TypeDefinition languageManager = magicka.MainModule.GetType(
+        "Magicka.Localization.LanguageManager")!;
+    TypeDefinition globalSettings = magicka.MainModule.GetType(
+        "Magicka.GlobalSettings")!;
+    TypeDefinition uiCompatibility = magicka.MainModule.GetType(
+        "Magicka.CommunityPatch.InGameUiCompatibility")!;
+    TypeDefinition patchTelemetry = magicka.MainModule.GetType(
+        "Magicka.CommunityPatch.PatchTelemetry")!;
+
+    (MethodDefinition Method, MethodDefinition Hook, int Count)[] hooks =
+    [
+        (RequireMethod(magicka, playState.FullName, "Initialize", 0), recordPlayState, 1),
+        (RequireMethod(magicka, level.FullName, "ChangeScene", 0), recordScene, 1),
+        (RequireMethod(magicka, levelState.FullName, "ApplyState", 2), recordScene, 1),
+        (RequireMethod(magicka, playState.FullName, "OnExit", 0), recordMenu, 1),
+        (RequireMethod(magicka, languageManager.FullName, "SetLanguage", 1), recordLanguage, 1),
+        (RequireMethod(magicka, globalSettings.FullName, "set_Resolution", 1), recordResolution, 1),
+        (RequireMethod(magicka, uiCompatibility.FullName, ".cctor", 0), recordUiScale, 1),
+        (RequireMethod(magicka, uiCompatibility.FullName, "ApplyScalePercent", 1), recordUiScale, 1),
+        (RequireMethod(magicka, patchTelemetry.FullName, "SendCrash", 3), addProperties, 1),
+        (RequireMethod(magicka, patchTelemetry.FullName, "SendGameClosedNormally", 0), addProperties, 1),
+    ];
+    foreach ((MethodDefinition method, MethodDefinition hook, int count) in
+             hooks)
+    {
+        int actual = method.Body.Instructions.Count(instruction =>
+            IsCallTo(instruction, hook));
+        if (actual != count)
+        {
+            throw new InvalidDataException(
+                method.FullName + " must call " + hook.Name + " exactly "
+                + count + " time(s); found " + actual + ".");
+        }
+    }
+
+    MethodDefinition[] shutdownMethods =
+    [
+        RequireMethod(magicka, patchTelemetry.FullName, "SendCrash", 3),
+        RequireMethod(
+            magicka,
+            patchTelemetry.FullName,
+            "SendGameClosedNormally",
+            0),
+    ];
+    int totalAddPropertiesCalls = AllTypes(magicka.MainModule)
+        .Where(type => type != context)
+        .SelectMany(type => type.Methods)
+        .Where(method => method.HasBody)
+        .SelectMany(method => method.Body.Instructions)
+        .Count(instruction => IsCallTo(instruction, addProperties));
+    if (totalAddPropertiesCalls != shutdownMethods.Length)
+    {
+        throw new InvalidDataException(
+            "Cached runtime context must be attached only to crash and"
+            + " normal-close telemetry.");
+    }
+
+    foreach (MethodDefinition method in AllTypes(magicka.MainModule)
+                 .SelectMany(type => type.Methods)
+                 .Where(method => method.HasBody))
+    {
+        foreach (Instruction instruction in method.Body.Instructions)
+        {
+            if ((instruction.OpCode.OperandType == OperandType.InlineBrTarget
+                 || instruction.OpCode.OperandType
+                    == OperandType.ShortInlineBrTarget)
+                && instruction.Operand is not Instruction)
+            {
+                throw new InvalidDataException(
+                    "Unresolved branch target in " + method.FullName + ".");
+            }
+            if (instruction.OpCode.OperandType == OperandType.InlineSwitch
+                && instruction.Operand is not Instruction[])
+            {
+                throw new InvalidDataException(
+                    "Unresolved switch target in " + method.FullName + ".");
+            }
+        }
     }
 }
 

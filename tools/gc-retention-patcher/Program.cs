@@ -603,6 +603,19 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 4
+    && args[0] == "--patch-shutdown-telemetry-context")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    string helperPath = Path.GetFullPath(args[3]);
+    PatchShutdownTelemetryContextOnly(inputPath, outputPath, helperPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": cached navigation, language, glyph, resolution, and UI-scale context for shutdown telemetry");
+    return 0;
+}
+
 if (args.Length == 3
     && args[0] == "--patch-closest-damageable-detached-body")
 {
@@ -10076,6 +10089,650 @@ static void PatchNetworkServerEnterSyncSenderOnly(
     WriteAssembly(assembly, outputPath);
 }
 
+static void PatchShutdownTelemetryContextOnly(
+    string inputPath,
+    string outputPath,
+    string helperPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    using AssemblyDefinition helperAssembly = AssemblyDefinition.ReadAssembly(
+        helperPath);
+    ModuleDefinition module = assembly.MainModule;
+    if (helperAssembly.MainModule.AssemblyReferences.Any(reference =>
+            reference.Name != "mscorlib"
+            || reference.Version != new Version(2, 0, 0, 0)))
+    {
+        throw new InvalidOperationException(
+            "The telemetry context helper must reference only CLR 2 mscorlib.");
+    }
+
+    TypeDefinition sourceContext = helperAssembly.MainModule.GetType(
+        "Magicka.CommunityPatch.TelemetryRuntimeContext")
+        ?? throw new InvalidOperationException(
+            "TelemetryRuntimeContext is missing from the helper assembly.");
+    if (module.GetType(sourceContext.FullName) is not null)
+    {
+        throw new InvalidOperationException(
+            "TelemetryRuntimeContext already exists in the target assembly.");
+    }
+
+    BodyReferencePool existingReferences = new BodyReferencePool(module);
+    TypeDefinition context = CloneAddedType(
+        sourceContext,
+        module,
+        existingReferences);
+    Dictionary<string, TypeDefinition> types = AllTypes(module)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    MethodDefinition recordPlayState = RequireMethod(
+        context,
+        "RecordPlayState",
+        parameterCount: 2);
+    MethodDefinition recordScene = RequireMethod(
+        context,
+        "RecordScene",
+        parameterCount: 1);
+    MethodDefinition recordMenu = RequireMethod(
+        context,
+        "RecordMenu",
+        parameterCount: 0);
+    MethodDefinition recordLanguage = RequireMethod(
+        context,
+        "RecordLanguage",
+        parameterCount: 1);
+    MethodDefinition recordResolution = RequireMethod(
+        context,
+        "RecordResolution",
+        parameterCount: 2);
+    MethodDefinition recordUiScale = RequireMethod(
+        context,
+        "RecordUiScale",
+        parameterCount: 1);
+    MethodDefinition addProperties = RequireMethod(
+        context,
+        "AddProperties",
+        parameterCount: 1);
+
+    TypeDefinition playState = RequireType(
+        types,
+        "Magicka.GameLogic.GameStates.PlayState");
+    FieldDefinition levelFileName = playState.Fields.Single(field =>
+        field.Name == "mLevelFileName");
+    FieldDefinition playStateLevel = playState.Fields.Single(field =>
+        field.Name == "mLevel");
+    TypeDefinition level = RequireType(types, "Magicka.Levels.Level");
+    MethodDefinition getLevelName = RequireMethod(
+        level,
+        "get_Name",
+        parameterCount: 0);
+    MethodDefinition initialize = RequireMethod(
+        playState,
+        "Initialize",
+        parameterCount: 0);
+    initialize.Body.SimplifyMacros();
+    Instruction publishLevel = initialize.Body.Instructions.Single(instruction =>
+        instruction.OpCode == OpCodes.Stfld
+        && instruction.Operand is FieldReference field
+        && field.FullName == playStateLevel.FullName);
+    ILProcessor initializeProcessor = initialize.Body.GetILProcessor();
+    Instruction initializeCursor = publishLevel;
+    foreach (Instruction instruction in new[]
+    {
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, levelFileName),
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, playStateLevel),
+        Instruction.Create(OpCodes.Callvirt, getLevelName),
+        Instruction.Create(OpCodes.Call, recordPlayState),
+    })
+    {
+        initializeProcessor.InsertAfter(initializeCursor, instruction);
+        initializeCursor = instruction;
+    }
+    initialize.Body.MaxStackSize = Math.Max(initialize.Body.MaxStackSize, 3);
+
+    FieldDefinition currentScene = level.Fields.Single(field =>
+        field.Name == "mCurrentScene");
+    TypeDefinition gameScene = RequireType(types, "Magicka.Levels.GameScene");
+    MethodDefinition getSceneName = RequireMethod(
+        gameScene,
+        "get_Name",
+        parameterCount: 0);
+    MethodDefinition changeScene = RequireMethod(
+        level,
+        "ChangeScene",
+        parameterCount: 0);
+    changeScene.Body.SimplifyMacros();
+    Instruction publishScene = changeScene.Body.Instructions.Single(instruction =>
+        instruction.OpCode == OpCodes.Stfld
+        && instruction.Operand is FieldReference field
+        && field.FullName == currentScene.FullName);
+    ILProcessor sceneProcessor = changeScene.Body.GetILProcessor();
+    Instruction sceneCursor = publishScene;
+    foreach (Instruction instruction in new[]
+    {
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, currentScene),
+        Instruction.Create(OpCodes.Callvirt, getSceneName),
+        Instruction.Create(OpCodes.Call, recordScene),
+    })
+    {
+        sceneProcessor.InsertAfter(sceneCursor, instruction);
+        sceneCursor = instruction;
+    }
+    changeScene.Body.MaxStackSize = Math.Max(changeScene.Body.MaxStackSize, 2);
+
+    TypeDefinition levelState = level.NestedTypes.Single(type =>
+        type.Name == "State");
+    FieldDefinition stateLevel = levelState.Fields.Single(field =>
+        field.Name == "mLevel");
+    MethodDefinition applyLevelState = RequireMethod(
+        levelState,
+        "ApplyState",
+        parameterCount: 2);
+    applyLevelState.Body.SimplifyMacros();
+    Instruction restoreScene = applyLevelState.Body.Instructions.Single(
+        instruction => instruction.OpCode == OpCodes.Stfld
+            && instruction.Operand is FieldReference field
+            && field.FullName == currentScene.FullName);
+    Instruction restoreLoadCall = applyLevelState.Body.Instructions
+        .SkipWhile(instruction => !ReferenceEquals(instruction, restoreScene))
+        .First(instruction => instruction.OpCode == OpCodes.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == gameScene.FullName
+            && called.Name == "LoadLevel");
+    Instruction restoreLoadStart = restoreLoadCall.Previous?.Previous?.Previous
+        ?? throw new InvalidOperationException(
+            "Level.State.ApplyState scene load is incomplete.");
+    ILProcessor applyStateProcessor = applyLevelState.Body.GetILProcessor();
+    foreach (Instruction instruction in new[]
+    {
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, stateLevel),
+        Instruction.Create(OpCodes.Ldfld, currentScene),
+        Instruction.Create(OpCodes.Callvirt, getSceneName),
+        Instruction.Create(OpCodes.Call, recordScene),
+    })
+    {
+        applyStateProcessor.InsertBefore(restoreLoadStart, instruction);
+    }
+    applyLevelState.Body.MaxStackSize = Math.Max(
+        applyLevelState.Body.MaxStackSize,
+        2);
+
+    FieldDefinition initialized = playState.Fields.Single(field =>
+        field.Name == "mInitialized");
+    MethodDefinition onExit = RequireMethod(
+        playState,
+        "OnExit",
+        parameterCount: 0);
+    onExit.Body.SimplifyMacros();
+    Instruction initializedLoad = onExit.Body.Instructions.First(instruction =>
+        instruction.OpCode == OpCodes.Ldfld
+        && instruction.Operand is FieldReference field
+        && field.FullName == initialized.FullName);
+    Instruction initializedBranch = initializedLoad.Next
+        ?? throw new InvalidOperationException(
+            "PlayState.OnExit initialized guard is incomplete.");
+    if ((initializedBranch.OpCode != OpCodes.Brtrue
+         && initializedBranch.OpCode != OpCodes.Brtrue_S)
+        || initializedBranch.Operand is not Instruction initializedTarget)
+    {
+        throw new InvalidOperationException(
+            "PlayState.OnExit initialized branch was not found.");
+    }
+    Instruction recordMenuCall = Instruction.Create(OpCodes.Call, recordMenu);
+    onExit.Body.GetILProcessor().InsertBefore(
+        initializedTarget,
+        recordMenuCall);
+    initializedBranch.Operand = recordMenuCall;
+
+    TypeDefinition languageManager = RequireType(
+        types,
+        "Magicka.Localization.LanguageManager");
+    FieldDefinition currentLanguage = languageManager.Fields.Single(field =>
+        field.Name == "mCurrentLanguage");
+    MethodDefinition setLanguage = RequireMethod(
+        languageManager,
+        "SetLanguage",
+        parameterCount: 1);
+    setLanguage.Body.SimplifyMacros();
+    Instruction publishLanguage = setLanguage.Body.Instructions.Single(
+        instruction => instruction.OpCode == OpCodes.Stfld
+            && instruction.Operand is FieldReference field
+            && field.FullName == currentLanguage.FullName);
+    MethodReference objectToString = FindMethodReference(
+        module,
+        "System.Object",
+        "ToString",
+        parameterCount: 0,
+        returnType: "System.String");
+    ILProcessor languageProcessor = setLanguage.Body.GetILProcessor();
+    Instruction languageCursor = publishLanguage;
+    foreach (Instruction instruction in new[]
+    {
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, currentLanguage),
+        Instruction.Create(OpCodes.Box, currentLanguage.FieldType),
+        Instruction.Create(OpCodes.Callvirt, objectToString),
+        Instruction.Create(OpCodes.Call, recordLanguage),
+    })
+    {
+        languageProcessor.InsertAfter(languageCursor, instruction);
+        languageCursor = instruction;
+    }
+    setLanguage.Body.MaxStackSize = Math.Max(setLanguage.Body.MaxStackSize, 2);
+
+    TypeDefinition globalSettings = RequireType(types, "Magicka.GlobalSettings");
+    FieldDefinition resolution = globalSettings.Fields.Single(field =>
+        field.Name == "mResolution");
+    TypeDefinition resolutionData = RequireType(types, "Magicka.ResolutionData");
+    FieldDefinition resolutionWidth = resolutionData.Fields.Single(field =>
+        field.Name == "Width");
+    FieldDefinition resolutionHeight = resolutionData.Fields.Single(field =>
+        field.Name == "Height");
+    MethodDefinition setResolution = RequireMethod(
+        globalSettings,
+        "set_Resolution",
+        parameterCount: 1);
+    setResolution.Body.SimplifyMacros();
+    Instruction resolutionReturn = setResolution.Body.Instructions.Single(
+        instruction => instruction.OpCode == OpCodes.Ret);
+    ILProcessor resolutionProcessor = setResolution.Body.GetILProcessor();
+    foreach (Instruction instruction in new[]
+    {
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldflda, resolution),
+        Instruction.Create(OpCodes.Ldfld, resolutionWidth),
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldflda, resolution),
+        Instruction.Create(OpCodes.Ldfld, resolutionHeight),
+        Instruction.Create(OpCodes.Call, recordResolution),
+    })
+    {
+        resolutionProcessor.InsertBefore(resolutionReturn, instruction);
+    }
+    setResolution.Body.MaxStackSize = Math.Max(
+        setResolution.Body.MaxStackSize,
+        2);
+
+    TypeDefinition uiCompatibility = RequireType(
+        types,
+        "Magicka.CommunityPatch.InGameUiCompatibility");
+    FieldDefinition scaleFactor = uiCompatibility.Fields.Single(field =>
+        field.Name == "sScaleFactor");
+    MethodDefinition uiInitializer = RequireMethod(
+        uiCompatibility,
+        ".cctor",
+        parameterCount: 0);
+    MethodDefinition applyScalePercent = RequireMethod(
+        uiCompatibility,
+        "ApplyScalePercent",
+        parameterCount: 1);
+    uiInitializer.Body.SimplifyMacros();
+    applyScalePercent.Body.SimplifyMacros();
+    foreach (MethodDefinition method in new[]
+    {
+        uiInitializer,
+        applyScalePercent,
+    })
+    {
+        Instruction storeScale = method.Body.Instructions.Single(instruction =>
+            instruction.OpCode == OpCodes.Stsfld
+            && instruction.Operand is FieldReference field
+            && field.FullName == scaleFactor.FullName);
+        ILProcessor processor = method.Body.GetILProcessor();
+        Instruction loadScale = Instruction.Create(
+            OpCodes.Ldsfld,
+            scaleFactor);
+        processor.InsertAfter(storeScale, loadScale);
+        processor.InsertAfter(
+            loadScale,
+            Instruction.Create(OpCodes.Call, recordUiScale));
+        method.Body.MaxStackSize = Math.Max(method.Body.MaxStackSize, 1);
+    }
+
+    TypeDefinition patchTelemetry = RequireType(
+        types,
+        "Magicka.CommunityPatch.PatchTelemetry");
+    MethodDefinition addElementSelection = RequireMethod(
+        patchTelemetry,
+        "CommunityPatchAddElementSelectionProperties",
+        parameterCount: 1);
+    foreach (string methodName in new[]
+    {
+        "SendCrash",
+        "SendGameClosedNormally",
+    })
+    {
+        MethodDefinition telemetryMethod = patchTelemetry.Methods.Single(
+            method => method.Name == methodName);
+        telemetryMethod.Body.SimplifyMacros();
+        Instruction addSelectionCall = telemetryMethod.Body.Instructions.Single(
+            instruction => instruction.OpCode == OpCodes.Call
+                && instruction.Operand is MethodReference called
+                && called.FullName == addElementSelection.FullName);
+        ILProcessor processor = telemetryMethod.Body.GetILProcessor();
+        Instruction duplicateProperties = Instruction.Create(OpCodes.Dup);
+        processor.InsertAfter(addSelectionCall, duplicateProperties);
+        processor.InsertAfter(
+            duplicateProperties,
+            Instruction.Create(OpCodes.Call, addProperties));
+        telemetryMethod.Body.MaxStackSize = Math.Max(
+            telemetryMethod.Body.MaxStackSize,
+            2);
+    }
+
+    foreach (MethodDefinition changedMethod in new[]
+    {
+        initialize,
+        changeScene,
+        applyLevelState,
+        onExit,
+        setLanguage,
+        setResolution,
+        uiInitializer,
+        applyScalePercent,
+        patchTelemetry.Methods.Single(method => method.Name == "SendCrash"),
+        patchTelemetry.Methods.Single(method =>
+            method.Name == "SendGameClosedNormally"),
+    })
+    {
+        changedMethod.Body.OptimizeMacros();
+    }
+
+    WriteAssembly(assembly, outputPath);
+}
+
+static TypeDefinition CloneAddedType(
+    TypeDefinition source,
+    ModuleDefinition targetModule,
+    BodyReferencePool existingReferences)
+{
+    TypeDefinition target = new TypeDefinition(
+        source.Namespace,
+        source.Name,
+        source.Attributes,
+        MapAddedTypeReference(
+            source.BaseType,
+            source,
+            null,
+            targetModule,
+            existingReferences));
+    targetModule.Types.Add(target);
+
+    Dictionary<FieldDefinition, FieldDefinition> fields = [];
+    foreach (FieldDefinition sourceField in source.Fields)
+    {
+        FieldDefinition targetField = new FieldDefinition(
+            sourceField.Name,
+            sourceField.Attributes,
+            MapAddedTypeReference(
+                sourceField.FieldType,
+                source,
+                target,
+                targetModule,
+                existingReferences));
+        if (sourceField.HasConstant)
+        {
+            targetField.Constant = sourceField.Constant;
+        }
+        target.Fields.Add(targetField);
+        fields[sourceField] = targetField;
+    }
+
+    Dictionary<MethodDefinition, MethodDefinition> methods = [];
+    foreach (MethodDefinition sourceMethod in source.Methods)
+    {
+        MethodDefinition targetMethod = new MethodDefinition(
+            sourceMethod.Name,
+            sourceMethod.Attributes,
+            MapAddedTypeReference(
+                sourceMethod.ReturnType,
+                source,
+                target,
+                targetModule,
+                existingReferences))
+        {
+            ImplAttributes = sourceMethod.ImplAttributes,
+            CallingConvention = sourceMethod.CallingConvention,
+        };
+        foreach (ParameterDefinition sourceParameter in sourceMethod.Parameters)
+        {
+            targetMethod.Parameters.Add(new ParameterDefinition(
+                sourceParameter.Name,
+                sourceParameter.Attributes,
+                MapAddedTypeReference(
+                    sourceParameter.ParameterType,
+                    source,
+                    target,
+                    targetModule,
+                    existingReferences)));
+        }
+        target.Methods.Add(targetMethod);
+        methods[sourceMethod] = targetMethod;
+    }
+
+    foreach (MethodDefinition sourceMethod in source.Methods.Where(method =>
+                 method.HasBody))
+    {
+        CloneAddedMethodBody(
+            sourceMethod,
+            methods[sourceMethod],
+            source,
+            target,
+            fields,
+            methods,
+            targetModule,
+            existingReferences);
+    }
+
+    return target;
+}
+
+static void CloneAddedMethodBody(
+    MethodDefinition sourceMethod,
+    MethodDefinition targetMethod,
+    TypeDefinition sourceType,
+    TypeDefinition targetType,
+    IReadOnlyDictionary<FieldDefinition, FieldDefinition> fields,
+    IReadOnlyDictionary<MethodDefinition, MethodDefinition> methods,
+    ModuleDefinition targetModule,
+    BodyReferencePool existingReferences)
+{
+    MethodBody body = new MethodBody(targetMethod)
+    {
+        InitLocals = sourceMethod.Body.InitLocals,
+        MaxStackSize = sourceMethod.Body.MaxStackSize,
+    };
+    targetMethod.Body = body;
+    Dictionary<VariableDefinition, VariableDefinition> variables = [];
+    foreach (VariableDefinition sourceVariable in sourceMethod.Body.Variables)
+    {
+        VariableDefinition targetVariable = new VariableDefinition(
+            MapAddedTypeReference(
+                sourceVariable.VariableType,
+                sourceType,
+                targetType,
+                targetModule,
+                existingReferences));
+        body.Variables.Add(targetVariable);
+        variables[sourceVariable] = targetVariable;
+    }
+
+    Dictionary<Instruction, Instruction> instructions = [];
+    foreach (Instruction sourceInstruction in sourceMethod.Body.Instructions)
+    {
+        Instruction targetInstruction = Instruction.Create(OpCodes.Nop);
+        targetInstruction.OpCode = sourceInstruction.OpCode;
+        body.Instructions.Add(targetInstruction);
+        instructions[sourceInstruction] = targetInstruction;
+    }
+    foreach (Instruction sourceInstruction in sourceMethod.Body.Instructions)
+    {
+        instructions[sourceInstruction].Operand = CloneAddedOperand(
+            sourceInstruction.Operand,
+            sourceMethod,
+            targetMethod,
+            sourceType,
+            targetType,
+            fields,
+            methods,
+            variables,
+            instructions,
+            targetModule,
+            existingReferences);
+    }
+    foreach (ExceptionHandler sourceHandler in
+             sourceMethod.Body.ExceptionHandlers)
+    {
+        body.ExceptionHandlers.Add(new ExceptionHandler(sourceHandler.HandlerType)
+        {
+            TryStart = MapInstruction(sourceHandler.TryStart, instructions),
+            TryEnd = MapInstruction(sourceHandler.TryEnd, instructions),
+            HandlerStart = MapInstruction(
+                sourceHandler.HandlerStart,
+                instructions),
+            HandlerEnd = MapInstruction(sourceHandler.HandlerEnd, instructions),
+            FilterStart = MapInstruction(
+                sourceHandler.FilterStart,
+                instructions),
+            CatchType = sourceHandler.CatchType is null
+                ? null
+                : MapAddedTypeReference(
+                    sourceHandler.CatchType,
+                    sourceType,
+                    targetType,
+                    targetModule,
+                    existingReferences),
+        });
+    }
+}
+
+static object? CloneAddedOperand(
+    object? operand,
+    MethodDefinition sourceMethod,
+    MethodDefinition targetMethod,
+    TypeDefinition sourceType,
+    TypeDefinition targetType,
+    IReadOnlyDictionary<FieldDefinition, FieldDefinition> fields,
+    IReadOnlyDictionary<MethodDefinition, MethodDefinition> methods,
+    IReadOnlyDictionary<VariableDefinition, VariableDefinition> variables,
+    IReadOnlyDictionary<Instruction, Instruction> instructions,
+    ModuleDefinition targetModule,
+    BodyReferencePool existingReferences)
+{
+    switch (operand)
+    {
+        case null:
+            return null;
+        case Instruction instruction:
+            return instructions[instruction];
+        case Instruction[] targets:
+            return targets.Select(instruction => instructions[instruction])
+                .ToArray();
+        case VariableDefinition variable:
+            return variables[variable];
+        case ParameterDefinition parameter:
+            return targetMethod.Parameters[sourceMethod.Parameters.IndexOf(
+                parameter)];
+        case FieldDefinition field when fields.TryGetValue(
+            field,
+            out FieldDefinition? targetField):
+            return targetField;
+        case MethodDefinition method when methods.TryGetValue(
+            method,
+            out MethodDefinition? targetMethodDefinition):
+            return targetMethodDefinition;
+        case TypeDefinition type when type == sourceType:
+            return targetType;
+        case FieldReference field when field.DeclaringType.FullName
+            == sourceType.FullName:
+            return targetType.Fields.Single(candidate =>
+                candidate.Name == field.Name
+                && candidate.FieldType.FullName == field.FieldType.FullName);
+        case MethodReference method when method.DeclaringType.FullName
+            == sourceType.FullName:
+            return targetType.Methods.Single(candidate =>
+                candidate.Name == method.Name
+                && candidate.Parameters.Count == method.Parameters.Count
+                && candidate.Parameters.Select(parameter =>
+                        parameter.ParameterType.FullName)
+                    .SequenceEqual(
+                        method.Parameters.Select(parameter =>
+                            parameter.ParameterType.FullName),
+                        StringComparer.Ordinal));
+        case TypeReference type when type.FullName == sourceType.FullName:
+            return targetType;
+        case MethodReference method:
+            return existingReferences.TryGetMethod(
+                method,
+                out MethodReference? existingMethod)
+                    ? existingMethod
+                    : targetModule.ImportReference(method);
+        case FieldReference field:
+            return existingReferences.TryGetField(
+                field,
+                out FieldReference? existingField)
+                    ? existingField
+                    : targetModule.ImportReference(field);
+        case TypeReference type:
+            return MapAddedTypeReference(
+                type,
+                sourceType,
+                targetType,
+                targetModule,
+                existingReferences);
+        case CallSite callSite:
+        {
+            CallSite targetCallSite = new CallSite(
+                MapAddedTypeReference(
+                    callSite.ReturnType,
+                    sourceType,
+                    targetType,
+                    targetModule,
+                    existingReferences))
+            {
+                HasThis = callSite.HasThis,
+                ExplicitThis = callSite.ExplicitThis,
+                CallingConvention = callSite.CallingConvention,
+            };
+            foreach (ParameterDefinition parameter in callSite.Parameters)
+            {
+                targetCallSite.Parameters.Add(new ParameterDefinition(
+                    MapAddedTypeReference(
+                        parameter.ParameterType,
+                        sourceType,
+                        targetType,
+                        targetModule,
+                        existingReferences)));
+            }
+            return targetCallSite;
+        }
+        default:
+            return operand;
+    }
+}
+
+static TypeReference MapAddedTypeReference(
+    TypeReference source,
+    TypeDefinition sourceType,
+    TypeDefinition? targetType,
+    ModuleDefinition targetModule,
+    BodyReferencePool existingReferences)
+{
+    if (source.FullName == sourceType.FullName && targetType is not null)
+    {
+        return targetType;
+    }
+    if (existingReferences.TryGetType(
+            source,
+            out TypeReference? existingType))
+    {
+        return existingType!;
+    }
+    return targetModule.ImportReference(source);
+}
+
 static void PatchWidescreenSafeAreaOnly(
     string inputPath,
     string outputPath)
@@ -10960,11 +11617,25 @@ sealed class BodyReferencePool
             : throw MissingReference("type", source.FullName);
     }
 
+    public bool TryGetType(
+        TypeReference source,
+        out TypeReference? target)
+    {
+        return types.TryGetValue(source.FullName, out target);
+    }
+
     public FieldReference RequireField(FieldReference source)
     {
         return fields.TryGetValue(source.FullName, out FieldReference? target)
             ? target
             : throw MissingReference("field", source.FullName);
+    }
+
+    public bool TryGetField(
+        FieldReference source,
+        out FieldReference? target)
+    {
+        return fields.TryGetValue(source.FullName, out target);
     }
 
     public MethodReference RequireMethod(MethodReference source)
@@ -10973,6 +11644,13 @@ sealed class BodyReferencePool
         return methods.TryGetValue(key, out MethodReference? target)
             ? target
             : throw MissingReference("method", key);
+    }
+
+    public bool TryGetMethod(
+        MethodReference source,
+        out MethodReference? target)
+    {
+        return methods.TryGetValue(MethodKey(source), out target);
     }
 
     public CallSite RequireCallSite(CallSite source)

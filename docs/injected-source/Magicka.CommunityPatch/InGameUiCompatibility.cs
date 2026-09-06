@@ -9,8 +9,14 @@ namespace Magicka.CommunityPatch
 {
 	internal static class InGameUiCompatibility
 	{
-		private static float sScaleFactor = LoadScaleFactor();
+		private static float sScaleFactor;
 		private static bool sScaleSelectionActive;
+
+		static InGameUiCompatibility()
+		{
+			sScaleFactor = LoadScaleFactor();
+			TelemetryRuntimeContext.RecordUiScale(sScaleFactor);
+		}
 
 		internal static void ApplyScaleSetting()
 		{
@@ -40,6 +46,7 @@ namespace Magicka.CommunityPatch
 		internal static void ApplyScalePercent(int percent)
 		{
 			sScaleFactor = MathHelper.Clamp(percent * 0.01f, 1f, 4f);
+			TelemetryRuntimeContext.RecordUiScale(sScaleFactor);
 			ApplyScaleSetting();
 			SaveScaleFactor();
 		}

@@ -14,8 +14,8 @@ advertising, or player profiling.
 | `magicka_patch_installed` | The installer successfully installs the patch. |
 | `magicka_patch_auto_update` | The auto-updater successfully applies a prepared update. |
 | `magicka_patch_start` | The patched game starts. When telemetry is enabled, its background telemetry worker also audits locally available original-file backups. |
-| `magicka_patch_game_closed_normally` | The patched game exits through the normal shutdown path and reports aggregate input-selection totals for that process session. |
-| `magicka_patch_crash_report_written` | The patch writes a crash report and reports aggregate input-selection totals collected before the crash. |
+| `magicka_patch_game_closed_normally` | The patched game exits through the normal shutdown path and reports aggregate input-selection totals and cached runtime context for that process session. |
+| `magicka_patch_crash_report_written` | The patch writes a crash report and reports aggregate input-selection totals and cached runtime context collected before the crash. |
 | `magicka_patch_network_guard_drop` | A guard ignored an unsafe network action that could otherwise crash the game. |
 | `magicka_patch_network_guard_exception` | A guarded network path caught a null-reference exception and reported a summary. |
 | `magicka_patch_typing_text_guard_exception` | The typing text guard caught an out-of-range text reveal state and skipped to the end of the text. |
@@ -84,6 +84,32 @@ These three values are sent as JSON numbers. They do not identify which
 elements were selected, their order, an individual local player, or a remote
 network player. They remain only in process memory when telemetry is disabled
 and are discarded when the process exits.
+
+Normal-shutdown and crash events also include cached context that helps
+distinguish first-load failures from failures after several games, and vanilla
+font memory pressure from modified language payloads:
+
+| Field | Meaning |
+| --- | --- |
+| `navigation_history` | A bounded sequence of level-relative file names, level names, entered scene names, and returns to `Menu`. Installation-directory prefixes are removed. |
+| `playstate_count` | Number of play states initialized during the process session. |
+| `scene_transition_count` | Number of scenes published during the process session. |
+| `navigation_history_truncated` | Whether the oldest text was discarded after the navigation value reached its 4096-character bound. |
+| `language` | Selected game language. |
+| `glyph_font_source` | Selected language folder, or `eng` when Magicka uses its English font fallback. |
+| `glyph_file_count` | Number of `.xnb` glyph/font files in the effective language font folder. |
+| `glyph_total_bytes` | Combined byte size of those files. |
+| `glyph_sha256` | Deterministic SHA-256 of a manifest containing each sorted file name, size, and streamed file hash. |
+| `glyph_fingerprint_status` | `ok`, `missing`, `error`, or `not_recorded`. |
+| `resolution_width`, `resolution_height` | Most recently selected render resolution. |
+| `ui_scale_percent` | Most recently selected Community Patch in-game UI scale. |
+
+The language fingerprint is calculated and cached when the language changes.
+Resolution and UI scale are cached by their setters, and navigation text is
+updated at level and scene transitions. Crash reporting does not enumerate or
+open files, calculate hashes, or inspect live game objects. It only copies the
+cached strings into the report event. File contents, complete installation
+paths, and language-file paths are not sent.
 
 ## Storage and Endpoint
 
