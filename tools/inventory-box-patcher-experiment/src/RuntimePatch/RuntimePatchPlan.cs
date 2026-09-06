@@ -136,6 +136,12 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 SpawnSlimePlayStatePatch.SpawnSlimesDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                PoisonSprayPlayStatePatch.ExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                PoisonSprayPlayStatePatch.UpdateDefinition);
         }
     }
 }
