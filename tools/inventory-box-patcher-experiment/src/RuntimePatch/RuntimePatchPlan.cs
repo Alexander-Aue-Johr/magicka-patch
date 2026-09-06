@@ -9,6 +9,9 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchAudit.BeginRun(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                AvatarFindInteractablePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 AIStateAttackOnExecutePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

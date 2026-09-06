@@ -2,8 +2,10 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-six changes:
+seven changes:
 
+- `Avatar.FindInteractable` returns no interaction while its play state or scene
+  is detached.
 - `AIStateAttack.OnExecute` releases a target whose physics body has already
   been detached.
 - `Helper.ArrayEquals` treats every missing byte array as unequal.
@@ -15,9 +17,10 @@ six changes:
 - `PlayState.AddWorldSyncMessage` rejects unusable SpawnNPC handles before the
   original enqueue method runs.
 
-The AI, Helper, InventoryBox, and PlayState changes use Harmony prefixes; the
-HUDManager change uses a postfix. The Machine change uses a narrowly checked
-transpiler to replace one constant assignment inside the original method.
+The Avatar, AI, Helper, InventoryBox, and PlayState changes use Harmony
+prefixes; the HUDManager change uses a postfix. The Machine change uses a
+narrowly checked transpiler to replace one constant assignment inside the
+original method.
 
 ## Run
 
@@ -62,9 +65,9 @@ Control scenarios must pass in all three profiles. This verifies observable
 behavior instead of claiming that a Harmony wrapper has the same C# or IL shape
 as a manually rewritten method.
 
-Magicka 1.4.16.0 and 1.5.1.0 contain the AIStateAttack, Helper, InventoryBox, and
-Machine targets and pass their runtime scenarios. They contain neither the
-later `HUDManager` implementation nor `WorldSyncMessage` and
+Magicka 1.4.16.0 and 1.5.1.0 contain the Avatar, AIStateAttack, Helper,
+InventoryBox, and Machine targets and pass their runtime scenarios. They
+contain neither the later `HUDManager` implementation nor `WorldSyncMessage` and
 `PlayState.AddWorldSyncMessage`; both unavailable patch groups therefore report
 `NOT_APPLICABLE` without preventing other patches from loading.
 

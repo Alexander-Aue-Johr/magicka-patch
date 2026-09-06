@@ -7,12 +7,16 @@ namespace Magicka.CommunityPatch.Runtime
     {
         internal static object ReadField(object target, string name)
         {
-            FieldInfo field = target.GetType().GetField(
-                name,
-                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            if (field == null)
-                throw new MissingFieldException(target.GetType().FullName, name);
-            return field.GetValue(target);
+            Type targetType = target.GetType();
+            for (Type current = targetType; current != null; current = current.BaseType)
+            {
+                FieldInfo field = current.GetField(
+                    name,
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+                if (field != null)
+                    return field.GetValue(target);
+            }
+            throw new MissingFieldException(targetType.FullName, name);
         }
 
         internal static object ReadProperty(object target, string name)

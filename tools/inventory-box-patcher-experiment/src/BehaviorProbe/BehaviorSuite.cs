@@ -7,6 +7,7 @@ internal static class BehaviorSuite
     internal static BehaviorReport Run(Assembly magicka)
     {
         BehaviorReport report = new BehaviorReport();
+        AvatarFindInteractableScenarios.Run(magicka, report);
         AIStateAttackScenarios.Run(magicka, report);
         HelperArrayEqualsScenarios.Run(magicka, report);
         InventoryBoxScenarios.Run(magicka, report);
