@@ -47,7 +47,7 @@ Diese Dateien in dieser Reihenfolge öffnen:
 11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
 12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-13. `src/BehaviorProbe/BehaviorSuite.cs` und die zehn `*Scenarios.cs`-Dateien
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die elf `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
 14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
@@ -207,6 +207,21 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Manuelle Patch-Assembly 0.0.60: alle sechs Szenarien bestehen
   - Original plus Runtime-Patch: alle sechs Szenarien bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: nicht anwendbar, weil Typ und Zielmethode fehlen
+- [x] `portal-detached-teleport-entry-guard`
+  - Ziel: `Portal.PortalEntity.Update(DataChannel, float)`
+  - Technik: Transpiler; ergänzt unmittelbar nach dem Dequeue eine Null- und
+    Body-Prüfung und springt für ungültige Einträge zur Queue-Bedingung zurück
+  - Fehlerfälle: `null` vor einer körperlosen Entity sowie die umgekehrte
+    Reihenfolge
+  - Verhalten: jeder ungültige Eintrag wird mit `continue` verworfen; weitere
+    Queue-Einträge und das übrige Portal-Update werden nicht abgebrochen
+  - Kontrollfall: eine leere Queue bleibt leer
+  - Original 1.10.4.2: beide Fehlerfälle brechen beim ersten ungültigen Eintrag
+    ab und lassen den zweiten Eintrag in der Queue
+  - Manuelle Patch-Assembly 0.0.60: Fehler- und Kontrollfälle bestehen
+  - Original plus Runtime-Patch: Fehler- und Kontrollfälle bestehen
+  - Magicka 1.4.16.0 und 1.5.1.0: Transpiler wird angewendet und alle drei
+    Szenarien bestehen
 
 Die manuelle Hilfsmethode prüft außerdem `Entity.IsDisposed`. Dieses Mitglied
 existiert im Original nicht und gehört zu einer noch nicht migrierten Änderung
@@ -246,11 +261,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | Avatar | AIStateAttack | EntityManager | Helper | InventoryBox | MagickCamera | HUDManager | Machine | PlayState |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
+| Magicka-Version | Runtime-Host | Avatar | AIStateAttack | EntityManager | Helper | InventoryBox | MagickCamera | HUDManager | Machine | PlayState | Portal |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE | PASS |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE | PASS |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -264,7 +279,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 6 Dateien vollständig, 5 Dateien teilweise und 209 Dateien noch
+Aktueller Stand: 6 Dateien vollständig, 6 Dateien teilweise und 208 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -370,7 +385,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Entity.cs`
 - [ ] `Magicka/Levels/ForceField.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Revive.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Portal.cs`
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Portal.cs` — TEILWEISE: ungültige Einträge in `PortalEntity.mTeleportQueue`, Transpiler und 3 Drei-Wege-Szenarien; weitere manuelle Änderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/ElementalEgg.cs`
 - [ ] `Magicka/GameLogic/Entities/Fairy.cs`
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsControls.cs`

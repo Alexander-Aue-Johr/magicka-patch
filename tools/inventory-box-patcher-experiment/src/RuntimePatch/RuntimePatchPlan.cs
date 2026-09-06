@@ -36,6 +36,9 @@ namespace Magicka.CommunityPatch.Runtime
                 targetAssembly,
                 MachineNetworkInitializePatch.Definition);
             PlayStatePatchPlan.ApplyTo(targetAssembly);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                PortalTeleportQueuePatch.Definition);
         }
     }
 }

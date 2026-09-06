@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-eleven changes:
+twelve changes:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -23,11 +23,13 @@ eleven changes:
   referenced warlock entity exists.
 - `PlayState.AddWorldSyncMessage` rejects unusable SpawnNPC handles before the
   original enqueue method runs.
+- `Portal.PortalEntity.Update` skips queued entities that are null or whose
+  physics body has already been detached.
 
-The Avatar, AI, Helper, InventoryBox, and PlayState changes use Harmony
-prefixes; the HUDManager change uses a postfix. The Machine and EntityManager
-changes use narrowly checked transpilers for small branches inside their
-original methods.
+The Avatar, AI, Helper, InventoryBox, MagickCamera, and PlayState changes use
+Harmony prefixes; the HUDManager and one EntityManager change use postfixes.
+The Machine, Portal, and remaining EntityManager changes use narrowly checked
+transpilers for small branches inside their original methods.
 
 ## Run
 
@@ -73,10 +75,11 @@ behavior instead of claiming that a Harmony wrapper has the same C# or IL shape
 as a manually rewritten method.
 
 Magicka 1.4.16.0 and 1.5.1.0 contain the Avatar, AIStateAttack, EntityManager,
-Helper, InventoryBox, and Machine targets and pass their runtime scenarios. They
-contain neither the later `HUDManager` implementation nor `WorldSyncMessage` and
-`PlayState.AddWorldSyncMessage`; both unavailable patch groups therefore report
-`NOT_APPLICABLE` without preventing other patches from loading.
+Helper, InventoryBox, MagickCamera, Machine, and Portal targets and pass their
+runtime scenarios. They contain neither the later `HUDManager` implementation
+nor `WorldSyncMessage` and `PlayState.AddWorldSyncMessage`; both unavailable
+patch groups therefore report `NOT_APPLICABLE` without preventing other patches
+from loading.
 
 Source comparison stages each executable and its dependency set in isolated
 directories. This prevents the executable's original location from changing
