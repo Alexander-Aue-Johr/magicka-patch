@@ -34,6 +34,7 @@ internal static class BehaviorSuite
         ControlManagerScenarios.Run(magicka, report);
         InteractableHighlightScenarios.Run(magicka, report);
         AudioManagerScenarios.Run(magicka, report);
+        DeflectionAuraScenarios.Run(magicka, report);
         return report;
     }
 }

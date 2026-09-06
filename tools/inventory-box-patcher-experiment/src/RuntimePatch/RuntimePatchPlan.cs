@@ -115,6 +115,9 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 AudioManagerStopAllPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                DeflectionAuraPlayStatePatch.Definition);
         }
     }
 }

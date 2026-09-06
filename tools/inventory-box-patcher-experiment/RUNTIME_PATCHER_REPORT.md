@@ -47,7 +47,7 @@ Diese Dateien in dieser Reihenfolge öffnen:
 11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
 12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-13. `src/BehaviorProbe/BehaviorSuite.cs` und die siebenundzwanzig `*Scenarios.cs`-Dateien
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die achtundzwanzig `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
 14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
@@ -461,6 +461,17 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     ArgumentException; Kontrollfall besteht
   - Manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile: beide
     Szenarien bestehen
+- [x] `deflection-aura-play-state-lifetime`
+  - Ziel: `DeflectionAura.Execute(ISpellCaster, PlayState)`
+  - Technik: Transpiler; entfernt nur die Zuweisung an das ungenutzte
+    `mPlayState`-Feld
+  - Fehlerfall: ein ausgeführtes Auraobjekt behält den übergebenen Levelzustand
+  - Kontrollfall: Rückgabewert, Besitzer, Kugelradius und -zentrum sowie der
+    einzelne `AddAura`-Aufruf bleiben erhalten
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0: der Fehlerfall behält den
+    `PlayState`; Kontrollfall besteht
+  - Manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile: beide
+    Szenarien bestehen
 
 Die manuelle Hilfsmethode prüft außerdem `Entity.IsDisposed`. Dieses Mitglied
 existiert im Original nicht und gehört zu einer noch nicht migrierten Änderung
@@ -500,11 +511,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | CompanyState | ControlManager | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | Portal | RandomMine | Starfall | SubMenuMain | VersusRuleset |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
+| Magicka-Version | Runtime-Host | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | Portal | RandomMine | Starfall | SubMenuMain | VersusRuleset |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -518,7 +529,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 21 Dateien vollständig, 9 Dateien teilweise und 190 Dateien noch
+Aktueller Stand: 22 Dateien vollständig, 9 Dateien teilweise und 189 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -655,7 +666,10 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/UI/ShadowBlobs.cs`
 - [ ] `Magicka/GameLogic/Entities/AnimationClipAction.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SpawnSlimeOverkill.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/DeflectionAura.cs`
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/DeflectionAura.cs`
+  — VOLLSTÄNDIG: ungenutzte PlayState-Referenz in `Execute`, Transpiler und 2
+  Drei-Wege-Szenarien; die statische Hash-Initialisierer-Umschreibung ist
+  semantikfreies Compilerrauschen.
 - [ ] `Magicka/Graphics/NotifierButton.cs`
 - [ ] `Magicka/GameLogic/Statistics/StatisticsManager.cs`
 - [ ] `Magicka/Graphics/TextBox.cs`
