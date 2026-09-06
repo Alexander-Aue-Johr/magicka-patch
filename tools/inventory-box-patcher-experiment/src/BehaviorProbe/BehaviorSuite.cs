@@ -27,6 +27,7 @@ internal static class BehaviorSuite
         PackLicenseScenarios.Run(magicka, report);
         FlashScenarios.Run(magicka, report);
         SummonPlayStateScenarios.Run(magicka, report);
+        SummonCrossScenarios.Run(magicka, report);
         SpawnSlimeScenarios.Run(magicka, report);
         PoisonSprayScenarios.Run(magicka, report);
         ChillyBlastScenarios.Run(magicka, report);

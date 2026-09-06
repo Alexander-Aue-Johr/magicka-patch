@@ -163,6 +163,15 @@ namespace Magicka.CommunityPatch.Runtime
                 SummonPlayStatePatch.SpiritSpawnDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                SummonCrossPlayStatePatch.VectorExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonCrossPlayStatePatch.OwnerExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonCrossPlayStatePatch.SpawnDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 SummonPlayStatePatch.TemplateCleanupDefinition);
         }
     }

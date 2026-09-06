@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -15,6 +16,8 @@ namespace Magicka.CommunityPatch.Runtime
 
         private static FieldInfo flamerTemplateField;
         private static FieldInfo spiritTemplateField;
+        private static FieldInfo crossCacheField;
+        private static FieldInfo crossTemplateField;
         private static FieldInfo initializedField;
 
         internal static readonly RuntimePatchDefinition FlamerVectorExecuteDefinition =
@@ -179,6 +182,18 @@ namespace Magicka.CommunityPatch.Runtime
 
             flamerTemplateField = RequireTemplateField(targetAssembly, FlamerTypeName);
             spiritTemplateField = RequireTemplateField(targetAssembly, SpiritTypeName);
+            Type crossType = targetAssembly.GetType(
+                "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonCross",
+                true);
+            crossCacheField = crossType.GetField(
+                "sCache",
+                BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+            if (crossCacheField == null || !typeof(IList).IsAssignableFrom(
+                crossCacheField.FieldType))
+                throw new MissingFieldException(crossType.FullName, "sCache");
+            crossTemplateField = RequireTemplateField(
+                targetAssembly,
+                crossType.FullName);
             MethodInfo method = playStateType.GetMethod(
                 "Dispose",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly,
@@ -406,6 +421,10 @@ namespace Magicka.CommunityPatch.Runtime
         {
             flamerTemplateField.SetValue(null, null);
             spiritTemplateField.SetValue(null, null);
+            IList crossCache = (IList)crossCacheField.GetValue(null);
+            if (crossCache != null)
+                crossCache.Clear();
+            crossTemplateField.SetValue(null, null);
         }
     }
 }
