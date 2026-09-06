@@ -109,6 +109,9 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 ControlManagerPlayerLockPatch.UnlockDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                InteractableHighlightPatch.Definition);
         }
     }
 }
