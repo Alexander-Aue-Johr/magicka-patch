@@ -47,7 +47,7 @@ Diese Dateien in dieser Reihenfolge öffnen:
 11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
 12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-13. `src/BehaviorProbe/BehaviorSuite.cs` und die neununddreißig `*Scenarios.cs`-Dateien
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die vierzig `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
 14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
@@ -453,6 +453,27 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Szenarien bestehen
   - `HandleInput` und seine Hybrid-Input-Erweiterung bleiben außerhalb dieses
     Blocks
+- [x] `direct-input-load-guards`
+  - Ziele: der Controllerlisten-Aufruf im Konstruktor und in `OnEnter` von
+    `SubMenuOptionsControls`, `MenuState.FindNewControllers()` und
+    `MenuState.Update(...)`
+  - Technik: vier Transpiler ersetzen nur die drei DirectInput-gefährdeten
+    Aufrufe durch typgenaue Wrapper und fügen den vorhandenen verzögerten
+    Warnpfad nach dem Basis-Update ein
+  - Fehlerfälle: `FileNotFoundException` beim Öffnen der Controlleroptionen und
+    `FileLoadException` bei der periodischen Controllererkennung
+  - Verhalten: nach dem ersten Ladefehler bleiben weitere Scans in dieser
+    Sitzung aus; die Scanfrist wird auf fünf Sekunden gesetzt und genau eine
+    Warnung erscheint, sobald weder ein Paradox-Fehler noch ein anderes Popup
+    aktiv ist
+  - Kontrollfälle: ein verfügbarer Controllerpfad wird unverändert ausgeführt;
+    eine fachfremde `InvalidOperationException` wird weiterhin weitergereicht
+  - Original 1.10.4.2: beide Ladefehler verlassen die Call-Sites und es gibt
+    keinen Warnpfad. Manuelle Patch-Assembly 0.0.60 und Runtime-Patch bestehen
+    alle fünf Szenarien.
+  - Magicka 1.4.16.0 und 1.5.1.0 bestehen mit Runtime-Patch die beiden
+    Ladefehler- und beide Kontrollszenarien. Das spätere Paradox-Popupsystem
+    fehlt dort, daher ist nur das Warnszenario ausdrücklich `NOT_APPLICABLE`.
 - [x] `interactable-detached-scene-highlight`
   - Ziel: `Interactable.Highlight()`
   - Technik: boolescher Prefix; fehlende Szene oder fehlendes Levelmodell
@@ -729,11 +750,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | EntityUpdate | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset | AbilityTemplates | LoadingScreen |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS |
+| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | EntityUpdate | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset | AbilityTemplates | LoadingScreen | DirectInput |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -747,7 +768,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 37 Dateien vollständig, 14 Dateien teilweise und 169 Dateien noch
+Aktueller Stand: 38 Dateien vollständig, 16 Dateien teilweise und 166 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -842,7 +863,7 @@ Versionsnachweis.
 - [ ] `Magicka/CommunityPatch/PatchUpdateManager.cs`
 - [ ] `Magicka/CommunityPatch/NetworkLifecycleCompatibility.cs`
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCutscene.cs`
-- [ ] `Magicka/CommunityPatch/RuntimeCompatibilityGuards.cs`
+- [ ] `Magicka/CommunityPatch/RuntimeCompatibilityGuards.cs` — TEILWEISE: die DirectInput-Ausfallerkennung und verzögerte Warnung sind migriert; Steam-API-, Store-, Versionszeilen- und Unterstützerdialog-Helfer sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/Barrier.cs`
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/SpraySpell.cs`
 - [ ] `Magicka/Levels/LevelModel.cs`
@@ -927,7 +948,7 @@ Versionsnachweis.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonElemental.cs` — VOLLSTÄNDIG: statischer levelgeladener Template-Cache, bestehender PlayState-Cleanup-Transpiler und 2 gemeinsame Drei-Wege-Szenarien.
 - [ ] `Magicka/Graphics/CutsceneText.cs`
 - [x] `Magicka/GameLogic/UI/BossHealthBar.cs` — VOLLSTÄNDIG: Konstruktor sowie `Scene`-Getter und -Setter, 3 Runtime-Patches und 3 Drei-Wege-Szenarien.
-- [ ] `Magicka/GameLogic/GameStates/Menu/Main/Options/SubMenuOptionsControls.cs`
+- [x] `Magicka/GameLogic/GameStates/Menu/Main/Options/SubMenuOptionsControls.cs` — VOLLSTÄNDIG: beide DirectInput-gefährdeten Controllerlisten-Aufrufe, 2 Transpiler und gemeinsame Fünf-Wege-Szenarien.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonBug.cs` — VOLLSTÄNDIG: statischer levelgeladener Template-Cache, bestehender PlayState-Cleanup-Transpiler und 2 gemeinsame Drei-Wege-Szenarien.
 - [x] `Magicka/Levels/Versus/VersusRuleset.cs` — VOLLSTÄNDIG: fehlender Avatar beim Wiederbeleben, Transpiler und 3 Drei-Wege-Szenarien.
 - [x] `Magicka/AI/AgentStates/AIStateMove.cs` — VOLLSTÄNDIG: Body-Guards in `OnEnter` und `OnExecute`, 2 Transpiler und 4 Drei-Wege-Szenarien.
@@ -992,7 +1013,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonUndead.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonCross.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, drei veraltete Spawn-Zugriffe sowie Pool- und Template-Freigabe, 3 Transpiler und 4 Drei-Wege-Szenarien; die statische Hash-Initialisierung ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/StopCharge.cs` — TEILWEISE: gespeicherter PlayState, veralteter `GreaseSplash`-Zustand und statischer Levelcache sind mit 3 Transpilern und gemeinsamen Drei-Wege-Szenarien migriert; die GC-Diagnosemarkierungen folgen im Diagnostics-Block.
-- [ ] `Magicka/GameLogic/GameStates/MenuState.cs`
+- [ ] `Magicka/GameLogic/GameStates/MenuState.cs` — TEILWEISE: Controllererkennung und verzögerte DirectInput-Warnung sind migriert; die Änderung an `OnExit` bleibt separat offen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ChillyBlast.cs` — VOLLSTÄNDIG: gespeicherter PlayState in `Execute` und beide veralteten EntityManager-Zugriffe in `Update`, 2 Transpiler und 3 Drei-Wege-Szenarien; statische Hash-Initialisierer sind semantikfreies Compilerrauschen. In 1.4.16.0 und 1.5.1.0 ist die Klasse nicht vorhanden.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/LightningSpell.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Haste.cs` — TEILWEISE: freier und aktiver Pool werden im initialisierten Level-Dispose geleert, ein Transpiler und 2 Drei-Wege-Szenarien; die GC-Diagnosemarkierungen folgen im Diagnostics-Block.

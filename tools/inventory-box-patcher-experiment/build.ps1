@@ -229,6 +229,9 @@ function Test-BehaviorMatrix {
         "company_state.exit_cleanup_order",
         "control_manager.null_controller",
         "control_manager.playerless_controller",
+        "direct_input.options_load_failure",
+        "direct_input.discovery_load_failure",
+        "direct_input.warning_once",
         "interactable_highlight.missing_scene",
         "interactable_highlight.missing_level_model",
         "audio_stop_all.disposed_cue",
@@ -284,7 +287,8 @@ function Test-BehaviorMatrix {
         "sub_menu_main.keyboard_back",
         "chilly_blast.play_state_release",
         "chilly_blast.execute_behavior",
-        "chilly_blast.current_query_manager"
+        "chilly_blast.current_query_manager",
+        "direct_input.warning_once"
     )
     $matrix = New-Object System.Collections.Generic.List[string]
 
@@ -315,6 +319,12 @@ function Test-BehaviorProfile(
     [string[]]$expectedFailures,
     [string[]]$notApplicable,
     [System.Collections.Generic.List[string]]$matrix) {
+    if ($profile -eq "1.4.16.0-original" -or
+        $profile -eq "1.5.1.0-original") {
+        $expectedFailures = @($expectedFailures) + @(
+            "direct_input.options_load_failure",
+            "direct_input.discovery_load_failure")
+    }
     $probeDirectory = Join-Path $toolBuildDirectory "behavior-probe"
     $probe = Join-Path $probeDirectory "BehaviorProbe.exe"
     $runtimeAudit = Join-Path $probeDirectory "magicka-runtime-patch-audit.txt"
@@ -444,6 +454,11 @@ function Test-BehaviorProfile(
         "control_manager.null_controller",
         "control_manager.playerless_controller",
         "control_manager.valid_controller",
+        "direct_input.options_load_failure",
+        "direct_input.discovery_load_failure",
+        "direct_input.unrelated_failure",
+        "direct_input.available",
+        "direct_input.warning_once",
         "interactable_highlight.missing_scene",
         "interactable_highlight.missing_level_model",
         "interactable_highlight.empty",
@@ -578,6 +593,10 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=ControlManager lock detached controller guard" -or
         $auditLines -notcontains "patch_end=ControlManager query detached controller guard" -or
         $auditLines -notcontains "patch_end=ControlManager unlock detached controller guard" -or
+        $auditLines -notcontains "patch_end=Controller options constructor DirectInput guard" -or
+        $auditLines -notcontains "patch_end=Controller options entry DirectInput guard" -or
+        $auditLines -notcontains "patch_end=Menu controller scan DirectInput guard" -or
+        $auditLines -notcontains "patch_end=Deferred DirectInput warning" -or
         $auditLines -notcontains "patch_end=Interactable detached scene highlight guard" -or
         $auditLines -notcontains "patch_end=AudioManager disposed cue guard" -or
         $auditLines -notcontains "patch_end=DeflectionAura unused play-state release" -or
@@ -612,7 +631,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Summon ability template cleanup" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 13 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 52) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 56) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -627,7 +646,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=69")
+    $summary.Add("implemented_patches=73")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

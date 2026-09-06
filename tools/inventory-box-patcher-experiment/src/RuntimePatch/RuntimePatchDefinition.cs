@@ -108,5 +108,23 @@ namespace Magicka.CommunityPatch.Runtime
                 null,
                 "postfix");
         }
+
+        internal static RuntimePatchDefinition ConstructorTranspile(
+            string name,
+            string harmonyOwner,
+            Func<Assembly, ConstructorInfo> findTarget,
+            MethodInfo transpiler)
+        {
+            return new RuntimePatchDefinition(
+                name,
+                harmonyOwner,
+                assembly => findTarget(assembly),
+                null,
+                null,
+                null,
+                null,
+                transpiler,
+                "transpiler");
+        }
     }
 }
