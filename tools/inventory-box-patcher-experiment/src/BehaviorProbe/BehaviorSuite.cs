@@ -68,6 +68,7 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        BlizzardCleanupScenarios.Run(magicka, report);
         return report;
     }
 }

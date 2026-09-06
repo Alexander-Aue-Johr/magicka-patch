@@ -189,6 +189,9 @@ namespace Magicka.CommunityPatch.Runtime
                 JudgementSprayConditionCachePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                BlizzardCleanupPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 EntityUpdateMessageReadPatch.ServerDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
