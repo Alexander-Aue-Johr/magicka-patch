@@ -10,6 +10,7 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 InventoryBoxDrawPatch.Definition);
+            HUDManagerPatchPlan.ApplyTo(targetAssembly);
             PlayStatePatchPlan.ApplyTo(targetAssembly);
         }
     }

@@ -19,6 +19,12 @@ function Resolve-ArgumentPath([string]$path) {
 $originalPath = Resolve-ArgumentPath $OriginalExe
 $currentPatchPath = Resolve-ArgumentPath $CurrentPatchExe
 $outputRoot = Resolve-ArgumentPath $OutputDirectory
+$inputRoot = Join-Path $outputRoot "inputs"
+$originalInputRoot = Join-Path $inputRoot "original"
+$currentInputRoot = Join-Path $inputRoot "current-patch"
+$referenceRoot = Join-Path $outputRoot "references"
+$originalReferenceRoot = Join-Path $referenceRoot "original"
+$currentReferenceRoot = Join-Path $referenceRoot "current-patch"
 $originalSourceRoot = Join-Path $outputRoot "decompiled\original"
 $currentSourceRoot = Join-Path $outputRoot "decompiled\current-patch"
 $diffRoot = Join-Path $outputRoot "file-diffs"
@@ -28,6 +34,7 @@ function Invoke-Analysis {
     Assert-AnalysisInputs
     Prepare-FreshAnalysisDirectory
     Restore-AnalysisTools
+    Prepare-IsolatedInputs
     Decompile-Assemblies
     Remove-DecompilerComments
     $identicalCount = Remove-IdenticalSourcePairs
@@ -50,7 +57,14 @@ function Prepare-FreshAnalysisDirectory {
         throw "Refusing to overwrite existing analysis directory: $outputRoot"
     }
 
-    New-Item -ItemType Directory -Path $originalSourceRoot, $currentSourceRoot, $diffRoot | Out-Null
+    New-Item -ItemType Directory -Path `
+        $originalInputRoot, `
+        $currentInputRoot, `
+        $originalReferenceRoot, `
+        $currentReferenceRoot, `
+        $originalSourceRoot, `
+        $currentSourceRoot, `
+        $diffRoot | Out-Null
 }
 
 function Restore-AnalysisTools {
@@ -67,11 +81,37 @@ function Restore-AnalysisTools {
 }
 
 function Decompile-Assemblies {
-    Invoke-ProjectDecompilation $originalPath $originalSourceRoot
-    Invoke-ProjectDecompilation $currentPatchPath $currentSourceRoot
+    Invoke-ProjectDecompilation `
+        (Join-Path $originalInputRoot "Magicka.exe") `
+        $originalReferenceRoot `
+        $originalSourceRoot
+    Invoke-ProjectDecompilation `
+        (Join-Path $currentInputRoot "Magicka.exe") `
+        $currentReferenceRoot `
+        $currentSourceRoot
 }
 
-function Invoke-ProjectDecompilation([string]$assemblyPath, [string]$destination) {
+function Prepare-IsolatedInputs {
+    Copy-Item -LiteralPath $originalPath -Destination (Join-Path $originalInputRoot "Magicka.exe")
+    Copy-Item -LiteralPath $currentPatchPath -Destination (Join-Path $currentInputRoot "Magicka.exe")
+
+    $originalDirectory = Split-Path -Parent $originalPath
+    $currentDirectory = Split-Path -Parent $currentPatchPath
+    Copy-AssemblyReferences $originalDirectory $originalReferenceRoot
+    Copy-AssemblyReferences $originalDirectory $currentReferenceRoot
+    Copy-AssemblyReferences $currentDirectory $currentReferenceRoot
+}
+
+function Copy-AssemblyReferences([string]$source, [string]$destination) {
+    foreach ($file in Get-ChildItem -LiteralPath $source -File -Filter *.dll) {
+        Copy-Item -LiteralPath $file.FullName -Destination $destination -Force
+    }
+}
+
+function Invoke-ProjectDecompilation(
+    [string]$assemblyPath,
+    [string]$referencePath,
+    [string]$destination) {
     Push-Location $experimentRoot
     try {
         & dotnet tool run ilspycmd -- `
@@ -79,6 +119,7 @@ function Invoke-ProjectDecompilation([string]$assemblyPath, [string]$destination
             --nested-directories `
             --project `
             --languageversion CSharp3 `
+            --referencepath $referencePath `
             --outputdir $destination `
             $assemblyPath
         Assert-LastExitCode "decompilation of $assemblyPath"

@@ -1,6 +1,6 @@
 # Runtime-Patcher-Bericht
 
-Stand: 5. September 2026
+Stand: 6. September 2026
 
 ## Zweck und Verifikationsgrenze
 
@@ -27,21 +27,24 @@ Diese Dateien in dieser Reihenfolge öffnen:
    welche Patchgruppen beim Start angewendet werden.
 2. `src/RuntimePatch/InventoryBoxDrawPatch.cs` zeigt den einfachsten
    gewöhnlichen Prefix.
-3. `src/RuntimePatch/PlayStatePatchPlan.cs` und
+3. `src/RuntimePatch/HUDManagerInitialisePatch.cs` zeigt einen Postfix;
+   `HUDManagerPatchPlan.cs` behandelt Versionen ohne diese HUD-Implementierung.
+4. `src/RuntimePatch/PlayStatePatchPlan.cs` und
    `src/RuntimePatch/PlayStateAddWorldSyncMessagePatch.cs` zeigen eine
    versionsabhängige Patchgruppe und einen booleschen Prefix.
-4. `src/RuntimePatch/RuntimePatchSession.cs` zeigt den gemeinsamen
+5. `src/RuntimePatch/RuntimePatchSession.cs` zeigt den gemeinsamen
    Harmony-Ablauf: Ziel suchen, Patch registrieren und Registrierung prüfen.
-5. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
+6. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
-6. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-7. `src/BehaviorProbe/BehaviorSuite.cs`, `InventoryBoxScenarios.cs` und
-   `PlayStateScenarios.cs` enthalten die realen Szenarien und ihre minimalen
-   Reflection-Harnesses. `Program.cs` lädt nur die gewünschte echte Assembly.
-8. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
-9. `reference/verified-assemblies.txt` ist der maschinenlesbare Versionsvertrag
+7. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
+8. `src/BehaviorProbe/BehaviorSuite.cs`, `InventoryBoxScenarios.cs`,
+   `HUDManagerScenarios.cs` und `PlayStateScenarios.cs` enthalten die realen
+   Szenarien und ihre minimalen Reflection-Harnesses. `Program.cs` lädt nur die
+   gewünschte echte Assembly.
+9. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
+10. `reference/verified-assemblies.txt` ist der maschinenlesbare Versionsvertrag
    für Original, manuelle Patch-Assembly und Kompatibilitätsversionen.
-10. `src/AssemblyPatching/RuntimeLoaderInjection.cs` ist nur nötig, wenn die
+11. `src/AssemblyPatching/RuntimeLoaderInjection.cs` ist nur nötig, wenn die
    kleine Änderung an `Magicka.Program.Main` verstanden werden soll.
 
 Der normale Kontrollfluss ist:
@@ -51,7 +54,7 @@ Magicka.Program.Main
   -> Bootstrap.Apply
   -> RuntimePatchPlan.ApplyTo
   -> RuntimePatchSession.Apply
-  -> Harmony Prefix
+  -> Harmony Prefix oder Postfix
   -> ursprüngliche Magicka-Methode
 ```
 
@@ -64,7 +67,7 @@ Entscheidungen, und die Reflection-Helfer enthalten die Laufzeitdetails.
 | Rolle | Version | SHA-256 |
 |---|---|---|
 | Original | Magicka 1.10.4.2 | `A896E05A3CFF65CF9BAB4E67E13AE72CB428D99AA93098CF6A8DD8CBC3112EE7` |
-| Manuelle Patch-Assembly | Community Patch 0.0.58 auf Magicka 1.10.4.2 | `33A6F51562077098174971E14F980F59FFD29C440A87F9327E50BAEF3BBE0F22` |
+| Manuelle Patch-Assembly | Community Patch 0.0.60 auf Magicka 1.10.4.2 | `F9457611B5407F40A21548C979C7856D8BC4EF43C9FDDCF5C4570494029E347D` |
 | Kompatibilität | Magicka 1.4.16.0 | `BA15F8F61E172D2D103268587AB92C1DD25842EBC966E1A4D3418FCE27C93BBB` |
 | Kompatibilität | Magicka 1.5.1.0 | `1F3C803F0C33DDB202D9A85D9AA07FD6F67A7304CDF2357FF58F64873327BFE8` |
 
@@ -79,16 +82,26 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Technik: Prefix
   - Szenarien: erste Auflösung und Änderung der Auflösung am selben Effektobjekt
   - Original 1.10.4.2: beide Patch-Szenarien schlagen erwartungsgemäß fehl
-  - Manuelle Patch-Assembly 0.0.58: beide Patch-Szenarien bestehen
+  - Manuelle Patch-Assembly 0.0.60: beide Patch-Szenarien bestehen
   - Original plus Runtime-Patch: beide Patch-Szenarien bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: Prefix wird angewendet und beide Szenarien bestehen
+- [x] `hud-manager-original-hud-enable`
+  - Ziel: `HUDManager.Initialise()`
+  - Technik: Postfix
+  - Fehlerfall: ein deaktiviertes Original-HUD wird wieder aktiviert und die
+    ungenutzte Custom-HUD-Canvas bleibt deaktiviert
+  - Kontrollfall: ein bereits aktives Original-HUD behält seinen Zustand
+  - Original 1.10.4.2: der Fehlerfall schlägt erwartungsgemäß fehl
+  - Manuelle Patch-Assembly 0.0.60: Fehler- und Kontrollfall bestehen
+  - Original plus Runtime-Patch: Fehler- und Kontrollfall bestehen
+  - Magicka 1.4.16.0 und 1.5.1.0: nicht anwendbar, weil `HUDManager` fehlt
 - [x] `play-state-world-sync-spawn-npc-guard`
   - Ziel: `PlayState.AddWorldSyncMessage(WorldSyncMessage)`
   - Technik: boolescher Prefix
   - Fehlerfälle: fehlender Handle, Nicht-NPC und NPC aus einem fremden `PlayState`
   - Kontrollfälle: normale Nachricht, andere Aktion und NPC aus demselben `PlayState`
   - Original 1.10.4.2: alle drei Fehlerfälle schlagen erwartungsgemäß fehl
-  - Manuelle Patch-Assembly 0.0.58: alle sechs Szenarien bestehen
+  - Manuelle Patch-Assembly 0.0.60: alle sechs Szenarien bestehen
   - Original plus Runtime-Patch: alle sechs Szenarien bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: nicht anwendbar, weil Typ und Zielmethode fehlen
 
@@ -130,22 +143,25 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | InventoryBox | PlayState |
-|---|---:|---:|---:|
-| 1.10.4.2 | erzeugt | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | NOT_APPLICABLE |
-| 1.5.1.0 | erzeugt | PASS | NOT_APPLICABLE |
+| Magicka-Version | Runtime-Host | InventoryBox | HUDManager | PlayState |
+|---|---:|---:|---:|---:|
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
+| 1.5.1.0 | erzeugt | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
-enthalten `WorldSyncMessage` und `PlayState.AddWorldSyncMessage` nicht. Der
-Patchplan protokolliert dies und fährt mit allen anderen Patchgruppen fort.
+enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
+`PlayState.AddWorldSyncMessage`. Die Patchpläne protokollieren dies und fahren
+mit allen anderen Patchgruppen fort.
 
 ## Datei-Checkliste der manuellen Patch-Assembly
 
 Grundlage ist der kommentarbereinigte ILSpy-C#-Vergleich zwischen den oben
-genannten 1.10.4.2-Hashes. Er enthält 215 unterschiedliche C#-Dateien.
+genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
+Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
+Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 1 Datei vollständig, 2 Dateien teilweise und 212 Dateien noch
+Aktueller Stand: 2 Dateien vollständig, 2 Dateien teilweise und 216 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -157,6 +173,7 @@ eine neue Dateiliste erzeugen; Dateinamen allein reichen nicht als
 Versionsnachweis.
 
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuTimedObjectiveStatistics.cs`
+- [ ] `Magicka/CommunityPatch/TelemetryRuntimeContext.cs`
 - [ ] `Magicka/GameLogic/Entities/SpellMine.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonPhoenix.cs`
 - [ ] `Magicka/CommunityPatch/DialogLayoutCompatibility.cs`
@@ -257,6 +274,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Grease.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonDeath.cs`
 - [ ] `Magicka/CommunityPatch/InGameUiCompatibility.cs`
+- [ ] `Magicka/CommunityPatch/WidescreenSafeArea.cs`
 - [ ] `Magicka/GameLogic/Entities/NonPlayerCharacter.cs`
 - [ ] `Magicka/Graphics/TypingText.cs`
 - [ ] `Magicka/Program.cs`
@@ -299,7 +317,9 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/ChantSpells.cs`
 - [ ] `Magicka/GameLogic/Entities/Items/Pickable.cs`
 - [ ] `Magicka/GameLogic/Controls/DirectInputController.cs`
-- [ ] `Magicka/CoreFramework/GameSystem/HUDCustomisation/HUDManager.cs`
+- [ ] `Magicka/AI/AgentStates/AIStateAttack.cs`
+- [ ] `Magicka/GlobalSettings.cs`
+- [x] `Magicka/CoreFramework/GameSystem/HUDCustomisation/HUDManager.cs` — VOLLSTÄNDIG: `Initialise`, Postfix und 2 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/UI/InventoryBox.cs` — VOLLSTÄNDIG: `RenderData.Draw`, Prefix und 2 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Entities/Bosses/WarlordCharacter.cs`
 - [ ] `Magicka/GameLogic/Entities/Bosses/Tentacle.cs`
@@ -312,6 +332,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/Options/SubMenuOptionsControls.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonBug.cs`
 - [ ] `Magicka/Levels/Versus/VersusRuleset.cs`
+- [ ] `Magicka/AI/AgentStates/AIStateMove.cs`
 - [ ] `Magicka/Levels/Packs/MagickPack.cs`
 - [ ] `Magicka/Levels/Packs/ItemPack.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/OtherworldlyDischarge.cs`

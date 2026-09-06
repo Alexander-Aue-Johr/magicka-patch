@@ -2,16 +2,18 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-two changes:
+three changes:
 
 - `InventoryBox.RenderData.Draw` updates `TextBoxEffect.ScreenSize` before the
   original method runs.
+- `HUDManager.Initialise` re-enables the original HUD after state transitions.
 - `PlayState.AddWorldSyncMessage` rejects unusable SpawnNPC handles before the
   original enqueue method runs.
 
-Both changes use Harmony prefixes because they are shorter and clearer than
-their former IL transpilers. Future patches may still use transpilers when a
-small insertion inside a large method is easier to express that way.
+The InventoryBox and PlayState changes use Harmony prefixes; the HUDManager
+change uses a postfix. These forms are shorter and clearer than their former IL
+edits. Future patches may still use transpilers when a small insertion inside a
+large method is easier to express that way.
 
 ## Run
 
@@ -57,10 +59,14 @@ behavior instead of claiming that a Harmony wrapper has the same C# or IL shape
 as a manually rewritten method.
 
 Magicka 1.4.16.0 and 1.5.1.0 contain the InventoryBox target and pass its
-runtime scenarios. They do not contain `WorldSyncMessage` or
-`PlayState.AddWorldSyncMessage`; the PlayState patch therefore reports
-`NOT_APPLICABLE` on those versions without preventing other patches from
-loading.
+runtime scenarios. They contain neither the later `HUDManager` implementation
+nor `WorldSyncMessage` and `PlayState.AddWorldSyncMessage`; both unavailable
+patch groups therefore report `NOT_APPLICABLE` without preventing other
+patches from loading.
+
+Source comparison stages each executable and its dependency set in isolated
+directories. This prevents the executable's original location from changing
+ILSpy type resolution or the resulting migration inventory.
 
 See [RUNTIME_PATCHER_REPORT.md](RUNTIME_PATCHER_REPORT.md) for the reading
 order, architecture, reference assembly hashes, verification checklist, and
