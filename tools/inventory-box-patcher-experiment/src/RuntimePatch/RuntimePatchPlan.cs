@@ -163,6 +163,9 @@ namespace Magicka.CommunityPatch.Runtime
                 ChargeAbilityPlayStatePatch.CacheCleanupDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                ActiveBuffCachePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 SummonPlayStatePatch.FlamerVectorExecuteDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

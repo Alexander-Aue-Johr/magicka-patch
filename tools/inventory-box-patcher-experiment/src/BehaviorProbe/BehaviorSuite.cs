@@ -33,6 +33,7 @@ internal static class BehaviorSuite
         ChillyBlastScenarios.Run(magicka, report);
         StarGazeScenarios.Run(magicka, report);
         ChargeAbilityScenarios.Run(magicka, report);
+        ActiveBuffCacheScenarios.Run(magicka, report);
         DrinkBloodScenarios.Run(magicka, report);
         RandomMineScenarios.Run(magicka, report);
         StarfallScenarios.Run(magicka, report);
