@@ -47,7 +47,7 @@ Diese Dateien in dieser Reihenfolge öffnen:
 11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
 12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-13. `src/BehaviorProbe/BehaviorSuite.cs` und die elf `*Scenarios.cs`-Dateien
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die zwölf `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
 14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
@@ -198,6 +198,22 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original plus Runtime-Patch: Fehler- und Kontrollfälle bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: Transpiler wird angewendet und alle drei
     Szenarien bestehen
+- [x] `jormungandr-underground-target`
+  - Ziel: `Jormungandr.UndergroundState.OnUpdate(float, Jormungandr)`
+  - Technik: Transpiler; prüft `mTarget` unmittelbar nach dem vorhandenen
+    `SelectTarget(Random)` und kehrt ohne Ziel aus diesem Update zurück
+  - Fehlerfall: alle vier Player-Slots existieren, aber kein Player besitzt
+    einen lebenden Avatar
+  - Verhalten: Jormungandr bleibt unter der Erde und versucht die Zielwahl im
+    nächsten Update erneut
+  - Kontrollfall: vor Ablauf des Warn-Timers bleibt der bestehende frühe
+    Rücksprung unverändert
+  - Original 1.10.4.2: der Fehlerfall endet nach der erfolglosen Zielwahl in
+    einer NullReferenceException
+  - Manuelle Patch-Assembly 0.0.60: Fehler- und Kontrollfall bestehen
+  - Original plus Runtime-Patch: Fehler- und Kontrollfall bestehen
+  - Magicka 1.4.16.0 und 1.5.1.0: Transpiler wird angewendet und beide
+    Szenarien bestehen
 - [x] `play-state-world-sync-spawn-npc-guard`
   - Ziel: `PlayState.AddWorldSyncMessage(WorldSyncMessage)`
   - Technik: boolescher Prefix
@@ -261,11 +277,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | Avatar | AIStateAttack | EntityManager | Helper | InventoryBox | MagickCamera | HUDManager | Machine | PlayState | Portal |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE | PASS |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE | PASS |
+| Magicka-Version | Runtime-Host | Avatar | AIStateAttack | EntityManager | Helper | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PlayState | Portal |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | NOT_APPLICABLE | PASS |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | NOT_APPLICABLE | PASS |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -279,7 +295,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 6 Dateien vollständig, 6 Dateien teilweise und 208 Dateien noch
+Aktueller Stand: 7 Dateien vollständig, 6 Dateien teilweise und 207 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -433,7 +449,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Bosses/CthulhuMist.cs`
 - [ ] `Magicka/GameLogic/Entities/Bosses/BossCollisionZone.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/DrinkBlood.cs`
-- [ ] `Magicka/GameLogic/Entities/Bosses/Jormungandr.cs`
+- [x] `Magicka/GameLogic/Entities/Bosses/Jormungandr.cs` — VOLLSTÄNDIG: fehlendes Ziel nach `SelectTarget`, Transpiler und 2 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Entities/FrogTongue.cs`
 - [x] `Magicka/GameLogic/Entities/ChantSpells.cs` — VOLLSTÄNDIG: ausschließlich semantikfreie Eliminierung einer lokalen `LightningBolt`-Variablen; `GetLightning()` und `InitializeEffect(...)` bleiben in derselben Reihenfolge und werden jeweils einmal ausgeführt.
 - [ ] `Magicka/GameLogic/Entities/Items/Pickable.cs`

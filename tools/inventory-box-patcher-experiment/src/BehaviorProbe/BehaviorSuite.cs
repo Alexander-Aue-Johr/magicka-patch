@@ -16,6 +16,7 @@ internal static class BehaviorSuite
         MagickCameraScenarios.Run(magicka, report);
         HUDManagerScenarios.Run(magicka, report);
         MachineScenarios.Run(magicka, report);
+        JormungandrScenarios.Run(magicka, report);
         PlayStateScenarios.Run(magicka, report);
         PortalTeleportQueueScenarios.Run(magicka, report);
         return report;

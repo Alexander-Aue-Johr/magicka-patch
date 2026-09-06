@@ -35,6 +35,9 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 MachineNetworkInitializePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                JormungandrUndergroundPatch.Definition);
             PlayStatePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,

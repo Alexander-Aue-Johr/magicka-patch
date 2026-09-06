@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-twelve changes:
+thirteen changes:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -21,6 +21,8 @@ twelve changes:
 - `HUDManager.Initialise` re-enables the original HUD after state transitions.
 - `Machine.NetworkInitialize` marks the boss as initialized only when its
   referenced warlock entity exists.
+- `Jormungandr.UndergroundState.OnUpdate` waits for a live target before
+  beginning its emergence sequence.
 - `PlayState.AddWorldSyncMessage` rejects unusable SpawnNPC handles before the
   original enqueue method runs.
 - `Portal.PortalEntity.Update` skips queued entities that are null or whose
@@ -28,8 +30,8 @@ twelve changes:
 
 The Avatar, AI, Helper, InventoryBox, MagickCamera, and PlayState changes use
 Harmony prefixes; the HUDManager and one EntityManager change use postfixes.
-The Machine, Portal, and remaining EntityManager changes use narrowly checked
-transpilers for small branches inside their original methods.
+The Machine, Jormungandr, Portal, and remaining EntityManager changes use
+narrowly checked transpilers for small branches inside their original methods.
 
 ## Run
 
@@ -75,11 +77,11 @@ behavior instead of claiming that a Harmony wrapper has the same C# or IL shape
 as a manually rewritten method.
 
 Magicka 1.4.16.0 and 1.5.1.0 contain the Avatar, AIStateAttack, EntityManager,
-Helper, InventoryBox, MagickCamera, Machine, and Portal targets and pass their
-runtime scenarios. They contain neither the later `HUDManager` implementation
-nor `WorldSyncMessage` and `PlayState.AddWorldSyncMessage`; both unavailable
-patch groups therefore report `NOT_APPLICABLE` without preventing other patches
-from loading.
+Helper, InventoryBox, Jormungandr, MagickCamera, Machine, and Portal targets and
+pass their runtime scenarios. They contain neither the later `HUDManager`
+implementation nor `WorldSyncMessage` and `PlayState.AddWorldSyncMessage`; both
+unavailable patch groups therefore report `NOT_APPLICABLE` without preventing
+other patches from loading.
 
 Source comparison stages each executable and its dependency set in isolated
 directories. This prevents the executable's original location from changing
