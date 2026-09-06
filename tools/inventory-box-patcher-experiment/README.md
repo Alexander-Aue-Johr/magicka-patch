@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-seventy-nine method patches:
+eighty-two method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -71,6 +71,9 @@ seventy-nine method patches:
 - `SummonFlamer` and `SummonSpirit` no longer retain their supplied play states,
   resolve the active play state while spawning, and release their level-loaded
   templates during `PlayState.Dispose`.
+- `SummonUndead` no longer retains its supplied play state, resolves the active
+  play state while spawning, and releases its level-loaded template array
+  during `PlayState.Dispose`.
 - `SummonCross` no longer retains its supplied play state, resolves the active
   play state while spawning, and releases its pooled instances and template
   during `PlayState.Dispose`.
@@ -94,7 +97,8 @@ changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
 The Agent, AudioManager, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood,
 EntityStateStorage, Flash, Machine, Jormungandr, pack, PoisonSpray, Portal,
-RandomMine, SpawnSlime, SummonCross, SummonFlamer, SummonSpirit, Starfall, VersusRuleset, and
+RandomMine, SpawnSlime, SummonCross, SummonFlamer, SummonSpirit, SummonUndead,
+Starfall, VersusRuleset, and
 remaining EntityManager changes use narrowly checked transpilers for small
 branches inside their original methods. ControlManager, Interactable, and
 SubMenuMain use conditional prefixes.
@@ -150,7 +154,7 @@ AIStateMove, BossHealthBar, CompanyState, ControlManager, DrainLife, DrinkBlood,
 EntityManager, Flash, Interactable,
 EntityStateStorage, Helper, InventoryBox, ItemPack, Jormungandr, MagickCamera,
 MagickPack, Machine, PoisonSpray, Portal, RandomMine, SpawnSlime, SummonCross,
-SummonFlamer, SummonSpirit, Starfall, and VersusRuleset targets and
+SummonFlamer, SummonSpirit, SummonUndead, Starfall, and VersusRuleset targets and
 accept their runtime patches. All
 headless-applicable scenarios pass. They contain
 neither the later `HUDManager`

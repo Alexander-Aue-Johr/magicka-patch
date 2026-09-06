@@ -16,6 +16,15 @@ internal static class SummonPlayStateScenarios
             report.Add("summon_flamer.owner_release", harness.OwnerRelease(false));
             report.Add("summon_spirit.vector_release", harness.VectorRelease(true));
             report.Add("summon_spirit.owner_release", harness.OwnerRelease(true));
+            report.Add("summon_undead.current_play_state", harness.UndeadCurrentPlayState());
+            report.Add("summon_undead.vector_release", harness.UndeadVectorRelease());
+            report.Add("summon_undead.owner_release", harness.UndeadOwnerRelease());
+            report.Add(
+                "summon_undead.level_dispose",
+                harness.UndeadTemplateRelease(true));
+            report.Add(
+                "summon_undead.uninitialized_dispose",
+                harness.UndeadTemplateRelease(false));
             report.Add("summon_templates.level_dispose", harness.TemplateRelease());
             report.Add(
                 "ability_template_cache.level_dispose",
@@ -46,6 +55,7 @@ internal sealed class SummonPlayStateHarness
     private readonly Type vectorType;
     private readonly SummonAbilityFixture flamer;
     private readonly SummonAbilityFixture spirit;
+    private readonly SummonAbilityFixture undead;
     private readonly FieldInfo[] abilityTemplateFields;
     private readonly MethodInfo[] abilityDisposeMethods;
     private readonly FieldInfo networkManagerSingleton;
@@ -104,6 +114,13 @@ internal sealed class SummonPlayStateHarness
             ownerType,
             playStateType,
             vectorType);
+        undead = new SummonAbilityFixture(
+            magicka,
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonUndead",
+            ownerType,
+            playStateType,
+            vectorType,
+            "sTemplates");
         string[] abilityNames = new string[]
         {
             "SummonBug",
@@ -162,7 +179,79 @@ internal sealed class SummonPlayStateHarness
 
     internal ScenarioResult VectorRelease(bool useSpirit)
     {
-        SummonAbilityFixture fixture = useSpirit ? spirit : flamer;
+        return VectorRelease(useSpirit ? spirit : flamer);
+    }
+
+    internal ScenarioResult OwnerRelease(bool useSpirit)
+    {
+        return OwnerRelease(useSpirit ? spirit : flamer);
+    }
+
+    internal ScenarioResult CurrentPlayState(bool useSpirit)
+    {
+        return CurrentPlayState(useSpirit ? spirit : flamer);
+    }
+
+    internal ScenarioResult UndeadVectorRelease()
+    {
+        return VectorRelease(undead);
+    }
+
+    internal ScenarioResult UndeadOwnerRelease()
+    {
+        return OwnerRelease(undead);
+    }
+
+    internal ScenarioResult UndeadCurrentPlayState()
+    {
+        return CurrentPlayState(undead);
+    }
+
+    internal ScenarioResult UndeadTemplateRelease(bool initialized)
+    {
+        Array templates = Array.CreateInstance(characterTemplateType, 5);
+        for (int index = 0; index < templates.Length; index++)
+            templates.SetValue(NewUninitialized(characterTemplateType), index);
+        undead.Template.SetValue(null, templates);
+
+        if (initialized && undead.DisposeCache != null)
+        {
+            Invoke(undead.DisposeCache, null, new object[0]);
+        }
+        else
+        {
+            object playState = NewUninitialized(playStateType);
+            RuntimeReflection.WriteField(playState, "mInitialized", initialized);
+            MethodInfo dispose = playStateType.GetMethod(
+                "Dispose",
+                BindingFlags.Instance | BindingFlags.Public,
+                null,
+                Type.EmptyTypes,
+                null);
+            if (dispose == null)
+                throw new MissingMethodException(playStateType.FullName, "Dispose");
+            try
+            {
+                Invoke(dispose, playState, new object[0]);
+            }
+            catch (Exception)
+            {
+                // The isolated harness intentionally stops when disposal reaches
+                // live game singletons. The tested cleanup runs before that point.
+            }
+        }
+
+        bool released = undead.Template.GetValue(null) == null;
+        undead.Template.SetValue(null, null);
+        bool expectedReleased = initialized;
+        return new ScenarioResult(
+            released == expectedReleased,
+            released ? "released" : "retained",
+            expectedReleased ? "released" : "retained");
+    }
+
+    private ScenarioResult VectorRelease(SummonAbilityFixture fixture)
+    {
         object suppliedPlayState = NewUninitialized(playStateType);
         object ability = NewUninitialized(fixture.Type);
         if (fixture.LegacyPlayState != null)
@@ -188,9 +277,8 @@ internal sealed class SummonPlayStateHarness
             "result:True,state:released,owner_cleared:True");
     }
 
-    internal ScenarioResult OwnerRelease(bool useSpirit)
+    private ScenarioResult OwnerRelease(SummonAbilityFixture fixture)
     {
-        SummonAbilityFixture fixture = useSpirit ? spirit : flamer;
         object suppliedPlayState = NewUninitialized(playStateType);
         object owner = CreateOwner(suppliedPlayState);
         object ability = NewUninitialized(fixture.Type);
@@ -217,9 +305,8 @@ internal sealed class SummonPlayStateHarness
             "result:True,state:released,owner:True");
     }
 
-    internal ScenarioResult CurrentPlayState(bool useSpirit)
+    private ScenarioResult CurrentPlayState(SummonAbilityFixture fixture)
     {
-        SummonAbilityFixture fixture = useSpirit ? spirit : flamer;
         object stalePlayState;
         object currentPlayState;
         object staleNavMesh;
@@ -472,13 +559,24 @@ internal sealed class SummonAbilityFixture
         Type ownerType,
         Type playStateType,
         Type vectorType)
+        : this(magicka, typeName, ownerType, playStateType, vectorType, "sTemplate")
+    {
+    }
+
+    internal SummonAbilityFixture(
+        Assembly magicka,
+        string typeName,
+        Type ownerType,
+        Type playStateType,
+        Type vectorType,
+        string templateFieldName)
     {
         Type = magicka.GetType(typeName, true);
         LegacyPlayState = Type.GetField(
             "mPlayState",
             BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
         Owner = RuntimeReflection.RequireField(Type, "mOwner");
-        Template = RuntimeReflection.RequireField(Type, "sTemplate");
+        Template = RuntimeReflection.RequireField(Type, templateFieldName);
         VectorExecute = RequireMethod(
             "Execute",
             BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly,

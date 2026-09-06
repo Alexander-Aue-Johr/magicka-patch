@@ -267,6 +267,10 @@ function Test-BehaviorMatrix {
         "summon_spirit.owner_release",
         "summon_flamer.current_play_state",
         "summon_spirit.current_play_state",
+        "summon_undead.vector_release",
+        "summon_undead.owner_release",
+        "summon_undead.current_play_state",
+        "summon_undead.level_dispose",
         "summon_templates.level_dispose",
         "ability_template_cache.level_dispose",
         "summon_cross.vector_release",
@@ -337,7 +341,11 @@ function Test-BehaviorProfile(
             "menu_image_text.localized_font_change",
             "language_manager.simplified_chinese_name",
             "language_manager.simplified_chinese_aliases",
-            "chant_spell_cleanup.initialized_dispose")
+            "chant_spell_cleanup.initialized_dispose",
+            "summon_undead.vector_release",
+            "summon_undead.owner_release",
+            "summon_undead.current_play_state",
+            "summon_undead.level_dispose")
     }
     $probeDirectory = Join-Path $toolBuildDirectory "behavior-probe"
     $probe = Join-Path $probeDirectory "BehaviorProbe.exe"
@@ -521,6 +529,11 @@ function Test-BehaviorProfile(
         "summon_spirit.owner_release",
         "summon_flamer.current_play_state",
         "summon_spirit.current_play_state",
+        "summon_undead.current_play_state",
+        "summon_undead.vector_release",
+        "summon_undead.owner_release",
+        "summon_undead.level_dispose",
+        "summon_undead.uninitialized_dispose",
         "summon_templates.level_dispose",
         "ability_template_cache.level_dispose",
         "ability_template_cache.empty_dispose",
@@ -657,13 +670,16 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=SummonSpirit owner play-state release" -or
         $auditLines -notcontains "patch_end=SummonFlamer current play-state spawn" -or
         $auditLines -notcontains "patch_end=SummonSpirit current play-state spawn" -or
+        $auditLines -notcontains "patch_end=SummonUndead vector play-state release" -or
+        $auditLines -notcontains "patch_end=SummonUndead owner play-state release" -or
+        $auditLines -notcontains "patch_end=SummonUndead current play-state spawn" -or
         $auditLines -notcontains "patch_end=SummonCross vector play-state release" -or
         $auditLines -notcontains "patch_end=SummonCross owner play-state release" -or
         $auditLines -notcontains "patch_end=SummonCross current play-state spawn" -or
         $auditLines -notcontains "patch_end=Summon ability template cleanup" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 16 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 59) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 62) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -678,7 +694,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=79")
+    $summary.Add("implemented_patches=82")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

@@ -13,6 +13,8 @@ namespace Magicka.CommunityPatch.Runtime
             "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonFlamer";
         private const string SpiritTypeName =
             "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonSpirit";
+        private const string UndeadTypeName =
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonUndead";
         private const string BugTypeName =
             "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonBug";
         private const string ElementalTypeName =
@@ -24,6 +26,7 @@ namespace Magicka.CommunityPatch.Runtime
 
         private static FieldInfo flamerTemplateField;
         private static FieldInfo spiritTemplateField;
+        private static FieldInfo undeadTemplatesField;
         private static FieldInfo bugTemplateField;
         private static FieldInfo elementalTemplateField;
         private static FieldInfo beastmanTemplateField;
@@ -60,6 +63,20 @@ namespace Magicka.CommunityPatch.Runtime
                 FindSpiritOwnerExecute,
                 typeof(SummonPlayStatePatch).GetMethod("SpiritReleaseTranspiler"));
 
+        internal static readonly RuntimePatchDefinition UndeadVectorExecuteDefinition =
+            RuntimePatchDefinition.Transpile(
+                "SummonUndead vector play-state release",
+                "org.magickacommunitypatch.summon-undead-vector-play-state-release",
+                FindUndeadVectorExecute,
+                typeof(SummonPlayStatePatch).GetMethod("UndeadReleaseTranspiler"));
+
+        internal static readonly RuntimePatchDefinition UndeadOwnerExecuteDefinition =
+            RuntimePatchDefinition.Transpile(
+                "SummonUndead owner play-state release",
+                "org.magickacommunitypatch.summon-undead-owner-play-state-release",
+                FindUndeadOwnerExecute,
+                typeof(SummonPlayStatePatch).GetMethod("UndeadReleaseTranspiler"));
+
         internal static readonly RuntimePatchDefinition FlamerSpawnDefinition =
             RuntimePatchDefinition.Transpile(
                 "SummonFlamer current play-state spawn",
@@ -73,6 +90,13 @@ namespace Magicka.CommunityPatch.Runtime
                 "org.magickacommunitypatch.summon-spirit-current-play-state",
                 FindSpiritPrivateExecute,
                 typeof(SummonPlayStatePatch).GetMethod("SpiritCurrentPlayStateTranspiler"));
+
+        internal static readonly RuntimePatchDefinition UndeadSpawnDefinition =
+            RuntimePatchDefinition.Transpile(
+                "SummonUndead current play-state spawn",
+                "org.magickacommunitypatch.summon-undead-current-play-state",
+                FindUndeadPrivateExecute,
+                typeof(SummonPlayStatePatch).GetMethod("UndeadCurrentPlayStateTranspiler"));
 
         internal static readonly RuntimePatchDefinition TemplateCleanupDefinition =
             RuntimePatchDefinition.Transpile(
@@ -101,6 +125,16 @@ namespace Magicka.CommunityPatch.Runtime
             return FindPublicExecute(targetAssembly, SpiritTypeName, true);
         }
 
+        private static MethodInfo FindUndeadVectorExecute(Assembly targetAssembly)
+        {
+            return FindPublicExecute(targetAssembly, UndeadTypeName, false);
+        }
+
+        private static MethodInfo FindUndeadOwnerExecute(Assembly targetAssembly)
+        {
+            return FindPublicExecute(targetAssembly, UndeadTypeName, true);
+        }
+
         private static MethodInfo FindFlamerPrivateExecute(Assembly targetAssembly)
         {
             return FindPrivateExecute(targetAssembly, FlamerTypeName);
@@ -109,6 +143,11 @@ namespace Magicka.CommunityPatch.Runtime
         private static MethodInfo FindSpiritPrivateExecute(Assembly targetAssembly)
         {
             return FindPrivateExecute(targetAssembly, SpiritTypeName);
+        }
+
+        private static MethodInfo FindUndeadPrivateExecute(Assembly targetAssembly)
+        {
+            return FindPrivateExecute(targetAssembly, UndeadTypeName);
         }
 
         private static MethodInfo FindPublicExecute(
@@ -194,6 +233,9 @@ namespace Magicka.CommunityPatch.Runtime
 
             flamerTemplateField = RequireTemplateField(targetAssembly, FlamerTypeName);
             spiritTemplateField = RequireTemplateField(targetAssembly, SpiritTypeName);
+            undeadTemplatesField = RequireTemplateArrayField(
+                targetAssembly,
+                UndeadTypeName);
             bugTemplateField = RequireTemplateField(targetAssembly, BugTypeName);
             elementalTemplateField = RequireTemplateField(
                 targetAssembly,
@@ -239,6 +281,23 @@ namespace Magicka.CommunityPatch.Runtime
             return field;
         }
 
+        private static FieldInfo RequireTemplateArrayField(
+            Assembly targetAssembly,
+            string typeName)
+        {
+            Type type = targetAssembly.GetType(typeName, true);
+            FieldInfo field = type.GetField(
+                "sTemplates",
+                BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+            Type templateType = targetAssembly.GetType(
+                "Magicka.GameLogic.Entities.CharacterTemplate",
+                true);
+            if (field == null || !field.FieldType.IsArray ||
+                field.FieldType.GetElementType() != templateType)
+                throw new MissingFieldException(type.FullName, "sTemplates");
+            return field;
+        }
+
         private static Type FindLoadedType(string fullName)
         {
             Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
@@ -261,6 +320,12 @@ namespace Magicka.CommunityPatch.Runtime
             IEnumerable<CodeInstruction> instructions)
         {
             return ReleaseTranspiler(instructions, SpiritTypeName);
+        }
+
+        public static IEnumerable<CodeInstruction> UndeadReleaseTranspiler(
+            IEnumerable<CodeInstruction> instructions)
+        {
+            return ReleaseTranspiler(instructions, UndeadTypeName);
         }
 
         private static IEnumerable<CodeInstruction> ReleaseTranspiler(
@@ -317,6 +382,12 @@ namespace Magicka.CommunityPatch.Runtime
             IEnumerable<CodeInstruction> instructions)
         {
             return CurrentPlayStateTranspiler(instructions, SpiritTypeName);
+        }
+
+        public static IEnumerable<CodeInstruction> UndeadCurrentPlayStateTranspiler(
+            IEnumerable<CodeInstruction> instructions)
+        {
+            return CurrentPlayStateTranspiler(instructions, UndeadTypeName);
         }
 
         private static IEnumerable<CodeInstruction> CurrentPlayStateTranspiler(
@@ -442,6 +513,7 @@ namespace Magicka.CommunityPatch.Runtime
         {
             flamerTemplateField.SetValue(null, null);
             spiritTemplateField.SetValue(null, null);
+            undeadTemplatesField.SetValue(null, null);
             bugTemplateField.SetValue(null, null);
             elementalTemplateField.SetValue(null, null);
             beastmanTemplateField.SetValue(null, null);
