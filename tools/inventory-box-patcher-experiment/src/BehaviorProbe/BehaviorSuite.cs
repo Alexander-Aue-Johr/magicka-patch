@@ -8,6 +8,7 @@ internal static class BehaviorSuite
     {
         BehaviorReport report = new BehaviorReport();
         AIStateAttackScenarios.Run(magicka, report);
+        HelperArrayEqualsScenarios.Run(magicka, report);
         InventoryBoxScenarios.Run(magicka, report);
         HUDManagerScenarios.Run(magicka, report);
         MachineScenarios.Run(magicka, report);

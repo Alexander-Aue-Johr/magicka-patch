@@ -27,27 +27,29 @@ Diese Dateien in dieser Reihenfolge öffnen:
    welche Patchgruppen beim Start angewendet werden.
 2. `src/RuntimePatch/AIStateAttackOnExecutePatch.cs` zeigt einen Prefix, der
    einen abgelösten Zielkörper vor dem ursprünglichen Update behandelt.
-3. `src/RuntimePatch/InventoryBoxDrawPatch.cs` zeigt den einfachsten
+3. `src/RuntimePatch/HelperArrayEqualsPatch.cs` zeigt den vollständigen Ersatz
+   einer kleinen reinen Funktion durch einen Prefix.
+4. `src/RuntimePatch/InventoryBoxDrawPatch.cs` zeigt den einfachsten
    gewöhnlichen Prefix.
-4. `src/RuntimePatch/HUDManagerInitialisePatch.cs` zeigt einen Postfix;
+5. `src/RuntimePatch/HUDManagerInitialisePatch.cs` zeigt einen Postfix;
    `HUDManagerPatchPlan.cs` behandelt Versionen ohne diese HUD-Implementierung.
-5. `src/RuntimePatch/MachineNetworkInitializePatch.cs` zeigt einen eng
+6. `src/RuntimePatch/MachineNetworkInitializePatch.cs` zeigt einen eng
    begrenzten Transpiler innerhalb einer bestehenden Methode.
-6. `src/RuntimePatch/PlayStatePatchPlan.cs` und
+7. `src/RuntimePatch/PlayStatePatchPlan.cs` und
    `src/RuntimePatch/PlayStateAddWorldSyncMessagePatch.cs` zeigen eine
    versionsabhängige Patchgruppe und einen booleschen Prefix.
-7. `src/RuntimePatch/RuntimePatchSession.cs` zeigt den gemeinsamen
+8. `src/RuntimePatch/RuntimePatchSession.cs` zeigt den gemeinsamen
    Harmony-Ablauf: Ziel suchen, Patch registrieren und Registrierung prüfen.
-8. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
+9. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
-9. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-10. `src/BehaviorProbe/BehaviorSuite.cs` und die fünf `*Scenarios.cs`-Dateien
+10. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
+11. `src/BehaviorProbe/BehaviorSuite.cs` und die sechs `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
-11. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
-12. `reference/verified-assemblies.txt` ist der maschinenlesbare Versionsvertrag
+12. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
+13. `reference/verified-assemblies.txt` ist der maschinenlesbare Versionsvertrag
    für Original, manuelle Patch-Assembly und Kompatibilitätsversionen.
-13. `src/AssemblyPatching/RuntimeLoaderInjection.cs` ist nur nötig, wenn die
+14. `src/AssemblyPatching/RuntimeLoaderInjection.cs` ist nur nötig, wenn die
    kleine Änderung an `Magicka.Program.Main` verstanden werden soll.
 
 Der normale Kontrollfluss ist:
@@ -93,6 +95,17 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Manuelle Patch-Assembly 0.0.60: Fehler- und Kontrollfälle bestehen
   - Original plus Runtime-Patch: Fehler- und Kontrollfälle bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: Prefix wird angewendet und alle drei
+    Szenarien bestehen
+- [x] `helper-array-equals`
+  - Ziel: `Helper.ArrayEquals(byte[], byte[])`
+  - Technik: boolescher Prefix als vollständiger Ersatz der kleinen Methode
+  - Fehlerfälle: linkes, rechtes oder beide Arrays fehlen
+  - Kontrollfälle: gleiche und verschiedene nichtleere Arrays
+  - Original 1.10.4.2: alle drei Null-Fälle werfen erwartungsgemäß eine
+    NullReferenceException
+  - Manuelle Patch-Assembly 0.0.60: alle fünf Szenarien bestehen
+  - Original plus Runtime-Patch: alle fünf Szenarien bestehen
+  - Magicka 1.4.16.0 und 1.5.1.0: Prefix wird angewendet und alle fünf
     Szenarien bestehen
 - [x] `inventory-box-screen-size`
   - Ziel: `InventoryBox.RenderData.Draw(float)`
@@ -171,11 +184,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | AIStateAttack | InventoryBox | HUDManager | Machine | PlayState |
-|---|---:|---:|---:|---:|---:|---:|
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
-| 1.5.1.0 | erzeugt | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
+| Magicka-Version | Runtime-Host | AIStateAttack | Helper | InventoryBox | HUDManager | Machine | PlayState |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -189,7 +202,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 4 Dateien vollständig, 2 Dateien teilweise und 214 Dateien noch
+Aktueller Stand: 5 Dateien vollständig, 2 Dateien teilweise und 213 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -394,7 +407,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/MeteorShower.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/GreaseTrail.cs`
 - [ ] `Magicka/GameLogic/Entities/Dispenser.cs`
-- [ ] `Magicka/Helper.cs`
+- [x] `Magicka/Helper.cs` — VOLLSTÄNDIG: `ArrayEquals`, Prefix und 5 Drei-Wege-Szenarien.
 - [ ] `Magicka/Graphics/Lights/DynamicLight.cs`
 - [ ] `Magicka/Graphics/Flash.cs`
 - [ ] `Magicka/GameLogic/UI/GenericHealthBar.cs`

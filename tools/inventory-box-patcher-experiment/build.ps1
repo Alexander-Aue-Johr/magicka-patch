@@ -172,6 +172,9 @@ function Create-RuntimeHost(
 function Test-BehaviorMatrix {
     $patchFailures = @(
         "ai_attack.bodyless_target",
+        "helper_array_equals.left_null",
+        "helper_array_equals.right_null",
+        "helper_array_equals.both_null",
         "inventory.initial_screen_size",
         "inventory.changed_screen_size",
         "hud_manager.disabled_original_hud",
@@ -198,12 +201,12 @@ function Test-BehaviorMatrix {
     Test-BehaviorProfile "current-manual-patch" $currentPatchPath "unpatched" @() @() $matrix
     Test-BehaviorProfile "current-runtime-patch" $originalPath "runtime" @() @() $matrix
     Test-BehaviorProfile "1.4.16.0-original" $version14Path "unpatched" `
-        @("ai_attack.bodyless_target", "inventory.initial_screen_size", "inventory.changed_screen_size", "machine.missing_warlock") `
+        @("ai_attack.bodyless_target", "helper_array_equals.left_null", "helper_array_equals.right_null", "helper_array_equals.both_null", "inventory.initial_screen_size", "inventory.changed_screen_size", "machine.missing_warlock") `
         $legacyNotAvailable $matrix
     Test-BehaviorProfile "1.4.16.0-runtime-patch" $version14Path "runtime" `
         @() $legacyNotAvailable $matrix
     Test-BehaviorProfile "1.5.1.0-original" $version15Path "unpatched" `
-        @("ai_attack.bodyless_target", "inventory.initial_screen_size", "inventory.changed_screen_size", "machine.missing_warlock") `
+        @("ai_attack.bodyless_target", "helper_array_equals.left_null", "helper_array_equals.right_null", "helper_array_equals.both_null", "inventory.initial_screen_size", "inventory.changed_screen_size", "machine.missing_warlock") `
         $legacyNotAvailable $matrix
     Test-BehaviorProfile "1.5.1.0-runtime-patch" $version15Path "runtime" `
         @() $legacyNotAvailable $matrix
@@ -242,6 +245,11 @@ function Test-BehaviorProfile(
         "ai_attack.bodyless_target",
         "ai_attack.missing_target",
         "ai_attack.invalid_owner",
+        "helper_array_equals.equal",
+        "helper_array_equals.different",
+        "helper_array_equals.left_null",
+        "helper_array_equals.right_null",
+        "helper_array_equals.both_null",
         "inventory.initial_screen_size",
         "inventory.changed_screen_size",
         "hud_manager.disabled_original_hud",
@@ -308,11 +316,12 @@ function Verify-RuntimeEffectiveDiff {
     $auditLines = @(Get-Content -LiteralPath $runtimeAuditPath)
     if ($auditLines -notcontains "result=PASS" -or
         $auditLines -notcontains "patch_end=AI attack detached target guard" -or
+        $auditLines -notcontains "patch_end=Helper null-safe array equality" -or
         $auditLines -notcontains "patch_end=InventoryBox screen size" -or
         $auditLines -notcontains "patch_end=HUDManager original HUD enable" -or
         $auditLines -notcontains "patch_end=Machine network initialization" -or
         $auditLines -notcontains "patch_end=PlayState SpawnNPC WorldSync guard" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 3 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 4 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 1 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 1) {
         throw "The runtime audit does not contain all registered Harmony patches."
@@ -329,7 +338,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=5")
+    $summary.Add("implemented_patches=6")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
