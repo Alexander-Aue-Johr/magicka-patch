@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-twenty-eight changes:
+thirty changes:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -45,13 +45,15 @@ twenty-eight changes:
   state that created the effect.
 - `RandomMine.Execute` no longer stores the last play state on its process-wide
   singleton.
+- `Starfall` releases its static legacy play-state reference and processes
+  queued strikes against the current play state.
 
 The Avatar, AI, BossHealthBar, Helper, InventoryBox, MagickCamera, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
 The Agent, DrinkBlood, EntityStateStorage, Machine, Jormungandr, pack, Portal,
-RandomMine, VersusRuleset, and remaining EntityManager changes use narrowly
-checked transpilers for small branches inside their original methods.
+RandomMine, Starfall, VersusRuleset, and remaining EntityManager changes use
+narrowly checked transpilers for small branches inside their original methods.
 EntityStateStorage also uses a constructor postfix.
 
 ## Run
@@ -100,7 +102,8 @@ as a manually rewritten method.
 Magicka 1.4.16.0 and 1.5.1.0 contain the Agent, Avatar, AIStateAttack,
 AIStateMove, BossHealthBar, DrinkBlood, EntityManager, EntityStateStorage, Helper,
 InventoryBox, ItemPack, Jormungandr, MagickCamera, MagickPack, Machine, Portal,
-RandomMine, and VersusRuleset targets and accept their runtime patches. All
+RandomMine, Starfall, and VersusRuleset targets and accept their runtime
+patches. All
 headless-applicable scenarios pass. They contain
 neither the later `HUDManager`
 implementation nor `WorldSyncMessage` and `PlayState.AddWorldSyncMessage`; both

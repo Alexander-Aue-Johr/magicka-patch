@@ -209,7 +209,9 @@ function Test-BehaviorMatrix {
         "pack_license.custom_insecure_license",
         "pack_license.custom_insecure_enabled",
         "drink_blood.play_state_release",
-        "random_mine.play_state_release"
+        "random_mine.play_state_release",
+        "starfall.play_state_release",
+        "starfall.current_play_state"
     )
     $playStateNotAvailable = @(
         "play_state.ordinary_message",
@@ -233,12 +235,12 @@ function Test-BehaviorMatrix {
     Test-BehaviorProfile "current-manual-patch" $currentPatchPath "unpatched" @() @() $matrix
     Test-BehaviorProfile "current-runtime-patch" $originalPath "runtime" @() @() $matrix
     Test-BehaviorProfile "1.4.16.0-original" $version14Path "unpatched" `
-        @("avatar_interactable.missing_play_state", "avatar_interactable.missing_level", "avatar_interactable.missing_scene", "avatar_interactable.missing_triggers", "ai_attack.bodyless_target", "ai_move.enter_bodyless_target", "ai_move.execute_bodyless_target", "agent_target.bodyless_player", "closest_damageable.bodyless_candidate", "entity_query.bodyless_entry", "entity_query.null_entry", "entity_clear.stale_grid", "entity_state_storage.constructor_release", "entity_state_storage.current_restore", "helper_array_equals.left_null", "helper_array_equals.right_null", "helper_array_equals.both_null", "inventory.initial_screen_size", "inventory.changed_screen_size", "camera_follow.bodyless_target", "boss_health_bar.current_scene", "boss_health_bar.setter_release", "machine.missing_warlock", "jormungandr.missing_target", "portal_queue.null_then_bodyless", "portal_queue.bodyless_then_null", "pack_license.custom_offline_license", "pack_license.custom_offline_enabled", "pack_license.custom_insecure_license", "pack_license.custom_insecure_enabled", "drink_blood.play_state_release", "random_mine.play_state_release") `
+        @("avatar_interactable.missing_play_state", "avatar_interactable.missing_level", "avatar_interactable.missing_scene", "avatar_interactable.missing_triggers", "ai_attack.bodyless_target", "ai_move.enter_bodyless_target", "ai_move.execute_bodyless_target", "agent_target.bodyless_player", "closest_damageable.bodyless_candidate", "entity_query.bodyless_entry", "entity_query.null_entry", "entity_clear.stale_grid", "entity_state_storage.constructor_release", "entity_state_storage.current_restore", "helper_array_equals.left_null", "helper_array_equals.right_null", "helper_array_equals.both_null", "inventory.initial_screen_size", "inventory.changed_screen_size", "camera_follow.bodyless_target", "boss_health_bar.current_scene", "boss_health_bar.setter_release", "machine.missing_warlock", "jormungandr.missing_target", "portal_queue.null_then_bodyless", "portal_queue.bodyless_then_null", "pack_license.custom_offline_license", "pack_license.custom_offline_enabled", "pack_license.custom_insecure_license", "pack_license.custom_insecure_enabled", "drink_blood.play_state_release", "random_mine.play_state_release", "starfall.play_state_release", "starfall.current_play_state") `
         $legacyNotAvailable $matrix
     Test-BehaviorProfile "1.4.16.0-runtime-patch" $version14Path "runtime" `
         @() $legacyNotAvailable $matrix
     Test-BehaviorProfile "1.5.1.0-original" $version15Path "unpatched" `
-        @("avatar_interactable.missing_play_state", "avatar_interactable.missing_level", "avatar_interactable.missing_scene", "avatar_interactable.missing_triggers", "ai_attack.bodyless_target", "ai_move.enter_bodyless_target", "ai_move.execute_bodyless_target", "agent_target.bodyless_player", "closest_damageable.bodyless_candidate", "entity_query.bodyless_entry", "entity_query.null_entry", "entity_clear.stale_grid", "entity_state_storage.constructor_release", "entity_state_storage.current_restore", "helper_array_equals.left_null", "helper_array_equals.right_null", "helper_array_equals.both_null", "inventory.initial_screen_size", "inventory.changed_screen_size", "camera_follow.bodyless_target", "boss_health_bar.current_scene", "boss_health_bar.setter_release", "machine.missing_warlock", "jormungandr.missing_target", "portal_queue.null_then_bodyless", "portal_queue.bodyless_then_null", "pack_license.custom_offline_license", "pack_license.custom_offline_enabled", "pack_license.custom_insecure_license", "pack_license.custom_insecure_enabled", "drink_blood.play_state_release", "random_mine.play_state_release") `
+        @("avatar_interactable.missing_play_state", "avatar_interactable.missing_level", "avatar_interactable.missing_scene", "avatar_interactable.missing_triggers", "ai_attack.bodyless_target", "ai_move.enter_bodyless_target", "ai_move.execute_bodyless_target", "agent_target.bodyless_player", "closest_damageable.bodyless_candidate", "entity_query.bodyless_entry", "entity_query.null_entry", "entity_clear.stale_grid", "entity_state_storage.constructor_release", "entity_state_storage.current_restore", "helper_array_equals.left_null", "helper_array_equals.right_null", "helper_array_equals.both_null", "inventory.initial_screen_size", "inventory.changed_screen_size", "camera_follow.bodyless_target", "boss_health_bar.current_scene", "boss_health_bar.setter_release", "machine.missing_warlock", "jormungandr.missing_target", "portal_queue.null_then_bodyless", "portal_queue.bodyless_then_null", "pack_license.custom_offline_license", "pack_license.custom_offline_enabled", "pack_license.custom_insecure_license", "pack_license.custom_insecure_enabled", "drink_blood.play_state_release", "random_mine.play_state_release", "starfall.play_state_release", "starfall.current_play_state") `
         $legacyNotAvailable $matrix
     Test-BehaviorProfile "1.5.1.0-runtime-patch" $version15Path "runtime" `
         @() $legacyNotAvailable $matrix
@@ -343,7 +345,10 @@ function Test-BehaviorProfile(
         "drink_blood.execute_behavior",
         "random_mine.play_state_release",
         "random_mine.offline_damage",
-        "random_mine.client_no_damage"
+        "random_mine.client_no_damage",
+        "starfall.play_state_release",
+        "starfall.current_play_state",
+        "starfall.no_damage_queue"
     )
     foreach ($scenarioName in $scenarioNames) {
         $prefix = "scenario.$scenarioName="
@@ -424,9 +429,11 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=MagickPack custom license enable" -or
         $auditLines -notcontains "patch_end=DrinkBlood unused play-state release" -or
         $auditLines -notcontains "patch_end=RandomMine unused play-state release" -or
+        $auditLines -notcontains "patch_end=Starfall unused play-state release" -or
+        $auditLines -notcontains "patch_end=Starfall current play-state update" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 8 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 16) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 18) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -441,7 +448,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=28")
+    $summary.Add("implemented_patches=30")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

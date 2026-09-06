@@ -87,6 +87,12 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 RandomMinePlayStatePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                StarfallPlayStatePatch.ExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                StarfallPlayStatePatch.UpdateDefinition);
         }
     }
 }
