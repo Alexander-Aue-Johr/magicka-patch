@@ -47,7 +47,7 @@ Diese Dateien in dieser Reihenfolge öffnen:
 11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
 12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-13. `src/BehaviorProbe/BehaviorSuite.cs` und die siebenunddreißig `*Scenarios.cs`-Dateien
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die achtunddreißig `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
 14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
@@ -637,6 +637,28 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Runtime-Patch-Profile leeren sie. Der Kontrollfall besteht überall.
   - Die statische Hash-Initialisierer-Darstellung ist Compilerrauschen. Die
     `RetentionRegistry`-Aufrufe folgen im Diagnostics-Block.
+- [x] `entity-update-character-marker-decode`
+  - Ziele: `NetworkServer.Update` und `NetworkClient.Update`
+  - Technik: zwei Transpiler rufen unmittelbar vor dem vorhandenen
+    `ReadMessage` eine gemeinsame, nicht allokierende Prüfung des empfangenen
+    `MemoryStream` auf.
+  - Fehlerfall: Ein `EntityUpdate` trägt das Feature-Bit `Character` (`0x10`).
+    Dieses Bit besitzt kein Payload-Format; der Originaldecoder wirft trotzdem
+    eine `NotImplementedException` und liest nachfolgende Features nicht mehr.
+  - Verhalten: Nur bei `PacketType.EntityUpdate` wird `0x10` vor dem
+    unveränderten Decoder maskiert. Alle folgenden Payload-Felder werden normal
+    gelesen. Das Original verwendet das Bit außerhalb von Read und Write nicht.
+  - Kontrollfall: `EntityUpdate` ohne das Bit bleibt bytegenau unverändert.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 werfen für `Character` sowie
+    `Character | Damageable`. Die manuelle Patch-Assembly 0.0.60 und alle
+    Runtime-Patch-Profile lesen beide Pakete vollständig; der Kontrollfall
+    besteht überall.
+  - `EntityUpdateMessage.Read` selbst wird absichtlich nicht mit Harmony 1.2
+    gepatcht: Schon ein unveränderter Harmony-Transpiler erzeugt für diese
+    unsafe Struct-Methode unter CLR 2 ungültiges Programm-IL. Die äußere
+    Receive-Loop-Lösung hält den Originaldecoder unverändert.
+  - Die manuelle Diagnose `entity_update_character_feature` folgt zusammen mit
+    dem Telemetrieblock.
 
 Die manuelle Hilfsmethode prüft außerdem `Entity.IsDisposed`. Dieses Mitglied
 existiert im Original nicht und gehört zu einer noch nicht migrierten Änderung
@@ -676,11 +698,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
+| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | EntityUpdate | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -694,7 +716,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 32 Dateien vollständig, 13 Dateien teilweise und 175 Dateien noch
+Aktueller Stand: 32 Dateien vollständig, 14 Dateien teilweise und 174 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -850,7 +872,10 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/ChantSpellManager.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Zap.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/VladZap.cs`
-- [ ] `Magicka/Network/EntityUpdateMessage.cs`
+- [ ] `Magicka/Network/EntityUpdateMessage.cs` — TEILWEISE: das payloadlose
+  `Character`-Feature wird vor dem Originaldecoder maskiert, zwei Transpiler und
+  3 Drei-Wege-Szenarien; die Diagnose `entity_update_character_feature` folgt
+  im Telemetrieblock.
 - [ ] `Magicka/GameLogic/Entities/Bosses/CthulhuMist.cs`
 - [ ] `Magicka/GameLogic/Entities/Bosses/BossCollisionZone.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/DrinkBlood.cs` — VOLLSTÄNDIG: ungenutzte PlayState-Referenz in `Execute`, Transpiler und 2 Drei-Wege-Szenarien.

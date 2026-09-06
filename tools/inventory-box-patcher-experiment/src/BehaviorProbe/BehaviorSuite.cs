@@ -4,7 +4,7 @@ using System.Reflection;
 
 internal static class BehaviorSuite
 {
-    internal static BehaviorReport Run(Assembly magicka)
+    internal static BehaviorReport Run(Assembly magicka, bool runtimePatchEnabled)
     {
         BehaviorReport report = new BehaviorReport();
         AvatarFindInteractableScenarios.Run(magicka, report);
@@ -34,6 +34,7 @@ internal static class BehaviorSuite
         StarGazeScenarios.Run(magicka, report);
         ChargeAbilityScenarios.Run(magicka, report);
         ActiveBuffCacheScenarios.Run(magicka, report);
+        EntityUpdateMessageScenarios.Run(magicka, runtimePatchEnabled, report);
         DrinkBloodScenarios.Run(magicka, report);
         RandomMineScenarios.Run(magicka, report);
         StarfallScenarios.Run(magicka, report);

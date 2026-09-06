@@ -23,7 +23,7 @@ internal static class Program
         if (applyRuntimePatch)
             Bootstrap.Apply(targetAssembly);
 
-        BehaviorReport report = BehaviorSuite.Run(targetAssembly);
+        BehaviorReport report = BehaviorSuite.Run(targetAssembly, applyRuntimePatch);
         Console.WriteLine("target=" + targetPath);
         Console.WriteLine("assembly=" + targetAssembly.FullName);
         Console.WriteLine("runtime_patch=" + (applyRuntimePatch ? "enabled" : "disabled"));

@@ -166,6 +166,12 @@ namespace Magicka.CommunityPatch.Runtime
                 ActiveBuffCachePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                EntityUpdateMessageReadPatch.ServerDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                EntityUpdateMessageReadPatch.ClientDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 SummonPlayStatePatch.FlamerVectorExecuteDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
