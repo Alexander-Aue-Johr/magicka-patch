@@ -31,6 +31,7 @@ internal static class BehaviorSuite
         DrainLifeScenarios.Run(magicka, report);
         SubMenuMainScenarios.Run(magicka, report);
         CompanyStateScenarios.Run(magicka, report);
+        ControlManagerScenarios.Run(magicka, report);
         return report;
     }
 }

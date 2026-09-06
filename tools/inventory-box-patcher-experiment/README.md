@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-thirty-three changes:
+thirty-six changes:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -53,6 +53,8 @@ thirty-three changes:
   menu while keyboard and mouse keep the original cursor behavior.
 - `CompanyState.OnExit` clears controller and Tome state before disposing the
   company-screen content manager.
+- Player-input lock operations ignore a controller that has already detached
+  from its player; valid controllers retain the original lock behavior.
 
 The Avatar, AI, BossHealthBar, Helper, InventoryBox, MagickCamera, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
@@ -60,7 +62,7 @@ postfix, while HUDManager and one EntityManager change use ordinary postfixes.
 The Agent, CompanyState, DrainLife, DrinkBlood, EntityStateStorage, Machine,
 Jormungandr, pack, Portal, RandomMine, Starfall, VersusRuleset, and remaining EntityManager
 changes use narrowly checked transpilers for small branches inside their
-original methods. SubMenuMain uses a conditional prefix.
+original methods. ControlManager and SubMenuMain use conditional prefixes.
 EntityStateStorage also uses a constructor postfix.
 
 ## Run
@@ -108,7 +110,7 @@ behavior instead of claiming that a Harmony wrapper has the same C# or IL shape
 as a manually rewritten method.
 
 Magicka 1.4.16.0 and 1.5.1.0 contain the Agent, Avatar, AIStateAttack,
-AIStateMove, BossHealthBar, CompanyState, DrainLife, DrinkBlood, EntityManager,
+AIStateMove, BossHealthBar, CompanyState, ControlManager, DrainLife, DrinkBlood, EntityManager,
 EntityStateStorage, Helper, InventoryBox, ItemPack, Jormungandr, MagickCamera,
 MagickPack, Machine, Portal, RandomMine, Starfall, and VersusRuleset targets and
 accept their runtime patches. All

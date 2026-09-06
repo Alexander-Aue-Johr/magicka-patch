@@ -100,6 +100,15 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 CompanyStateExitPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ControlManagerPlayerLockPatch.LockDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ControlManagerPlayerLockPatch.QueryDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ControlManagerPlayerLockPatch.UnlockDefinition);
         }
     }
 }
