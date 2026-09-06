@@ -29,22 +29,23 @@ Diese Dateien in dieser Reihenfolge öffnen:
    gewöhnlichen Prefix.
 3. `src/RuntimePatch/HUDManagerInitialisePatch.cs` zeigt einen Postfix;
    `HUDManagerPatchPlan.cs` behandelt Versionen ohne diese HUD-Implementierung.
-4. `src/RuntimePatch/PlayStatePatchPlan.cs` und
+4. `src/RuntimePatch/MachineNetworkInitializePatch.cs` zeigt einen eng
+   begrenzten Transpiler innerhalb einer bestehenden Methode.
+5. `src/RuntimePatch/PlayStatePatchPlan.cs` und
    `src/RuntimePatch/PlayStateAddWorldSyncMessagePatch.cs` zeigen eine
    versionsabhängige Patchgruppe und einen booleschen Prefix.
-5. `src/RuntimePatch/RuntimePatchSession.cs` zeigt den gemeinsamen
+6. `src/RuntimePatch/RuntimePatchSession.cs` zeigt den gemeinsamen
    Harmony-Ablauf: Ziel suchen, Patch registrieren und Registrierung prüfen.
-6. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
+7. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
-7. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-8. `src/BehaviorProbe/BehaviorSuite.cs`, `InventoryBoxScenarios.cs`,
-   `HUDManagerScenarios.cs` und `PlayStateScenarios.cs` enthalten die realen
-   Szenarien und ihre minimalen Reflection-Harnesses. `Program.cs` lädt nur die
-   gewünschte echte Assembly.
-9. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
-10. `reference/verified-assemblies.txt` ist der maschinenlesbare Versionsvertrag
+8. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
+9. `src/BehaviorProbe/BehaviorSuite.cs` und die vier `*Scenarios.cs`-Dateien
+   enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
+   `Program.cs` lädt nur die gewünschte echte Assembly.
+10. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
+11. `reference/verified-assemblies.txt` ist der maschinenlesbare Versionsvertrag
    für Original, manuelle Patch-Assembly und Kompatibilitätsversionen.
-11. `src/AssemblyPatching/RuntimeLoaderInjection.cs` ist nur nötig, wenn die
+12. `src/AssemblyPatching/RuntimeLoaderInjection.cs` ist nur nötig, wenn die
    kleine Änderung an `Magicka.Program.Main` verstanden werden soll.
 
 Der normale Kontrollfluss ist:
@@ -95,6 +96,17 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Manuelle Patch-Assembly 0.0.60: Fehler- und Kontrollfall bestehen
   - Original plus Runtime-Patch: Fehler- und Kontrollfall bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: nicht anwendbar, weil `HUDManager` fehlt
+- [x] `machine-network-initialize`
+  - Ziel: `Machine.NetworkInitialize(ref BossInitializeMessage)`
+  - Technik: Transpiler; ersetzt ausschließlich die konstante Zuweisung
+    `mNetworkInitialized = true` durch `mNetworkInitialized = mWarlock != null`
+  - Fehlerfall: die Nachricht verweist auf keinen vorhandenen Warlock
+  - Kontrollfälle: vorhandener Warlock und ein anderer Nachrichtentyp
+  - Original 1.10.4.2: der Fehlerfall schlägt erwartungsgemäß fehl
+  - Manuelle Patch-Assembly 0.0.60: Fehler- und Kontrollfälle bestehen
+  - Original plus Runtime-Patch: Fehler- und Kontrollfälle bestehen
+  - Magicka 1.4.16.0 und 1.5.1.0: Transpiler wird angewendet und alle drei
+    Szenarien bestehen
 - [x] `play-state-world-sync-spawn-npc-guard`
   - Ziel: `PlayState.AddWorldSyncMessage(WorldSyncMessage)`
   - Technik: boolescher Prefix
@@ -143,11 +155,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | InventoryBox | HUDManager | PlayState |
-|---|---:|---:|---:|---:|
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
-| 1.5.1.0 | erzeugt | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
+| Magicka-Version | Runtime-Host | InventoryBox | HUDManager | Machine | PlayState |
+|---|---:|---:|---:|---:|---:|
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
+| 1.5.1.0 | erzeugt | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -161,7 +173,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 2 Dateien vollständig, 2 Dateien teilweise und 216 Dateien noch
+Aktueller Stand: 3 Dateien vollständig, 2 Dateien teilweise und 215 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -323,7 +335,7 @@ Versionsnachweis.
 - [x] `Magicka/GameLogic/UI/InventoryBox.cs` — VOLLSTÄNDIG: `RenderData.Draw`, Prefix und 2 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Entities/Bosses/WarlordCharacter.cs`
 - [ ] `Magicka/GameLogic/Entities/Bosses/Tentacle.cs`
-- [ ] `Magicka/GameLogic/Entities/Bosses/Machine.cs`
+- [x] `Magicka/GameLogic/Entities/Bosses/Machine.cs` — VOLLSTÄNDIG: `NetworkInitialize`, Transpiler und 3 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/GameStates/LoadingScreen.cs`
 - [ ] `Magicka/GameLogic/Entities/Items/Attachment.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonElemental.cs`

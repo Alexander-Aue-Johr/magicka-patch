@@ -11,6 +11,9 @@ namespace Magicka.CommunityPatch.Runtime
                 targetAssembly,
                 InventoryBoxDrawPatch.Definition);
             HUDManagerPatchPlan.ApplyTo(targetAssembly);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                MachineNetworkInitializePatch.Definition);
             PlayStatePatchPlan.ApplyTo(targetAssembly);
         }
     }

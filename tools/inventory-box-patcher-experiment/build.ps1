@@ -174,6 +174,7 @@ function Test-BehaviorMatrix {
         "inventory.initial_screen_size",
         "inventory.changed_screen_size",
         "hud_manager.disabled_original_hud",
+        "machine.missing_warlock",
         "play_state.missing_spawn",
         "play_state.non_npc_spawn",
         "play_state.foreign_state_spawn"
@@ -196,12 +197,12 @@ function Test-BehaviorMatrix {
     Test-BehaviorProfile "current-manual-patch" $currentPatchPath "unpatched" @() @() $matrix
     Test-BehaviorProfile "current-runtime-patch" $originalPath "runtime" @() @() $matrix
     Test-BehaviorProfile "1.4.16.0-original" $version14Path "unpatched" `
-        @("inventory.initial_screen_size", "inventory.changed_screen_size") `
+        @("inventory.initial_screen_size", "inventory.changed_screen_size", "machine.missing_warlock") `
         $legacyNotAvailable $matrix
     Test-BehaviorProfile "1.4.16.0-runtime-patch" $version14Path "runtime" `
         @() $legacyNotAvailable $matrix
     Test-BehaviorProfile "1.5.1.0-original" $version15Path "unpatched" `
-        @("inventory.initial_screen_size", "inventory.changed_screen_size") `
+        @("inventory.initial_screen_size", "inventory.changed_screen_size", "machine.missing_warlock") `
         $legacyNotAvailable $matrix
     Test-BehaviorProfile "1.5.1.0-runtime-patch" $version15Path "runtime" `
         @() $legacyNotAvailable $matrix
@@ -241,6 +242,9 @@ function Test-BehaviorProfile(
         "inventory.changed_screen_size",
         "hud_manager.disabled_original_hud",
         "hud_manager.enabled_original_hud",
+        "machine.missing_warlock",
+        "machine.valid_warlock",
+        "machine.other_message",
         "play_state.ordinary_message",
         "play_state.other_action",
         "play_state.missing_spawn",
@@ -301,9 +305,11 @@ function Verify-RuntimeEffectiveDiff {
     if ($auditLines -notcontains "result=PASS" -or
         $auditLines -notcontains "patch_end=InventoryBox screen size" -or
         $auditLines -notcontains "patch_end=HUDManager original HUD enable" -or
+        $auditLines -notcontains "patch_end=Machine network initialization" -or
         $auditLines -notcontains "patch_end=PlayState SpawnNPC WorldSync guard" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 2 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 1) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 1 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 1) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -318,7 +324,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=3")
+    $summary.Add("implemented_patches=4")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
