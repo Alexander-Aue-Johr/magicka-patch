@@ -69,6 +69,7 @@ internal static class BehaviorSuite
             runtimePatchEnabled,
             report);
         BlizzardCleanupScenarios.Run(magicka, report);
+        AnimatedLevelPartCollisionScenarios.Run(magicka, report);
         return report;
     }
 }

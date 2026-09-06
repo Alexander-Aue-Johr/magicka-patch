@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-ninety-six method patches:
+ninety-seven method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -92,6 +92,8 @@ ninety-six method patches:
   cached object.
 - `Blizzard.OnRemove` releases its scene, caster, and ambience cue before the
   existing cue-stop operation can fail.
+- `AnimatedLevelPart.Update` removes collision registrations whose entity or
+  physics body has already been detached.
 - `EntityUpdate` packets carrying the payloadless Character feature marker are
   decoded without aborting the remaining update fields.
 - Loading-screen clears restore the managed depth buffer before drawing.
@@ -115,7 +117,7 @@ ninety-six method patches:
 The Avatar, AI, Blizzard, BossHealthBar, Helper, InventoryBox, MagickCamera, Player, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
-The Agent, AudioManager, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood,
+The Agent, AnimatedLevelPart, AudioManager, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood,
 EntityStateStorage, Flash, Machine, Jormungandr, pack, PoisonSpray, Portal,
 RandomMine, SpawnSlime, SummonCross, SummonFlamer, SummonSpirit, SummonUndead,
 Starfall, VersusRuleset, JudgementSpray, DialogLayout, ShadowBlobs, and

@@ -192,6 +192,9 @@ namespace Magicka.CommunityPatch.Runtime
                 BlizzardCleanupPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                AnimatedLevelPartCollisionPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 EntityUpdateMessageReadPatch.ServerDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
