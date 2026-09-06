@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-seventy-seven method patches:
+seventy-eight method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -76,6 +76,7 @@ seventy-seven method patches:
   during `PlayState.Dispose`.
 - The remaining level-owned summon templates, charge-ability pools, and active
   Haste and Shrink pools are released during `PlayState.Dispose`.
+- Active chant spells run their existing stop lifecycle during level disposal.
 - `EntityUpdate` packets carrying the payloadless Character feature marker are
   decoded without aborting the remaining update fields.
 - Loading-screen clears restore the managed depth buffer before drawing.

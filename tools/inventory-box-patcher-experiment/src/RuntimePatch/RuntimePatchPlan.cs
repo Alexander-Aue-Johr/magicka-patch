@@ -180,6 +180,9 @@ namespace Magicka.CommunityPatch.Runtime
                 ActiveBuffCachePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                ChantSpellCleanupPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 EntityUpdateMessageReadPatch.ServerDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

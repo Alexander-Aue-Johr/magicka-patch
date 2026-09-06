@@ -211,6 +211,7 @@ function Test-BehaviorMatrix {
         "paradox_popup.plain_clears_extra",
         "language_manager.simplified_chinese_name",
         "language_manager.simplified_chinese_aliases",
+        "chant_spell_cleanup.initialized_dispose",
         "hud_manager.disabled_original_hud",
         "machine.missing_warlock",
         "jormungandr.missing_target",
@@ -334,7 +335,8 @@ function Test-BehaviorProfile(
             "menu_image_text.literal_font_change",
             "menu_image_text.localized_font_change",
             "language_manager.simplified_chinese_name",
-            "language_manager.simplified_chinese_aliases")
+            "language_manager.simplified_chinese_aliases",
+            "chant_spell_cleanup.initialized_dispose")
     }
     $probeDirectory = Join-Path $toolBuildDirectory "behavior-probe"
     $probe = Join-Path $probeDirectory "BehaviorProbe.exe"
@@ -430,6 +432,8 @@ function Test-BehaviorProfile(
         "language_manager.simplified_chinese_name",
         "language_manager.simplified_chinese_aliases",
         "language_manager.existing_lookup",
+        "chant_spell_cleanup.uninitialized_dispose",
+        "chant_spell_cleanup.initialized_dispose",
         "hud_manager.disabled_original_hud",
         "hud_manager.enabled_original_hud",
         "machine.missing_warlock",
@@ -640,6 +644,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=StopCharge current GreaseSplash state" -or
         $auditLines -notcontains "patch_end=Charge ability level cache cleanup" -or
         $auditLines -notcontains "patch_end=Haste and Shrink level cache cleanup" -or
+        $auditLines -notcontains "patch_end=Active chant-spell level cleanup" -or
         $auditLines -notcontains "patch_end=NetworkServer EntityUpdate Character marker decode" -or
         $auditLines -notcontains "patch_end=NetworkClient EntityUpdate Character marker decode" -or
         $auditLines -notcontains "patch_end=SummonFlamer vector play-state release" -or
@@ -652,7 +657,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=SummonCross owner play-state release" -or
         $auditLines -notcontains "patch_end=SummonCross current play-state spawn" -or
         $auditLines -notcontains "patch_end=Summon ability template cleanup" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 15 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 16 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 58) {
         throw "The runtime audit does not contain all registered Harmony patches."
@@ -669,7 +674,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=77")
+    $summary.Add("implemented_patches=78")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
