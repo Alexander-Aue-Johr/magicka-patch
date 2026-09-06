@@ -186,6 +186,9 @@ namespace Magicka.CommunityPatch.Runtime
                 StaticLevelPoolCleanupPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                JudgementSprayConditionCachePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 EntityUpdateMessageReadPatch.ServerDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

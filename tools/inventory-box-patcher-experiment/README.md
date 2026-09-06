@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-ninety-four method patches:
+ninety-five method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -87,6 +87,9 @@ ninety-four method patches:
 - Active chant spells run their existing stop lifecycle during level disposal.
 - Static ability, spell, spell-effect, and lightweight entity pools are emptied
   after the original entity-manager cleanup during level disposal.
+- `JudgementSpray.SpawnProjectile` allocates a replacement condition collection
+  when the shared pool is temporarily empty and otherwise reuses the original
+  cached object.
 - `EntityUpdate` packets carrying the payloadless Character feature marker are
   decoded without aborting the remaining update fields.
 - Loading-screen clears restore the managed depth buffer before drawing.
@@ -113,7 +116,7 @@ postfix, while HUDManager and one EntityManager change use ordinary postfixes.
 The Agent, AudioManager, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood,
 EntityStateStorage, Flash, Machine, Jormungandr, pack, PoisonSpray, Portal,
 RandomMine, SpawnSlime, SummonCross, SummonFlamer, SummonSpirit, SummonUndead,
-Starfall, VersusRuleset, DialogLayout, ShadowBlobs, and
+Starfall, VersusRuleset, JudgementSpray, DialogLayout, ShadowBlobs, and
 remaining EntityManager changes use narrowly checked transpilers for small
 branches inside their original methods. ControlManager, Interactable, and
 SubMenuMain use conditional prefixes.
