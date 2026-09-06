@@ -580,6 +580,18 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
+    && args[0] == "--patch-widescreen-safe-area")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchWidescreenSafeAreaOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": kept keyboard HUD and right-aligned tutorial hints inside a centred 16:9 safe area");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--patch-closest-damageable-detached-body")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -730,6 +742,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-camera-detached-follow-target"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-widescreen-safe-area"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-closest-damageable-detached-body"
@@ -9827,6 +9842,219 @@ static (int DirectReferences, int TotalReferences) RebindSelfReferences(
     }
 
     return (directReferences, totalReferences);
+}
+
+static void PatchWidescreenSafeAreaOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    ModuleDefinition module = assembly.MainModule;
+    Dictionary<string, TypeDefinition> types = AllTypes(module)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+
+    TypeDefinition helper = AddWidescreenSafeAreaHelper(module, types);
+    MethodDefinition getHorizontalInset = RequireMethod(
+        helper,
+        "GetHorizontalInset",
+        parameterCount: 2);
+    MethodDefinition getRightAlignedCentre = RequireMethod(
+        helper,
+        "GetRightAlignedCentre",
+        parameterCount: 3);
+
+    TypeDefinition keyboardHudRenderData = RequireType(
+        types,
+        "Magicka.GameLogic.UI.KeyboardHUD/RenderData");
+    MethodDefinition drawIcon = RequireMethod(
+        keyboardHudRenderData,
+        "DrawIcon",
+        parameterCount: 4);
+    FieldDefinition keyboardScreenSize = keyboardHudRenderData.Fields.Single(
+        field => field.Name == "mScreenSize"
+            && field.FieldType.FullName == "Microsoft.Xna.Framework.Point");
+    FieldReference pointX = FindFieldReference(
+        drawIcon,
+        "Microsoft.Xna.Framework.Point",
+        "X",
+        "System.Int32");
+    FieldReference pointY = FindFieldReference(
+        drawIcon,
+        "Microsoft.Xna.Framework.Point",
+        "Y",
+        "System.Int32");
+    ILProcessor keyboardProcessor = drawIcon.Body.GetILProcessor();
+    Instruction keyboardFirst = drawIcon.Body.Instructions[0];
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Ldarg_3));
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Ldarg_0));
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Ldflda, keyboardScreenSize));
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Ldfld, pointX));
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Ldarg_0));
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Ldflda, keyboardScreenSize));
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Ldfld, pointY));
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Call, getHorizontalInset));
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Add));
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Starg_S, drawIcon.Parameters[2]));
+    drawIcon.Body.MaxStackSize = Math.Max(drawIcon.Body.MaxStackSize, 3);
+
+    TypeDefinition hintRenderData = RequireType(
+        types,
+        "Magicka.Graphics.TutorialManager/HintRenderData");
+    MethodDefinition drawHint = RequireMethod(hintRenderData, "Draw", parameterCount: 1);
+    FieldDefinition hintPosition = hintRenderData.Fields.Single(
+        field => field.Name == "HintPosition");
+    VariableDefinition screenSize = drawHint.Body.Variables.Single(
+        variable => variable.Index == 1
+            && variable.VariableType.FullName == "Microsoft.Xna.Framework.Point");
+    VariableDefinition hintSize = drawHint.Body.Variables.Single(
+        variable => variable.Index == 0
+            && variable.VariableType.FullName == "Microsoft.Xna.Framework.Vector2");
+    VariableDefinition horizontalPosition = drawHint.Body.Variables
+        .Where(variable => variable.VariableType.FullName == "System.Single")
+        .ElementAt(0);
+    FieldReference vectorX = FindFieldReference(
+        drawHint,
+        "Microsoft.Xna.Framework.Vector2",
+        "X",
+        "System.Single");
+    Instruction insertBefore = drawHint.Body.Instructions.First(
+        instruction => instruction.OpCode == OpCodes.Ldfld
+            && instruction.Operand is FieldReference field
+            && field.FullName == "Magicka.Graphics.Effects.TextBoxEffect Magicka.Graphics.TutorialManager/HintRenderData::mBoxEffect");
+    Instruction adjustRightAligned = Instruction.Create(OpCodes.Ldloca_S, screenSize);
+    Instruction skipAdjustment = Instruction.Create(OpCodes.Nop);
+    ILProcessor hintProcessor = drawHint.Body.GetILProcessor();
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldarg_0));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldfld, hintPosition));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldc_I4_5));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Beq, adjustRightAligned));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldarg_0));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldfld, hintPosition));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldc_I4_8));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Bne_Un, skipAdjustment));
+    hintProcessor.InsertBefore(insertBefore, adjustRightAligned);
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldfld, pointX));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldloca_S, screenSize));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldfld, pointY));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldloca_S, hintSize));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldfld, vectorX));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Call, getRightAlignedCentre));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Stloc, horizontalPosition));
+    hintProcessor.InsertBefore(insertBefore, skipAdjustment);
+    drawHint.Body.MaxStackSize = Math.Max(drawHint.Body.MaxStackSize, 3);
+
+    WriteAssembly(assembly, outputPath);
+}
+
+static FieldReference FindFieldReference(
+    MethodDefinition method,
+    string declaringType,
+    string name,
+    string fieldType)
+{
+    return method.Body.Instructions
+        .Select(instruction => instruction.Operand as FieldReference)
+        .Where(field => field is not null
+            && field.DeclaringType.FullName == declaringType
+            && field.Name == name
+            && field.FieldType.FullName == fieldType)
+        .Cast<FieldReference>()
+        .First();
+}
+
+static TypeDefinition AddWidescreenSafeAreaHelper(
+    ModuleDefinition module,
+    IDictionary<string, TypeDefinition> types)
+{
+    const string fullName = "Magicka.CommunityPatch.WidescreenSafeArea";
+    if (types.ContainsKey(fullName))
+    {
+        throw new InvalidOperationException(fullName + " already exists.");
+    }
+
+    TypeDefinition helper = new TypeDefinition(
+        "Magicka.CommunityPatch",
+        "WidescreenSafeArea",
+        TypeAttributes.NotPublic | TypeAttributes.Abstract | TypeAttributes.Sealed
+        | TypeAttributes.BeforeFieldInit | TypeAttributes.Class,
+        module.TypeSystem.Object);
+    module.Types.Add(helper);
+    types.Add(fullName, helper);
+
+    MethodDefinition getInset = new MethodDefinition(
+        "GetHorizontalInset",
+        MethodAttributes.Assembly | MethodAttributes.Static | MethodAttributes.HideBySig,
+        module.TypeSystem.Single);
+    getInset.Parameters.Add(new ParameterDefinition("screenWidth", ParameterAttributes.None, module.TypeSystem.Int32));
+    getInset.Parameters.Add(new ParameterDefinition("screenHeight", ParameterAttributes.None, module.TypeSystem.Int32));
+    VariableDefinition safeWidth = new VariableDefinition(module.TypeSystem.Int32);
+    getInset.Body.Variables.Add(safeWidth);
+    getInset.Body.InitLocals = true;
+    ILProcessor inset = getInset.Body.GetILProcessor();
+    Instruction zeroInset = Instruction.Create(OpCodes.Ldc_R4, 0f);
+    inset.Append(Instruction.Create(OpCodes.Ldarg_1));
+    inset.Append(Instruction.Create(OpCodes.Ldc_I4_S, (sbyte)16));
+    inset.Append(Instruction.Create(OpCodes.Mul));
+    inset.Append(Instruction.Create(OpCodes.Ldc_I4_S, (sbyte)9));
+    inset.Append(Instruction.Create(OpCodes.Div));
+    inset.Append(Instruction.Create(OpCodes.Stloc, safeWidth));
+    inset.Append(Instruction.Create(OpCodes.Ldarg_0));
+    inset.Append(Instruction.Create(OpCodes.Ldloc, safeWidth));
+    inset.Append(Instruction.Create(OpCodes.Ble, zeroInset));
+    inset.Append(Instruction.Create(OpCodes.Ldarg_0));
+    inset.Append(Instruction.Create(OpCodes.Ldloc, safeWidth));
+    inset.Append(Instruction.Create(OpCodes.Sub));
+    inset.Append(Instruction.Create(OpCodes.Conv_R4));
+    inset.Append(Instruction.Create(OpCodes.Ldc_R4, 0.5f));
+    inset.Append(Instruction.Create(OpCodes.Mul));
+    inset.Append(Instruction.Create(OpCodes.Ret));
+    inset.Append(zeroInset);
+    inset.Append(Instruction.Create(OpCodes.Ret));
+    getInset.Body.MaxStackSize = 2;
+    helper.Methods.Add(getInset);
+
+    MethodDefinition getRight = new MethodDefinition(
+        "GetRightAlignedCentre",
+        MethodAttributes.Assembly | MethodAttributes.Static | MethodAttributes.HideBySig,
+        module.TypeSystem.Single);
+    getRight.Parameters.Add(new ParameterDefinition("screenWidth", ParameterAttributes.None, module.TypeSystem.Int32));
+    getRight.Parameters.Add(new ParameterDefinition("screenHeight", ParameterAttributes.None, module.TypeSystem.Int32));
+    getRight.Parameters.Add(new ParameterDefinition("contentWidth", ParameterAttributes.None, module.TypeSystem.Single));
+    VariableDefinition rightSafeWidth = new VariableDefinition(module.TypeSystem.Int32);
+    getRight.Body.Variables.Add(rightSafeWidth);
+    getRight.Body.InitLocals = true;
+    ILProcessor right = getRight.Body.GetILProcessor();
+    Instruction keepSafeWidth = Instruction.Create(OpCodes.Ldarg_0);
+    right.Append(Instruction.Create(OpCodes.Ldarg_1));
+    right.Append(Instruction.Create(OpCodes.Ldc_I4_S, (sbyte)16));
+    right.Append(Instruction.Create(OpCodes.Mul));
+    right.Append(Instruction.Create(OpCodes.Ldc_I4_S, (sbyte)9));
+    right.Append(Instruction.Create(OpCodes.Div));
+    right.Append(Instruction.Create(OpCodes.Stloc, rightSafeWidth));
+    right.Append(Instruction.Create(OpCodes.Ldloc, rightSafeWidth));
+    right.Append(Instruction.Create(OpCodes.Ldarg_0));
+    right.Append(Instruction.Create(OpCodes.Ble, keepSafeWidth));
+    right.Append(Instruction.Create(OpCodes.Ldarg_0));
+    right.Append(Instruction.Create(OpCodes.Stloc, rightSafeWidth));
+    right.Append(keepSafeWidth);
+    right.Append(Instruction.Create(OpCodes.Ldloc, rightSafeWidth));
+    right.Append(Instruction.Create(OpCodes.Sub));
+    right.Append(Instruction.Create(OpCodes.Conv_R4));
+    right.Append(Instruction.Create(OpCodes.Ldc_R4, 0.5f));
+    right.Append(Instruction.Create(OpCodes.Mul));
+    right.Append(Instruction.Create(OpCodes.Ldloc, rightSafeWidth));
+    right.Append(Instruction.Create(OpCodes.Conv_R4));
+    right.Append(Instruction.Create(OpCodes.Ldc_R4, 0.95f));
+    right.Append(Instruction.Create(OpCodes.Mul));
+    right.Append(Instruction.Create(OpCodes.Add));
+    right.Append(Instruction.Create(OpCodes.Ldarg_2));
+    right.Append(Instruction.Create(OpCodes.Ldc_R4, 0.5f));
+    right.Append(Instruction.Create(OpCodes.Mul));
+    right.Append(Instruction.Create(OpCodes.Sub));
+    right.Append(Instruction.Create(OpCodes.Ret));
+    getRight.Body.MaxStackSize = 3;
+    helper.Methods.Add(getRight);
+    return helper;
 }
 
 static void EnsureNotAlreadyPatched(AssemblyDefinition assembly)
