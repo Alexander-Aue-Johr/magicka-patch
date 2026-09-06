@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-twenty changes:
+twenty-two changes:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -19,6 +19,8 @@ twenty changes:
 - `EntityManager.GetEntities` skips null and bodyless spatial entries.
 - `EntityManager.ClearAndStore` rebuilds the QuadGrid immediately after scene
   teardown.
+- `EntityStateStorage` releases its constructor play-state reference and
+  restores saved entities into the current play state.
 - `Helper.ArrayEquals` treats every missing byte array as unequal.
 - `InventoryBox.RenderData.Draw` updates `TextBoxEffect.ScreenSize` before the
   original method runs.
@@ -41,9 +43,10 @@ twenty changes:
 The Avatar, AI, BossHealthBar, Helper, InventoryBox, MagickCamera, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
-The Agent, Machine, Jormungandr, Portal, VersusRuleset, and remaining
-EntityManager changes use narrowly checked transpilers for small branches
-inside their original methods.
+The Agent, EntityStateStorage, Machine, Jormungandr, Portal, VersusRuleset, and
+remaining EntityManager changes use narrowly checked transpilers for small
+branches inside their original methods. EntityStateStorage also uses a
+constructor postfix.
 
 ## Run
 
@@ -89,8 +92,8 @@ behavior instead of claiming that a Harmony wrapper has the same C# or IL shape
 as a manually rewritten method.
 
 Magicka 1.4.16.0 and 1.5.1.0 contain the Agent, Avatar, AIStateAttack,
-AIStateMove, BossHealthBar, EntityManager, Helper, InventoryBox, Jormungandr,
-MagickCamera, Machine, Portal, and VersusRuleset targets and accept their
+AIStateMove, BossHealthBar, EntityManager, EntityStateStorage, Helper,
+InventoryBox, Jormungandr, MagickCamera, Machine, Portal, and VersusRuleset targets and accept their
 runtime patches. All headless-applicable scenarios pass. They contain
 neither the later `HUDManager`
 implementation nor `WorldSyncMessage` and `PlayState.AddWorldSyncMessage`; both

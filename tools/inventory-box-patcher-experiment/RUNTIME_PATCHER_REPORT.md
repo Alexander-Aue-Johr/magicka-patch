@@ -47,7 +47,7 @@ Diese Dateien in dieser Reihenfolge öffnen:
 11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
 12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-13. `src/BehaviorProbe/BehaviorSuite.cs` und die sechzehn `*Scenarios.cs`-Dateien
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die siebzehn `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
 14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
@@ -178,6 +178,21 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original plus Runtime-Patch: Fehler- und Kontrollfall bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: Postfix wird angewendet und beide Szenarien
     bestehen
+- [x] `entity-state-storage-play-state-lifetime`
+  - Ziele: `EntityStateStorage(PlayState)` und `EntityStateStorage.Restore(...)`
+  - Technik: Konstruktor-Postfix zum Freigeben des Legacy-Felds und Transpiler,
+    der genau zwei `mPlayState`-Lesezugriffe durch `PlayState.RecentPlayState`
+    ersetzt
+  - Fehlerfälle: der Konstruktor hält einen alten `PlayState`; nach einem
+    Übergang erhält `Pickable.State.Restore` diesen alten Zustand
+  - Verhalten: gespeicherte Entity-Zustände halten keinen Levelzustand fest und
+    werden in den aktuell aktiven `PlayState` wiederhergestellt
+  - Kontrollfall: ein leerer Zustand bleibt beim Wiederherstellen leer
+  - Original 1.10.4.2: beide Fehlerfälle schlagen erwartungsgemäß fehl
+  - Manuelle Patch-Assembly 0.0.60: alle drei Szenarien bestehen
+  - Original plus Runtime-Patch: alle drei Szenarien bestehen
+  - Magicka 1.4.16.0 und 1.5.1.0: beide Patches werden angewendet und alle drei
+    Szenarien bestehen
 - [x] `helper-array-equals`
   - Ziel: `Helper.ArrayEquals(byte[], byte[])`
   - Technik: boolescher Prefix als vollständiger Ersatz der kleinen Methode
@@ -341,11 +356,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | Agent | Avatar | AIStateAttack | AIStateMove | BossHealthBar | EntityManager | Helper | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PlayState | Portal | VersusRuleset |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
+| Magicka-Version | Runtime-Host | Agent | Avatar | AIStateAttack | AIStateMove | BossHealthBar | EntityManager | EntityStateStorage | Helper | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PlayState | Portal | VersusRuleset |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -359,7 +374,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 10 Dateien vollständig, 7 Dateien teilweise und 203 Dateien noch
+Aktueller Stand: 11 Dateien vollständig, 7 Dateien teilweise und 202 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -491,7 +506,7 @@ Versionsnachweis.
 - [ ] `Magicka/Levels/Liquid.cs`
 - [ ] `Magicka/Levels/Triggers/Actions/SetDialogHint.cs`
 - [ ] `Magicka/GameLogic/Controls/Controller.cs`
-- [ ] `Magicka/GameLogic/Entities/EntityStateStorage.cs`
+- [x] `Magicka/GameLogic/Entities/EntityStateStorage.cs` — VOLLSTÄNDIG: PlayState-Lebensdauer in Konstruktor und `Restore`, 2 Runtime-Patches und 3 Drei-Wege-Szenarien.
 - [ ] `Magicka/WebTools/Paradox/ParadoxPopupUtils.cs`
 - [ ] `Magicka/GameLogic/UI/ShadowBlobs.cs`
 - [ ] `Magicka/GameLogic/Entities/AnimationClipAction.cs`

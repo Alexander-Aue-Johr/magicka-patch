@@ -33,6 +33,12 @@ namespace Magicka.CommunityPatch.Runtime
                 EntityManagerClearAndStorePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                EntityStateStoragePatch.ConstructorDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                EntityStateStoragePatch.RestoreDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 HelperArrayEqualsPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
