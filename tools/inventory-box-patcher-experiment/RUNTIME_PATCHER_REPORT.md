@@ -529,7 +529,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 22 Dateien vollständig, 9 Dateien teilweise und 189 Dateien noch
+Aktueller Stand: 23 Dateien vollständig, 9 Dateien teilweise und 188 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -673,7 +673,10 @@ Versionsnachweis.
 - [ ] `Magicka/Graphics/NotifierButton.cs`
 - [ ] `Magicka/GameLogic/Statistics/StatisticsManager.cs`
 - [ ] `Magicka/Graphics/TextBox.cs`
-- [ ] `Magicka/Levels/Triggers/Actions/AssignItem.cs`
+- [x] `Magicka/Levels/Triggers/Actions/AssignItem.cs` — VOLLSTÄNDIG:
+  ausschließlich semantikfreie Darstellung derselben drei statischen
+  Hash-Initialisierungen in einem expliziten Typinitialisierer; Reihenfolge,
+  aufgerufene Methode und zugewiesene Werte sind im IL identisch.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/JudgementSpray.cs`
 - [ ] `Magicka/GameLogic/Spells/IceSpikes.cs`
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptions.cs`
