@@ -47,7 +47,7 @@ Diese Dateien in dieser Reihenfolge öffnen:
 11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
 12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-13. `src/BehaviorProbe/BehaviorSuite.cs` und die vierzig `*Scenarios.cs`-Dateien
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die einundvierzig `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
 14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
@@ -508,6 +508,19 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     `PlayState`; Kontrollfall besteht
   - Manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile: beide
     Szenarien bestehen
+- [x] `menu-image-text-language-refresh`
+  - Ziel: `MenuImageTextItem.LanguageChanged()`
+  - Technik: Transpiler; ergänzt die aktuelle Font-Zeilenhöhe am
+    Methodenanfang und ersetzt nur den frühen Rücksprung für literalen Text
+    durch `mTitle.MarkAsDirty()`
+  - Fehlerfälle: die Sprache lädt einen Font mit anderer Zeilenhöhe oder ein
+    literaler Titel behält Vertexdaten des vorherigen Fonts
+  - Kontrollfall: der vorhandene lokalisierte Pfad ruft weiterhin genau einmal
+    `GetString`, `SetText` und `UpdateBoundingBox` auf
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0: beide Aktualisierungen fehlen;
+    der Kontrollfall besteht
+  - Manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile: alle drei
+    Szenarien bestehen
 - [x] `flash-scene-lifetime`
   - Ziele: `Flash.Execute(Scene, float)` und
     `Flash.Update(DataChannel, float)`
@@ -750,11 +763,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | EntityUpdate | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset | AbilityTemplates | LoadingScreen | DirectInput |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS |
+| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | EntityUpdate | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset | AbilityTemplates | LoadingScreen | DirectInput | MenuImageText |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -768,7 +781,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 38 Dateien vollständig, 16 Dateien teilweise und 166 Dateien noch
+Aktueller Stand: 39 Dateien vollständig, 16 Dateien teilweise und 165 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -892,7 +905,9 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Spells/UnderGroundAttack.cs`
 - [ ] `Magicka/CommunityPatch/NetworkGuardTelemetryBackoff.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/HealingRain.cs`
-- [ ] `Magicka/GameLogic/GameStates/Menu/MenuImageTextItem.cs`
+- [x] `Magicka/GameLogic/GameStates/Menu/MenuImageTextItem.cs` — VOLLSTÄNDIG:
+  Font-Zeilenhöhe und literale Textvertices werden bei einem Sprachwechsel
+  aktualisiert, Transpiler und 3 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/GameStates/CompanyState.cs` — VOLLSTÄNDIG: Content-Dispose nach Controller- und Tome-Cleanup, Transpiler und ein Drei-Wege-Reihenfolgetest; die statische Initialisierer-Umschreibung ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/Localization/LanguageManager.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/RandomMine.cs` — VOLLSTÄNDIG: ungenutzte PlayState-Referenz im Singleton, Transpiler und 3 Drei-Wege-Szenarien; die sichtbare statische Initialisierer-Umschreibung ist semantikfreies Compilerrauschen.

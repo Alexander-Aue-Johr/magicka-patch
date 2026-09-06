@@ -124,6 +124,9 @@ namespace Magicka.CommunityPatch.Runtime
                 DeflectionAuraPlayStatePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                MenuImageTextItemPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 FlashScenePatch.ExecuteDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
