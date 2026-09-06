@@ -142,6 +142,27 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 PoisonSprayPlayStatePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonPlayStatePatch.FlamerVectorExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonPlayStatePatch.FlamerOwnerExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonPlayStatePatch.SpiritVectorExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonPlayStatePatch.SpiritOwnerExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonPlayStatePatch.FlamerSpawnDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonPlayStatePatch.SpiritSpawnDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonPlayStatePatch.TemplateCleanupDefinition);
         }
     }
 }

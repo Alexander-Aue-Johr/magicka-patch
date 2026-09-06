@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-forty-seven changes:
+fifty-four changes:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -66,15 +66,19 @@ forty-seven changes:
   both slime-spawn helpers resolve the current play state's NavMesh when used.
 - `PoisonSpray` no longer retains its creating play state and borrows its
   temporary entity-query list from the current play state.
+- `SummonFlamer` and `SummonSpirit` no longer retain their supplied play states,
+  resolve the active play state while spawning, and release their level-loaded
+  templates during `PlayState.Dispose`.
 
 The Avatar, AI, BossHealthBar, Helper, InventoryBox, MagickCamera, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
 The Agent, AudioManager, CompanyState, DeflectionAura, DrainLife, DrinkBlood,
 EntityStateStorage, Flash, Machine, Jormungandr, pack, PoisonSpray, Portal,
-RandomMine, SpawnSlime, Starfall, VersusRuleset, and remaining EntityManager changes use narrowly checked
-transpilers for small branches inside their original methods. ControlManager,
-Interactable, and SubMenuMain use conditional prefixes.
+RandomMine, SpawnSlime, SummonFlamer, SummonSpirit, Starfall, VersusRuleset, and
+remaining EntityManager changes use narrowly checked transpilers for small
+branches inside their original methods. ControlManager, Interactable, and
+SubMenuMain use conditional prefixes.
 EntityStateStorage also uses a constructor postfix.
 
 ## Run
@@ -126,7 +130,8 @@ AIStateAttack, DeflectionAura,
 AIStateMove, BossHealthBar, CompanyState, ControlManager, DrainLife, DrinkBlood,
 EntityManager, Flash, Interactable,
 EntityStateStorage, Helper, InventoryBox, ItemPack, Jormungandr, MagickCamera,
-MagickPack, Machine, PoisonSpray, Portal, RandomMine, SpawnSlime, Starfall, and VersusRuleset targets and
+MagickPack, Machine, PoisonSpray, Portal, RandomMine, SpawnSlime, SummonFlamer,
+SummonSpirit, Starfall, and VersusRuleset targets and
 accept their runtime patches. All
 headless-applicable scenarios pass. They contain
 neither the later `HUDManager`
