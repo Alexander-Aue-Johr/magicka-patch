@@ -16,9 +16,9 @@ parameter types, and return type. Added methods and methods whose IL, locals,
 maximum stack, initialization flag, or exception clauses changed are included.
 The CLR-2-compatible probe loads the current assembly from a staging directory
 containing the installed game dependencies and calls
-`RuntimeHelpers.PrepareMethod` for every concrete changed method. Generic
-methods are tested using call-site instantiations or a representative type that
-satisfies their declared constraints.
+`RuntimeHelpers.PrepareMethod` for every concrete changed method. Methods and
+declaring types with generic parameters are closed using call-site
+instantiations or representative types that satisfy their declared constraints.
 
 Abstract, runtime-provided, and P/Invoke methods have no managed body to JIT and
 are reported as explicit skips. Any other unresolved open generic method fails

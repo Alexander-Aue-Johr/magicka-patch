@@ -34,9 +34,15 @@ foreach (MethodDefinition method in currentMethods
              .Where(method => selectedKeys.Contains(MethodKey(method)))
              .OrderBy(MethodKey, StringComparer.Ordinal))
 {
-    if (!method.HasGenericParameters && !method.DeclaringType.HasGenericParameters)
+    TypeReference[] declaringArguments = method.DeclaringType.HasGenericParameters
+        ? method.DeclaringType.GenericParameters
+            .Select(parameter => RepresentativeType(parameter, current))
+            .ToArray()
+        : [];
+
+    if (!method.HasGenericParameters)
     {
-        entries.Add(Entry(method, []));
+        entries.Add(Entry(method, declaringArguments, []));
         continue;
     }
 
@@ -64,7 +70,7 @@ foreach (MethodDefinition method in currentMethods
             .ToArray();
         if (representativeArguments.All(argument => argument is not null))
         {
-            entries.Add(Entry(method, representativeArguments!));
+            entries.Add(Entry(method, declaringArguments, representativeArguments!));
             continue;
         }
         entries.Add("SKIP\t" + MethodKey(method)
@@ -73,6 +79,7 @@ foreach (MethodDefinition method in currentMethods
     }
     entries.AddRange(instances.Select(instance => Entry(
         method,
+        declaringArguments,
         instance.GenericArguments)));
 }
 
@@ -88,10 +95,15 @@ return 0;
 
 static string Entry(
     MethodDefinition method,
-    IEnumerable<TypeReference> genericArguments) =>
+    IEnumerable<TypeReference> declaringArguments,
+    IEnumerable<TypeReference> methodArguments) =>
     "JIT\t" + method.MetadataToken.ToInt32() + "\t"
-    + string.Join(",", genericArguments.Select(argument =>
-        argument.MetadataToken.ToInt32())) + "\t" + MethodKey(method);
+    + TypeTokens(declaringArguments) + "\t"
+    + TypeTokens(methodArguments) + "\t" + MethodKey(method);
+
+static string TypeTokens(IEnumerable<TypeReference> arguments) =>
+    string.Join(",", arguments.Select(argument =>
+        argument.MetadataToken.ToInt32()));
 
 static IEnumerable<MethodDefinition> Methods(AssemblyDefinition assembly) =>
     AllTypes(assembly.MainModule).SelectMany(type => type.Methods);
@@ -110,7 +122,9 @@ static TypeDefinition RepresentativeType(
         .Select(constraint => constraint.ConstraintType.FullName)
         .ToArray();
     return AllTypes(assembly.MainModule).First(type =>
-        (!parameter.HasNotNullableValueTypeConstraint || type.IsValueType)
+        type.Name != "<Module>"
+        && !type.HasGenericParameters
+        && (!parameter.HasNotNullableValueTypeConstraint || type.IsValueType)
         && (!parameter.HasDefaultConstructorConstraint
             || type.IsValueType
             || type.Methods.Any(method => method.IsConstructor
