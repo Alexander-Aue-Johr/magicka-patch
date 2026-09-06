@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-thirty-nine changes:
+forty-one changes:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -60,12 +60,14 @@ thirty-nine changes:
 - `AudioManager.StopAll` skips XNA cues that have already been disposed.
 - `DeflectionAura.Execute` no longer stores an unused strong reference to its
   creating play state.
+- `Flash.Execute` no longer retains the scene that triggered the singleton,
+  and `Flash.Update` submits rendering to the current play-state scene.
 
 The Avatar, AI, BossHealthBar, Helper, InventoryBox, MagickCamera, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
 The Agent, AudioManager, CompanyState, DeflectionAura, DrainLife, DrinkBlood,
-EntityStateStorage, Machine, Jormungandr, pack, Portal, RandomMine, Starfall,
+EntityStateStorage, Flash, Machine, Jormungandr, pack, Portal, RandomMine, Starfall,
 VersusRuleset, and remaining EntityManager changes use narrowly checked
 transpilers for small branches inside their original methods. ControlManager,
 Interactable, and SubMenuMain use conditional prefixes.
@@ -118,7 +120,7 @@ as a manually rewritten method.
 Magicka 1.4.16.0 and 1.5.1.0 contain the Agent, AudioManager, Avatar,
 AIStateAttack, DeflectionAura,
 AIStateMove, BossHealthBar, CompanyState, ControlManager, DrainLife, DrinkBlood,
-EntityManager, Interactable,
+EntityManager, Flash, Interactable,
 EntityStateStorage, Helper, InventoryBox, ItemPack, Jormungandr, MagickCamera,
 MagickPack, Machine, Portal, RandomMine, Starfall, and VersusRuleset targets and
 accept their runtime patches. All

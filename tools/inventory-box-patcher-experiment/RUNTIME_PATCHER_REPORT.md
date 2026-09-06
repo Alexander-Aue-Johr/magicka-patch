@@ -47,7 +47,7 @@ Diese Dateien in dieser Reihenfolge öffnen:
 11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
 12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-13. `src/BehaviorProbe/BehaviorSuite.cs` und die achtundzwanzig `*Scenarios.cs`-Dateien
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die neunundzwanzig `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
 14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
@@ -472,6 +472,25 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     `PlayState`; Kontrollfall besteht
   - Manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile: beide
     Szenarien bestehen
+- [x] `flash-scene-lifetime`
+  - Ziele: `Flash.Execute(Scene, float)` und
+    `Flash.Update(DataChannel, float)`
+  - Technik: zwei Transpiler; der erste entfernt nur die Zuweisung an
+    `mScene`, der zweite ersetzt nur den Empfänger des vorhandenen
+    `AddRenderableAdditiveObject`-Aufrufs durch
+    `PlayState.RecentPlayState.Scene`
+  - Fehlerfälle: das Singleton hält die beim Auslösen übergebene Szene fest
+    und ein späteres Update reicht Renderdaten an diese veraltete Szene weiter
+  - Kontrollverhalten: TTL, Intensität, gerenderte Intensität und der einzelne
+    `SpellManager.AddSpellEffect`-Aufruf bleiben erhalten
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0: beide Fehlerfälle verwenden die
+    gespeicherte Szene; alle Kontrollwerte bestehen
+  - Manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile: beide
+    Szenarien bestehen und verwenden die aktuelle Szene
+  - Das manuelle `IDisposable`-Mitglied ruft ausschließlich das leere
+    `OnRemove()` auf und hat kein Cleanup-Verhalten; es benötigt keinen
+    Runtime-Ersatz. Die explizite Darstellung des statischen Lock-Initialisierers
+    ist semantikfreies Compilerrauschen.
 
 Die manuelle Hilfsmethode prüft außerdem `Entity.IsDisposed`. Dieses Mitglied
 existiert im Original nicht und gehört zu einer noch nicht migrierten Änderung
@@ -511,11 +530,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | Portal | RandomMine | Starfall | SubMenuMain | VersusRuleset |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
+| Magicka-Version | Runtime-Host | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | Portal | RandomMine | Starfall | SubMenuMain | VersusRuleset |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -529,7 +548,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 23 Dateien vollständig, 9 Dateien teilweise und 188 Dateien noch
+Aktueller Stand: 24 Dateien vollständig, 9 Dateien teilweise und 187 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -748,7 +767,10 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Dispenser.cs`
 - [x] `Magicka/Helper.cs` — VOLLSTÄNDIG: `ArrayEquals`, Prefix und 5 Drei-Wege-Szenarien.
 - [ ] `Magicka/Graphics/Lights/DynamicLight.cs`
-- [ ] `Magicka/Graphics/Flash.cs`
+- [x] `Magicka/Graphics/Flash.cs` — VOLLSTÄNDIG: gespeicherte Szenenreferenz in
+  `Execute` und veralteter Szenenzugriff in `Update`, 2 Transpiler und 2
+  Drei-Wege-Szenarien; der leere `IDisposable`-Wrapper und die Darstellung des
+  statischen Lock-Initialisierers ändern kein Laufzeitverhalten.
 - [ ] `Magicka/GameLogic/UI/GenericHealthBar.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/WaveEntity.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/EtherealClone.cs`
