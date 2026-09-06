@@ -219,6 +219,12 @@ namespace Magicka.CommunityPatch.Runtime
                 SummonPlayStatePatch.UndeadSpawnDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                UndeadSummonNetworkPatch.HostDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                UndeadSummonNetworkPatch.ClientDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 SummonCrossPlayStatePatch.VectorExecuteDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

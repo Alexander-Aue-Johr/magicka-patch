@@ -47,7 +47,7 @@ Diese Dateien in dieser Reihenfolge öffnen:
 11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
 12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-13. `src/BehaviorProbe/BehaviorSuite.cs` und die fünfundvierzig `*Scenarios.cs`-Dateien
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die sechsundvierzig `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
 14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
@@ -666,6 +666,29 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     bestehen alle fünf Szenarien.
   - Die zusätzliche Netzwerksemantik in dieser Datei gehört zu Issue #28 und
     bleibt bis zu dessen eigener Host-/Client-Verifikation separat offen.
+- [x] `summon-undead-network-state`
+  - Ziele: die private `SummonUndead.Execute`-Spawn-Methode auf dem Host und
+    `Trigger.SpawnNPC` auf dem Client
+  - Technik: der Host-Transpiler setzt das vorhandene `Bool2` im Speicher und
+    kodiert zusätzlich negative Null in `Color.X`. Der Client-Transpiler
+    ersetzt genau den einparametrigen `Summoned`-Aufruf durch den vorhandenen
+    booleschen Overload und wertet beide Marker aus.
+  - Fehlerfall: der Host kennzeichnet die Kreatur als Undead, der ursprüngliche
+    Client ruft jedoch `Summoned(master)` auf und verliert den Zustand.
+  - Protokoll: `Bool2` wird für `SpawnNPC` auch in 0.0.60 nicht serialisiert.
+    Ein neues Byte wäre inkompatibel, weil Magicka mehrere Nachrichten in einem
+    P2P-Paket aneinanderreiht. `Color.X` wird bereits als `HalfSingle`
+    übertragen; negative Null bleibt beim Roundtrip erhalten, hat dieselbe
+    Paketgröße und ist für alte Clients numerisch unverändert.
+  - Kontrollverhalten: positive Null und `Bool2 == false` bleiben ein normaler
+    Summon. Ein alter Client kann das unverändert große neue Paket lesen und
+    behält sein bisheriges Verhalten.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 setzen beziehungsweise übernehmen
+    den Undead-Zustand nicht. Die manuelle Assembly setzt nur den nicht
+    übertragenen Speichermarker. Alle Runtime-Patch-Profile setzen beide
+    Marker, wenden den Zustand an und bestehen den echten Write/Read-Roundtrip.
+  - Die vorhandenen Telemetrieaufrufe aus 0.0.60 folgen mit dem gemeinsamen
+    Runtime-Telemetrieblock; die Netzwerksemantik ist davon unabhängig.
 - [x] `summon-cross-play-state-lifetime`
   - Ziele: beide öffentlichen `SummonCross.Execute`-Überladungen, die private
     `Execute()`-Methode und die bereits gepatchte Cleanup-Stelle in
@@ -837,11 +860,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChantSpells | StaticPools | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | EntityUpdate | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonUndead | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset | AbilityTemplates | LoadingScreen | DirectInput | MenuImageText | ParadoxPopup | Language |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS |
+| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChantSpells | StaticPools | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | EntityUpdate | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonUndead | UndeadNetwork | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset | AbilityTemplates | LoadingScreen | DirectInput | MenuImageText | ParadoxPopup | Language |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -855,7 +878,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 41 Dateien vollständig, 54 Dateien teilweise und 125 Dateien noch
+Aktueller Stand: 41 Dateien vollständig, 55 Dateien teilweise und 124 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -932,7 +955,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/GameStates/PlayState.cs` — TEILWEISE: `AddWorldSyncMessage` sowie die dokumentierten levelgebundenen Cleanup-Injektionen sind migriert; weitere Dispose-, Übergangs- und Diagnoseänderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Spells/Magick.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Spells/Railgun.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
-- [ ] `Magicka/Levels/Triggers/Trigger.cs`
+- [ ] `Magicka/Levels/Triggers/Trigger.cs` — TEILWEISE: `SpawnNPC` übernimmt den über das unveränderte Paketformat transportierten Undead-Zustand; weitere Netzwerk-, Dispose- und Diagnoseänderungen dieser Klasse sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/Gib.cs`
 - [ ] `Magicka/GameLogic/Entities/MissileEntity.cs`
 - [ ] `Magicka/GameLogic/Controls/XInputController.cs`
@@ -1108,7 +1131,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/HomingCharge.cs` — TEILWEISE: gespeicherter PlayState, veralteter EntityManager-Zugriff und statischer Levelcache sind mit 3 Transpilern und gemeinsamen Drei-Wege-Szenarien migriert; die GC-Diagnosemarkierungen folgen im Diagnostics-Block.
 - [ ] `Magicka/Graphics/EffectManager.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Shrink.cs` — TEILWEISE: freier und aktiver Pool werden im initialisierten Level-Dispose geleert, ein Transpiler und 2 Drei-Wege-Szenarien; die GC-Diagnosemarkierungen folgen im Diagnostics-Block.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonUndead.cs` — TEILWEISE: beide gespeicherten PlayState-Zuweisungen, vier veraltete Spawn-Zugriffe und der statische Template-Cache sind mit 3 Transpilern und 5 Drei-Wege-Szenarien migriert; die Netzwerk-Replikation des Undead-Flags bleibt in Issue #28 offen.
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonUndead.cs` — TEILWEISE: beide gespeicherten PlayState-Zuweisungen, vier veraltete Spawn-Zugriffe, statischer Template-Cache und die Netzwerk-Replikation des Undead-Flags sind mit 5 Transpilern und 9 Drei-Wege-Szenarien migriert; die zugehörige Telemetrie folgt mit dem gemeinsamen Diagnostics-Block.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonCross.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, drei veraltete Spawn-Zugriffe sowie Pool- und Template-Freigabe, 3 Transpiler und 4 Drei-Wege-Szenarien; die statische Hash-Initialisierung ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/StopCharge.cs` — TEILWEISE: gespeicherter PlayState, veralteter `GreaseSplash`-Zustand und statischer Levelcache sind mit 3 Transpilern und gemeinsamen Drei-Wege-Szenarien migriert; die GC-Diagnosemarkierungen folgen im Diagnostics-Block.
 - [ ] `Magicka/GameLogic/GameStates/MenuState.cs` — TEILWEISE: Controllererkennung und verzögerte DirectInput-Warnung sind migriert; die Änderung an `OnExit` bleibt separat offen.
