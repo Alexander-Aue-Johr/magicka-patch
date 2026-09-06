@@ -47,7 +47,7 @@ Diese Dateien in dieser Reihenfolge öffnen:
 11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
 12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-13. `src/BehaviorProbe/BehaviorSuite.cs` und die zwölf `*Scenarios.cs`-Dateien
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die dreizehn `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
 14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
@@ -113,6 +113,22 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original plus Runtime-Patch: Fehler- und Kontrollfälle bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: Prefix wird angewendet und alle drei
     Szenarien bestehen
+- [x] `ai-move-detached-target`
+  - Ziele: `AIStateMove.OnEnter(IAI)` und `AIStateMove.OnExecute(IAI, float)`
+  - Technik: zwei Transpiler; `OnEnter` ergänzt die Body-Prüfung in der
+    vorhandenen optionalen Zielbedingung, `OnExecute` ergänzt sie nach `Dead`
+    im vorhandenen Pop-State-Zweig
+  - Fehlerfälle: ein Agent hält ein nicht totes Ziel, dessen Body bereits
+    abgelöst ist
+  - Verhalten: `OnEnter` berechnet keinen zielrelativen Wegpunkt;
+    `OnExecute` verlässt den Move-State vor `IsUseful` und `Position`
+  - Kontrollfälle: beide Methoden mit fehlendem Ziel
+  - Original 1.10.4.2: beide körperlosen Zielzustände lesen `Entity.Position`
+    und enden in einer NullReferenceException
+  - Manuelle Patch-Assembly 0.0.60: alle vier Szenarien bestehen
+  - Original plus Runtime-Patch: alle vier Szenarien bestehen
+  - Magicka 1.4.16.0 und 1.5.1.0: beide Transpiler werden angewendet und alle
+    vier Szenarien bestehen
 - [x] `entity-manager-closest-damageable`
   - Ziel: `EntityManager.GetClosestIDamageable(...)`
   - Technik: Transpiler; fügt unmittelbar vor dem ersten `Position`-Zugriff
@@ -277,11 +293,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | Avatar | AIStateAttack | EntityManager | Helper | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PlayState | Portal |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | NOT_APPLICABLE | PASS |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | NOT_APPLICABLE | PASS |
+| Magicka-Version | Runtime-Host | Avatar | AIStateAttack | AIStateMove | EntityManager | Helper | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PlayState | Portal |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | NOT_APPLICABLE | PASS |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | NOT_APPLICABLE | PASS |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -295,7 +311,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 7 Dateien vollständig, 6 Dateien teilweise und 207 Dateien noch
+Aktueller Stand: 8 Dateien vollständig, 6 Dateien teilweise und 206 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -469,7 +485,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/Options/SubMenuOptionsControls.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonBug.cs`
 - [ ] `Magicka/Levels/Versus/VersusRuleset.cs`
-- [ ] `Magicka/AI/AgentStates/AIStateMove.cs`
+- [x] `Magicka/AI/AgentStates/AIStateMove.cs` — VOLLSTÄNDIG: Body-Guards in `OnEnter` und `OnExecute`, 2 Transpiler und 4 Drei-Wege-Szenarien.
 - [ ] `Magicka/Levels/Packs/MagickPack.cs`
 - [ ] `Magicka/Levels/Packs/ItemPack.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/OtherworldlyDischarge.cs`

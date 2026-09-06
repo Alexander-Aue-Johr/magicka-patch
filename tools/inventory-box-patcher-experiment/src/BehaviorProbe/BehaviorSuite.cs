@@ -9,6 +9,7 @@ internal static class BehaviorSuite
         BehaviorReport report = new BehaviorReport();
         AvatarFindInteractableScenarios.Run(magicka, report);
         AIStateAttackScenarios.Run(magicka, report);
+        AIStateMoveScenarios.Run(magicka, report);
         EntityManagerClosestDamageableScenarios.Run(magicka, report);
         EntityManagerTransitionScenarios.Run(magicka, report);
         HelperArrayEqualsScenarios.Run(magicka, report);

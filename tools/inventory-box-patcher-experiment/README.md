@@ -2,12 +2,16 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-thirteen changes:
+fifteen changes:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
 - `AIStateAttack.OnExecute` releases a target whose physics body has already
   been detached.
+- `AIStateMove.OnEnter` omits the target-relative waypoint when that target's
+  physics body has already been detached.
+- `AIStateMove.OnExecute` leaves the move state before reading a detached
+  target's position.
 - `EntityManager.GetClosestIDamageable` skips candidates whose physics body has
   already been detached.
 - `EntityManager.GetEntities` skips null and bodyless spatial entries.

@@ -176,6 +176,8 @@ function Test-BehaviorMatrix {
         "avatar_interactable.missing_scene",
         "avatar_interactable.missing_triggers",
         "ai_attack.bodyless_target",
+        "ai_move.enter_bodyless_target",
+        "ai_move.execute_bodyless_target",
         "closest_damageable.bodyless_candidate",
         "entity_query.bodyless_entry",
         "entity_query.null_entry",
@@ -213,12 +215,12 @@ function Test-BehaviorMatrix {
     Test-BehaviorProfile "current-manual-patch" $currentPatchPath "unpatched" @() @() $matrix
     Test-BehaviorProfile "current-runtime-patch" $originalPath "runtime" @() @() $matrix
     Test-BehaviorProfile "1.4.16.0-original" $version14Path "unpatched" `
-        @("avatar_interactable.missing_play_state", "avatar_interactable.missing_level", "avatar_interactable.missing_scene", "avatar_interactable.missing_triggers", "ai_attack.bodyless_target", "closest_damageable.bodyless_candidate", "entity_query.bodyless_entry", "entity_query.null_entry", "entity_clear.stale_grid", "helper_array_equals.left_null", "helper_array_equals.right_null", "helper_array_equals.both_null", "inventory.initial_screen_size", "inventory.changed_screen_size", "camera_follow.bodyless_target", "machine.missing_warlock", "jormungandr.missing_target", "portal_queue.null_then_bodyless", "portal_queue.bodyless_then_null") `
+        @("avatar_interactable.missing_play_state", "avatar_interactable.missing_level", "avatar_interactable.missing_scene", "avatar_interactable.missing_triggers", "ai_attack.bodyless_target", "ai_move.enter_bodyless_target", "ai_move.execute_bodyless_target", "closest_damageable.bodyless_candidate", "entity_query.bodyless_entry", "entity_query.null_entry", "entity_clear.stale_grid", "helper_array_equals.left_null", "helper_array_equals.right_null", "helper_array_equals.both_null", "inventory.initial_screen_size", "inventory.changed_screen_size", "camera_follow.bodyless_target", "machine.missing_warlock", "jormungandr.missing_target", "portal_queue.null_then_bodyless", "portal_queue.bodyless_then_null") `
         $legacyNotAvailable $matrix
     Test-BehaviorProfile "1.4.16.0-runtime-patch" $version14Path "runtime" `
         @() $legacyNotAvailable $matrix
     Test-BehaviorProfile "1.5.1.0-original" $version15Path "unpatched" `
-        @("avatar_interactable.missing_play_state", "avatar_interactable.missing_level", "avatar_interactable.missing_scene", "avatar_interactable.missing_triggers", "ai_attack.bodyless_target", "closest_damageable.bodyless_candidate", "entity_query.bodyless_entry", "entity_query.null_entry", "entity_clear.stale_grid", "helper_array_equals.left_null", "helper_array_equals.right_null", "helper_array_equals.both_null", "inventory.initial_screen_size", "inventory.changed_screen_size", "camera_follow.bodyless_target", "machine.missing_warlock", "jormungandr.missing_target", "portal_queue.null_then_bodyless", "portal_queue.bodyless_then_null") `
+        @("avatar_interactable.missing_play_state", "avatar_interactable.missing_level", "avatar_interactable.missing_scene", "avatar_interactable.missing_triggers", "ai_attack.bodyless_target", "ai_move.enter_bodyless_target", "ai_move.execute_bodyless_target", "closest_damageable.bodyless_candidate", "entity_query.bodyless_entry", "entity_query.null_entry", "entity_clear.stale_grid", "helper_array_equals.left_null", "helper_array_equals.right_null", "helper_array_equals.both_null", "inventory.initial_screen_size", "inventory.changed_screen_size", "camera_follow.bodyless_target", "machine.missing_warlock", "jormungandr.missing_target", "portal_queue.null_then_bodyless", "portal_queue.bodyless_then_null") `
         $legacyNotAvailable $matrix
     Test-BehaviorProfile "1.5.1.0-runtime-patch" $version15Path "runtime" `
         @() $legacyNotAvailable $matrix
@@ -262,6 +264,10 @@ function Test-BehaviorProfile(
         "ai_attack.bodyless_target",
         "ai_attack.missing_target",
         "ai_attack.invalid_owner",
+        "ai_move.enter_bodyless_target",
+        "ai_move.enter_missing_target",
+        "ai_move.execute_bodyless_target",
+        "ai_move.execute_missing_target",
         "closest_damageable.bodyless_candidate",
         "closest_damageable.null_candidate",
         "closest_damageable.empty_grid",
@@ -349,6 +355,8 @@ function Verify-RuntimeEffectiveDiff {
     $auditLines = @(Get-Content -LiteralPath $runtimeAuditPath)
     if ($auditLines -notcontains "result=PASS" -or
         $auditLines -notcontains "patch_end=AI attack detached target guard" -or
+        $auditLines -notcontains "patch_end=AI move detached target entry guard" -or
+        $auditLines -notcontains "patch_end=AI move detached target execution guard" -or
         $auditLines -notcontains "patch_end=Avatar detached interaction guard" -or
         $auditLines -notcontains "patch_end=EntityManager detached damageable guard" -or
         $auditLines -notcontains "patch_end=EntityManager detached spatial entry guard" -or
@@ -363,7 +371,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Portal detached teleport entry guard" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 6 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 2 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 5) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 7) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -378,7 +386,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=13")
+    $summary.Add("implemented_patches=15")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
