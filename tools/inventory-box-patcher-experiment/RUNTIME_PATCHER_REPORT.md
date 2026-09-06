@@ -29,29 +29,31 @@ Diese Dateien in dieser Reihenfolge öffnen:
    typgenauem Null-Ergebnis für eine abgelöste Szenenkette.
 3. `src/RuntimePatch/AIStateAttackOnExecutePatch.cs` zeigt einen Prefix, der
    einen abgelösten Zielkörper vor dem ursprünglichen Update behandelt.
-4. `src/RuntimePatch/HelperArrayEqualsPatch.cs` zeigt den vollständigen Ersatz
+4. `src/RuntimePatch/EntityManagerClosestDamageablePatch.cs` zeigt einen
+   Transpiler, der genau einen vorhandenen Schleifen-Ausstieg wiederverwendet.
+5. `src/RuntimePatch/HelperArrayEqualsPatch.cs` zeigt den vollständigen Ersatz
    einer kleinen reinen Funktion durch einen Prefix.
-5. `src/RuntimePatch/InventoryBoxDrawPatch.cs` zeigt den einfachsten
+6. `src/RuntimePatch/InventoryBoxDrawPatch.cs` zeigt den einfachsten
    gewöhnlichen Prefix.
-6. `src/RuntimePatch/HUDManagerInitialisePatch.cs` zeigt einen Postfix;
+7. `src/RuntimePatch/HUDManagerInitialisePatch.cs` zeigt einen Postfix;
    `HUDManagerPatchPlan.cs` behandelt Versionen ohne diese HUD-Implementierung.
-7. `src/RuntimePatch/MachineNetworkInitializePatch.cs` zeigt einen eng
+8. `src/RuntimePatch/MachineNetworkInitializePatch.cs` zeigt einen eng
    begrenzten Transpiler innerhalb einer bestehenden Methode.
-8. `src/RuntimePatch/PlayStatePatchPlan.cs` und
+9. `src/RuntimePatch/PlayStatePatchPlan.cs` und
    `src/RuntimePatch/PlayStateAddWorldSyncMessagePatch.cs` zeigen eine
    versionsabhängige Patchgruppe und einen booleschen Prefix.
-9. `src/RuntimePatch/RuntimePatchSession.cs` zeigt den gemeinsamen
+10. `src/RuntimePatch/RuntimePatchSession.cs` zeigt den gemeinsamen
    Harmony-Ablauf: Ziel suchen, Patch registrieren und Registrierung prüfen.
-10. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
+11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
-11. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-12. `src/BehaviorProbe/BehaviorSuite.cs` und die sieben `*Scenarios.cs`-Dateien
+12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die acht `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
-13. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
-14. `reference/verified-assemblies.txt` ist der maschinenlesbare Versionsvertrag
+14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
+15. `reference/verified-assemblies.txt` ist der maschinenlesbare Versionsvertrag
    für Original, manuelle Patch-Assembly und Kompatibilitätsversionen.
-15. `src/AssemblyPatching/RuntimeLoaderInjection.cs` ist nur nötig, wenn die
+16. `src/AssemblyPatching/RuntimeLoaderInjection.cs` ist nur nötig, wenn die
    kleine Änderung an `Magicka.Program.Main` verstanden werden soll.
 
 Der normale Kontrollfluss ist:
@@ -110,6 +112,18 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Manuelle Patch-Assembly 0.0.60: Fehler- und Kontrollfälle bestehen
   - Original plus Runtime-Patch: Fehler- und Kontrollfälle bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: Prefix wird angewendet und alle drei
+    Szenarien bestehen
+- [x] `entity-manager-closest-damageable`
+  - Ziel: `EntityManager.GetClosestIDamageable(...)`
+  - Technik: Transpiler; fügt unmittelbar vor dem ersten `Position`-Zugriff
+    den `Body == null`-Ausstieg zum nächsten QuadGrid-Eintrag ein
+  - Fehlerfall: ein noch gelisteter, nicht toter Kandidat hat keinen Body mehr
+  - Kontrollfälle: ein Null-Eintrag und ein leeres QuadGrid
+  - Original 1.10.4.2: der körperlose Kandidat endet in einer
+    NullReferenceException
+  - Manuelle Patch-Assembly 0.0.60: Fehler- und Kontrollfälle bestehen
+  - Original plus Runtime-Patch: Fehler- und Kontrollfälle bestehen
+  - Magicka 1.4.16.0 und 1.5.1.0: Transpiler wird angewendet und alle drei
     Szenarien bestehen
 - [x] `helper-array-equals`
   - Ziel: `Helper.ArrayEquals(byte[], byte[])`
@@ -199,11 +213,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | Avatar | AIStateAttack | Helper | InventoryBox | HUDManager | Machine | PlayState |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
+| Magicka-Version | Runtime-Host | Avatar | AIStateAttack | EntityManager | Helper | InventoryBox | HUDManager | Machine | PlayState |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -217,7 +231,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 6 Dateien vollständig, 3 Dateien teilweise und 211 Dateien noch
+Aktueller Stand: 6 Dateien vollständig, 4 Dateien teilweise und 210 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -415,7 +429,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/FloorStomp.cs`
 - [ ] `Magicka/Graphics/MagickCamera.cs`
 - [ ] `Magicka/GameLogic/UI/SpellWheel.cs`
-- [ ] `Magicka/GameLogic/Entities/EntityManager.cs`
+- [ ] `Magicka/GameLogic/Entities/EntityManager.cs` — TEILWEISE: `GetClosestIDamageable`, Transpiler und 3 Drei-Wege-Szenarien; weitere Konstruktor-, Abbau- und QuadGrid-Änderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/TeslaField.cs`
 - [ ] `Magicka/GameLogic/Spells/LightningBolt.cs`
 - [ ] `Magicka/Levels/Triggers/Actions/Action.cs`
