@@ -255,6 +255,9 @@ namespace Magicka.CommunityPatch.Runtime
                 ShadowBlobsScenePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                PlayerControllerAvatarPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 SummonPlayStatePatch.TemplateCleanupDefinition);
         }
     }

@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-ninety-one method patches:
+ninety-two method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -100,8 +100,10 @@ ninety-one method patches:
   lost by the original localization layout path.
 - `PlayState.Dispose` releases `ShadowBlobs` from the scene being torn down
   without clearing a replacement scene that is already active.
+- Clearing `Player.Avatar` releases the matching strong controller reference
+  without erasing a newer controller assignment.
 
-The Avatar, AI, BossHealthBar, Helper, InventoryBox, MagickCamera, and PlayState
+The Avatar, AI, BossHealthBar, Helper, InventoryBox, MagickCamera, Player, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
 The Agent, AudioManager, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood,
