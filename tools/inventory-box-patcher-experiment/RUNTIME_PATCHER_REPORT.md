@@ -47,7 +47,7 @@ Diese Dateien in dieser Reihenfolge öffnen:
 11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
 12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-13. `src/BehaviorProbe/BehaviorSuite.cs` und die neunundzwanzig `*Scenarios.cs`-Dateien
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die dreißig `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
 14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
@@ -491,6 +491,25 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     `OnRemove()` auf und hat kein Cleanup-Verhalten; es benötigt keinen
     Runtime-Ersatz. Die explizite Darstellung des statischen Lock-Initialisierers
     ist semantikfreies Compilerrauschen.
+- [x] `spawn-slime-play-state-lifetime`
+  - Ziele: `SpawnSlime.Execute(ISpellCaster, Elements, PlayState)`, die
+    entsprechende `SpawnSlimeOverkill.Execute`-Überladung sowie
+    `SpawnSlime.CreateEntities` und `SpawnSlime.SpawnSlimes`
+  - Technik: vier Transpiler; zwei entfernen ausschließlich die jeweilige
+    Zuweisung an `mPlayState`, zwei ersetzen ausschließlich den späteren
+    Feldzugriff durch `PlayState.RecentPlayState`
+  - Fehlerfälle: beide prozessweiten Fähigkeitssingletons halten den zuletzt
+    übergebenen Levelzustand fest; beide Spawn-Hilfsmethoden verwenden dadurch
+    später dessen veralteten NavMesh
+  - Kontrollverhalten: Rückgabewert, Besitzerreferenz, erzeugte Entity-Anzahl
+    und die übrige Spawnlogik bleiben erhalten
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0: beide Referenzen bleiben erhalten
+    und beide Hilfsmethoden verwenden den veralteten NavMesh
+  - Manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile: alle vier
+    Szenarien bestehen und verwenden den aktuellen NavMesh
+  - Der leere manuelle `DisposeCache()` und anders dargestellte statische
+    Hash-Initialisierer ändern kein Laufzeitverhalten und benötigen keinen
+    Runtime-Ersatz.
 
 Die manuelle Hilfsmethode prüft außerdem `Entity.IsDisposed`. Dieses Mitglied
 existiert im Original nicht und gehört zu einer noch nicht migrierten Änderung
@@ -530,11 +549,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | Portal | RandomMine | Starfall | SubMenuMain | VersusRuleset |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
+| Magicka-Version | Runtime-Host | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | Portal | RandomMine | SpawnSlime | Starfall | SubMenuMain | VersusRuleset |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -548,7 +567,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 24 Dateien vollständig, 9 Dateien teilweise und 187 Dateien noch
+Aktueller Stand: 26 Dateien vollständig, 9 Dateien teilweise und 185 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -599,7 +618,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/PushSpell.cs`
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/ShieldSpell.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/VortexEntity.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SpawnSlime.cs`
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SpawnSlime.cs` — VOLLSTÄNDIG: gespeicherter PlayState in `Execute` und beide veralteten NavMesh-Zugriffe, 3 Transpiler und 3 Drei-Wege-Szenarien; der leere `DisposeCache()` und die statischen Hash-Initialisierer ändern kein Laufzeitverhalten.
 - [ ] `Magicka/GameLogic/Entities/Entanglement.cs`
 - [ ] `Magicka/Levels/Level.cs`
 - [ ] `Magicka/Graphics/Effects/RadialBlur.cs`
@@ -684,7 +703,7 @@ Versionsnachweis.
 - [ ] `Magicka/WebTools/Paradox/ParadoxPopupUtils.cs`
 - [ ] `Magicka/GameLogic/UI/ShadowBlobs.cs`
 - [ ] `Magicka/GameLogic/Entities/AnimationClipAction.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SpawnSlimeOverkill.cs`
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SpawnSlimeOverkill.cs` — VOLLSTÄNDIG: gespeicherter PlayState in `Execute`, Transpiler und ein Drei-Wege-Szenario; die statische Initialisierer-Darstellung ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/DeflectionAura.cs`
   — VOLLSTÄNDIG: ungenutzte PlayState-Referenz in `Execute`, Transpiler und 2
   Drei-Wege-Szenarien; die statische Hash-Initialisierer-Umschreibung ist

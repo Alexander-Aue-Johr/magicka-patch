@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-forty-one changes:
+forty-five changes:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -62,13 +62,15 @@ forty-one changes:
   creating play state.
 - `Flash.Execute` no longer retains the scene that triggered the singleton,
   and `Flash.Update` submits rendering to the current play-state scene.
+- `SpawnSlime` and `SpawnSlimeOverkill` no longer retain their last play state;
+  both slime-spawn helpers resolve the current play state's NavMesh when used.
 
 The Avatar, AI, BossHealthBar, Helper, InventoryBox, MagickCamera, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
 The Agent, AudioManager, CompanyState, DeflectionAura, DrainLife, DrinkBlood,
-EntityStateStorage, Flash, Machine, Jormungandr, pack, Portal, RandomMine, Starfall,
-VersusRuleset, and remaining EntityManager changes use narrowly checked
+EntityStateStorage, Flash, Machine, Jormungandr, pack, Portal, RandomMine,
+SpawnSlime, Starfall, VersusRuleset, and remaining EntityManager changes use narrowly checked
 transpilers for small branches inside their original methods. ControlManager,
 Interactable, and SubMenuMain use conditional prefixes.
 EntityStateStorage also uses a constructor postfix.
@@ -122,7 +124,7 @@ AIStateAttack, DeflectionAura,
 AIStateMove, BossHealthBar, CompanyState, ControlManager, DrainLife, DrinkBlood,
 EntityManager, Flash, Interactable,
 EntityStateStorage, Helper, InventoryBox, ItemPack, Jormungandr, MagickCamera,
-MagickPack, Machine, Portal, RandomMine, Starfall, and VersusRuleset targets and
+MagickPack, Machine, Portal, RandomMine, SpawnSlime, Starfall, and VersusRuleset targets and
 accept their runtime patches. All
 headless-applicable scenarios pass. They contain
 neither the later `HUDManager`

@@ -124,6 +124,18 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 FlashScenePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SpawnSlimePlayStatePatch.ExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SpawnSlimePlayStatePatch.OverkillExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SpawnSlimePlayStatePatch.CreateEntitiesDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SpawnSlimePlayStatePatch.SpawnSlimesDefinition);
         }
     }
 }
