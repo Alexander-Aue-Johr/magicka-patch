@@ -148,6 +148,21 @@ namespace Magicka.CommunityPatch.Runtime
                 StarGazeFactionPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                ChargeAbilityPlayStatePatch.HomingExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ChargeAbilityPlayStatePatch.HomingUpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ChargeAbilityPlayStatePatch.StopExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ChargeAbilityPlayStatePatch.StopUpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ChargeAbilityPlayStatePatch.CacheCleanupDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 SummonPlayStatePatch.FlamerVectorExecuteDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
