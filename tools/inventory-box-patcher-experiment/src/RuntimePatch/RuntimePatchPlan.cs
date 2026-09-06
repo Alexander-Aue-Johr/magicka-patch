@@ -125,6 +125,12 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 MenuImageTextItemPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                LanguageManagerPatch.NativeNameDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                LanguageManagerPatch.LanguageLookupDefinition);
             ParadoxPopupPatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,

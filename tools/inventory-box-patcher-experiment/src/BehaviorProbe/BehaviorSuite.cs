@@ -49,6 +49,7 @@ internal static class BehaviorSuite
         DeflectionAuraScenarios.Run(magicka, report);
         MenuImageTextItemScenarios.Run(magicka, runtimePatchEnabled, report);
         ParadoxPopupScenarios.Run(magicka, runtimePatchEnabled, report);
+        LanguageManagerScenarios.Run(magicka, report);
         return report;
     }
 }

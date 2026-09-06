@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-fifty-four changes:
+seventy-seven method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -74,6 +74,17 @@ fifty-four changes:
 - `SummonCross` no longer retains its supplied play state, resolves the active
   play state while spawning, and releases its pooled instances and template
   during `PlayState.Dispose`.
+- The remaining level-owned summon templates, charge-ability pools, and active
+  Haste and Shrink pools are released during `PlayState.Dispose`.
+- `EntityUpdate` packets carrying the payloadless Character feature marker are
+  decoded without aborting the remaining update fields.
+- Loading-screen clears restore the managed depth buffer before drawing.
+- Controller option discovery tolerates unavailable DirectInput and reports the
+  problem after the main menu is ready.
+- Image-menu text refreshes its font metrics after a language change, and reused
+  Paradox popups clear stale detail text.
+- Simplified Chinese uses a fixed Latin display name and accepts the supported
+  configuration aliases without changing existing language lookup behavior.
 
 The Avatar, AI, BossHealthBar, Helper, InventoryBox, MagickCamera, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor

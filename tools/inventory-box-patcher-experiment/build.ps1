@@ -209,6 +209,8 @@ function Test-BehaviorMatrix {
         "menu_image_text.literal_font_change",
         "menu_image_text.localized_font_change",
         "paradox_popup.plain_clears_extra",
+        "language_manager.simplified_chinese_name",
+        "language_manager.simplified_chinese_aliases",
         "hud_manager.disabled_original_hud",
         "machine.missing_warlock",
         "jormungandr.missing_target",
@@ -330,7 +332,9 @@ function Test-BehaviorProfile(
             "direct_input.options_load_failure",
             "direct_input.discovery_load_failure",
             "menu_image_text.literal_font_change",
-            "menu_image_text.localized_font_change")
+            "menu_image_text.localized_font_change",
+            "language_manager.simplified_chinese_name",
+            "language_manager.simplified_chinese_aliases")
     }
     $probeDirectory = Join-Path $toolBuildDirectory "behavior-probe"
     $probe = Join-Path $probeDirectory "BehaviorProbe.exe"
@@ -423,6 +427,9 @@ function Test-BehaviorProfile(
         "menu_image_text.localized_unchanged_font",
         "paradox_popup.plain_clears_extra",
         "paradox_popup.with_extra_unchanged",
+        "language_manager.simplified_chinese_name",
+        "language_manager.simplified_chinese_aliases",
+        "language_manager.existing_lookup",
         "hud_manager.disabled_original_hud",
         "hud_manager.enabled_original_hud",
         "machine.missing_warlock",
@@ -613,6 +620,8 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=AudioManager disposed cue guard" -or
         $auditLines -notcontains "patch_end=DeflectionAura unused play-state release" -or
         $auditLines -notcontains "patch_end=MenuImageTextItem language font refresh" -or
+        $auditLines -notcontains "patch_end=Simplified Chinese display name" -or
+        $auditLines -notcontains "patch_end=Simplified Chinese language aliases" -or
         $auditLines -notcontains "patch_end=Paradox popup stale extra-message cleanup" -or
         $auditLines -notcontains "patch_end=Flash scene reference release" -or
         $auditLines -notcontains "patch_end=Flash current scene update" -or
@@ -643,7 +652,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=SummonCross owner play-state release" -or
         $auditLines -notcontains "patch_end=SummonCross current play-state spawn" -or
         $auditLines -notcontains "patch_end=Summon ability template cleanup" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 13 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 15 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 58) {
         throw "The runtime audit does not contain all registered Harmony patches."
@@ -660,7 +669,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=75")
+    $summary.Add("implemented_patches=77")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
