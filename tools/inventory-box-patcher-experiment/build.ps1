@@ -216,6 +216,7 @@ function Test-BehaviorMatrix {
         "shadow_blobs.matching_scene",
         "player_controller_avatar.matching_release",
         "player_text_box.active_release",
+        "player_notifier.active_release",
         "chant_spell_cleanup.initialized_dispose",
         "hud_manager.disabled_original_hud",
         "machine.missing_warlock",
@@ -357,6 +358,7 @@ function Test-BehaviorProfile(
             "shadow_blobs.matching_scene",
             "player_controller_avatar.matching_release",
             "player_text_box.active_release",
+            "player_notifier.active_release",
             "chant_spell_cleanup.initialized_dispose",
             "summon_undead.vector_release",
             "summon_undead.owner_release",
@@ -476,6 +478,9 @@ function Test-BehaviorProfile(
         "player_text_box.active_release",
         "player_text_box.empty_release",
         "player_text_box.missing_text_box",
+        "player_notifier.active_release",
+        "player_notifier.empty_release",
+        "player_notifier.missing_notifier",
         "chant_spell_cleanup.uninitialized_dispose",
         "chant_spell_cleanup.initialized_dispose",
         "hud_manager.disabled_original_hud",
@@ -731,7 +736,8 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=ShadowBlobs scene release" -or
         $auditLines -notcontains "patch_end=Player controller avatar release" -or
         $auditLines -notcontains "patch_end=Player obtained text-box level release" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 18 -or
+        $auditLines -notcontains "patch_end=Player notifier level release" -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 19 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 71) {
         throw "The runtime audit does not contain all registered Harmony patches."
@@ -748,7 +754,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=93")
+    $summary.Add("implemented_patches=94")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

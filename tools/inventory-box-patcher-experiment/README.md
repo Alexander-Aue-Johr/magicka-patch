@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-ninety-three method patches:
+ninety-four method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -104,6 +104,8 @@ ninety-three method patches:
   without erasing a newer controller assignment.
 - `Player.DeinitializeGame` releases the obtained text box's level-scoped
   owner and scene references while retaining the reusable text-box object.
+- The same teardown independently clears the notifier's owner, attached text
+  box, and visible alpha state while retaining its reusable graphics objects.
 
 The Avatar, AI, BossHealthBar, Helper, InventoryBox, MagickCamera, Player, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor

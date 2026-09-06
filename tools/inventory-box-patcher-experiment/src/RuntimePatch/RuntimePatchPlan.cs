@@ -261,6 +261,9 @@ namespace Magicka.CommunityPatch.Runtime
                 PlayerTextBoxCleanupPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                PlayerNotifierCleanupPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 SummonPlayStatePatch.TemplateCleanupDefinition);
         }
     }
