@@ -17,6 +17,12 @@ internal static class SummonPlayStateScenarios
             report.Add("summon_spirit.vector_release", harness.VectorRelease(true));
             report.Add("summon_spirit.owner_release", harness.OwnerRelease(true));
             report.Add("summon_templates.level_dispose", harness.TemplateRelease());
+            report.Add(
+                "ability_template_cache.level_dispose",
+                harness.AbilityTemplateRelease(true));
+            report.Add(
+                "ability_template_cache.empty_dispose",
+                harness.AbilityTemplateRelease(false));
         }
         finally
         {
@@ -40,6 +46,8 @@ internal sealed class SummonPlayStateHarness
     private readonly Type vectorType;
     private readonly SummonAbilityFixture flamer;
     private readonly SummonAbilityFixture spirit;
+    private readonly FieldInfo[] abilityTemplateFields;
+    private readonly MethodInfo[] abilityDisposeMethods;
     private readonly FieldInfo networkManagerSingleton;
     private readonly FieldInfo recentPlayStateField;
     private readonly MethodInfo getNonPlayerCharacter;
@@ -96,6 +104,32 @@ internal sealed class SummonPlayStateHarness
             ownerType,
             playStateType,
             vectorType);
+        string[] abilityNames = new string[]
+        {
+            "SummonBug",
+            "SummonElemental",
+            "MutateBeastman",
+            "OtherworldlyDischarge"
+        };
+        abilityTemplateFields = new FieldInfo[abilityNames.Length];
+        abilityDisposeMethods = new MethodInfo[abilityNames.Length];
+        for (int index = 0; index < abilityNames.Length; index++)
+        {
+            Type abilityType = magicka.GetType(
+                "Magicka.GameLogic.Entities.Abilities.SpecialAbilities." +
+                    abilityNames[index],
+                true);
+            abilityTemplateFields[index] = RuntimeReflection.RequireField(
+                abilityType,
+                "sTemplate");
+            abilityDisposeMethods[index] = abilityType.GetMethod(
+                "DisposeCache",
+                BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic |
+                    BindingFlags.DeclaredOnly,
+                null,
+                Type.EmptyTypes,
+                null);
+        }
         harmony = HarmonyInstance.Create(HarmonyOwner);
         harmony.Patch(
             getNonPlayerCharacter,
@@ -269,6 +303,58 @@ internal sealed class SummonPlayStateHarness
             "flamer:" + (flamerReleased ? "released" : "retained") +
                 ",spirit:" + (spiritReleased ? "released" : "retained"),
             "flamer:released,spirit:released");
+    }
+
+    internal ScenarioResult AbilityTemplateRelease(bool seedTemplates)
+    {
+        object template = seedTemplates
+            ? NewUninitialized(characterTemplateType)
+            : null;
+        for (int index = 0; index < abilityTemplateFields.Length; index++)
+            abilityTemplateFields[index].SetValue(null, template);
+
+        bool hasExplicitCleanup = true;
+        for (int index = 0; index < abilityDisposeMethods.Length; index++)
+            hasExplicitCleanup &= abilityDisposeMethods[index] != null;
+        if (hasExplicitCleanup)
+        {
+            for (int index = 0; index < abilityDisposeMethods.Length; index++)
+                Invoke(abilityDisposeMethods[index], null, new object[0]);
+        }
+        else
+        {
+            object playState = NewUninitialized(playStateType);
+            RuntimeReflection.WriteField(playState, "mInitialized", true);
+            MethodInfo dispose = playStateType.GetMethod(
+                "Dispose",
+                BindingFlags.Instance | BindingFlags.Public,
+                null,
+                Type.EmptyTypes,
+                null);
+            if (dispose == null)
+                throw new MissingMethodException(playStateType.FullName, "Dispose");
+            try
+            {
+                Invoke(dispose, playState, new object[0]);
+            }
+            catch (Exception)
+            {
+                // The cleanup runs before the original method reaches game
+                // singletons that are unavailable in this isolated harness.
+            }
+        }
+
+        int remaining = 0;
+        for (int index = 0; index < abilityTemplateFields.Length; index++)
+        {
+            if (abilityTemplateFields[index].GetValue(null) != null)
+                remaining++;
+            abilityTemplateFields[index].SetValue(null, null);
+        }
+        return new ScenarioResult(
+            remaining == 0,
+            "remaining:" + remaining,
+            "remaining:0");
     }
 
     private object CreateOwner(object playState)

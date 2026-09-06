@@ -13,9 +13,21 @@ namespace Magicka.CommunityPatch.Runtime
             "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonFlamer";
         private const string SpiritTypeName =
             "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonSpirit";
+        private const string BugTypeName =
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonBug";
+        private const string ElementalTypeName =
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonElemental";
+        private const string BeastmanTypeName =
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.MutateBeastman";
+        private const string DischargeTypeName =
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.OtherworldlyDischarge";
 
         private static FieldInfo flamerTemplateField;
         private static FieldInfo spiritTemplateField;
+        private static FieldInfo bugTemplateField;
+        private static FieldInfo elementalTemplateField;
+        private static FieldInfo beastmanTemplateField;
+        private static FieldInfo dischargeTemplateField;
         private static FieldInfo crossCacheField;
         private static FieldInfo crossTemplateField;
         private static FieldInfo initializedField;
@@ -182,6 +194,12 @@ namespace Magicka.CommunityPatch.Runtime
 
             flamerTemplateField = RequireTemplateField(targetAssembly, FlamerTypeName);
             spiritTemplateField = RequireTemplateField(targetAssembly, SpiritTypeName);
+            bugTemplateField = RequireTemplateField(targetAssembly, BugTypeName);
+            elementalTemplateField = RequireTemplateField(
+                targetAssembly,
+                ElementalTypeName);
+            beastmanTemplateField = RequireTemplateField(targetAssembly, BeastmanTypeName);
+            dischargeTemplateField = RequireTemplateField(targetAssembly, DischargeTypeName);
             Type crossType = targetAssembly.GetType(
                 "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonCross",
                 true);
@@ -213,7 +231,10 @@ namespace Magicka.CommunityPatch.Runtime
             FieldInfo field = type.GetField(
                 "sTemplate",
                 BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
-            if (field == null)
+            Type templateType = targetAssembly.GetType(
+                "Magicka.GameLogic.Entities.CharacterTemplate",
+                true);
+            if (field == null || field.FieldType != templateType)
                 throw new MissingFieldException(type.FullName, "sTemplate");
             return field;
         }
@@ -421,6 +442,10 @@ namespace Magicka.CommunityPatch.Runtime
         {
             flamerTemplateField.SetValue(null, null);
             spiritTemplateField.SetValue(null, null);
+            bugTemplateField.SetValue(null, null);
+            elementalTemplateField.SetValue(null, null);
+            beastmanTemplateField.SetValue(null, null);
+            dischargeTemplateField.SetValue(null, null);
             IList crossCache = (IList)crossCacheField.GetValue(null);
             if (crossCache != null)
                 crossCache.Clear();
