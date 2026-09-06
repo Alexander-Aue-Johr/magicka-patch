@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-eighty-eight method patches:
+ninety method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -96,6 +96,8 @@ eighty-eight method patches:
   Paradox popups clear stale detail text.
 - Simplified Chinese uses a fixed Latin display name and accepts the supported
   configuration aliases without changing existing language lookup behavior.
+- Dialogue lists and structured element hints restore the line breaks that are
+  lost by the original localization layout path.
 
 The Avatar, AI, BossHealthBar, Helper, InventoryBox, MagickCamera, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
@@ -103,7 +105,7 @@ postfix, while HUDManager and one EntityManager change use ordinary postfixes.
 The Agent, AudioManager, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood,
 EntityStateStorage, Flash, Machine, Jormungandr, pack, PoisonSpray, Portal,
 RandomMine, SpawnSlime, SummonCross, SummonFlamer, SummonSpirit, SummonUndead,
-Starfall, VersusRuleset, and
+Starfall, VersusRuleset, DialogLayout, and
 remaining EntityManager changes use narrowly checked transpilers for small
 branches inside their original methods. ControlManager, Interactable, and
 SubMenuMain use conditional prefixes.

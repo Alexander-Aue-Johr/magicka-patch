@@ -246,6 +246,12 @@ namespace Magicka.CommunityPatch.Runtime
                 SummonCrossPlayStatePatch.SpawnDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                DialogLayoutPatch.MessageDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                DialogLayoutPatch.HintDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 SummonPlayStatePatch.TemplateCleanupDefinition);
         }
     }

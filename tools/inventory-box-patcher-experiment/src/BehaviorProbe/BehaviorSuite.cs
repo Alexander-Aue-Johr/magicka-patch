@@ -54,6 +54,7 @@ internal static class BehaviorSuite
         MenuImageTextItemScenarios.Run(magicka, runtimePatchEnabled, report);
         ParadoxPopupScenarios.Run(magicka, runtimePatchEnabled, report);
         LanguageManagerScenarios.Run(magicka, report);
+        DialogLayoutScenarios.Run(magicka, runtimePatchEnabled, report);
         ChantSpellCleanupScenarios.Run(magicka, report);
         StaticLevelPoolCleanupScenarios.Run(
             magicka,

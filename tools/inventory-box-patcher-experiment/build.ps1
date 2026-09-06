@@ -211,6 +211,8 @@ function Test-BehaviorMatrix {
         "paradox_popup.plain_clears_extra",
         "language_manager.simplified_chinese_name",
         "language_manager.simplified_chinese_aliases",
+        "dialog_layout.list_breaks",
+        "dialog_layout.element_sections",
         "chant_spell_cleanup.initialized_dispose",
         "hud_manager.disabled_original_hud",
         "machine.missing_warlock",
@@ -347,6 +349,8 @@ function Test-BehaviorProfile(
             "menu_image_text.localized_font_change",
             "language_manager.simplified_chinese_name",
             "language_manager.simplified_chinese_aliases",
+            "dialog_layout.list_breaks",
+            "dialog_layout.element_sections",
             "chant_spell_cleanup.initialized_dispose",
             "summon_undead.vector_release",
             "summon_undead.owner_release",
@@ -452,6 +456,12 @@ function Test-BehaviorProfile(
         "language_manager.simplified_chinese_name",
         "language_manager.simplified_chinese_aliases",
         "language_manager.existing_lookup",
+        "dialog_layout.list_breaks",
+        "dialog_layout.dramatic_aside",
+        "dialog_layout.existing_list_break",
+        "dialog_layout.element_sections",
+        "dialog_layout.ordinary_hint",
+        "dialog_layout.existing_hint_breaks",
         "chant_spell_cleanup.uninitialized_dispose",
         "chant_spell_cleanup.initialized_dispose",
         "hud_manager.disabled_original_hud",
@@ -702,9 +712,11 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=SummonCross owner play-state release" -or
         $auditLines -notcontains "patch_end=SummonCross current play-state spawn" -or
         $auditLines -notcontains "patch_end=Summon ability template cleanup" -or
+        $auditLines -notcontains "patch_end=Dialog list line breaks" -or
+        $auditLines -notcontains "patch_end=Element hint line breaks" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 16 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 68) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 70) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -719,7 +731,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=88")
+    $summary.Add("implemented_patches=90")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
