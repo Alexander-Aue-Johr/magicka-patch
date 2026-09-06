@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-twenty-six changes:
+twenty-seven changes:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -41,11 +41,13 @@ twenty-six changes:
   cannot be obtained from the cache.
 - `ItemPack` and `MagickPack` apply the Community Patch custom-content license
   policy in both their license and enabled setters.
+- `DrinkBlood.Execute` no longer stores an unused strong reference to the play
+  state that created the effect.
 
 The Avatar, AI, BossHealthBar, Helper, InventoryBox, MagickCamera, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
-The Agent, EntityStateStorage, Machine, Jormungandr, pack, Portal,
+The Agent, DrinkBlood, EntityStateStorage, Machine, Jormungandr, pack, Portal,
 VersusRuleset, and remaining EntityManager changes use narrowly checked
 transpilers for small branches inside their original methods. EntityStateStorage
 also uses a constructor postfix.
@@ -94,7 +96,7 @@ behavior instead of claiming that a Harmony wrapper has the same C# or IL shape
 as a manually rewritten method.
 
 Magicka 1.4.16.0 and 1.5.1.0 contain the Agent, Avatar, AIStateAttack,
-AIStateMove, BossHealthBar, EntityManager, EntityStateStorage, Helper,
+AIStateMove, BossHealthBar, DrinkBlood, EntityManager, EntityStateStorage, Helper,
 InventoryBox, ItemPack, Jormungandr, MagickCamera, MagickPack, Machine, Portal,
 and VersusRuleset targets and accept their runtime patches. All
 headless-applicable scenarios pass. They contain

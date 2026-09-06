@@ -81,6 +81,9 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 PackLicensePatch.MagickEnabledDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                DrinkBloodPlayStatePatch.Definition);
         }
     }
 }

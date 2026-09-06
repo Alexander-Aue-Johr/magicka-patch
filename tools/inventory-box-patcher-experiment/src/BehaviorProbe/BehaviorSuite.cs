@@ -25,6 +25,7 @@ internal static class BehaviorSuite
         PortalTeleportQueueScenarios.Run(magicka, report);
         VersusRulesetScenarios.Run(magicka, report);
         PackLicenseScenarios.Run(magicka, report);
+        DrinkBloodScenarios.Run(magicka, report);
         return report;
     }
 }
