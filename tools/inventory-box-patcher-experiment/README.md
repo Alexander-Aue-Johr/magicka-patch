@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-eight changes:
+ten changes:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -10,6 +10,9 @@ eight changes:
   been detached.
 - `EntityManager.GetClosestIDamageable` skips candidates whose physics body has
   already been detached.
+- `EntityManager.GetEntities` skips null and bodyless spatial entries.
+- `EntityManager.ClearAndStore` rebuilds the QuadGrid immediately after scene
+  teardown.
 - `Helper.ArrayEquals` treats every missing byte array as unequal.
 - `InventoryBox.RenderData.Draw` updates `TextBoxEffect.ScreenSize` before the
   original method runs.

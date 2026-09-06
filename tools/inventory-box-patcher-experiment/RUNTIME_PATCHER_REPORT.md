@@ -47,7 +47,7 @@ Diese Dateien in dieser Reihenfolge öffnen:
 11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
 12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-13. `src/BehaviorProbe/BehaviorSuite.cs` und die acht `*Scenarios.cs`-Dateien
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die neun `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
 14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
@@ -125,6 +125,27 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original plus Runtime-Patch: Fehler- und Kontrollfälle bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: Transpiler wird angewendet und alle drei
     Szenarien bestehen
+- [x] `entity-manager-get-entities`
+  - Ziel: vierparametriges `EntityManager.GetEntities(...)`
+  - Technik: Transpiler; ergänzt Null- und Body-Prüfung vor dem ersten
+    `Entity.Position`-Zugriff
+  - Fehlerfälle: Null-Eintrag und körperloser Eintrag im QuadGrid
+  - Kontrollfall: leeres QuadGrid
+  - Original 1.10.4.2: beide Fehlerfälle enden in einer NullReferenceException
+  - Manuelle Patch-Assembly 0.0.60: Fehler- und Kontrollfälle bestehen
+  - Original plus Runtime-Patch: Fehler- und Kontrollfälle bestehen
+  - Magicka 1.4.16.0 und 1.5.1.0: Transpiler wird angewendet und alle drei
+    Szenarien bestehen
+- [x] `entity-manager-clear-and-store`
+  - Ziel: `EntityManager.ClearAndStore(List<Entity>)`
+  - Technik: Postfix; ruft nach dem ursprünglichen Abbau `UpdateQuadGrid()` auf
+  - Fehlerfall: eine stale Grid-Zelle bleibt trotz leerer Entity-Liste belegt
+  - Kontrollfall: ein bereits leeres Grid bleibt leer
+  - Original 1.10.4.2: die stale Grid-Zelle bleibt erhalten
+  - Manuelle Patch-Assembly 0.0.60: Fehler- und Kontrollfall bestehen
+  - Original plus Runtime-Patch: Fehler- und Kontrollfall bestehen
+  - Magicka 1.4.16.0 und 1.5.1.0: Postfix wird angewendet und beide Szenarien
+    bestehen
 - [x] `helper-array-equals`
   - Ziel: `Helper.ArrayEquals(byte[], byte[])`
   - Technik: boolescher Prefix als vollständiger Ersatz der kleinen Methode
@@ -429,7 +450,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/FloorStomp.cs`
 - [ ] `Magicka/Graphics/MagickCamera.cs`
 - [ ] `Magicka/GameLogic/UI/SpellWheel.cs`
-- [ ] `Magicka/GameLogic/Entities/EntityManager.cs` — TEILWEISE: `GetClosestIDamageable`, Transpiler und 3 Drei-Wege-Szenarien; weitere Konstruktor-, Abbau- und QuadGrid-Änderungen sind noch offen.
+- [ ] `Magicka/GameLogic/Entities/EntityManager.cs` — TEILWEISE: `GetClosestIDamageable`, das vierparametrige `GetEntities` und `ClearAndStore` mit 8 Drei-Wege-Szenarien; Konstruktor- und weitere Diagnoseänderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/TeslaField.cs`
 - [ ] `Magicka/GameLogic/Spells/LightningBolt.cs`
 - [ ] `Magicka/Levels/Triggers/Actions/Action.cs`
