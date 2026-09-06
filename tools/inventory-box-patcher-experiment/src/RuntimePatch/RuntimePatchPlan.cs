@@ -9,6 +9,9 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchAudit.BeginRun(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                AIStateAttackOnExecutePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 InventoryBoxDrawPatch.Definition);
             HUDManagerPatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(

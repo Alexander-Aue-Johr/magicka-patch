@@ -2,8 +2,10 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-four changes:
+five changes:
 
+- `AIStateAttack.OnExecute` releases a target whose physics body has already
+  been detached.
 - `InventoryBox.RenderData.Draw` updates `TextBoxEffect.ScreenSize` before the
   original method runs.
 - `HUDManager.Initialise` re-enables the original HUD after state transitions.
@@ -12,7 +14,7 @@ four changes:
 - `PlayState.AddWorldSyncMessage` rejects unusable SpawnNPC handles before the
   original enqueue method runs.
 
-The InventoryBox and PlayState changes use Harmony prefixes; the HUDManager
+The AI, InventoryBox, and PlayState changes use Harmony prefixes; the HUDManager
 change uses a postfix. The Machine change uses a narrowly checked transpiler to
 replace one constant assignment inside the original method.
 
@@ -59,11 +61,11 @@ Control scenarios must pass in all three profiles. This verifies observable
 behavior instead of claiming that a Harmony wrapper has the same C# or IL shape
 as a manually rewritten method.
 
-Magicka 1.4.16.0 and 1.5.1.0 contain the InventoryBox and Machine targets and
-pass their runtime scenarios. They contain neither the later `HUDManager`
-implementation nor `WorldSyncMessage` and `PlayState.AddWorldSyncMessage`; both
-unavailable patch groups therefore report `NOT_APPLICABLE` without preventing
-other patches from loading.
+Magicka 1.4.16.0 and 1.5.1.0 contain the AIStateAttack, InventoryBox, and Machine
+targets and pass their runtime scenarios. They contain neither the later
+`HUDManager` implementation nor `WorldSyncMessage` and
+`PlayState.AddWorldSyncMessage`; both unavailable patch groups therefore report
+`NOT_APPLICABLE` without preventing other patches from loading.
 
 Source comparison stages each executable and its dependency set in isolated
 directories. This prevents the executable's original location from changing
