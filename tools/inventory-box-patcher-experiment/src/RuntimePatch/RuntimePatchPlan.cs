@@ -112,6 +112,9 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 InteractableHighlightPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                AudioManagerStopAllPatch.Definition);
         }
     }
 }

@@ -33,6 +33,7 @@ internal static class BehaviorSuite
         CompanyStateScenarios.Run(magicka, report);
         ControlManagerScenarios.Run(magicka, report);
         InteractableHighlightScenarios.Run(magicka, report);
+        AudioManagerScenarios.Run(magicka, report);
         return report;
     }
 }
