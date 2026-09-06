@@ -202,13 +202,16 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 5 Dateien vollständig, 2 Dateien teilweise und 213 Dateien noch
+Aktueller Stand: 6 Dateien vollständig, 2 Dateien teilweise und 212 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
 
 Ein gesetztes Kästchen bedeutet, dass alle semantischen Änderungen dieser Datei
 im Runtime-Patcher übernommen und durch die Drei-Wege-Matrix abgedeckt sind.
+Enthält eine Datei ausschließlich semantikfreies Rekompilierungsrauschen, genügt
+stattdessen die Prüfung des betroffenen IL-Ausschnitts; dafür ist bewusst kein
+Runtime-Patch nötig.
 „TEILWEISE“ bleibt absichtlich ungesetzt. Neue manuelle Patch-Versionen müssen
 eine neue Dateiliste erzeugen; Dateinamen allein reichen nicht als
 Versionsnachweis.
@@ -355,7 +358,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/DrinkBlood.cs`
 - [ ] `Magicka/GameLogic/Entities/Bosses/Jormungandr.cs`
 - [ ] `Magicka/GameLogic/Entities/FrogTongue.cs`
-- [ ] `Magicka/GameLogic/Entities/ChantSpells.cs`
+- [x] `Magicka/GameLogic/Entities/ChantSpells.cs` — VOLLSTÄNDIG: ausschließlich semantikfreie Eliminierung einer lokalen `LightningBolt`-Variablen; `GetLightning()` und `InitializeEffect(...)` bleiben in derselben Reihenfolge und werden jeweils einmal ausgeführt.
 - [ ] `Magicka/GameLogic/Entities/Items/Pickable.cs`
 - [ ] `Magicka/GameLogic/Controls/DirectInputController.cs`
 - [x] `Magicka/AI/AgentStates/AIStateAttack.cs` — VOLLSTÄNDIG: `OnExecute`, Prefix und 3 Drei-Wege-Szenarien.
