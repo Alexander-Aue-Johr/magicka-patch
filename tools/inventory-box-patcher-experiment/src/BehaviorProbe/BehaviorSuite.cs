@@ -30,6 +30,7 @@ internal static class BehaviorSuite
         StarfallScenarios.Run(magicka, report);
         DrainLifeScenarios.Run(magicka, report);
         SubMenuMainScenarios.Run(magicka, report);
+        CompanyStateScenarios.Run(magicka, report);
         return report;
     }
 }
