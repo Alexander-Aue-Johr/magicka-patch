@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-thirty-one changes:
+thirty-two changes:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -49,6 +49,8 @@ thirty-one changes:
   queued strikes against the current play state.
 - `DrainLife.Execute` no longer stores an unused strong reference to the play
   state after a successful target selection.
+- Gamepad Back/B opens the existing exit confirmation directly from the main
+  menu while keyboard and mouse keep the original cursor behavior.
 
 The Avatar, AI, BossHealthBar, Helper, InventoryBox, MagickCamera, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
@@ -56,7 +58,7 @@ postfix, while HUDManager and one EntityManager change use ordinary postfixes.
 The Agent, DrainLife, DrinkBlood, EntityStateStorage, Machine, Jormungandr,
 pack, Portal, RandomMine, Starfall, VersusRuleset, and remaining EntityManager
 changes use narrowly checked transpilers for small branches inside their
-original methods.
+original methods. SubMenuMain uses a conditional prefix.
 EntityStateStorage also uses a constructor postfix.
 
 ## Run
@@ -67,6 +69,7 @@ From the repository root:
 powershell -ExecutionPolicy Bypass -File `
   .\tools\inventory-box-patcher-experiment\build.ps1 `
   -SkipSourceAnalysis `
+  -GameDirectory 'C:\path\to\Magicka' `
   -OutputDirectory ..\..\tmp\runtime-patcher-run
 ```
 
@@ -111,7 +114,8 @@ headless-applicable scenarios pass. They contain
 neither the later `HUDManager`
 implementation nor `WorldSyncMessage` and `PlayState.AddWorldSyncMessage`; both
 unavailable patch groups therefore report `NOT_APPLICABLE` without preventing
-other patches from loading.
+other patches from loading. They also predate the `SubMenuMain.ControllerB`
+override, so that patch and its scenarios are `NOT_APPLICABLE` there.
 
 Source comparison stages each executable and its dependency set in isolated
 directories. This prevents the executable's original location from changing

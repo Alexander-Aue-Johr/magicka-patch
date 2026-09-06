@@ -3,6 +3,7 @@ param(
     [string]$CurrentPatchExe = "..\..\Magicka.exe",
     [string]$OldVersionsDirectory = "..\..\tmp\old_versions",
     [string]$OutputDirectory = "..\..\tmp\inventory-box-patcher-run",
+    [string]$GameDirectory = "",
     [switch]$SkipSourceAnalysis
 )
 
@@ -25,6 +26,12 @@ $oldVersionsPath = Resolve-ArgumentPath $OldVersionsDirectory
 $version14Path = Join-Path $oldVersionsPath "Magicka 1.4.16.0\Magicka.exe"
 $version15Path = Join-Path $oldVersionsPath "Magicka 1.5.1.0\Magicka.exe"
 $outputRoot = Resolve-ArgumentPath $OutputDirectory
+$gameDirectoryPath = if ([string]::IsNullOrWhiteSpace($GameDirectory)) {
+    $null
+}
+else {
+    Resolve-ArgumentPath $GameDirectory
+}
 $backupDirectory = Join-Path $outputRoot "backup"
 $runtimeDirectory = Join-Path $outputRoot "runtime"
 $auditDirectory = Join-Path $outputRoot "audit"
@@ -61,6 +68,10 @@ function Assert-ExperimentInputs {
     }
     if (-not (Test-Path -LiteralPath $version15Path -PathType Leaf)) {
         throw "Magicka 1.5.1.0 does not exist: $version15Path"
+    }
+    if ($gameDirectoryPath -ne $null -and
+        -not (Test-Path -LiteralPath $gameDirectoryPath -PathType Container)) {
+        throw "Game directory does not exist: $gameDirectoryPath"
     }
     Assert-FileHash $originalPath (Read-ReferenceValue "original_sha256") "original Magicka"
     Assert-FileHash $currentPatchPath (Read-ReferenceValue "manual_patch_sha256") "manual patch"
@@ -212,7 +223,8 @@ function Test-BehaviorMatrix {
         "random_mine.play_state_release",
         "starfall.play_state_release",
         "starfall.current_play_state",
-        "drain_life.play_state_release"
+        "drain_life.play_state_release",
+        "sub_menu_main.gamepad_back"
     )
     $playStateNotAvailable = @(
         "play_state.ordinary_message",
@@ -228,7 +240,9 @@ function Test-BehaviorMatrix {
         "hud_manager.enabled_original_hud",
         "versus_revive.missing_avatar",
         "versus_revive.missing_requested_avatar",
-        "versus_revive.available_avatar"
+        "versus_revive.available_avatar",
+        "sub_menu_main.gamepad_back",
+        "sub_menu_main.keyboard_back"
     )
     $matrix = New-Object System.Collections.Generic.List[string]
 
@@ -236,12 +250,12 @@ function Test-BehaviorMatrix {
     Test-BehaviorProfile "current-manual-patch" $currentPatchPath "unpatched" @() @() $matrix
     Test-BehaviorProfile "current-runtime-patch" $originalPath "runtime" @() @() $matrix
     Test-BehaviorProfile "1.4.16.0-original" $version14Path "unpatched" `
-        @("avatar_interactable.missing_play_state", "avatar_interactable.missing_level", "avatar_interactable.missing_scene", "avatar_interactable.missing_triggers", "ai_attack.bodyless_target", "ai_move.enter_bodyless_target", "ai_move.execute_bodyless_target", "agent_target.bodyless_player", "closest_damageable.bodyless_candidate", "entity_query.bodyless_entry", "entity_query.null_entry", "entity_clear.stale_grid", "entity_state_storage.constructor_release", "entity_state_storage.current_restore", "helper_array_equals.left_null", "helper_array_equals.right_null", "helper_array_equals.both_null", "inventory.initial_screen_size", "inventory.changed_screen_size", "camera_follow.bodyless_target", "boss_health_bar.current_scene", "boss_health_bar.setter_release", "machine.missing_warlock", "jormungandr.missing_target", "portal_queue.null_then_bodyless", "portal_queue.bodyless_then_null", "pack_license.custom_offline_license", "pack_license.custom_offline_enabled", "pack_license.custom_insecure_license", "pack_license.custom_insecure_enabled", "drink_blood.play_state_release", "random_mine.play_state_release", "starfall.play_state_release", "starfall.current_play_state", "drain_life.play_state_release") `
+        @("avatar_interactable.missing_play_state", "avatar_interactable.missing_level", "avatar_interactable.missing_scene", "avatar_interactable.missing_triggers", "ai_attack.bodyless_target", "ai_move.enter_bodyless_target", "ai_move.execute_bodyless_target", "agent_target.bodyless_player", "closest_damageable.bodyless_candidate", "entity_query.bodyless_entry", "entity_query.null_entry", "entity_clear.stale_grid", "entity_state_storage.constructor_release", "entity_state_storage.current_restore", "helper_array_equals.left_null", "helper_array_equals.right_null", "helper_array_equals.both_null", "inventory.initial_screen_size", "inventory.changed_screen_size", "camera_follow.bodyless_target", "boss_health_bar.current_scene", "boss_health_bar.setter_release", "machine.missing_warlock", "jormungandr.missing_target", "portal_queue.null_then_bodyless", "portal_queue.bodyless_then_null", "pack_license.custom_offline_license", "pack_license.custom_offline_enabled", "pack_license.custom_insecure_license", "pack_license.custom_insecure_enabled", "drink_blood.play_state_release", "random_mine.play_state_release", "starfall.play_state_release", "starfall.current_play_state", "drain_life.play_state_release", "sub_menu_main.gamepad_back") `
         $legacyNotAvailable $matrix
     Test-BehaviorProfile "1.4.16.0-runtime-patch" $version14Path "runtime" `
         @() $legacyNotAvailable $matrix
     Test-BehaviorProfile "1.5.1.0-original" $version15Path "unpatched" `
-        @("avatar_interactable.missing_play_state", "avatar_interactable.missing_level", "avatar_interactable.missing_scene", "avatar_interactable.missing_triggers", "ai_attack.bodyless_target", "ai_move.enter_bodyless_target", "ai_move.execute_bodyless_target", "agent_target.bodyless_player", "closest_damageable.bodyless_candidate", "entity_query.bodyless_entry", "entity_query.null_entry", "entity_clear.stale_grid", "entity_state_storage.constructor_release", "entity_state_storage.current_restore", "helper_array_equals.left_null", "helper_array_equals.right_null", "helper_array_equals.both_null", "inventory.initial_screen_size", "inventory.changed_screen_size", "camera_follow.bodyless_target", "boss_health_bar.current_scene", "boss_health_bar.setter_release", "machine.missing_warlock", "jormungandr.missing_target", "portal_queue.null_then_bodyless", "portal_queue.bodyless_then_null", "pack_license.custom_offline_license", "pack_license.custom_offline_enabled", "pack_license.custom_insecure_license", "pack_license.custom_insecure_enabled", "drink_blood.play_state_release", "random_mine.play_state_release", "starfall.play_state_release", "starfall.current_play_state", "drain_life.play_state_release") `
+        @("avatar_interactable.missing_play_state", "avatar_interactable.missing_level", "avatar_interactable.missing_scene", "avatar_interactable.missing_triggers", "ai_attack.bodyless_target", "ai_move.enter_bodyless_target", "ai_move.execute_bodyless_target", "agent_target.bodyless_player", "closest_damageable.bodyless_candidate", "entity_query.bodyless_entry", "entity_query.null_entry", "entity_clear.stale_grid", "entity_state_storage.constructor_release", "entity_state_storage.current_restore", "helper_array_equals.left_null", "helper_array_equals.right_null", "helper_array_equals.both_null", "inventory.initial_screen_size", "inventory.changed_screen_size", "camera_follow.bodyless_target", "boss_health_bar.current_scene", "boss_health_bar.setter_release", "machine.missing_warlock", "jormungandr.missing_target", "portal_queue.null_then_bodyless", "portal_queue.bodyless_then_null", "pack_license.custom_offline_license", "pack_license.custom_offline_enabled", "pack_license.custom_insecure_license", "pack_license.custom_insecure_enabled", "drink_blood.play_state_release", "random_mine.play_state_release", "starfall.play_state_release", "starfall.current_play_state", "drain_life.play_state_release", "sub_menu_main.gamepad_back") `
         $legacyNotAvailable $matrix
     Test-BehaviorProfile "1.5.1.0-runtime-patch" $version15Path "runtime" `
         @() $legacyNotAvailable $matrix
@@ -268,9 +282,21 @@ function Test-BehaviorProfile(
 
     $standardOutput = Join-Path $auditDirectory ($profile + ".stdout.txt")
     $standardError = Join-Path $auditDirectory ($profile + ".stderr.txt")
+    $targetDirectory = Split-Path -Parent $targetPath
+    $workingDirectory = if (Test-Path -LiteralPath `
+        (Join-Path $targetDirectory "content") -PathType Container) {
+        $targetDirectory
+    }
+    elseif ($gameDirectoryPath -ne $null) {
+        $gameDirectoryPath
+    }
+    else {
+        $targetDirectory
+    }
     $process = Start-Process `
         -FilePath $probe `
         -ArgumentList @('"' + $targetPath + '"', $mode) `
+        -WorkingDirectory $workingDirectory `
         -NoNewWindow `
         -Wait `
         -PassThru `
@@ -367,7 +393,9 @@ function Test-BehaviorProfile(
         "starfall.current_play_state",
         "starfall.no_damage_queue",
         "drain_life.play_state_release",
-        "drain_life.execute_behavior"
+        "drain_life.execute_behavior",
+        "sub_menu_main.gamepad_back",
+        "sub_menu_main.keyboard_back"
     )
     foreach ($scenarioName in $scenarioNames) {
         $prefix = "scenario.$scenarioName="
@@ -451,7 +479,8 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Starfall unused play-state release" -or
         $auditLines -notcontains "patch_end=Starfall current play-state update" -or
         $auditLines -notcontains "patch_end=DrainLife unused play-state release" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 8 -or
+        $auditLines -notcontains "patch_end=SubMenuMain controller exit confirmation" -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 9 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 19) {
         throw "The runtime audit does not contain all registered Harmony patches."
@@ -468,7 +497,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=31")
+    $summary.Add("implemented_patches=32")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

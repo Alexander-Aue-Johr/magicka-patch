@@ -47,7 +47,7 @@ Diese Dateien in dieser Reihenfolge öffnen:
 11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
 12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-13. `src/BehaviorProbe/BehaviorSuite.cs` und die zweiundzwanzig `*Scenarios.cs`-Dateien
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die dreiundzwanzig `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
 14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
@@ -400,6 +400,18 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original plus Runtime-Patch: beide Szenarien bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: Transpiler wird angewendet und beide
     Szenarien bestehen
+- [x] `sub-menu-main-controller-back`
+  - Ziel: `SubMenuMain.ControllerB(Controller)`
+  - Technik: boolescher Prefix; Gamepads rufen `ShowRUSure()` auf und
+    überspringen den Cursorpfad, Keyboard/Maus führt die Originalmethode aus
+  - Fehlerfall: bei abgelöstem Cursor hängt der erste Gamepad-B-Druck nur den
+    Cursor an, statt die vorhandene Beenden-Bestätigung zu öffnen
+  - Kontrollfall: Keyboard/Maus hängt den Cursor weiterhin wie im Original an
+  - Original 1.10.4.2: Fehlerfall schlägt fehl, Kontrollfall besteht
+  - Manuelle Patch-Assembly 0.0.60: beide Szenarien bestehen
+  - Original plus Runtime-Patch: beide Szenarien bestehen
+  - Magicka 1.4.16.0 und 1.5.1.0: `SubMenuMain` deklariert noch keinen
+    `ControllerB`-Override; Patch und Szenarien sind `NOT_APPLICABLE`
 
 Die manuelle Hilfsmethode prüft außerdem `Entity.IsDisposed`. Dieses Mitglied
 existiert im Original nicht und gehört zu einer noch nicht migrierten Änderung
@@ -439,11 +451,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | Agent | Avatar | AIStateAttack | AIStateMove | BossHealthBar | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | Helper | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | Portal | RandomMine | Starfall | VersusRuleset |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE |
+| Magicka-Version | Runtime-Host | Agent | Avatar | AIStateAttack | AIStateMove | BossHealthBar | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | Helper | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | Portal | RandomMine | Starfall | SubMenuMain | VersusRuleset |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -457,7 +469,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 17 Dateien vollständig, 8 Dateien teilweise und 195 Dateien noch
+Aktueller Stand: 18 Dateien vollständig, 8 Dateien teilweise und 194 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -602,7 +614,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/JudgementSpray.cs`
 - [ ] `Magicka/GameLogic/Spells/IceSpikes.cs`
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptions.cs`
-- [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuMain.cs`
+- [x] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuMain.cs` — VOLLSTÄNDIG: Gamepad-B öffnet die vorhandene Beenden-Bestätigung, Keyboard/Maus behält den Cursorpfad; Prefix und 2 Drei-Wege-Szenarien. Die leere manuelle Markermethode hat kein Laufzeitverhalten und wird nicht übernommen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Starfall.cs` — VOLLSTÄNDIG: statische PlayState-Retention und veraltete Update-Zugriffe, 2 Transpiler und 3 Drei-Wege-Szenarien; lokale Variablennamen sind nicht Teil des Runtime-Patches.
 - [ ] `Magicka/GameLogic/Entities/ChantSpellManager.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Zap.cs`

@@ -96,6 +96,7 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 DrainLifePlayStatePatch.Definition);
+            SubMenuMainPatchPlan.ApplyTo(targetAssembly);
         }
     }
 }
