@@ -81,6 +81,7 @@ ValidateEntityManagerQuadGridLifecycle(magicka);
 ValidateAnimatedLevelPartDetachedBodyGuard(magicka);
 ValidateAiDetachedTargetGuards(magicka);
 ValidateNetworkPickupDetachedTargetGuards(magicka);
+ValidateNetworkServerEnterSyncSenderGuard(magicka);
 ValidateCharacterTemplatePlayStateTransition(magicka);
 ValidateInvalidAudioLocatorRecovery(magicka);
 ValidateMagicksLanguageSelection(magicka);
@@ -4248,6 +4249,69 @@ static void RequireBodyGuardBeforeTargetUse(
     {
         throw new InvalidDataException(
             method.FullName + " Body read is not followed by a null branch.");
+    }
+}
+
+static void ValidateNetworkServerEnterSyncSenderGuard(
+    AssemblyDefinition magicka)
+{
+    MethodDefinition helper = RequireMethod(
+        magicka,
+        "Magicka.Network.NetworkServer",
+        "CommunityPatchAddEnterSyncPoint",
+        parameterCount: 3);
+    if (helper.Parameters[0].ParameterType.FullName != "System.Int32"
+        || helper.Parameters[1].ParameterType.FullName != "System.UInt32"
+        || helper.Parameters[2].ParameterType.FullName != "SteamWrapper.SteamID")
+    {
+        throw new InvalidDataException(
+            "NetworkServer EnterSync guard has an unexpected signature.");
+    }
+
+    Instruction[] helperInstructions = helper.Body.Instructions.ToArray();
+    bool rejectsNegative = helperInstructions.Any(instruction =>
+        instruction.OpCode.Code is Code.Blt or Code.Blt_S);
+    bool rejectsPastEnd = helperInstructions.Any(instruction =>
+        instruction.OpCode.Code is Code.Bge or Code.Bge_S);
+    bool reportsStableReason = helperInstructions.Any(instruction =>
+        instruction.OpCode == OpCodes.Ldstr
+        && string.Equals(
+            instruction.Operand as string,
+            "enter_sync_unknown_sender",
+            StringComparison.Ordinal));
+    bool addsAfterBoundsChecks = helperInstructions.Any(instruction =>
+        instruction.OpCode == OpCodes.Callvirt
+        && instruction.Operand is MethodReference called
+        && called.Name == "Add"
+        && called.DeclaringType.FullName
+            == "System.Collections.Generic.List`1<System.UInt32>");
+    if (!rejectsNegative
+        || !rejectsPastEnd
+        || !reportsStableReason
+        || !addsAfterBoundsChecks)
+    {
+        throw new InvalidDataException(
+            "NetworkServer EnterSync sender guard is incomplete.");
+    }
+
+    MethodDefinition readMessage = RequireMethod(
+        magicka,
+        "Magicka.Network.NetworkServer",
+        "ReadMessage",
+        parameterCount: 2);
+    int helperCalls = readMessage.Body.Instructions.Count(instruction =>
+        IsCallTo(instruction, helper));
+    int unsafeSyncPointIndexes = readMessage.Body.Instructions.Count(instruction =>
+        instruction.OpCode == OpCodes.Ldfld
+        && instruction.Operand is FieldReference field
+        && field.Name == "SyncPoints"
+        && field.DeclaringType.FullName
+            == "Magicka.Network.NetworkServer/Connection");
+    if (helperCalls != 1 || unsafeSyncPointIndexes != 0)
+    {
+        throw new InvalidDataException(
+            "NetworkServer.ReadMessage must delegate EnterSync exactly once"
+            + " without indexing Connection.SyncPoints directly.");
     }
 }
 

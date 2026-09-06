@@ -592,6 +592,18 @@ if (args.Length == 3
 }
 
 if (args.Length == 3
+    && args[0] == "--patch-network-server-enter-sync-sender")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchNetworkServerEnterSyncSenderOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": dropped EnterSync packets from unknown senders");
+    return 0;
+}
+
+if (args.Length == 3
     && args[0] == "--patch-closest-damageable-detached-body")
 {
     string inputPath = Path.GetFullPath(args[1]);
@@ -745,6 +757,9 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-widescreen-safe-area"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-network-server-enter-sync-sender"
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-closest-damageable-detached-body"
@@ -9842,6 +9857,223 @@ static (int DirectReferences, int TotalReferences) RebindSelfReferences(
     }
 
     return (directReferences, totalReferences);
+}
+
+static void PatchNetworkServerEnterSyncSenderOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    ModuleDefinition module = assembly.MainModule;
+    Dictionary<string, TypeDefinition> types = AllTypes(module)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+
+    TypeDefinition networkServer = RequireType(
+        types,
+        "Magicka.Network.NetworkServer");
+    TypeDefinition packetType = RequireType(
+        types,
+        "Magicka.Network.PacketType");
+    MethodDefinition readMessage = RequireMethod(
+        networkServer,
+        "ReadMessage",
+        parameterCount: 2);
+    MethodDefinition sendDrop = RequireMethod(
+        networkServer,
+        "SendNetworkGuardDrop",
+        parameterCount: 4);
+    FieldDefinition clientsField = networkServer.Fields.Single(field =>
+        field.Name == "mClients");
+    TypeDefinition connection = networkServer.NestedTypes.Single(type =>
+        type.Name == "Connection");
+    FieldDefinition syncPointsField = connection.Fields.Single(field =>
+        field.Name == "SyncPoints");
+    int enterSyncValue = Convert.ToInt32(packetType.Fields.Single(field =>
+        field.Name == "EnterSync"
+        && field.HasConstant).Constant);
+
+    Instruction enterSyncRead = readMessage.Body.Instructions.Single(instruction =>
+        instruction.OpCode == OpCodes.Call
+        && instruction.Operand is MethodReference called
+        && called.Name == "Read"
+        && called.DeclaringType.FullName
+            == "Magicka.Network.EnterSyncMessage");
+    Instruction getClientCall = readMessage.Body.Instructions
+        .SkipWhile(instruction => !ReferenceEquals(instruction, enterSyncRead))
+        .First(instruction =>
+            instruction.OpCode == OpCodes.Call
+            && instruction.Operand is MethodReference called
+            && called.Name == "GetClient"
+            && called.DeclaringType.FullName == networkServer.FullName);
+    Instruction storeClient = getClientCall.Next
+        ?? throw new InvalidOperationException(
+            "EnterSync GetClient result has no store instruction.");
+    Instruction loadSender = getClientCall.Previous
+        ?? throw new InvalidOperationException(
+            "EnterSync GetClient call has no sender load.");
+    Instruction loadSenderClosure = loadSender.Previous
+        ?? throw new InvalidOperationException(
+            "EnterSync sender has no closure load.");
+    if (loadSender.OpCode != OpCodes.Ldfld
+        || loadSender.Operand is not FieldReference senderField
+        || senderField.FieldType.FullName != "SteamWrapper.SteamID"
+        || (loadSenderClosure.OpCode != OpCodes.Ldloc
+            && loadSenderClosure.OpCode != OpCodes.Ldloc_S))
+    {
+        throw new InvalidOperationException(
+            "EnterSync sender is not loaded from the existing closure.");
+    }
+    VariableDefinition senderClosure = (VariableDefinition)loadSenderClosure.Operand;
+    if (storeClient.OpCode != OpCodes.Stloc
+        && storeClient.OpCode != OpCodes.Stloc_S
+        && storeClient.OpCode != OpCodes.Stloc_0
+        && storeClient.OpCode != OpCodes.Stloc_1
+        && storeClient.OpCode != OpCodes.Stloc_2
+        && storeClient.OpCode != OpCodes.Stloc_3)
+    {
+        throw new InvalidOperationException(
+            "EnterSync GetClient result is not stored in a local.");
+    }
+    VariableDefinition client = storeClient.Operand as VariableDefinition
+        ?? readMessage.Body.Variables[storeClient.OpCode.Code switch
+        {
+            Code.Stloc_0 => 0,
+            Code.Stloc_1 => 1,
+            Code.Stloc_2 => 2,
+            Code.Stloc_3 => 3,
+            _ => throw new InvalidOperationException(
+                "EnterSync client local could not be resolved."),
+        }];
+    Instruction lockStart = storeClient.Next
+        ?? throw new InvalidOperationException(
+            "EnterSync lock has no first instruction.");
+    Instruction loadMessage = readMessage.Body.Instructions
+        .TakeWhile(instruction => !ReferenceEquals(instruction, enterSyncRead))
+        .Last(instruction =>
+            instruction.OpCode == OpCodes.Ldloca
+            || instruction.OpCode == OpCodes.Ldloca_S);
+    VariableDefinition enterSyncMessage = (VariableDefinition)loadMessage.Operand;
+    Instruction syncPointAdd = readMessage.Body.Instructions
+        .SkipWhile(instruction => !ReferenceEquals(instruction, lockStart))
+        .First(instruction =>
+            instruction.OpCode == OpCodes.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.Name == "Add"
+            && called.DeclaringType.FullName
+                == "System.Collections.Generic.List`1<System.UInt32>");
+    Instruction getClientItem = syncPointAdd.Previous?.Previous?.Previous?.Previous
+        ?? throw new InvalidOperationException(
+            "EnterSync list access is incomplete.");
+    if (getClientItem.OpCode != OpCodes.Callvirt
+        || getClientItem.Operand is not MethodReference getItem
+        || getItem.Name != "get_Item")
+    {
+        throw new InvalidOperationException(
+            "EnterSync connection list access was not found.");
+    }
+    Instruction addStart = getClientItem.Previous?.Previous?.Previous
+        ?? throw new InvalidOperationException(
+            "EnterSync connection list load was not found.");
+    MethodReference getClientCount = networkServer.Methods
+        .Where(method => method.HasBody)
+        .SelectMany(method => method.Body.Instructions)
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .First(method => method.Name == "get_Count"
+            && method.DeclaringType.FullName == clientsField.FieldType.FullName);
+    MethodReference stringFormat = networkServer.Methods
+        .Where(method => method.HasBody)
+        .SelectMany(method => method.Body.Instructions)
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .First(method => method.FullName
+            == "System.String System.String::Format(System.String,System.Object,System.Object)");
+    FieldReference messageId = (FieldReference)(syncPointAdd.Previous?.Operand
+        ?? throw new InvalidOperationException(
+            "EnterSync message ID load was not found."));
+    MethodReference addSyncPoint = (MethodReference)syncPointAdd.Operand;
+
+    MethodDefinition addEnterSyncPoint = new MethodDefinition(
+        "CommunityPatchAddEnterSyncPoint",
+        MethodAttributes.Private | MethodAttributes.HideBySig,
+        module.TypeSystem.Void);
+    addEnterSyncPoint.Parameters.Add(new ParameterDefinition(
+        "clientIndex",
+        ParameterAttributes.None,
+        module.TypeSystem.Int32));
+    addEnterSyncPoint.Parameters.Add(new ParameterDefinition(
+        "syncPoint",
+        ParameterAttributes.None,
+        module.TypeSystem.UInt32));
+    addEnterSyncPoint.Parameters.Add(new ParameterDefinition(
+        "sender",
+        ParameterAttributes.None,
+        senderField.FieldType));
+    networkServer.Methods.Add(addEnterSyncPoint);
+    ILProcessor helper = addEnterSyncPoint.Body.GetILProcessor();
+    Instruction invalidClient = Instruction.Create(OpCodes.Ldarg_0);
+    helper.Append(Instruction.Create(OpCodes.Ldarg_1));
+    helper.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    helper.Append(Instruction.Create(OpCodes.Blt, invalidClient));
+    helper.Append(Instruction.Create(OpCodes.Ldarg_1));
+    helper.Append(Instruction.Create(OpCodes.Ldarg_0));
+    helper.Append(Instruction.Create(OpCodes.Ldfld, clientsField));
+    helper.Append(Instruction.Create(OpCodes.Callvirt, getClientCount));
+    helper.Append(Instruction.Create(OpCodes.Bge, invalidClient));
+    helper.Append(Instruction.Create(OpCodes.Ldarg_0));
+    helper.Append(Instruction.Create(OpCodes.Ldfld, clientsField));
+    helper.Append(Instruction.Create(OpCodes.Ldarg_1));
+    helper.Append(Instruction.Create(OpCodes.Callvirt, getItem));
+    helper.Append(Instruction.Create(OpCodes.Ldfld, syncPointsField));
+    helper.Append(Instruction.Create(OpCodes.Ldarg_2));
+    helper.Append(Instruction.Create(OpCodes.Callvirt, addSyncPoint));
+    helper.Append(Instruction.Create(OpCodes.Ret));
+    helper.Append(invalidClient);
+    helper.Append(Instruction.Create(OpCodes.Ldc_I4, enterSyncValue));
+    helper.Append(Instruction.Create(OpCodes.Ldarg_3));
+    helper.Append(Instruction.Create(OpCodes.Ldstr, "enter_sync_unknown_sender"));
+    helper.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "clientIndex={0}; clientCount={1}"));
+    helper.Append(Instruction.Create(OpCodes.Ldarg_1));
+    helper.Append(Instruction.Create(OpCodes.Box, module.TypeSystem.Int32));
+    helper.Append(Instruction.Create(OpCodes.Ldarg_0));
+    helper.Append(Instruction.Create(OpCodes.Ldfld, clientsField));
+    helper.Append(Instruction.Create(OpCodes.Callvirt, getClientCount));
+    helper.Append(Instruction.Create(OpCodes.Box, module.TypeSystem.Int32));
+    helper.Append(Instruction.Create(OpCodes.Call, stringFormat));
+    helper.Append(Instruction.Create(OpCodes.Call, sendDrop));
+    helper.Append(Instruction.Create(OpCodes.Ret));
+    addEnterSyncPoint.Body.MaxStackSize = 6;
+
+    Instruction[] originalAdd = readMessage.Body.Instructions
+        .SkipWhile(instruction => !ReferenceEquals(instruction, addStart))
+        .TakeWhile(instruction => !ReferenceEquals(instruction, syncPointAdd.Next))
+        .ToArray();
+    if (originalAdd.Length != 8)
+    {
+        throw new InvalidOperationException(
+            "Expected eight EnterSync add instructions, found "
+            + originalAdd.Length + ".");
+    }
+    originalAdd[0].OpCode = OpCodes.Ldarg_0;
+    originalAdd[0].Operand = null;
+    originalAdd[1].OpCode = OpCodes.Ldloc;
+    originalAdd[1].Operand = client;
+    originalAdd[2].OpCode = OpCodes.Ldloca;
+    originalAdd[2].Operand = enterSyncMessage;
+    originalAdd[3].OpCode = OpCodes.Ldfld;
+    originalAdd[3].Operand = messageId;
+    originalAdd[4].OpCode = OpCodes.Ldloc;
+    originalAdd[4].Operand = senderClosure;
+    originalAdd[5].OpCode = OpCodes.Ldfld;
+    originalAdd[5].Operand = senderField;
+    originalAdd[6].OpCode = OpCodes.Call;
+    originalAdd[6].Operand = addEnterSyncPoint;
+    readMessage.Body.GetILProcessor().Remove(originalAdd[7]);
+    readMessage.Body.MaxStackSize = Math.Max(readMessage.Body.MaxStackSize, 4);
+
+    WriteAssembly(assembly, outputPath);
 }
 
 static void PatchWidescreenSafeAreaOnly(
