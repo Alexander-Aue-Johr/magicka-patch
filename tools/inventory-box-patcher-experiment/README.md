@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-fifteen changes:
+sixteen changes:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -12,6 +12,8 @@ fifteen changes:
   physics body has already been detached.
 - `AIStateMove.OnExecute` leaves the move state before reading a detached
   target's position.
+- `Agent.ChooseTarget` excludes candidates whose physics body has already
+  detached.
 - `EntityManager.GetClosestIDamageable` skips candidates whose physics body has
   already been detached.
 - `EntityManager.GetEntities` skips null and bodyless spatial entries.
@@ -34,8 +36,9 @@ fifteen changes:
 
 The Avatar, AI, Helper, InventoryBox, MagickCamera, and PlayState changes use
 Harmony prefixes; the HUDManager and one EntityManager change use postfixes.
-The Machine, Jormungandr, Portal, and remaining EntityManager changes use
-narrowly checked transpilers for small branches inside their original methods.
+The Agent, Machine, Jormungandr, Portal, and remaining EntityManager changes
+use narrowly checked transpilers for small branches inside their original
+methods.
 
 ## Run
 
@@ -80,9 +83,10 @@ Control scenarios must pass in all three profiles. This verifies observable
 behavior instead of claiming that a Harmony wrapper has the same C# or IL shape
 as a manually rewritten method.
 
-Magicka 1.4.16.0 and 1.5.1.0 contain the Avatar, AIStateAttack, EntityManager,
-Helper, InventoryBox, Jormungandr, MagickCamera, Machine, and Portal targets and
-pass their runtime scenarios. They contain neither the later `HUDManager`
+Magicka 1.4.16.0 and 1.5.1.0 contain the Agent, Avatar, AIStateAttack,
+AIStateMove, EntityManager, Helper, InventoryBox, Jormungandr, MagickCamera,
+Machine, and Portal targets and pass their runtime scenarios. They contain
+neither the later `HUDManager`
 implementation nor `WorldSyncMessage` and `PlayState.AddWorldSyncMessage`; both
 unavailable patch groups therefore report `NOT_APPLICABLE` without preventing
 other patches from loading.

@@ -21,6 +21,9 @@ namespace Magicka.CommunityPatch.Runtime
                 AIStateMovePatch.OnExecuteDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                AgentChooseTargetPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 EntityManagerClosestDamageablePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
