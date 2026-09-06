@@ -55,6 +55,9 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 BossHealthBarScenePatch.SetterDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                LoadingScreenEndDrawPatch.Definition);
             HUDManagerPatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,

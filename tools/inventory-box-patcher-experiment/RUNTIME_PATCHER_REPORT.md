@@ -47,7 +47,7 @@ Diese Dateien in dieser Reihenfolge öffnen:
 11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
 12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-13. `src/BehaviorProbe/BehaviorSuite.cs` und die achtunddreißig `*Scenarios.cs`-Dateien
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die neununddreißig `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
 14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
@@ -239,6 +239,21 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     und Setter bestehen ihre Szenarien. Der ältere Konstruktor benötigt selbst
     für einen Headless-Test ein echtes Grafikgerät und ist daher in der
     Verhaltensmatrix als `NOT_APPLICABLE` markiert.
+- [x] `loading-screen-depth-buffer-restore`
+  - Ziel: `LoadingScreen.EndDraw`
+  - Technik: ein Transpiler verschiebt die vorhandene fünfteilige
+    `DepthStencilBuffer`-Zuweisung vor den vorhandenen `GraphicsDevice.Clear`.
+    Es wird kein Geräteaufruf ergänzt oder entfernt.
+  - Fehlerfall: der Originalcode fordert das Leeren von Depth und Stencil an,
+    bevor der für den verwalteten Ladevorgang gespeicherte Buffer wieder am
+    Gerät hängt.
+  - Kontrollverhalten: Render-State und Render-Target werden in unveränderter
+    Reihenfolge wiederhergestellt. Im nicht verwalteten Modus finden weder
+    Buffer-Zuweisung noch Clear statt.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 liefern `clear,depth`; die manuelle
+    Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile liefern `depth,clear`.
+  - Die Zusammenfassung der beiden lokalen `DirectoryInfo`-Anweisungen in
+    `Initialize` ist semantikfreies Compilerrauschen und wird nicht übernommen.
 - [x] `hud-manager-original-hud-enable`
   - Ziel: `HUDManager.Initialise()`
   - Technik: Postfix
@@ -714,11 +729,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | EntityUpdate | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset | AbilityTemplates |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS |
+| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | EntityUpdate | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset | AbilityTemplates | LoadingScreen |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -732,7 +747,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 36 Dateien vollständig, 14 Dateien teilweise und 170 Dateien noch
+Aktueller Stand: 37 Dateien vollständig, 14 Dateien teilweise und 169 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -907,7 +922,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Bosses/WarlordCharacter.cs`
 - [ ] `Magicka/GameLogic/Entities/Bosses/Tentacle.cs`
 - [x] `Magicka/GameLogic/Entities/Bosses/Machine.cs` — VOLLSTÄNDIG: `NetworkInitialize`, Transpiler und 3 Drei-Wege-Szenarien.
-- [ ] `Magicka/GameLogic/GameStates/LoadingScreen.cs`
+- [x] `Magicka/GameLogic/GameStates/LoadingScreen.cs` — VOLLSTÄNDIG: gespeicherten Depth-Stencil-Buffer vor dem Clear wiederherstellen, Transpiler und 2 Drei-Wege-Szenarien; die lokale `DirectoryInfo`-Umschreibung ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Items/Attachment.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonElemental.cs` — VOLLSTÄNDIG: statischer levelgeladener Template-Cache, bestehender PlayState-Cleanup-Transpiler und 2 gemeinsame Drei-Wege-Szenarien.
 - [ ] `Magicka/Graphics/CutsceneText.cs`
