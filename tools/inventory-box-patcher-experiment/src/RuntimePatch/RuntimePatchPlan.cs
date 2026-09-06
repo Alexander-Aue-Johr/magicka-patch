@@ -84,6 +84,9 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 DrinkBloodPlayStatePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                RandomMinePlayStatePatch.Definition);
         }
     }
 }
