@@ -56,6 +56,7 @@ internal sealed class SummonPlayStateHarness
     private readonly SummonAbilityFixture flamer;
     private readonly SummonAbilityFixture spirit;
     private readonly SummonAbilityFixture undead;
+    private readonly FieldInfo zombieCacheField;
     private readonly FieldInfo[] abilityTemplateFields;
     private readonly MethodInfo[] abilityDisposeMethods;
     private readonly FieldInfo networkManagerSingleton;
@@ -121,8 +122,13 @@ internal sealed class SummonPlayStateHarness
             playStateType,
             vectorType,
             "sTemplates");
+        Type zombieType = magicka.GetType(
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonZombie",
+            true);
+        zombieCacheField = RuntimeReflection.RequireField(zombieType, "sCache");
         string[] abilityNames = new string[]
         {
+            "SummonZombie",
             "SummonBug",
             "SummonElemental",
             "MutateBeastman",
@@ -405,8 +411,12 @@ internal sealed class SummonPlayStateHarness
             hasExplicitCleanup &= abilityDisposeMethods[index] != null;
         if (hasExplicitCleanup)
         {
+            zombieCacheField.SetValue(
+                null,
+                Activator.CreateInstance(zombieCacheField.FieldType));
             for (int index = 0; index < abilityDisposeMethods.Length; index++)
                 Invoke(abilityDisposeMethods[index], null, new object[0]);
+            zombieCacheField.SetValue(null, null);
         }
         else
         {

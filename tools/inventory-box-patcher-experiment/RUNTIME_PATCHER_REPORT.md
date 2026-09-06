@@ -711,19 +711,19 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
 - [x] `ability-template-cache-cleanup`
   - Ziel: die bereits gepatchte Cleanup-Stelle in `PlayState.Dispose`
   - Technik: der bestehende Summon-Cleanup-Transpiler validiert zusätzlich die
-    vier exakten `CharacterTemplate`-Felder von `SummonBug`,
+    fünf exakten `CharacterTemplate`-Felder von `SummonZombie`, `SummonBug`,
     `SummonElemental`, `MutateBeastman` und `OtherworldlyDischarge` und setzt
     sie im initialisierten Dispose-Pfad auf `null`.
-  - Fehlerfall: die vier statischen Felder halten levelgeladene Templates und
+  - Fehlerfall: die fünf statischen Felder halten levelgeladene Templates und
     damit Inhalte des abgebauten Levels weiter fest.
   - Kontrollverhalten: ein nicht initialisierter `PlayState` bleibt
     unverändert; bereits leere Template-Felder bleiben leer.
-  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten alle vier Referenzen. Die
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten alle fünf Referenzen. Die
     manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile geben sie
     vollständig frei.
   - Das Original besitzt kein `Magick.DisposeMagicks`. Der Runtime-Patcher
     ergänzt deshalb nur die bestehende `PlayState.Dispose`-Injektion und fügt
-    den vier Ability-Klassen keine Methoden hinzu.
+    den fünf Ability-Klassen keine Methoden hinzu.
 - [x] `star-gaze-detached-victim-faction`
   - Ziel: `StarGaze.Update(DataChannel, float)`
   - Technik: ein Transpiler ersetzt genau den Zugriff
@@ -943,7 +943,7 @@ Versionsnachweis.
 - [ ] `Magicka/Graphics/TutorialManager.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Thunderbolt.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Blizzard.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonZombie.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonZombie.cs` — TEILWEISE: statischer Pool und levelgeladenes Template werden bei Levelende freigegeben; gespeicherter PlayState und Diagnoseänderungen sind noch offen.
 - [ ] `Magicka/Game.cs`
 - [ ] `Magicka/CommunityPatch/PayloadContract.cs`
 - [ ] `Magicka/CommunityPatch/AnimationClipCompatibility.cs`

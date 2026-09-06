@@ -15,6 +15,8 @@ namespace Magicka.CommunityPatch.Runtime
             "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonSpirit";
         private const string UndeadTypeName =
             "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonUndead";
+        private const string ZombieTypeName =
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonZombie";
         private const string BugTypeName =
             "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonBug";
         private const string ElementalTypeName =
@@ -27,6 +29,7 @@ namespace Magicka.CommunityPatch.Runtime
         private static FieldInfo flamerTemplateField;
         private static FieldInfo spiritTemplateField;
         private static FieldInfo undeadTemplatesField;
+        private static FieldInfo zombieTemplateField;
         private static FieldInfo bugTemplateField;
         private static FieldInfo elementalTemplateField;
         private static FieldInfo beastmanTemplateField;
@@ -236,6 +239,9 @@ namespace Magicka.CommunityPatch.Runtime
             undeadTemplatesField = RequireTemplateArrayField(
                 targetAssembly,
                 UndeadTypeName);
+            zombieTemplateField = RequireTemplateField(
+                targetAssembly,
+                ZombieTypeName);
             bugTemplateField = RequireTemplateField(targetAssembly, BugTypeName);
             elementalTemplateField = RequireTemplateField(
                 targetAssembly,
@@ -514,6 +520,7 @@ namespace Magicka.CommunityPatch.Runtime
             flamerTemplateField.SetValue(null, null);
             spiritTemplateField.SetValue(null, null);
             undeadTemplatesField.SetValue(null, null);
+            zombieTemplateField.SetValue(null, null);
             bugTemplateField.SetValue(null, null);
             elementalTemplateField.SetValue(null, null);
             beastmanTemplateField.SetValue(null, null);
