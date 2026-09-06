@@ -258,6 +258,9 @@ namespace Magicka.CommunityPatch.Runtime
                 PlayerControllerAvatarPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                PlayerTextBoxCleanupPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 SummonPlayStatePatch.TemplateCleanupDefinition);
         }
     }

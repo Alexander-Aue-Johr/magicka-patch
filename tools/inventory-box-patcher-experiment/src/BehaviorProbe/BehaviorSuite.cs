@@ -57,6 +57,7 @@ internal static class BehaviorSuite
         DialogLayoutScenarios.Run(magicka, runtimePatchEnabled, report);
         ShadowBlobsSceneScenarios.Run(magicka, runtimePatchEnabled, report);
         PlayerControllerAvatarScenarios.Run(magicka, report);
+        PlayerTextBoxCleanupScenarios.Run(magicka, report);
         ChantSpellCleanupScenarios.Run(magicka, report);
         StaticLevelPoolCleanupScenarios.Run(
             magicka,

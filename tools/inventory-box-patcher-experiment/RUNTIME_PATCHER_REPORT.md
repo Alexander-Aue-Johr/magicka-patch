@@ -876,6 +876,19 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Runtime-Patch-Profile lösen auch die passende starke Controller-Referenz;
     alle Profile bestehen beide Kontrollfälle.
 
+- [x] `player-text-box-level-release`
+  - Ziel: `Player.DeinitializeGame()`.
+  - Technik: Prefix; validiert das Player-TextBox-Feld sowie alle sechs
+    zurückgesetzten Felder und räumt sie vor der ursprünglichen Methode auf.
+  - Fehlerfall: Die wiederverwendete Obtained-Item-TextBox behält nach dem
+    Levelabbau ihren Besitzer, ihre Szene und aktiven Anzeigezustand.
+  - Verhalten: Besitzer und Szene werden gelöst; automatische Fortschaltung,
+    TTL, Grow-Zustand und Skalierung werden zurückgesetzt. Die TextBox selbst
+    bleibt für `InitializeGame` am Player erhalten.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten den aktiven Zustand. Die
+    manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile räumen ihn
+    auf. Eine bereits leere oder nicht vorhandene TextBox bleibt unverändert.
+
 Die manuelle Hilfsmethode prüft außerdem `Entity.IsDisposed`. Dieses Mitglied
 existiert im Original nicht und gehört zu einer noch nicht migrierten Änderung
 an `Entity`. Der aktuelle Runtime-Patch nutzt die Prüfung, sobald eine
@@ -914,11 +927,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChantSpells | StaticPools | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | EntityUpdate | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonUndead | UndeadNetwork | SummonZombie | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset | AbilityTemplates | LoadingScreen | DirectInput | MenuImageText | ParadoxPopup | Language | DialogLayout | ShadowBlobs | PlayerAvatar |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS |
+| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChantSpells | StaticPools | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | EntityUpdate | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonUndead | UndeadNetwork | SummonZombie | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset | AbilityTemplates | LoadingScreen | DirectInput | MenuImageText | ParadoxPopup | Language | DialogLayout | ShadowBlobs | PlayerAvatar | PlayerTextBox |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -932,7 +945,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 47 Dateien vollständig, 55 Dateien teilweise und 118 Dateien noch
+Aktueller Stand: 47 Dateien vollständig, 56 Dateien teilweise und 117 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1084,7 +1097,9 @@ Versionsnachweis.
   semantikfreies Compilerrauschen.
 - [ ] `Magicka/Graphics/NotifierButton.cs`
 - [ ] `Magicka/GameLogic/Statistics/StatisticsManager.cs`
-- [ ] `Magicka/Graphics/TextBox.cs`
+- [ ] `Magicka/Graphics/TextBox.cs` — TEILWEISE: die Freigabe ihrer
+  levelgebundenen Besitzer- und Szenenreferenzen ist durch einen Prefix und 3
+  Drei-Wege-Szenarien migriert; die Ultrawide-Zeichenänderung bleibt offen.
 - [x] `Magicka/Levels/Triggers/Actions/AssignItem.cs` — VOLLSTÄNDIG:
   ausschließlich semantikfreie Darstellung derselben drei statischen
   Hash-Initialisierungen in einem expliziten Typinitialisierer; Reihenfolge,
@@ -1179,7 +1194,7 @@ Versionsnachweis.
   Dekompilat ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/Levels/Packs/PackMan.cs` — TEILWEISE: Lizenzprädikat für Pack-Setter migriert; die vier Aufrufe in `SubMenuCharacterSelect` sind noch offen.
 - [ ] `Magicka/GameLogic/Controls/ControlManager.cs` — TEILWEISE: die drei `Controller`-Überladungen der Player-Input-Sperre sind mit 3 Prefixen und 3 Drei-Wege-Szenarien migriert; `HybridInputSupport.Update` in `HandleInput` ist noch offen.
-- [ ] `Magicka/GameLogic/Player.cs` — TEILWEISE: `Player.Avatar` löst die passende starke Controller-Referenz; die Freigaben von TextBox und NotifierButton in `DeinitializeGame` sind noch offen.
+- [ ] `Magicka/GameLogic/Player.cs` — TEILWEISE: `Player.Avatar` löst die passende starke Controller-Referenz und `DeinitializeGame` räumt die TextBox auf; die Freigabe des NotifierButton bleibt offen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonSpirit.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, vier veraltete Spawn-Zugriffe und statischer Template-Cache, 4 Transpiler und gemeinsame Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonFlamer.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, vier veraltete Spawn-Zugriffe und statischer Template-Cache, 4 Transpiler und gemeinsame Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/HomingCharge.cs` — TEILWEISE: gespeicherter PlayState, veralteter EntityManager-Zugriff und statischer Levelcache sind mit 3 Transpilern und gemeinsamen Drei-Wege-Szenarien migriert; die GC-Diagnosemarkierungen folgen im Diagnostics-Block.
