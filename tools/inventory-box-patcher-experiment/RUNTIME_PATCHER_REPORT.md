@@ -588,6 +588,20 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     vier Szenarien.
   - Die explizite Darstellung der `EFFECT_BUBBLE`-Initialisierung ist
     semantikfreies Compilerrauschen.
+- [x] `star-gaze-detached-victim-faction`
+  - Ziel: `StarGaze.Update(DataChannel, float)`
+  - Technik: ein Transpiler ersetzt genau den Zugriff
+    `Victim.Template.Faction` durch `Victim.Faction`.
+  - Fehlerfall: die statische Opferliste kann einen bereits deinitialisierten
+    Charakter enthalten. Dessen `CharacterTemplate` wurde freigegeben, während
+    die aktuelle Fraktion weiterhin als Wert am Charakter vorliegt.
+  - Kontrollverhalten: Effektstopp, `Confuse`, Entfernen des abgelaufenen
+    Eintrags und das Verhalten einer leeren Opferliste bleiben erhalten.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 werfen im Fehlerfall eine
+    `NullReferenceException`; die manuelle Patch-Assembly 0.0.60 und alle
+    Runtime-Patch-Profile schließen die Bereinigung vollständig ab.
+  - Die sichtbare Verschiebung der statischen Initialisierungen ist
+    semantikfreies Compilerrauschen und wird nicht übernommen.
 
 Die manuelle Hilfsmethode prüft außerdem `Entity.IsDisposed`. Dieses Mitglied
 existiert im Original nicht und gehört zu einer noch nicht migrierten Änderung
@@ -627,11 +641,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonCross | Starfall | SubMenuMain | VersusRuleset |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
+| Magicka-Version | Runtime-Host | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -645,7 +659,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 31 Dateien vollständig, 9 Dateien teilweise und 180 Dateien noch
+Aktueller Stand: 32 Dateien vollständig, 9 Dateien teilweise und 179 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -892,5 +906,5 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/LightningSpell.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Haste.cs`
 - [ ] `Magicka/GameLogic/Entities/Bosses/PropBoss.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/StarGaze.cs`
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/StarGaze.cs` — VOLLSTÄNDIG: abgelaufene, bereits deinitialisierte Opfer verwenden bei der Bereinigung die weiterhin verfügbare aktuelle Fraktion, ein Transpiler und 2 Drei-Wege-Szenarien; die statische Initialisierer-Umschreibung ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/PoisonSpray.cs` — VOLLSTÄNDIG: gespeicherter PlayState in `Execute` und beide veralteten EntityManager-Zugriffe in `Update`, 2 Transpiler und 3 Drei-Wege-Szenarien; lokale `yaw`-Variable und statische Hash-Initialisierer sind semantikfreies Compilerrauschen.

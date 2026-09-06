@@ -145,6 +145,9 @@ namespace Magicka.CommunityPatch.Runtime
             ChillyBlastPatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                StarGazeFactionPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 SummonPlayStatePatch.FlamerVectorExecuteDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
