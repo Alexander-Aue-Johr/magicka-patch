@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-ninety method patches:
+ninety-one method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -98,6 +98,8 @@ ninety method patches:
   configuration aliases without changing existing language lookup behavior.
 - Dialogue lists and structured element hints restore the line breaks that are
   lost by the original localization layout path.
+- `PlayState.Dispose` releases `ShadowBlobs` from the scene being torn down
+  without clearing a replacement scene that is already active.
 
 The Avatar, AI, BossHealthBar, Helper, InventoryBox, MagickCamera, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
@@ -105,7 +107,7 @@ postfix, while HUDManager and one EntityManager change use ordinary postfixes.
 The Agent, AudioManager, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood,
 EntityStateStorage, Flash, Machine, Jormungandr, pack, PoisonSpray, Portal,
 RandomMine, SpawnSlime, SummonCross, SummonFlamer, SummonSpirit, SummonUndead,
-Starfall, VersusRuleset, DialogLayout, and
+Starfall, VersusRuleset, DialogLayout, ShadowBlobs, and
 remaining EntityManager changes use narrowly checked transpilers for small
 branches inside their original methods. ControlManager, Interactable, and
 SubMenuMain use conditional prefixes.

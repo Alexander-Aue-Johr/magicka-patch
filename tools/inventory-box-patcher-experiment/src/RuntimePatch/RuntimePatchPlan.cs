@@ -252,6 +252,9 @@ namespace Magicka.CommunityPatch.Runtime
                 DialogLayoutPatch.HintDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                ShadowBlobsScenePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 SummonPlayStatePatch.TemplateCleanupDefinition);
         }
     }

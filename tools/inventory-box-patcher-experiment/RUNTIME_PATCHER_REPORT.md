@@ -47,7 +47,7 @@ Diese Dateien in dieser Reihenfolge öffnen:
 11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
 12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-13. `src/BehaviorProbe/BehaviorSuite.cs` und die siebenundvierzig `*Scenarios.cs`-Dateien
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die achtundvierzig `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
 14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
@@ -856,6 +856,16 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Zeilenumbrüchen. Die manuelle Patch-Assembly 0.0.60 und alle
     Runtime-Patch-Profile bestehen die sechs Szenarien.
 
+- [x] `shadow-blobs-scene-release`
+  - Ziel: `PlayState.Dispose()` unmittelbar vor dem vorhandenen Leeren der
+    geerbten `GameState.mScene`-Referenz.
+  - Verhalten: `ShadowBlobs.mScene` wird nur dann geleert, wenn es noch genau
+    die Szene enthält, die dieser PlayState abbaut. Eine bereits installierte
+    Nachfolgeszene bleibt erhalten.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten die alte Szene. Die
+    manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile lösen sie;
+    alle Profile bestehen den Kontrollfall mit einer abweichenden Szene.
+
 Die manuelle Hilfsmethode prüft außerdem `Entity.IsDisposed`. Dieses Mitglied
 existiert im Original nicht und gehört zu einer noch nicht migrierten Änderung
 an `Entity`. Der aktuelle Runtime-Patch nutzt die Prüfung, sobald eine
@@ -894,11 +904,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChantSpells | StaticPools | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | EntityUpdate | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonUndead | UndeadNetwork | SummonZombie | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset | AbilityTemplates | LoadingScreen | DirectInput | MenuImageText | ParadoxPopup | Language | DialogLayout |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS |
+| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChantSpells | StaticPools | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | EntityUpdate | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonUndead | UndeadNetwork | SummonZombie | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset | AbilityTemplates | LoadingScreen | DirectInput | MenuImageText | ParadoxPopup | Language | DialogLayout | ShadowBlobs |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -912,7 +922,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 45 Dateien vollständig, 54 Dateien teilweise und 121 Dateien noch
+Aktueller Stand: 46 Dateien vollständig, 54 Dateien teilweise und 120 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -986,7 +996,7 @@ Versionsnachweis.
 - [ ] `Magicka/SharedContentManager.cs`
 - [ ] `Magicka/GameLogic/UI/Tome.cs`
 - [ ] `Magicka/GameLogic/Entities/Avatar.cs` — TEILWEISE: `FindInteractable`, Prefix und 5 Drei-Wege-Szenarien; die übrigen manuellen Änderungen dieser großen Klasse sind noch offen.
-- [ ] `Magicka/GameLogic/GameStates/PlayState.cs` — TEILWEISE: `AddWorldSyncMessage` sowie die dokumentierten levelgebundenen Cleanup-Injektionen sind migriert; weitere Dispose-, Übergangs- und Diagnoseänderungen sind noch offen.
+- [ ] `Magicka/GameLogic/GameStates/PlayState.cs` — TEILWEISE: `AddWorldSyncMessage`, das bedingte Lösen der ShadowBlobs-Szene sowie die dokumentierten levelgebundenen Cleanup-Injektionen sind migriert; weitere Dispose-, Übergangs- und Diagnoseänderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Spells/Magick.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Spells/Railgun.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/Levels/Triggers/Trigger.cs` — TEILWEISE: `SpawnNPC` übernimmt den über das unveränderte Paketformat transportierten Undead-Zustand; weitere Netzwerk-, Dispose- und Diagnoseänderungen dieser Klasse sind noch offen.
@@ -1055,7 +1065,7 @@ Versionsnachweis.
   Drei-Wege-Szenarien. Die manuelle Sichtbarkeitserweiterung ermöglicht nur
   den Aufruf aus dem injizierten Helper; der Runtime-Patcher löst dieselbe
   private Methode per Reflection auf.
-- [ ] `Magicka/GameLogic/UI/ShadowBlobs.cs`
+- [x] `Magicka/GameLogic/UI/ShadowBlobs.cs` — VOLLSTÄNDIG: die beim Levelabbau bedingt gelöste Szenenreferenz, ein Transpiler und 2 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Entities/AnimationClipAction.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SpawnSlimeOverkill.cs` — VOLLSTÄNDIG: gespeicherter PlayState in `Execute`, Transpiler und ein Drei-Wege-Szenario; die statische Initialisierer-Darstellung ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/DeflectionAura.cs`

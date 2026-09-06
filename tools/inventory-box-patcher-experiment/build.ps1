@@ -213,6 +213,7 @@ function Test-BehaviorMatrix {
         "language_manager.simplified_chinese_aliases",
         "dialog_layout.list_breaks",
         "dialog_layout.element_sections",
+        "shadow_blobs.matching_scene",
         "chant_spell_cleanup.initialized_dispose",
         "hud_manager.disabled_original_hud",
         "machine.missing_warlock",
@@ -351,6 +352,7 @@ function Test-BehaviorProfile(
             "language_manager.simplified_chinese_aliases",
             "dialog_layout.list_breaks",
             "dialog_layout.element_sections",
+            "shadow_blobs.matching_scene",
             "chant_spell_cleanup.initialized_dispose",
             "summon_undead.vector_release",
             "summon_undead.owner_release",
@@ -462,6 +464,8 @@ function Test-BehaviorProfile(
         "dialog_layout.element_sections",
         "dialog_layout.ordinary_hint",
         "dialog_layout.existing_hint_breaks",
+        "shadow_blobs.matching_scene",
+        "shadow_blobs.replacement_scene",
         "chant_spell_cleanup.uninitialized_dispose",
         "chant_spell_cleanup.initialized_dispose",
         "hud_manager.disabled_original_hud",
@@ -714,9 +718,10 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Summon ability template cleanup" -or
         $auditLines -notcontains "patch_end=Dialog list line breaks" -or
         $auditLines -notcontains "patch_end=Element hint line breaks" -or
+        $auditLines -notcontains "patch_end=ShadowBlobs scene release" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 16 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 70) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 71) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -731,7 +736,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=90")
+    $summary.Add("implemented_patches=91")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
