@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.0.60] - 2026-09-06
+
+### Fixed
+
+- Keep the keyboard element bar and right-aligned tutorial prompts inside a
+  centered 16:9 safe area on ultrawide displays while preserving the full-width
+  3D world and unchanged 16:9 placement.
+- Drop `EnterSync` packets whose sender is no longer present in the server's
+  client list instead of indexing the list with `-1` or a stale index.
+
+### Telemetry
+
+- Add a bounded process-session trail of level files, level names, scene
+  transitions, and returns to the menu to normal-close and crash events.
+- Cache the selected language, effective glyph payload count, total size and
+  SHA-256 fingerprint, resolution, and in-game UI scale when those settings
+  change. Crash reporting only copies the prepared values and performs no file
+  or hash work.
+
+### Validation
+
+- Reject unresolved managed branch and switch targets and validate every new
+  shutdown-context hook as part of the payload gate.
+- Add functional shutdown-context tests for Microsoft CLR 2 and Mono.
+
 ## [0.0.59] - 2026-09-05
 
 ### Fixed
