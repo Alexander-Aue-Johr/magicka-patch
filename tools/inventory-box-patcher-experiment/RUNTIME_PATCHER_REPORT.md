@@ -47,7 +47,7 @@ Diese Dateien in dieser Reihenfolge öffnen:
 11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
 12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-13. `src/BehaviorProbe/BehaviorSuite.cs` und die einundzwanzig `*Scenarios.cs`-Dateien
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die zweiundzwanzig `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
 14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
@@ -383,6 +383,23 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original plus Runtime-Patch: alle drei Szenarien bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: beide Transpiler werden angewendet und alle
     drei Szenarien bestehen
+- [x] `drain-life-play-state-lifetime`
+  - Ziel: `DrainLife.Execute(ISpellCaster, PlayState)`
+  - Technik: Transpiler; entfernt nur die Zuweisung an das ungenutzte
+    `mPlayState`-Feld
+  - Fehlerfall: ein erfolgreich gestarteter Effekt behält den übergebenen
+    Levelzustand
+  - Verhalten: der Effekt besitzt nur noch die tatsächlich verwendete
+    Besitzerreferenz
+  - Kontrollfall: der echte Erfolgspfad behält Besitzer, 50 Lebensentzug,
+    einen Schadensaufruf, Rückgabe der Query-Liste, TTL `1` und Rückgabewert
+    `true`
+  - Original 1.10.4.2: der Fehlerfall behält den `PlayState`; der Kontrollfall
+    besteht
+  - Manuelle Patch-Assembly 0.0.60: beide Szenarien bestehen
+  - Original plus Runtime-Patch: beide Szenarien bestehen
+  - Magicka 1.4.16.0 und 1.5.1.0: Transpiler wird angewendet und beide
+    Szenarien bestehen
 
 Die manuelle Hilfsmethode prüft außerdem `Entity.IsDisposed`. Dieses Mitglied
 existiert im Original nicht und gehört zu einer noch nicht migrierten Änderung
@@ -422,11 +439,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | Agent | Avatar | AIStateAttack | AIStateMove | BossHealthBar | DrinkBlood | EntityManager | EntityStateStorage | Helper | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | Portal | RandomMine | Starfall | VersusRuleset |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE |
+| Magicka-Version | Runtime-Host | Agent | Avatar | AIStateAttack | AIStateMove | BossHealthBar | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | Helper | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | Portal | RandomMine | Starfall | VersusRuleset |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -440,7 +457,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 16 Dateien vollständig, 8 Dateien teilweise und 196 Dateien noch
+Aktueller Stand: 17 Dateien vollständig, 8 Dateien teilweise und 195 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -568,7 +585,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/GameStates/CompanyState.cs`
 - [ ] `Magicka/Localization/LanguageManager.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/RandomMine.cs` — VOLLSTÄNDIG: ungenutzte PlayState-Referenz im Singleton, Transpiler und 3 Drei-Wege-Szenarien; die sichtbare statische Initialisierer-Umschreibung ist semantikfreies Compilerrauschen.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/DrainLife.cs`
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/DrainLife.cs` — VOLLSTÄNDIG: ungenutzte PlayState-Referenz im erfolgreichen Effektpfad, Transpiler und 2 Drei-Wege-Szenarien; die statische Initialisierer-Umschreibung ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/Levels/Liquid.cs`
 - [ ] `Magicka/Levels/Triggers/Actions/SetDialogHint.cs`
 - [ ] `Magicka/GameLogic/Controls/Controller.cs`

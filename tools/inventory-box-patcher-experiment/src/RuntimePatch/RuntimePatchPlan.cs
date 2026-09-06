@@ -93,6 +93,9 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 StarfallPlayStatePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                DrainLifePlayStatePatch.Definition);
         }
     }
 }

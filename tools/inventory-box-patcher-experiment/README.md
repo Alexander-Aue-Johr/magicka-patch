@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-thirty changes:
+thirty-one changes:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -47,13 +47,16 @@ thirty changes:
   singleton.
 - `Starfall` releases its static legacy play-state reference and processes
   queued strikes against the current play state.
+- `DrainLife.Execute` no longer stores an unused strong reference to the play
+  state after a successful target selection.
 
 The Avatar, AI, BossHealthBar, Helper, InventoryBox, MagickCamera, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
-The Agent, DrinkBlood, EntityStateStorage, Machine, Jormungandr, pack, Portal,
-RandomMine, Starfall, VersusRuleset, and remaining EntityManager changes use
-narrowly checked transpilers for small branches inside their original methods.
+The Agent, DrainLife, DrinkBlood, EntityStateStorage, Machine, Jormungandr,
+pack, Portal, RandomMine, Starfall, VersusRuleset, and remaining EntityManager
+changes use narrowly checked transpilers for small branches inside their
+original methods.
 EntityStateStorage also uses a constructor postfix.
 
 ## Run
@@ -100,10 +103,10 @@ behavior instead of claiming that a Harmony wrapper has the same C# or IL shape
 as a manually rewritten method.
 
 Magicka 1.4.16.0 and 1.5.1.0 contain the Agent, Avatar, AIStateAttack,
-AIStateMove, BossHealthBar, DrinkBlood, EntityManager, EntityStateStorage, Helper,
-InventoryBox, ItemPack, Jormungandr, MagickCamera, MagickPack, Machine, Portal,
-RandomMine, Starfall, and VersusRuleset targets and accept their runtime
-patches. All
+AIStateMove, BossHealthBar, DrainLife, DrinkBlood, EntityManager,
+EntityStateStorage, Helper, InventoryBox, ItemPack, Jormungandr, MagickCamera,
+MagickPack, Machine, Portal, RandomMine, Starfall, and VersusRuleset targets and
+accept their runtime patches. All
 headless-applicable scenarios pass. They contain
 neither the later `HUDManager`
 implementation nor `WorldSyncMessage` and `PlayState.AddWorldSyncMessage`; both
