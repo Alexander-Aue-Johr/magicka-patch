@@ -266,8 +266,24 @@ function Test-BehaviorProfile(
         Remove-Item -LiteralPath $runtimeAudit
     }
 
-    $output = @(& $probe $targetPath $mode 2>&1)
-    Assert-LastExitCode "behavior profile $profile"
+    $standardOutput = Join-Path $auditDirectory ($profile + ".stdout.txt")
+    $standardError = Join-Path $auditDirectory ($profile + ".stderr.txt")
+    $process = Start-Process `
+        -FilePath $probe `
+        -ArgumentList @('"' + $targetPath + '"', $mode) `
+        -NoNewWindow `
+        -Wait `
+        -PassThru `
+        -RedirectStandardOutput $standardOutput `
+        -RedirectStandardError $standardError
+    $output = @(Get-Content -LiteralPath $standardOutput)
+    $errorOutput = @(Get-Content -LiteralPath $standardError)
+    if ($process.ExitCode -ne 0) {
+        throw "behavior profile $profile failed with exit code $($process.ExitCode): $($errorOutput -join [Environment]::NewLine)"
+    }
+    if ($errorOutput.Count -gt 0) {
+        $output += $errorOutput | ForEach-Object { "stderr=$_" }
+    }
     [System.IO.File]::WriteAllLines(
         (Join-Path $auditDirectory ($profile + ".txt")),
         [string[]]$output)
