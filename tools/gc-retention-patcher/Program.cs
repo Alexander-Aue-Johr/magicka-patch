@@ -507,6 +507,139 @@ if (args.Length == 3
     return 0;
 }
 
+if (args.Length == 3
+    && args[0] == "--patch-ai-detached-targets")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchAiDetachedTargetsOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": rejected detached AI targets before physics reads");
+    return 0;
+}
+
+if (args.Length == 3
+    && args[0] == "--patch-network-pickup-detached-target")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchNetworkPickupDetachedTargetOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": dropped network pickups for detached targets");
+    return 0;
+}
+
+if (args.Length == 3
+    && args[0] == "--patch-character-template-playstate-transition")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchCharacterTemplatePlayStateTransitionOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": guarded template fallback during PlayState transitions");
+    return 0;
+}
+
+if (args.Length == 3
+    && args[0] == "--patch-invalid-audio-locator")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchInvalidAudioLocatorOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": removed invalid XACT audio locators after index failures");
+    return 0;
+}
+
+if (args.Length == 3
+    && args[0] == "--patch-magicks-language-selection")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchMagicksLanguageSelectionOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": guarded magick descriptions before a selection exists");
+    return 0;
+}
+
+if (args.Length == 3
+    && args[0] == "--patch-camera-detached-follow-target")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchCameraDetachedFollowTargetOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": released detached camera follow targets");
+    return 0;
+}
+
+if (args.Length == 3
+    && args[0] == "--patch-widescreen-safe-area")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchWidescreenSafeAreaOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": kept keyboard HUD and right-aligned tutorial hints inside a centred 16:9 safe area");
+    return 0;
+}
+
+if (args.Length == 3
+    && args[0] == "--patch-network-server-enter-sync-sender")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchNetworkServerEnterSyncSenderOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": dropped EnterSync packets from unknown senders");
+    return 0;
+}
+
+if (args.Length == 4
+    && args[0] == "--patch-shutdown-telemetry-context")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    string helperPath = Path.GetFullPath(args[3]);
+    PatchShutdownTelemetryContextOnly(inputPath, outputPath, helperPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": cached navigation, language, glyph, resolution, and UI-scale context for shutdown telemetry");
+    return 0;
+}
+
+if (args.Length == 3
+    && args[0] == "--patch-closest-damageable-detached-body")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchClosestDamageableDetachedBodyOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": skipped detached closest-damageable candidates");
+    return 0;
+}
+
+if (args.Length == 3
+    && args[0] == "--patch-portal-detached-teleport-target")
+{
+    string inputPath = Path.GetFullPath(args[1]);
+    string outputPath = Path.GetFullPath(args[2]);
+    PatchPortalDetachedTeleportTargetOnly(inputPath, outputPath);
+    Console.WriteLine(
+        Path.GetFileName(inputPath)
+        + ": discarded detached portal teleport targets");
+    return 0;
+}
+
 if (args.Length != 4)
 {
     Console.Error.WriteLine(
@@ -616,6 +749,36 @@ if (args.Length != 4)
         + " <Magicka.exe> <output-Magicka.exe>\n"
         + "   or: RetentionPatcher"
         + " --patch-animated-level-part-detached-body"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-ai-detached-targets"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-network-pickup-detached-target"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-character-template-playstate-transition"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-invalid-audio-locator"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-magicks-language-selection"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-camera-detached-follow-target"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-widescreen-safe-area"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-network-server-enter-sync-sender"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-closest-damageable-detached-body"
+        + " <Magicka.exe> <output-Magicka.exe>\n"
+        + "   or: RetentionPatcher"
+        + " --patch-portal-detached-teleport-target"
         + " <Magicka.exe> <output-Magicka.exe>");
     return 2;
 }
@@ -5327,6 +5490,752 @@ static void PatchAnimatedLevelPartDetachedBodyOnly(
     WriteAssembly(assembly, outputPath);
 }
 
+static void PatchAiDetachedTargetsOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairAiDetachedTargets(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void PatchNetworkPickupDetachedTargetOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairNetworkPickupDetachedTarget(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void PatchCharacterTemplatePlayStateTransitionOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairCharacterTemplatePlayStateTransition(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void PatchInvalidAudioLocatorOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairInvalidAudioLocator(assembly.MainModule, types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void PatchMagicksLanguageSelectionOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairMagicksLanguageSelection(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void PatchCameraDetachedFollowTargetOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairCameraDetachedFollowTarget(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void PatchClosestDamageableDetachedBodyOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairClosestDamageableDetachedBody(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void PatchPortalDetachedTeleportTargetOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    Dictionary<string, TypeDefinition> types = AllTypes(assembly.MainModule)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    RepairPortalDetachedTeleportTarget(types);
+    WriteAssembly(assembly, outputPath);
+}
+
+static void RepairPortalDetachedTeleportTarget(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition entity = RequireType(types, EntityTypeName);
+    TypeDefinition portal = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.Abilities.SpecialAbilities"
+            + ".Portal/PortalEntity");
+    MethodDefinition update = RequireMethod(portal, "Update", 2);
+    MethodDefinition getBody = RequireMethod(entity, "get_Body", 0);
+    FieldDefinition queue = portal.Fields.Single(field =>
+        field.Name == "mTeleportQueue" && !field.IsStatic);
+
+    update.Body.SimplifyMacros();
+    Instruction dequeue = update.Body.Instructions.Single(instruction =>
+        instruction.OpCode.Code is Code.Call or Code.Callvirt
+        && instruction.Operand is MethodReference called
+        && called.Name == "Dequeue"
+        && called.DeclaringType.FullName == queue.FieldType.FullName);
+    Instruction firstBody = dequeue.Next?.Next
+        ?? throw new InvalidOperationException(
+            "PortalEntity.Update dequeued Body read is missing.");
+    if (!IsCallTo(firstBody, getBody))
+    {
+        throw new InvalidOperationException(
+            "PortalEntity.Update has an unexpected dequeued Body read.");
+    }
+    Instruction countCall = update.Body.Instructions
+        .SkipWhile(instruction => instruction != dequeue)
+        .First(instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.Name == "get_Count"
+            && called.DeclaringType.FullName == queue.FieldType.FullName);
+    Instruction loopCondition = countCall.Previous?.Previous
+        ?? throw new InvalidOperationException(
+            "PortalEntity.Update queue condition is missing.");
+
+    ILProcessor processor = update.Body.GetILProcessor();
+    Instruction invalidStart = Instruction.Create(OpCodes.Pop);
+    Instruction[] guard =
+    [
+        Instruction.Create(OpCodes.Dup),
+        Instruction.Create(OpCodes.Brfalse, invalidStart),
+        Instruction.Create(OpCodes.Dup),
+        Instruction.Create(OpCodes.Callvirt, getBody),
+        Instruction.Create(OpCodes.Brfalse, invalidStart),
+    ];
+    foreach (Instruction instruction in guard)
+    {
+        processor.InsertAfter(dequeue, instruction);
+        dequeue = instruction;
+    }
+    processor.Append(invalidStart);
+    processor.Append(Instruction.Create(OpCodes.Br, loopCondition));
+    update.Body.MaxStackSize = Math.Max(update.Body.MaxStackSize, 2);
+    update.Body.OptimizeMacros();
+}
+
+static void RepairClosestDamageableDetachedBody(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition manager = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.EntityManager");
+    TypeDefinition idamageable = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.IDamageable");
+    MethodDefinition getClosest = RequireMethod(
+        manager,
+        "GetClosestIDamageable",
+        4);
+    MethodDefinition getDead = RequireMethod(idamageable, "get_Dead", 0);
+    MethodDefinition getBody = RequireMethod(idamageable, "get_Body", 0);
+
+    getClosest.Body.SimplifyMacros();
+    Instruction deadCall = getClosest.Body.Instructions.Single(
+        instruction => IsCallTo(instruction, getDead));
+    VariableDefinition candidate = LoadedVariable(
+            deadCall.Previous
+                ?? throw new InvalidOperationException(
+                    "GetClosestIDamageable candidate owner is missing."),
+            getClosest.Body)
+        ?? throw new InvalidOperationException(
+            "GetClosestIDamageable candidate owner is not a local.");
+    Instruction rejectBranch = getClosest.Body.Instructions
+        .SkipWhile(instruction => instruction != deadCall)
+        .First(instruction =>
+            instruction.OpCode.Code is Code.Brtrue or Code.Brtrue_S);
+    Instruction rejectTarget = rejectBranch.Operand as Instruction
+        ?? throw new InvalidOperationException(
+            "GetClosestIDamageable rejection target is missing.");
+    ILProcessor processor = getClosest.Body.GetILProcessor();
+    Instruction candidateLoad = Instruction.Create(OpCodes.Ldloc, candidate);
+    Instruction bodyCall = Instruction.Create(OpCodes.Callvirt, getBody);
+    Instruction bodyBranch = Instruction.Create(
+        OpCodes.Brfalse,
+        rejectTarget);
+    processor.InsertAfter(rejectBranch, candidateLoad);
+    processor.InsertAfter(candidateLoad, bodyCall);
+    processor.InsertAfter(bodyCall, bodyBranch);
+    getClosest.Body.MaxStackSize = Math.Max(
+        getClosest.Body.MaxStackSize,
+        1);
+    getClosest.Body.OptimizeMacros();
+}
+
+static void RepairCameraDetachedFollowTarget(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition camera = RequireType(
+        types,
+        "Magicka.Graphics.MagickCamera");
+    TypeDefinition entity = RequireType(types, EntityTypeName);
+    MethodDefinition update = RequireMethod(camera, "Update", 2);
+    MethodDefinition getBody = RequireMethod(entity, "get_Body", 0);
+    MethodDefinition getPosition = RequireMethod(entity, "get_Position", 0);
+    FieldDefinition following = camera.Fields.Single(field =>
+        field.Name == "mFollowing" && !field.IsStatic);
+
+    update.Body.SimplifyMacros();
+    Instruction positionCall = update.Body.Instructions.Single(instruction =>
+        IsCallTo(instruction, getPosition)
+        && instruction.Previous?.OpCode == OpCodes.Ldfld
+        && instruction.Previous.Operand is FieldReference field
+        && field.FullName == following.FullName);
+    Instruction validStart = positionCall.Previous?.Previous?.Previous
+        ?? throw new InvalidOperationException(
+            "MagickCamera.Update followed-position owner is missing.");
+    Instruction nullLoad = update.Body.Instructions
+        .TakeWhile(instruction => instruction != validStart)
+        .Last(instruction =>
+            instruction.OpCode == OpCodes.Ldfld
+            && instruction.Operand is FieldReference field
+            && field.FullName == following.FullName);
+    Instruction nullBranch = nullLoad.Next
+        ?? throw new InvalidOperationException(
+            "MagickCamera.Update follow-target branch is missing.");
+    if (nullBranch.OpCode.Code is not Code.Brtrue and not Code.Brtrue_S
+        || !ReferenceEquals(nullBranch.Operand, validStart))
+    {
+        throw new InvalidOperationException(
+            "MagickCamera.Update has an unexpected follow-target guard.");
+    }
+    Instruction invalidStart = nullBranch.Next
+        ?? throw new InvalidOperationException(
+            "MagickCamera.Update follow-target fallback is missing.");
+
+    ILProcessor processor = update.Body.GetILProcessor();
+    Instruction clearStart = Instruction.Create(OpCodes.Ldarg_0);
+    Instruction[] clear =
+    [
+        clearStart,
+        Instruction.Create(OpCodes.Ldnull),
+        Instruction.Create(OpCodes.Stfld, following),
+    ];
+    foreach (Instruction instruction in clear)
+    {
+        processor.InsertBefore(invalidStart, instruction);
+    }
+    Instruction bodyGuardStart = Instruction.Create(OpCodes.Ldarg_0);
+    Instruction[] bodyGuard =
+    [
+        bodyGuardStart,
+        Instruction.Create(OpCodes.Ldfld, following),
+        Instruction.Create(OpCodes.Callvirt, getBody),
+        Instruction.Create(OpCodes.Brfalse, clearStart),
+    ];
+    foreach (Instruction instruction in bodyGuard)
+    {
+        processor.InsertBefore(validStart, instruction);
+    }
+    nullBranch.Operand = bodyGuardStart;
+    update.Body.MaxStackSize = Math.Max(update.Body.MaxStackSize, 1);
+    update.Body.OptimizeMacros();
+}
+
+static void RepairMagicksLanguageSelection(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition menu = RequireType(
+        types,
+        "Magicka.GameLogic.GameStates.InGameMenus.InGameMenuMagicks");
+    MethodDefinition languageChanged = RequireMethod(
+        menu,
+        "LanguageChanged",
+        0);
+    FieldDefinition descriptions = menu.Fields.Single(field =>
+        field.Name == "mDescriptions" && !field.IsStatic);
+    FieldDefinition markedItem = menu.Fields.Single(field =>
+        field.Name == "mMarkedItem" && !field.IsStatic);
+    FieldDefinition description = menu.Fields.Single(field =>
+        field.Name == "mDescription" && !field.IsStatic);
+
+    languageChanged.Body.SimplifyMacros();
+    Instruction selectedDescriptionStart = languageChanged.Body.Instructions
+        .First(instruction =>
+            instruction.OpCode.Code is Code.Ldarg_0 or Code.Ldarg
+            && instruction.Next?.OpCode == OpCodes.Ldfld
+            && instruction.Next.Operand is FieldReference field
+            && field.FullName == description.FullName);
+    Instruction originalReturn = languageChanged.Body.Instructions.Last();
+    if (originalReturn.OpCode != OpCodes.Ret)
+    {
+        throw new InvalidOperationException(
+            "InGameMenuMagicks.LanguageChanged has an unexpected exit.");
+    }
+
+    ILProcessor processor = languageChanged.Body.GetILProcessor();
+    Instruction invalidStart = Instruction.Create(OpCodes.Ldarg_0);
+    Instruction[] guard =
+    [
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, markedItem),
+        Instruction.Create(OpCodes.Ldc_I4_0),
+        Instruction.Create(OpCodes.Blt, invalidStart),
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, markedItem),
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, descriptions),
+        Instruction.Create(OpCodes.Ldlen),
+        Instruction.Create(OpCodes.Conv_I4),
+        Instruction.Create(OpCodes.Bge, invalidStart),
+    ];
+    foreach (Instruction instruction in guard)
+    {
+        processor.InsertBefore(selectedDescriptionStart, instruction);
+    }
+    processor.Append(invalidStart);
+    processor.Append(Instruction.Create(OpCodes.Ldfld, description));
+    processor.Append(Instruction.Create(OpCodes.Ldstr, string.Empty));
+    MethodReference setText = (MethodReference)languageChanged.Body.Instructions
+        .Single(instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "PolygonHead.Text"
+            && called.Name == "SetText")
+        .Operand;
+    processor.Append(Instruction.Create(OpCodes.Callvirt, setText));
+    processor.Append(Instruction.Create(OpCodes.Ret));
+    languageChanged.Body.MaxStackSize = Math.Max(
+        languageChanged.Body.MaxStackSize,
+        2);
+    languageChanged.Body.OptimizeMacros();
+}
+
+static void RepairInvalidAudioLocator(
+    ModuleDefinition module,
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition gameScene = RequireType(types, "Magicka.Levels.GameScene");
+    TypeDefinition audioLocator = RequireType(
+        types,
+        "Magicka.Levels.AudioLocator");
+    MethodDefinition update = gameScene.Methods.Single(method =>
+        method.Name == "Update"
+        && !method.IsStatic
+        && method.Parameters.Count == 2
+        && method.Parameters[0].ParameterType.FullName
+            == "PolygonHead.DataChannel");
+    MethodDefinition locatorUpdate = RequireMethod(
+        audioLocator,
+        "Update",
+        1);
+    FieldDefinition sounds = gameScene.Fields.Single(field =>
+        field.Name == "mSounds" && !field.IsStatic);
+
+    update.Body.SimplifyMacros();
+    if (update.Body.ExceptionHandlers.Any(handler =>
+            handler.HandlerType == ExceptionHandlerType.Catch
+            && handler.CatchType?.FullName
+                == "System.IndexOutOfRangeException"))
+    {
+        throw new InvalidOperationException(
+            "GameScene.Update already has an audio index handler.");
+    }
+    Instruction locatorCall = update.Body.Instructions.Single(
+        instruction => IsCallTo(instruction, locatorUpdate));
+    Instruction tryStart = update.Body.Instructions
+        .TakeWhile(instruction => instruction != locatorCall)
+        .Last(instruction =>
+            instruction.OpCode.Code is Code.Ldarg_0 or Code.Ldarg
+            && instruction.Next?.OpCode == OpCodes.Ldfld
+            && instruction.Next.Operand is FieldReference field
+            && field.FullName == sounds.FullName);
+    Instruction normalRemove = update.Body.Instructions.Single(instruction =>
+        instruction.OpCode.Code is Code.Call or Code.Callvirt
+        && instruction.Operand is MethodReference called
+        && called.Name == "RemoveAt"
+        && called.DeclaringType.FullName == sounds.FieldType.FullName);
+    Instruction indexStore = normalRemove.Next?.Next?.Next?.Next
+        ?? throw new InvalidOperationException(
+            "GameScene.Update sound-loop decrement is missing.");
+    VariableDefinition index = StoredVariable(indexStore, update.Body)
+        ?? throw new InvalidOperationException(
+            "GameScene.Update sound-loop index is not a local.");
+    Instruction incrementStart = indexStore.Next
+        ?? throw new InvalidOperationException(
+            "GameScene.Update sound-loop increment is missing.");
+    Instruction noRemoveBranch = update.Body.Instructions
+        .TakeWhile(instruction => instruction != normalRemove)
+        .Last(instruction =>
+            instruction.OpCode.Code is Code.Brfalse or Code.Brfalse_S
+            && ReferenceEquals(instruction.Operand, incrementStart));
+
+    ILProcessor processor = update.Body.GetILProcessor();
+    Instruction normalLeave = Instruction.Create(
+        OpCodes.Leave,
+        incrementStart);
+    Instruction handlerStart = Instruction.Create(OpCodes.Pop);
+    Instruction[] handler =
+    [
+        handlerStart,
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, sounds),
+        Instruction.Create(OpCodes.Ldloc, index),
+        Instruction.Create(
+            OpCodes.Callvirt,
+            (MethodReference)normalRemove.Operand),
+        Instruction.Create(OpCodes.Ldloc, index),
+        Instruction.Create(OpCodes.Ldc_I4_1),
+        Instruction.Create(OpCodes.Sub),
+        Instruction.Create(OpCodes.Stloc, index),
+        Instruction.Create(OpCodes.Leave, incrementStart),
+    ];
+    processor.InsertBefore(incrementStart, normalLeave);
+    foreach (Instruction instruction in handler)
+    {
+        processor.InsertBefore(incrementStart, instruction);
+    }
+    noRemoveBranch.Operand = normalLeave;
+    update.Body.ExceptionHandlers.Add(new ExceptionHandler(
+        ExceptionHandlerType.Catch)
+    {
+        TryStart = tryStart,
+        TryEnd = handlerStart,
+        HandlerStart = handlerStart,
+        HandlerEnd = incrementStart,
+        CatchType = new TypeReference(
+            "System",
+            "IndexOutOfRangeException",
+            module,
+            module.TypeSystem.CoreLibrary),
+    });
+    OrderExceptionHandlersByNesting(update);
+    update.Body.MaxStackSize = Math.Max(update.Body.MaxStackSize, 2);
+    update.Body.OptimizeMacros();
+}
+
+static void RepairCharacterTemplatePlayStateTransition(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition template = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.CharacterTemplate");
+    TypeDefinition playState = RequireType(
+        types,
+        "Magicka.GameLogic.GameStates.PlayState");
+    MethodDefinition getCachedTemplate = RequireMethod(
+        template,
+        "GetCachedTemplate",
+        1);
+    MethodDefinition getRecentPlayState = RequireMethod(
+        playState,
+        "get_RecentPlayState",
+        0);
+
+    getCachedTemplate.Body.SimplifyMacros();
+    Instruction recentCall = getCachedTemplate.Body.Instructions.Single(
+        instruction => IsCallTo(instruction, getRecentPlayState));
+    Instruction contentCall = recentCall.Next
+        ?? throw new InvalidOperationException(
+            "CharacterTemplate fallback Content read is missing.");
+    if (contentCall.OpCode.Code is not Code.Call and not Code.Callvirt
+        || contentCall.Operand is not MethodReference calledContent
+        || calledContent.Name != "get_Content")
+    {
+        throw new InvalidOperationException(
+            "CharacterTemplate fallback has an unexpected Content read.");
+    }
+    Instruction contentValidStart = contentCall.Next
+        ?? throw new InvalidOperationException(
+            "CharacterTemplate fallback load is missing.");
+    Instruction nullReturn = getCachedTemplate.Body.Instructions.Single(
+        instruction => instruction.OpCode == OpCodes.Ldnull
+            && instruction.Next?.OpCode == OpCodes.Ret);
+    ILProcessor processor = getCachedTemplate.Body.GetILProcessor();
+
+    Instruction[] playStateGuard =
+    [
+        Instruction.Create(OpCodes.Dup),
+        Instruction.Create(OpCodes.Brtrue, contentCall),
+        Instruction.Create(OpCodes.Pop),
+        Instruction.Create(OpCodes.Br, nullReturn),
+    ];
+    foreach (Instruction instruction in playStateGuard)
+    {
+        processor.InsertBefore(contentCall, instruction);
+    }
+
+    Instruction[] contentGuard =
+    [
+        Instruction.Create(OpCodes.Dup),
+        Instruction.Create(OpCodes.Brtrue, contentValidStart),
+        Instruction.Create(OpCodes.Pop),
+        Instruction.Create(OpCodes.Br, nullReturn),
+    ];
+    foreach (Instruction instruction in contentGuard)
+    {
+        processor.InsertBefore(contentValidStart, instruction);
+    }
+    getCachedTemplate.Body.MaxStackSize = Math.Max(
+        getCachedTemplate.Body.MaxStackSize,
+        2);
+    getCachedTemplate.Body.OptimizeMacros();
+}
+
+static void RepairNetworkPickupDetachedTarget(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition entity = RequireType(types, EntityTypeName);
+    TypeDefinition avatar = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.Avatar");
+    MethodDefinition networkAction = RequireMethod(
+        avatar,
+        "NetworkAction",
+        1);
+    MethodDefinition internalPickUp = RequireMethod(
+        avatar,
+        "InternalPickUp",
+        1);
+    MethodDefinition pickUp = RequireMethod(avatar, "PickUp", 1);
+    MethodDefinition getIsDisposed = RequireMethod(
+        entity,
+        "get_IsDisposed",
+        0);
+    MethodDefinition getBody = RequireMethod(entity, "get_Body", 0);
+
+    networkAction.Body.SimplifyMacros();
+    foreach (MethodDefinition target in new[] { internalPickUp, pickUp })
+    {
+        Instruction call = networkAction.Body.Instructions.Single(
+            instruction => IsCallTo(instruction, target));
+        Instruction pickableLoad = call.Previous
+            ?? throw new InvalidOperationException(
+                "Avatar.NetworkAction pickup argument is missing.");
+        Instruction ownerLoad = pickableLoad.Previous
+            ?? throw new InvalidOperationException(
+                "Avatar.NetworkAction pickup owner is missing.");
+        VariableDefinition pickable = LoadedVariable(
+                pickableLoad,
+                networkAction.Body)
+            ?? throw new InvalidOperationException(
+                "Avatar.NetworkAction pickup target is not a local.");
+        Instruction returnTarget = call.Next
+            ?? throw new InvalidOperationException(
+                "Avatar.NetworkAction pickup return target is missing.");
+        if (ownerLoad.OpCode.Code is not Code.Ldarg_0 and not Code.Ldarg)
+        {
+            throw new InvalidOperationException(
+                "Avatar.NetworkAction pickup call has an unexpected owner.");
+        }
+
+        Instruction[] guard =
+        [
+            Instruction.Create(OpCodes.Ldloc, pickable),
+            Instruction.Create(OpCodes.Brfalse, returnTarget),
+            Instruction.Create(OpCodes.Ldloc, pickable),
+            Instruction.Create(OpCodes.Callvirt, getIsDisposed),
+            Instruction.Create(OpCodes.Brtrue, returnTarget),
+            Instruction.Create(OpCodes.Ldloc, pickable),
+            Instruction.Create(OpCodes.Callvirt, getBody),
+            Instruction.Create(OpCodes.Brfalse, returnTarget),
+        ];
+        ILProcessor processor = networkAction.Body.GetILProcessor();
+        foreach (Instruction instruction in guard)
+        {
+            processor.InsertBefore(ownerLoad, instruction);
+        }
+    }
+    networkAction.Body.MaxStackSize = Math.Max(
+        networkAction.Body.MaxStackSize,
+        1);
+    networkAction.Body.OptimizeMacros();
+}
+
+static void RepairAiDetachedTargets(
+    IReadOnlyDictionary<string, TypeDefinition> types)
+{
+    TypeDefinition idamageable = RequireType(
+        types,
+        "Magicka.GameLogic.Entities.IDamageable");
+    TypeDefinition agent = RequireType(types, "Magicka.AI.Agent");
+    TypeDefinition attackState = RequireType(
+        types,
+        "Magicka.AI.AgentStates.AIStateAttack");
+    TypeDefinition moveState = RequireType(
+        types,
+        "Magicka.AI.AgentStates.AIStateMove");
+    MethodDefinition getCurrentTarget = RequireMethod(
+        agent,
+        "get_CurrentTarget",
+        0);
+    MethodDefinition getBody = RequireMethod(idamageable, "get_Body", 0);
+
+    MethodDefinition attack = RequireMethod(attackState, "OnExecute", 2);
+    attack.Body.SimplifyMacros();
+    Instruction attackNullCall = attack.Body.Instructions.First(instruction =>
+        IsCallTo(instruction, getCurrentTarget)
+        && instruction.Next?.OpCode.Code is Code.Brtrue or Code.Brtrue_S);
+    Instruction attackNullBranch = attackNullCall.Next!;
+    Instruction attackValidStart = (Instruction)attackNullBranch.Operand;
+    Instruction attackInvalidStart = attackNullBranch.Next
+        ?? throw new InvalidOperationException(
+            "AIStateAttack target-null branch has no invalid path.");
+    VariableDefinition attackAgent = LoadedVariable(
+            attackNullCall.Previous
+                ?? throw new InvalidOperationException(
+                    "AIStateAttack target owner is missing."),
+            attack.Body)
+        ?? throw new InvalidOperationException(
+            "AIStateAttack target owner is not a local.");
+    Instruction attackBodyGuard = Instruction.Create(
+        OpCodes.Ldloc,
+        attackAgent);
+    Instruction[] attackGuard =
+    [
+        attackBodyGuard,
+        Instruction.Create(OpCodes.Callvirt, getCurrentTarget),
+        Instruction.Create(OpCodes.Callvirt, getBody),
+        Instruction.Create(OpCodes.Brfalse, attackInvalidStart),
+    ];
+    ILProcessor attackProcessor = attack.Body.GetILProcessor();
+    foreach (Instruction instruction in attackGuard)
+    {
+        attackProcessor.InsertBefore(attackValidStart, instruction);
+    }
+    attackNullBranch.Operand = attackBodyGuard;
+    attack.Body.MaxStackSize = Math.Max(attack.Body.MaxStackSize, 1);
+    attack.Body.OptimizeMacros();
+
+    MethodDefinition moveEnter = RequireMethod(moveState, "OnEnter", 1);
+    moveEnter.Body.SimplifyMacros();
+    Instruction enterPosition = moveEnter.Body.Instructions.Single(
+        instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == idamageable.FullName
+            && called.Name == "get_Position");
+    Instruction enterTargetCall = moveEnter.Body.Instructions
+        .TakeWhile(instruction => instruction != enterPosition)
+        .Last(instruction =>
+            IsCallTo(instruction, getCurrentTarget)
+            && instruction.Next?.OpCode.Code
+                is Code.Brfalse or Code.Brfalse_S);
+    Instruction enterTargetBranch = enterTargetCall.Next
+        ?? throw new InvalidOperationException(
+            "AIStateMove.OnEnter target branch is missing.");
+    if (enterTargetBranch.OpCode.Code is not Code.Brfalse and not Code.Brfalse_S
+        || enterTargetBranch.Operand is not Instruction enterContinue)
+    {
+        throw new InvalidOperationException(
+            "AIStateMove.OnEnter has an unexpected target-null guard.");
+    }
+    VariableDefinition enterAgent = LoadedVariable(
+            enterTargetCall.Previous
+                ?? throw new InvalidOperationException(
+                    "AIStateMove.OnEnter target owner is missing."),
+            moveEnter.Body)
+        ?? throw new InvalidOperationException(
+            "AIStateMove.OnEnter target owner is not a local.");
+    ILProcessor enterProcessor = moveEnter.Body.GetILProcessor();
+    Instruction enterOwner = Instruction.Create(OpCodes.Ldloc, enterAgent);
+    Instruction enterCurrentTarget = Instruction.Create(
+        OpCodes.Callvirt,
+        getCurrentTarget);
+    Instruction enterBody = Instruction.Create(OpCodes.Callvirt, getBody);
+    Instruction enterBodyBranch = Instruction.Create(
+        OpCodes.Brfalse,
+        enterContinue);
+    enterProcessor.InsertAfter(enterTargetBranch, enterOwner);
+    enterProcessor.InsertAfter(enterOwner, enterCurrentTarget);
+    enterProcessor.InsertAfter(enterCurrentTarget, enterBody);
+    enterProcessor.InsertAfter(enterBody, enterBodyBranch);
+    moveEnter.Body.MaxStackSize = Math.Max(moveEnter.Body.MaxStackSize, 1);
+    moveEnter.Body.OptimizeMacros();
+
+    MethodDefinition moveExecute = RequireMethod(moveState, "OnExecute", 2);
+    moveExecute.Body.SimplifyMacros();
+    Instruction moveDeadCall = moveExecute.Body.Instructions.Single(
+        instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == idamageable.FullName
+            && called.Name == "get_Dead");
+    Instruction moveDeadBranch = moveDeadCall.Next
+        ?? throw new InvalidOperationException(
+            "AIStateMove.OnExecute Dead branch is missing.");
+    if (moveDeadBranch.OpCode.Code is not Code.Brtrue and not Code.Brtrue_S
+        || moveDeadBranch.Operand is not Instruction moveInvalidStart)
+    {
+        throw new InvalidOperationException(
+            "AIStateMove.OnExecute has an unexpected Dead guard.");
+    }
+    VariableDefinition moveAgent = LoadedVariable(
+            moveDeadCall.Previous?.Previous
+                ?? throw new InvalidOperationException(
+                    "AIStateMove.OnExecute target owner is missing."),
+            moveExecute.Body)
+        ?? throw new InvalidOperationException(
+            "AIStateMove.OnExecute target owner is not a local.");
+    ILProcessor moveProcessor = moveExecute.Body.GetILProcessor();
+    Instruction moveOwner = Instruction.Create(OpCodes.Ldloc, moveAgent);
+    Instruction moveCurrentTarget = Instruction.Create(
+        OpCodes.Callvirt,
+        getCurrentTarget);
+    Instruction moveBody = Instruction.Create(OpCodes.Callvirt, getBody);
+    Instruction moveBodyBranch = Instruction.Create(
+        OpCodes.Brfalse,
+        moveInvalidStart);
+    moveProcessor.InsertAfter(moveDeadBranch, moveOwner);
+    moveProcessor.InsertAfter(moveOwner, moveCurrentTarget);
+    moveProcessor.InsertAfter(moveCurrentTarget, moveBody);
+    moveProcessor.InsertAfter(moveBody, moveBodyBranch);
+    moveExecute.Body.MaxStackSize = Math.Max(moveExecute.Body.MaxStackSize, 1);
+    moveExecute.Body.OptimizeMacros();
+
+    MethodDefinition chooseTarget = RequireMethod(agent, "ChooseTarget", 2);
+    chooseTarget.Body.SimplifyMacros();
+    MethodDefinition getDead = RequireMethod(idamageable, "get_Dead", 0);
+    Instruction candidateDeadCall = chooseTarget.Body.Instructions.First(
+        instruction => IsCallTo(instruction, getDead));
+    Instruction candidateRejectBranch = chooseTarget.Body.Instructions
+        .SkipWhile(instruction => instruction != candidateDeadCall)
+        .First(instruction =>
+            instruction.OpCode.Code is Code.Brtrue or Code.Brtrue_S);
+    Instruction candidateReject = (Instruction)candidateRejectBranch.Operand;
+    VariableDefinition candidate = LoadedVariable(
+            candidateDeadCall.Previous
+                ?? throw new InvalidOperationException(
+                    "Agent.ChooseTarget candidate owner is missing."),
+            chooseTarget.Body)
+        ?? throw new InvalidOperationException(
+            "Agent.ChooseTarget candidate owner is not a local.");
+    ILProcessor chooseProcessor = chooseTarget.Body.GetILProcessor();
+    Instruction candidateLoad = Instruction.Create(OpCodes.Ldloc, candidate);
+    Instruction candidateBody = Instruction.Create(OpCodes.Callvirt, getBody);
+    Instruction candidateBodyBranch = Instruction.Create(
+        OpCodes.Brfalse,
+        candidateReject);
+    chooseProcessor.InsertAfter(candidateRejectBranch, candidateLoad);
+    chooseProcessor.InsertAfter(candidateLoad, candidateBody);
+    chooseProcessor.InsertAfter(candidateBody, candidateBodyBranch);
+    chooseTarget.Body.MaxStackSize = Math.Max(chooseTarget.Body.MaxStackSize, 1);
+    chooseTarget.Body.OptimizeMacros();
+}
+
 static void RepairAnimatedLevelPartDetachedBody(
     IReadOnlyDictionary<string, TypeDefinition> types)
 {
@@ -8963,6 +9872,1080 @@ static (int DirectReferences, int TotalReferences) RebindSelfReferences(
     return (directReferences, totalReferences);
 }
 
+static void PatchNetworkServerEnterSyncSenderOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    ModuleDefinition module = assembly.MainModule;
+    Dictionary<string, TypeDefinition> types = AllTypes(module)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+
+    TypeDefinition networkServer = RequireType(
+        types,
+        "Magicka.Network.NetworkServer");
+    TypeDefinition packetType = RequireType(
+        types,
+        "Magicka.Network.PacketType");
+    MethodDefinition readMessage = RequireMethod(
+        networkServer,
+        "ReadMessage",
+        parameterCount: 2);
+    MethodDefinition sendDrop = RequireMethod(
+        networkServer,
+        "SendNetworkGuardDrop",
+        parameterCount: 4);
+    FieldDefinition clientsField = networkServer.Fields.Single(field =>
+        field.Name == "mClients");
+    TypeDefinition connection = networkServer.NestedTypes.Single(type =>
+        type.Name == "Connection");
+    FieldDefinition syncPointsField = connection.Fields.Single(field =>
+        field.Name == "SyncPoints");
+    int enterSyncValue = Convert.ToInt32(packetType.Fields.Single(field =>
+        field.Name == "EnterSync"
+        && field.HasConstant).Constant);
+
+    Instruction enterSyncRead = readMessage.Body.Instructions.Single(instruction =>
+        instruction.OpCode == OpCodes.Call
+        && instruction.Operand is MethodReference called
+        && called.Name == "Read"
+        && called.DeclaringType.FullName
+            == "Magicka.Network.EnterSyncMessage");
+    Instruction getClientCall = readMessage.Body.Instructions
+        .SkipWhile(instruction => !ReferenceEquals(instruction, enterSyncRead))
+        .First(instruction =>
+            instruction.OpCode == OpCodes.Call
+            && instruction.Operand is MethodReference called
+            && called.Name == "GetClient"
+            && called.DeclaringType.FullName == networkServer.FullName);
+    Instruction storeClient = getClientCall.Next
+        ?? throw new InvalidOperationException(
+            "EnterSync GetClient result has no store instruction.");
+    Instruction loadSender = getClientCall.Previous
+        ?? throw new InvalidOperationException(
+            "EnterSync GetClient call has no sender load.");
+    Instruction loadSenderClosure = loadSender.Previous
+        ?? throw new InvalidOperationException(
+            "EnterSync sender has no closure load.");
+    if (loadSender.OpCode != OpCodes.Ldfld
+        || loadSender.Operand is not FieldReference senderField
+        || senderField.FieldType.FullName != "SteamWrapper.SteamID"
+        || (loadSenderClosure.OpCode != OpCodes.Ldloc
+            && loadSenderClosure.OpCode != OpCodes.Ldloc_S))
+    {
+        throw new InvalidOperationException(
+            "EnterSync sender is not loaded from the existing closure.");
+    }
+    VariableDefinition senderClosure = (VariableDefinition)loadSenderClosure.Operand;
+    if (storeClient.OpCode != OpCodes.Stloc
+        && storeClient.OpCode != OpCodes.Stloc_S
+        && storeClient.OpCode != OpCodes.Stloc_0
+        && storeClient.OpCode != OpCodes.Stloc_1
+        && storeClient.OpCode != OpCodes.Stloc_2
+        && storeClient.OpCode != OpCodes.Stloc_3)
+    {
+        throw new InvalidOperationException(
+            "EnterSync GetClient result is not stored in a local.");
+    }
+    VariableDefinition client = storeClient.Operand as VariableDefinition
+        ?? readMessage.Body.Variables[storeClient.OpCode.Code switch
+        {
+            Code.Stloc_0 => 0,
+            Code.Stloc_1 => 1,
+            Code.Stloc_2 => 2,
+            Code.Stloc_3 => 3,
+            _ => throw new InvalidOperationException(
+                "EnterSync client local could not be resolved."),
+        }];
+    Instruction lockStart = storeClient.Next
+        ?? throw new InvalidOperationException(
+            "EnterSync lock has no first instruction.");
+    Instruction loadMessage = readMessage.Body.Instructions
+        .TakeWhile(instruction => !ReferenceEquals(instruction, enterSyncRead))
+        .Last(instruction =>
+            instruction.OpCode == OpCodes.Ldloca
+            || instruction.OpCode == OpCodes.Ldloca_S);
+    VariableDefinition enterSyncMessage = (VariableDefinition)loadMessage.Operand;
+    Instruction syncPointAdd = readMessage.Body.Instructions
+        .SkipWhile(instruction => !ReferenceEquals(instruction, lockStart))
+        .First(instruction =>
+            instruction.OpCode == OpCodes.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.Name == "Add"
+            && called.DeclaringType.FullName
+                == "System.Collections.Generic.List`1<System.UInt32>");
+    Instruction getClientItem = syncPointAdd.Previous?.Previous?.Previous?.Previous
+        ?? throw new InvalidOperationException(
+            "EnterSync list access is incomplete.");
+    if (getClientItem.OpCode != OpCodes.Callvirt
+        || getClientItem.Operand is not MethodReference getItem
+        || getItem.Name != "get_Item")
+    {
+        throw new InvalidOperationException(
+            "EnterSync connection list access was not found.");
+    }
+    Instruction addStart = getClientItem.Previous?.Previous?.Previous
+        ?? throw new InvalidOperationException(
+            "EnterSync connection list load was not found.");
+    MethodReference getClientCount = networkServer.Methods
+        .Where(method => method.HasBody)
+        .SelectMany(method => method.Body.Instructions)
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .First(method => method.Name == "get_Count"
+            && method.DeclaringType.FullName == clientsField.FieldType.FullName);
+    MethodReference stringFormat = networkServer.Methods
+        .Where(method => method.HasBody)
+        .SelectMany(method => method.Body.Instructions)
+        .Select(instruction => instruction.Operand)
+        .OfType<MethodReference>()
+        .First(method => method.FullName
+            == "System.String System.String::Format(System.String,System.Object,System.Object)");
+    FieldReference messageId = (FieldReference)(syncPointAdd.Previous?.Operand
+        ?? throw new InvalidOperationException(
+            "EnterSync message ID load was not found."));
+    MethodReference addSyncPoint = (MethodReference)syncPointAdd.Operand;
+
+    MethodDefinition addEnterSyncPoint = new MethodDefinition(
+        "CommunityPatchAddEnterSyncPoint",
+        MethodAttributes.Private | MethodAttributes.HideBySig,
+        module.TypeSystem.Void);
+    addEnterSyncPoint.Parameters.Add(new ParameterDefinition(
+        "clientIndex",
+        ParameterAttributes.None,
+        module.TypeSystem.Int32));
+    addEnterSyncPoint.Parameters.Add(new ParameterDefinition(
+        "syncPoint",
+        ParameterAttributes.None,
+        module.TypeSystem.UInt32));
+    addEnterSyncPoint.Parameters.Add(new ParameterDefinition(
+        "sender",
+        ParameterAttributes.None,
+        senderField.FieldType));
+    networkServer.Methods.Add(addEnterSyncPoint);
+    ILProcessor helper = addEnterSyncPoint.Body.GetILProcessor();
+    Instruction invalidClient = Instruction.Create(OpCodes.Ldarg_0);
+    helper.Append(Instruction.Create(OpCodes.Ldarg_1));
+    helper.Append(Instruction.Create(OpCodes.Ldc_I4_0));
+    helper.Append(Instruction.Create(OpCodes.Blt, invalidClient));
+    helper.Append(Instruction.Create(OpCodes.Ldarg_1));
+    helper.Append(Instruction.Create(OpCodes.Ldarg_0));
+    helper.Append(Instruction.Create(OpCodes.Ldfld, clientsField));
+    helper.Append(Instruction.Create(OpCodes.Callvirt, getClientCount));
+    helper.Append(Instruction.Create(OpCodes.Bge, invalidClient));
+    helper.Append(Instruction.Create(OpCodes.Ldarg_0));
+    helper.Append(Instruction.Create(OpCodes.Ldfld, clientsField));
+    helper.Append(Instruction.Create(OpCodes.Ldarg_1));
+    helper.Append(Instruction.Create(OpCodes.Callvirt, getItem));
+    helper.Append(Instruction.Create(OpCodes.Ldfld, syncPointsField));
+    helper.Append(Instruction.Create(OpCodes.Ldarg_2));
+    helper.Append(Instruction.Create(OpCodes.Callvirt, addSyncPoint));
+    helper.Append(Instruction.Create(OpCodes.Ret));
+    helper.Append(invalidClient);
+    helper.Append(Instruction.Create(OpCodes.Ldc_I4, enterSyncValue));
+    helper.Append(Instruction.Create(OpCodes.Ldarg_3));
+    helper.Append(Instruction.Create(OpCodes.Ldstr, "enter_sync_unknown_sender"));
+    helper.Append(Instruction.Create(
+        OpCodes.Ldstr,
+        "clientIndex={0}; clientCount={1}"));
+    helper.Append(Instruction.Create(OpCodes.Ldarg_1));
+    helper.Append(Instruction.Create(OpCodes.Box, module.TypeSystem.Int32));
+    helper.Append(Instruction.Create(OpCodes.Ldarg_0));
+    helper.Append(Instruction.Create(OpCodes.Ldfld, clientsField));
+    helper.Append(Instruction.Create(OpCodes.Callvirt, getClientCount));
+    helper.Append(Instruction.Create(OpCodes.Box, module.TypeSystem.Int32));
+    helper.Append(Instruction.Create(OpCodes.Call, stringFormat));
+    helper.Append(Instruction.Create(OpCodes.Call, sendDrop));
+    helper.Append(Instruction.Create(OpCodes.Ret));
+    addEnterSyncPoint.Body.MaxStackSize = 6;
+
+    Instruction[] originalAdd = readMessage.Body.Instructions
+        .SkipWhile(instruction => !ReferenceEquals(instruction, addStart))
+        .TakeWhile(instruction => !ReferenceEquals(instruction, syncPointAdd.Next))
+        .ToArray();
+    if (originalAdd.Length != 8)
+    {
+        throw new InvalidOperationException(
+            "Expected eight EnterSync add instructions, found "
+            + originalAdd.Length + ".");
+    }
+    originalAdd[0].OpCode = OpCodes.Ldarg_0;
+    originalAdd[0].Operand = null;
+    originalAdd[1].OpCode = OpCodes.Ldloc;
+    originalAdd[1].Operand = client;
+    originalAdd[2].OpCode = OpCodes.Ldloca;
+    originalAdd[2].Operand = enterSyncMessage;
+    originalAdd[3].OpCode = OpCodes.Ldfld;
+    originalAdd[3].Operand = messageId;
+    originalAdd[4].OpCode = OpCodes.Ldloc;
+    originalAdd[4].Operand = senderClosure;
+    originalAdd[5].OpCode = OpCodes.Ldfld;
+    originalAdd[5].Operand = senderField;
+    originalAdd[6].OpCode = OpCodes.Call;
+    originalAdd[6].Operand = addEnterSyncPoint;
+    readMessage.Body.GetILProcessor().Remove(originalAdd[7]);
+    readMessage.Body.MaxStackSize = Math.Max(readMessage.Body.MaxStackSize, 4);
+
+    WriteAssembly(assembly, outputPath);
+}
+
+static void PatchShutdownTelemetryContextOnly(
+    string inputPath,
+    string outputPath,
+    string helperPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    using AssemblyDefinition helperAssembly = AssemblyDefinition.ReadAssembly(
+        helperPath);
+    ModuleDefinition module = assembly.MainModule;
+    if (helperAssembly.MainModule.AssemblyReferences.Any(reference =>
+            reference.Name != "mscorlib"
+            || reference.Version != new Version(2, 0, 0, 0)))
+    {
+        throw new InvalidOperationException(
+            "The telemetry context helper must reference only CLR 2 mscorlib.");
+    }
+
+    TypeDefinition sourceContext = helperAssembly.MainModule.GetType(
+        "Magicka.CommunityPatch.TelemetryRuntimeContext")
+        ?? throw new InvalidOperationException(
+            "TelemetryRuntimeContext is missing from the helper assembly.");
+    if (module.GetType(sourceContext.FullName) is not null)
+    {
+        throw new InvalidOperationException(
+            "TelemetryRuntimeContext already exists in the target assembly.");
+    }
+
+    BodyReferencePool existingReferences = new BodyReferencePool(module);
+    TypeDefinition context = CloneAddedType(
+        sourceContext,
+        module,
+        existingReferences);
+    Dictionary<string, TypeDefinition> types = AllTypes(module)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+    MethodDefinition recordPlayState = RequireMethod(
+        context,
+        "RecordPlayState",
+        parameterCount: 2);
+    MethodDefinition recordScene = RequireMethod(
+        context,
+        "RecordScene",
+        parameterCount: 1);
+    MethodDefinition recordMenu = RequireMethod(
+        context,
+        "RecordMenu",
+        parameterCount: 0);
+    MethodDefinition recordLanguage = RequireMethod(
+        context,
+        "RecordLanguage",
+        parameterCount: 1);
+    MethodDefinition recordResolution = RequireMethod(
+        context,
+        "RecordResolution",
+        parameterCount: 2);
+    MethodDefinition recordUiScale = RequireMethod(
+        context,
+        "RecordUiScale",
+        parameterCount: 1);
+    MethodDefinition addProperties = RequireMethod(
+        context,
+        "AddProperties",
+        parameterCount: 1);
+
+    TypeDefinition playState = RequireType(
+        types,
+        "Magicka.GameLogic.GameStates.PlayState");
+    FieldDefinition levelFileName = playState.Fields.Single(field =>
+        field.Name == "mLevelFileName");
+    FieldDefinition playStateLevel = playState.Fields.Single(field =>
+        field.Name == "mLevel");
+    TypeDefinition level = RequireType(types, "Magicka.Levels.Level");
+    MethodDefinition getLevelName = RequireMethod(
+        level,
+        "get_Name",
+        parameterCount: 0);
+    MethodDefinition initialize = RequireMethod(
+        playState,
+        "Initialize",
+        parameterCount: 0);
+    initialize.Body.SimplifyMacros();
+    Instruction publishLevel = initialize.Body.Instructions.Single(instruction =>
+        instruction.OpCode == OpCodes.Stfld
+        && instruction.Operand is FieldReference field
+        && field.FullName == playStateLevel.FullName);
+    ILProcessor initializeProcessor = initialize.Body.GetILProcessor();
+    Instruction initializeCursor = publishLevel;
+    foreach (Instruction instruction in new[]
+    {
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, levelFileName),
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, playStateLevel),
+        Instruction.Create(OpCodes.Callvirt, getLevelName),
+        Instruction.Create(OpCodes.Call, recordPlayState),
+    })
+    {
+        initializeProcessor.InsertAfter(initializeCursor, instruction);
+        initializeCursor = instruction;
+    }
+    initialize.Body.MaxStackSize = Math.Max(initialize.Body.MaxStackSize, 3);
+
+    FieldDefinition currentScene = level.Fields.Single(field =>
+        field.Name == "mCurrentScene");
+    TypeDefinition gameScene = RequireType(types, "Magicka.Levels.GameScene");
+    MethodDefinition getSceneName = RequireMethod(
+        gameScene,
+        "get_Name",
+        parameterCount: 0);
+    MethodDefinition changeScene = RequireMethod(
+        level,
+        "ChangeScene",
+        parameterCount: 0);
+    changeScene.Body.SimplifyMacros();
+    Instruction publishScene = changeScene.Body.Instructions.Single(instruction =>
+        instruction.OpCode == OpCodes.Stfld
+        && instruction.Operand is FieldReference field
+        && field.FullName == currentScene.FullName);
+    ILProcessor sceneProcessor = changeScene.Body.GetILProcessor();
+    Instruction sceneCursor = publishScene;
+    foreach (Instruction instruction in new[]
+    {
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, currentScene),
+        Instruction.Create(OpCodes.Callvirt, getSceneName),
+        Instruction.Create(OpCodes.Call, recordScene),
+    })
+    {
+        sceneProcessor.InsertAfter(sceneCursor, instruction);
+        sceneCursor = instruction;
+    }
+    changeScene.Body.MaxStackSize = Math.Max(changeScene.Body.MaxStackSize, 2);
+
+    TypeDefinition levelState = level.NestedTypes.Single(type =>
+        type.Name == "State");
+    FieldDefinition stateLevel = levelState.Fields.Single(field =>
+        field.Name == "mLevel");
+    MethodDefinition applyLevelState = RequireMethod(
+        levelState,
+        "ApplyState",
+        parameterCount: 2);
+    applyLevelState.Body.SimplifyMacros();
+    Instruction restoreScene = applyLevelState.Body.Instructions.Single(
+        instruction => instruction.OpCode == OpCodes.Stfld
+            && instruction.Operand is FieldReference field
+            && field.FullName == currentScene.FullName);
+    Instruction restoreLoadCall = applyLevelState.Body.Instructions
+        .SkipWhile(instruction => !ReferenceEquals(instruction, restoreScene))
+        .First(instruction => instruction.OpCode == OpCodes.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == gameScene.FullName
+            && called.Name == "LoadLevel");
+    Instruction restoreLoadStart = restoreLoadCall.Previous?.Previous?.Previous
+        ?? throw new InvalidOperationException(
+            "Level.State.ApplyState scene load is incomplete.");
+    ILProcessor applyStateProcessor = applyLevelState.Body.GetILProcessor();
+    foreach (Instruction instruction in new[]
+    {
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, stateLevel),
+        Instruction.Create(OpCodes.Ldfld, currentScene),
+        Instruction.Create(OpCodes.Callvirt, getSceneName),
+        Instruction.Create(OpCodes.Call, recordScene),
+    })
+    {
+        applyStateProcessor.InsertBefore(restoreLoadStart, instruction);
+    }
+    applyLevelState.Body.MaxStackSize = Math.Max(
+        applyLevelState.Body.MaxStackSize,
+        2);
+
+    FieldDefinition initialized = playState.Fields.Single(field =>
+        field.Name == "mInitialized");
+    MethodDefinition onExit = RequireMethod(
+        playState,
+        "OnExit",
+        parameterCount: 0);
+    onExit.Body.SimplifyMacros();
+    Instruction initializedLoad = onExit.Body.Instructions.First(instruction =>
+        instruction.OpCode == OpCodes.Ldfld
+        && instruction.Operand is FieldReference field
+        && field.FullName == initialized.FullName);
+    Instruction initializedBranch = initializedLoad.Next
+        ?? throw new InvalidOperationException(
+            "PlayState.OnExit initialized guard is incomplete.");
+    if ((initializedBranch.OpCode != OpCodes.Brtrue
+         && initializedBranch.OpCode != OpCodes.Brtrue_S)
+        || initializedBranch.Operand is not Instruction initializedTarget)
+    {
+        throw new InvalidOperationException(
+            "PlayState.OnExit initialized branch was not found.");
+    }
+    Instruction recordMenuCall = Instruction.Create(OpCodes.Call, recordMenu);
+    onExit.Body.GetILProcessor().InsertBefore(
+        initializedTarget,
+        recordMenuCall);
+    initializedBranch.Operand = recordMenuCall;
+
+    TypeDefinition languageManager = RequireType(
+        types,
+        "Magicka.Localization.LanguageManager");
+    FieldDefinition currentLanguage = languageManager.Fields.Single(field =>
+        field.Name == "mCurrentLanguage");
+    MethodDefinition setLanguage = RequireMethod(
+        languageManager,
+        "SetLanguage",
+        parameterCount: 1);
+    setLanguage.Body.SimplifyMacros();
+    Instruction publishLanguage = setLanguage.Body.Instructions.Single(
+        instruction => instruction.OpCode == OpCodes.Stfld
+            && instruction.Operand is FieldReference field
+            && field.FullName == currentLanguage.FullName);
+    MethodReference objectToString = FindMethodReference(
+        module,
+        "System.Object",
+        "ToString",
+        parameterCount: 0,
+        returnType: "System.String");
+    ILProcessor languageProcessor = setLanguage.Body.GetILProcessor();
+    Instruction languageCursor = publishLanguage;
+    foreach (Instruction instruction in new[]
+    {
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldfld, currentLanguage),
+        Instruction.Create(OpCodes.Box, currentLanguage.FieldType),
+        Instruction.Create(OpCodes.Callvirt, objectToString),
+        Instruction.Create(OpCodes.Call, recordLanguage),
+    })
+    {
+        languageProcessor.InsertAfter(languageCursor, instruction);
+        languageCursor = instruction;
+    }
+    setLanguage.Body.MaxStackSize = Math.Max(setLanguage.Body.MaxStackSize, 2);
+
+    TypeDefinition globalSettings = RequireType(types, "Magicka.GlobalSettings");
+    FieldDefinition resolution = globalSettings.Fields.Single(field =>
+        field.Name == "mResolution");
+    TypeDefinition resolutionData = RequireType(types, "Magicka.ResolutionData");
+    FieldDefinition resolutionWidth = resolutionData.Fields.Single(field =>
+        field.Name == "Width");
+    FieldDefinition resolutionHeight = resolutionData.Fields.Single(field =>
+        field.Name == "Height");
+    MethodDefinition setResolution = RequireMethod(
+        globalSettings,
+        "set_Resolution",
+        parameterCount: 1);
+    setResolution.Body.SimplifyMacros();
+    Instruction resolutionReturn = setResolution.Body.Instructions.Single(
+        instruction => instruction.OpCode == OpCodes.Ret);
+    ILProcessor resolutionProcessor = setResolution.Body.GetILProcessor();
+    foreach (Instruction instruction in new[]
+    {
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldflda, resolution),
+        Instruction.Create(OpCodes.Ldfld, resolutionWidth),
+        Instruction.Create(OpCodes.Ldarg_0),
+        Instruction.Create(OpCodes.Ldflda, resolution),
+        Instruction.Create(OpCodes.Ldfld, resolutionHeight),
+        Instruction.Create(OpCodes.Call, recordResolution),
+    })
+    {
+        resolutionProcessor.InsertBefore(resolutionReturn, instruction);
+    }
+    setResolution.Body.MaxStackSize = Math.Max(
+        setResolution.Body.MaxStackSize,
+        2);
+
+    TypeDefinition uiCompatibility = RequireType(
+        types,
+        "Magicka.CommunityPatch.InGameUiCompatibility");
+    FieldDefinition scaleFactor = uiCompatibility.Fields.Single(field =>
+        field.Name == "sScaleFactor");
+    MethodDefinition uiInitializer = RequireMethod(
+        uiCompatibility,
+        ".cctor",
+        parameterCount: 0);
+    MethodDefinition applyScalePercent = RequireMethod(
+        uiCompatibility,
+        "ApplyScalePercent",
+        parameterCount: 1);
+    uiInitializer.Body.SimplifyMacros();
+    applyScalePercent.Body.SimplifyMacros();
+    foreach (MethodDefinition method in new[]
+    {
+        uiInitializer,
+        applyScalePercent,
+    })
+    {
+        Instruction storeScale = method.Body.Instructions.Single(instruction =>
+            instruction.OpCode == OpCodes.Stsfld
+            && instruction.Operand is FieldReference field
+            && field.FullName == scaleFactor.FullName);
+        ILProcessor processor = method.Body.GetILProcessor();
+        Instruction loadScale = Instruction.Create(
+            OpCodes.Ldsfld,
+            scaleFactor);
+        processor.InsertAfter(storeScale, loadScale);
+        processor.InsertAfter(
+            loadScale,
+            Instruction.Create(OpCodes.Call, recordUiScale));
+        method.Body.MaxStackSize = Math.Max(method.Body.MaxStackSize, 1);
+    }
+
+    TypeDefinition patchTelemetry = RequireType(
+        types,
+        "Magicka.CommunityPatch.PatchTelemetry");
+    MethodDefinition addElementSelection = RequireMethod(
+        patchTelemetry,
+        "CommunityPatchAddElementSelectionProperties",
+        parameterCount: 1);
+    foreach (string methodName in new[]
+    {
+        "SendCrash",
+        "SendGameClosedNormally",
+    })
+    {
+        MethodDefinition telemetryMethod = patchTelemetry.Methods.Single(
+            method => method.Name == methodName);
+        telemetryMethod.Body.SimplifyMacros();
+        Instruction addSelectionCall = telemetryMethod.Body.Instructions.Single(
+            instruction => instruction.OpCode == OpCodes.Call
+                && instruction.Operand is MethodReference called
+                && called.FullName == addElementSelection.FullName);
+        ILProcessor processor = telemetryMethod.Body.GetILProcessor();
+        Instruction duplicateProperties = Instruction.Create(OpCodes.Dup);
+        processor.InsertAfter(addSelectionCall, duplicateProperties);
+        processor.InsertAfter(
+            duplicateProperties,
+            Instruction.Create(OpCodes.Call, addProperties));
+        telemetryMethod.Body.MaxStackSize = Math.Max(
+            telemetryMethod.Body.MaxStackSize,
+            2);
+    }
+
+    foreach (MethodDefinition changedMethod in new[]
+    {
+        initialize,
+        changeScene,
+        applyLevelState,
+        onExit,
+        setLanguage,
+        setResolution,
+        uiInitializer,
+        applyScalePercent,
+        patchTelemetry.Methods.Single(method => method.Name == "SendCrash"),
+        patchTelemetry.Methods.Single(method =>
+            method.Name == "SendGameClosedNormally"),
+    })
+    {
+        changedMethod.Body.OptimizeMacros();
+    }
+
+    WriteAssembly(assembly, outputPath);
+}
+
+static TypeDefinition CloneAddedType(
+    TypeDefinition source,
+    ModuleDefinition targetModule,
+    BodyReferencePool existingReferences)
+{
+    TypeDefinition target = new TypeDefinition(
+        source.Namespace,
+        source.Name,
+        source.Attributes,
+        MapAddedTypeReference(
+            source.BaseType,
+            source,
+            null,
+            targetModule,
+            existingReferences));
+    targetModule.Types.Add(target);
+
+    Dictionary<FieldDefinition, FieldDefinition> fields = [];
+    foreach (FieldDefinition sourceField in source.Fields)
+    {
+        FieldDefinition targetField = new FieldDefinition(
+            sourceField.Name,
+            sourceField.Attributes,
+            MapAddedTypeReference(
+                sourceField.FieldType,
+                source,
+                target,
+                targetModule,
+                existingReferences));
+        if (sourceField.HasConstant)
+        {
+            targetField.Constant = sourceField.Constant;
+        }
+        target.Fields.Add(targetField);
+        fields[sourceField] = targetField;
+    }
+
+    Dictionary<MethodDefinition, MethodDefinition> methods = [];
+    foreach (MethodDefinition sourceMethod in source.Methods)
+    {
+        MethodDefinition targetMethod = new MethodDefinition(
+            sourceMethod.Name,
+            sourceMethod.Attributes,
+            MapAddedTypeReference(
+                sourceMethod.ReturnType,
+                source,
+                target,
+                targetModule,
+                existingReferences))
+        {
+            ImplAttributes = sourceMethod.ImplAttributes,
+            CallingConvention = sourceMethod.CallingConvention,
+        };
+        foreach (ParameterDefinition sourceParameter in sourceMethod.Parameters)
+        {
+            targetMethod.Parameters.Add(new ParameterDefinition(
+                sourceParameter.Name,
+                sourceParameter.Attributes,
+                MapAddedTypeReference(
+                    sourceParameter.ParameterType,
+                    source,
+                    target,
+                    targetModule,
+                    existingReferences)));
+        }
+        target.Methods.Add(targetMethod);
+        methods[sourceMethod] = targetMethod;
+    }
+
+    foreach (MethodDefinition sourceMethod in source.Methods.Where(method =>
+                 method.HasBody))
+    {
+        CloneAddedMethodBody(
+            sourceMethod,
+            methods[sourceMethod],
+            source,
+            target,
+            fields,
+            methods,
+            targetModule,
+            existingReferences);
+    }
+
+    return target;
+}
+
+static void CloneAddedMethodBody(
+    MethodDefinition sourceMethod,
+    MethodDefinition targetMethod,
+    TypeDefinition sourceType,
+    TypeDefinition targetType,
+    IReadOnlyDictionary<FieldDefinition, FieldDefinition> fields,
+    IReadOnlyDictionary<MethodDefinition, MethodDefinition> methods,
+    ModuleDefinition targetModule,
+    BodyReferencePool existingReferences)
+{
+    MethodBody body = new MethodBody(targetMethod)
+    {
+        InitLocals = sourceMethod.Body.InitLocals,
+        MaxStackSize = sourceMethod.Body.MaxStackSize,
+    };
+    targetMethod.Body = body;
+    Dictionary<VariableDefinition, VariableDefinition> variables = [];
+    foreach (VariableDefinition sourceVariable in sourceMethod.Body.Variables)
+    {
+        VariableDefinition targetVariable = new VariableDefinition(
+            MapAddedTypeReference(
+                sourceVariable.VariableType,
+                sourceType,
+                targetType,
+                targetModule,
+                existingReferences));
+        body.Variables.Add(targetVariable);
+        variables[sourceVariable] = targetVariable;
+    }
+
+    Dictionary<Instruction, Instruction> instructions = [];
+    foreach (Instruction sourceInstruction in sourceMethod.Body.Instructions)
+    {
+        Instruction targetInstruction = Instruction.Create(OpCodes.Nop);
+        targetInstruction.OpCode = sourceInstruction.OpCode;
+        body.Instructions.Add(targetInstruction);
+        instructions[sourceInstruction] = targetInstruction;
+    }
+    foreach (Instruction sourceInstruction in sourceMethod.Body.Instructions)
+    {
+        instructions[sourceInstruction].Operand = CloneAddedOperand(
+            sourceInstruction.Operand,
+            sourceMethod,
+            targetMethod,
+            sourceType,
+            targetType,
+            fields,
+            methods,
+            variables,
+            instructions,
+            targetModule,
+            existingReferences);
+    }
+    foreach (ExceptionHandler sourceHandler in
+             sourceMethod.Body.ExceptionHandlers)
+    {
+        body.ExceptionHandlers.Add(new ExceptionHandler(sourceHandler.HandlerType)
+        {
+            TryStart = MapInstruction(sourceHandler.TryStart, instructions),
+            TryEnd = MapInstruction(sourceHandler.TryEnd, instructions),
+            HandlerStart = MapInstruction(
+                sourceHandler.HandlerStart,
+                instructions),
+            HandlerEnd = MapInstruction(sourceHandler.HandlerEnd, instructions),
+            FilterStart = MapInstruction(
+                sourceHandler.FilterStart,
+                instructions),
+            CatchType = sourceHandler.CatchType is null
+                ? null
+                : MapAddedTypeReference(
+                    sourceHandler.CatchType,
+                    sourceType,
+                    targetType,
+                    targetModule,
+                    existingReferences),
+        });
+    }
+}
+
+static object? CloneAddedOperand(
+    object? operand,
+    MethodDefinition sourceMethod,
+    MethodDefinition targetMethod,
+    TypeDefinition sourceType,
+    TypeDefinition targetType,
+    IReadOnlyDictionary<FieldDefinition, FieldDefinition> fields,
+    IReadOnlyDictionary<MethodDefinition, MethodDefinition> methods,
+    IReadOnlyDictionary<VariableDefinition, VariableDefinition> variables,
+    IReadOnlyDictionary<Instruction, Instruction> instructions,
+    ModuleDefinition targetModule,
+    BodyReferencePool existingReferences)
+{
+    switch (operand)
+    {
+        case null:
+            return null;
+        case Instruction instruction:
+            return instructions[instruction];
+        case Instruction[] targets:
+            return targets.Select(instruction => instructions[instruction])
+                .ToArray();
+        case VariableDefinition variable:
+            return variables[variable];
+        case ParameterDefinition parameter:
+            return targetMethod.Parameters[sourceMethod.Parameters.IndexOf(
+                parameter)];
+        case FieldDefinition field when fields.TryGetValue(
+            field,
+            out FieldDefinition? targetField):
+            return targetField;
+        case MethodDefinition method when methods.TryGetValue(
+            method,
+            out MethodDefinition? targetMethodDefinition):
+            return targetMethodDefinition;
+        case TypeDefinition type when type == sourceType:
+            return targetType;
+        case FieldReference field when field.DeclaringType.FullName
+            == sourceType.FullName:
+            return targetType.Fields.Single(candidate =>
+                candidate.Name == field.Name
+                && candidate.FieldType.FullName == field.FieldType.FullName);
+        case MethodReference method when method.DeclaringType.FullName
+            == sourceType.FullName:
+            return targetType.Methods.Single(candidate =>
+                candidate.Name == method.Name
+                && candidate.Parameters.Count == method.Parameters.Count
+                && candidate.Parameters.Select(parameter =>
+                        parameter.ParameterType.FullName)
+                    .SequenceEqual(
+                        method.Parameters.Select(parameter =>
+                            parameter.ParameterType.FullName),
+                        StringComparer.Ordinal));
+        case TypeReference type when type.FullName == sourceType.FullName:
+            return targetType;
+        case MethodReference method:
+            return existingReferences.TryGetMethod(
+                method,
+                out MethodReference? existingMethod)
+                    ? existingMethod
+                    : targetModule.ImportReference(method);
+        case FieldReference field:
+            return existingReferences.TryGetField(
+                field,
+                out FieldReference? existingField)
+                    ? existingField
+                    : targetModule.ImportReference(field);
+        case TypeReference type:
+            return MapAddedTypeReference(
+                type,
+                sourceType,
+                targetType,
+                targetModule,
+                existingReferences);
+        case CallSite callSite:
+        {
+            CallSite targetCallSite = new CallSite(
+                MapAddedTypeReference(
+                    callSite.ReturnType,
+                    sourceType,
+                    targetType,
+                    targetModule,
+                    existingReferences))
+            {
+                HasThis = callSite.HasThis,
+                ExplicitThis = callSite.ExplicitThis,
+                CallingConvention = callSite.CallingConvention,
+            };
+            foreach (ParameterDefinition parameter in callSite.Parameters)
+            {
+                targetCallSite.Parameters.Add(new ParameterDefinition(
+                    MapAddedTypeReference(
+                        parameter.ParameterType,
+                        sourceType,
+                        targetType,
+                        targetModule,
+                        existingReferences)));
+            }
+            return targetCallSite;
+        }
+        default:
+            return operand;
+    }
+}
+
+static TypeReference MapAddedTypeReference(
+    TypeReference source,
+    TypeDefinition sourceType,
+    TypeDefinition? targetType,
+    ModuleDefinition targetModule,
+    BodyReferencePool existingReferences)
+{
+    if (source.FullName == sourceType.FullName && targetType is not null)
+    {
+        return targetType;
+    }
+    if (existingReferences.TryGetType(
+            source,
+            out TypeReference? existingType))
+    {
+        return existingType!;
+    }
+    return targetModule.ImportReference(source);
+}
+
+static void PatchWidescreenSafeAreaOnly(
+    string inputPath,
+    string outputPath)
+{
+    using AssemblyDefinition assembly = ReadAssembly(inputPath);
+    ModuleDefinition module = assembly.MainModule;
+    Dictionary<string, TypeDefinition> types = AllTypes(module)
+        .ToDictionary(type => type.FullName, StringComparer.Ordinal);
+
+    TypeDefinition helper = AddWidescreenSafeAreaHelper(module, types);
+    MethodDefinition getHorizontalInset = RequireMethod(
+        helper,
+        "GetHorizontalInset",
+        parameterCount: 2);
+    MethodDefinition getRightAlignedCentre = RequireMethod(
+        helper,
+        "GetRightAlignedCentre",
+        parameterCount: 3);
+
+    TypeDefinition keyboardHudRenderData = RequireType(
+        types,
+        "Magicka.GameLogic.UI.KeyboardHUD/RenderData");
+    MethodDefinition drawIcon = RequireMethod(
+        keyboardHudRenderData,
+        "DrawIcon",
+        parameterCount: 4);
+    FieldDefinition keyboardScreenSize = keyboardHudRenderData.Fields.Single(
+        field => field.Name == "mScreenSize"
+            && field.FieldType.FullName == "Microsoft.Xna.Framework.Point");
+    FieldReference pointX = FindFieldReference(
+        drawIcon,
+        "Microsoft.Xna.Framework.Point",
+        "X",
+        "System.Int32");
+    FieldReference pointY = FindFieldReference(
+        drawIcon,
+        "Microsoft.Xna.Framework.Point",
+        "Y",
+        "System.Int32");
+    ILProcessor keyboardProcessor = drawIcon.Body.GetILProcessor();
+    Instruction keyboardFirst = drawIcon.Body.Instructions[0];
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Ldarg_3));
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Ldarg_0));
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Ldflda, keyboardScreenSize));
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Ldfld, pointX));
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Ldarg_0));
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Ldflda, keyboardScreenSize));
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Ldfld, pointY));
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Call, getHorizontalInset));
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Add));
+    keyboardProcessor.InsertBefore(keyboardFirst, Instruction.Create(OpCodes.Starg_S, drawIcon.Parameters[2]));
+    drawIcon.Body.MaxStackSize = Math.Max(drawIcon.Body.MaxStackSize, 3);
+
+    TypeDefinition hintRenderData = RequireType(
+        types,
+        "Magicka.Graphics.TutorialManager/HintRenderData");
+    MethodDefinition drawHint = RequireMethod(hintRenderData, "Draw", parameterCount: 1);
+    FieldDefinition hintPosition = hintRenderData.Fields.Single(
+        field => field.Name == "HintPosition");
+    VariableDefinition screenSize = drawHint.Body.Variables.Single(
+        variable => variable.Index == 1
+            && variable.VariableType.FullName == "Microsoft.Xna.Framework.Point");
+    VariableDefinition hintSize = drawHint.Body.Variables.Single(
+        variable => variable.Index == 0
+            && variable.VariableType.FullName == "Microsoft.Xna.Framework.Vector2");
+    VariableDefinition horizontalPosition = drawHint.Body.Variables
+        .Where(variable => variable.VariableType.FullName == "System.Single")
+        .ElementAt(0);
+    FieldReference vectorX = FindFieldReference(
+        drawHint,
+        "Microsoft.Xna.Framework.Vector2",
+        "X",
+        "System.Single");
+    Instruction insertBefore = drawHint.Body.Instructions.First(
+        instruction => instruction.OpCode == OpCodes.Ldfld
+            && instruction.Operand is FieldReference field
+            && field.FullName == "Magicka.Graphics.Effects.TextBoxEffect Magicka.Graphics.TutorialManager/HintRenderData::mBoxEffect");
+    Instruction adjustRightAligned = Instruction.Create(OpCodes.Ldloca_S, screenSize);
+    Instruction skipAdjustment = Instruction.Create(OpCodes.Nop);
+    ILProcessor hintProcessor = drawHint.Body.GetILProcessor();
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldarg_0));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldfld, hintPosition));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldc_I4_5));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Beq, adjustRightAligned));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldarg_0));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldfld, hintPosition));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldc_I4_8));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Bne_Un, skipAdjustment));
+    hintProcessor.InsertBefore(insertBefore, adjustRightAligned);
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldfld, pointX));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldloca_S, screenSize));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldfld, pointY));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldloca_S, hintSize));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Ldfld, vectorX));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Call, getRightAlignedCentre));
+    hintProcessor.InsertBefore(insertBefore, Instruction.Create(OpCodes.Stloc, horizontalPosition));
+    hintProcessor.InsertBefore(insertBefore, skipAdjustment);
+    drawHint.Body.MaxStackSize = Math.Max(drawHint.Body.MaxStackSize, 3);
+
+    WriteAssembly(assembly, outputPath);
+}
+
+static FieldReference FindFieldReference(
+    MethodDefinition method,
+    string declaringType,
+    string name,
+    string fieldType)
+{
+    return method.Body.Instructions
+        .Select(instruction => instruction.Operand as FieldReference)
+        .Where(field => field is not null
+            && field.DeclaringType.FullName == declaringType
+            && field.Name == name
+            && field.FieldType.FullName == fieldType)
+        .Cast<FieldReference>()
+        .First();
+}
+
+static TypeDefinition AddWidescreenSafeAreaHelper(
+    ModuleDefinition module,
+    IDictionary<string, TypeDefinition> types)
+{
+    const string fullName = "Magicka.CommunityPatch.WidescreenSafeArea";
+    if (types.ContainsKey(fullName))
+    {
+        throw new InvalidOperationException(fullName + " already exists.");
+    }
+
+    TypeDefinition helper = new TypeDefinition(
+        "Magicka.CommunityPatch",
+        "WidescreenSafeArea",
+        TypeAttributes.NotPublic | TypeAttributes.Abstract | TypeAttributes.Sealed
+        | TypeAttributes.BeforeFieldInit | TypeAttributes.Class,
+        module.TypeSystem.Object);
+    module.Types.Add(helper);
+    types.Add(fullName, helper);
+
+    MethodDefinition getInset = new MethodDefinition(
+        "GetHorizontalInset",
+        MethodAttributes.Assembly | MethodAttributes.Static | MethodAttributes.HideBySig,
+        module.TypeSystem.Single);
+    getInset.Parameters.Add(new ParameterDefinition("screenWidth", ParameterAttributes.None, module.TypeSystem.Int32));
+    getInset.Parameters.Add(new ParameterDefinition("screenHeight", ParameterAttributes.None, module.TypeSystem.Int32));
+    VariableDefinition safeWidth = new VariableDefinition(module.TypeSystem.Int32);
+    getInset.Body.Variables.Add(safeWidth);
+    getInset.Body.InitLocals = true;
+    ILProcessor inset = getInset.Body.GetILProcessor();
+    Instruction zeroInset = Instruction.Create(OpCodes.Ldc_R4, 0f);
+    inset.Append(Instruction.Create(OpCodes.Ldarg_1));
+    inset.Append(Instruction.Create(OpCodes.Ldc_I4_S, (sbyte)16));
+    inset.Append(Instruction.Create(OpCodes.Mul));
+    inset.Append(Instruction.Create(OpCodes.Ldc_I4_S, (sbyte)9));
+    inset.Append(Instruction.Create(OpCodes.Div));
+    inset.Append(Instruction.Create(OpCodes.Stloc, safeWidth));
+    inset.Append(Instruction.Create(OpCodes.Ldarg_0));
+    inset.Append(Instruction.Create(OpCodes.Ldloc, safeWidth));
+    inset.Append(Instruction.Create(OpCodes.Ble, zeroInset));
+    inset.Append(Instruction.Create(OpCodes.Ldarg_0));
+    inset.Append(Instruction.Create(OpCodes.Ldloc, safeWidth));
+    inset.Append(Instruction.Create(OpCodes.Sub));
+    inset.Append(Instruction.Create(OpCodes.Conv_R4));
+    inset.Append(Instruction.Create(OpCodes.Ldc_R4, 0.5f));
+    inset.Append(Instruction.Create(OpCodes.Mul));
+    inset.Append(Instruction.Create(OpCodes.Ret));
+    inset.Append(zeroInset);
+    inset.Append(Instruction.Create(OpCodes.Ret));
+    getInset.Body.MaxStackSize = 2;
+    helper.Methods.Add(getInset);
+
+    MethodDefinition getRight = new MethodDefinition(
+        "GetRightAlignedCentre",
+        MethodAttributes.Assembly | MethodAttributes.Static | MethodAttributes.HideBySig,
+        module.TypeSystem.Single);
+    getRight.Parameters.Add(new ParameterDefinition("screenWidth", ParameterAttributes.None, module.TypeSystem.Int32));
+    getRight.Parameters.Add(new ParameterDefinition("screenHeight", ParameterAttributes.None, module.TypeSystem.Int32));
+    getRight.Parameters.Add(new ParameterDefinition("contentWidth", ParameterAttributes.None, module.TypeSystem.Single));
+    VariableDefinition rightSafeWidth = new VariableDefinition(module.TypeSystem.Int32);
+    getRight.Body.Variables.Add(rightSafeWidth);
+    getRight.Body.InitLocals = true;
+    ILProcessor right = getRight.Body.GetILProcessor();
+    Instruction keepSafeWidth = Instruction.Create(OpCodes.Ldarg_0);
+    right.Append(Instruction.Create(OpCodes.Ldarg_1));
+    right.Append(Instruction.Create(OpCodes.Ldc_I4_S, (sbyte)16));
+    right.Append(Instruction.Create(OpCodes.Mul));
+    right.Append(Instruction.Create(OpCodes.Ldc_I4_S, (sbyte)9));
+    right.Append(Instruction.Create(OpCodes.Div));
+    right.Append(Instruction.Create(OpCodes.Stloc, rightSafeWidth));
+    right.Append(Instruction.Create(OpCodes.Ldloc, rightSafeWidth));
+    right.Append(Instruction.Create(OpCodes.Ldarg_0));
+    right.Append(Instruction.Create(OpCodes.Ble, keepSafeWidth));
+    right.Append(Instruction.Create(OpCodes.Ldarg_0));
+    right.Append(Instruction.Create(OpCodes.Stloc, rightSafeWidth));
+    right.Append(keepSafeWidth);
+    right.Append(Instruction.Create(OpCodes.Ldloc, rightSafeWidth));
+    right.Append(Instruction.Create(OpCodes.Sub));
+    right.Append(Instruction.Create(OpCodes.Conv_R4));
+    right.Append(Instruction.Create(OpCodes.Ldc_R4, 0.5f));
+    right.Append(Instruction.Create(OpCodes.Mul));
+    right.Append(Instruction.Create(OpCodes.Ldloc, rightSafeWidth));
+    right.Append(Instruction.Create(OpCodes.Conv_R4));
+    right.Append(Instruction.Create(OpCodes.Ldc_R4, 0.95f));
+    right.Append(Instruction.Create(OpCodes.Mul));
+    right.Append(Instruction.Create(OpCodes.Add));
+    right.Append(Instruction.Create(OpCodes.Ldarg_2));
+    right.Append(Instruction.Create(OpCodes.Ldc_R4, 0.5f));
+    right.Append(Instruction.Create(OpCodes.Mul));
+    right.Append(Instruction.Create(OpCodes.Sub));
+    right.Append(Instruction.Create(OpCodes.Ret));
+    getRight.Body.MaxStackSize = 3;
+    helper.Methods.Add(getRight);
+    return helper;
+}
+
 static void EnsureNotAlreadyPatched(AssemblyDefinition assembly)
 {
     if (assembly.MainModule.AssemblyReferences.Any(
@@ -9634,11 +11617,25 @@ sealed class BodyReferencePool
             : throw MissingReference("type", source.FullName);
     }
 
+    public bool TryGetType(
+        TypeReference source,
+        out TypeReference? target)
+    {
+        return types.TryGetValue(source.FullName, out target);
+    }
+
     public FieldReference RequireField(FieldReference source)
     {
         return fields.TryGetValue(source.FullName, out FieldReference? target)
             ? target
             : throw MissingReference("field", source.FullName);
+    }
+
+    public bool TryGetField(
+        FieldReference source,
+        out FieldReference? target)
+    {
+        return fields.TryGetValue(source.FullName, out target);
     }
 
     public MethodReference RequireMethod(MethodReference source)
@@ -9647,6 +11644,13 @@ sealed class BodyReferencePool
         return methods.TryGetValue(key, out MethodReference? target)
             ? target
             : throw MissingReference("method", key);
+    }
+
+    public bool TryGetMethod(
+        MethodReference source,
+        out MethodReference? target)
+    {
+        return methods.TryGetValue(MethodKey(source), out target);
     }
 
     public CallSite RequireCallSite(CallSite source)

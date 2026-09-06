@@ -1,5 +1,52 @@
 # Changelog
 
+## [0.0.60] - 2026-09-06
+
+### Fixed
+
+- Keep the keyboard element bar and right-aligned tutorial prompts inside a
+  centered 16:9 safe area on ultrawide displays while preserving the full-width
+  3D world and unchanged 16:9 placement.
+- Drop `EnterSync` packets whose sender is no longer present in the server's
+  client list instead of indexing the list with `-1` or a stale index.
+
+### Telemetry
+
+- Add a bounded process-session trail of level files, level names, scene
+  transitions, and returns to the menu to normal-close and crash events.
+- Cache the selected language, effective glyph payload count, total size and
+  SHA-256 fingerprint, resolution, and in-game UI scale when those settings
+  change. Crash reporting only copies the prepared values and performs no file
+  or hash work.
+
+### Validation
+
+- Reject unresolved managed branch and switch targets and validate every new
+  shutdown-context hook as part of the payload gate.
+- Add functional shutdown-context tests for Microsoft CLR 2 and Mono.
+
+## [0.0.59] - 2026-09-05
+
+### Fixed
+
+- Release stale AI targets before abilities or movement read a detached
+  physics body. This fixes the most frequent crash reported by 0.0.57 and
+  0.0.58 players.
+- Drop delayed multiplayer pickup actions after their item has been removed.
+- Return cleanly from network template lookup while the previous PlayState is
+  being torn down.
+- Remove an invalid ambient XACT cue after its variable or 3D state reports an
+  out-of-range index, instead of retrying it every frame.
+- Handle a language change while the Magicks menu has no selected item.
+- Release detached camera-follow targets and skip detached candidates in
+  closest-damageable queries and portal teleport queues.
+
+### Validation
+
+- Add structural payload checks for every new guard and recovery path.
+- Re-audit Entity and IDamageable Position callers that can outlive physics
+  teardown.
+
 ## [0.0.58] - 2026-09-02
 
 ### Fixed

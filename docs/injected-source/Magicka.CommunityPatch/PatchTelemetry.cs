@@ -441,6 +441,7 @@ namespace Magicka.CommunityPatch
 				}
 			};
 			PatchTelemetry.CommunityPatchAddElementSelectionProperties(properties);
+			TelemetryRuntimeContext.AddProperties(properties);
 			PatchTelemetry.SendBlocking("magicka_patch_crash_report_written", properties, 1800);
 		}
 
@@ -621,6 +622,7 @@ namespace Magicka.CommunityPatch
 				}
 			};
 			PatchTelemetry.CommunityPatchAddElementSelectionProperties(properties);
+			TelemetryRuntimeContext.AddProperties(properties);
 			PatchTelemetry.SendBlocking("magicka_patch_game_closed_normally", properties, 1500);
 		}
 

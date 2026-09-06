@@ -110,7 +110,7 @@ packages:
       path: "../.."
       relative: true
     source: path
-    version: "0.0.58+58"
+    version: "0.0.60+60"
   matcher:
     dependency: transitive
     description:

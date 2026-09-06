@@ -79,6 +79,16 @@ ValidatePlayerGameDeinitialize(magicka);
 ValidateEntityCollisionCallbackCleanup(magicka);
 ValidateEntityManagerQuadGridLifecycle(magicka);
 ValidateAnimatedLevelPartDetachedBodyGuard(magicka);
+ValidateAiDetachedTargetGuards(magicka);
+ValidateNetworkPickupDetachedTargetGuards(magicka);
+ValidateNetworkServerEnterSyncSenderGuard(magicka);
+ValidateShutdownTelemetryRuntimeContext(magicka);
+ValidateCharacterTemplatePlayStateTransition(magicka);
+ValidateInvalidAudioLocatorRecovery(magicka);
+ValidateMagicksLanguageSelection(magicka);
+ValidateCameraDetachedFollowTarget(magicka);
+ValidateClosestDamageableDetachedBody(magicka);
+ValidatePortalDetachedTeleportTarget(magicka);
 ValidateCollectionLocks(magicka);
 ValidateLightSceneDetach(magicka, polygonHead);
 ValidateRainSceneDetach(magicka);
@@ -3766,6 +3776,724 @@ static void ValidateAnimatedLevelPartDetachedBodyGuard(
         throw new InvalidDataException(
             "AnimatedLevelPart.Update must cache Entity.Body exactly once;"
             + " found " + originalBodyReadCount + " reads.");
+    }
+}
+
+static void ValidateAiDetachedTargetGuards(AssemblyDefinition magicka)
+{
+    MethodDefinition getBody = AllTypes(magicka.MainModule).Single(type =>
+            type.FullName == "Magicka.GameLogic.Entities.IDamageable")
+        .Methods.Single(method =>
+            method.Name == "get_Body" && method.Parameters.Count == 0);
+    MethodDefinition getCurrentTarget = RequireMethod(
+        magicka,
+        "Magicka.AI.Agent",
+        "get_CurrentTarget",
+        0);
+    MethodDefinition attack = RequireMethod(
+        magicka,
+        "Magicka.AI.AgentStates.AIStateAttack",
+        "OnExecute",
+        2);
+    MethodDefinition moveEnter = RequireMethod(
+        magicka,
+        "Magicka.AI.AgentStates.AIStateMove",
+        "OnEnter",
+        1);
+    MethodDefinition moveExecute = RequireMethod(
+        magicka,
+        "Magicka.AI.AgentStates.AIStateMove",
+        "OnExecute",
+        2);
+    MethodDefinition chooseTarget = RequireMethod(
+        magicka,
+        "Magicka.AI.Agent",
+        "ChooseTarget",
+        2);
+
+    RequireBodyGuardBeforeTargetUse(
+        attack,
+        getBody,
+        called => called.Name == "GetDesiredDirection");
+    RequireBodyGuardBeforeTargetUse(
+        moveEnter,
+        getBody,
+        called => called.Name == "get_Position"
+            && called.DeclaringType.FullName
+                == "Magicka.GameLogic.Entities.IDamageable");
+    RequireBodyGuardBeforeTargetUse(
+        moveExecute,
+        getBody,
+        called => called.Name == "get_Position"
+            && called.DeclaringType.FullName
+                == "Magicka.GameLogic.Entities.IDamageable");
+    RequireBodyGuardBeforeTargetUse(
+        chooseTarget,
+        getBody,
+        called => called.Name == "get_Position"
+            && called.DeclaringType.FullName
+                == "Magicka.GameLogic.Entities.IDamageable");
+
+    int attackCurrentTargetCalls = attack.Body.Instructions.Count(
+        instruction => IsCallTo(instruction, getCurrentTarget));
+    if (attackCurrentTargetCalls < 2)
+    {
+        throw new InvalidDataException(
+            "AIStateAttack detached-target guard is incomplete.");
+    }
+}
+
+static void ValidateNetworkPickupDetachedTargetGuards(
+    AssemblyDefinition magicka)
+{
+    MethodDefinition networkAction = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Avatar",
+        "NetworkAction",
+        1);
+    MethodDefinition internalPickUp = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Avatar",
+        "InternalPickUp",
+        1);
+    MethodDefinition pickUp = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Avatar",
+        "PickUp",
+        1);
+    MethodDefinition getIsDisposed = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Entity",
+        "get_IsDisposed",
+        0);
+    MethodDefinition getBody = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Entity",
+        "get_Body",
+        0);
+
+    Instruction[] instructions = networkAction.Body.Instructions.ToArray();
+    foreach (MethodDefinition target in new[] { internalPickUp, pickUp })
+    {
+        int callIndex = Array.FindIndex(
+            instructions,
+            instruction => IsCallTo(instruction, target));
+        if (callIndex < 9)
+        {
+            throw new InvalidDataException(
+                "Avatar.NetworkAction has no guarded call to "
+                + target.Name + ".");
+        }
+        Instruction returnTarget = instructions[callIndex + 1];
+        Instruction[] guard = instructions[(callIndex - 10)..callIndex];
+        bool hasDisposed = guard.Any(instruction =>
+            IsCallTo(instruction, getIsDisposed));
+        bool hasBody = guard.Any(instruction => IsCallTo(instruction, getBody));
+        int returnBranches = guard.Count(instruction =>
+            instruction.OpCode.Code is Code.Brfalse or Code.Brfalse_S
+                or Code.Brtrue or Code.Brtrue_S
+            && ReferenceEquals(instruction.Operand, returnTarget));
+        if (!hasDisposed || !hasBody || returnBranches < 3)
+        {
+            throw new InvalidDataException(
+                "Avatar.NetworkAction must reject a missing, disposed, or"
+                + " bodyless target before " + target.Name + ".");
+        }
+    }
+}
+
+static void ValidateCharacterTemplatePlayStateTransition(
+    AssemblyDefinition magicka)
+{
+    MethodDefinition method = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.CharacterTemplate",
+        "GetCachedTemplate",
+        1);
+    MethodDefinition recent = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.GameStates.PlayState",
+        "get_RecentPlayState",
+        0);
+    Instruction[] instructions = method.Body.Instructions.ToArray();
+    int recentIndex = Array.FindIndex(
+        instructions,
+        instruction => IsCallTo(instruction, recent));
+    int contentIndex = Array.FindIndex(
+        instructions,
+        instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.Name == "get_Content"
+            && called.DeclaringType.FullName
+                == "Magicka.GameLogic.GameStates.PlayState");
+    int loadIndex = Array.FindIndex(
+        instructions,
+        instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is GenericInstanceMethod called
+            && called.Name == "Load");
+    if (recentIndex < 0 || contentIndex <= recentIndex || loadIndex <= contentIndex)
+    {
+        throw new InvalidDataException(
+            "CharacterTemplate.GetCachedTemplate fallback is incomplete.");
+    }
+    bool recentGuard = instructions[(recentIndex + 1)..contentIndex].Any(
+        instruction => instruction.OpCode.Code is Code.Brtrue or Code.Brtrue_S);
+    bool contentGuard = instructions[(contentIndex + 1)..loadIndex].Any(
+        instruction => instruction.OpCode.Code is Code.Brtrue or Code.Brtrue_S);
+    int nullBranches = instructions[(recentIndex + 1)..loadIndex].Count(
+        instruction =>
+            instruction.OpCode.Code is Code.Br or Code.Br_S
+            && instruction.Operand is Instruction target
+            && target.OpCode == OpCodes.Ldnull
+            && target.Next?.OpCode == OpCodes.Ret);
+    if (!recentGuard || !contentGuard || nullBranches != 2)
+    {
+        throw new InvalidDataException(
+            "CharacterTemplate.GetCachedTemplate must return null when the"
+            + " recent PlayState or its Content manager is unavailable.");
+    }
+}
+
+static void ValidateInvalidAudioLocatorRecovery(AssemblyDefinition magicka)
+{
+    MethodDefinition update = AllTypes(magicka.MainModule)
+        .Single(type => type.FullName == "Magicka.Levels.GameScene")
+        .Methods.Single(method =>
+            method.Name == "Update"
+            && !method.IsStatic
+            && method.Parameters.Count == 2
+            && method.Parameters[0].ParameterType.FullName
+                == "PolygonHead.DataChannel");
+    ExceptionHandler[] handlers = update.Body.ExceptionHandlers.Where(
+            handler => handler.HandlerType == ExceptionHandlerType.Catch)
+        .ToArray();
+    if (handlers.Length != 1
+        || handlers[0].CatchType?.FullName != "System.IndexOutOfRangeException")
+    {
+        throw new InvalidDataException(
+            "GameScene.Update must catch only IndexOutOfRangeException around"
+            + " the ambient audio-locator loop body.");
+    }
+    ExceptionHandler handler = handlers[0];
+    Instruction[] instructions = update.Body.Instructions.ToArray();
+    int tryStart = Array.IndexOf(instructions, handler.TryStart);
+    int tryEnd = Array.IndexOf(instructions, handler.TryEnd);
+    int handlerStart = Array.IndexOf(instructions, handler.HandlerStart);
+    int handlerEnd = Array.IndexOf(instructions, handler.HandlerEnd);
+    int locatorUpdate = Array.FindIndex(
+        instructions,
+        instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "Magicka.Levels.AudioLocator"
+            && called.Name == "Update");
+    int[] removeAt = instructions
+        .Select((instruction, index) => (instruction, index))
+        .Where(item =>
+            item.instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && item.instruction.Operand is MethodReference called
+            && called.Name == "RemoveAt"
+            && called.DeclaringType.FullName.StartsWith(
+                "System.Collections.Generic.SortedList`2<System.Int32,"
+                + "Magicka.Levels.AudioLocator>",
+                StringComparison.Ordinal))
+        .Select(item => item.index)
+        .ToArray();
+    if (tryStart < 0 || tryEnd <= tryStart
+        || locatorUpdate < tryStart || locatorUpdate >= tryEnd
+        || handlerStart != tryEnd || handlerEnd <= handlerStart
+        || removeAt.Count(index => index >= tryStart && index < tryEnd) != 1
+        || removeAt.Count(index => index >= handlerStart && index < handlerEnd)
+            != 1
+        || !instructions[handlerStart..handlerEnd].Any(instruction =>
+            instruction.OpCode.Code is Code.Leave or Code.Leave_S))
+    {
+        throw new InvalidDataException(
+            "GameScene.Update must remove an invalid locator, correct the"
+            + " loop index, and continue after the exact audio failure.");
+    }
+}
+
+static void ValidateMagicksLanguageSelection(AssemblyDefinition magicka)
+{
+    MethodDefinition method = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.GameStates.InGameMenus.InGameMenuMagicks",
+        "LanguageChanged",
+        0);
+    Instruction[] instructions = method.Body.Instructions.ToArray();
+    int selectedRead = Array.FindLastIndex(
+        instructions,
+        instruction => instruction.OpCode == OpCodes.Ldelem_Ref);
+    if (selectedRead < 0)
+    {
+        throw new InvalidDataException(
+            "InGameMenuMagicks.LanguageChanged no longer reads a selection.");
+    }
+    Instruction[] beforeRead = instructions[..selectedRead];
+    bool rejectsNegative = beforeRead.Any(instruction =>
+        instruction.OpCode.Code is Code.Blt or Code.Blt_S);
+    bool rejectsPastEnd = beforeRead.Any(instruction =>
+        instruction.OpCode.Code is Code.Bge or Code.Bge_S);
+    bool clearsDescription = instructions.Skip(selectedRead + 1).Any(
+        instruction => instruction.OpCode == OpCodes.Ldstr
+            && string.Equals(
+                instruction.Operand as string,
+                string.Empty,
+                StringComparison.Ordinal));
+    if (!rejectsNegative || !rejectsPastEnd || !clearsDescription)
+    {
+        throw new InvalidDataException(
+            "InGameMenuMagicks.LanguageChanged must bounds-check the marked"
+            + " item and clear the description when no selection exists.");
+    }
+}
+
+static void ValidateCameraDetachedFollowTarget(AssemblyDefinition magicka)
+{
+    MethodDefinition update = RequireMethod(
+        magicka,
+        "Magicka.Graphics.MagickCamera",
+        "Update",
+        2);
+    MethodDefinition getBody = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Entity",
+        "get_Body",
+        0);
+    MethodDefinition getPosition = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Entity",
+        "get_Position",
+        0);
+    Instruction[] instructions = update.Body.Instructions.ToArray();
+    int position = Array.FindIndex(
+        instructions,
+        instruction => IsCallTo(instruction, getPosition)
+            && instruction.Previous?.Operand is FieldReference field
+            && field.Name == "mFollowing");
+    int body = position <= 0
+        ? -1
+        : Array.FindLastIndex(
+            instructions,
+            position - 1,
+            position,
+            instruction => IsCallTo(instruction, getBody));
+    if (position < 0 || body < 0 || body >= position)
+    {
+        throw new InvalidDataException(
+            "MagickCamera.Update must test the followed Entity Body before"
+            + " reading its Position.");
+    }
+    Instruction? detachedBranch = instructions
+        .Skip(body + 1)
+        .Take(2)
+        .FirstOrDefault(instruction =>
+            instruction.OpCode.Code is Code.Brfalse or Code.Brfalse_S);
+    if (detachedBranch?.Operand is not Instruction clearStart)
+    {
+        throw new InvalidDataException(
+            "MagickCamera.Update detached-target branch is missing.");
+    }
+    int clearIndex = Array.IndexOf(instructions, clearStart);
+    bool clearsFollowing = clearIndex >= 0
+        && instructions.Skip(clearIndex).Take(4).Any(instruction =>
+            instruction.OpCode == OpCodes.Stfld
+            && instruction.Operand is FieldReference field
+            && field.Name == "mFollowing");
+    if (!clearsFollowing)
+    {
+        throw new InvalidDataException(
+            "MagickCamera.Update must release a detached follow target.");
+    }
+}
+
+static void ValidateClosestDamageableDetachedBody(AssemblyDefinition magicka)
+{
+    MethodDefinition method = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.EntityManager",
+        "GetClosestIDamageable",
+        4);
+    MethodDefinition getBody = AllTypes(magicka.MainModule).Single(type =>
+            type.FullName == "Magicka.GameLogic.Entities.IDamageable")
+        .Methods.Single(candidate =>
+            candidate.Name == "get_Body" && candidate.Parameters.Count == 0);
+    Instruction[] instructions = method.Body.Instructions.ToArray();
+    int body = Array.FindIndex(
+        instructions,
+        instruction => IsCallTo(instruction, getBody));
+    int position = Array.FindIndex(
+        instructions,
+        instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "Magicka.GameLogic.Entities.IDamageable"
+            && called.Name == "get_Position");
+    if (body < 0 || position < 0 || body >= position)
+    {
+        throw new InvalidDataException(
+            "EntityManager.GetClosestIDamageable must check Body before the"
+            + " first candidate Position read.");
+    }
+    Instruction? branch = instructions
+        .Skip(body + 1)
+        .Take(2)
+        .FirstOrDefault(instruction =>
+            instruction.OpCode.Code is Code.Brfalse or Code.Brfalse_S);
+    if (branch?.Operand is not Instruction target
+        || target.Offset <= position)
+    {
+        throw new InvalidDataException(
+            "EntityManager.GetClosestIDamageable Body guard must skip the"
+            + " detached candidate.");
+    }
+}
+
+static void ValidatePortalDetachedTeleportTarget(AssemblyDefinition magicka)
+{
+    MethodDefinition update = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Abilities.SpecialAbilities"
+            + ".Portal/PortalEntity",
+        "Update",
+        2);
+    MethodDefinition getBody = RequireMethod(
+        magicka,
+        "Magicka.GameLogic.Entities.Entity",
+        "get_Body",
+        0);
+    Instruction[] instructions = update.Body.Instructions.ToArray();
+    int dequeue = Array.FindIndex(
+        instructions,
+        instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && called.Name == "Dequeue"
+            && called.DeclaringType.FullName.StartsWith(
+                "System.Collections.Generic.Queue`1<"
+                + "Magicka.GameLogic.Entities.Entity>",
+                StringComparison.Ordinal));
+    int body = Array.FindIndex(
+        instructions,
+        Math.Max(dequeue + 1, 0),
+        instruction => IsCallTo(instruction, getBody));
+    if (dequeue < 0 || body <= dequeue)
+    {
+        throw new InvalidDataException(
+            "PortalEntity.Update queue processing is incomplete.");
+    }
+    Instruction[] guard = instructions[(dequeue + 1)..body];
+    Instruction? nullBranch = guard.FirstOrDefault(instruction =>
+        instruction.OpCode.Code is Code.Brfalse or Code.Brfalse_S);
+    Instruction? bodyBranch = instructions
+        .Skip(body + 1)
+        .Take(2)
+        .FirstOrDefault(instruction =>
+            instruction.OpCode.Code is Code.Brfalse or Code.Brfalse_S);
+    if (nullBranch?.Operand is not Instruction invalidStart
+        || bodyBranch?.Operand is not Instruction invalidBodyStart
+        || !ReferenceEquals(invalidStart, invalidBodyStart))
+    {
+        throw new InvalidDataException(
+            "PortalEntity.Update must reject null and bodyless queued"
+            + " entities before teleporting them.");
+    }
+    int invalidIndex = Array.IndexOf(instructions, invalidStart);
+    bool returnsToQueue = invalidIndex >= 0
+        && instructions.Skip(invalidIndex).Take(3).Any(instruction =>
+            instruction.OpCode.Code is Code.Br or Code.Br_S
+            && instruction.Operand is Instruction target
+            && target.Offset > instructions[body].Offset
+            && target.Offset < invalidStart.Offset);
+    if (!returnsToQueue)
+    {
+        throw new InvalidDataException(
+            "PortalEntity.Update invalid queue entries must continue at the"
+            + " queue condition.");
+    }
+}
+
+static void RequireBodyGuardBeforeTargetUse(
+    MethodDefinition method,
+    MethodDefinition getBody,
+    Func<MethodReference, bool> isTargetUse)
+{
+    Instruction[] instructions = method.Body.Instructions.ToArray();
+    int bodyCall = Array.FindIndex(
+        instructions,
+        instruction => IsCallTo(instruction, getBody));
+    int firstUse = bodyCall < 0
+        ? -1
+        : Array.FindIndex(
+        instructions,
+        bodyCall + 1,
+        instruction =>
+            instruction.OpCode.Code is Code.Call or Code.Callvirt
+            && instruction.Operand is MethodReference called
+            && isTargetUse(called));
+    if (firstUse < 0 || bodyCall < 0 || bodyCall >= firstUse)
+    {
+        throw new InvalidDataException(
+            method.FullName
+            + " must reject a detached target before its first target use.");
+    }
+    Instruction? branch = instructions
+        .Skip(bodyCall + 1)
+        .Take(2)
+        .FirstOrDefault(instruction =>
+            instruction.OpCode.Code is Code.Brfalse or Code.Brfalse_S);
+    if (branch is null)
+    {
+        throw new InvalidDataException(
+            method.FullName + " Body read is not followed by a null branch.");
+    }
+}
+
+static void ValidateShutdownTelemetryRuntimeContext(
+    AssemblyDefinition magicka)
+{
+    TypeDefinition context = magicka.MainModule.GetType(
+        "Magicka.CommunityPatch.TelemetryRuntimeContext")
+        ?? throw new InvalidDataException(
+            "TelemetryRuntimeContext is missing.");
+    MethodDefinition recordPlayState = RequireMethod(
+        magicka,
+        context.FullName,
+        "RecordPlayState",
+        parameterCount: 2);
+    MethodDefinition recordScene = RequireMethod(
+        magicka,
+        context.FullName,
+        "RecordScene",
+        parameterCount: 1);
+    MethodDefinition recordMenu = RequireMethod(
+        magicka,
+        context.FullName,
+        "RecordMenu",
+        parameterCount: 0);
+    MethodDefinition recordLanguage = RequireMethod(
+        magicka,
+        context.FullName,
+        "RecordLanguage",
+        parameterCount: 1);
+    MethodDefinition recordResolution = RequireMethod(
+        magicka,
+        context.FullName,
+        "RecordResolution",
+        parameterCount: 2);
+    MethodDefinition recordUiScale = RequireMethod(
+        magicka,
+        context.FullName,
+        "RecordUiScale",
+        parameterCount: 1);
+    MethodDefinition addProperties = RequireMethod(
+        magicka,
+        context.FullName,
+        "AddProperties",
+        parameterCount: 1);
+
+    string[] propertyKeys =
+    [
+        "navigation_history",
+        "playstate_count",
+        "scene_transition_count",
+        "navigation_history_truncated",
+        "language",
+        "glyph_font_source",
+        "glyph_file_count",
+        "glyph_total_bytes",
+        "glyph_sha256",
+        "glyph_fingerprint_status",
+        "resolution_width",
+        "resolution_height",
+        "ui_scale_percent",
+    ];
+    string[] actualKeys = addProperties.Body.Instructions
+        .Where(instruction => instruction.OpCode == OpCodes.Ldstr)
+        .Select(instruction => instruction.Operand as string)
+        .Where(value => value is not null)
+        .Cast<string>()
+        .Where(propertyKeys.Contains)
+        .ToArray();
+    if (!actualKeys.SequenceEqual(propertyKeys)
+        || addProperties.Body.Instructions.Any(instruction =>
+            instruction.Operand is MethodReference called
+            && (called.DeclaringType.Namespace == "System.IO"
+                || called.DeclaringType.Namespace
+                    == "System.Security.Cryptography")))
+    {
+        throw new InvalidDataException(
+            "Shutdown telemetry must copy exactly the cached runtime-context"
+            + " properties without file or hash work.");
+    }
+
+    if (!recordLanguage.Body.Instructions.Any(instruction =>
+            instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName == "System.IO.Directory"
+            && called.Name == "GetFiles")
+        || recordLanguage.Body.Instructions.Count(instruction =>
+            instruction.Operand is MethodReference called
+            && called.DeclaringType.FullName
+                == "System.Security.Cryptography.HashAlgorithm"
+            && called.Name == "ComputeHash"
+            && called.Parameters.Count == 1) < 2
+        || recordLanguage.Body.ExceptionHandlers.Count < 2)
+    {
+        throw new InvalidDataException(
+            "Language context must stream glyph files, aggregate a SHA-256"
+            + " fingerprint, and contain failures.");
+    }
+
+    TypeDefinition playState = magicka.MainModule.GetType(
+        "Magicka.GameLogic.GameStates.PlayState")!;
+    TypeDefinition level = magicka.MainModule.GetType("Magicka.Levels.Level")!;
+    TypeDefinition levelState = level.NestedTypes.Single(type =>
+        type.Name == "State");
+    TypeDefinition languageManager = magicka.MainModule.GetType(
+        "Magicka.Localization.LanguageManager")!;
+    TypeDefinition globalSettings = magicka.MainModule.GetType(
+        "Magicka.GlobalSettings")!;
+    TypeDefinition uiCompatibility = magicka.MainModule.GetType(
+        "Magicka.CommunityPatch.InGameUiCompatibility")!;
+    TypeDefinition patchTelemetry = magicka.MainModule.GetType(
+        "Magicka.CommunityPatch.PatchTelemetry")!;
+
+    (MethodDefinition Method, MethodDefinition Hook, int Count)[] hooks =
+    [
+        (RequireMethod(magicka, playState.FullName, "Initialize", 0), recordPlayState, 1),
+        (RequireMethod(magicka, level.FullName, "ChangeScene", 0), recordScene, 1),
+        (RequireMethod(magicka, levelState.FullName, "ApplyState", 2), recordScene, 1),
+        (RequireMethod(magicka, playState.FullName, "OnExit", 0), recordMenu, 1),
+        (RequireMethod(magicka, languageManager.FullName, "SetLanguage", 1), recordLanguage, 1),
+        (RequireMethod(magicka, globalSettings.FullName, "set_Resolution", 1), recordResolution, 1),
+        (RequireMethod(magicka, uiCompatibility.FullName, ".cctor", 0), recordUiScale, 1),
+        (RequireMethod(magicka, uiCompatibility.FullName, "ApplyScalePercent", 1), recordUiScale, 1),
+        (RequireMethod(magicka, patchTelemetry.FullName, "SendCrash", 3), addProperties, 1),
+        (RequireMethod(magicka, patchTelemetry.FullName, "SendGameClosedNormally", 0), addProperties, 1),
+    ];
+    foreach ((MethodDefinition method, MethodDefinition hook, int count) in
+             hooks)
+    {
+        int actual = method.Body.Instructions.Count(instruction =>
+            IsCallTo(instruction, hook));
+        if (actual != count)
+        {
+            throw new InvalidDataException(
+                method.FullName + " must call " + hook.Name + " exactly "
+                + count + " time(s); found " + actual + ".");
+        }
+    }
+
+    MethodDefinition[] shutdownMethods =
+    [
+        RequireMethod(magicka, patchTelemetry.FullName, "SendCrash", 3),
+        RequireMethod(
+            magicka,
+            patchTelemetry.FullName,
+            "SendGameClosedNormally",
+            0),
+    ];
+    int totalAddPropertiesCalls = AllTypes(magicka.MainModule)
+        .Where(type => type != context)
+        .SelectMany(type => type.Methods)
+        .Where(method => method.HasBody)
+        .SelectMany(method => method.Body.Instructions)
+        .Count(instruction => IsCallTo(instruction, addProperties));
+    if (totalAddPropertiesCalls != shutdownMethods.Length)
+    {
+        throw new InvalidDataException(
+            "Cached runtime context must be attached only to crash and"
+            + " normal-close telemetry.");
+    }
+
+    foreach (MethodDefinition method in AllTypes(magicka.MainModule)
+                 .SelectMany(type => type.Methods)
+                 .Where(method => method.HasBody))
+    {
+        foreach (Instruction instruction in method.Body.Instructions)
+        {
+            if ((instruction.OpCode.OperandType == OperandType.InlineBrTarget
+                 || instruction.OpCode.OperandType
+                    == OperandType.ShortInlineBrTarget)
+                && instruction.Operand is not Instruction)
+            {
+                throw new InvalidDataException(
+                    "Unresolved branch target in " + method.FullName + ".");
+            }
+            if (instruction.OpCode.OperandType == OperandType.InlineSwitch
+                && instruction.Operand is not Instruction[])
+            {
+                throw new InvalidDataException(
+                    "Unresolved switch target in " + method.FullName + ".");
+            }
+        }
+    }
+}
+
+static void ValidateNetworkServerEnterSyncSenderGuard(
+    AssemblyDefinition magicka)
+{
+    MethodDefinition helper = RequireMethod(
+        magicka,
+        "Magicka.Network.NetworkServer",
+        "CommunityPatchAddEnterSyncPoint",
+        parameterCount: 3);
+    if (helper.Parameters[0].ParameterType.FullName != "System.Int32"
+        || helper.Parameters[1].ParameterType.FullName != "System.UInt32"
+        || helper.Parameters[2].ParameterType.FullName != "SteamWrapper.SteamID")
+    {
+        throw new InvalidDataException(
+            "NetworkServer EnterSync guard has an unexpected signature.");
+    }
+
+    Instruction[] helperInstructions = helper.Body.Instructions.ToArray();
+    bool rejectsNegative = helperInstructions.Any(instruction =>
+        instruction.OpCode.Code is Code.Blt or Code.Blt_S);
+    bool rejectsPastEnd = helperInstructions.Any(instruction =>
+        instruction.OpCode.Code is Code.Bge or Code.Bge_S);
+    bool reportsStableReason = helperInstructions.Any(instruction =>
+        instruction.OpCode == OpCodes.Ldstr
+        && string.Equals(
+            instruction.Operand as string,
+            "enter_sync_unknown_sender",
+            StringComparison.Ordinal));
+    bool addsAfterBoundsChecks = helperInstructions.Any(instruction =>
+        instruction.OpCode == OpCodes.Callvirt
+        && instruction.Operand is MethodReference called
+        && called.Name == "Add"
+        && called.DeclaringType.FullName
+            == "System.Collections.Generic.List`1<System.UInt32>");
+    if (!rejectsNegative
+        || !rejectsPastEnd
+        || !reportsStableReason
+        || !addsAfterBoundsChecks)
+    {
+        throw new InvalidDataException(
+            "NetworkServer EnterSync sender guard is incomplete.");
+    }
+
+    MethodDefinition readMessage = RequireMethod(
+        magicka,
+        "Magicka.Network.NetworkServer",
+        "ReadMessage",
+        parameterCount: 2);
+    int helperCalls = readMessage.Body.Instructions.Count(instruction =>
+        IsCallTo(instruction, helper));
+    int unsafeSyncPointIndexes = readMessage.Body.Instructions.Count(instruction =>
+        instruction.OpCode == OpCodes.Ldfld
+        && instruction.Operand is FieldReference field
+        && field.Name == "SyncPoints"
+        && field.DeclaringType.FullName
+            == "Magicka.Network.NetworkServer/Connection");
+    if (helperCalls != 1 || unsafeSyncPointIndexes != 0)
+    {
+        throw new InvalidDataException(
+            "NetworkServer.ReadMessage must delegate EnterSync exactly once"
+            + " without indexing Connection.SyncPoints directly.");
     }
 }
 
