@@ -51,6 +51,10 @@ internal static class BehaviorSuite
         ParadoxPopupScenarios.Run(magicka, runtimePatchEnabled, report);
         LanguageManagerScenarios.Run(magicka, report);
         ChantSpellCleanupScenarios.Run(magicka, report);
+        StaticLevelPoolCleanupScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         return report;
     }
 }

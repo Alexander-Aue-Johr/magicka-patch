@@ -47,7 +47,7 @@ Diese Dateien in dieser Reihenfolge öffnen:
 11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
 12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-13. `src/BehaviorProbe/BehaviorSuite.cs` und die vierundvierzig `*Scenarios.cs`-Dateien
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die fünfundvierzig `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
 14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
@@ -742,6 +742,20 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten den aktiven Eintrag;
     manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile rufen den
     vorhandenen `Stop()`-Pfad auf und geben den Eintrag frei
+- [x] `static-level-pool-cleanup`
+  - Ziel: `PlayState.Dispose`
+  - Technik: ein Transpiler fügt nach dem vorhandenen Aufruf von
+    `Entity.ClearHandles()` genau einen gemeinsamen Cleanup-Aufruf ein
+  - Fehlerfall: 40 statische Collections in 34 Ability-, Spell-, SpellEffect-
+    und leichten Entity-Klassen behalten gepoolte Instanzen des abgebauten
+    Levels
+  - Verhalten: ausschließlich die 40 validierten Collections werden geleert;
+    Elemente werden in diesem Patch weder freigegeben noch anderweitig verändert
+  - Kontrollverhalten: ein nicht initialisierter `PlayState` erreicht den
+    eingefügten Aufruf nicht und lässt alle Collections unverändert
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten alle Einträge. Die manuelle
+    Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile leeren alle 40
+    Collections.
 - [x] `entity-update-character-marker-decode`
   - Ziele: `NetworkServer.Update` und `NetworkClient.Update`
   - Technik: zwei Transpiler rufen unmittelbar vor dem vorhandenen
@@ -803,11 +817,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChantSpells | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | EntityUpdate | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset | AbilityTemplates | LoadingScreen | DirectInput | MenuImageText | ParadoxPopup | Language |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS |
+| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChantSpells | StaticPools | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | EntityUpdate | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset | AbilityTemplates | LoadingScreen | DirectInput | MenuImageText | ParadoxPopup | Language |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -821,7 +835,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 41 Dateien vollständig, 17 Dateien teilweise und 162 Dateien noch
+Aktueller Stand: 41 Dateien vollständig, 53 Dateien teilweise und 126 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -837,7 +851,7 @@ Versionsnachweis.
 
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuTimedObjectiveStatistics.cs`
 - [ ] `Magicka/CommunityPatch/TelemetryRuntimeContext.cs`
-- [ ] `Magicka/GameLogic/Entities/SpellMine.cs`
+- [ ] `Magicka/GameLogic/Entities/SpellMine.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonPhoenix.cs`
 - [ ] `Magicka/CommunityPatch/DialogLayoutCompatibility.cs`
 - [ ] `Magicka/GameLogic/Entities/Bosses/Vlad.cs`
@@ -846,38 +860,38 @@ Versionsnachweis.
 - [ ] `Magicka/Levels/Triggers/TriggerArea.cs`
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenu.cs`
 - [ ] `Magicka/CommunityPatch/NetworkEntityHandleGuard.cs` — TEILWEISE: nur die für `AddWorldSyncMessage` benötigte SpawnNPC-Entscheidung, ohne Übernahme der übrigen manuellen Hilfsklasse.
-- [ ] `Magicka/GameLogic/Spells/ArcaneBlast.cs`
+- [ ] `Magicka/GameLogic/Spells/ArcaneBlast.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/CoreFramework/GameSystem/Store/StoreItemDatabase.cs`
 - [ ] `Magicka/GameLogic/UI/IconRenderer.cs`
 - [ ] `Magicka/GameLogic/Entities/PhysicsEntity.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Conflagration.cs`
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Conflagration.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/UI/Credits.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Wave.cs`
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Wave.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/AI/Agent.cs` — TEILWEISE: Body-Guard in `ChooseTarget`, Transpiler und 2 Drei-Wege-Szenarien; Initialisierungs-, Cleanup- und Dispose-Änderungen sind noch offen.
 - [ ] `Magicka/Levels/Campaign/LevelManager.cs`
 - [ ] `Magicka/StaticWeakList.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Napalm.cs`
-- [ ] `Magicka/GameLogic/Spells/ArcaneBlade.cs`
-- [ ] `Magicka/GameLogic/Entities/Shield.cs`
-- [ ] `Magicka/GameLogic/Spells/SpellEffects/RailGunSpell.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Polymorph.cs`
+- [ ] `Magicka/GameLogic/Spells/ArcaneBlade.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [ ] `Magicka/GameLogic/Entities/Shield.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [ ] `Magicka/GameLogic/Spells/SpellEffects/RailGunSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Polymorph.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/UI/KeyboardHUD.cs`
 - [ ] `Magicka/CommunityPatch/MouseInputCompatibility.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/GreaseLump.cs`
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/GreaseLump.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/StaticList.cs`
 - [ ] `Magicka/GameLogic/Controls/KeyboardMouseController.cs`
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuSurvivalStatistics.cs`
 - [ ] `Magicka/GameLogic/Entities/Items/BookOfMagick.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Rain.cs`
-- [ ] `Magicka/GameLogic/Spells/SpellEffects/PushSpell.cs`
-- [ ] `Magicka/GameLogic/Spells/SpellEffects/ShieldSpell.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/VortexEntity.cs`
+- [ ] `Magicka/GameLogic/Spells/SpellEffects/PushSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [ ] `Magicka/GameLogic/Spells/SpellEffects/ShieldSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/VortexEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SpawnSlime.cs` — VOLLSTÄNDIG: gespeicherter PlayState in `Execute` und beide veralteten NavMesh-Zugriffe, 3 Transpiler und 3 Drei-Wege-Szenarien; der leere `DisposeCache()` und die statischen Hash-Initialisierer ändern kein Laufzeitverhalten.
 - [ ] `Magicka/GameLogic/Entities/Entanglement.cs`
 - [ ] `Magicka/Levels/Level.cs`
 - [ ] `Magicka/Graphics/Effects/RadialBlur.cs`
 - [ ] `Magicka/Levels/Lava.cs`
-- [ ] `Magicka/GameLogic/Spells/SpellEffects/SpellEffect.cs`
+- [ ] `Magicka/GameLogic/Spells/SpellEffects/SpellEffect.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/CommunityPatch/WarlordAbilityDiagnostic.cs`
 - [ ] `Magicka/CommunityPatch/CollisionCallbackCleanup.cs`
 - [ ] `Magicka/GameLogic/Entities/Bosses/GenericBoss.cs`
@@ -886,7 +900,7 @@ Versionsnachweis.
 - [ ] `Magicka/Graphics/TutorialManager.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Thunderbolt.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Blizzard.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonZombie.cs`
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonZombie.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/Game.cs`
 - [ ] `Magicka/CommunityPatch/PayloadContract.cs`
 - [ ] `Magicka/CommunityPatch/AnimationClipCompatibility.cs`
@@ -896,8 +910,8 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/UI/Tome.cs`
 - [ ] `Magicka/GameLogic/Entities/Avatar.cs` — TEILWEISE: `FindInteractable`, Prefix und 5 Drei-Wege-Szenarien; die übrigen manuellen Änderungen dieser großen Klasse sind noch offen.
 - [ ] `Magicka/GameLogic/GameStates/PlayState.cs` — TEILWEISE: `AddWorldSyncMessage` sowie die dokumentierten levelgebundenen Cleanup-Injektionen sind migriert; weitere Dispose-, Übergangs- und Diagnoseänderungen sind noch offen.
-- [ ] `Magicka/GameLogic/Spells/Magick.cs`
-- [ ] `Magicka/GameLogic/Spells/Railgun.cs`
+- [ ] `Magicka/GameLogic/Spells/Magick.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [ ] `Magicka/GameLogic/Spells/Railgun.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/Levels/Triggers/Trigger.cs`
 - [ ] `Magicka/GameLogic/Entities/Gib.cs`
 - [ ] `Magicka/GameLogic/Entities/MissileEntity.cs`
@@ -905,7 +919,7 @@ Versionsnachweis.
 - [ ] `Magicka/Levels/GameScene.cs`
 - [ ] `Magicka/CommunityPatch/PatchTelemetry.cs`
 - [ ] `Magicka/GameLogic/Entities/Character.cs`
-- [ ] `Magicka/GameLogic/Spells/SpellEffects/ProjectileSpell.cs`
+- [ ] `Magicka/GameLogic/Spells/SpellEffects/ProjectileSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCharacterSelect.cs`
 - [ ] `Magicka/Network/NetworkClient.cs`
 - [ ] `Magicka/Network/NetworkServer.cs`
@@ -918,7 +932,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCutscene.cs`
 - [ ] `Magicka/CommunityPatch/RuntimeCompatibilityGuards.cs` — TEILWEISE: die DirectInput-Ausfallerkennung und verzögerte Warnung sind migriert; Steam-API-, Store-, Versionszeilen- und Unterstützerdialog-Helfer sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/Barrier.cs`
-- [ ] `Magicka/GameLogic/Spells/SpellEffects/SpraySpell.cs`
+- [ ] `Magicka/GameLogic/Spells/SpellEffects/SpraySpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/Levels/LevelModel.cs`
 - [ ] `Magicka/GameLogic/Entities/PhysicsEntityTemplate.cs`
 - [ ] `Magicka/CommunityPatch/CommunityPatchInfo.cs`
@@ -926,7 +940,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuMagicks.cs`
 - [ ] `Magicka/GameLogic/Entities/Entity.cs`
 - [ ] `Magicka/Levels/ForceField.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Revive.cs`
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Revive.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Portal.cs` — TEILWEISE: ungültige Einträge in `PortalEntity.mTeleportQueue`, Transpiler und 3 Drei-Wege-Szenarien; weitere manuelle Änderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/ElementalEgg.cs`
 - [ ] `Magicka/GameLogic/Entities/Fairy.cs`
@@ -942,7 +956,7 @@ Versionsnachweis.
 - [ ] `Magicka/Graphics/TypingText.cs`
 - [ ] `Magicka/Program.cs`
 - [ ] `Magicka/GameLogic/Entities/AnimatedPhysicsEntity.cs`
-- [ ] `Magicka/GameLogic/Spells/UnderGroundAttack.cs`
+- [ ] `Magicka/GameLogic/Spells/UnderGroundAttack.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/CommunityPatch/NetworkGuardTelemetryBackoff.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/HealingRain.cs`
 - [x] `Magicka/GameLogic/GameStates/Menu/MenuImageTextItem.cs` — VOLLSTÄNDIG:
@@ -979,15 +993,15 @@ Versionsnachweis.
   Hash-Initialisierungen in einem expliziten Typinitialisierer; Reihenfolge,
   aufgerufene Methode und zugewiesene Werte sind im IL identisch.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/JudgementSpray.cs`
-- [ ] `Magicka/GameLogic/Spells/IceSpikes.cs`
+- [ ] `Magicka/GameLogic/Spells/IceSpikes.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptions.cs`
 - [x] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuMain.cs` — VOLLSTÄNDIG: Gamepad-B öffnet die vorhandene Beenden-Bestätigung, Keyboard/Maus behält den Cursorpfad; Prefix und 2 Drei-Wege-Szenarien. Die leere manuelle Markermethode hat kein Laufzeitverhalten und wird nicht übernommen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Starfall.cs` — VOLLSTÄNDIG: statische PlayState-Retention und veraltete Update-Zugriffe, 2 Transpiler und 3 Drei-Wege-Szenarien; lokale Variablennamen sind nicht Teil des Runtime-Patches.
 - [x] `Magicka/GameLogic/Entities/ChantSpellManager.cs` — VOLLSTÄNDIG: aktive
   Chant-Spells werden im initialisierten Levelabbau über ihren vorhandenen
   `Stop()`-Pfad entfernt, Prefix und 2 Drei-Wege-Szenarien.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Zap.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/VladZap.cs`
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Zap.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/VladZap.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/Network/EntityUpdateMessage.cs` — TEILWEISE: das payloadlose
   `Character`-Feature wird vor dem Originaldecoder maskiert, zwei Transpiler und
   3 Drei-Wege-Szenarien; die Diagnose `entity_update_character_feature` folgt
@@ -1026,32 +1040,32 @@ Versionsnachweis.
   statische String-Initialisierer-Umschreibung ist semantikfreies
   Compilerrauschen.
 - [ ] `Magicka/GameLogic/UI/Message.cs`
-- [ ] `Magicka/GameLogic/Spells/IceBlade.cs`
+- [ ] `Magicka/GameLogic/Spells/IceBlade.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsGraphics.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Grow.cs`
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Grow.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/Levels/Triggers/Actions/GiveOrder.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/PerformanceEnchantment.cs`
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/PerformanceEnchantment.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/EarthQuake.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/BreakBarriers.cs`
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/BreakBarriers.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ArrowRain.cs`
-- [ ] `Magicka/GameLogic/Entities/SprayEntity.cs`
+- [ ] `Magicka/GameLogic/Entities/SprayEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ConfuseWho.cs`
 - [ ] `Magicka/GameLogic/UI/DialogManager.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Confuse.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TornadoEntity.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/FloorStomp.cs`
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Confuse.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TornadoEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/FloorStomp.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/Graphics/MagickCamera.cs` — TEILWEISE: körperloses `FollowEntity`-Ziel, Prefix und 3 Drei-Wege-Szenarien; weitere Lifetime- und Dispose-Änderungen sind noch offen.
 - [ ] `Magicka/GameLogic/UI/SpellWheel.cs`
 - [ ] `Magicka/GameLogic/Entities/EntityManager.cs` — TEILWEISE: `GetClosestIDamageable`, das vierparametrige `GetEntities` und `ClearAndStore` mit 8 Drei-Wege-Szenarien; Konstruktor- und weitere Diagnoseänderungen sind noch offen.
-- [ ] `Magicka/GameLogic/Entities/TeslaField.cs`
+- [ ] `Magicka/GameLogic/Entities/TeslaField.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Spells/LightningBolt.cs`
 - [ ] `Magicka/Levels/Triggers/Actions/Action.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TimeWarpStaff.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TimeWarp.cs`
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuMain.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/MeteorShower.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/GreaseTrail.cs`
-- [ ] `Magicka/GameLogic/Entities/Dispenser.cs`
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/GreaseTrail.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [ ] `Magicka/GameLogic/Entities/Dispenser.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [x] `Magicka/Helper.cs` — VOLLSTÄNDIG: `ArrayEquals`, Prefix und 5 Drei-Wege-Szenarien.
 - [ ] `Magicka/Graphics/Lights/DynamicLight.cs`
 - [x] `Magicka/Graphics/Flash.cs` — VOLLSTÄNDIG: gespeicherte Szenenreferenz in
@@ -1059,7 +1073,7 @@ Versionsnachweis.
   Drei-Wege-Szenarien; der leere `IDisposable`-Wrapper und die Darstellung des
   statischen Lock-Initialisierers ändern kein Laufzeitverhalten.
 - [ ] `Magicka/GameLogic/UI/GenericHealthBar.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/WaveEntity.cs`
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/WaveEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/EtherealClone.cs`
 - [ ] `Magicka/GameLogic/Entities/Snare.cs`
 - [x] `Magicka/Levels/Triggers/Interactable.cs` — VOLLSTÄNDIG: fehlende Szene
@@ -1079,7 +1093,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/StopCharge.cs` — TEILWEISE: gespeicherter PlayState, veralteter `GreaseSplash`-Zustand und statischer Levelcache sind mit 3 Transpilern und gemeinsamen Drei-Wege-Szenarien migriert; die GC-Diagnosemarkierungen folgen im Diagnostics-Block.
 - [ ] `Magicka/GameLogic/GameStates/MenuState.cs` — TEILWEISE: Controllererkennung und verzögerte DirectInput-Warnung sind migriert; die Änderung an `OnExit` bleibt separat offen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ChillyBlast.cs` — VOLLSTÄNDIG: gespeicherter PlayState in `Execute` und beide veralteten EntityManager-Zugriffe in `Update`, 2 Transpiler und 3 Drei-Wege-Szenarien; statische Hash-Initialisierer sind semantikfreies Compilerrauschen. In 1.4.16.0 und 1.5.1.0 ist die Klasse nicht vorhanden.
-- [ ] `Magicka/GameLogic/Spells/SpellEffects/LightningSpell.cs`
+- [ ] `Magicka/GameLogic/Spells/SpellEffects/LightningSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Haste.cs` — TEILWEISE: freier und aktiver Pool werden im initialisierten Level-Dispose geleert, ein Transpiler und 2 Drei-Wege-Szenarien; die GC-Diagnosemarkierungen folgen im Diagnostics-Block.
 - [ ] `Magicka/GameLogic/Entities/Bosses/PropBoss.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/StarGaze.cs` — VOLLSTÄNDIG: abgelaufene, bereits deinitialisierte Opfer verwenden bei der Bereinigung die weiterhin verfügbare aktuelle Fraktion, ein Transpiler und 2 Drei-Wege-Szenarien; die statische Initialisierer-Umschreibung ist semantikfreies Compilerrauschen.

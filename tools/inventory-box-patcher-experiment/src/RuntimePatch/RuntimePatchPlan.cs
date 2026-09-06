@@ -183,6 +183,9 @@ namespace Magicka.CommunityPatch.Runtime
                 ChantSpellCleanupPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                StaticLevelPoolCleanupPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 EntityUpdateMessageReadPatch.ServerDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
