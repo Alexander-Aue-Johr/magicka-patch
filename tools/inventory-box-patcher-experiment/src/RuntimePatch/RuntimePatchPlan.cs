@@ -28,6 +28,9 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 InventoryBoxDrawPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                MagickCameraFollowEntityPatch.Definition);
             HUDManagerPatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,

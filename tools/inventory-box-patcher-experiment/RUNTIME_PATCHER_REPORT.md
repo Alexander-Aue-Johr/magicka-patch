@@ -47,7 +47,7 @@ Diese Dateien in dieser Reihenfolge öffnen:
 11. `src/RuntimePatch/RuntimePatchDefinition.cs` ist der kleine Vertrag
    zwischen Patchplan und Session.
 12. `src/RuntimePatch/Bootstrap.cs` ist der Einstieg aus Magicka.
-13. `src/BehaviorProbe/BehaviorSuite.cs` und die neun `*Scenarios.cs`-Dateien
+13. `src/BehaviorProbe/BehaviorSuite.cs` und die zehn `*Scenarios.cs`-Dateien
    enthalten die realen Szenarien und ihre minimalen Reflection-Harnesses.
    `Program.cs` lädt nur die gewünschte echte Assembly.
 14. `build.ps1` liest sich als vollständiger Build- und Prüfablauf.
@@ -165,6 +165,18 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Manuelle Patch-Assembly 0.0.60: beide Patch-Szenarien bestehen
   - Original plus Runtime-Patch: beide Patch-Szenarien bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: Prefix wird angewendet und beide Szenarien bestehen
+- [x] `magick-camera-follow-entity`
+  - Ziel: `MagickCamera.Update(DataChannel, float)`
+  - Technik: Prefix; setzt ausschließlich einen körperlosen `mFollowing`-Verweis
+    auf `null`, sodass die Originalmethode ihren vorhandenen Null-Fallback nimmt
+  - Fehlerfall: `FollowEntity` hält ein Ziel ohne Body
+  - Kontrollfälle: bereits fehlendes Ziel und körperloses Ziel bei einem anderen
+    Kameraverhalten
+  - Original 1.10.4.2: der körperlose FollowEntity-Zustand behält Ziel und Modus
+  - Manuelle Patch-Assembly 0.0.60: Fehler- und Kontrollfälle bestehen
+  - Original plus Runtime-Patch: Fehler- und Kontrollfälle bestehen
+  - Magicka 1.4.16.0 und 1.5.1.0: Prefix wird angewendet und alle drei
+    Szenarien bestehen
 - [x] `hud-manager-original-hud-enable`
   - Ziel: `HUDManager.Initialise()`
   - Technik: Postfix
@@ -234,11 +246,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | Avatar | AIStateAttack | EntityManager | Helper | InventoryBox | HUDManager | Machine | PlayState |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
+| Magicka-Version | Runtime-Host | Avatar | AIStateAttack | EntityManager | Helper | InventoryBox | MagickCamera | HUDManager | Machine | PlayState |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | NOT_APPLICABLE |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -252,7 +264,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 6 Dateien vollständig, 4 Dateien teilweise und 210 Dateien noch
+Aktueller Stand: 6 Dateien vollständig, 5 Dateien teilweise und 209 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -448,7 +460,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Confuse.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TornadoEntity.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/FloorStomp.cs`
-- [ ] `Magicka/Graphics/MagickCamera.cs`
+- [ ] `Magicka/Graphics/MagickCamera.cs` — TEILWEISE: körperloses `FollowEntity`-Ziel, Prefix und 3 Drei-Wege-Szenarien; weitere Lifetime- und Dispose-Änderungen sind noch offen.
 - [ ] `Magicka/GameLogic/UI/SpellWheel.cs`
 - [ ] `Magicka/GameLogic/Entities/EntityManager.cs` — TEILWEISE: `GetClosestIDamageable`, das vierparametrige `GetEntities` und `ClearAndStore` mit 8 Drei-Wege-Szenarien; Konstruktor- und weitere Diagnoseänderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/TeslaField.cs`

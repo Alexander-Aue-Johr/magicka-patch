@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-ten changes:
+eleven changes:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -16,6 +16,8 @@ ten changes:
 - `Helper.ArrayEquals` treats every missing byte array as unequal.
 - `InventoryBox.RenderData.Draw` updates `TextBoxEffect.ScreenSize` before the
   original method runs.
+- `MagickCamera.Update` releases a followed entity whose physics body has
+  detached.
 - `HUDManager.Initialise` re-enables the original HUD after state transitions.
 - `Machine.NetworkInitialize` marks the boss as initialized only when its
   referenced warlock entity exists.

@@ -19,6 +19,23 @@ namespace Magicka.CommunityPatch.Runtime
             throw new MissingFieldException(targetType.FullName, name);
         }
 
+        internal static void WriteField(object target, string name, object value)
+        {
+            Type targetType = target.GetType();
+            for (Type current = targetType; current != null; current = current.BaseType)
+            {
+                FieldInfo field = current.GetField(
+                    name,
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+                if (field != null)
+                {
+                    field.SetValue(target, value);
+                    return;
+                }
+            }
+            throw new MissingFieldException(targetType.FullName, name);
+        }
+
         internal static object ReadProperty(object target, string name)
         {
             PropertyInfo property = RequireProperty(target, name);
