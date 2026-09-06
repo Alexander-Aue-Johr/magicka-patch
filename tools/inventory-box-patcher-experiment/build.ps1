@@ -208,6 +208,7 @@ function Test-BehaviorMatrix {
         "loading_screen.managed_restore_order",
         "menu_image_text.literal_font_change",
         "menu_image_text.localized_font_change",
+        "paradox_popup.plain_clears_extra",
         "hud_manager.disabled_original_hud",
         "machine.missing_warlock",
         "jormungandr.missing_target",
@@ -290,7 +291,9 @@ function Test-BehaviorMatrix {
         "chilly_blast.play_state_release",
         "chilly_blast.execute_behavior",
         "chilly_blast.current_query_manager",
-        "direct_input.warning_once"
+        "direct_input.warning_once",
+        "paradox_popup.plain_clears_extra",
+        "paradox_popup.with_extra_unchanged"
     )
     $matrix = New-Object System.Collections.Generic.List[string]
 
@@ -418,6 +421,8 @@ function Test-BehaviorProfile(
         "menu_image_text.literal_font_change",
         "menu_image_text.localized_font_change",
         "menu_image_text.localized_unchanged_font",
+        "paradox_popup.plain_clears_extra",
+        "paradox_popup.with_extra_unchanged",
         "hud_manager.disabled_original_hud",
         "hud_manager.enabled_original_hud",
         "machine.missing_warlock",
@@ -608,6 +613,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=AudioManager disposed cue guard" -or
         $auditLines -notcontains "patch_end=DeflectionAura unused play-state release" -or
         $auditLines -notcontains "patch_end=MenuImageTextItem language font refresh" -or
+        $auditLines -notcontains "patch_end=Paradox popup stale extra-message cleanup" -or
         $auditLines -notcontains "patch_end=Flash scene reference release" -or
         $auditLines -notcontains "patch_end=Flash current scene update" -or
         $auditLines -notcontains "patch_end=SpawnSlime play-state reference release" -or
@@ -639,7 +645,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Summon ability template cleanup" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 13 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 57) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 58) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -654,7 +660,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=74")
+    $summary.Add("implemented_patches=75")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
