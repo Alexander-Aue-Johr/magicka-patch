@@ -25,6 +25,18 @@ internal static class SummonPlayStateScenarios
             report.Add(
                 "summon_undead.uninitialized_dispose",
                 harness.UndeadTemplateRelease(false));
+            report.Add(
+                "summon_zombie.vector_release",
+                harness.ZombieVectorRelease());
+            report.Add(
+                "summon_zombie.owner_release",
+                harness.ZombieOwnerRelease());
+            report.Add(
+                "summon_zombie.update_current_play_state",
+                harness.ZombieUpdateCurrentPlayState());
+            report.Add(
+                "summon_zombie.client_no_spawn",
+                harness.ZombieClientNoSpawn());
             report.Add("summon_templates.level_dispose", harness.TemplateRelease());
             report.Add(
                 "ability_template_cache.level_dispose",
@@ -52,10 +64,13 @@ internal sealed class SummonPlayStateHarness
     private readonly Type nonPlayerCharacterType;
     private readonly Type ownerType;
     private readonly Type playStateType;
+    private readonly Type dataChannelType;
+    private readonly Type audioEmitterType;
     private readonly Type vectorType;
     private readonly SummonAbilityFixture flamer;
     private readonly SummonAbilityFixture spirit;
     private readonly SummonAbilityFixture undead;
+    private readonly SummonZombieFixture zombie;
     private readonly FieldInfo zombieCacheField;
     private readonly FieldInfo[] abilityTemplateFields;
     private readonly MethodInfo[] abilityDisposeMethods;
@@ -82,6 +97,9 @@ internal sealed class SummonPlayStateHarness
         playStateType = magicka.GetType(
             "Magicka.GameLogic.GameStates.PlayState",
             true);
+        dataChannelType = RuntimeReflection.FindLoadedType("PolygonHead.DataChannel");
+        audioEmitterType = RuntimeReflection.FindLoadedType(
+            "Microsoft.Xna.Framework.Audio.AudioEmitter");
         networkManagerSingleton = RuntimeReflection.RequireField(
             networkManagerType,
             "sSingelton");
@@ -122,6 +140,12 @@ internal sealed class SummonPlayStateHarness
             playStateType,
             vectorType,
             "sTemplates");
+        zombie = new SummonZombieFixture(
+            magicka,
+            ownerType,
+            playStateType,
+            vectorType,
+            dataChannelType);
         Type zombieType = magicka.GetType(
             "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonZombie",
             true);
@@ -254,6 +278,148 @@ internal sealed class SummonPlayStateHarness
             released == expectedReleased,
             released ? "released" : "retained",
             expectedReleased ? "released" : "retained");
+    }
+
+    internal ScenarioResult ZombieVectorRelease()
+    {
+        return ZombieExecute(false);
+    }
+
+    internal ScenarioResult ZombieOwnerRelease()
+    {
+        return ZombieExecute(true);
+    }
+
+    private ScenarioResult ZombieExecute(bool ownerOverload)
+    {
+        object suppliedPlayState;
+        object currentPlayState;
+        object suppliedNavMesh;
+        object currentNavMesh;
+        ConfigurePlayStates(
+            out suppliedPlayState,
+            out currentPlayState,
+            out suppliedNavMesh,
+            out currentNavMesh);
+        object owner = ownerOverload ? CreateOwner(suppliedPlayState) : null;
+        object ability = NewUninitialized(zombie.Type);
+        if (zombie.LegacyPlayState != null)
+            zombie.LegacyPlayState.SetValue(ability, null);
+        ConfigureNetwork(2);
+        SummonPlayStateProbe.Reset();
+
+        bool reached = false;
+        try
+        {
+            if (ownerOverload)
+            {
+                Invoke(
+                    zombie.OwnerExecute,
+                    ability,
+                    new object[] { owner, suppliedPlayState });
+            }
+            else
+            {
+                Invoke(
+                    zombie.VectorExecute,
+                    ability,
+                    new object[] {
+                        Activator.CreateInstance(vectorType),
+                        suppliedPlayState
+                    });
+            }
+        }
+        catch (SummonPlayStateNavMeshReachedException)
+        {
+            reached = true;
+        }
+
+        bool retained = zombie.LegacyPlayState != null && ReferenceEquals(
+            zombie.LegacyPlayState.GetValue(ability),
+            suppliedPlayState);
+        bool current = ReferenceEquals(
+            SummonPlayStateProbe.ObservedNavMesh,
+            currentNavMesh);
+        bool ownerState = ownerOverload
+            ? ReferenceEquals(zombie.Owner.GetValue(ability), owner)
+            : zombie.Owner.GetValue(ability) == null;
+        return new ScenarioResult(
+            reached && !retained && current && ownerState,
+            "reached:" + reached +
+                ",state:" + (retained ? "retained" : "released") +
+                ",nav_mesh:" + (current ? "current" : "supplied") +
+                ",owner:" + ownerState,
+            "reached:True,state:released,nav_mesh:current,owner:True");
+    }
+
+    internal ScenarioResult ZombieUpdateCurrentPlayState()
+    {
+        object stalePlayState;
+        object currentPlayState;
+        object staleNavMesh;
+        object currentNavMesh;
+        ConfigurePlayStates(
+            out stalePlayState,
+            out currentPlayState,
+            out staleNavMesh,
+            out currentNavMesh);
+        object ability = CreateZombieForUpdate(stalePlayState);
+        ConfigureNetwork(0);
+        SummonPlayStateProbe.Character = NewUninitialized(nonPlayerCharacterType);
+        SummonPlayStateProbe.Reset();
+        SummonPlayStateProbe.ThrowAfterGetCharacter = true;
+
+        bool reached = false;
+        try
+        {
+            Invoke(
+                zombie.Update,
+                ability,
+                new object[] { Enum.ToObject(dataChannelType, 0), 0f });
+        }
+        catch (SummonPlayStateCharacterReachedException)
+        {
+            reached = true;
+        }
+        bool current = ReferenceEquals(
+            SummonPlayStateProbe.ObservedPlayState,
+            currentPlayState);
+        return new ScenarioResult(
+            reached && current && SummonPlayStateProbe.GetCharacterCalls == 1,
+            "reached:" + reached +
+                ",play_state:" + (current ? "current" : "stale") +
+                ",get_character_calls:" + SummonPlayStateProbe.GetCharacterCalls,
+            "reached:True,play_state:current,get_character_calls:1");
+    }
+
+    internal ScenarioResult ZombieClientNoSpawn()
+    {
+        object stalePlayState = NewUninitialized(playStateType);
+        object ability = CreateZombieForUpdate(stalePlayState);
+        ConfigureNetwork(2);
+        SummonPlayStateProbe.Reset();
+
+        Invoke(
+            zombie.Update,
+            ability,
+            new object[] { Enum.ToObject(dataChannelType, 0), 0f });
+        return new ScenarioResult(
+            SummonPlayStateProbe.GetCharacterCalls == 0,
+            "get_character_calls:" + SummonPlayStateProbe.GetCharacterCalls,
+            "get_character_calls:0");
+    }
+
+    private object CreateZombieForUpdate(object playState)
+    {
+        object ability = NewUninitialized(zombie.Type);
+        if (zombie.LegacyPlayState != null)
+            zombie.LegacyPlayState.SetValue(ability, playState);
+        zombie.AudioEmitter.SetValue(
+            ability,
+            Activator.CreateInstance(audioEmitterType));
+        RuntimeReflection.WriteField(ability, "mTTL", 8.1f);
+        RuntimeReflection.WriteField(ability, "mSpawnTimer", 0f);
+        return ability;
     }
 
     private ScenarioResult VectorRelease(SummonAbilityFixture fixture)
@@ -552,6 +718,61 @@ internal sealed class SummonPlayStateHarness
     }
 }
 
+internal sealed class SummonZombieFixture
+{
+    internal Type Type { get; private set; }
+    internal FieldInfo LegacyPlayState { get; private set; }
+    internal FieldInfo Owner { get; private set; }
+    internal FieldInfo AudioEmitter { get; private set; }
+    internal MethodInfo VectorExecute { get; private set; }
+    internal MethodInfo OwnerExecute { get; private set; }
+    internal MethodInfo Update { get; private set; }
+
+    internal SummonZombieFixture(
+        Assembly magicka,
+        Type ownerType,
+        Type playStateType,
+        Type vectorType,
+        Type dataChannelType)
+    {
+        Type = magicka.GetType(
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonZombie",
+            true);
+        LegacyPlayState = Type.GetField(
+            "mPlayState",
+            BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+        Owner = RuntimeReflection.RequireField(Type, "mOwner");
+        AudioEmitter = RuntimeReflection.RequireField(Type, "mAudioEmitter");
+        VectorExecute = RequireMethod(
+            "Execute",
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly,
+            typeof(bool),
+            new Type[] { vectorType, playStateType });
+        OwnerExecute = RequireMethod(
+            "Execute",
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly,
+            typeof(bool),
+            new Type[] { ownerType, playStateType });
+        Update = RequireMethod(
+            "Update",
+            BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly,
+            typeof(void),
+            new Type[] { dataChannelType, typeof(float) });
+    }
+
+    private MethodInfo RequireMethod(
+        string name,
+        BindingFlags flags,
+        Type returnType,
+        Type[] parameterTypes)
+    {
+        MethodInfo method = Type.GetMethod(name, flags, null, parameterTypes, null);
+        if (method == null || method.ReturnType != returnType)
+            throw new MissingMethodException(Type.FullName, name);
+        return method;
+    }
+}
+
 internal sealed class SummonAbilityFixture
 {
     internal Type Type { get; private set; }
@@ -626,16 +847,25 @@ public static class SummonPlayStateProbe
     public static object NetworkState;
     public static object Character;
     public static object ObservedNavMesh;
+    public static object ObservedPlayState;
+    public static bool ThrowAfterGetCharacter;
 
     public static void Reset()
     {
         GetCharacterCalls = 0;
         ObservedNavMesh = null;
+        ObservedPlayState = null;
+        ThrowAfterGetCharacter = false;
     }
 
-    public static bool GetCharacterPrefix<TCharacter>(ref TCharacter __result)
+    public static bool GetCharacterPrefix<TCharacter>(
+        object iPlayState,
+        ref TCharacter __result)
     {
         GetCharacterCalls++;
+        ObservedPlayState = iPlayState;
+        if (ThrowAfterGetCharacter)
+            throw new SummonPlayStateCharacterReachedException();
         __result = (TCharacter)Character;
         return false;
     }
@@ -660,5 +890,9 @@ public static class SummonPlayStateProbe
 }
 
 internal sealed class SummonPlayStateNavMeshReachedException : Exception
+{
+}
+
+internal sealed class SummonPlayStateCharacterReachedException : Exception
 {
 }

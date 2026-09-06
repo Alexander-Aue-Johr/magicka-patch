@@ -101,6 +101,36 @@ namespace Magicka.CommunityPatch.Runtime
                 FindUndeadPrivateExecute,
                 typeof(SummonPlayStatePatch).GetMethod("UndeadCurrentPlayStateTranspiler"));
 
+        internal static readonly RuntimePatchDefinition ZombieVectorExecuteDefinition =
+            RuntimePatchDefinition.Transpile(
+                "SummonZombie vector play-state release",
+                "org.magickacommunitypatch.summon-zombie-vector-play-state-release",
+                FindZombieVectorExecute,
+                typeof(SummonPlayStatePatch).GetMethod("ZombieReleaseTranspiler"));
+
+        internal static readonly RuntimePatchDefinition ZombieOwnerExecuteDefinition =
+            RuntimePatchDefinition.Transpile(
+                "SummonZombie owner play-state release",
+                "org.magickacommunitypatch.summon-zombie-owner-play-state-release",
+                FindZombieOwnerExecute,
+                typeof(SummonPlayStatePatch).GetMethod("ZombieReleaseTranspiler"));
+
+        internal static readonly RuntimePatchDefinition ZombieStartDefinition =
+            RuntimePatchDefinition.Transpile(
+                "SummonZombie current start play state",
+                "org.magickacommunitypatch.summon-zombie-current-start-play-state",
+                FindZombiePrivateExecute,
+                typeof(SummonPlayStatePatch).GetMethod(
+                    "ZombieStartCurrentPlayStateTranspiler"));
+
+        internal static readonly RuntimePatchDefinition ZombieUpdateDefinition =
+            RuntimePatchDefinition.Transpile(
+                "SummonZombie current update play state",
+                "org.magickacommunitypatch.summon-zombie-current-update-play-state",
+                FindZombieUpdate,
+                typeof(SummonPlayStatePatch).GetMethod(
+                    "ZombieUpdateCurrentPlayStateTranspiler"));
+
         internal static readonly RuntimePatchDefinition TemplateCleanupDefinition =
             RuntimePatchDefinition.Transpile(
                 "Summon ability template cleanup",
@@ -138,6 +168,16 @@ namespace Magicka.CommunityPatch.Runtime
             return FindPublicExecute(targetAssembly, UndeadTypeName, true);
         }
 
+        private static MethodInfo FindZombieVectorExecute(Assembly targetAssembly)
+        {
+            return FindPublicExecute(targetAssembly, ZombieTypeName, false);
+        }
+
+        private static MethodInfo FindZombieOwnerExecute(Assembly targetAssembly)
+        {
+            return FindPublicExecute(targetAssembly, ZombieTypeName, true);
+        }
+
         private static MethodInfo FindFlamerPrivateExecute(Assembly targetAssembly)
         {
             return FindPrivateExecute(targetAssembly, FlamerTypeName);
@@ -151,6 +191,48 @@ namespace Magicka.CommunityPatch.Runtime
         private static MethodInfo FindUndeadPrivateExecute(Assembly targetAssembly)
         {
             return FindPrivateExecute(targetAssembly, UndeadTypeName);
+        }
+
+        private static MethodInfo FindZombiePrivateExecute(Assembly targetAssembly)
+        {
+            Type abilityType;
+            Type playStateType;
+            ConfigureAbility(
+                targetAssembly,
+                ZombieTypeName,
+                out abilityType,
+                out playStateType);
+            Type vectorType = FindLoadedType("Microsoft.Xna.Framework.Vector3");
+            MethodInfo method = abilityType.GetMethod(
+                "Execute",
+                BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly,
+                null,
+                new Type[] { vectorType },
+                null);
+            if (method == null || method.ReturnType != typeof(bool))
+                throw new MissingMethodException(abilityType.FullName, "Execute");
+            return method;
+        }
+
+        private static MethodInfo FindZombieUpdate(Assembly targetAssembly)
+        {
+            Type abilityType;
+            Type playStateType;
+            ConfigureAbility(
+                targetAssembly,
+                ZombieTypeName,
+                out abilityType,
+                out playStateType);
+            Type dataChannelType = FindLoadedType("PolygonHead.DataChannel");
+            MethodInfo method = abilityType.GetMethod(
+                "Update",
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly,
+                null,
+                new Type[] { dataChannelType, typeof(float) },
+                null);
+            if (method == null || method.ReturnType != typeof(void))
+                throw new MissingMethodException(abilityType.FullName, "Update");
+            return method;
         }
 
         private static MethodInfo FindPublicExecute(
@@ -334,6 +416,12 @@ namespace Magicka.CommunityPatch.Runtime
             return ReleaseTranspiler(instructions, UndeadTypeName);
         }
 
+        public static IEnumerable<CodeInstruction> ZombieReleaseTranspiler(
+            IEnumerable<CodeInstruction> instructions)
+        {
+            return ReleaseTranspiler(instructions, ZombieTypeName);
+        }
+
         private static IEnumerable<CodeInstruction> ReleaseTranspiler(
             IEnumerable<CodeInstruction> instructions,
             string typeName)
@@ -381,24 +469,37 @@ namespace Magicka.CommunityPatch.Runtime
         public static IEnumerable<CodeInstruction> FlamerCurrentPlayStateTranspiler(
             IEnumerable<CodeInstruction> instructions)
         {
-            return CurrentPlayStateTranspiler(instructions, FlamerTypeName);
+            return CurrentPlayStateTranspiler(instructions, FlamerTypeName, 4);
         }
 
         public static IEnumerable<CodeInstruction> SpiritCurrentPlayStateTranspiler(
             IEnumerable<CodeInstruction> instructions)
         {
-            return CurrentPlayStateTranspiler(instructions, SpiritTypeName);
+            return CurrentPlayStateTranspiler(instructions, SpiritTypeName, 4);
         }
 
         public static IEnumerable<CodeInstruction> UndeadCurrentPlayStateTranspiler(
             IEnumerable<CodeInstruction> instructions)
         {
-            return CurrentPlayStateTranspiler(instructions, UndeadTypeName);
+            return CurrentPlayStateTranspiler(instructions, UndeadTypeName, 4);
+        }
+
+        public static IEnumerable<CodeInstruction> ZombieStartCurrentPlayStateTranspiler(
+            IEnumerable<CodeInstruction> instructions)
+        {
+            return CurrentPlayStateTranspiler(instructions, ZombieTypeName, 2);
+        }
+
+        public static IEnumerable<CodeInstruction> ZombieUpdateCurrentPlayStateTranspiler(
+            IEnumerable<CodeInstruction> instructions)
+        {
+            return CurrentPlayStateTranspiler(instructions, ZombieTypeName, 4);
         }
 
         private static IEnumerable<CodeInstruction> CurrentPlayStateTranspiler(
             IEnumerable<CodeInstruction> instructions,
-            string typeName)
+            string typeName,
+            int expectedReplacements)
         {
             FieldInfo legacyPlayStateField;
             MethodInfo recentPlayStateGetter;
@@ -429,11 +530,12 @@ namespace Magicka.CommunityPatch.Runtime
                 result[index].operand = null;
                 replacements++;
             }
-            if (replacements == 0 && existingReplacements == 4)
+            if (replacements == 0 && existingReplacements == expectedReplacements)
                 return result;
-            if (replacements != 4 || existingReplacements != 0)
+            if (replacements != expectedReplacements || existingReplacements != 0)
                 throw new InvalidOperationException(
-                    "Expected four summon play-state reads, found " + replacements +
+                    "Expected " + expectedReplacements +
+                    " summon play-state reads, found " + replacements +
                     " new and " + existingReplacements + " existing replacements.");
             return result;
         }

@@ -273,6 +273,9 @@ function Test-BehaviorMatrix {
         "summon_undead.level_dispose",
         "undead_network.host_marker",
         "undead_network.client_marked",
+        "summon_zombie.vector_release",
+        "summon_zombie.owner_release",
+        "summon_zombie.update_current_play_state",
         "summon_templates.level_dispose",
         "ability_template_cache.level_dispose",
         "summon_cross.vector_release",
@@ -350,7 +353,10 @@ function Test-BehaviorProfile(
             "summon_undead.current_play_state",
             "summon_undead.level_dispose",
             "undead_network.host_marker",
-            "undead_network.client_marked")
+            "undead_network.client_marked",
+            "summon_zombie.vector_release",
+            "summon_zombie.owner_release",
+            "summon_zombie.update_current_play_state")
     }
     $probeDirectory = Join-Path $toolBuildDirectory "behavior-probe"
     $probe = Join-Path $probeDirectory "BehaviorProbe.exe"
@@ -543,6 +549,10 @@ function Test-BehaviorProfile(
         "undead_network.client_marked",
         "undead_network.client_normal",
         "undead_network.wire_marker_roundtrip",
+        "summon_zombie.vector_release",
+        "summon_zombie.owner_release",
+        "summon_zombie.update_current_play_state",
+        "summon_zombie.client_no_spawn",
         "summon_templates.level_dispose",
         "ability_template_cache.level_dispose",
         "ability_template_cache.empty_dispose",
@@ -682,6 +692,10 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=SummonUndead vector play-state release" -or
         $auditLines -notcontains "patch_end=SummonUndead owner play-state release" -or
         $auditLines -notcontains "patch_end=SummonUndead current play-state spawn" -or
+        $auditLines -notcontains "patch_end=SummonZombie vector play-state release" -or
+        $auditLines -notcontains "patch_end=SummonZombie owner play-state release" -or
+        $auditLines -notcontains "patch_end=SummonZombie current start play state" -or
+        $auditLines -notcontains "patch_end=SummonZombie current update play state" -or
         $auditLines -notcontains "patch_end=SummonUndead network state marker" -or
         $auditLines -notcontains "patch_end=SpawnNPC undead state application" -or
         $auditLines -notcontains "patch_end=SummonCross vector play-state release" -or
@@ -690,7 +704,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Summon ability template cleanup" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 16 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 64) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 68) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -705,7 +719,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=84")
+    $summary.Add("implemented_patches=88")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-eighty-four method patches:
+eighty-eight method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -77,6 +77,8 @@ eighty-four method patches:
 - Necromancer-staff summons carry their undead state in an existing serialized
   zero-valued field without changing the `SpawnNPC` packet length. Patched
   clients restore the flag; ordinary NPC spawns remain unchanged.
+- `SummonZombie` no longer retains its supplied play state and resolves the
+  active play state while starting and spawning zombies.
 - `SummonCross` no longer retains its supplied play state, resolves the active
   play state while spawning, and releases its pooled instances and template
   during `PlayState.Dispose`.

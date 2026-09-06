@@ -219,6 +219,18 @@ namespace Magicka.CommunityPatch.Runtime
                 SummonPlayStatePatch.UndeadSpawnDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                SummonPlayStatePatch.ZombieVectorExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonPlayStatePatch.ZombieOwnerExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonPlayStatePatch.ZombieStartDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonPlayStatePatch.ZombieUpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 UndeadSummonNetworkPatch.HostDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
