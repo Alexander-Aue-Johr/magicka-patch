@@ -60,6 +60,9 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 PortalTeleportQueuePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                VersusRulesetRevivePatch.Definition);
         }
     }
 }

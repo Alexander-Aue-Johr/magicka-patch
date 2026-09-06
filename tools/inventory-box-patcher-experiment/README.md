@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-nineteen changes:
+twenty changes:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -35,12 +35,15 @@ nineteen changes:
   original enqueue method runs.
 - `Portal.PortalEntity.Update` skips queued entities that are null or whose
   physics body has already been detached.
+- `VersusRuleset.RevivePlayer` returns handle zero when the requested avatar
+  cannot be obtained from the cache.
 
 The Avatar, AI, BossHealthBar, Helper, InventoryBox, MagickCamera, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
-The Agent, Machine, Jormungandr, Portal, and remaining EntityManager changes use
-narrowly checked transpilers for small branches inside their original methods.
+The Agent, Machine, Jormungandr, Portal, VersusRuleset, and remaining
+EntityManager changes use narrowly checked transpilers for small branches
+inside their original methods.
 
 ## Run
 
@@ -87,7 +90,8 @@ as a manually rewritten method.
 
 Magicka 1.4.16.0 and 1.5.1.0 contain the Agent, Avatar, AIStateAttack,
 AIStateMove, BossHealthBar, EntityManager, Helper, InventoryBox, Jormungandr,
-MagickCamera, Machine, and Portal targets and pass their runtime scenarios. They contain
+MagickCamera, Machine, Portal, and VersusRuleset targets and accept their
+runtime patches. All headless-applicable scenarios pass. They contain
 neither the later `HUDManager`
 implementation nor `WorldSyncMessage` and `PlayState.AddWorldSyncMessage`; both
 unavailable patch groups therefore report `NOT_APPLICABLE` without preventing

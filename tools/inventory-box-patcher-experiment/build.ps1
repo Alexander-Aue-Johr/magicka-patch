@@ -199,7 +199,9 @@ function Test-BehaviorMatrix {
         "play_state.non_npc_spawn",
         "play_state.foreign_state_spawn",
         "portal_queue.null_then_bodyless",
-        "portal_queue.bodyless_then_null"
+        "portal_queue.bodyless_then_null",
+        "versus_revive.missing_avatar",
+        "versus_revive.missing_requested_avatar"
     )
     $playStateNotAvailable = @(
         "play_state.ordinary_message",
@@ -212,7 +214,10 @@ function Test-BehaviorMatrix {
     $legacyNotAvailable = @($playStateNotAvailable) + @(
         "boss_health_bar.constructor_release",
         "hud_manager.disabled_original_hud",
-        "hud_manager.enabled_original_hud"
+        "hud_manager.enabled_original_hud",
+        "versus_revive.missing_avatar",
+        "versus_revive.missing_requested_avatar",
+        "versus_revive.available_avatar"
     )
     $matrix = New-Object System.Collections.Generic.List[string]
 
@@ -311,7 +316,10 @@ function Test-BehaviorProfile(
         "play_state.foreign_state_spawn",
         "portal_queue.null_then_bodyless",
         "portal_queue.bodyless_then_null",
-        "portal_queue.empty"
+        "portal_queue.empty",
+        "versus_revive.missing_avatar",
+        "versus_revive.missing_requested_avatar",
+        "versus_revive.available_avatar"
     )
     foreach ($scenarioName in $scenarioNames) {
         $prefix = "scenario.$scenarioName="
@@ -383,9 +391,10 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Jormungandr missing underground target guard" -or
         $auditLines -notcontains "patch_end=PlayState SpawnNPC WorldSync guard" -or
         $auditLines -notcontains "patch_end=Portal detached teleport entry guard" -or
+        $auditLines -notcontains "patch_end=VersusRuleset missing revive avatar guard" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 8 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 3 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 8) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 9) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -400,7 +409,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=19")
+    $summary.Add("implemented_patches=20")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
