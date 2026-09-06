@@ -40,6 +40,15 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 MagickCameraFollowEntityPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                BossHealthBarScenePatch.ConstructorDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                BossHealthBarScenePatch.GetterDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                BossHealthBarScenePatch.SetterDefinition);
             HUDManagerPatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,

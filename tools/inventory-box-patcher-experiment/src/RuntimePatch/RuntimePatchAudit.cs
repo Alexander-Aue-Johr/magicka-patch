@@ -18,7 +18,7 @@ namespace Magicka.CommunityPatch.Runtime
 
         internal static void WriteSuccess(
             Assembly targetAssembly,
-            MethodInfo targetMethod,
+            MethodBase targetMethod,
             RuntimePatchDefinition definition)
         {
             if (run == null)

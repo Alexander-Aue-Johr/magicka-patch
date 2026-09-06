@@ -16,6 +16,7 @@ internal static class BehaviorSuite
         HelperArrayEqualsScenarios.Run(magicka, report);
         InventoryBoxScenarios.Run(magicka, report);
         MagickCameraScenarios.Run(magicka, report);
+        BossHealthBarScenarios.Run(magicka, report);
         HUDManagerScenarios.Run(magicka, report);
         MachineScenarios.Run(magicka, report);
         JormungandrScenarios.Run(magicka, report);

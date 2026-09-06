@@ -189,6 +189,9 @@ function Test-BehaviorMatrix {
         "inventory.initial_screen_size",
         "inventory.changed_screen_size",
         "camera_follow.bodyless_target",
+        "boss_health_bar.constructor_release",
+        "boss_health_bar.current_scene",
+        "boss_health_bar.setter_release",
         "hud_manager.disabled_original_hud",
         "machine.missing_warlock",
         "jormungandr.missing_target",
@@ -207,6 +210,7 @@ function Test-BehaviorMatrix {
         "play_state.foreign_state_spawn"
     )
     $legacyNotAvailable = @($playStateNotAvailable) + @(
+        "boss_health_bar.constructor_release",
         "hud_manager.disabled_original_hud",
         "hud_manager.enabled_original_hud"
     )
@@ -216,12 +220,12 @@ function Test-BehaviorMatrix {
     Test-BehaviorProfile "current-manual-patch" $currentPatchPath "unpatched" @() @() $matrix
     Test-BehaviorProfile "current-runtime-patch" $originalPath "runtime" @() @() $matrix
     Test-BehaviorProfile "1.4.16.0-original" $version14Path "unpatched" `
-        @("avatar_interactable.missing_play_state", "avatar_interactable.missing_level", "avatar_interactable.missing_scene", "avatar_interactable.missing_triggers", "ai_attack.bodyless_target", "ai_move.enter_bodyless_target", "ai_move.execute_bodyless_target", "agent_target.bodyless_player", "closest_damageable.bodyless_candidate", "entity_query.bodyless_entry", "entity_query.null_entry", "entity_clear.stale_grid", "helper_array_equals.left_null", "helper_array_equals.right_null", "helper_array_equals.both_null", "inventory.initial_screen_size", "inventory.changed_screen_size", "camera_follow.bodyless_target", "machine.missing_warlock", "jormungandr.missing_target", "portal_queue.null_then_bodyless", "portal_queue.bodyless_then_null") `
+        @("avatar_interactable.missing_play_state", "avatar_interactable.missing_level", "avatar_interactable.missing_scene", "avatar_interactable.missing_triggers", "ai_attack.bodyless_target", "ai_move.enter_bodyless_target", "ai_move.execute_bodyless_target", "agent_target.bodyless_player", "closest_damageable.bodyless_candidate", "entity_query.bodyless_entry", "entity_query.null_entry", "entity_clear.stale_grid", "helper_array_equals.left_null", "helper_array_equals.right_null", "helper_array_equals.both_null", "inventory.initial_screen_size", "inventory.changed_screen_size", "camera_follow.bodyless_target", "boss_health_bar.current_scene", "boss_health_bar.setter_release", "machine.missing_warlock", "jormungandr.missing_target", "portal_queue.null_then_bodyless", "portal_queue.bodyless_then_null") `
         $legacyNotAvailable $matrix
     Test-BehaviorProfile "1.4.16.0-runtime-patch" $version14Path "runtime" `
         @() $legacyNotAvailable $matrix
     Test-BehaviorProfile "1.5.1.0-original" $version15Path "unpatched" `
-        @("avatar_interactable.missing_play_state", "avatar_interactable.missing_level", "avatar_interactable.missing_scene", "avatar_interactable.missing_triggers", "ai_attack.bodyless_target", "ai_move.enter_bodyless_target", "ai_move.execute_bodyless_target", "agent_target.bodyless_player", "closest_damageable.bodyless_candidate", "entity_query.bodyless_entry", "entity_query.null_entry", "entity_clear.stale_grid", "helper_array_equals.left_null", "helper_array_equals.right_null", "helper_array_equals.both_null", "inventory.initial_screen_size", "inventory.changed_screen_size", "camera_follow.bodyless_target", "machine.missing_warlock", "jormungandr.missing_target", "portal_queue.null_then_bodyless", "portal_queue.bodyless_then_null") `
+        @("avatar_interactable.missing_play_state", "avatar_interactable.missing_level", "avatar_interactable.missing_scene", "avatar_interactable.missing_triggers", "ai_attack.bodyless_target", "ai_move.enter_bodyless_target", "ai_move.execute_bodyless_target", "agent_target.bodyless_player", "closest_damageable.bodyless_candidate", "entity_query.bodyless_entry", "entity_query.null_entry", "entity_clear.stale_grid", "helper_array_equals.left_null", "helper_array_equals.right_null", "helper_array_equals.both_null", "inventory.initial_screen_size", "inventory.changed_screen_size", "camera_follow.bodyless_target", "boss_health_bar.current_scene", "boss_health_bar.setter_release", "machine.missing_warlock", "jormungandr.missing_target", "portal_queue.null_then_bodyless", "portal_queue.bodyless_then_null") `
         $legacyNotAvailable $matrix
     Test-BehaviorProfile "1.5.1.0-runtime-patch" $version15Path "runtime" `
         @() $legacyNotAvailable $matrix
@@ -289,6 +293,9 @@ function Test-BehaviorProfile(
         "camera_follow.bodyless_target",
         "camera_follow.missing_target",
         "camera_follow.other_behavior",
+        "boss_health_bar.constructor_release",
+        "boss_health_bar.current_scene",
+        "boss_health_bar.setter_release",
         "hud_manager.disabled_original_hud",
         "hud_manager.enabled_original_hud",
         "machine.missing_warlock",
@@ -368,13 +375,16 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Helper null-safe array equality" -or
         $auditLines -notcontains "patch_end=InventoryBox screen size" -or
         $auditLines -notcontains "patch_end=MagickCamera detached follow target guard" -or
+        $auditLines -notcontains "patch_end=BossHealthBar constructor scene release" -or
+        $auditLines -notcontains "patch_end=BossHealthBar current scene getter" -or
+        $auditLines -notcontains "patch_end=BossHealthBar legacy scene setter release" -or
         $auditLines -notcontains "patch_end=HUDManager original HUD enable" -or
         $auditLines -notcontains "patch_end=Machine network initialization" -or
         $auditLines -notcontains "patch_end=Jormungandr missing underground target guard" -or
         $auditLines -notcontains "patch_end=PlayState SpawnNPC WorldSync guard" -or
         $auditLines -notcontains "patch_end=Portal detached teleport entry guard" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 6 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 2 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 8 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 3 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 8) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
@@ -390,7 +400,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=16")
+    $summary.Add("implemented_patches=19")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

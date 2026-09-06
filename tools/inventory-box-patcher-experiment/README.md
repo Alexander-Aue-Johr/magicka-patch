@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-sixteen changes:
+nineteen changes:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -24,6 +24,8 @@ sixteen changes:
   original method runs.
 - `MagickCamera.Update` releases a followed entity whose physics body has
   detached.
+- `BossHealthBar` no longer retains the scene supplied to its constructor or
+  setter, and its scene getter resolves the current play-state scene.
 - `HUDManager.Initialise` re-enables the original HUD after state transitions.
 - `Machine.NetworkInitialize` marks the boss as initialized only when its
   referenced warlock entity exists.
@@ -34,11 +36,11 @@ sixteen changes:
 - `Portal.PortalEntity.Update` skips queued entities that are null or whose
   physics body has already been detached.
 
-The Avatar, AI, Helper, InventoryBox, MagickCamera, and PlayState changes use
-Harmony prefixes; the HUDManager and one EntityManager change use postfixes.
-The Agent, Machine, Jormungandr, Portal, and remaining EntityManager changes
-use narrowly checked transpilers for small branches inside their original
-methods.
+The Avatar, AI, BossHealthBar, Helper, InventoryBox, MagickCamera, and PlayState
+changes use Harmony prefixes; BossHealthBar additionally uses a constructor
+postfix, while HUDManager and one EntityManager change use ordinary postfixes.
+The Agent, Machine, Jormungandr, Portal, and remaining EntityManager changes use
+narrowly checked transpilers for small branches inside their original methods.
 
 ## Run
 
@@ -84,8 +86,8 @@ behavior instead of claiming that a Harmony wrapper has the same C# or IL shape
 as a manually rewritten method.
 
 Magicka 1.4.16.0 and 1.5.1.0 contain the Agent, Avatar, AIStateAttack,
-AIStateMove, EntityManager, Helper, InventoryBox, Jormungandr, MagickCamera,
-Machine, and Portal targets and pass their runtime scenarios. They contain
+AIStateMove, BossHealthBar, EntityManager, Helper, InventoryBox, Jormungandr,
+MagickCamera, Machine, and Portal targets and pass their runtime scenarios. They contain
 neither the later `HUDManager`
 implementation nor `WorldSyncMessage` and `PlayState.AddWorldSyncMessage`; both
 unavailable patch groups therefore report `NOT_APPLICABLE` without preventing

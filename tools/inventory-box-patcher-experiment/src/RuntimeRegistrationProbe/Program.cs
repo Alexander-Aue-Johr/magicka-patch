@@ -38,9 +38,13 @@ internal static class Program
 
     private static Assembly ResolveOriginalAssembly(object sender, ResolveEventArgs arguments)
     {
-        return originalAssembly != null &&
-            new AssemblyName(arguments.Name).Name == originalAssembly.GetName().Name
-            ? originalAssembly
-            : null;
+        if (originalAssembly != null &&
+            new AssemblyName(arguments.Name).Name == originalAssembly.GetName().Name)
+            return originalAssembly;
+
+        string dependencyPath = Path.Combine(
+            Path.GetDirectoryName(originalAssembly.Location),
+            new AssemblyName(arguments.Name).Name + ".dll");
+        return File.Exists(dependencyPath) ? Assembly.LoadFrom(dependencyPath) : null;
     }
 }

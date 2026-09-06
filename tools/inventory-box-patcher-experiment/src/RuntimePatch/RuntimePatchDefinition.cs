@@ -7,18 +7,22 @@ namespace Magicka.CommunityPatch.Runtime
     {
         internal string Name { get; private set; }
         internal string HarmonyOwner { get; private set; }
-        internal Func<Assembly, MethodInfo> FindTarget { get; private set; }
+        internal Func<Assembly, MethodBase> FindTarget { get; private set; }
         internal Func<MethodInfo, MethodInfo> CreatePrefix { get; private set; }
         internal Func<MethodInfo, MethodInfo> CreatePostfix { get; private set; }
+        internal MethodInfo FixedPrefix { get; private set; }
+        internal MethodInfo FixedPostfix { get; private set; }
         internal MethodInfo Transpiler { get; private set; }
         internal string Kind { get; private set; }
 
         private RuntimePatchDefinition(
             string name,
             string harmonyOwner,
-            Func<Assembly, MethodInfo> findTarget,
+            Func<Assembly, MethodBase> findTarget,
             Func<MethodInfo, MethodInfo> createPrefix,
             Func<MethodInfo, MethodInfo> createPostfix,
+            MethodInfo fixedPrefix,
+            MethodInfo fixedPostfix,
             MethodInfo transpiler,
             string kind)
         {
@@ -27,6 +31,8 @@ namespace Magicka.CommunityPatch.Runtime
             FindTarget = findTarget;
             CreatePrefix = createPrefix;
             CreatePostfix = createPostfix;
+            FixedPrefix = fixedPrefix;
+            FixedPostfix = fixedPostfix;
             Transpiler = transpiler;
             Kind = kind;
         }
@@ -40,8 +46,10 @@ namespace Magicka.CommunityPatch.Runtime
             return new RuntimePatchDefinition(
                 name,
                 harmonyOwner,
-                findTarget,
+                assembly => findTarget(assembly),
                 createPrefix,
+                null,
+                null,
                 null,
                 null,
                 "prefix");
@@ -56,9 +64,11 @@ namespace Magicka.CommunityPatch.Runtime
             return new RuntimePatchDefinition(
                 name,
                 harmonyOwner,
-                findTarget,
+                assembly => findTarget(assembly),
                 null,
                 createPostfix,
+                null,
+                null,
                 null,
                 "postfix");
         }
@@ -72,11 +82,31 @@ namespace Magicka.CommunityPatch.Runtime
             return new RuntimePatchDefinition(
                 name,
                 harmonyOwner,
-                findTarget,
+                assembly => findTarget(assembly),
+                null,
+                null,
                 null,
                 null,
                 transpiler,
                 "transpiler");
+        }
+
+        internal static RuntimePatchDefinition ConstructorPostfix(
+            string name,
+            string harmonyOwner,
+            Func<Assembly, ConstructorInfo> findTarget,
+            MethodInfo postfix)
+        {
+            return new RuntimePatchDefinition(
+                name,
+                harmonyOwner,
+                assembly => findTarget(assembly),
+                null,
+                null,
+                null,
+                postfix,
+                null,
+                "postfix");
         }
     }
 }

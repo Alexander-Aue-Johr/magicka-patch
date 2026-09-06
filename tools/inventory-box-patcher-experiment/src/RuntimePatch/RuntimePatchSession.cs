@@ -11,13 +11,16 @@ namespace Magicka.CommunityPatch.Runtime
             Assembly targetAssembly,
             RuntimePatchDefinition definition)
         {
-            MethodInfo targetMethod = definition.FindTarget(targetAssembly);
-            MethodInfo prefix = definition.CreatePrefix == null
-                ? null
-                : definition.CreatePrefix(targetMethod);
-            MethodInfo postfix = definition.CreatePostfix == null
-                ? null
-                : definition.CreatePostfix(targetMethod);
+            MethodBase targetMethod = definition.FindTarget(targetAssembly);
+            MethodInfo methodTarget = targetMethod as MethodInfo;
+            MethodInfo prefix = definition.FixedPrefix ??
+                (definition.CreatePrefix == null
+                    ? null
+                    : definition.CreatePrefix(RequireMethodInfo(methodTarget, definition)));
+            MethodInfo postfix = definition.FixedPostfix ??
+                (definition.CreatePostfix == null
+                    ? null
+                    : definition.CreatePostfix(RequireMethodInfo(methodTarget, definition)));
             HarmonyInstance harmony = HarmonyInstance.Create(definition.HarmonyOwner);
 
             harmony.Patch(
@@ -37,7 +40,7 @@ namespace Magicka.CommunityPatch.Runtime
 
         private static void AssertPatchIsRegistered(
             HarmonyInstance harmony,
-            MethodInfo targetMethod,
+            MethodBase targetMethod,
             RuntimePatchDefinition definition,
             MethodInfo prefix,
             MethodInfo postfix)
@@ -48,6 +51,16 @@ namespace Magicka.CommunityPatch.Runtime
             if (registrations != 1)
                 throw new InvalidOperationException(
                     "Expected one registered patch, found " + registrations + ".");
+        }
+
+        private static MethodInfo RequireMethodInfo(
+            MethodInfo targetMethod,
+            RuntimePatchDefinition definition)
+        {
+            if (targetMethod == null)
+                throw new InvalidOperationException(
+                    definition.Name + " requires a method target.");
+            return targetMethod;
         }
 
         private static int CountRegistrations(
