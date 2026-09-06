@@ -240,6 +240,8 @@ function Test-BehaviorMatrix {
         "spawn_slime.spawn_slimes_current_nav_mesh",
         "poison_spray.play_state_release",
         "poison_spray.current_query_manager",
+        "chilly_blast.play_state_release",
+        "chilly_blast.current_query_manager",
         "summon_flamer.vector_release",
         "summon_flamer.owner_release",
         "summon_spirit.vector_release",
@@ -264,7 +266,10 @@ function Test-BehaviorMatrix {
         "versus_revive.missing_requested_avatar",
         "versus_revive.available_avatar",
         "sub_menu_main.gamepad_back",
-        "sub_menu_main.keyboard_back"
+        "sub_menu_main.keyboard_back",
+        "chilly_blast.play_state_release",
+        "chilly_blast.execute_behavior",
+        "chilly_blast.current_query_manager"
     )
     $matrix = New-Object System.Collections.Generic.List[string]
 
@@ -438,6 +443,9 @@ function Test-BehaviorProfile(
         "poison_spray.play_state_release",
         "poison_spray.execute_behavior",
         "poison_spray.current_query_manager",
+        "chilly_blast.play_state_release",
+        "chilly_blast.execute_behavior",
+        "chilly_blast.current_query_manager",
         "summon_flamer.vector_release",
         "summon_flamer.owner_release",
         "summon_spirit.vector_release",
@@ -544,6 +552,8 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=SpawnSlime SpawnSlimes current NavMesh" -or
         $auditLines -notcontains "patch_end=PoisonSpray play-state reference release" -or
         $auditLines -notcontains "patch_end=PoisonSpray current entity query" -or
+        $auditLines -notcontains "patch_end=ChillyBlast play-state reference release" -or
+        $auditLines -notcontains "patch_end=ChillyBlast current entity query" -or
         $auditLines -notcontains "patch_end=SummonFlamer vector play-state release" -or
         $auditLines -notcontains "patch_end=SummonFlamer owner play-state release" -or
         $auditLines -notcontains "patch_end=SummonSpirit vector play-state release" -or
@@ -553,7 +563,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Summon ability template cleanup" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 13 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 37) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 39) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -568,7 +578,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=54")
+    $summary.Add("implemented_patches=56")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

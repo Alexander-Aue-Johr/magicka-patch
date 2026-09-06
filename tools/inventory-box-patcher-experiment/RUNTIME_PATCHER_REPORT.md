@@ -530,6 +530,25 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Szenarien bestehen
   - Das Inlining der lokalen `yaw`-Variable und die explizite Darstellung der
     beiden statischen Hash-Initialisierer sind semantikfreies Compilerrauschen.
+- [x] `chilly-blast-play-state-lifetime`
+  - Ziele: `ChillyBlast.Execute(ISpellCaster, PlayState)` und
+    `ChillyBlast.Update(DataChannel, float)`
+  - Technik: zwei Transpiler; der erste entfernt ausschließlich die Zuweisung
+    an `mPlayState`, der zweite ersetzt genau zwei Feldzugriffe durch
+    `PlayState.RecentPlayState`
+  - Fehlerfall: der Effekt hält den beim Auslösen übergebenen Levelzustand fest
+    und bezieht seine temporäre Entity-Liste später aus dessen veraltetem
+    `EntityManager`
+  - Kontrollverhalten: Rückgabewert, Besitzer, ursprüngliche Drehgeschwindigkeit,
+    TTL, Audio- und Effektstart sowie die spätere Effektaktualisierung bleiben
+    erhalten
+  - Original 1.10.4.2: Referenz und veralteter Managerzugriff bleiben bestehen;
+    die manuelle Patch-Assembly 0.0.60 und das Runtime-Patch-Profil bestehen alle
+    drei Szenarien
+  - Magicka 1.4.16.0 und 1.5.1.0 enthalten `ChillyBlast` noch nicht. Patch und
+    Szenarien werden dort ausdrücklich als `NOT_APPLICABLE` protokolliert.
+  - Die explizite Darstellung der drei statischen Hash-Initialisierer ist
+    semantikfreies Compilerrauschen.
 - [x] `summon-play-state-lifetime`
   - Ziele: beide öffentlichen `Execute`-Überladungen und die private
     Spawn-Methode von `SummonFlamer` und `SummonSpirit` sowie
@@ -589,11 +608,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | Starfall | SubMenuMain | VersusRuleset |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
+| Magicka-Version | Runtime-Host | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | Starfall | SubMenuMain | VersusRuleset |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -607,7 +626,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 29 Dateien vollständig, 9 Dateien teilweise und 182 Dateien noch
+Aktueller Stand: 30 Dateien vollständig, 9 Dateien teilweise und 181 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -850,7 +869,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonCross.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/StopCharge.cs`
 - [ ] `Magicka/GameLogic/GameStates/MenuState.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ChillyBlast.cs`
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ChillyBlast.cs` — VOLLSTÄNDIG: gespeicherter PlayState in `Execute` und beide veralteten EntityManager-Zugriffe in `Update`, 2 Transpiler und 3 Drei-Wege-Szenarien; statische Hash-Initialisierer sind semantikfreies Compilerrauschen. In 1.4.16.0 und 1.5.1.0 ist die Klasse nicht vorhanden.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/LightningSpell.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Haste.cs`
 - [ ] `Magicka/GameLogic/Entities/Bosses/PropBoss.cs`

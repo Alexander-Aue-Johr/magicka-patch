@@ -142,6 +142,7 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 PoisonSprayPlayStatePatch.UpdateDefinition);
+            ChillyBlastPatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 SummonPlayStatePatch.FlamerVectorExecuteDefinition);

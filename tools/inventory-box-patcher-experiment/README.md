@@ -66,6 +66,8 @@ fifty-four changes:
   both slime-spawn helpers resolve the current play state's NavMesh when used.
 - `PoisonSpray` no longer retains its creating play state and borrows its
   temporary entity-query list from the current play state.
+- `ChillyBlast` no longer retains its creating play state and borrows its
+  temporary entity-query list from the current play state.
 - `SummonFlamer` and `SummonSpirit` no longer retain their supplied play states,
   resolve the active play state while spawning, and release their level-loaded
   templates during `PlayState.Dispose`.
@@ -73,7 +75,7 @@ fifty-four changes:
 The Avatar, AI, BossHealthBar, Helper, InventoryBox, MagickCamera, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
-The Agent, AudioManager, CompanyState, DeflectionAura, DrainLife, DrinkBlood,
+The Agent, AudioManager, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood,
 EntityStateStorage, Flash, Machine, Jormungandr, pack, PoisonSpray, Portal,
 RandomMine, SpawnSlime, SummonFlamer, SummonSpirit, Starfall, VersusRuleset, and
 remaining EntityManager changes use narrowly checked transpilers for small
@@ -138,7 +140,8 @@ neither the later `HUDManager`
 implementation nor `WorldSyncMessage` and `PlayState.AddWorldSyncMessage`; both
 unavailable patch groups therefore report `NOT_APPLICABLE` without preventing
 other patches from loading. They also predate the `SubMenuMain.ControllerB`
-override, so that patch and its scenarios are `NOT_APPLICABLE` there.
+override and the later `ChillyBlast` ability, so both patch groups and their
+scenarios are `NOT_APPLICABLE` there.
 
 Source comparison stages each executable and its dependency set in isolated
 directories. This prevents the executable's original location from changing
