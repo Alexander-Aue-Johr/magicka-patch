@@ -94,6 +94,8 @@ ninety-seven method patches:
   existing cue-stop operation can fail.
 - `AnimatedLevelPart.Update` removes collision registrations whose entity or
   physics body has already been detached.
+- `DynamicLight.DisposeCache` releases each cached shadow map and then drops
+  the static light-cache entries for the unloaded level.
 - `EntityUpdate` packets carrying the payloadless Character feature marker are
   decoded without aborting the remaining update fields.
 - Loading-screen clears restore the managed depth buffer before drawing.
@@ -117,7 +119,7 @@ ninety-seven method patches:
 The Avatar, AI, Blizzard, BossHealthBar, Helper, InventoryBox, MagickCamera, Player, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
-The Agent, AnimatedLevelPart, AudioManager, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood,
+The Agent, AnimatedLevelPart, AudioManager, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight,
 EntityStateStorage, Flash, Machine, Jormungandr, pack, PoisonSpray, Portal,
 RandomMine, SpawnSlime, SummonCross, SummonFlamer, SummonSpirit, SummonUndead,
 Starfall, VersusRuleset, JudgementSpray, DialogLayout, ShadowBlobs, and

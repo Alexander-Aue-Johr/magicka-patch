@@ -902,6 +902,24 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Die umfangreichere Dispose-Änderung der Klasse folgt separat. Deshalb
     bleibt die Datei in der Checkliste teilweise migriert.
 
+- [x] `dynamic-light-cache-release`
+  - Ziel: `DynamicLight.DisposeCache()`.
+  - Technik: Transpiler; validiert die statische `Queue<DynamicLight>`, ihren
+    parameterlosen `Clear()`-Aufruf sowie je genau einen Aufruf von
+    `Dequeue`, `Enqueue`, `DisposeShadowMap`, `Monitor.Enter` und
+    `Monitor.Exit`. Der Clear-Aufruf wird vor dem vorhandenen `leave` und damit
+    noch innerhalb desselben Queue-Monitors eingefügt.
+  - Fehlerfall: Das Original gibt die Shadow-Map jedes gecachten Lichts frei,
+    stellt das Licht jedoch wieder in die prozessweite Queue. Die Queue hält
+    damit weiterhin alle levelgebundenen Lichtobjekte.
+  - Verhalten: Die vorhandene Shadow-Map-Freigabe läuft unverändert für jedes
+    Licht. Anschließend wird die Queue wie im manuellen Patch geleert.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten den Testeintrag. Die
+    manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile rufen dessen
+    Shadow-Map-Freigabe genau einmal auf und leeren danach die Queue.
+  - Die übrigen sichtbaren Unterschiede in `DynamicLight` sind ausschließlich
+    Aufrufe der Retention-Diagnostik und ändern das Spielverhalten nicht.
+
 - [x] `dialog-layout-line-breaks`
   - Ziele: `Message.Initialize()` und `SetDialogHint.Initialize()`.
   - Verhalten: Listenpunkte nach einem Dialog-Tag `[P=...]` erhalten vor dem
@@ -999,11 +1017,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChantSpells | StaticPools | JudgementSpray | Blizzard | AnimatedLevelPart | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | EntityUpdate | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonUndead | UndeadNetwork | SummonZombie | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset | AbilityTemplates | LoadingScreen | DirectInput | MenuImageText | ParadoxPopup | Language | DialogLayout | ShadowBlobs | PlayerAvatar | PlayerCleanup |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS |
+| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChantSpells | StaticPools | JudgementSpray | Blizzard | AnimatedLevelPart | DynamicLight | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | EntityUpdate | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonUndead | UndeadNetwork | SummonZombie | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset | AbilityTemplates | LoadingScreen | DirectInput | MenuImageText | ParadoxPopup | Language | DialogLayout | ShadowBlobs | PlayerAvatar | PlayerCleanup |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -1017,7 +1035,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 48 Dateien vollständig, 59 Dateien teilweise und 113 Dateien noch
+Aktueller Stand: 49 Dateien vollständig, 59 Dateien teilweise und 112 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1261,7 +1279,10 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/GreaseTrail.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Dispenser.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [x] `Magicka/Helper.cs` — VOLLSTÄNDIG: `ArrayEquals`, Prefix und 5 Drei-Wege-Szenarien.
-- [ ] `Magicka/Graphics/Lights/DynamicLight.cs`
+- [x] `Magicka/Graphics/Lights/DynamicLight.cs` — VOLLSTÄNDIG: Die statische
+  Licht-Queue wird nach der vorhandenen Shadow-Map-Freigabe geleert, ein
+  Transpiler und ein Drei-Wege-Szenario. Alle übrigen manuellen Unterschiede
+  sind Retention-Diagnostik ohne Änderung des Spielverhaltens.
 - [x] `Magicka/Graphics/Flash.cs` — VOLLSTÄNDIG: gespeicherte Szenenreferenz in
   `Execute` und veralteter Szenenzugriff in `Update`, 2 Transpiler und 2
   Drei-Wege-Szenarien; der leere `IDisposable`-Wrapper und die Darstellung des

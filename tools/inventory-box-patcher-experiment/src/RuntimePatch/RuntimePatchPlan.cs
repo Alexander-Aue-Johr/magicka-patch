@@ -195,6 +195,9 @@ namespace Magicka.CommunityPatch.Runtime
                 AnimatedLevelPartCollisionPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                DynamicLightCachePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 EntityUpdateMessageReadPatch.ServerDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
