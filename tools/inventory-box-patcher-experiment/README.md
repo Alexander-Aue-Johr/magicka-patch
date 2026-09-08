@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-one hundred seventy-nine method patches:
+one hundred eighty method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -60,6 +60,8 @@ one hundred seventy-nine method patches:
   their JIT cannot run before `Game.Instance` exists.
 - `PlayState.Dispose` clears the static in-game menu stack after the existing
   boss-fight cleanup, releasing menu state owned by the level being removed.
+- Changing language while no magick is marked clears the description instead
+  of indexing the descriptions array with an invalid selection.
 - `MagickCamera.Update` releases a followed entity whose physics body has
   detached.
 - `BossHealthBar` no longer retains the scene supplied to its constructor or

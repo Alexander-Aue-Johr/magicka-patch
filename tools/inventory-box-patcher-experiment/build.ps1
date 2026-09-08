@@ -244,6 +244,8 @@ function Test-BehaviorMatrix {
         "in_game_menu.initialize_release",
         "in_game_menu.current_scene",
         "in_game_menu_stack.initialized_dispose",
+        "magicks_language.negative_selection",
+        "magicks_language.past_end_selection",
         "camera_follow.bodyless_target",
         "boss_health_bar.constructor_release",
         "boss_health_bar.current_scene",
@@ -485,6 +487,8 @@ function Test-BehaviorProfile(
             "in_game_menu.initialize_release",
             "in_game_menu.current_scene",
             "in_game_menu_stack.initialized_dispose",
+            "magicks_language.negative_selection",
+            "magicks_language.past_end_selection",
             "rain.vector_current_play_state",
             "rain.owner_current_play_state",
             "rain.update_current_play_state",
@@ -617,6 +621,9 @@ function Test-BehaviorProfile(
         "in_game_menu.current_scene",
         "in_game_menu_stack.initialized_dispose",
         "in_game_menu_stack.uninitialized_dispose",
+        "magicks_language.negative_selection",
+        "magicks_language.past_end_selection",
+        "magicks_language.valid_selection",
         "camera_follow.bodyless_target",
         "camera_follow.missing_target",
         "camera_follow.other_behavior",
@@ -996,9 +1003,10 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=InGameMenu play-state release" -or
         $auditLines -notcontains "patch_end=InGameMenu deferred current-state patch installation" -or
         $auditLines -notcontains "patch_end=In-game menu stack cleanup" -or
+        $auditLines -notcontains "patch_end=Magicks menu language selection guard" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 24 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 5 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 150) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 151) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1013,7 +1021,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=179")
+    $summary.Add("implemented_patches=180")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

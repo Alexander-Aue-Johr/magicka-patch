@@ -169,6 +169,9 @@ namespace Magicka.CommunityPatch.Runtime
                 InGameMenuStackCleanupPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                InGameMenuMagicksLanguagePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 MagickCameraFollowEntityPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

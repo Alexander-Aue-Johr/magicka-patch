@@ -431,6 +431,20 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Der kommentarlos dekompilierte Runtime-Diff enthält nur die neue
     Patchklasse und ihre Registrierung. Alle fünf geänderten konkreten
     Runtime-Methoden JITten unter CLR 2 und Mono 6.12 ohne Skip.
+- [x] `magicks-menu-language-selection`
+  - Ziel: `InGameMenuMagicks.LanguageChanged`
+  - Technik: Ein Transpiler ersetzt ausschließlich die abschließende
+    ungeschützte `mDescriptions[mMarkedItem]`-Auswahl durch einen validierten
+    Zugriff. Die vorherige Neuübersetzung aller Beschreibungen bleibt erhalten.
+  - Fehlerfälle: `mMarkedItem == -1` und ein Index hinter dem Array leeren den
+    Beschreibungstext. Ein gültiger Index setzt weiterhin den neu umbrochenen
+    übersetzten Text.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 werfen in beiden Fehlerfällen. Die
+    manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile bestehen die
+    beiden Fehlerfälle und den gültigen Kontrollfall.
+  - Der kommentarlos dekompilierte Runtime-Diff enthält nur die neue
+    Patchklasse und ihre Registrierung. Alle sechs geänderten konkreten
+    Runtime-Methoden JITten unter CLR 2 und Mono 6.12 ohne Skip.
 - [x] `magick-camera-follow-entity`
   - Ziel: `MagickCamera.Update(DataChannel, float)`
   - Technik: Prefix; setzt ausschließlich einen körperlosen `mFollowing`-Verweis
@@ -1296,7 +1310,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 71 Dateien vollständig, 59 Dateien teilweise und 90 Dateien noch
+Aktueller Stand: 72 Dateien vollständig, 58 Dateien teilweise und 90 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1401,7 +1415,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/PhysicsEntityTemplate.cs`
 - [ ] `Magicka/CommunityPatch/CommunityPatchInfo.cs`
 - [ ] `Magicka/Physics/PhysicsManager.cs`
-- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuMagicks.cs` — TEILWEISE: beide GameType-Reads verwenden den aktuellen PlayState; die separate Auswahlkorrektur bleibt offen.
+- [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuMagicks.cs` — VOLLSTÄNDIG: beide GameType-Reads verwenden den aktuellen PlayState und `LanguageChanged` validiert den markierten Index. Die lokale Variable im Namenpfad, die tote `num2 = 28`-Zuweisung und der statische Initialisierer-Diff ändern kein Verhalten.
 - [ ] `Magicka/GameLogic/Entities/Entity.cs`
 - [ ] `Magicka/Levels/ForceField.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Revive.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
