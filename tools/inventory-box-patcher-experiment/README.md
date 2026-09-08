@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-one hundred sixteen method patches:
+one hundred eighteen method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -24,6 +24,8 @@ one hundred sixteen method patches:
 - `Helper.ArrayEquals` treats every missing byte array as unequal.
 - `InventoryBox.RenderData.Draw` updates `TextBoxEffect.ScreenSize` before the
   original method runs.
+- The classic keyboard HUD and right-aligned tutorial prompts stay within a
+  centred 16:9 safe area on ultrawide displays while 16:9 layout is unchanged.
 - `MagickCamera.Update` releases a followed entity whose physics body has
   detached.
 - `BossHealthBar` no longer retains the scene supplied to its constructor or
@@ -125,13 +127,13 @@ one hundred sixteen method patches:
 - The same teardown independently clears the notifier's owner, attached text
   box, and visible alpha state while retaining its reusable graphics objects.
 
-The Avatar, AI, Blizzard, BossHealthBar, Helper, InventoryBox, MagickCamera, MeteorShower, Player, PlayState, and Rain
+The Avatar, AI, Blizzard, BossHealthBar, Helper, InventoryBox, KeyboardHUD, MagickCamera, MeteorShower, Player, PlayState, and Rain
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
 The Agent, AnimatedLevelPart, AudioManager, Blizzard, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, MeteorShower, Rain,
 EntityStateStorage, Flash, Machine, Jormungandr, pack, PoisonSpray, Portal,
 RandomMine, SpawnSlime, SummonCross, SummonFlamer, SummonSpirit, SummonUndead,
-Starfall, Thunderstorm, VersusRuleset, JudgementSpray, DialogLayout, ShadowBlobs, and
+Starfall, Thunderstorm, TutorialManager, VersusRuleset, JudgementSpray, DialogLayout, ShadowBlobs, and
 remaining EntityManager changes use narrowly checked transpilers for small
 branches inside their original methods. ControlManager, Interactable, and
 SubMenuMain use conditional prefixes.

@@ -45,6 +45,12 @@ namespace Magicka.CommunityPatch.Runtime
                 InventoryBoxDrawPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                WidescreenSafeAreaPatch.KeyboardDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                WidescreenSafeAreaPatch.TutorialDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 MagickCameraFollowEntityPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

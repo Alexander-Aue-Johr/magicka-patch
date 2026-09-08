@@ -201,6 +201,10 @@ function Test-BehaviorMatrix {
         "helper_array_equals.both_null",
         "inventory.initial_screen_size",
         "inventory.changed_screen_size",
+        "widescreen.horizontal_ultrawide",
+        "widescreen.horizontal_16_9",
+        "widescreen.right_ultrawide",
+        "widescreen.right_16_9",
         "camera_follow.bodyless_target",
         "boss_health_bar.constructor_release",
         "boss_health_bar.current_scene",
@@ -399,6 +403,10 @@ function Test-BehaviorProfile(
             "blizzard.vector_current_play_state",
             "blizzard.owner_current_play_state",
             "blizzard.update_current_play_state",
+            "widescreen.horizontal_ultrawide",
+            "widescreen.horizontal_16_9",
+            "widescreen.right_ultrawide",
+            "widescreen.right_16_9",
             "rain.vector_current_play_state",
             "rain.owner_current_play_state",
             "rain.update_current_play_state",
@@ -486,6 +494,10 @@ function Test-BehaviorProfile(
         "helper_array_equals.both_null",
         "inventory.initial_screen_size",
         "inventory.changed_screen_size",
+        "widescreen.horizontal_ultrawide",
+        "widescreen.horizontal_16_9",
+        "widescreen.right_ultrawide",
+        "widescreen.right_16_9",
         "camera_follow.bodyless_target",
         "camera_follow.missing_target",
         "camera_follow.other_behavior",
@@ -718,6 +730,8 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=EntityStateStorage current play-state restore" -or
         $auditLines -notcontains "patch_end=Helper null-safe array equality" -or
         $auditLines -notcontains "patch_end=InventoryBox screen size" -or
+        $auditLines -notcontains "patch_end=Keyboard HUD ultrawide safe area" -or
+        $auditLines -notcontains "patch_end=Tutorial prompt ultrawide safe area" -or
         $auditLines -notcontains "patch_end=MagickCamera detached follow target guard" -or
         $auditLines -notcontains "patch_end=BossHealthBar constructor scene release" -or
         $auditLines -notcontains "patch_end=BossHealthBar current scene getter" -or
@@ -822,9 +836,9 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Player controller avatar release" -or
         $auditLines -notcontains "patch_end=Player obtained text-box level release" -or
         $auditLines -notcontains "patch_end=Player notifier level release" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 22 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 23 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 90) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 91) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -839,7 +853,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=116")
+    $summary.Add("implemented_patches=118")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

@@ -212,6 +212,22 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Manuelle Patch-Assembly 0.0.60: beide Patch-Szenarien bestehen
   - Original plus Runtime-Patch: beide Patch-Szenarien bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: Prefix wird angewendet und beide Szenarien bestehen
+- [x] `ultrawide-hud-safe-area`
+  - Ziele: `KeyboardHUD.RenderData.DrawIcon(...)` und
+    `TutorialManager.HintRenderData.Draw(float)`.
+  - Technik: Ein Prefix ergänzt den horizontalen Safe-Area-Einzug zum
+    vorhandenen Keyboard-HUD-Offset. Ein eng geprüfter Transpiler passt nach
+    dem vorhandenen Tutorial-Positionsswitch ausschließlich die lokale
+    X-Position für `CenterRight` und `BottomRight` an.
+  - Verhalten: Auf breiteren Bildschirmen wird eine auf Bildschirmhöhe
+    skalierte, zentrierte 16:9-Fläche verwendet. Bei 16:9 und schmaleren
+    Formaten ist der linke Einzug null und die rechte Berechnung identisch zur
+    bisherigen 95-Prozent-Verankerung. Welt-Rendering, Kamera und vertikale
+    UI-Positionen bleiben unverändert.
+  - Vier Rechenszenarien prüfen 5120×1440 und 1920×1080. Der Originalassembly
+    fehlt der Helfer; die manuelle Patch-Assembly und alle Runtime-Profile
+    liefern dieselben Werte. Beide Zielmethoden werden zusätzlich über ihren
+    vollständigen Signatur-, Feld- und Lokalspeichervertrag registriert.
 - [x] `magick-camera-follow-entity`
   - Ziel: `MagickCamera.Update(DataChannel, float)`
   - Technik: Prefix; setzt ausschließlich einen körperlosen `mFollowing`-Verweis
@@ -1077,7 +1093,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 53 Dateien vollständig, 58 Dateien teilweise und 109 Dateien noch
+Aktueller Stand: 54 Dateien vollständig, 60 Dateien teilweise und 106 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1117,7 +1133,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Shield.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/RailGunSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Polymorph.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
-- [ ] `Magicka/GameLogic/UI/KeyboardHUD.cs`
+- [ ] `Magicka/GameLogic/UI/KeyboardHUD.cs` — TEILWEISE: der Safe-Area-Einzug in `RenderData.DrawIcon` ist migriert; die Hybrid-Input-Darstellung und Label-Aktualisierung sind noch offen.
 - [ ] `Magicka/CommunityPatch/MouseInputCompatibility.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/GreaseLump.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/StaticList.cs`
@@ -1139,7 +1155,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Bosses/GenericBoss.cs`
 - [ ] `Magicka/Levels/Water.cs`
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsResolution.cs`
-- [ ] `Magicka/Graphics/TutorialManager.cs`
+- [ ] `Magicka/Graphics/TutorialManager.cs` — TEILWEISE: die Safe-Area-Position für rechts ausgerichtete Hinweise ist migriert; die PlayState-Lebensdaueränderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Thunderbolt.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Blizzard.cs` —
   VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, drei Zugriffe im
@@ -1198,7 +1214,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Grease.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonDeath.cs`
 - [ ] `Magicka/CommunityPatch/InGameUiCompatibility.cs`
-- [ ] `Magicka/CommunityPatch/WidescreenSafeArea.cs`
+- [x] `Magicka/CommunityPatch/WidescreenSafeArea.cs` — VOLLSTÄNDIG: beide Berechnungen liegen CLR-2-kompatibel im Runtime-Patcher und werden durch 4 Rechenszenarien abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/NonPlayerCharacter.cs`
 - [ ] `Magicka/Graphics/TypingText.cs`
 - [ ] `Magicka/Program.cs`
