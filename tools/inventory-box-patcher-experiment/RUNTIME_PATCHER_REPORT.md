@@ -1725,6 +1725,27 @@ Die maschinenlesbaren Einzelergebnisse stehen nach einem Build in
     In 1.4.16.0 und 1.5.1.0 existiert die Hotjoin-Warteschlange noch nicht;
     dieses Szenario ist dort ausdrücklich nicht anwendbar.
 
+- [x] `network-server-forced-player-status-sync`
+  - Ziele: der `RequestForcedPlayerStatusSync`-Zweig in
+    `NetworkServer.ReadMessage` und
+    `SendForcedSyncMessageToClient(int, bool)`.
+  - Technik: Der ReadMessage-Transpiler ersetzt nur die falsche
+    Entity-Handle-Auflösung durch eine Player-ID- und Senderprüfung. Ein Prefix
+    baut die Antwort aus allen Player-Slots mit NetworkGamer und Avatar auf und
+    überspringt danach den fehlerhaften Original-Builder.
+  - Fehlerfälle: Der Client sendet seine Player-ID, das Original interpretiert
+    sie jedoch als Entity-Handle. Beim Antwortaufbau zählt das Original alle
+    Netzwerkspieler, liest danach nur die ersten Slots und ersetzt schließlich
+    das gefüllte Update-Array durch ein leeres Array.
+  - Verhalten: Nur der zum Sender gehörende Player darf eine Antwort anfordern.
+    Lückenhafte Player-Slots werden vollständig besucht, jeder gültige Avatar
+    schreibt genau ein Update, und dessen Handle bleibt die Player-ID. Leere
+    Antworten werden wie bisher nicht gesendet.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 werfen bei einem unpassenden Sender
+    sowie bei Netzwerkspielern in den Slots 1 und 3. Die manuelle Patch-Assembly
+    0.0.60 und alle Runtime-Patch-Profile verwerfen den unpassenden Sender und
+    erzeugen die Handles `1,3`.
+
 ## Entfernte Versuchswege
 
 Der statische Patcher, die statische Verifikations-Assembly, C#-Diff-Strings und
@@ -1892,8 +1913,10 @@ Versionsnachweis.
   `QueueUDPMessage<T>`-Instanziierungen prüfen einen veralteten Clientindex
   atomar im vorhandenen Listen-Lock; `EnterSync` verwirft unbekannte Sender
   ebenfalls innerhalb des Locks. Cachebare Broadcasts laufen nach dem Einreihen
-  für einen synchronisierenden Spieler mit allen weiteren Clients fort. Weitere
-  Server-, Telemetrie- und Lebensdaueränderungen sind noch offen.
+  für einen synchronisierenden Spieler mit allen weiteren Clients fort. Forced
+  Player Status Sync prüft Player-ID und Sender und erstellt vollständige
+  Antworten aus lückenhaften Player-Slots. Weitere Server-, Telemetrie- und
+  Lebensdaueränderungen sind noch offen.
 - [ ] `Magicka/CommunityPatch/HybridInputSupport.cs`
 - [ ] `Magicka/CommunityPatch/OriginalBackupAudit.cs`
 - [ ] `Magicka/CommunityPatch/Magicka2ControllerSupport.cs`

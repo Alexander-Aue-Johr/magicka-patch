@@ -209,6 +209,9 @@ function Test-BehaviorMatrix {
         "missile_event.missing_collision_target",
         "missile_event.missing_collision_target_cleanup",
         "hotjoin_broadcast.two_syncing_players",
+        "forced_sync.invalid_sender",
+        "forced_sync.sparse_players",
+        "forced_sync.missing_avatar",
         "entity_state_storage.constructor_release",
         "entity_state_storage.current_restore",
         "helper_array_equals.left_null",
@@ -515,6 +518,9 @@ function Test-BehaviorProfile(
             "missile_event.uninitialized_state",
             "missile_event.missing_collision_target",
             "missile_event.missing_collision_target_cleanup",
+            "forced_sync.invalid_sender",
+            "forced_sync.sparse_players",
+            "forced_sync.missing_avatar",
             "network_pickup.bodyless_pickup",
             "network_pickup.bodyless_pickup_request",
             "summon_phoenix.vector_state",
@@ -923,6 +929,9 @@ function Test-BehaviorProfile(
         "missile_event.valid_targetless_event",
         "missile_event.missing_collision_target_cleanup",
         "hotjoin_broadcast.two_syncing_players",
+        "forced_sync.invalid_sender",
+        "forced_sync.sparse_players",
+        "forced_sync.missing_avatar",
         "homing_charge.execute_release",
         "stop_charge.execute_release",
         "homing_charge.current_query_manager",
@@ -1252,9 +1261,11 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=NetworkClient detached RulesetUpdate guard" -or
         $auditLines -notcontains "patch_end=MissileEntity invalid network event guard" -or
         $auditLines -notcontains "patch_end=NetworkServer hotjoin broadcast continuation: Magicka.Network.EntityRemoveMessage" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 40 -or
+        $auditLines -notcontains "patch_end=NetworkServer forced sync player and sender resolution" -or
+        $auditLines -notcontains "patch_end=NetworkServer forced sync response builder" -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 41 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 8 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 332) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 333) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1269,7 +1280,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=380")
+    $summary.Add("implemented_patches=382")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
