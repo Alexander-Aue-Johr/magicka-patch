@@ -70,6 +70,7 @@ internal sealed class NetworkServerForcedSyncHarness
     private readonly MethodInfo originalBuilder;
     private readonly object server;
     private readonly byte requestPacket;
+    private readonly List<object> retainedAvatars = new List<object>();
 
     internal NetworkServerForcedSyncHarness(
         Assembly magicka,
@@ -322,6 +323,7 @@ internal sealed class NetworkServerForcedSyncHarness
     {
         object avatar = FormatterServices.GetUninitializedObject(testAvatarType);
         avatarPlayerField.SetValue(avatar, player);
+        retainedAvatars.Add(avatar);
         return avatar;
     }
 
