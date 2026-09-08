@@ -880,6 +880,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=ItemPack custom license enable" -or
         $auditLines -notcontains "patch_end=MagickPack custom license assignment" -or
         $auditLines -notcontains "patch_end=MagickPack custom license enable" -or
+        $auditLines -notcontains "patch_end=Character-select custom pack display" -or
         $auditLines -notcontains "patch_end=DrinkBlood unused play-state release" -or
         $auditLines -notcontains "patch_end=RandomMine unused play-state release" -or
         $auditLines -notcontains "patch_end=Starfall unused play-state release" -or
@@ -1006,7 +1007,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Magicks menu language selection guard" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 24 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 5 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 151) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 152) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1021,7 +1022,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=180")
+    $summary.Add("implemented_patches=181")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

@@ -1,12 +1,17 @@
 using System;
 using System.Reflection;
 using System.Runtime.Serialization;
+using Harmony;
 
 internal static class PackLicenseScenarios
 {
-    internal static void Run(Assembly magicka, BehaviorReport report)
+    internal static void Run(
+        Assembly magicka,
+        bool runtimePatchEnabled,
+        BehaviorReport report)
     {
-        PackLicenseHarness harness = new PackLicenseHarness(magicka);
+        PackLicenseHarness harness =
+            new PackLicenseHarness(magicka, runtimePatchEnabled);
         report.Add("pack_license.custom_offline_license",
             harness.SetLicense("Custom", PackNetworkMode.Offline, true));
         report.Add("pack_license.custom_offline_enabled",
@@ -23,6 +28,18 @@ internal static class PackLicenseScenarios
             harness.SetLicense("Yes", PackNetworkMode.Offline, true));
         report.Add("pack_license.no_license",
             harness.SetLicense("No", PackNetworkMode.Offline, false));
+        report.Add("pack_license.draw_custom_offline",
+            harness.DrawAllows("Custom", PackNetworkMode.Offline, true));
+        report.Add("pack_license.draw_custom_insecure",
+            harness.DrawAllows("Custom", PackNetworkMode.Insecure, true));
+        report.Add("pack_license.draw_custom_secure",
+            harness.DrawAllows("Custom", PackNetworkMode.Secure, false));
+        report.Add("pack_license.draw_yes",
+            harness.DrawAllows("Yes", PackNetworkMode.Offline, true));
+        report.Add("pack_license.draw_no",
+            harness.DrawAllows("No", PackNetworkMode.Offline, false));
+        report.Add("pack_license.draw_callsites",
+            harness.DrawCallSites());
     }
 }
 
@@ -43,8 +60,11 @@ internal sealed class PackLicenseHarness
     private readonly Type packManagerType;
     private readonly FieldInfo networkManagerSingleton;
     private readonly FieldInfo packManagerSingleton;
+    private readonly MethodInfo manualAllowsLicense;
+    private readonly MethodInfo runtimeAllowsLicense;
+    private readonly bool drawCallSitesInstalled;
 
-    internal PackLicenseHarness(Assembly magicka)
+    internal PackLicenseHarness(Assembly magicka, bool runtimePatchEnabled)
     {
         itemPackType = magicka.GetType("Magicka.Levels.Packs.ItemPack", true);
         magickPackType = magicka.GetType("Magicka.Levels.Packs.MagickPack", true);
@@ -58,6 +78,62 @@ internal sealed class PackLicenseHarness
         packManagerSingleton = RuntimeReflection.RequireField(
             packManagerType,
             "sSingelton");
+        manualAllowsLicense = packManagerType.GetMethod(
+            "CommunityPatchAllowsPackLicense",
+            BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic,
+            null,
+            new Type[] { licenseType },
+            null);
+        if (runtimePatchEnabled)
+        {
+            runtimeAllowsLicense =
+                typeof(Magicka.CommunityPatch.Runtime.Bootstrap).Assembly
+                    .GetType(
+                        "Magicka.CommunityPatch.Runtime.PackLicensePatch",
+                        true)
+                    .GetMethod(
+                        "AllowsLicense",
+                        BindingFlags.Static | BindingFlags.Public,
+                        null,
+                        new Type[] { typeof(int) },
+                        null);
+        }
+        MethodInfo drawPacksList = magicka.GetType(
+                "Magicka.GameLogic.GameStates.Menu.Main.SubMenuCharacterSelect",
+                true)
+            .GetMethod(
+                "DrawPacksList",
+                BindingFlags.Instance | BindingFlags.NonPublic |
+                    BindingFlags.DeclaredOnly,
+                null,
+                new Type[] { typeof(float) },
+                null);
+        if (drawPacksList == null)
+            throw new MissingMethodException(
+                "Magicka.GameLogic.GameStates.Menu.Main.SubMenuCharacterSelect",
+                "DrawPacksList");
+        if (manualAllowsLicense != null)
+        {
+            drawCallSitesInstalled = true;
+        }
+        else if (runtimePatchEnabled)
+        {
+            Patches patches = HarmonyInstance.Create(
+                    "org.magickacommunitypatch.behavior-probe-pack-display")
+                .GetPatchInfo(drawPacksList);
+            if (patches != null)
+            {
+                foreach (Patch patch in patches.Transpilers)
+                {
+                    if (patch.owner ==
+                        "org.magickacommunitypatch.character-select-pack-display")
+                    {
+                        drawCallSitesInstalled = true;
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     internal ScenarioResult SetLicense(
@@ -83,6 +159,44 @@ internal sealed class PackLicenseHarness
         bool item = SetEnabled(itemPackType, license);
         bool magick = SetEnabled(magickPackType, license);
         return Result(item, magick, expected);
+    }
+
+    internal ScenarioResult DrawAllows(
+        string licenseName,
+        PackNetworkMode mode,
+        bool expected)
+    {
+        ConfigureNetwork(mode);
+        object license = Enum.Parse(licenseType, licenseName);
+        bool actual;
+        if (manualAllowsLicense != null)
+        {
+            actual = (bool)manualAllowsLicense.Invoke(
+                null,
+                new object[] { license });
+        }
+        else if (runtimeAllowsLicense != null)
+        {
+            actual = (bool)runtimeAllowsLicense.Invoke(
+                null,
+                new object[] { Convert.ToInt32(license) });
+        }
+        else
+        {
+            actual = licenseName == "Yes";
+        }
+        return new ScenarioResult(
+            actual == expected,
+            "allowed:" + actual,
+            "allowed:" + expected);
+    }
+
+    internal ScenarioResult DrawCallSites()
+    {
+        return new ScenarioResult(
+            drawCallSitesInstalled,
+            "installed:" + drawCallSitesInstalled,
+            "installed:True");
     }
 
     private void ConfigureNetwork(PackNetworkMode mode)

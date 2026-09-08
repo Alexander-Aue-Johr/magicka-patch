@@ -580,8 +580,21 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original plus Runtime-Patch: alle acht Szenarien bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: alle vier Patches werden angewendet und alle
     acht Szenarien bestehen
-  - Die vier gleichartigen Anzeigeprüfungen in `SubMenuCharacterSelect` sind
-    noch nicht Teil dieses Blocks.
+- [x] `character-select-pack-display`
+  - Ziel: `SubMenuCharacterSelect.DrawPacksList(float)`
+  - Technik: ein Transpiler ersetzt nur die vier vorhandenen Vergleiche von
+    `ItemPack.License` und `MagickPack.License` mit `HackHelper.License.Yes`
+    durch das bereits verifizierte Runtime-Prädikat
+  - Verhalten: Vorschaubilder und Nicht-verwendet-Markierungen folgen nun
+    derselben Custom-Content-Regel wie die Pack-Setter; Store-, Eingabe-,
+    Aktivierungs- und DLC-Eigentumslogik bleiben unverändert
+  - Fehlerfälle: `Custom` offline und in einer nicht VAC-geschützten Sitzung
+    sowie eine fehlende Registrierung an der Render-Methode
+  - Kontrollfälle: `Custom` mit VAC sowie `Yes` und `No`
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0: die beiden erlaubten
+    Custom-Anzeigefälle und der Registrierungsfall schlagen vor dem Patch fehl
+  - Manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile: alle sechs
+    zusätzlichen Anzeigeszenarien bestehen
 - [x] `drink-blood-play-state-lifetime`
   - Ziel: `DrinkBlood.Execute(ISpellCaster, PlayState)`
   - Technik: Transpiler; ersetzt ausschließlich `mPlayState = iPlayState`
@@ -1398,7 +1411,7 @@ Versionsnachweis.
 - [ ] `Magicka/CommunityPatch/PatchTelemetry.cs`
 - [ ] `Magicka/GameLogic/Entities/Character.cs`
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/ProjectileSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
-- [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCharacterSelect.cs`
+- [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCharacterSelect.cs` — TEILWEISE: die vier Pack-Anzeigeprüfungen verwenden die gemeinsame Custom-Content-Lizenzregel; die weiteren manuellen Änderungen der Klasse sind noch offen.
 - [ ] `Magicka/Network/NetworkClient.cs`
 - [ ] `Magicka/Network/NetworkServer.cs`
 - [ ] `Magicka/CommunityPatch/HybridInputSupport.cs`
@@ -1570,7 +1583,7 @@ Versionsnachweis.
   oder fehlendes Levelmodell in `Highlight`, Prefix und 3
   Drei-Wege-Szenarien; die Wiederverwendung des Schleifenindex im manuellen
   Dekompilat ist semantikfreies Compilerrauschen.
-- [ ] `Magicka/Levels/Packs/PackMan.cs` — TEILWEISE: Lizenzprädikat für Pack-Setter migriert; die vier Aufrufe in `SubMenuCharacterSelect` sind noch offen.
+- [x] `Magicka/Levels/Packs/PackMan.cs` — VOLLSTÄNDIG: das gemeinsame Lizenzprädikat ist für beide Pack-Setter und alle vier Anzeigeaufrufe migriert.
 - [ ] `Magicka/GameLogic/Controls/ControlManager.cs` — TEILWEISE: die drei `Controller`-Überladungen der Player-Input-Sperre sind mit 3 Prefixen und 3 Drei-Wege-Szenarien migriert; `HybridInputSupport.Update` in `HandleInput` ist noch offen.
 - [x] `Magicka/GameLogic/Player.cs` — VOLLSTÄNDIG: Avatar-Setter sowie die
   unabhängige Freigabe von TextBox und Notifier in `DeinitializeGame`, 3

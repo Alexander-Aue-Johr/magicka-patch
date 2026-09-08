@@ -56,6 +56,47 @@ namespace Magicka.CommunityPatch.Runtime
                     "Enabled"),
                 typeof(PackLicensePatch).GetMethod("EnabledSetterTranspiler"));
 
+        internal static readonly RuntimePatchDefinition CharacterSelectDrawDefinition =
+            RuntimePatchDefinition.Transpile(
+                "Character-select custom pack display",
+                "org.magickacommunitypatch.character-select-pack-display",
+                FindCharacterSelectDraw,
+                typeof(PackLicensePatch).GetMethod("DrawPacksListTranspiler"));
+
+        private static MethodInfo itemLicenseGetter;
+        private static MethodInfo magickLicenseGetter;
+
+        private static MethodInfo FindCharacterSelectDraw(Assembly targetAssembly)
+        {
+            Configure(targetAssembly);
+            Type itemPack = targetAssembly.GetType(
+                "Magicka.Levels.Packs.ItemPack",
+                true);
+            Type magickPack = targetAssembly.GetType(
+                "Magicka.Levels.Packs.MagickPack",
+                true);
+            itemLicenseGetter = itemPack.GetProperty("License").GetGetMethod();
+            magickLicenseGetter = magickPack.GetProperty("License").GetGetMethod();
+            if (itemLicenseGetter == null || magickLicenseGetter == null)
+                throw new MissingMethodException("Pack License getters are incomplete.");
+
+            Type characterSelect = targetAssembly.GetType(
+                "Magicka.GameLogic.GameStates.Menu.Main.SubMenuCharacterSelect",
+                true);
+            MethodInfo draw = characterSelect.GetMethod(
+                "DrawPacksList",
+                BindingFlags.Instance | BindingFlags.NonPublic |
+                    BindingFlags.DeclaredOnly,
+                null,
+                new Type[] { typeof(float) },
+                null);
+            if (draw == null || draw.ReturnType != typeof(void))
+                throw new MissingMethodException(
+                    characterSelect.FullName,
+                    "DrawPacksList");
+            return draw;
+        }
+
         internal static void Configure(Assembly targetAssembly)
         {
             Type itemPack = targetAssembly.GetType("Magicka.Levels.Packs.ItemPack", true);
@@ -158,6 +199,38 @@ namespace Magicka.CommunityPatch.Runtime
             result[replacement].operand = typeof(PackLicensePatch).GetMethod("AllowsLicense");
             result[replacement + 1].opcode = OpCodes.Nop;
             result[replacement + 1].operand = null;
+            return result;
+        }
+
+        public static IEnumerable<CodeInstruction> DrawPacksListTranspiler(
+            IEnumerable<CodeInstruction> instructions)
+        {
+            List<CodeInstruction> result = new List<CodeInstruction>(instructions);
+            int replacements = 0;
+            for (int index = 0; index < result.Count - 2; index++)
+            {
+                MethodInfo called = result[index].operand as MethodInfo;
+                if (result[index].opcode != OpCodes.Callvirt ||
+                    (!Object.Equals(called, itemLicenseGetter) &&
+                        !Object.Equals(called, magickLicenseGetter)) ||
+                    !IsLoadInt(result[index + 1], yesLicense) ||
+                    (result[index + 2].opcode != OpCodes.Bne_Un &&
+                        result[index + 2].opcode != OpCodes.Bne_Un_S))
+                    continue;
+
+                result[index + 1].opcode = OpCodes.Call;
+                result[index + 1].operand =
+                    typeof(PackLicensePatch).GetMethod("AllowsLicense");
+                result[index + 2].opcode =
+                    result[index + 2].opcode == OpCodes.Bne_Un_S
+                        ? OpCodes.Brfalse_S
+                        : OpCodes.Brfalse;
+                replacements++;
+            }
+            if (replacements != 4)
+                throw new InvalidOperationException(
+                    "Expected four character-select pack license checks, found " +
+                    replacements + ".");
             return result;
         }
 

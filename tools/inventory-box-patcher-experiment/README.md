@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-one hundred eighty method patches:
+one hundred eighty-one method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -78,7 +78,8 @@ one hundred eighty method patches:
 - `VersusRuleset.RevivePlayer` returns handle zero when the requested avatar
   cannot be obtained from the cache.
 - `ItemPack` and `MagickPack` apply the Community Patch custom-content license
-  policy in both their license and enabled setters.
+  policy in both their license and enabled setters. The character-select pack
+  list uses the same policy for thumbnails and unused-pack markers.
 - `DrinkBlood.Execute` no longer stores an unused strong reference to the play
   state that created the effect.
 - `RandomMine.Execute` no longer stores the last play state on its process-wide

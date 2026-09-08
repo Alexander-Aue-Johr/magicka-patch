@@ -41,7 +41,7 @@ internal static class BehaviorSuite
         PlayStateScenarios.Run(magicka, report);
         PortalTeleportQueueScenarios.Run(magicka, report);
         VersusRulesetScenarios.Run(magicka, report);
-        PackLicenseScenarios.Run(magicka, report);
+        PackLicenseScenarios.Run(magicka, runtimePatchEnabled, report);
         FlashScenarios.Run(magicka, report);
         SummonPlayStateScenarios.Run(magicka, report);
         UndeadSummonNetworkScenarios.Run(
