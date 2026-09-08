@@ -539,8 +539,9 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     ausgeführt; lebender Kahn, fremde ID und Trigger null bleiben unverändert
   - Magicka 1.4.16.0 und 1.5.1.0 besitzen dieselbe geprüfte Order-Struktur;
     Runtime-Patch und alle vier Szenarien bestehen dort ebenfalls
-  - Die bestehende Recovery-Telemetrie folgt mit dem gemeinsamen
-    Telemetrieblock; die separate statische Cache-Freigabe bleibt offen
+  - Die statische Action-Liste und ihre PlayState-Referenz werden durch den
+    gemeinsamen Level-Pool-Cleanup freigegeben. Nur die bestehende
+    Recovery-Telemetrie folgt noch mit dem gemeinsamen Telemetrieblock.
 - [x] `play-state-world-sync-spawn-npc-guard`
   - Ziel: `PlayState.AddWorldSyncMessage(WorldSyncMessage)`
   - Technik: boolescher Prefix
