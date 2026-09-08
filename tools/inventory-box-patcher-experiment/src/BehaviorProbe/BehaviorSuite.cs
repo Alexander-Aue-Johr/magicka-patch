@@ -20,6 +20,7 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        TutorialManagerPlayStateScenarios.Run(magicka, report);
         MagickCameraScenarios.Run(magicka, report);
         BossHealthBarScenarios.Run(magicka, report);
         LoadingScreenScenarios.Run(magicka, report);

@@ -228,6 +228,21 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     fehlt der Helfer; die manuelle Patch-Assembly und alle Runtime-Profile
     liefern dieselben Werte. Beide Zielmethoden werden zusätzlich über ihren
     vollständigen Signatur-, Feld- und Lokalspeichervertrag registriert.
+- [x] `tutorial-manager-play-state-lifetime`
+  - Ziele: `TutorialManager.Initialize(PlayState)`, `UpdateResolution()` und
+    `Update(DataChannel, float)`.
+  - Technik: Drei eng geprüfte Transpiler entfernen genau eine gespeicherte
+    PlayState-Zuweisung und ersetzen 2 beziehungsweise 11 Feldzugriffe durch
+    `PlayState.RecentPlayState`. Der binäre Feldvertrag der Originalassembly
+    bleibt erhalten, aber die gepatchten Methoden schreiben oder lesen das Feld
+    nicht mehr.
+  - Verhalten: Der Prozess-Singleton hält einen beendeten PlayState nicht mehr
+    bis zum nächsten Levelstart fest. Tutorial-Timing, Statusänderungen und
+    frühe Rückkehrpfade bleiben erhalten und arbeiten mit dem aktuellsten
+    PlayState.
+  - Zwei Drei-Wege-Szenarien prüfen die Freigabe unmittelbar nach dem früheren
+    Zuweisungspunkt sowie einen Update-Pfad mit fehlender Alt- und gültiger
+    aktueller Referenz.
 - [x] `magick-camera-follow-entity`
   - Ziel: `MagickCamera.Update(DataChannel, float)`
   - Technik: Prefix; setzt ausschließlich einen körperlosen `mFollowing`-Verweis
@@ -1093,7 +1108,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 54 Dateien vollständig, 60 Dateien teilweise und 106 Dateien noch
+Aktueller Stand: 55 Dateien vollständig, 59 Dateien teilweise und 106 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1155,7 +1170,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Bosses/GenericBoss.cs`
 - [ ] `Magicka/Levels/Water.cs`
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsResolution.cs`
-- [ ] `Magicka/Graphics/TutorialManager.cs` — TEILWEISE: die Safe-Area-Position für rechts ausgerichtete Hinweise ist migriert; die PlayState-Lebensdaueränderungen sind noch offen.
+- [x] `Magicka/Graphics/TutorialManager.cs` — VOLLSTÄNDIG: Safe-Area-Position sowie vollständige PlayState-Lebensdaueränderung in `Initialize`, `UpdateResolution` und `Update`; die verschobene statische Initialisierung ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Thunderbolt.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Blizzard.cs` —
   VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, drei Zugriffe im

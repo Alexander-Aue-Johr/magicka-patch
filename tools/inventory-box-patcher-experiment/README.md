@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-one hundred eighteen method patches:
+one hundred twenty-one method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -26,6 +26,8 @@ one hundred eighteen method patches:
   original method runs.
 - The classic keyboard HUD and right-aligned tutorial prompts stay within a
   centred 16:9 safe area on ultrawide displays while 16:9 layout is unchanged.
+- `TutorialManager` no longer retains the last disposed play state and resolves
+  its active level state only when updating tutorial content.
 - `MagickCamera.Update` releases a followed entity whose physics body has
   detached.
 - `BossHealthBar` no longer retains the scene supplied to its constructor or

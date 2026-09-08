@@ -51,6 +51,15 @@ namespace Magicka.CommunityPatch.Runtime
                 WidescreenSafeAreaPatch.TutorialDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                TutorialManagerPlayStatePatch.InitializeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                TutorialManagerPlayStatePatch.ResolutionDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                TutorialManagerPlayStatePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 MagickCameraFollowEntityPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
