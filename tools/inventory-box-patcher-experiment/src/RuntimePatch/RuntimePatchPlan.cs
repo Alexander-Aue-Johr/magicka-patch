@@ -123,6 +123,15 @@ namespace Magicka.CommunityPatch.Runtime
                 SpellWheelPlayStatePatch.UpdateDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                EarthQuakePlayStatePatch.ExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                EarthQuakePlayStatePatch.NewQuakeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                EarthQuakePlayStatePatch.QuakeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 MagickCameraFollowEntityPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
