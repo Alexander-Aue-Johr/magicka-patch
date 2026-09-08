@@ -542,6 +542,27 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Die statische Action-Liste und ihre PlayState-Referenz werden durch den
     gemeinsamen Level-Pool-Cleanup freigegeben. Nur die bestehende
     Recovery-Telemetrie folgt noch mit dem gemeinsamen Telemetrieblock.
+- [x] `challenge-score-once-per-enemy-life`
+  - Ziele: `StatisticsManager.InternalDamageEvent`,
+    `StatisticsManager.AddKillEvent` und `NonPlayerCharacter.Initialize`
+  - Technik: Zwei Transpiler ersetzen jeweils genau den vorhandenen
+    `SurvivalRuleset.AddScore`-Aufruf durch einen gemeinsamen Guard. Ein
+    Postfix setzt den Guard beim Wiederverwenden eines Pool-Gegners zurück.
+  - Fehlerfall: Tödlicher direkter Schaden vergibt den Challenge-Score im
+    Damage-Pfad und anschließend für denselben Gegner erneut im Kill-Pfad.
+  - Verhalten: Derselbe Gegner wird pro Lebenszyklus genau einmal gewertet.
+    Nach `Initialize` kann dieselbe Pool-Instanz in ihrem neuen Lebenszyklus
+    wieder genau einmal Punkte vergeben; verschiedene Gegner bleiben
+    voneinander unabhängig.
+  - Runtime-Zustand: Schwache Referenzen bilden das manuelle boolesche
+    Instanzfeld ab, ohne getötete Gegner oder ihren Levelzustand stark am Leben
+    zu halten. Der eigentliche `AddScore`-Aufruf erfolgt über einen einmalig
+    erzeugten CLR-2-kompatiblen Adapter und behält damit seinen direkten
+    Exception-Pfad ohne Reflection-Wrapper.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 zählen den kombinierten Fehlerfall
+    zweimal und die Pool-Wiederverwendung dreimal. Manuelle Patch-Assembly
+    0.0.60 und alle Runtime-Patch-Profile liefern 1 beziehungsweise 2; zwei
+    verschiedene Gegner liefern überall 2.
 - [x] `play-state-world-sync-spawn-npc-guard`
   - Ziel: `PlayState.AddWorldSyncMessage(WorldSyncMessage)`
   - Technik: boolescher Prefix
@@ -1482,7 +1503,9 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonDeath.cs`
 - [ ] `Magicka/CommunityPatch/InGameUiCompatibility.cs`
 - [x] `Magicka/CommunityPatch/WidescreenSafeArea.cs` — VOLLSTÄNDIG: beide Berechnungen liegen CLR-2-kompatibel im Runtime-Patcher und werden durch 4 Rechenszenarien abgedeckt.
-- [ ] `Magicka/GameLogic/Entities/NonPlayerCharacter.cs`
+- [ ] `Magicka/GameLogic/Entities/NonPlayerCharacter.cs` — TEILWEISE: der
+  Challenge-Score-Zustand wird pro Pool-Lebenszyklus zurückgesetzt; die
+  umfangreicheren Dispose-, AI- und Retention-Diagnoseänderungen bleiben offen.
 - [ ] `Magicka/Graphics/TypingText.cs`
 - [ ] `Magicka/Program.cs`
 - [ ] `Magicka/GameLogic/Entities/AnimatedPhysicsEntity.cs`
@@ -1518,7 +1541,9 @@ Versionsnachweis.
 - [ ] `Magicka/Graphics/NotifierButton.cs` — TEILWEISE: die Freigabe von
   Besitzer, angehängter TextBox und Alpha-Zustand ist durch einen Prefix und 3
   Drei-Wege-Szenarien migriert; die Ultrawide-Zeichenänderung bleibt offen.
-- [ ] `Magicka/GameLogic/Statistics/StatisticsManager.cs`
+- [x] `Magicka/GameLogic/Statistics/StatisticsManager.cs` — VOLLSTÄNDIG: beide
+  Challenge-Score-Pfade verwenden denselben Einmal-pro-Gegner-Guard, zwei
+  Transpiler und 3 Drei-Wege-Szenarien.
 - [ ] `Magicka/Graphics/TextBox.cs` — TEILWEISE: die Freigabe ihrer
   levelgebundenen Besitzer- und Szenenreferenzen ist durch einen Prefix und 3
   Drei-Wege-Szenarien migriert; die Ultrawide-Zeichenänderung bleibt offen.

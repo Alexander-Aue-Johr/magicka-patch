@@ -249,6 +249,15 @@ namespace Magicka.CommunityPatch.Runtime
                 GiveOrderKhanFallbackPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                ChallengeScorePatch.DamageDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ChallengeScorePatch.KillDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ChallengeScorePatch.InitializeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 InteractableHighlightPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

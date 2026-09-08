@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-one hundred eighty-four method patches:
+one hundred eighty-seven method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -73,6 +73,9 @@ one hundred eighty-four method patches:
   beginning its emergence sequence.
 - `GiveOrder.Exec` invokes Kahn's existing defeat trigger when the battlefield
   kill plane terminates him before his scripted animation event can run.
+- Challenge scoring credits each non-player character once per pooled life,
+  whether lethal damage reaches the direct-damage path, the kill-event path,
+  or both.
 - `PlayState.AddWorldSyncMessage` rejects unusable SpawnNPC handles before the
   original enqueue method runs.
 - `Portal.PortalEntity.Update` skips queued entities that are null or whose
@@ -172,11 +175,13 @@ one hundred eighty-four method patches:
 
 The Avatar, AI, Blizzard, BossHealthBar, Helper, InventoryBox, KeyboardHUD, MagickCamera, MeteorShower, Player, PlayState, and Rain
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
-postfix, while HUDManager and one EntityManager change use ordinary postfixes.
+postfix, while HUDManager, NonPlayerCharacter, and one EntityManager change use
+ordinary postfixes.
 The Agent, AnimatedLevelPart, AudioManager, Blizzard, BreakBarriers, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, EtherealClone, GenericHealthBar, GreaseTrail, LightningSpell, MeteorShower, Rain, SpellEffect, TeslaField,
 EntityStateStorage, Flash, GiveOrder, Machine, Jormungandr, pack, PoisonSpray, Portal,
 RandomMine, SpawnSlime, SummonCross, SummonFlamer, SummonSpirit, SummonUndead,
-Starfall, Thunderstorm, TutorialManager, VersusRuleset, JudgementSpray, DialogLayout, ShadowBlobs, and
+Starfall, StatisticsManager, Thunderstorm, TutorialManager, VersusRuleset,
+JudgementSpray, DialogLayout, ShadowBlobs, and
 remaining EntityManager changes use narrowly checked transpilers for small
 branches inside their original methods. ControlManager, Interactable, and
 SubMenuMain use conditional prefixes.
@@ -232,7 +237,8 @@ AIStateMove, BossHealthBar, CompanyState, ControlManager, DrainLife, DrinkBlood,
 EntityManager, Flash, Interactable,
 EntityStateStorage, GiveOrder, Helper, InventoryBox, ItemPack, Jormungandr, MagickCamera,
 MagickPack, Machine, PoisonSpray, Portal, RandomMine, SpawnSlime, SummonCross,
-SummonFlamer, SummonSpirit, SummonUndead, Starfall, and VersusRuleset targets and
+SummonFlamer, SummonSpirit, SummonUndead, Starfall, StatisticsManager,
+NonPlayerCharacter, and VersusRuleset targets and
 accept their runtime patches. All
 headless-applicable scenarios pass. They contain
 neither the later `HUDManager`

@@ -267,6 +267,8 @@ function Test-BehaviorMatrix {
         "machine.missing_warlock",
         "jormungandr.missing_target",
         "give_order_khan.terminated",
+        "challenge_score.duplicate_paths",
+        "challenge_score.pooled_reuse",
         "play_state.missing_spawn",
         "play_state.non_npc_spawn",
         "play_state.foreign_state_spawn",
@@ -418,6 +420,8 @@ function Test-BehaviorProfile(
             "direct_input.options_load_failure",
             "direct_input.discovery_load_failure",
             "give_order_khan.terminated",
+            "challenge_score.duplicate_paths",
+            "challenge_score.pooled_reuse",
             "menu_image_text.literal_font_change",
             "menu_image_text.localized_font_change",
             "language_manager.simplified_chinese_name",
@@ -672,6 +676,9 @@ function Test-BehaviorProfile(
         "give_order_khan.live",
         "give_order_khan.other_order",
         "give_order_khan.zero_trigger",
+        "challenge_score.duplicate_paths",
+        "challenge_score.pooled_reuse",
+        "challenge_score.distinct_enemies",
         "play_state.ordinary_message",
         "play_state.other_action",
         "play_state.missing_spawn",
@@ -1013,9 +1020,12 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=InGameMenu deferred current-state patch installation" -or
         $auditLines -notcontains "patch_end=In-game menu stack cleanup" -or
         $auditLines -notcontains "patch_end=Magicks menu language selection guard" -or
+        $auditLines -notcontains "patch_end=Challenge score direct-damage guard" -or
+        $auditLines -notcontains "patch_end=Challenge score kill-event guard" -or
+        $auditLines -notcontains "patch_end=Challenge score pooled-enemy reset" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 24 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 5 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 155) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 6 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 157) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1030,7 +1040,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=184")
+    $summary.Add("implemented_patches=187")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
