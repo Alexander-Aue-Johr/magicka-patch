@@ -796,6 +796,23 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 besitzen keine solche
     Klassifizierung. Die manuelle Patch-Assembly 0.0.60 und alle
     Runtime-Patch-Profile bestehen beide Fehler- und beide Kontrollszenarien.
+- [x] `missing-level-hash-file`
+  - Ziel: alle `LevelNode.ComputeHashSums(SHA256)`-Aufrufe in
+    `LevelManager.ComputeHashes()`.
+  - Technik: Ein Transpiler ersetzt nur diese Aufrufe durch einen dynamischen
+    Wrapper. Der Wrapper fängt `FileNotFoundException`, zeigt den betroffenen
+    `FileName` und beendet den Prozess mit Code 1. Andere Exceptions verlassen
+    den Wrapper unverändert.
+  - Fehlerfall: Eine fehlende referenzierte Leveldatei beendet den
+    `Level Hasher`-Thread über den allgemeinen Crashpfad und erzeugt damit
+    Telemetrie für eine unvollständige oder modifizierte Installation.
+  - Verhalten: Der Dateifehler erhält eine konkrete lokale Meldung und kann
+    keinen partiellen Hashzustand als verwendbar zurücklassen. Der Helper
+    enthält keinen Telemetrieaufruf; die bestehende Hash- und Lizenzlogik wird
+    nicht kopiert oder umgeordnet.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 besitzen den Handler nicht. Die
+    manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile bestehen den
+    Missing-File-Fall und den Kontrollfall mit einer anderen `IOException`.
 - [x] `radial-blur-level-lifetime`
   - Ziele: `RadialBlur.InitializeCache(ContentManager, int)`, die vollständige
     `Initialize`-Überladung, `Update(DataChannel, float)` und `DisposeCache()`
@@ -1886,7 +1903,9 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/UI/Credits.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Wave.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/AI/Agent.cs` — TEILWEISE: Body-Guard in `ChooseTarget`, Transpiler und 2 Drei-Wege-Szenarien; Initialisierungs-, Cleanup- und Dispose-Änderungen sind noch offen.
-- [ ] `Magicka/Levels/Campaign/LevelManager.cs`
+- [x] `Magicka/Levels/Campaign/LevelManager.cs` — VOLLSTÄNDIG: fehlende
+  referenzierte Leveldateien werden ohne Crashtelemetrie mit Pfad gemeldet und
+  beenden den unvollständigen Hashlauf mit Exit-Code 1.
 - [ ] `Magicka/StaticWeakList.cs` — TEILWEISE: beide im Spiel verwendeten
   Add-Pfade wachsen volle WeakReference-Arrays unter einem stabilen
   CLR-2-kompatiblen Instanz-Lock; direkte generische Insert-/Expand-Aufrufe und

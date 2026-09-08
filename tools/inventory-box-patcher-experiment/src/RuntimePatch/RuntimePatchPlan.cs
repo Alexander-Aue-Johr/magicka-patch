@@ -290,6 +290,9 @@ namespace Magicka.CommunityPatch.Runtime
                 GraphicsStartupErrorPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                MissingLevelFilePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 RadialBlurLifetimePatch.InitializeCacheDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
