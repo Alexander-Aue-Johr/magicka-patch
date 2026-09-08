@@ -24,6 +24,7 @@ internal static class Program
         GenericHealthBarScenarios.Prepare(targetAssembly);
         GreaseTrailScenarios.Prepare(targetAssembly);
         SpellEffectPlayStateScenarios.Prepare(targetAssembly);
+        EffectManagerScenarios.Prepare(targetAssembly);
 
         if (applyRuntimePatch)
             Bootstrap.Apply(targetAssembly);

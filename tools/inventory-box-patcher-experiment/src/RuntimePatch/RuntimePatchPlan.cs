@@ -93,6 +93,9 @@ namespace Magicka.CommunityPatch.Runtime
                 SpellEffectPlayStatePatch.CastDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                EffectManagerDuplicatePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 MagickCameraFollowEntityPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

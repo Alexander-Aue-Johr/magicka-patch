@@ -220,6 +220,7 @@ function Test-BehaviorMatrix {
         "lightning_spell.cached_current_play_state",
         "lightning_spell.empty_cache_current_play_state",
         "lightning_spell.cast_current_play_state",
+        "effect_manager.duplicate_name",
         "camera_follow.bodyless_target",
         "boss_health_bar.constructor_release",
         "boss_health_bar.current_scene",
@@ -437,6 +438,7 @@ function Test-BehaviorProfile(
             "lightning_spell.cached_current_play_state",
             "lightning_spell.empty_cache_current_play_state",
             "lightning_spell.cast_current_play_state",
+            "effect_manager.duplicate_name",
             "rain.vector_current_play_state",
             "rain.owner_current_play_state",
             "rain.update_current_play_state",
@@ -534,6 +536,17 @@ function Test-BehaviorProfile(
         "ethereal_clone.current_nav_mesh",
         "break_barriers.play_state_release",
         "break_barriers.current_entity_manager",
+        "tesla_field.initialized_pool_release",
+        "tesla_field.empty_pool_allocation_release",
+        "generic_health_bar.current_scene",
+        "grease_trail.play_state_release",
+        "grease_trail.current_play_state",
+        "spell_effect.initialize_release",
+        "lightning_spell.cached_current_play_state",
+        "lightning_spell.empty_cache_current_play_state",
+        "lightning_spell.cast_current_play_state",
+        "effect_manager.duplicate_name",
+        "effect_manager.unique_names",
         "camera_follow.bodyless_target",
         "camera_follow.missing_target",
         "camera_follow.other_behavior",
@@ -886,9 +899,10 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=SpellEffect play-state release" -or
         $auditLines -notcontains "patch_end=LightningSpell current cache play state" -or
         $auditLines -notcontains "patch_end=LightningSpell current cast play state" -or
+        $auditLines -notcontains "patch_end=EffectManager duplicate asset guard" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 23 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 105) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 106) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -903,7 +917,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=132")
+    $summary.Add("implemented_patches=133")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

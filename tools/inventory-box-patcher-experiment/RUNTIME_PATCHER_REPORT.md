@@ -313,6 +313,23 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Vier Drei-Wege-Szenarien prüfen alle sechs ursprünglichen Cacheinitialisierer,
     beide Cachepfade und den tatsächlich an `LightningBolt.Cast` übergebenen
     Zustand.
+- [x] `effect-manager-duplicate-asset`
+  - Ziel: `EffectManager.ReadDirectory(DirectoryInfo)`
+  - Technik: ein eng geprüfter Transpiler ergänzt vor dem vorhandenen
+    `VisualEffect.FromFile`-Aufruf die Abfrage des bereits berechneten Hashes.
+    Bei einem Treffer springt er über Parser und `Dictionary.Add`, schreibt den
+    übersprungenen Effektnamen und setzt danach die unveränderte Verzeichnissuche
+    fort.
+  - Fehlerfall: Zwei XML-Dateien mit demselben kleingeschriebenen Basisnamen
+    werden auf denselben Schlüssel abgebildet. Das Original parst beide und
+    bricht beim zweiten `Dictionary.Add` mit `ArgumentException` ab.
+  - Kontrollverhalten: unterschiedliche Namen werden weiterhin jeweils einmal
+    geparst und eingetragen; Traversierung, Hashfunktion und erste Definition
+    bleiben unverändert.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 laden im Duplikatfall zweimal und
+    werfen. Die manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile
+    laden einmal, behalten einen Eintrag und schließen die Initialisierung ab.
+    Der Kontrollfall besteht in allen Profilen.
 - [x] `magick-camera-follow-entity`
   - Ziel: `MagickCamera.Update(DataChannel, float)`
   - Technik: Prefix; setzt ausschließlich einen körperlosen `mFollowing`-Verweis
@@ -1178,7 +1195,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 61 Dateien vollständig, 56 Dateien teilweise und 103 Dateien noch
+Aktueller Stand: 62 Dateien vollständig, 56 Dateien teilweise und 102 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1446,7 +1463,10 @@ Versionsnachweis.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonSpirit.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, vier veraltete Spawn-Zugriffe und statischer Template-Cache, 4 Transpiler und gemeinsame Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonFlamer.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, vier veraltete Spawn-Zugriffe und statischer Template-Cache, 4 Transpiler und gemeinsame Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/HomingCharge.cs` — TEILWEISE: gespeicherter PlayState, veralteter EntityManager-Zugriff und statischer Levelcache sind mit 3 Transpilern und gemeinsamen Drei-Wege-Szenarien migriert; die GC-Diagnosemarkierungen folgen im Diagnostics-Block.
-- [ ] `Magicka/Graphics/EffectManager.cs`
+- [x] `Magicka/Graphics/EffectManager.cs` — VOLLSTÄNDIG: Doppelte
+  Effektdateinamen behalten die zuerst geladene Definition und werden vor dem
+  XML-Parsing übersprungen; ein Transpiler und zwei Drei-Wege-Szenarien. Die
+  verschobene statische Lock-Initialisierung ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Shrink.cs` — TEILWEISE: freier und aktiver Pool werden im initialisierten Level-Dispose geleert, ein Transpiler und 2 Drei-Wege-Szenarien; die GC-Diagnosemarkierungen folgen im Diagnostics-Block.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonUndead.cs` — TEILWEISE: beide gespeicherten PlayState-Zuweisungen, vier veraltete Spawn-Zugriffe, statischer Template-Cache und die Netzwerk-Replikation des Undead-Flags sind mit 5 Transpilern und 9 Drei-Wege-Szenarien migriert; die zugehörige Telemetrie folgt mit dem gemeinsamen Diagnostics-Block.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonCross.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, drei veraltete Spawn-Zugriffe sowie Pool- und Template-Freigabe, 3 Transpiler und 4 Drei-Wege-Szenarien; die statische Hash-Initialisierung ist semantikfreies Compilerrauschen.
