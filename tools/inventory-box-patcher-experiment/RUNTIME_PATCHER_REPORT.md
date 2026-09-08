@@ -773,6 +773,19 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern in allen drei
     Zustands-Szenarien. Die manuelle Patch-Assembly 0.0.60 und alle
     Runtime-Patch-Profile bestehen sie.
+- [x] `vlad-play-state-lifetime`
+  - Ziele: `Vlad(PlayState)` und `Initialize(ref Matrix)`
+  - Technik: ein Konstruktor-Transpiler entfernt genau die gespeicherte
+    PlayState-Zuweisung. Ein zweiter Transpiler ersetzt genau zwei Reads durch
+    `PlayState.RecentPlayState`.
+  - Fehlerfall: der Boss hält den Levelzustand seiner Konstruktion fest und
+    kann seine Kollisionsplatzierung oder Entity-Registrierung später gegen
+    diesen alten Zustand ausführen.
+  - Verhalten: Template-Laden, Charakteraufbau, Platzierung, Orientierung und
+    Zustandswechsel bleiben unverändert. Nur Besitz und Auflösung des
+    PlayState werden korrigiert.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern in beiden Szenarien. Die
+    manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile bestehen sie.
 - [x] `drink-blood-play-state-lifetime`
   - Ziel: `DrinkBlood.Execute(ISpellCaster, PlayState)`
   - Technik: Transpiler; ersetzt ausschließlich `mPlayState = iPlayState`
@@ -1520,7 +1533,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 73 Dateien vollständig, 61 Dateien teilweise und 86 Dateien noch
+Aktueller Stand: 74 Dateien vollständig, 61 Dateien teilweise und 85 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1539,7 +1552,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/SpellMine.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonPhoenix.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen und alle dreizehn laufenden Zugriffe sind mit 3 Transpilern und 3 Drei-Wege-Szenarien migriert; die Segment-Initialisierungen im C#-Diff sind semantikfreies Compilerrauschen.
 - [x] `Magicka/CommunityPatch/DialogLayoutCompatibility.cs` — VOLLSTÄNDIG: beide reinen Formatierungshelfer sind im Runtime-Patcher enthalten und durch sechs Drei-Wege-Szenarien abgedeckt.
-- [ ] `Magicka/GameLogic/Entities/Bosses/Vlad.cs`
+- [x] `Magicka/GameLogic/Entities/Bosses/Vlad.cs` — VOLLSTÄNDIG: die gespeicherte Konstruktor-Referenz und beide späteren PlayState-Reads sind mit 2 Transpilern und 2 Drei-Wege-Szenarien migriert; statische Initialisiererdarstellungen und Segment-Syntax sind semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Thunderstorm.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, elf laufende PlayState-Zugriffe und die per-cast Owner-Freigabe; 4 Transpiler und 4 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuVersusStatistics.cs` — VOLLSTÄNDIG: alle acht Reads verwenden den aktuellen PlayState; der übrige statische Initialisierer-Diff ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/Levels/Triggers/TriggerArea.cs`

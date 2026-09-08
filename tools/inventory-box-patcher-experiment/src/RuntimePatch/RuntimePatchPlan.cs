@@ -272,6 +272,12 @@ namespace Magicka.CommunityPatch.Runtime
                 SummonPhoenixPlayStatePatch.UpdateDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                VladPlayStatePatch.ConstructorDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                VladPlayStatePatch.InitializeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 DrinkBloodPlayStatePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
