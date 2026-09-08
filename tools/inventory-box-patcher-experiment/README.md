@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-one hundred twenty-nine method patches:
+one hundred thirty-two method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -38,6 +38,9 @@ one hundred twenty-nine method patches:
   an in-level scene transition.
 - `GreaseTrail` no longer retains its activation play state and uses the
   current play state when creating and registering grease fields.
+- `SpellEffect` no longer retains the level state used to initialize its
+  caches, and `LightningSpell` resolves cache and cast work through the current
+  play state.
 - `MagickCamera.Update` releases a followed entity whose physics body has
   detached.
 - `BossHealthBar` no longer retains the scene supplied to its constructor or
@@ -142,7 +145,7 @@ one hundred twenty-nine method patches:
 The Avatar, AI, Blizzard, BossHealthBar, Helper, InventoryBox, KeyboardHUD, MagickCamera, MeteorShower, Player, PlayState, and Rain
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
-The Agent, AnimatedLevelPart, AudioManager, Blizzard, BreakBarriers, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, EtherealClone, GenericHealthBar, GreaseTrail, MeteorShower, Rain, TeslaField,
+The Agent, AnimatedLevelPart, AudioManager, Blizzard, BreakBarriers, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, EtherealClone, GenericHealthBar, GreaseTrail, LightningSpell, MeteorShower, Rain, SpellEffect, TeslaField,
 EntityStateStorage, Flash, Machine, Jormungandr, pack, PoisonSpray, Portal,
 RandomMine, SpawnSlime, SummonCross, SummonFlamer, SummonSpirit, SummonUndead,
 Starfall, Thunderstorm, TutorialManager, VersusRuleset, JudgementSpray, DialogLayout, ShadowBlobs, and

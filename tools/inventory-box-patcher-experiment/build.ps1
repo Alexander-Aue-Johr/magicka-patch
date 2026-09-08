@@ -216,6 +216,10 @@ function Test-BehaviorMatrix {
         "generic_health_bar.current_scene",
         "grease_trail.play_state_release",
         "grease_trail.current_play_state",
+        "spell_effect.initialize_release",
+        "lightning_spell.cached_current_play_state",
+        "lightning_spell.empty_cache_current_play_state",
+        "lightning_spell.cast_current_play_state",
         "camera_follow.bodyless_target",
         "boss_health_bar.constructor_release",
         "boss_health_bar.current_scene",
@@ -429,6 +433,10 @@ function Test-BehaviorProfile(
             "generic_health_bar.current_scene",
             "grease_trail.play_state_release",
             "grease_trail.current_play_state",
+            "spell_effect.initialize_release",
+            "lightning_spell.cached_current_play_state",
+            "lightning_spell.empty_cache_current_play_state",
+            "lightning_spell.cast_current_play_state",
             "rain.vector_current_play_state",
             "rain.owner_current_play_state",
             "rain.update_current_play_state",
@@ -875,9 +883,12 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=GenericHealthBar current scene" -or
         $auditLines -notcontains "patch_end=GreaseTrail play-state release" -or
         $auditLines -notcontains "patch_end=GreaseTrail current play state" -or
+        $auditLines -notcontains "patch_end=SpellEffect play-state release" -or
+        $auditLines -notcontains "patch_end=LightningSpell current cache play state" -or
+        $auditLines -notcontains "patch_end=LightningSpell current cast play state" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 23 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 102) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 105) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -892,7 +903,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=129")
+    $summary.Add("implemented_patches=132")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

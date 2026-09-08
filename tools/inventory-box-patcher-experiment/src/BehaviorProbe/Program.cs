@@ -23,6 +23,7 @@ internal static class Program
         BreakBarriersScenarios.Prepare(targetAssembly);
         GenericHealthBarScenarios.Prepare(targetAssembly);
         GreaseTrailScenarios.Prepare(targetAssembly);
+        SpellEffectPlayStateScenarios.Prepare(targetAssembly);
 
         if (applyRuntimePatch)
             Bootstrap.Apply(targetAssembly);

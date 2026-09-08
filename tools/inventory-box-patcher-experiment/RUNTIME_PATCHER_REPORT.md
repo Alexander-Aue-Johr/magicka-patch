@@ -299,6 +299,20 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     unverändert.
   - Zwei Drei-Wege-Szenarien prüfen den normalen Offline-Execute-Pfad sowie bei
     getrennten alten und aktuellen Zuständen beide Update-Empfänger.
+- [x] `spell-effect-current-play-state`
+  - Ziele: `SpellEffect.IntializeCaches(PlayState, ContentManager)`,
+    `LightningSpell.GetFromCache()` und
+    `LightningSpell.CastUpdate(float, ISpellCaster, out float)`.
+  - Technik: Drei eng geprüfte Transpiler entfernen die einzige globale
+    PlayState-Zuweisung und ersetzen genau zwei Cache- sowie einen Cast-Zugriff
+    durch `PlayState.RecentPlayState`.
+  - Verhalten: Der SpellEffect-Typ hält keinen beendeten Levelzustand mehr.
+    LightningSpell registriert beide Cachepfade im aktuellen Effektcontainer
+    und übergibt dem Blitzwurf den aktuellen PlayState. Schaden, Timing und
+    Cache-Reihenfolge bleiben unverändert.
+  - Vier Drei-Wege-Szenarien prüfen alle sechs ursprünglichen Cacheinitialisierer,
+    beide Cachepfade und den tatsächlich an `LightningBolt.Cast` übergebenen
+    Zustand.
 - [x] `magick-camera-follow-entity`
   - Ziel: `MagickCamera.Update(DataChannel, float)`
   - Technik: Prefix; setzt ausschließlich einen körperlosen `mFollowing`-Verweis
@@ -1164,7 +1178,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 60 Dateien vollständig, 57 Dateien teilweise und 103 Dateien noch
+Aktueller Stand: 61 Dateien vollständig, 56 Dateien teilweise und 103 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1220,7 +1234,7 @@ Versionsnachweis.
 - [ ] `Magicka/Levels/Level.cs`
 - [ ] `Magicka/Graphics/Effects/RadialBlur.cs`
 - [ ] `Magicka/Levels/Lava.cs`
-- [ ] `Magicka/GameLogic/Spells/SpellEffects/SpellEffect.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Spells/SpellEffects/SpellEffect.cs` — VOLLSTÄNDIG: die globale PlayState-Zuweisung entfällt und die statische Poolfreigabe bei Levelende ist migriert; ein Transpiler und vier gemeinsame Drei-Wege-Szenarien. Die Darstellung der statischen Initialisierer ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/CommunityPatch/WarlordAbilityDiagnostic.cs`
 - [ ] `Magicka/CommunityPatch/CollisionCallbackCleanup.cs`
 - [ ] `Magicka/GameLogic/Entities/Bosses/GenericBoss.cs`
@@ -1439,7 +1453,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/StopCharge.cs` — TEILWEISE: gespeicherter PlayState, veralteter `GreaseSplash`-Zustand und statischer Levelcache sind mit 3 Transpilern und gemeinsamen Drei-Wege-Szenarien migriert; die GC-Diagnosemarkierungen folgen im Diagnostics-Block.
 - [ ] `Magicka/GameLogic/GameStates/MenuState.cs` — TEILWEISE: Controllererkennung und verzögerte DirectInput-Warnung sind migriert; die Änderung an `OnExit` bleibt separat offen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ChillyBlast.cs` — VOLLSTÄNDIG: gespeicherter PlayState in `Execute` und beide veralteten EntityManager-Zugriffe in `Update`, 2 Transpiler und 3 Drei-Wege-Szenarien; statische Hash-Initialisierer sind semantikfreies Compilerrauschen. In 1.4.16.0 und 1.5.1.0 ist die Klasse nicht vorhanden.
-- [ ] `Magicka/GameLogic/Spells/SpellEffects/LightningSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [ ] `Magicka/GameLogic/Spells/SpellEffects/LightningSpell.cs` — TEILWEISE: alle drei Zugriffe auf den global gespeicherten PlayState und die statische Poolfreigabe sind migriert; die RetentionRegistry-Diagnostik ist noch offen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Haste.cs` — TEILWEISE: freier und aktiver Pool werden im initialisierten Level-Dispose geleert, ein Transpiler und 2 Drei-Wege-Szenarien; die GC-Diagnosemarkierungen folgen im Diagnostics-Block.
 - [ ] `Magicka/GameLogic/Entities/Bosses/PropBoss.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/StarGaze.cs` — VOLLSTÄNDIG: abgelaufene, bereits deinitialisierte Opfer verwenden bei der Bereinigung die weiterhin verfügbare aktuelle Fraktion, ein Transpiler und 2 Drei-Wege-Szenarien; die statische Initialisierer-Umschreibung ist semantikfreies Compilerrauschen.

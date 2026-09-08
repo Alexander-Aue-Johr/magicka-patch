@@ -84,6 +84,15 @@ namespace Magicka.CommunityPatch.Runtime
                 GreaseTrailPlayStatePatch.UpdateDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                SpellEffectPlayStatePatch.InitializeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SpellEffectPlayStatePatch.CacheDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SpellEffectPlayStatePatch.CastDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 MagickCameraFollowEntityPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
