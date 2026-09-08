@@ -150,6 +150,21 @@ namespace Magicka.CommunityPatch.Runtime
                 ArrowRainPlayStatePatch.RemoveDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                HealingRainPlayStatePatch.VectorExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                HealingRainPlayStatePatch.OwnerExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                HealingRainPlayStatePatch.ExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                HealingRainPlayStatePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                HealingRainPlayStatePatch.CleanupDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 MagickCameraFollowEntityPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

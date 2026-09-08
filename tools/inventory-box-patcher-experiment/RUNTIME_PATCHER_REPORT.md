@@ -386,6 +386,21 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     tatsächlichen State-Parameter der Geschosserzeugung im Update und die beim
     Entfernen geänderte Szene. Exakte IL-Verträge decken zusätzlich den
     Launch- und den vollständigen Blitzpfad ab.
+- [x] `healing-rain-current-play-state`
+  - Ziele: beide öffentlichen `HealingRain.Execute`-Überladungen, die private
+    `Execute`-Methode, `Update` und `OnRemove`.
+  - Technik: Vier eng geprüfte Transpiler entfernen beide PlayState-Zuweisungen
+    und ersetzen sechs spätere Zugriffe durch `PlayState.RecentPlayState`. Ein
+    Prefix bildet die vorhandene OnRemove-Reihenfolge nach und gibt danach
+    Szene und Caster frei.
+  - Verhalten: Indoor-Prüfung, Kamera, Szene, Regenzähler und EntityManager
+    stammen aus dem aktuellen Zustand. Cue, visueller Effekt und Licht werden
+    in ihrer bisherigen Reihenfolge beendet; eine fehlende Szene ist dabei
+    sicher. Heilung, Wet-Status und Filter bleiben unverändert.
+  - Fünf Drei-Wege-Szenarien prüfen beide Aktivierungen, den Updatepfad, die
+    vollständige Referenzfreigabe und den Abbau ohne Szene. Der manuelle Patch
+    besteht die ersten drei, behält aber im Gegensatz zum Runtime-Patch die
+    letzten Szene-/Caster-Referenzen und ist ohne Szene nicht null-sicher.
 - [x] `magick-camera-follow-entity`
   - Ziel: `MagickCamera.Update(DataChannel, float)`
   - Technik: Prefix; setzt ausschließlich einen körperlosen `mFollowing`-Verweis
@@ -1251,7 +1266,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 66 Dateien vollständig, 56 Dateien teilweise und 98 Dateien noch
+Aktueller Stand: 67 Dateien vollständig, 56 Dateien teilweise und 97 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1379,7 +1394,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/AnimatedPhysicsEntity.cs`
 - [ ] `Magicka/GameLogic/Spells/UnderGroundAttack.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/CommunityPatch/NetworkGuardTelemetryBackoff.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/HealingRain.cs`
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/HealingRain.cs` — VOLLSTÄNDIG: aktuelle Zustandsauflösung und abschließende Szene-/Caster-Freigabe mit 4 Transpilern, 1 Prefix und 5 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/GameStates/Menu/MenuImageTextItem.cs` — VOLLSTÄNDIG:
   Font-Zeilenhöhe und literale Textvertices werden bei einem Sprachwechsel
   aktualisiert, Transpiler und 3 Drei-Wege-Szenarien.

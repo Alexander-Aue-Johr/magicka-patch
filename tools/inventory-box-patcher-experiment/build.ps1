@@ -236,6 +236,11 @@ function Test-BehaviorMatrix {
         "arrow_rain.owner_release",
         "arrow_rain.update_current_play_state",
         "arrow_rain.remove_current_scene",
+        "healing_rain.vector_current_play_state",
+        "healing_rain.owner_current_play_state",
+        "healing_rain.update_current_play_state",
+        "healing_rain.remove_releases_references",
+        "healing_rain.remove_without_scene",
         "camera_follow.bodyless_target",
         "boss_health_bar.constructor_release",
         "boss_health_bar.current_scene",
@@ -375,7 +380,7 @@ function Test-BehaviorMatrix {
 
     Test-BehaviorProfile "current-original" $originalPath "unpatched" $patchFailures @() $matrix
     Test-BehaviorProfile "current-manual-patch" $currentPatchPath "unpatched" `
-        @("undead_network.host_marker", "undead_network.client_marked") @() $matrix
+        @("undead_network.host_marker", "undead_network.client_marked", "healing_rain.remove_releases_references", "healing_rain.remove_without_scene") @() $matrix
     Test-BehaviorProfile "current-runtime-patch" $originalPath "runtime" @() @() $matrix
     Test-BehaviorProfile "1.4.16.0-original" $version14Path "unpatched" `
         @("avatar_interactable.missing_play_state", "avatar_interactable.missing_level", "avatar_interactable.missing_scene", "avatar_interactable.missing_triggers", "ai_attack.bodyless_target", "ai_move.enter_bodyless_target", "ai_move.execute_bodyless_target", "agent_target.bodyless_player", "closest_damageable.bodyless_candidate", "entity_query.bodyless_entry", "entity_query.null_entry", "entity_clear.stale_grid", "entity_state_storage.constructor_release", "entity_state_storage.current_restore", "helper_array_equals.left_null", "helper_array_equals.right_null", "helper_array_equals.both_null", "inventory.initial_screen_size", "inventory.changed_screen_size", "camera_follow.bodyless_target", "boss_health_bar.current_scene", "boss_health_bar.setter_release", "machine.missing_warlock", "jormungandr.missing_target", "portal_queue.null_then_bodyless", "portal_queue.bodyless_then_null", "pack_license.custom_offline_license", "pack_license.custom_offline_enabled", "pack_license.custom_insecure_license", "pack_license.custom_insecure_enabled", "drink_blood.play_state_release", "random_mine.play_state_release", "starfall.play_state_release", "starfall.current_play_state", "drain_life.play_state_release", "sub_menu_main.gamepad_back", "company_state.exit_cleanup_order", "control_manager.null_controller", "control_manager.playerless_controller", "interactable_highlight.missing_scene", "interactable_highlight.missing_level_model", "audio_stop_all.disposed_cue", "deflection_aura.play_state_release", "flash.scene_release", "flash.current_scene", "spawn_slime.play_state_release", "spawn_slime_overkill.play_state_release", "spawn_slime.current_nav_mesh", "spawn_slime.spawn_slimes_current_nav_mesh", "poison_spray.play_state_release", "poison_spray.current_query_manager", "summon_flamer.vector_release", "summon_flamer.owner_release", "summon_spirit.vector_release", "summon_spirit.owner_release", "summon_flamer.current_play_state", "summon_spirit.current_play_state", "summon_templates.level_dispose", "summon_cross.vector_release", "summon_cross.owner_release", "summon_cross.current_play_state", "summon_cross.level_dispose", "star_gaze.detached_victim", "homing_charge.execute_release", "stop_charge.execute_release", "homing_charge.current_query_manager", "stop_charge.current_play_state", "charge_abilities.level_dispose", "active_buff_cache.level_dispose", "entity_update.character_only", "entity_update.character_damageable", "ability_template_cache.level_dispose", "loading_screen.managed_restore_order", "static_level_pools.level_dispose", "judgement_spray.empty_condition_cache", "blizzard_cleanup.active_release", "blizzard_cleanup.stop_failure_release", "animated_level_part.detached_entity", "animated_level_part.missing_entity", "dynamic_light_cache.level_dispose") `
@@ -469,6 +474,11 @@ function Test-BehaviorProfile(
             "arrow_rain.owner_release",
             "arrow_rain.update_current_play_state",
             "arrow_rain.remove_current_scene",
+            "healing_rain.vector_current_play_state",
+            "healing_rain.owner_current_play_state",
+            "healing_rain.update_current_play_state",
+            "healing_rain.remove_releases_references",
+            "healing_rain.remove_without_scene",
             "rain.vector_current_play_state",
             "rain.owner_current_play_state",
             "rain.update_current_play_state",
@@ -592,6 +602,11 @@ function Test-BehaviorProfile(
         "arrow_rain.owner_release",
         "arrow_rain.update_current_play_state",
         "arrow_rain.remove_current_scene",
+        "healing_rain.vector_current_play_state",
+        "healing_rain.owner_current_play_state",
+        "healing_rain.update_current_play_state",
+        "healing_rain.remove_releases_references",
+        "healing_rain.remove_without_scene",
         "camera_follow.bodyless_target",
         "camera_follow.missing_target",
         "camera_follow.other_behavior",
@@ -963,9 +978,14 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=ArrowRain current launch play state" -or
         $auditLines -notcontains "patch_end=ArrowRain current update play state" -or
         $auditLines -notcontains "patch_end=ArrowRain current removal scene" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 23 -or
+        $auditLines -notcontains "patch_end=HealingRain vector play-state release" -or
+        $auditLines -notcontains "patch_end=HealingRain owner play-state release" -or
+        $auditLines -notcontains "patch_end=HealingRain current execute play state" -or
+        $auditLines -notcontains "patch_end=HealingRain current update play state" -or
+        $auditLines -notcontains "patch_end=HealingRain scene and caster cleanup" -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 24 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 124) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 128) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -980,7 +1000,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=151")
+    $summary.Add("implemented_patches=156")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

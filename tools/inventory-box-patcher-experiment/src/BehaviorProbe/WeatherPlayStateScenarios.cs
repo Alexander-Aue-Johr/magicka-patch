@@ -16,6 +16,21 @@ internal static class WeatherPlayStateScenarios
             report.Add("rain.update_current_play_state", harness.RainUpdate());
             report.Add("rain.remove_releases_scene", harness.RainRemove());
             report.Add(
+                "healing_rain.vector_current_play_state",
+                harness.HealingRainVector());
+            report.Add(
+                "healing_rain.owner_current_play_state",
+                harness.HealingRainOwner());
+            report.Add(
+                "healing_rain.update_current_play_state",
+                harness.HealingRainUpdate());
+            report.Add(
+                "healing_rain.remove_releases_references",
+                harness.HealingRainRemove());
+            report.Add(
+                "healing_rain.remove_without_scene",
+                harness.HealingRainRemoveWithoutScene());
+            report.Add(
                 "thunderstorm.vector_current_play_state",
                 harness.ThunderstormVector());
             report.Add(
@@ -39,6 +54,7 @@ internal sealed class WeatherPlayStateHarness
 {
     private readonly Assembly magicka;
     private readonly Type rainType;
+    private readonly Type healingRainType;
     private readonly Type thunderstormType;
     private readonly Type playStateType;
     private readonly Type levelType;
@@ -64,6 +80,11 @@ internal sealed class WeatherPlayStateHarness
     private readonly FieldInfo rainCasterField;
     private readonly FieldInfo rainAmbienceField;
     private readonly FieldInfo rainDoDamageField;
+    private readonly FieldInfo healingLegacyPlayStateField;
+    private readonly FieldInfo healingSceneField;
+    private readonly FieldInfo healingCasterField;
+    private readonly FieldInfo healingAmbienceField;
+    private readonly FieldInfo healingDoDamageField;
     private readonly FieldInfo thunderLegacyPlayStateField;
     private readonly FieldInfo thunderOwnerField;
     private readonly FieldInfo thunderRainField;
@@ -76,6 +97,10 @@ internal sealed class WeatherPlayStateHarness
     private readonly MethodInfo rainOwnerExecute;
     private readonly MethodInfo rainUpdate;
     private readonly MethodInfo rainOnRemove;
+    private readonly MethodInfo healingVectorExecute;
+    private readonly MethodInfo healingOwnerExecute;
+    private readonly MethodInfo healingUpdate;
+    private readonly MethodInfo healingOnRemove;
     private readonly MethodInfo thunderVectorExecute;
     private readonly MethodInfo thunderOwnerExecute;
     private readonly MethodInfo thunderUpdate;
@@ -98,6 +123,9 @@ internal sealed class WeatherPlayStateHarness
         this.magicka = magicka;
         rainType = magicka.GetType(
             "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Rain",
+            true);
+        healingRainType = magicka.GetType(
+            "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.HealingRain",
             true);
         thunderstormType = magicka.GetType(
             "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Thunderstorm",
@@ -166,6 +194,27 @@ internal sealed class WeatherPlayStateHarness
         rainAmbienceField = RequireField(rainType, "mAmbience", cueType);
         rainDoDamageField = RequireField(rainType, "mDoDamage", typeof(bool));
 
+        healingLegacyPlayStateField = OptionalField(
+            healingRainType,
+            "mPlayState",
+            playStateType);
+        healingSceneField = RequireField(
+            healingRainType,
+            "mScene",
+            gameSceneType);
+        healingCasterField = RequireField(
+            healingRainType,
+            "mCaster",
+            spellCasterType);
+        healingAmbienceField = RequireField(
+            healingRainType,
+            "mAmbience",
+            cueType);
+        healingDoDamageField = RequireField(
+            healingRainType,
+            "mDoDamage",
+            typeof(bool));
+
         thunderLegacyPlayStateField = OptionalField(
             thunderstormType,
             "mPlayState",
@@ -213,6 +262,26 @@ internal sealed class WeatherPlayStateHarness
             typeof(void));
         rainOnRemove = RequireMethod(
             rainType,
+            "OnRemove",
+            Type.EmptyTypes,
+            typeof(void));
+        healingVectorExecute = RequireMethod(
+            healingRainType,
+            "Execute",
+            new Type[] { vectorType, playStateType },
+            typeof(bool));
+        healingOwnerExecute = RequireMethod(
+            healingRainType,
+            "Execute",
+            new Type[] { spellCasterType, playStateType },
+            typeof(bool));
+        healingUpdate = RequireMethod(
+            healingRainType,
+            "Update",
+            new Type[] { dataChannelType, typeof(float) },
+            typeof(void));
+        healingOnRemove = RequireMethod(
+            healingRainType,
             "OnRemove",
             Type.EmptyTypes,
             typeof(void));
@@ -389,6 +458,104 @@ internal sealed class WeatherPlayStateHarness
             "completed:True,released:True,light:1,cue_stops:1,effect_stops:1");
     }
 
+    internal ScenarioResult HealingRainVector()
+    {
+        return HealingRainExecute(
+            healingVectorExecute,
+            Activator.CreateInstance(vectorType));
+    }
+
+    internal ScenarioResult HealingRainOwner()
+    {
+        WeatherPlayStateFixture current = CreatePlayState(false, true, false);
+        object owner = NewUninitialized(ownerType);
+        entityPlayStateField.SetValue(owner, current.PlayState);
+        return HealingRainExecute(healingOwnerExecute, owner, current);
+    }
+
+    internal ScenarioResult HealingRainUpdate()
+    {
+        WeatherPlayStateFixture supplied = CreatePlayState(false, false, false);
+        WeatherPlayStateFixture current = CreatePlayState(false, true, false);
+        recentPlayStateField.SetValue(null, current.PlayState);
+        object rain = NewUninitialized(healingRainType);
+        SetOptional(
+            healingLegacyPlayStateField,
+            rain,
+            supplied.PlayState);
+        healingDoDamageField.SetValue(rain, false);
+        WeatherPlayStateProbe.UpdateEffectCalls = 0;
+        bool completed = TryInvoke(
+            healingUpdate,
+            rain,
+            new object[] { Enum.ToObject(dataChannelType, 0), 0.1f },
+            null);
+        int calls = WeatherPlayStateProbe.UpdateEffectCalls;
+        bool passed = completed && calls == 1;
+        WeatherPlayStateProbe.UpdateEffectCalls = 0;
+        return new ScenarioResult(
+            passed,
+            "completed:" + completed + ",update_calls:" + calls,
+            "completed:True,update_calls:1");
+    }
+
+    internal ScenarioResult HealingRainRemove()
+    {
+        WeatherPlayStateFixture fixture = CreatePlayState(false, true, false);
+        object rain = NewUninitialized(healingRainType);
+        object owner = NewUninitialized(ownerType);
+        object cue = NewUninitialized(cueType);
+        healingSceneField.SetValue(rain, fixture.GameScene);
+        healingCasterField.SetValue(rain, owner);
+        healingAmbienceField.SetValue(rain, cue);
+        SetLight(fixture.GameScene, 0.333f);
+        WeatherPlayStateProbe.ResetCalls();
+        bool completed = TryInvoke(
+            healingOnRemove,
+            rain,
+            new object[0],
+            null);
+        bool released = healingSceneField.GetValue(rain) == null &&
+            healingCasterField.GetValue(rain) == null;
+        float light = GetLight(fixture.GameScene);
+        bool passed = completed && released && light == 1f &&
+            WeatherPlayStateProbe.CueStopCalls == 1 &&
+            WeatherPlayStateProbe.StopEffectCalls == 1;
+        return new ScenarioResult(
+            passed,
+            "completed:" + completed + ",released:" + released +
+                ",light:" + light + ",cue_stops:" +
+                WeatherPlayStateProbe.CueStopCalls + ",effect_stops:" +
+                WeatherPlayStateProbe.StopEffectCalls,
+            "completed:True,released:True,light:1,cue_stops:1," +
+                "effect_stops:1");
+    }
+
+    internal ScenarioResult HealingRainRemoveWithoutScene()
+    {
+        object rain = NewUninitialized(healingRainType);
+        healingSceneField.SetValue(rain, null);
+        healingCasterField.SetValue(rain, NewUninitialized(ownerType));
+        healingAmbienceField.SetValue(rain, null);
+        WeatherPlayStateProbe.ResetCalls();
+        bool completed = TryInvoke(
+            healingOnRemove,
+            rain,
+            new object[0],
+            null);
+        bool released = healingSceneField.GetValue(rain) == null &&
+            healingCasterField.GetValue(rain) == null;
+        bool passed = completed && released &&
+            WeatherPlayStateProbe.CueStopCalls == 0 &&
+            WeatherPlayStateProbe.StopEffectCalls == 1;
+        return new ScenarioResult(
+            passed,
+            "completed:" + completed + ",released:" + released +
+                ",cue_stops:" + WeatherPlayStateProbe.CueStopCalls +
+                ",effect_stops:" + WeatherPlayStateProbe.StopEffectCalls,
+            "completed:True,released:True,cue_stops:0,effect_stops:1");
+    }
+
     internal ScenarioResult ThunderstormVector()
     {
         return ThunderstormExecute(
@@ -500,6 +667,43 @@ internal sealed class WeatherPlayStateHarness
             current.GameScene);
         bool legacyReleased = rainLegacyPlayStateField == null ||
             rainLegacyPlayStateField.GetValue(rain) == null;
+        bool passed = returned && currentScene && legacyReleased;
+        return new ScenarioResult(
+            passed,
+            "returned:" + returned + ",current_scene:" + currentScene +
+                ",legacy_released:" + legacyReleased,
+            "returned:True,current_scene:True,legacy_released:True");
+    }
+
+    private ScenarioResult HealingRainExecute(
+        MethodInfo method,
+        object firstArgument)
+    {
+        return HealingRainExecute(
+            method,
+            firstArgument,
+            CreatePlayState(false, true, false));
+    }
+
+    private ScenarioResult HealingRainExecute(
+        MethodInfo method,
+        object firstArgument,
+        WeatherPlayStateFixture current)
+    {
+        WeatherPlayStateFixture supplied = CreatePlayState(false, true, false);
+        recentPlayStateField.SetValue(null, current.PlayState);
+        object rain = NewUninitialized(healingRainType);
+        healingAmbienceField.SetValue(rain, NewUninitialized(cueType));
+        SetOptional(healingLegacyPlayStateField, rain, null);
+        bool returned = (bool)Invoke(
+            method,
+            rain,
+            new object[] { firstArgument, supplied.PlayState });
+        bool currentScene = Object.ReferenceEquals(
+            healingSceneField.GetValue(rain),
+            current.GameScene);
+        bool legacyReleased = healingLegacyPlayStateField == null ||
+            healingLegacyPlayStateField.GetValue(rain) == null;
         bool passed = returned && currentScene && legacyReleased;
         return new ScenarioResult(
             passed,
