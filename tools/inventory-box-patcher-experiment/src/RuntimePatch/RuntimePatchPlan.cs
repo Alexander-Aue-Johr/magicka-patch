@@ -75,6 +75,9 @@ namespace Magicka.CommunityPatch.Runtime
                 TeslaFieldPlayStatePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                GenericHealthBarScenePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 MagickCameraFollowEntityPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

@@ -276,6 +276,17 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Poolgröße, Entnahmereihenfolge und Tesla-Effektlogik bleiben unverändert.
   - Zwei Drei-Wege-Szenarien prüfen den vorab erzeugten Pool mit drei Einträgen
     und die Ersatzallokation bei leerem Pool.
+- [x] `generic-health-bar-current-scene`
+  - Ziel: `GenericHealthBar.Update(DataChannel, float)`.
+  - Technik: Ein eng geprüfter Transpiler ersetzt den einzigen Zugriff auf
+    `mScene` durch `PlayState.RecentPlayState.Scene`.
+  - Fehlerfall: Der Health-Bar-Konstruktor speichert die anfängliche Szene. Ein
+    gewöhnlicher Szenenwechsel ersetzt die aktuelle Szene, aktualisiert diesen
+    Verweis jedoch nicht. Spätere Renderdaten gehen dadurch an die alte Szene.
+  - Verhalten: Berechnungen, Timing und Renderdaten bleiben unverändert; nur
+    der Empfänger der vorhandenen Renderübergabe folgt dem aktuellen PlayState.
+  - Ein Drei-Wege-Szenario verwendet verschiedene gespeicherte und aktuelle
+    Szenen und zeichnet Empfänger sowie Renderdatenidentität auf.
 - [x] `magick-camera-follow-entity`
   - Ziel: `MagickCamera.Update(DataChannel, float)`
   - Technik: Prefix; setzt ausschließlich einen körperlosen `mFollowing`-Verweis
@@ -1141,7 +1152,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 59 Dateien vollständig, 57 Dateien teilweise und 104 Dateien noch
+Aktueller Stand: 60 Dateien vollständig, 57 Dateien teilweise und 103 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1393,7 +1404,7 @@ Versionsnachweis.
   `Execute` und veralteter Szenenzugriff in `Update`, 2 Transpiler und 2
   Drei-Wege-Szenarien; der leere `IDisposable`-Wrapper und die Darstellung des
   statischen Lock-Initialisierers ändern kein Laufzeitverhalten.
-- [ ] `Magicka/GameLogic/UI/GenericHealthBar.cs`
+- [x] `Magicka/GameLogic/UI/GenericHealthBar.cs` — VOLLSTÄNDIG: Die Renderübergabe verwendet nach Szenenwechseln den aktuellen PlayState; ein Transpiler und ein Drei-Wege-Szenario. Die Darstellung der statischen Initialisierer ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/WaveEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/EtherealClone.cs` — VOLLSTÄNDIG: gespeicherte PlayState-Zuweisung entfernt und NavMesh-Zugriff auf `RecentPlayState` migriert; der leere manuelle Cleanup und verschobene statische Initialisierungen sind semantikfrei.
 - [ ] `Magicka/GameLogic/Entities/Snare.cs`

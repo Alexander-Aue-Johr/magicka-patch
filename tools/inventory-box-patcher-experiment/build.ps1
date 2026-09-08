@@ -213,6 +213,7 @@ function Test-BehaviorMatrix {
         "break_barriers.current_entity_manager",
         "tesla_field.initialized_pool_release",
         "tesla_field.empty_pool_allocation_release",
+        "generic_health_bar.current_scene",
         "camera_follow.bodyless_target",
         "boss_health_bar.constructor_release",
         "boss_health_bar.current_scene",
@@ -423,6 +424,7 @@ function Test-BehaviorProfile(
             "break_barriers.current_entity_manager",
             "tesla_field.initialized_pool_release",
             "tesla_field.empty_pool_allocation_release",
+            "generic_health_bar.current_scene",
             "rain.vector_current_play_state",
             "rain.owner_current_play_state",
             "rain.update_current_play_state",
@@ -866,9 +868,10 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Player obtained text-box level release" -or
         $auditLines -notcontains "patch_end=Player notifier level release" -or
         $auditLines -notcontains "patch_end=TeslaField play-state release" -or
+        $auditLines -notcontains "patch_end=GenericHealthBar current scene" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 23 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 99) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 100) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -883,7 +886,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=126")
+    $summary.Add("implemented_patches=127")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

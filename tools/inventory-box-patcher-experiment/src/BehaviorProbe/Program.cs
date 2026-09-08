@@ -21,6 +21,7 @@ internal static class Program
         targetAssembly = Assembly.LoadFrom(targetPath);
         EtherealCloneScenarios.Prepare(targetAssembly);
         BreakBarriersScenarios.Prepare(targetAssembly);
+        GenericHealthBarScenarios.Prepare(targetAssembly);
 
         if (applyRuntimePatch)
             Bootstrap.Apply(targetAssembly);
