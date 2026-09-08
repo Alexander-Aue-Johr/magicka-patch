@@ -126,6 +126,10 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        ProgramArgumentScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         KeyboardMouseClearScenarios.Run(magicka, report);
         KeyboardMouseInteractableScenarios.Run(magicka, report);
         RadialBlurLifetimeScenarios.Run(

@@ -10,9 +10,10 @@ public static class RuntimeLoaderInjection
         MethodDefinition mainMethod = PatchTarget.FindMainMethod(module);
         AssertLoaderIsAbsent(module, mainMethod);
         MethodReference bootstrap = AddRuntimePatchReference(module);
-        mainMethod.Body.GetILProcessor().InsertBefore(
-            mainMethod.Body.Instructions[0],
-            Instruction.Create(OpCodes.Call, bootstrap));
+        ILProcessor processor = mainMethod.Body.GetILProcessor();
+        Instruction first = mainMethod.Body.Instructions[0];
+        processor.InsertBefore(first, Instruction.Create(OpCodes.Ldarg_0));
+        processor.InsertBefore(first, Instruction.Create(OpCodes.Call, bootstrap));
         AssertApplied(module);
     }
 
@@ -21,9 +22,11 @@ public static class RuntimeLoaderInjection
         MethodDefinition mainMethod = PatchTarget.FindMainMethod(module);
         int matchingReferences = module.AssemblyReferences.Count(reference =>
             reference.Name == PatchTarget.RuntimePatchAssemblyName);
-        if (matchingReferences != 1 || !IsBootstrapCall(mainMethod.Body.Instructions[0]))
+        if (matchingReferences != 1 ||
+            mainMethod.Body.Instructions[0].OpCode != OpCodes.Ldarg_0 ||
+            !IsBootstrapCall(mainMethod.Body.Instructions[1]))
             throw new InvalidOperationException(
-                "Expected one runtime assembly reference and one bootstrap call as the first Main instruction.");
+                "Expected one runtime assembly reference and an argument-aware bootstrap call at the beginning of Main.");
     }
 
     public static bool IsBootstrapCall(Instruction instruction)
@@ -32,7 +35,8 @@ public static class RuntimeLoaderInjection
             instruction.Operand is MethodReference method &&
             method.DeclaringType.FullName == PatchTarget.RuntimePatchBootstrapType &&
             method.Name == "Apply" &&
-            method.Parameters.Count == 0;
+            method.Parameters.Count == 1 &&
+            method.Parameters[0].ParameterType.FullName == "System.String[]";
     }
 
     private static MethodReference AddRuntimePatchReference(ModuleDefinition module)
@@ -49,11 +53,17 @@ public static class RuntimeLoaderInjection
             assembly,
             false);
 
-        return new MethodReference("Apply", module.TypeSystem.Void, bootstrapType)
+        MethodReference bootstrap = new(
+            "Apply",
+            module.TypeSystem.Void,
+            bootstrapType)
         {
             HasThis = false,
             CallingConvention = MethodCallingConvention.Default
         };
+        bootstrap.Parameters.Add(
+            new ParameterDefinition(new ArrayType(module.TypeSystem.String)));
+        return bootstrap;
     }
 
     private static void AssertLoaderIsAbsent(ModuleDefinition module, MethodDefinition mainMethod)

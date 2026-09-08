@@ -60,7 +60,7 @@ Der normale Kontrollfluss ist:
 
 ```text
 Magicka.Program.Main
-  -> Bootstrap.Apply
+  -> Bootstrap.Apply(args)
   -> RuntimePatchPlan.ApplyTo
   -> RuntimePatchSession.Apply
   -> Harmony Prefix oder Postfix
@@ -888,6 +888,20 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Die manuelle 0.0.60-Assembly ruft denselben Preload am Anfang von Main auf.
     Alle Runtime-Profile bestehen Startreihenfolge, absolute Pfade und den
     Nicht-Windows-Kontrollfall.
+- [x] `program-argument-bounds`
+  - Ziel: die ersten beiden injizierten Instruktionen in `Program.Main` sowie
+    `Bootstrap.Apply(string[])`.
+  - Technik: Der Injector lädt `args` und ruft den argumentbewussten Bootstrap
+    auf. Ein CLR-2-Helfer neutralisiert nur einen letzten wertnehmenden Schalter
+    ohne Folgewert, bevor die unveränderte Originalmethode beginnt.
+  - Fehlerfall: Die Originalprüfungen `args.Length > i` erlauben bei
+    `+connect_lobby`, `+connect` und `+password` trotzdem den Zugriff auf
+    `args[i + 1]`.
+  - Verhalten: Ein abgeschnittener Schalter wird ignoriert. Gültige Paare und
+    fremde Argumente bleiben elementweise unverändert.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 besitzen die drei fehlerhaften
+    Bounds-Checks. Die manuelle 0.0.60-Assembly und alle Runtime-Patch-Profile
+    bestehen die drei Fehlerfälle sowie beide Kontrollszenarien.
 - [x] `keyboard-mouse-clear-state`
   - Ziel: `KeyboardMouseController.Clear()`.
   - Technik: Ein Prefix setzt die beiden privaten Zielreferenzen und die beiden
@@ -2144,9 +2158,10 @@ Versionsnachweis.
   gemeinsamen Runtime-Telemetrieblock.
 - [ ] `Magicka/Program.cs` — TEILWEISE: die drei System-Proxy-Bibliotheken
   werden noch vor der ersten Originalinstruktion absolut vorgeladen und die
-  beiden gezielten Hinweise für XNA-Adapter- und Grafikgerätefehler in
-  `WriteReport` sind migriert. Weitere Argument-, Payload-, Telemetrie- und
-  Fehlerberichtänderungen bleiben offen.
+  drei wertnehmenden Startparameter werden vor einem fehlenden Folgewert
+  geschützt. Die beiden gezielten Hinweise für XNA-Adapter- und
+  Grafikgerätefehler in `WriteReport` sind ebenfalls migriert. Payload-,
+  Telemetrie- und weitere Fehlerberichtänderungen bleiben offen.
 - [ ] `Magicka/GameLogic/Entities/AnimatedPhysicsEntity.cs` — TEILWEISE:
   Crossfade und ForceAnimation verwenden Idle nur dann als Ersatz, wenn dessen
   Aktion und Clip vorhanden sind; Deinitialize- und Dispose-Änderungen sind

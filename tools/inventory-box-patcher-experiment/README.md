@@ -233,6 +233,9 @@ three hundred ninety-four method patches:
   interaction state from the previous game state.
 - Startup loads `version.dll`, `winmm.dll`, and `winhttp.dll` from the absolute
   Windows system directory before original game or patch web code runs.
+- Startup ignores a terminal `+connect_lobby`, `+connect`, or `+password`
+  switch when its required value is missing; valid launch arguments remain
+  unchanged.
 - Loading-screen clears restore the managed depth buffer before drawing.
 - Controller option discovery tolerates unavailable DirectInput and reports the
   problem after the main menu is ready.

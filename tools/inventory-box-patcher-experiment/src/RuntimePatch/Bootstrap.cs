@@ -13,6 +13,12 @@ namespace Magicka.CommunityPatch.Runtime
             Apply(Assembly.GetEntryAssembly());
         }
 
+        public static void Apply(string[] arguments)
+        {
+            ProgramArgumentSanitizer.Sanitize(arguments);
+            Apply(Assembly.GetEntryAssembly());
+        }
+
         public static void Apply(Assembly targetAssembly)
         {
             if (Interlocked.CompareExchange(ref applied, 1, 0) != 0)
