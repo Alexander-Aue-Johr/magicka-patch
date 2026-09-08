@@ -218,6 +218,7 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 AmbientAudioLocatorPatch.Definition);
+            StaticCollectionGrowthPatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 DrinkBloodPlayStatePatch.Definition);

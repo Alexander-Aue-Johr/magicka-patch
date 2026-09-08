@@ -272,6 +272,13 @@ function Test-BehaviorMatrix {
         "character_select_widget.null_texture",
         "character_select_widget.disposed_texture",
         "ambient_audio.invalid_locator",
+        "static_list.add_full",
+        "static_list.insert_full",
+        "static_list.entity_add_full",
+        "static_list.spell_add_full",
+        "static_weak_list.add_full",
+        "static_weak_list.insert_full",
+        "static_weak_list.character_add_full",
         "play_state.missing_spawn",
         "play_state.non_npc_spawn",
         "play_state.foreign_state_spawn",
@@ -430,6 +437,13 @@ function Test-BehaviorProfile(
             "challenge_score.duplicate_paths",
             "challenge_score.pooled_reuse",
             "ambient_audio.invalid_locator",
+            "static_list.add_full",
+            "static_list.insert_full",
+            "static_list.entity_add_full",
+            "static_list.spell_add_full",
+            "static_weak_list.add_full",
+            "static_weak_list.insert_full",
+            "static_weak_list.character_add_full",
             "menu_image_text.literal_font_change",
             "menu_image_text.localized_font_change",
             "language_manager.simplified_chinese_name",
@@ -694,6 +708,15 @@ function Test-BehaviorProfile(
         "ambient_audio.invalid_locator",
         "ambient_audio.valid_locator",
         "ambient_audio.other_exception",
+        "static_list.add_full",
+        "static_list.insert_full",
+        "static_list.below_capacity",
+        "static_list.entity_add_full",
+        "static_list.spell_add_full",
+        "static_weak_list.add_full",
+        "static_weak_list.insert_full",
+        "static_weak_list.below_capacity",
+        "static_weak_list.character_add_full",
         "play_state.ordinary_message",
         "play_state.other_action",
         "play_state.missing_spawn",
@@ -1040,9 +1063,13 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Challenge score pooled-enemy reset" -or
         $auditLines -notcontains "patch_end=Character-select disposed widget texture guard" -or
         $auditLines -notcontains "patch_end=Ambient audio invalid locator recovery" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 25 -or
+        $auditLines -notcontains "patch_end=StaticList Int32 stable Add" -or
+        $auditLines -notcontains "patch_end=StaticList Spell stable Insert" -or
+        $auditLines -notcontains "patch_end=EntityManager StaticList growth" -or
+        $auditLines -notcontains "patch_end=TriggerArea StaticWeakList growth" -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 29 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 6 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 158) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 160) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1057,7 +1084,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=189")
+    $summary.Add("implemented_patches=195")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

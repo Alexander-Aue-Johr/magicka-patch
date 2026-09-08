@@ -664,8 +664,36 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Locators werden weiter verarbeitet. Gültige Locators bleiben unverändert;
     andere Exception-Typen werden weiterhin weitergereicht.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 brechen im Fehlerfall ab. Die
-    manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile entfernen den
-    Locator und fahren fort; beide Kontrollfälle bestehen in allen Profilen.
+  manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile entfernen den
+  Locator und fahren fort; beide Kontrollfälle bestehen in allen Profilen.
+- [x] `static-collection-growth-runtime-paths`
+  - Ziele: `StaticList<int>.Add/Insert`, `StaticList<Spell>.Add/Insert`,
+    `EntityManager.AddEntity(Entity)` und `TriggerArea.AddEntity(Entity)`
+  - Technik: vier boolesche Prefixe für die beiden im Spiel verwendeten
+    Werttypen; zwei Transpiler ersetzen die drei produktiven Add-Aufrufe der
+    referenztypisierten Listen durch CLR-2-kompatible Runtime-Helfer
+  - Grund für die Aufteilung: CLR und Mono teilen native Methodenkörper
+    geschlossener Referenztyp-Generics. Harmony 1 registriert zwar mehrere
+    geschlossene Ziele, führt deren Prefixe aber nicht zuverlässig aus. Die
+    beiden nicht generischen Aufrufstellen sind stabil und vollständig.
+  - Verhalten: volle Arrays wachsen von null auf vier Einträge oder auf die
+    doppelte Kapazität. Anzahl, Reihenfolge und WeakReference-Hüllen bleiben
+    erhalten; Pfade unterhalb der Kapazität verhalten sich unverändert.
+  - Synchronisierung: die gesamte Prüfung, mögliche Array-Ersetzung und
+    Einfügung läuft unter `Monitor.Enter(this)` mit bedingtem
+    `Monitor.Exit(this)`. Die .NET-4-Überladung mit `ref bool` wird nicht
+    verwendet.
+  - Laufzeitkosten: typisierte Feldzugriffe werden beim ersten Auftreten einer
+    geschlossenen Listenform erzeugt und danach zwischengespeichert. Im
+    eigentlichen Mutationspfad findet keine FieldInfo-Reflection statt.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern bei allen
+    Vollkapazitätsfällen. Die manuelle Patch-Assembly 0.0.60 und alle
+    Runtime-Patch-Profile bestehen Add, Insert, `Entity`, `Character`, `int`
+    und `Spell` sowie die Kontrollfälle unterhalb der Kapazität.
+  - Noch offen: die manuelle Erweiterungs-Telemetrie und ihre Backoff-Daten
+    sind noch nicht migriert. Direkte generische Referenztyp-Aufrufe außerhalb
+    der drei im Spiel vorhandenen Add-Stellen werden bewusst nicht als
+    verifiziert behauptet.
 - [x] `drink-blood-play-state-lifetime`
   - Ziel: `DrinkBlood.Execute(ISpellCaster, PlayState)`
   - Technik: Transpiler; ersetzt ausschließlich `mPlayState = iPlayState`
@@ -1413,7 +1441,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 72 Dateien vollständig, 58 Dateien teilweise und 90 Dateien noch
+Aktueller Stand: 72 Dateien vollständig, 60 Dateien teilweise und 88 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1447,7 +1475,10 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Wave.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/AI/Agent.cs` — TEILWEISE: Body-Guard in `ChooseTarget`, Transpiler und 2 Drei-Wege-Szenarien; Initialisierungs-, Cleanup- und Dispose-Änderungen sind noch offen.
 - [ ] `Magicka/Levels/Campaign/LevelManager.cs`
-- [ ] `Magicka/StaticWeakList.cs`
+- [ ] `Magicka/StaticWeakList.cs` — TEILWEISE: beide im Spiel verwendeten
+  Add-Pfade wachsen volle WeakReference-Arrays unter einem stabilen
+  CLR-2-kompatiblen Instanz-Lock; direkte generische Insert-/Expand-Aufrufe und
+  die Erweiterungs-Telemetrie sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Napalm.cs`
 - [ ] `Magicka/GameLogic/Spells/ArcaneBlade.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Shield.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
@@ -1456,7 +1487,10 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/UI/KeyboardHUD.cs` — TEILWEISE: der Safe-Area-Einzug in `RenderData.DrawIcon` ist migriert; die Hybrid-Input-Darstellung und Label-Aktualisierung sind noch offen.
 - [ ] `Magicka/CommunityPatch/MouseInputCompatibility.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/GreaseLump.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
-- [ ] `Magicka/StaticList.cs`
+- [ ] `Magicka/StaticList.cs` — TEILWEISE: Add und Insert für `int` und `Spell`
+  sowie der einzige `Entity`-Add-Pfad sind mit sechs Runtime-Patches und neun
+  Drei-Wege-Szenarien migriert; direkte `StaticList<Entity>.Insert`-Aufrufe und
+  die Erweiterungs-Telemetrie sind noch offen.
 - [ ] `Magicka/GameLogic/Controls/KeyboardMouseController.cs`
 - [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuSurvivalStatistics.cs` — VOLLSTÄNDIG: alle acht Reads verwenden den aktuellen PlayState; die lokale Cast-Darstellung und der statische Initialisierer-Diff sind semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Items/BookOfMagick.cs`
@@ -1658,7 +1692,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/FloorStomp.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/Graphics/MagickCamera.cs` — TEILWEISE: körperloses `FollowEntity`-Ziel, Prefix und 3 Drei-Wege-Szenarien; weitere Lifetime- und Dispose-Änderungen sind noch offen.
 - [ ] `Magicka/GameLogic/UI/SpellWheel.cs` — TEILWEISE: PlayState-Lebensdauer und aktueller Szenenempfänger sind mit 2 Transpilern und 2 Drei-Wege-Szenarien migriert; die UI-Skalierung im Renderpfad bleibt offen.
-- [ ] `Magicka/GameLogic/Entities/EntityManager.cs` — TEILWEISE: `GetClosestIDamageable`, das vierparametrige `GetEntities` und `ClearAndStore` mit 8 Drei-Wege-Szenarien; Konstruktor- und weitere Diagnoseänderungen sind noch offen.
+- [ ] `Magicka/GameLogic/Entities/EntityManager.cs` — TEILWEISE: `GetClosestIDamageable`, das vierparametrige `GetEntities`, `ClearAndStore` und der volle `Entity`-Listenpfad in `AddEntity` sind migriert; Konstruktor- und weitere Diagnoseänderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/TeslaField.cs` — TEILWEISE: Konstruktoren der statischen Poolobjekte speichern den ungenutzten PlayState nicht mehr und die Poolfreigabe bei Levelende ist migriert; die RetentionRegistry-Diagnostik ist noch offen.
 - [ ] `Magicka/GameLogic/Spells/LightningBolt.cs`
 - [ ] `Magicka/Levels/Triggers/Actions/Action.cs`

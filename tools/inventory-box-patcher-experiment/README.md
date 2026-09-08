@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-one hundred eighty-nine method patches:
+one hundred ninety-five method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -89,6 +89,8 @@ one hundred eighty-nine method patches:
   already disposed, before changing either GUI effect state.
 - Scene audio removes one invalid XACT locator after an internal cue-index
   failure and continues updating the remaining locators.
+- Every `StaticList` and `StaticWeakList` insertion path used by the game grows
+  full backing arrays under a stable CLR-2-compatible instance lock.
 - `DrinkBlood.Execute` no longer stores an unused strong reference to the play
   state that created the effect.
 - `RandomMine.Execute` no longer stores the last play state on its process-wide
