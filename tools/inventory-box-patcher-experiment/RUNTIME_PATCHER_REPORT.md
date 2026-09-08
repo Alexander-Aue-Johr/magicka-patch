@@ -1663,6 +1663,22 @@ Die maschinenlesbaren Einzelergebnisse stehen nach einem Build in
     Sender-Szenario. Die manuelle Patch-Assembly 0.0.60 und alle
     Runtime-Patch-Profile bestehen Fehler- und Kontrollfall.
 
+- [x] `network-client-ruleset-update-guard`
+  - Ziel: `NetworkClient.ReadMessage(BinaryReader, SteamID)` im
+    `RulesetUpdate`-Zweig.
+  - Technik: Transpiler prüft den bereits gelesenen `RecentPlayState` vor dem
+    ersten Zugriff auf `Level`, `CurrentScene` und `RuleSet`. Der gültige Pfad
+    führt danach unverändert den ursprünglichen `NetworkUpdate`-Aufruf aus.
+  - Fehlerfall: Ein verspätetes Ruleset-Paket wird verarbeitet, nachdem der
+    aktuelle PlayState oder ein Teil seiner Szenenkette bereits gelöst wurde.
+  - Verhalten: Das veraltete Paket wird verworfen und nicht in einen späteren
+    PlayState übernommen. Paketformat und alle anderen Nachrichtenzweige
+    bleiben unverändert. Die begrenzte Drop-Telemetrie folgt mit dem gemeinsamen
+    Runtime-Telemetrieblock.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 werfen bei fehlendem PlayState. Die
+    manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile schließen den
+    Zweig kontrolliert ab.
+
 ## Entfernte Versuchswege
 
 Der statische Patcher, die statische Verifikations-Assembly, C#-Diff-Strings und
@@ -1819,7 +1835,9 @@ Versionsnachweis.
   TEILWEISE: die vier Pack-Anzeigeprüfungen verwenden die gemeinsame
   Custom-Content-Lizenzregel und `DrawWidget` überspringt Images mit fehlender
   oder freigegebener Textur; die weiteren manuellen Änderungen bleiben offen.
-- [ ] `Magicka/Network/NetworkClient.cs`
+- [ ] `Magicka/Network/NetworkClient.cs` — TEILWEISE: verspätete
+  `RulesetUpdate`-Pakete werden bei gelöster PlayState-/Szenenkette verworfen;
+  weitere Client-, Telemetrie- und Lebensdaueränderungen sind noch offen.
 - [ ] `Magicka/Network/NetworkServer.cs` — TEILWEISE: alle geschlossenen
   `QueueUDPMessage<T>`-Instanziierungen prüfen einen veralteten Clientindex
   atomar im vorhandenen Listen-Lock; `EnterSync` verwirft unbekannte Sender
