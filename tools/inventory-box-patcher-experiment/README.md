@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-one hundred eighty-one method patches:
+one hundred eighty-three method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -149,6 +149,8 @@ one hundred eighty-one method patches:
 - Loading-screen clears restore the managed depth buffer before drawing.
 - Controller option discovery tolerates unavailable DirectInput and reports the
   problem after the main menu is ready.
+- Paradox account save data remains available to delayed account callbacks
+  after leaving the menu and is released once during final game shutdown.
 - Image-menu text refreshes its font metrics after a language change, and reused
   Paradox popups clear stale detail text.
 - Simplified Chinese uses a fixed Latin display name and accepts the supported

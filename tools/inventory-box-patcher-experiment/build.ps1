@@ -895,6 +895,8 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Controller options entry DirectInput guard" -or
         $auditLines -notcontains "patch_end=Menu controller scan DirectInput guard" -or
         $auditLines -notcontains "patch_end=Deferred DirectInput warning" -or
+        $auditLines -notcontains "patch_end=Paradox account menu-exit lifetime" -or
+        $auditLines -notcontains "patch_end=Paradox account shutdown cleanup" -or
         $auditLines -notcontains "patch_end=Interactable detached scene highlight guard" -or
         $auditLines -notcontains "patch_end=AudioManager disposed cue guard" -or
         $auditLines -notcontains "patch_end=DeflectionAura unused play-state release" -or
@@ -1007,7 +1009,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Magicks menu language selection guard" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 24 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 5 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 152) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 154) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1022,7 +1024,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=181")
+    $summary.Add("implemented_patches=183")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
