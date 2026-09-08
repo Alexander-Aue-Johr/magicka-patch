@@ -56,6 +56,7 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 MissileEntityNetworkEventPatch.Definition);
+            NetworkServerHotjoinPatch.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 EntityStateStoragePatch.ConstructorDefinition);

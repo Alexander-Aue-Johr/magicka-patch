@@ -1706,6 +1706,25 @@ Die maschinenlesbaren Einzelergebnisse stehen nach einem Build in
     manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile kehren zurück
     und markieren es als tot. Dies gilt auch für 1.4.16.0 und 1.5.1.0.
 
+- [x] `network-server-hotjoin-broadcast-continuation`
+  - Ziel: alle 73 geschlossenen Instanziierungen von
+    `NetworkServer.SendMessage<T>(ref T, P2PSend)` für konkrete
+    `ISendable`-Nachrichtentypen.
+  - Technik: Transpiler je geschlossener Generic-Methode; der vorhandene
+    Schleifenausstieg unmittelbar nach `Player.AddSyncMessage` springt nun zum
+    Inkrement der Clientschleife.
+  - Fehlerfall: Ist ein Spieler gerade in der Hotjoin-Synchronisierung, legt der
+    Server das cachebare Paket in dessen Warteschlange und beendet danach den
+    gesamten Broadcast. Spätere Spieler erhalten dasselbe Paket nicht.
+  - Verhalten: Der synchronisierende Spieler erhält das Paket weiterhin genau
+    einmal in seiner Warteschlange. Danach verarbeitet der Server alle weiteren
+    Clients. Paketformat, Serialisierung und der direkte Sendepfad bleiben
+    unverändert.
+  - Original 1.10.4.2 bedient im Zwei-Spieler-Test nur die erste Warteschlange.
+    Die manuelle Patch-Assembly 0.0.60 und das Runtime-Profil bedienen beide.
+    In 1.4.16.0 und 1.5.1.0 existiert die Hotjoin-Warteschlange noch nicht;
+    dieses Szenario ist dort ausdrücklich nicht anwendbar.
+
 ## Entfernte Versuchswege
 
 Der statische Patcher, die statische Verifikations-Assembly, C#-Diff-Strings und
@@ -1872,8 +1891,9 @@ Versionsnachweis.
 - [ ] `Magicka/Network/NetworkServer.cs` — TEILWEISE: alle geschlossenen
   `QueueUDPMessage<T>`-Instanziierungen prüfen einen veralteten Clientindex
   atomar im vorhandenen Listen-Lock; `EnterSync` verwirft unbekannte Sender
-  ebenfalls innerhalb des Locks. Weitere Server-, Telemetrie- und
-  Lebensdaueränderungen sind noch offen.
+  ebenfalls innerhalb des Locks. Cachebare Broadcasts laufen nach dem Einreihen
+  für einen synchronisierenden Spieler mit allen weiteren Clients fort. Weitere
+  Server-, Telemetrie- und Lebensdaueränderungen sind noch offen.
 - [ ] `Magicka/CommunityPatch/HybridInputSupport.cs`
 - [ ] `Magicka/CommunityPatch/OriginalBackupAudit.cs`
 - [ ] `Magicka/CommunityPatch/Magicka2ControllerSupport.cs`

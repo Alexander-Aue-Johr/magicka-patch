@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-three hundred seven method patches:
+three hundred eighty method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -37,6 +37,8 @@ three hundred seven method patches:
 - `MissileEntity.NetworkEventMessage` drops events for incomplete missiles and
   collision or hit events whose required target has already disappeared. A
   consumed collision missile is killed locally so ordinary cleanup removes it.
+- Every closed `NetworkServer.SendMessage<T>` broadcast continues with the next
+  client after queueing a cacheable packet for a syncing player.
 - `EntityStateStorage` releases its constructor play-state reference and
   restores saved entities into the current play state.
 - `Helper.ArrayEquals` treats every missing byte array as unequal.
