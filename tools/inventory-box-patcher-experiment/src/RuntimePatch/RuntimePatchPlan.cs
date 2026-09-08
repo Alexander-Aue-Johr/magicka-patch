@@ -132,6 +132,24 @@ namespace Magicka.CommunityPatch.Runtime
                 EarthQuakePlayStatePatch.QuakeDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                ArrowRainPlayStatePatch.VectorExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ArrowRainPlayStatePatch.OwnerExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ArrowRainPlayStatePatch.ExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ArrowRainPlayStatePatch.LaunchDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ArrowRainPlayStatePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ArrowRainPlayStatePatch.RemoveDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 MagickCameraFollowEntityPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

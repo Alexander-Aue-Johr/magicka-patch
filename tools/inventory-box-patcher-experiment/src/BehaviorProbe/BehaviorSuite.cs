@@ -28,6 +28,7 @@ internal static class BehaviorSuite
         GenericHealthBarScenarios.Run(magicka, report);
         SpellWheelPlayStateScenarios.Run(magicka, report);
         EarthQuakePlayStateScenarios.Run(magicka, report);
+        ArrowRainPlayStateScenarios.Run(magicka, report);
         GreaseTrailScenarios.Run(magicka, report);
         SpellEffectPlayStateScenarios.Run(magicka, report);
         EffectManagerScenarios.Run(magicka, report);

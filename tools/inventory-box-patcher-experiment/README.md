@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-one hundred forty-five method patches:
+one hundred fifty-one method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -50,6 +50,8 @@ one hundred forty-five method patches:
   submits its GUI render data to the current scene.
 - `EarthQuake` no longer retains its activation play state and resolves scene
   intersections, camera shake and entity queries through the current state.
+- `ArrowRain` no longer retains its activation state or scene and resolves
+  missile, lightning, camera and removal work through the current state.
 - `MagickCamera.Update` releases a followed entity whose physics body has
   detached.
 - `BossHealthBar` no longer retains the scene supplied to its constructor or

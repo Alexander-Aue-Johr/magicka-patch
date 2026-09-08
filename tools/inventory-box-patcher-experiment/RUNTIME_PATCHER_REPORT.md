@@ -372,6 +372,20 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     und aktuelle Zustände und prüfen die tatsächlichen Empfänger. Die Matrix
     umfasst Original, manuellen Patch und Runtime-Patch sowie Magicka 1.4.16.0
     und 1.5.1.0.
+- [x] `arrow-rain-current-play-state`
+  - Ziele: beide öffentlichen `ArrowRain.Execute`-Überladungen, die private
+    `Execute`-Methode sowie `Launch`, `Update` und `OnRemove`.
+  - Technik: Sechs eng geprüfte Transpiler entfernen zwei PlayState- und eine
+    Szenenzuweisung. Sechs spätere Zugriffe werden durch
+    `PlayState.RecentPlayState` ersetzt.
+  - Verhalten: Das Singleton hält weder Aktivierungszustand noch Szene fest.
+    Besitzerlose Geschosse, Blitzszene, Kamera, Blitz-Cast und Lichtreset
+    verwenden den aktuellen Zustand. Timing, Schaden, Projektil- und
+    Netzwerkdaten bleiben unverändert.
+  - Vier Drei-Wege-Szenarien prüfen beide Aktivierungsüberladungen, den
+    tatsächlichen State-Parameter der Geschosserzeugung im Update und die beim
+    Entfernen geänderte Szene. Exakte IL-Verträge decken zusätzlich den
+    Launch- und den vollständigen Blitzpfad ab.
 - [x] `magick-camera-follow-entity`
   - Ziel: `MagickCamera.Update(DataChannel, float)`
   - Technik: Prefix; setzt ausschließlich einen körperlosen `mFollowing`-Verweis
@@ -1237,7 +1251,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 65 Dateien vollständig, 56 Dateien teilweise und 99 Dateien noch
+Aktueller Stand: 66 Dateien vollständig, 56 Dateien teilweise und 98 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1461,7 +1475,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/PerformanceEnchantment.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/EarthQuake.cs` — VOLLSTÄNDIG: Aktivierungs-PlayState-Freigabe sowie aktuelle Szene, Kamera und EntityManager mit 3 Transpilern und 3 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/BreakBarriers.cs` — TEILWEISE: PlayState-Lebensdauer und statische Poolfreigabe sind migriert; die RetentionRegistry-Diagnostik ist noch offen.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ArrowRain.cs`
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ArrowRain.cs` — VOLLSTÄNDIG: PlayState- und Szenenfreigabe sowie aktuelle Missile-, Blitz-, Kamera- und Entfernungspfade mit 6 Transpilern und 4 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Entities/SprayEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ConfuseWho.cs`
 - [ ] `Magicka/GameLogic/UI/DialogManager.cs`

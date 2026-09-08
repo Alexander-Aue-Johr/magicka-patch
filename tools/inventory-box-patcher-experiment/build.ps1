@@ -232,6 +232,10 @@ function Test-BehaviorMatrix {
         "earthquake.execute_current_scene",
         "earthquake.current_camera",
         "earthquake.current_entity_manager",
+        "arrow_rain.vector_release",
+        "arrow_rain.owner_release",
+        "arrow_rain.update_current_play_state",
+        "arrow_rain.remove_current_scene",
         "camera_follow.bodyless_target",
         "boss_health_bar.constructor_release",
         "boss_health_bar.current_scene",
@@ -461,6 +465,10 @@ function Test-BehaviorProfile(
             "earthquake.execute_current_scene",
             "earthquake.current_camera",
             "earthquake.current_entity_manager",
+            "arrow_rain.vector_release",
+            "arrow_rain.owner_release",
+            "arrow_rain.update_current_play_state",
+            "arrow_rain.remove_current_scene",
             "rain.vector_current_play_state",
             "rain.owner_current_play_state",
             "rain.update_current_play_state",
@@ -580,6 +588,10 @@ function Test-BehaviorProfile(
         "earthquake.execute_current_scene",
         "earthquake.current_camera",
         "earthquake.current_entity_manager",
+        "arrow_rain.vector_release",
+        "arrow_rain.owner_release",
+        "arrow_rain.update_current_play_state",
+        "arrow_rain.remove_current_scene",
         "camera_follow.bodyless_target",
         "camera_follow.missing_target",
         "camera_follow.other_behavior",
@@ -945,9 +957,15 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=EarthQuake play-state release" -or
         $auditLines -notcontains "patch_end=EarthQuake current camera" -or
         $auditLines -notcontains "patch_end=EarthQuake current entity manager" -or
+        $auditLines -notcontains "patch_end=ArrowRain vector play-state release" -or
+        $auditLines -notcontains "patch_end=ArrowRain owner play-state release" -or
+        $auditLines -notcontains "patch_end=ArrowRain scene reference release" -or
+        $auditLines -notcontains "patch_end=ArrowRain current launch play state" -or
+        $auditLines -notcontains "patch_end=ArrowRain current update play state" -or
+        $auditLines -notcontains "patch_end=ArrowRain current removal scene" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 23 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 118) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 124) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -962,7 +980,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=145")
+    $summary.Add("implemented_patches=151")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
