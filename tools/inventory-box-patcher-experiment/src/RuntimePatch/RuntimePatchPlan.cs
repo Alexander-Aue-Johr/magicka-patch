@@ -412,6 +412,15 @@ namespace Magicka.CommunityPatch.Runtime
                 ChantSpellCleanupPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                ActionLifecyclePatch.ClearDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ActionLifecyclePatch.ResetDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ActionLifecyclePatch.DisposeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 StaticLevelPoolCleanupPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

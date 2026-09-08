@@ -341,6 +341,8 @@ function Test-BehaviorMatrix {
         "chilly_blast.current_query_manager",
         "star_gaze.detached_victim",
         "confuse_who.detached_victim",
+        "action_lifecycle.clear_references",
+        "action_lifecycle.state_reset_tag",
         "homing_charge.execute_release",
         "stop_charge.execute_release",
         "homing_charge.current_query_manager",
@@ -479,6 +481,8 @@ function Test-BehaviorProfile(
             "radial_blur.level_content_release",
             "radial_blur.current_scene",
             "radial_blur.cache_clear",
+            "action_lifecycle.clear_references",
+            "action_lifecycle.state_reset_tag",
             "summon_phoenix.vector_state",
             "summon_phoenix.owner_state",
             "summon_phoenix.update_state",
@@ -857,6 +861,9 @@ function Test-BehaviorProfile(
         "star_gaze.empty",
         "confuse_who.detached_victim",
         "confuse_who.empty",
+        "action_lifecycle.clear_references",
+        "action_lifecycle.state_reset_tag",
+        "action_lifecycle.empty_clear",
         "homing_charge.execute_release",
         "stop_charge.execute_release",
         "homing_charge.current_query_manager",
@@ -1172,8 +1179,11 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Entanglement shared render effect" -or
         $auditLines -notcontains "patch_end=Entanglement redundant effect update removal" -or
         $auditLines -notcontains "patch_end=ConfuseWho detached victim faction cleanup" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 34 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 6 -or
+        $auditLines -notcontains "patch_end=Action instance reference cleanup" -or
+        $auditLines -notcontains "patch_end=Action state tag cleanup" -or
+        $auditLines -notcontains "patch_end=Action cleanup at play-state disposal" -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 36 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 7 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 182) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
@@ -1189,7 +1199,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=222")
+    $summary.Add("implemented_patches=225")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

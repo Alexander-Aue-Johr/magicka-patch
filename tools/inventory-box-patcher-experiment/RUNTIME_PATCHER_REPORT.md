@@ -849,6 +849,23 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern im abgelösten Zustand und
     bestehen den leeren Kontrollfall. Die manuelle Patch-Assembly 0.0.60 und alle
     Runtime-Patch-Profile bestehen beide Szenarien.
+- [x] `action-level-lifetime`
+  - Ziele: `Action.ClearInstances()`, `Action.State.Reset(Action)` und
+    `PlayState.Dispose()`
+  - Technik: ein Prefix trennt vor dem Leeren der statischen Aktionsliste die
+    Trigger- und Szenenreferenzen und setzt die Ausführungsqueue zurück. Ein
+    Postfix leert beim Zustandsreset das Live-Tag. Ein weiterer Prefix ruft die
+    vorhandene Listenbereinigung beim Dispose eines initialisierten PlayState
+    auf.
+  - Fehlerfall: Beim Verlassen eines Levels bleiben Actions sonst bis zum Start
+    des nächsten PlayState über `sInstances` erreichbar. Trigger, Szene und
+    optionale Tags halten darüber Levelobjekte fest.
+  - Verhalten: Handles, Serialisierung, Delays und Aktionsausführung bleiben
+    unverändert. Ein nicht initialisierter PlayState löst keine Bereinigung aus,
+    und eine leere Liste bleibt wirkungslos.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten die Referenzen und das Tag.
+    Die manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile geben sie
+    frei.
 - [x] `drink-blood-play-state-lifetime`
   - Ziel: `DrinkBlood.Execute(ISpellCaster, PlayState)`
   - Technik: Transpiler; ersetzt ausschließlich `mPlayState = iPlayState`
@@ -1596,7 +1613,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 78 Dateien vollständig, 61 Dateien teilweise und 81 Dateien noch
+Aktueller Stand: 79 Dateien vollständig, 61 Dateien teilweise und 80 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1865,7 +1882,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/EntityManager.cs` — TEILWEISE: `GetClosestIDamageable`, das vierparametrige `GetEntities`, `ClearAndStore` und der volle `Entity`-Listenpfad in `AddEntity` sind migriert; Konstruktor- und weitere Diagnoseänderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/TeslaField.cs` — TEILWEISE: Konstruktoren der statischen Poolobjekte speichern den ungenutzten PlayState nicht mehr und die Poolfreigabe bei Levelende ist migriert; die RetentionRegistry-Diagnostik ist noch offen.
 - [ ] `Magicka/GameLogic/Spells/LightningBolt.cs`
-- [ ] `Magicka/Levels/Triggers/Actions/Action.cs`
+- [x] `Magicka/Levels/Triggers/Actions/Action.cs` — VOLLSTÄNDIG: statische Actions trennen vor dem Leeren ihre Trigger- und Szenenreferenzen, Zustandsresets leeren das Live-Tag und initialisierte PlayStates räumen die Liste bereits beim Dispose auf; 2 Prefixe, ein Postfix und 3 Drei-Wege-Szenarien. `IDisposable` und das nur dafür angelegte Flag des manuellen Typs sind für das identische Laufzeitverhalten nicht erforderlich.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TimeWarpStaff.cs` — VOLLSTÄNDIG: gespeicherte PlayState-Zuweisung und laufende Zugriffe in `Execute`, `Update` und `OnRemove`, 3 Transpiler und 3 Drei-Wege-Szenarien; die statische Initialisiererdarstellung ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TimeWarp.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen und laufende Zugriffe in beiden `Execute`-Überladungen, `Update` und `OnRemove`, 4 Transpiler und 3 Drei-Wege-Szenarien; die statische Initialisiererdarstellung ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuMain.cs` — VOLLSTÄNDIG: alle elf aktuellen Reads verwenden den aktuellen PlayState; 1.4 und 1.5 erhalten zusätzlich die zwei historischen Draw-Reads. Der statische Initialisierer-Diff ist semantikfreies Compilerrauschen.
