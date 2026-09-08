@@ -187,6 +187,8 @@ internal sealed class SpellWheelPlayStateHarness
             update,
             spellWheel,
             new object[] { Enum.ToObject(dataChannelType, 0), 0.1f });
+        GC.KeepAlive(player);
+        GC.KeepAlive(avatar);
         SpellWheelPlayStateProbe.Enabled = false;
 
         bool currentUsed = ReferenceEquals(
