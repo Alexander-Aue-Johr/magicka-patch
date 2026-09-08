@@ -53,6 +53,7 @@ internal static class BehaviorSuite
         PoisonSprayScenarios.Run(magicka, report);
         ChillyBlastScenarios.Run(magicka, report);
         StarGazeScenarios.Run(magicka, report);
+        ConfuseWhoFactionScenarios.Run(magicka, report);
         ChargeAbilityScenarios.Run(magicka, report);
         ActiveBuffCacheScenarios.Run(magicka, report);
         EntityUpdateMessageScenarios.Run(magicka, runtimePatchEnabled, report);

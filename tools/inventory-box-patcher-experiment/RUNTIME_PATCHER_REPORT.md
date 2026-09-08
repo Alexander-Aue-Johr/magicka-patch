@@ -835,6 +835,20 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern in beiden
     Ressourcen-Szenarien. Die manuelle Patch-Assembly 0.0.60 und alle
     Runtime-Patch-Profile bestehen sie.
+- [x] `confuse-who-detached-victim-faction`
+  - Ziel: `ConfuseWho.Update(DataChannel, float)`
+  - Technik: ein Transpiler ersetzt genau die eine Folge aus
+    `Character.Template` und `CharacterTemplate.Faction` durch
+    `Character.Faction`.
+  - Fehlerfall: Ein abgelaufener Effekt kann ein bereits deinitialisiertes Opfer
+    enthalten. Dessen aktuelle Fraktion ist noch verfügbar, das Template wurde
+    aber bereits getrennt. Der ursprüngliche Zugriff löst dann eine
+    `NullReferenceException` aus und verhindert die restliche Bereinigung.
+  - Verhalten: Effektstopp, Wiederherstellung der Fraktion und Entfernung aus
+    der Opferliste bleiben unverändert. Der leere Kontrollfall bleibt wirkungslos.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern im abgelösten Zustand und
+    bestehen den leeren Kontrollfall. Die manuelle Patch-Assembly 0.0.60 und alle
+    Runtime-Patch-Profile bestehen beide Szenarien.
 - [x] `drink-blood-play-state-lifetime`
   - Ziel: `DrinkBlood.Execute(ISpellCaster, PlayState)`
   - Technik: Transpiler; ersetzt ausschließlich `mPlayState = iPlayState`
@@ -1582,7 +1596,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 77 Dateien vollständig, 61 Dateien teilweise und 82 Dateien noch
+Aktueller Stand: 78 Dateien vollständig, 61 Dateien teilweise und 81 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1841,7 +1855,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/BreakBarriers.cs` — TEILWEISE: PlayState-Lebensdauer und statische Poolfreigabe sind migriert; die RetentionRegistry-Diagnostik ist noch offen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ArrowRain.cs` — VOLLSTÄNDIG: PlayState- und Szenenfreigabe sowie aktuelle Missile-, Blitz-, Kamera- und Entfernungspfade mit 6 Transpilern und 4 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Entities/SprayEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ConfuseWho.cs`
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ConfuseWho.cs` — VOLLSTÄNDIG: abgelaufene, bereits deinitialisierte Opfer verwenden bei der Bereinigung die weiterhin verfügbare aktuelle Fraktion, ein Transpiler und 2 Drei-Wege-Szenarien; die statische Initialisierer-Umschreibung ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/UI/DialogManager.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Confuse.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TornadoEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.

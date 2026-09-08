@@ -388,6 +388,9 @@ namespace Magicka.CommunityPatch.Runtime
                 StarGazeFactionPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                ConfuseWhoFactionPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 ChargeAbilityPlayStatePatch.HomingExecuteDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
