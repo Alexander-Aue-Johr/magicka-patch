@@ -255,6 +255,17 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Zwei Drei-Wege-Szenarien stoppen unmittelbar nach der früheren Zuweisung
     beziehungsweise beim NavMesh-Aufruf und unterscheiden alte und aktuelle
     Objektidentität.
+- [x] `break-barriers-play-state-lifetime`
+  - Ziele: `BreakBarriers.Execute(ISpellCaster, PlayState)` und
+    `Update(DataChannel, float)`.
+  - Technik: Zwei eng geprüfte Transpiler entfernen genau eine gespeicherte
+    PlayState-Zuweisung und ersetzen beide späteren Feldzugriffe durch
+    `PlayState.RecentPlayState`.
+  - Verhalten: Ein aktiver oder gepoolter Effekt hält keinen alten PlayState
+    mehr. Räumliche Abfrage und Listenrückgabe verwenden denselben aktuellen
+    EntityManager; TTL, Besitzer und Barrierenfilter bleiben unverändert.
+  - Zwei Drei-Wege-Szenarien prüfen den vollständigen Execute-Pfad und zeichnen
+    bei getrennten alten und aktuellen Managern beide Update-Empfänger auf.
 - [x] `magick-camera-follow-entity`
   - Ziel: `MagickCamera.Update(DataChannel, float)`
   - Technik: Prefix; setzt ausschließlich einen körperlosen `mFollowing`-Verweis
@@ -1120,7 +1131,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 59 Dateien vollständig, 56 Dateien teilweise und 105 Dateien noch
+Aktueller Stand: 59 Dateien vollständig, 57 Dateien teilweise und 104 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1343,7 +1354,7 @@ Versionsnachweis.
 - [ ] `Magicka/Levels/Triggers/Actions/GiveOrder.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/PerformanceEnchantment.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/EarthQuake.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/BreakBarriers.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/BreakBarriers.cs` — TEILWEISE: PlayState-Lebensdauer und statische Poolfreigabe sind migriert; die RetentionRegistry-Diagnostik ist noch offen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ArrowRain.cs`
 - [ ] `Magicka/GameLogic/Entities/SprayEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ConfuseWho.cs`

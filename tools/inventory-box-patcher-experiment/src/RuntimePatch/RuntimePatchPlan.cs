@@ -66,6 +66,12 @@ namespace Magicka.CommunityPatch.Runtime
                 EtherealClonePlayStatePatch.SpawnDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                BreakBarriersPlayStatePatch.ExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                BreakBarriersPlayStatePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 MagickCameraFollowEntityPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

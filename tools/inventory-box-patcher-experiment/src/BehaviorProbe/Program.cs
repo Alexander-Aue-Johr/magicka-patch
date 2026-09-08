@@ -20,6 +20,7 @@ internal static class Program
         AppDomain.CurrentDomain.AssemblyResolve += ResolveTargetAssembly;
         targetAssembly = Assembly.LoadFrom(targetPath);
         EtherealCloneScenarios.Prepare(targetAssembly);
+        BreakBarriersScenarios.Prepare(targetAssembly);
 
         if (applyRuntimePatch)
             Bootstrap.Apply(targetAssembly);
