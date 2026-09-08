@@ -1,6 +1,6 @@
 # Runtime-Patcher-Bericht
 
-Stand: 6. September 2026
+Stand: 8. September 2026
 
 ## Zweck und Verifikationsgrenze
 
@@ -330,6 +330,22 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     werfen. Die manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile
     laden einmal, behalten einen Eintrag und schließen die Initialisierung ab.
     Der Kontrollfall besteht in allen Profilen.
+- [x] `time-warp-current-play-state`
+  - Ziele: beide `TimeWarp.Execute`-Überladungen sowie `TimeWarp.Update` und
+    `TimeWarp.OnRemove`; außerdem `TimeWarpStaff.Execute`, `Update` und
+    `OnRemove`.
+  - Technik: Sieben eng geprüfte Transpiler entfernen genau die drei
+    Zuweisungen an `mPlayState` und ersetzen in den laufenden Effekten genau
+    siebzehn Feldzugriffe durch `PlayState.RecentPlayState`.
+  - Verhalten: Die beiden Singleton-Effekte halten keinen beendeten PlayState
+    mehr. Start, Zeitmultiplikator, Ausblendung und Wiederherstellung der
+    Sättigung verwenden den aktuellen PlayState; Dauer, Audio, visueller
+    Effekt und Besitzerbehandlung bleiben unverändert.
+  - Sechs Drei-Wege-Szenarien verwenden absichtlich verschiedene übergebene,
+    veraltete und aktuelle Zustände. Sie prüfen Start, Update und Entfernen für
+    beide Effekttypen. Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten oder
+    verändern den veralteten Zustand; die manuelle Patch-Assembly und alle
+    Runtime-Patch-Profile verwenden ausschließlich den aktuellen Zustand.
 - [x] `magick-camera-follow-entity`
   - Ziel: `MagickCamera.Update(DataChannel, float)`
   - Technik: Prefix; setzt ausschließlich einen körperlosen `mFollowing`-Verweis
@@ -1195,7 +1211,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 62 Dateien vollständig, 56 Dateien teilweise und 102 Dateien noch
+Aktueller Stand: 64 Dateien vollständig, 56 Dateien teilweise und 100 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1432,8 +1448,8 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/TeslaField.cs` — TEILWEISE: Konstruktoren der statischen Poolobjekte speichern den ungenutzten PlayState nicht mehr und die Poolfreigabe bei Levelende ist migriert; die RetentionRegistry-Diagnostik ist noch offen.
 - [ ] `Magicka/GameLogic/Spells/LightningBolt.cs`
 - [ ] `Magicka/Levels/Triggers/Actions/Action.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TimeWarpStaff.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TimeWarp.cs`
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TimeWarpStaff.cs` — VOLLSTÄNDIG: gespeicherte PlayState-Zuweisung und laufende Zugriffe in `Execute`, `Update` und `OnRemove`, 3 Transpiler und 3 Drei-Wege-Szenarien; die statische Initialisiererdarstellung ist semantikfreies Compilerrauschen.
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TimeWarp.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen und laufende Zugriffe in beiden `Execute`-Überladungen, `Update` und `OnRemove`, 4 Transpiler und 3 Drei-Wege-Szenarien; die statische Initialisiererdarstellung ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuMain.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/MeteorShower.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, beide laufenden PlayState-Zugriffe und die Singleton-Freigabe in `OnRemove`, 4 Transpiler, ein Prefix und 5 Drei-Wege-Szenarien; die Darstellung der statischen Initialisierer ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/GreaseTrail.cs` — TEILWEISE: PlayState-Lebensdauer, beide aktuellen Spawnzugriffe und statische Poolfreigabe sind migriert; die RetentionRegistry-Diagnostik ist noch offen.

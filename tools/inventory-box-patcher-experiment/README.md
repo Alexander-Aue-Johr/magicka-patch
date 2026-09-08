@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-one hundred thirty-three method patches:
+one hundred forty method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -43,6 +43,9 @@ one hundred thirty-three method patches:
   play state.
 - `EffectManager` keeps the first visual-effect definition when multiple XML
   files produce the same filename hash instead of aborting initialization.
+- `TimeWarp` and `TimeWarpStaff` release the play state supplied when the
+  effect starts and apply timing and saturation changes to the current play
+  state.
 - `MagickCamera.Update` releases a followed entity whose physics body has
   detached.
 - `BossHealthBar` no longer retains the scene supplied to its constructor or

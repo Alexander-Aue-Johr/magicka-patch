@@ -221,6 +221,12 @@ function Test-BehaviorMatrix {
         "lightning_spell.empty_cache_current_play_state",
         "lightning_spell.cast_current_play_state",
         "effect_manager.duplicate_name",
+        "time_warp.start_current_state",
+        "time_warp.update_current_state",
+        "time_warp.remove_current_state",
+        "time_warp_staff.start_current_state",
+        "time_warp_staff.update_current_state",
+        "time_warp_staff.remove_current_state",
         "camera_follow.bodyless_target",
         "boss_health_bar.constructor_release",
         "boss_health_bar.current_scene",
@@ -439,6 +445,12 @@ function Test-BehaviorProfile(
             "lightning_spell.empty_cache_current_play_state",
             "lightning_spell.cast_current_play_state",
             "effect_manager.duplicate_name",
+            "time_warp.start_current_state",
+            "time_warp.update_current_state",
+            "time_warp.remove_current_state",
+            "time_warp_staff.start_current_state",
+            "time_warp_staff.update_current_state",
+            "time_warp_staff.remove_current_state",
             "rain.vector_current_play_state",
             "rain.owner_current_play_state",
             "rain.update_current_play_state",
@@ -547,6 +559,12 @@ function Test-BehaviorProfile(
         "lightning_spell.cast_current_play_state",
         "effect_manager.duplicate_name",
         "effect_manager.unique_names",
+        "time_warp.start_current_state",
+        "time_warp.update_current_state",
+        "time_warp.remove_current_state",
+        "time_warp_staff.start_current_state",
+        "time_warp_staff.update_current_state",
+        "time_warp_staff.remove_current_state",
         "camera_follow.bodyless_target",
         "camera_follow.missing_target",
         "camera_follow.other_behavior",
@@ -900,9 +918,16 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=LightningSpell current cache play state" -or
         $auditLines -notcontains "patch_end=LightningSpell current cast play state" -or
         $auditLines -notcontains "patch_end=EffectManager duplicate asset guard" -or
+        $auditLines -notcontains "patch_end=TimeWarp vector play-state release" -or
+        $auditLines -notcontains "patch_end=TimeWarp owner play-state release" -or
+        $auditLines -notcontains "patch_end=TimeWarp current update play state" -or
+        $auditLines -notcontains "patch_end=TimeWarp current removal play state" -or
+        $auditLines -notcontains "patch_end=TimeWarpStaff play-state release" -or
+        $auditLines -notcontains "patch_end=TimeWarpStaff current update play state" -or
+        $auditLines -notcontains "patch_end=TimeWarpStaff current removal play state" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 23 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 106) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 113) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -917,7 +942,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=133")
+    $summary.Add("implemented_patches=140")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

@@ -96,6 +96,27 @@ namespace Magicka.CommunityPatch.Runtime
                 EffectManagerDuplicatePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                TimeWarpPlayStatePatch.TimeWarpVectorDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                TimeWarpPlayStatePatch.TimeWarpOwnerDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                TimeWarpPlayStatePatch.TimeWarpUpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                TimeWarpPlayStatePatch.TimeWarpRemoveDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                TimeWarpPlayStatePatch.StaffOwnerDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                TimeWarpPlayStatePatch.StaffUpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                TimeWarpPlayStatePatch.StaffRemoveDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 MagickCameraFollowEntityPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

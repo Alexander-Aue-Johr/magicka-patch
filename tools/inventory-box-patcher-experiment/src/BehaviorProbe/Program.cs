@@ -25,6 +25,7 @@ internal static class Program
         GreaseTrailScenarios.Prepare(targetAssembly);
         SpellEffectPlayStateScenarios.Prepare(targetAssembly);
         EffectManagerScenarios.Prepare(targetAssembly);
+        TimeWarpScenarios.Prepare(targetAssembly);
 
         if (applyRuntimePatch)
             Bootstrap.Apply(targetAssembly);
