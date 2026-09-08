@@ -296,6 +296,15 @@ namespace Magicka.CommunityPatch.Runtime
                 MouseResolutionPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                BorderlessPresentationPatch.ConstructorDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                BorderlessPresentationPatch.SettingsDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                BorderlessPresentationPatch.TopMostDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 RadialBlurLifetimePatch.InitializeCacheDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

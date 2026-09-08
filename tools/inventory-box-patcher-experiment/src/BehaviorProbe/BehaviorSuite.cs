@@ -114,6 +114,10 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        BorderlessPresentationScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         RadialBlurLifetimeScenarios.Run(
             magicka,
             runtimePatchEnabled,

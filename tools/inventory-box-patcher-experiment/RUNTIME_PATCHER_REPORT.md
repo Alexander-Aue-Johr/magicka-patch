@@ -829,6 +829,24 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern an vier
     Skalierungsszenarien. Die manuelle Patch-Assembly 0.0.60 und alle
     Runtime-Patch-Profile bestehen diese sowie den unveränderten Kontrollfall.
+- [x] `borderless-fullscreen-presentation`
+  - Ziele: `Game..ctor()`, `Game.mGraphics_PreparingDeviceSettings` und
+    `Game.Update(GameTime)`.
+  - Technik: Der Konstruktor-Transpiler verschiebt nur den ersten
+    `GraphicsDeviceManager.ApplyChanges()`-Aufruf hinter die drei vorhandenen
+    Geräteereignis-Abonnements. Ein Prefix ergänzt die Präsentationsparameter,
+    und ein zweiter Transpiler ruft direkt nach der vorhandenen
+    `mFocused`-Zuweisung einen typisierten DynamicMethod-Helfer auf.
+  - Fehlerfall: Der erste Geräteaufbau umgeht die Reset-Handler. Exklusives
+    Direct3D-Vollbild kann beim Alt-Tab während des Loader-Threads verloren
+    gehen, und XNA hält das ersatzweise randlose Fenster weiterhin topmost.
+  - Verhalten: Der vorhandene Backbuffer-Zähler bleibt unverändert. Der
+    Backbuffer wird erhalten; logisches Vollbild verwendet eine nicht exklusive
+    Präsentation ohne Fullscreen-Refresh-Rate. Nur dieses randlose Vollbild
+    verliert den TopMost-Status. Fensterbetrieb bleibt unverändert.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern an den vier
+    Borderless-Szenarien. Die manuelle Patch-Assembly 0.0.60 und alle
+    Runtime-Patch-Profile bestehen diese sowie beide Fenster-Kontrollfälle.
 - [x] `radial-blur-level-lifetime`
   - Ziele: `RadialBlur.InitializeCache(ContentManager, int)`, die vollständige
     `Initialize`-Überladung, `Update(DataChannel, float)` und `DisposeCache()`

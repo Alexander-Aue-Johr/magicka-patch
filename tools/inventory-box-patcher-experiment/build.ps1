@@ -318,6 +318,10 @@ function Test-BehaviorMatrix {
         "mouse_resolution.higher",
         "mouse_resolution.negative",
         "mouse_resolution.upper_bound",
+        "borderless.initial_handler_order",
+        "borderless.preserve_backbuffer",
+        "borderless.logical_fullscreen",
+        "borderless.clear_topmost",
         "radial_blur.level_content_release",
         "radial_blur.current_scene",
         "radial_blur.cache_clear",
@@ -520,6 +524,10 @@ function Test-BehaviorProfile(
             "mouse_resolution.higher",
             "mouse_resolution.negative",
             "mouse_resolution.upper_bound",
+            "borderless.initial_handler_order",
+            "borderless.preserve_backbuffer",
+            "borderless.logical_fullscreen",
+            "borderless.clear_topmost",
             "radial_blur.level_content_release",
             "radial_blur.current_scene",
             "radial_blur.cache_clear",
@@ -863,6 +871,12 @@ function Test-BehaviorProfile(
         "mouse_resolution.negative",
         "mouse_resolution.upper_bound",
         "mouse_resolution.equal",
+        "borderless.initial_handler_order",
+        "borderless.preserve_backbuffer",
+        "borderless.logical_fullscreen",
+        "borderless.windowed",
+        "borderless.clear_topmost",
+        "borderless.keep_topmost",
         "radial_blur.level_content_release",
         "radial_blur.current_scene",
         "radial_blur.same_scene",
@@ -1285,6 +1299,9 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Graphics startup error guidance" -or
         $auditLines -notcontains "patch_end=Missing level hash file handling" -or
         $auditLines -notcontains "patch_end=Borderless mouse coordinate scaling" -or
+        $auditLines -notcontains "patch_end=Initial graphics handler ordering" -or
+        $auditLines -notcontains "patch_end=Borderless presentation device settings" -or
+        $auditLines -notcontains "patch_end=Borderless fullscreen topmost normalization" -or
         $auditLines -notcontains "patch_end=RadialBlur global content lifetime" -or
         $auditLines -notcontains "patch_end=RadialBlur scene retention removal" -or
         $auditLines -notcontains "patch_end=RadialBlur current-scene rendering" -or
@@ -1320,9 +1337,9 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=NetworkServer hotjoin broadcast continuation: Magicka.Network.EntityRemoveMessage" -or
         $auditLines -notcontains "patch_end=NetworkServer forced sync player and sender resolution" -or
         $auditLines -notcontains "patch_end=NetworkServer forced sync response builder" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 43 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 44 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 8 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 337) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 339) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1337,7 +1354,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=388")
+    $summary.Add("implemented_patches=391")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
