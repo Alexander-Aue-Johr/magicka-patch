@@ -293,6 +293,9 @@ namespace Magicka.CommunityPatch.Runtime
                 MissingLevelFilePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                MouseResolutionPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 RadialBlurLifetimePatch.InitializeCacheDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

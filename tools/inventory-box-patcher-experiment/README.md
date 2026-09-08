@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-three hundred eighty-seven method patches:
+three hundred eighty-eight method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -220,6 +220,8 @@ three hundred eighty-seven method patches:
   guidance before the original crash report is written.
 - A missing file referenced by the level hash worker shows its path locally and
   exits with code 1 without entering crash telemetry.
+- Borderless fullscreen converts physical mouse coordinates to the selected
+  logical render resolution when both sizes differ.
 - Loading-screen clears restore the managed depth buffer before drawing.
 - Controller option discovery tolerates unavailable DirectInput and reports the
   problem after the main menu is ready.

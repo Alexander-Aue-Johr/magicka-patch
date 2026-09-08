@@ -314,6 +314,10 @@ function Test-BehaviorMatrix {
         "graphics_error.xna_argument",
         "graphics_error.no_suitable_device",
         "level_hash.missing_file",
+        "mouse_resolution.lower",
+        "mouse_resolution.higher",
+        "mouse_resolution.negative",
+        "mouse_resolution.upper_bound",
         "radial_blur.level_content_release",
         "radial_blur.current_scene",
         "radial_blur.cache_clear",
@@ -512,6 +516,10 @@ function Test-BehaviorProfile(
             "graphics_error.xna_argument",
             "graphics_error.no_suitable_device",
             "level_hash.missing_file",
+            "mouse_resolution.lower",
+            "mouse_resolution.higher",
+            "mouse_resolution.negative",
+            "mouse_resolution.upper_bound",
             "radial_blur.level_content_release",
             "radial_blur.current_scene",
             "radial_blur.cache_clear",
@@ -850,6 +858,11 @@ function Test-BehaviorProfile(
         "graphics_error.other_exception",
         "level_hash.missing_file",
         "level_hash.other_io",
+        "mouse_resolution.lower",
+        "mouse_resolution.higher",
+        "mouse_resolution.negative",
+        "mouse_resolution.upper_bound",
+        "mouse_resolution.equal",
         "radial_blur.level_content_release",
         "radial_blur.current_scene",
         "radial_blur.same_scene",
@@ -1271,6 +1284,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Character detached-Gamer spell statistics guard" -or
         $auditLines -notcontains "patch_end=Graphics startup error guidance" -or
         $auditLines -notcontains "patch_end=Missing level hash file handling" -or
+        $auditLines -notcontains "patch_end=Borderless mouse coordinate scaling" -or
         $auditLines -notcontains "patch_end=RadialBlur global content lifetime" -or
         $auditLines -notcontains "patch_end=RadialBlur scene retention removal" -or
         $auditLines -notcontains "patch_end=RadialBlur current-scene rendering" -or
@@ -1308,7 +1322,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=NetworkServer forced sync response builder" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 43 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 8 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 336) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 337) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1323,7 +1337,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=387")
+    $summary.Add("implemented_patches=388")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

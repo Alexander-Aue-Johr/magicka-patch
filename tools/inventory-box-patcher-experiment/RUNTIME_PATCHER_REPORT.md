@@ -813,6 +813,22 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 besitzen den Handler nicht. Die
     manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile bestehen den
     Missing-File-Fall und den Kontrollfall mit einer anderen `IOException`.
+- [x] `borderless-mouse-coordinate-scaling`
+  - Ziel: beide `Mouse.GetState()`-Aufrufe in `Game.Draw(GameTime)`.
+  - Technik: Ein Transpiler ersetzt beide Aufrufe durch einen einmalig
+    erzeugten, typisierten DynamicMethod-Wrapper. Er verwendet Form-Clientgröße
+    und Backbuffergröße direkt; im Render-Hotpath findet keine Reflection
+    statt.
+  - Fehlerfall: Randloses Fullscreen liefert Mauskoordinaten in physischer
+    Monitorauflösung, obwohl Magicka in einer anderen logischen Auflösung
+    rendert. Trefferprüfung und sichtbarer Cursor stimmen dann nicht überein.
+  - Verhalten: Nur ein randloses, nicht natives Backbufferformat skaliert X und
+    Y und begrenzt sie auf die logische Fläche. Fensterbetrieb, echtes
+    Fullscreen, identische oder ungültige Größen sowie unerwartete
+    Skalierungsfehler liefern den unveränderten Zustand.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern an vier
+    Skalierungsszenarien. Die manuelle Patch-Assembly 0.0.60 und alle
+    Runtime-Patch-Profile bestehen diese sowie den unveränderten Kontrollfall.
 - [x] `radial-blur-level-lifetime`
   - Ziele: `RadialBlur.InitializeCache(ContentManager, int)`, die vollständige
     `Initialize`-Überladung, `Update(DataChannel, float)` und `DisposeCache()`
@@ -1916,7 +1932,9 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/RailGunSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Polymorph.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/UI/KeyboardHUD.cs` — TEILWEISE: der Safe-Area-Einzug in `RenderData.DrawIcon` ist migriert; die Hybrid-Input-Darstellung und Label-Aktualisierung sind noch offen.
-- [ ] `Magicka/CommunityPatch/MouseInputCompatibility.cs`
+- [x] `Magicka/CommunityPatch/MouseInputCompatibility.cs` — VOLLSTÄNDIG: die
+  koordinatengenaue, begrenzte Skalierung für randloses Fullscreen liegt im
+  Runtime-Helper und wird typisiert aus `Game.Draw` aufgerufen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/GreaseLump.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/StaticList.cs` — TEILWEISE: Add und Insert für `int` und `Spell`
   sowie der einzige `Entity`-Add-Pfad sind mit sechs Runtime-Patches und neun
@@ -1950,7 +1968,10 @@ Versionsnachweis.
   privaten Startpfad, vier Update-Zugriffe und die ausfallsichere
   `OnRemove`-Bereinigung; 4 Transpiler, 1 Prefix und 6 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonZombie.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, zwei Start- und vier Update-Zugriffe sowie Pool- und Template-Freigabe; 4 Transpiler und 4 eigene Drei-Wege-Szenarien. RetentionRegistry-Aufrufe folgen gesammelt im Diagnostics-Block, die statischen Initialisierer sind Compilerrauschen.
-- [ ] `Magicka/Game.cs` — TEILWEISE: `EndRun` gibt die Paradox-Kontodaten nach dem Dienstabbau frei; die weiteren manuellen Änderungen der Klasse sind noch offen.
+- [ ] `Magicka/Game.cs` — TEILWEISE: `EndRun` gibt die Paradox-Kontodaten nach
+  dem Dienstabbau frei und `Draw` skaliert physische Mauskoordinaten auf die
+  logische randlose Renderauflösung; die weiteren manuellen Änderungen der
+  Klasse sind noch offen.
 - [ ] `Magicka/CommunityPatch/PayloadContract.cs`
 - [ ] `Magicka/CommunityPatch/AnimationClipCompatibility.cs` — TEILWEISE: die
   sicheren Array-Lookups sind migriert; die begrenzte Missing-Clip-Telemetrie
