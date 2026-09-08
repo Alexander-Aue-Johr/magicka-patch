@@ -287,6 +287,18 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     der Empfänger der vorhandenen Renderübergabe folgt dem aktuellen PlayState.
   - Ein Drei-Wege-Szenario verwendet verschiedene gespeicherte und aktuelle
     Szenen und zeichnet Empfänger sowie Renderdatenidentität auf.
+- [x] `grease-trail-play-state-lifetime`
+  - Ziele: `GreaseTrail.Execute(ISpellCaster, PlayState)` und
+    `Update(DataChannel, float)`.
+  - Technik: Zwei eng geprüfte Transpiler entfernen genau eine gespeicherte
+    PlayState-Zuweisung und ersetzen beide späteren Feldzugriffe durch
+    `PlayState.RecentPlayState`.
+  - Verhalten: Der gepoolte Effekt hält keinen beendeten PlayState mehr.
+    `GreaseField.GetInstance` und `EntityManager.AddEntity` arbeiten mit
+    demselben aktuellen Levelzustand; Timing, Position und Netzwerkpfad bleiben
+    unverändert.
+  - Zwei Drei-Wege-Szenarien prüfen den normalen Offline-Execute-Pfad sowie bei
+    getrennten alten und aktuellen Zuständen beide Update-Empfänger.
 - [x] `magick-camera-follow-entity`
   - Ziel: `MagickCamera.Update(DataChannel, float)`
   - Technik: Prefix; setzt ausschließlich einen körperlosen `mFollowing`-Verweis
@@ -1393,7 +1405,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TimeWarp.cs`
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuMain.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/MeteorShower.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, beide laufenden PlayState-Zugriffe und die Singleton-Freigabe in `OnRemove`, 4 Transpiler, ein Prefix und 5 Drei-Wege-Szenarien; die Darstellung der statischen Initialisierer ist semantikfreies Compilerrauschen.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/GreaseTrail.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/GreaseTrail.cs` — TEILWEISE: PlayState-Lebensdauer, beide aktuellen Spawnzugriffe und statische Poolfreigabe sind migriert; die RetentionRegistry-Diagnostik ist noch offen.
 - [ ] `Magicka/GameLogic/Entities/Dispenser.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [x] `Magicka/Helper.cs` — VOLLSTÄNDIG: `ArrayEquals`, Prefix und 5 Drei-Wege-Szenarien.
 - [x] `Magicka/Graphics/Lights/DynamicLight.cs` — VOLLSTÄNDIG: Die statische

@@ -78,6 +78,12 @@ namespace Magicka.CommunityPatch.Runtime
                 GenericHealthBarScenePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                GreaseTrailPlayStatePatch.ExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                GreaseTrailPlayStatePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 MagickCameraFollowEntityPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

@@ -22,6 +22,7 @@ internal static class Program
         EtherealCloneScenarios.Prepare(targetAssembly);
         BreakBarriersScenarios.Prepare(targetAssembly);
         GenericHealthBarScenarios.Prepare(targetAssembly);
+        GreaseTrailScenarios.Prepare(targetAssembly);
 
         if (applyRuntimePatch)
             Bootstrap.Apply(targetAssembly);

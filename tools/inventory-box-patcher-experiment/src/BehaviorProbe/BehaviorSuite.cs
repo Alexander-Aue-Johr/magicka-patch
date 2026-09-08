@@ -25,6 +25,7 @@ internal static class BehaviorSuite
         BreakBarriersScenarios.Run(magicka, report);
         TeslaFieldScenarios.Run(magicka, report);
         GenericHealthBarScenarios.Run(magicka, report);
+        GreaseTrailScenarios.Run(magicka, report);
         MagickCameraScenarios.Run(magicka, report);
         BossHealthBarScenarios.Run(magicka, report);
         LoadingScreenScenarios.Run(magicka, report);
