@@ -49,6 +49,9 @@ namespace Magicka.CommunityPatch.Runtime
             NetworkServerLateUdpPatch.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                NetworkServerEnterSyncPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 EntityStateStoragePatch.ConstructorDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

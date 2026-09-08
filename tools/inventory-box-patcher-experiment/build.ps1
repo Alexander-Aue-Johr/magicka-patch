@@ -203,6 +203,7 @@ function Test-BehaviorMatrix {
         "typing_text.empty",
         "late_udp.empty_client_list",
         "late_udp.negative_client_index",
+        "enter_sync.unknown_sender",
         "entity_state_storage.constructor_release",
         "entity_state_storage.current_restore",
         "helper_array_equals.left_null",
@@ -503,6 +504,7 @@ function Test-BehaviorProfile(
             "typing_text.empty",
             "late_udp.empty_client_list",
             "late_udp.negative_client_index",
+            "enter_sync.unknown_sender",
             "network_pickup.bodyless_pickup",
             "network_pickup.bodyless_pickup_request",
             "summon_phoenix.vector_state",
@@ -650,6 +652,9 @@ function Test-BehaviorProfile(
         "avatar_interactable.missing_scene",
         "avatar_interactable.missing_triggers",
         "avatar_interactable.empty_scene",
+        "network_pickup.missing_target",
+        "network_pickup.bodyless_pickup",
+        "network_pickup.bodyless_pickup_request",
         "ai_attack.bodyless_target",
         "ai_attack.missing_target",
         "ai_attack.invalid_owner",
@@ -890,6 +895,18 @@ function Test-BehaviorProfile(
         "dialog_manager.empty_additional_list",
         "entity_physics_cleanup.deinitialize",
         "entity_physics_cleanup.reuse_fallback",
+        "typing_text.normal_character",
+        "typing_text.punctuation",
+        "typing_text.pause_markup",
+        "typing_text.truncated_plain",
+        "typing_text.truncated_markup",
+        "typing_text.empty",
+        "typing_text.syntax_error",
+        "late_udp.empty_client_list",
+        "late_udp.negative_client_index",
+        "late_udp.valid_client_identity",
+        "enter_sync.unknown_sender",
+        "enter_sync.connected_sender",
         "homing_charge.execute_release",
         "stop_charge.execute_release",
         "homing_charge.current_query_manager",
@@ -1215,9 +1232,10 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=TypingText malformed-state recovery" -or
         $auditLines -notcontains "patch_end=NetworkServer late UDP client guard: Magicka.Network.EntityRemoveMessage" -or
         $auditLines -notcontains "patch_end=Avatar late network pickup guard" -or
+        $auditLines -notcontains "patch_end=NetworkServer EnterSync client guard" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 39 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 8 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 257) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 258) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1232,7 +1250,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=304")
+    $summary.Add("implemented_patches=305")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

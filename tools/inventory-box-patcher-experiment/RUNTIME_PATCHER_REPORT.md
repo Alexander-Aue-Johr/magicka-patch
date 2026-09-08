@@ -1647,6 +1647,22 @@ Die maschinenlesbaren Einzelergebnisse stehen nach einem Build in
     Runtime-Patch-Profile verwerfen beide Fälle kontrolliert; der gültige
     Index-Kontrollfall bleibt in allen Profilen unverändert.
 
+- [x] `network-server-enter-sync-client-guard`
+  - Ziel: `NetworkServer.ReadMessage(BinaryReader, SteamID)` im
+    `EnterSync`-Zweig.
+  - Technik: Transpiler ersetzt ausschließlich den typisierten Listenzugriff
+    und das anschließende `SyncPoints.Add` durch einen bounds-geprüften Helfer.
+    Der bestehende `mClients`-Lock bleibt vollständig erhalten.
+  - Fehlerfall: `GetClient` liefert für einen inzwischen getrennten oder noch
+    nicht authentifizierten Sender `-1`; der ursprüngliche Code greift danach
+    auf `mClients[-1]` zu.
+  - Verhalten: Unbekannte Sender werden verworfen. Bei einem verbundenen
+    Sender wird dieselbe Sync-ID weiterhin derselben `SyncPoints`-Liste
+    hinzugefügt. Paketformat und übrige `ReadMessage`-Zweige bleiben gleich.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 werfen im unbekannten
+    Sender-Szenario. Die manuelle Patch-Assembly 0.0.60 und alle
+    Runtime-Patch-Profile bestehen Fehler- und Kontrollfall.
+
 ## Entfernte Versuchswege
 
 Der statische Patcher, die statische Verifikations-Assembly, C#-Diff-Strings und
@@ -1806,7 +1822,8 @@ Versionsnachweis.
 - [ ] `Magicka/Network/NetworkClient.cs`
 - [ ] `Magicka/Network/NetworkServer.cs` — TEILWEISE: alle geschlossenen
   `QueueUDPMessage<T>`-Instanziierungen prüfen einen veralteten Clientindex
-  atomar im vorhandenen Listen-Lock; weitere Server-, Telemetrie- und
+  atomar im vorhandenen Listen-Lock; `EnterSync` verwirft unbekannte Sender
+  ebenfalls innerhalb des Locks. Weitere Server-, Telemetrie- und
   Lebensdaueränderungen sind noch offen.
 - [ ] `Magicka/CommunityPatch/HybridInputSupport.cs`
 - [ ] `Magicka/CommunityPatch/OriginalBackupAudit.cs`

@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-three hundred four method patches:
+three hundred five method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -30,6 +30,8 @@ three hundred four method patches:
 - Every closed `NetworkServer.QueueUDPMessage<T>` instantiation drops a late
   reply after its client index has been removed. The check runs inside the
   existing client-list lock.
+- `NetworkServer.ReadMessage` drops `EnterSync` packets whose sender is no
+  longer present while preserving the valid sync-point update.
 - `EntityStateStorage` releases its constructor play-state reference and
   restores saved entities into the current play state.
 - `Helper.ArrayEquals` treats every missing byte array as unequal.
