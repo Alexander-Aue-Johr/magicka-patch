@@ -13,6 +13,7 @@ namespace Magicka.CommunityPatch.Runtime
         private static FieldInfo conditionTypeField;
         private static FieldInfo targetHandleField;
         private static MethodInfo getFromHandle;
+        private static MethodInfo kill;
         private static PropertyInfo bodyProperty;
         private static Type damageableType;
         private static int hitCondition;
@@ -57,6 +58,13 @@ namespace Magicka.CommunityPatch.Runtime
                 null,
                 new Type[] { typeof(int) },
                 null);
+            kill = missileType.GetMethod(
+                "Kill",
+                BindingFlags.Instance | BindingFlags.Public |
+                    BindingFlags.NonPublic,
+                null,
+                Type.EmptyTypes,
+                null);
             bodyProperty = entityType.GetProperty(
                 "Body",
                 BindingFlags.Instance | BindingFlags.Public |
@@ -65,6 +73,8 @@ namespace Magicka.CommunityPatch.Runtime
                 throw new MissingMethodException(
                     entityType.FullName,
                     "GetFromHandle");
+            if (kill == null || kill.ReturnType != typeof(void))
+                throw new MissingMethodException(missileType.FullName, "Kill");
             if (bodyProperty == null ||
                 bodyProperty.GetGetMethod(true) == null)
                 throw new MissingMemberException(
@@ -136,15 +146,22 @@ namespace Magicka.CommunityPatch.Runtime
 
             ushort handle = (ushort)targetHandleField.GetValue(message);
             if (handle == ushort.MaxValue)
-                return false;
+                return RejectMissingTarget(missile, collision);
             object target = getFromHandle.Invoke(
                 null,
                 new object[] { (int)handle });
             if (target == null ||
                 bodyProperty.GetValue(target, null) == null ||
                 playStateField.GetValue(target) == null)
-                return false;
+                return RejectMissingTarget(missile, collision);
             return !collision || damageableType.IsInstanceOfType(target);
+        }
+
+        private static bool RejectMissingTarget(object missile, bool collision)
+        {
+            if (collision)
+                kill.Invoke(missile, null);
+            return false;
         }
     }
 

@@ -1692,6 +1692,20 @@ Die maschinenlesbaren Einzelergebnisse stehen nach einem Build in
     manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile schließen sie
     kontrolliert ab. Der Kontrollfall besteht in allen Profilen.
 
+- [x] `missile-collision-target-cleanup`
+  - Ziel: derselbe gemeinsame `MissileEntity.NetworkEventMessage`-Einstieg für
+    Client- und Serververarbeitung.
+  - Technik: Der vorhandene Runtime-Prefix ruft bei einer Kollision mit
+    verschwundenem oder abgelöstem Ziel den originalen `Kill()`-Pfad auf,
+    bevor er das zielabhängige Ereignis verwirft.
+  - Verhalten: Schaden wird weiterhin nicht ohne gültiges Ziel angewendet. Das
+    verbrauchte Projektil wird als tot markiert und durch die gewöhnliche
+    Entity-Bereinigung entfernt; Paketformat und gültige Ereignisse bleiben
+    unverändert.
+  - Im Server-Harness wirft das Original und lässt das Projektil lebendig. Die
+    manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile kehren zurück
+    und markieren es als tot. Dies gilt auch für 1.4.16.0 und 1.5.1.0.
+
 ## Entfernte Versuchswege
 
 Der statische Patcher, die statische Verifikations-Assembly, C#-Diff-Strings und
@@ -1835,8 +1849,9 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Gib.cs`
 - [ ] `Magicka/GameLogic/Entities/MissileEntity.cs` — TEILWEISE: ungültige
   Netzwerkereignisse für unvollständige Projektile und verschwundene Ziele
-  werden vor der Originalmethode verworfen; Cleanup-, Telemetrie- und weitere
-  Lebensdaueränderungen bleiben offen.
+  werden vor der Originalmethode verworfen; verbrauchte Kollisionsprojektile
+  ohne Ziel werden über `Kill()` entfernt. Cache-Cleanup-, Telemetrie- und
+  weitere Lebensdaueränderungen bleiben offen.
 - [ ] `Magicka/GameLogic/Controls/XInputController.cs`
 - [ ] `Magicka/Levels/GameScene.cs` — TEILWEISE: der ungültige
   Ambient-Audio-Locator wird bei einem internen XACT-Cue-Indexfehler entfernt;

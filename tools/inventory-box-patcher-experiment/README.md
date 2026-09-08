@@ -35,7 +35,8 @@ three hundred seven method patches:
 - `NetworkClient.ReadMessage` drops a late `RulesetUpdate` after its play-state
   scene chain has detached.
 - `MissileEntity.NetworkEventMessage` drops events for incomplete missiles and
-  collision or hit events whose required target has already disappeared.
+  collision or hit events whose required target has already disappeared. A
+  consumed collision missile is killed locally so ordinary cleanup removes it.
 - `EntityStateStorage` releases its constructor play-state reference and
   restores saved entities into the current play state.
 - `Helper.ArrayEquals` treats every missing byte array as unequal.
