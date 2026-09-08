@@ -71,6 +71,7 @@ internal static class BehaviorSuite
         BlizzardCleanupScenarios.Run(magicka, report);
         AnimatedLevelPartCollisionScenarios.Run(magicka, report);
         DynamicLightCacheScenarios.Run(magicka, report);
+        MeteorShowerScenarios.Run(magicka, report);
         return report;
     }
 }

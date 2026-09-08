@@ -198,6 +198,21 @@ namespace Magicka.CommunityPatch.Runtime
                 DynamicLightCachePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                MeteorShowerPatch.VectorExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                MeteorShowerPatch.OwnerExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                MeteorShowerPatch.SceneDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                MeteorShowerPatch.MissileDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                MeteorShowerPatch.CleanupDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 EntityUpdateMessageReadPatch.ServerDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

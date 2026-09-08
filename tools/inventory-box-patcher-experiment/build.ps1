@@ -294,7 +294,12 @@ function Test-BehaviorMatrix {
         "blizzard_cleanup.stop_failure_release",
         "animated_level_part.detached_entity",
         "animated_level_part.missing_entity",
-        "dynamic_light_cache.level_dispose"
+        "dynamic_light_cache.level_dispose",
+        "meteor_shower.vector_current_play_state",
+        "meteor_shower.owner_current_play_state",
+        "meteor_shower.active_release",
+        "meteor_shower.stop_failure_release",
+        "meteor_shower.already_stopping_release"
     )
     $playStateNotAvailable = @(
         "play_state.ordinary_message",
@@ -374,7 +379,12 @@ function Test-BehaviorProfile(
             "undead_network.client_marked",
             "summon_zombie.vector_release",
             "summon_zombie.owner_release",
-            "summon_zombie.update_current_play_state")
+            "summon_zombie.update_current_play_state",
+            "meteor_shower.vector_current_play_state",
+            "meteor_shower.owner_current_play_state",
+            "meteor_shower.active_release",
+            "meteor_shower.stop_failure_release",
+            "meteor_shower.already_stopping_release")
     }
     $probeDirectory = Join-Path $toolBuildDirectory "behavior-probe"
     $probe = Join-Path $probeDirectory "BehaviorProbe.exe"
@@ -605,7 +615,12 @@ function Test-BehaviorProfile(
         "animated_level_part.detached_entity",
         "animated_level_part.missing_entity",
         "animated_level_part.expired_valid_entity",
-        "dynamic_light_cache.level_dispose"
+        "dynamic_light_cache.level_dispose",
+        "meteor_shower.vector_current_play_state",
+        "meteor_shower.owner_current_play_state",
+        "meteor_shower.active_release",
+        "meteor_shower.stop_failure_release",
+        "meteor_shower.already_stopping_release"
     )
     foreach ($scenarioName in $scenarioNames) {
         $prefix = "scenario.$scenarioName="
@@ -729,6 +744,11 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Blizzard singleton reference cleanup" -or
         $auditLines -notcontains "patch_end=AnimatedLevelPart detached entity cleanup" -or
         $auditLines -notcontains "patch_end=DynamicLight cache release" -or
+        $auditLines -notcontains "patch_end=MeteorShower vector play-state release" -or
+        $auditLines -notcontains "patch_end=MeteorShower owner play-state release" -or
+        $auditLines -notcontains "patch_end=MeteorShower current scene selection" -or
+        $auditLines -notcontains "patch_end=MeteorShower current missile play state" -or
+        $auditLines -notcontains "patch_end=MeteorShower singleton reference cleanup" -or
         $auditLines -notcontains "patch_end=NetworkServer EntityUpdate Character marker decode" -or
         $auditLines -notcontains "patch_end=NetworkClient EntityUpdate Character marker decode" -or
         $auditLines -notcontains "patch_end=SummonFlamer vector play-state release" -or
@@ -756,9 +776,9 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Player controller avatar release" -or
         $auditLines -notcontains "patch_end=Player obtained text-box level release" -or
         $auditLines -notcontains "patch_end=Player notifier level release" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 20 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 21 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 74) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 78) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -773,7 +793,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=98")
+    $summary.Add("implemented_patches=103")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-ninety-seven method patches:
+one hundred three method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -96,6 +96,9 @@ ninety-seven method patches:
   physics body has already been detached.
 - `DynamicLight.DisposeCache` releases each cached shadow map and then drops
   the static light-cache entries for the unloaded level.
+- `MeteorShower` no longer retains its supplied play state, resolves scene and
+  missile work through the current play state, and releases its scene, owner,
+  and rumble cue before the existing cue-stop operation can fail.
 - `EntityUpdate` packets carrying the payloadless Character feature marker are
   decoded without aborting the remaining update fields.
 - Loading-screen clears restore the managed depth buffer before drawing.
@@ -116,10 +119,10 @@ ninety-seven method patches:
 - The same teardown independently clears the notifier's owner, attached text
   box, and visible alpha state while retaining its reusable graphics objects.
 
-The Avatar, AI, Blizzard, BossHealthBar, Helper, InventoryBox, MagickCamera, Player, and PlayState
+The Avatar, AI, Blizzard, BossHealthBar, Helper, InventoryBox, MagickCamera, MeteorShower, Player, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
-The Agent, AnimatedLevelPart, AudioManager, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight,
+The Agent, AnimatedLevelPart, AudioManager, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, MeteorShower,
 EntityStateStorage, Flash, Machine, Jormungandr, pack, PoisonSpray, Portal,
 RandomMine, SpawnSlime, SummonCross, SummonFlamer, SummonSpirit, SummonUndead,
 Starfall, VersusRuleset, JudgementSpray, DialogLayout, ShadowBlobs, and
