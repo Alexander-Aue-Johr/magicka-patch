@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-three hundred ninety-one method patches:
+three hundred ninety-two method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -225,6 +225,8 @@ three hundred ninety-one method patches:
 - Initial graphics reset handlers run before device creation. Logical fullscreen
   uses a non-exclusive presentation device with a preserved backbuffer, and the
   borderless window leaves the desktop topmost layer after focus changes.
+- Startup skips an unavailable process-thread entry before reading its ID while
+  preserving the original affinity setup for the current thread.
 - Loading-screen clears restore the managed depth buffer before drawing.
 - Controller option discovery tolerates unavailable DirectInput and reports the
   problem after the main menu is ready.

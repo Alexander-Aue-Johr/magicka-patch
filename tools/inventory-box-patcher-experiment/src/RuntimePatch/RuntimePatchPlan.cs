@@ -305,6 +305,9 @@ namespace Magicka.CommunityPatch.Runtime
                 BorderlessPresentationPatch.TopMostDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                ProcessThreadAffinityPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 RadialBlurLifetimePatch.InitializeCacheDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

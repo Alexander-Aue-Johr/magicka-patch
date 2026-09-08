@@ -847,6 +847,21 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern an den vier
     Borderless-Szenarien. Die manuelle Patch-Assembly 0.0.60 und alle
     Runtime-Patch-Profile bestehen diese sowie beide Fenster-Kontrollfälle.
+- [x] `process-thread-affinity-null-guard`
+  - Ziel: `Game..ctor()`.
+  - Technik: Ein Transpiler ergänzt direkt vor dem einzigen
+    `ProcessThread.Id`-Zugriff einen Sprung zum vorhandenen nächsten
+    Schleifendurchlauf. Affinitätsberechnung und beide Zuweisungen bleiben
+    unverändert.
+  - Fehlerfall: Ein Kompatibilitäts-Runtime kann einen nicht verfügbaren
+    ProcessThread-Eintrag als `null` liefern; das Original dereferenziert ihn
+    während des Spielstarts.
+  - Verhalten: Ein fehlender Eintrag wird übersprungen. Ein gültiger Treffer
+    erhält weiterhin ProcessorAffinity und IdealProcessor, ein anderer Thread
+    wird weiterhin ignoriert.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 besitzen den Guard nicht. Die
+    manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile bestehen den
+    Nullfall und beide Kontrollfälle.
 - [x] `radial-blur-level-lifetime`
   - Ziele: `RadialBlur.InitializeCache(ContentManager, int)`, die vollständige
     `Initialize`-Überladung, `Update(DataChannel, float)` und `DisposeCache()`
@@ -1987,9 +2002,11 @@ Versionsnachweis.
   `OnRemove`-Bereinigung; 4 Transpiler, 1 Prefix und 6 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonZombie.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, zwei Start- und vier Update-Zugriffe sowie Pool- und Template-Freigabe; 4 Transpiler und 4 eigene Drei-Wege-Szenarien. RetentionRegistry-Aufrufe folgen gesammelt im Diagnostics-Block, die statischen Initialisierer sind Compilerrauschen.
 - [ ] `Magicka/Game.cs` — TEILWEISE: `EndRun` gibt die Paradox-Kontodaten nach
-  dem Dienstabbau frei und `Draw` skaliert physische Mauskoordinaten auf die
-  logische randlose Renderauflösung; die weiteren manuellen Änderungen der
-  Klasse sind noch offen.
+  dem Dienstabbau frei, `Draw` skaliert randlose Mauskoordinaten, Konstruktor
+  und Gerätehandler bilden die nicht exklusive Fullscreen-Präsentation ab,
+  `Update(GameTime)` korrigiert TopMost und der Konstruktor überspringt nicht
+  verfügbare ProcessThread-Einträge. Weitere manuelle Änderungen der Klasse
+  sind noch offen.
 - [ ] `Magicka/CommunityPatch/PayloadContract.cs`
 - [ ] `Magicka/CommunityPatch/AnimationClipCompatibility.cs` — TEILWEISE: die
   sicheren Array-Lookups sind migriert; die begrenzte Missing-Clip-Telemetrie
