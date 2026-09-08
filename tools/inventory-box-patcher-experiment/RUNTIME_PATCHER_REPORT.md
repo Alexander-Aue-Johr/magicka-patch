@@ -862,6 +862,20 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 besitzen den Guard nicht. Die
     manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile bestehen den
     Nullfall und beide Kontrollfälle.
+- [x] `system-proxy-library-preload`
+  - Ziel: `Bootstrap.Apply(Assembly)` vor `RuntimePatchPlan.ApplyTo` und damit
+    vor der ersten ursprünglichen Instruktion in `Program.Main`.
+  - Technik: Der CLR-2-Helfer bildet aus `Environment.SystemDirectory` drei
+    absolute Pfade und ruft `LoadLibraryExW` für `version.dll`, `winmm.dll` und
+    `winhttp.dll` auf. Außerhalb von Windows bleibt die Pfadliste leer.
+  - Fehlerfall: Ein späterer dynamischer Systembibliothekszugriff kann sonst
+    zuerst eine gleichnamige Proxy-DLL im Spielverzeichnis auswählen.
+  - Verhalten: Windows bindet die drei bereits verwendeten Bibliotheksnamen
+    früh an ihre Systemkopien. Mono und Proton führen keinen nativen Windows-
+    Aufruf aus. Dateien im Spielverzeichnis werden weder geöffnet noch geprüft.
+  - Die manuelle 0.0.60-Assembly ruft denselben Preload am Anfang von Main auf.
+    Alle Runtime-Profile bestehen Startreihenfolge, absolute Pfade und den
+    Nicht-Windows-Kontrollfall.
 - [x] `radial-blur-level-lifetime`
   - Ziele: `RadialBlur.InitializeCache(ContentManager, int)`, die vollständige
     `Initialize`-Überladung, `Update(DataChannel, float)` und `DisposeCache()`
@@ -2099,10 +2113,11 @@ Versionsnachweis.
   Arrayzugriff hinter dem Textende ist mit einem Prefix und 7
   Drei-Wege-Szenarien migriert; nur das begrenzte Diagnoseereignis folgt im
   gemeinsamen Runtime-Telemetrieblock.
-- [ ] `Magicka/Program.cs` — TEILWEISE: die beiden gezielten Hinweise für
-  XNA-Adapter- und Grafikgerätefehler in `WriteReport` sind migriert; die
-  weiteren Start-, Payload-, Telemetrie- und Fehlerberichtänderungen bleiben
-  offen.
+- [ ] `Magicka/Program.cs` — TEILWEISE: die drei System-Proxy-Bibliotheken
+  werden noch vor der ersten Originalinstruktion absolut vorgeladen und die
+  beiden gezielten Hinweise für XNA-Adapter- und Grafikgerätefehler in
+  `WriteReport` sind migriert. Weitere Argument-, Payload-, Telemetrie- und
+  Fehlerberichtänderungen bleiben offen.
 - [ ] `Magicka/GameLogic/Entities/AnimatedPhysicsEntity.cs` — TEILWEISE:
   Crossfade und ForceAnimation verwenden Idle nur dann als Ersatz, wenn dessen
   Aktion und Clip vorhanden sind; Deinitialize- und Dispose-Änderungen sind

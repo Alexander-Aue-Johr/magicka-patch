@@ -20,6 +20,7 @@ namespace Magicka.CommunityPatch.Runtime
 
             try
             {
+                SystemLibraryPreload.PreloadSystemLibraries();
                 RuntimePatchPlan.ApplyTo(targetAssembly);
             }
             catch (Exception exception)

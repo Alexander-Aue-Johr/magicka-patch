@@ -227,6 +227,8 @@ three hundred ninety-two method patches:
   borderless window leaves the desktop topmost layer after focus changes.
 - Startup skips an unavailable process-thread entry before reading its ID while
   preserving the original affinity setup for the current thread.
+- Startup loads `version.dll`, `winmm.dll`, and `winhttp.dll` from the absolute
+  Windows system directory before original game or patch web code runs.
 - Loading-screen clears restore the managed depth buffer before drawing.
 - Controller option discovery tolerates unavailable DirectInput and reports the
   problem after the main menu is ready.

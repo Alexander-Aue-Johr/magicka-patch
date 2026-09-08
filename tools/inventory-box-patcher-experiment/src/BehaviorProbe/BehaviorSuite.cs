@@ -122,6 +122,10 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        SystemLibraryPreloadScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         RadialBlurLifetimeScenarios.Run(
             magicka,
             runtimePatchEnabled,
