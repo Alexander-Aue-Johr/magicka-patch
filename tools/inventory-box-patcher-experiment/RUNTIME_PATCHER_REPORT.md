@@ -178,6 +178,23 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original plus Runtime-Patch: Fehler- und Kontrollfall bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: Postfix wird angewendet und beide Szenarien
     bestehen
+- [x] `entity-physics-cleanup`
+  - Ziele: `PhysicsEntity.Initialize(...)`, `PhysicsEntity.Deinitialize()` und
+    `Entity.ClearHandles()`
+  - Technik: zwei Prefixe und ein Postfix; die Reflection-Verträge werden vor
+    der Registrierung vollständig aufgelöst
+  - Fehlerfälle: ein bei Wiederverwendung ersetztes Body/Skin-Paar bleibt über
+    JigLibX-Kollisionsdaten erreichbar; beim finalen Handle-Abbau behalten
+    direkte Entity-Unterklassen dieselben Rückreferenzen
+  - Verhalten: Body/Skin-Verknüpfung, beide Callback-Delegates, Collision- und
+    NonCollidable-Listen, Tags, Owner und CollisionSystem werden getrennt;
+    PhysicsEntity erhält anschließend drei leere Renderkanäle für die nächste
+    Initialisierung
+  - Original 1.10.4.2: beide Trennungsszenarien behalten das alte Physikpaar
+  - Manuelle Patch-Assembly 0.0.60: beide Szenarien bestehen
+  - Original plus Runtime-Patch: beide Szenarien bestehen
+  - Magicka 1.4.16.0 und 1.5.1.0: alle drei Patches werden angewendet und beide
+    Szenarien bestehen
 - [x] `entity-state-storage-play-state-lifetime`
   - Ziele: `EntityStateStorage(PlayState)` und `EntityStateStorage.Restore(...)`
   - Technik: Konstruktor-Postfix zum Freigeben des Legacy-Felds und Transpiler,
@@ -1628,7 +1645,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 80 Dateien vollständig, 61 Dateien teilweise und 79 Dateien noch
+Aktueller Stand: 81 Dateien vollständig, 61 Dateien teilweise und 78 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1656,7 +1673,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Spells/ArcaneBlast.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/CoreFramework/GameSystem/Store/StoreItemDatabase.cs`
 - [ ] `Magicka/GameLogic/UI/IconRenderer.cs`
-- [ ] `Magicka/GameLogic/Entities/PhysicsEntity.cs`
+- [ ] `Magicka/GameLogic/Entities/PhysicsEntity.cs` — TEILWEISE: die Trennung des ersetzbaren Body/CollisionSkin-Paars vor Wiederverwendung und nach Deinitialize sowie die leeren Renderkanäle sind migriert; die abschließende Freigabe der übrigen klassenspezifischen Felder und RetentionRegistry-Diagnostik bleiben offen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Conflagration.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/UI/Credits.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Wave.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
@@ -1695,7 +1712,7 @@ Versionsnachweis.
 - [ ] `Magicka/Levels/Lava.cs`
 - [x] `Magicka/GameLogic/Spells/SpellEffects/SpellEffect.cs` — VOLLSTÄNDIG: die globale PlayState-Zuweisung entfällt und die statische Poolfreigabe bei Levelende ist migriert; ein Transpiler und vier gemeinsame Drei-Wege-Szenarien. Die Darstellung der statischen Initialisierer ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/CommunityPatch/WarlordAbilityDiagnostic.cs`
-- [ ] `Magicka/CommunityPatch/CollisionCallbackCleanup.cs`
+- [x] `Magicka/CommunityPatch/CollisionCallbackCleanup.cs` — VOLLSTÄNDIG: der Runtime-Helfer löst beide privaten JigLibX-Callbackfelder vor Patchregistrierung auf und leert sie beim zentralen Entity-Abbau ohne Exceptions in den Spielpfad weiterzugeben.
 - [ ] `Magicka/GameLogic/Entities/Bosses/GenericBoss.cs`
 - [ ] `Magicka/Levels/Water.cs`
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsResolution.cs` — TEILWEISE: der Kamera-Aspektzugriff verwendet den aktuellen PlayState; die Safe-Area-Auswahl bleibt offen.
@@ -1757,7 +1774,7 @@ Versionsnachweis.
 - [ ] `Magicka/CommunityPatch/CommunityPatchInfo.cs`
 - [ ] `Magicka/Physics/PhysicsManager.cs`
 - [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuMagicks.cs` — VOLLSTÄNDIG: beide GameType-Reads verwenden den aktuellen PlayState und `LanguageChanged` validiert den markierten Index. Die lokale Variable im Namenpfad, die tote `num2 = 28`-Zuweisung und der statische Initialisierer-Diff ändern kein Verhalten.
-- [ ] `Magicka/GameLogic/Entities/Entity.cs`
+- [ ] `Magicka/GameLogic/Entities/Entity.cs` — TEILWEISE: der finale Handle-Abbau trennt die vollständigen Physikrückreferenzen aller registrierten Entities und leert PlayState, eingehende UDP-Stamps sowie Unique-ID-Einträge; weitere manuelle Handle-, Cache-, Dispose- und Diagnostikänderungen bleiben offen.
 - [ ] `Magicka/Levels/ForceField.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Revive.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Portal.cs` — TEILWEISE: ungültige Einträge in `PortalEntity.mTeleportQueue`, Transpiler und 3 Drei-Wege-Szenarien; weitere manuelle Änderungen sind noch offen.

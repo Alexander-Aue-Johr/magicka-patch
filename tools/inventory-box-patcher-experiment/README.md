@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-two hundred twenty-six method patches:
+two hundred twenty-nine method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -19,6 +19,10 @@ two hundred twenty-six method patches:
 - `EntityManager.GetEntities` skips null and bodyless spatial entries.
 - `EntityManager.ClearAndStore` rebuilds the QuadGrid immediately after scene
   teardown.
+- `PhysicsEntity` detaches replaceable JigLibX bodies and collision skins when
+  it deinitializes and before reuse. Final entity-handle cleanup also releases
+  body tags, skin tags, owners, collision lists, both callback delegates, and
+  stale play-state references for every registered entity.
 - `EntityStateStorage` releases its constructor play-state reference and
   restores saved entities into the current play state.
 - `Helper.ArrayEquals` treats every missing byte array as unequal.
@@ -207,11 +211,12 @@ two hundred twenty-six method patches:
 - The same teardown independently clears the notifier's owner, attached text
   box, and visible alpha state while retaining its reusable graphics objects.
 
-The Avatar, AI, Blizzard, BossHealthBar, character-select widget, Helper,
+The Avatar, AI, Blizzard, BossHealthBar, character-select widget, Entity,
+PhysicsEntity, Helper,
 InventoryBox, KeyboardHUD, MagickCamera, MeteorShower, Player, PlayState, and Rain
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
-postfix, while HUDManager, NonPlayerCharacter, and one EntityManager change use
-ordinary postfixes.
+postfix, while HUDManager, NonPlayerCharacter, PhysicsEntity, and one
+EntityManager change use ordinary postfixes.
 The Agent, AnimatedLevelPart, AudioManager, Blizzard, BreakBarriers, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, EtherealClone, GameScene, GenericHealthBar, GreaseTrail, LightningSpell, MeteorShower, Rain, SpellEffect, TeslaField,
 EntityStateStorage, Flash, GiveOrder, Machine, Jormungandr, pack, PoisonSpray, Portal,
 RandomMine, SpawnSlime, SummonCross, SummonFlamer, SummonSpirit, SummonUndead,
