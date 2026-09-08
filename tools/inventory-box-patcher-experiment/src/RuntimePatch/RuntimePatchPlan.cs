@@ -55,6 +55,9 @@ namespace Magicka.CommunityPatch.Runtime
                 NetworkClientRulesetPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                MissileEntityNetworkEventPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 EntityStateStoragePatch.ConstructorDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

@@ -205,6 +205,8 @@ function Test-BehaviorMatrix {
         "late_udp.negative_client_index",
         "enter_sync.unknown_sender",
         "ruleset_update.detached_play_state",
+        "missile_event.uninitialized_state",
+        "missile_event.missing_collision_target",
         "entity_state_storage.constructor_release",
         "entity_state_storage.current_restore",
         "helper_array_equals.left_null",
@@ -507,6 +509,8 @@ function Test-BehaviorProfile(
             "late_udp.negative_client_index",
             "enter_sync.unknown_sender",
             "ruleset_update.detached_play_state",
+            "missile_event.uninitialized_state",
+            "missile_event.missing_collision_target",
             "network_pickup.bodyless_pickup",
             "network_pickup.bodyless_pickup_request",
             "summon_phoenix.vector_state",
@@ -910,6 +914,9 @@ function Test-BehaviorProfile(
         "enter_sync.unknown_sender",
         "enter_sync.connected_sender",
         "ruleset_update.detached_play_state",
+        "missile_event.uninitialized_state",
+        "missile_event.missing_collision_target",
+        "missile_event.valid_targetless_event",
         "homing_charge.execute_release",
         "stop_charge.execute_release",
         "homing_charge.current_query_manager",
@@ -1237,7 +1244,8 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Avatar late network pickup guard" -or
         $auditLines -notcontains "patch_end=NetworkServer EnterSync client guard" -or
         $auditLines -notcontains "patch_end=NetworkClient detached RulesetUpdate guard" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 39 -or
+        $auditLines -notcontains "patch_end=MissileEntity invalid network event guard" -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 40 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 8 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 259) {
         throw "The runtime audit does not contain all registered Harmony patches."
@@ -1254,7 +1262,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=306")
+    $summary.Add("implemented_patches=307")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

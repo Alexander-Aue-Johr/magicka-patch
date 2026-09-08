@@ -154,6 +154,7 @@ internal static class BehaviorSuite
             report);
         NetworkServerEnterSyncScenarios.Run(magicka, report);
         NetworkClientRulesetScenarios.Run(magicka, report);
+        MissileEntityNetworkEventScenarios.Run(magicka, report);
         JudgementSprayConditionCacheScenarios.Run(
             magicka,
             runtimePatchEnabled,

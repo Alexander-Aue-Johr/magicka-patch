@@ -1679,6 +1679,19 @@ Die maschinenlesbaren Einzelergebnisse stehen nach einem Build in
     manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile schließen den
     Zweig kontrolliert ab.
 
+- [x] `missile-entity-network-event-guard`
+  - Ziel: `MissileEntity.NetworkEventMessage(ref MissileEntityEventMessage)`.
+  - Technik: boolescher Prefix mit exakt typisiertem Ref-Argumentadapter.
+  - Fehlerfälle: Das Projektil besitzt keine vollständigen Condition- und
+    Hit-Listen oder ein Kollisions-/Hit-Ereignis verweist auf ein inzwischen
+    entferntes Ziel.
+  - Verhalten: Ungültige Ereignisse werden verworfen. Vollständige
+    zielunabhängige Ereignisse durchlaufen weiterhin unverändert die
+    Originalmethode; das Paketformat bleibt gleich.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 werfen in beiden Fehlerfällen. Die
+    manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile schließen sie
+    kontrolliert ab. Der Kontrollfall besteht in allen Profilen.
+
 ## Entfernte Versuchswege
 
 Der statische Patcher, die statische Verifikations-Assembly, C#-Diff-Strings und
@@ -1820,7 +1833,10 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Spells/Railgun.cs` — TEILWEISE: statische Poolfreigabe, Ahnenprüfung vor dem Verknüpfen und zyklussichere Lock-Traversierung sind migriert; offen sind nur RetentionRegistry- und Recovery-Telemetrieaufrufe des manuellen Diffs.
 - [ ] `Magicka/Levels/Triggers/Trigger.cs` — TEILWEISE: `SpawnNPC` übernimmt den über das unveränderte Paketformat transportierten Undead-Zustand; weitere Netzwerk-, Dispose- und Diagnoseänderungen dieser Klasse sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/Gib.cs`
-- [ ] `Magicka/GameLogic/Entities/MissileEntity.cs`
+- [ ] `Magicka/GameLogic/Entities/MissileEntity.cs` — TEILWEISE: ungültige
+  Netzwerkereignisse für unvollständige Projektile und verschwundene Ziele
+  werden vor der Originalmethode verworfen; Cleanup-, Telemetrie- und weitere
+  Lebensdaueränderungen bleiben offen.
 - [ ] `Magicka/GameLogic/Controls/XInputController.cs`
 - [ ] `Magicka/Levels/GameScene.cs` — TEILWEISE: der ungültige
   Ambient-Audio-Locator wird bei einem internen XACT-Cue-Indexfehler entfernt;
