@@ -326,6 +326,11 @@ function Test-BehaviorMatrix {
         "system_library_preload.startup",
         "system_library_preload.windows_paths",
         "keyboard_mouse_clear.seeded",
+        "keyboard_mouse_interactable.missing_avatar",
+        "keyboard_mouse_interactable.missing_play_state",
+        "keyboard_mouse_interactable.missing_level",
+        "keyboard_mouse_interactable.missing_scene",
+        "keyboard_mouse_interactable.missing_triggers",
         "radial_blur.level_content_release",
         "radial_blur.current_scene",
         "radial_blur.cache_clear",
@@ -536,6 +541,11 @@ function Test-BehaviorProfile(
             "system_library_preload.startup",
             "system_library_preload.windows_paths",
             "keyboard_mouse_clear.seeded",
+            "keyboard_mouse_interactable.missing_avatar",
+            "keyboard_mouse_interactable.missing_play_state",
+            "keyboard_mouse_interactable.missing_level",
+            "keyboard_mouse_interactable.missing_scene",
+            "keyboard_mouse_interactable.missing_triggers",
             "radial_blur.level_content_release",
             "radial_blur.current_scene",
             "radial_blur.cache_clear",
@@ -893,6 +903,12 @@ function Test-BehaviorProfile(
         "system_library_preload.non_windows",
         "keyboard_mouse_clear.seeded",
         "keyboard_mouse_clear.empty",
+        "keyboard_mouse_interactable.missing_avatar",
+        "keyboard_mouse_interactable.missing_play_state",
+        "keyboard_mouse_interactable.missing_level",
+        "keyboard_mouse_interactable.missing_scene",
+        "keyboard_mouse_interactable.missing_triggers",
+        "keyboard_mouse_interactable.empty_scene",
         "radial_blur.level_content_release",
         "radial_blur.current_scene",
         "radial_blur.same_scene",
@@ -1320,6 +1336,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Borderless fullscreen topmost normalization" -or
         $auditLines -notcontains "patch_end=Unavailable process thread guard" -or
         $auditLines -notcontains "patch_end=Keyboard mouse stale target cleanup" -or
+        $auditLines -notcontains "patch_end=Keyboard mouse detached interaction guard" -or
         $auditLines -notcontains "patch_end=RadialBlur global content lifetime" -or
         $auditLines -notcontains "patch_end=RadialBlur scene retention removal" -or
         $auditLines -notcontains "patch_end=RadialBlur current-scene rendering" -or
@@ -1355,7 +1372,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=NetworkServer hotjoin broadcast continuation: Magicka.Network.EntityRemoveMessage" -or
         $auditLines -notcontains "patch_end=NetworkServer forced sync player and sender resolution" -or
         $auditLines -notcontains "patch_end=NetworkServer forced sync response builder" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 45 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 46 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 8 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 340) {
         throw "The runtime audit does not contain all registered Harmony patches."
@@ -1372,7 +1389,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=393")
+    $summary.Add("implemented_patches=394")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

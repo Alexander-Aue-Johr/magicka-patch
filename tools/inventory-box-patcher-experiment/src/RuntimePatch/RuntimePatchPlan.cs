@@ -311,6 +311,9 @@ namespace Magicka.CommunityPatch.Runtime
                 KeyboardMouseClearPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                KeyboardMouseInteractablePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 RadialBlurLifetimePatch.InitializeCacheDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

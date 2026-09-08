@@ -99,6 +99,18 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original plus Runtime-Patch: Fehler- und Kontrollfälle bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: Prefix wird angewendet und alle fünf
     Szenarien bestehen
+- [x] `keyboard-mouse-find-interactable`
+  - Ziel: `KeyboardMouseController.FindInteractable(ref Segment)`
+  - Technik: boolescher Prefix mit typgenauem Null-Ergebnis
+  - Fehlerfälle: fehlender Avatar, `PlayState`, `Level`, `CurrentScene` oder
+    `Triggers`
+  - Verhalten: während des Szenenabbaus wird keine Triggerinteraktion gesucht
+  - Kontrollfall: eine vorhandene Szene mit leerer Triggerliste durchläuft die
+    Originalmethode
+  - Original 1.10.4.2 sowie 1.4.16.0 und 1.5.1.0: die fünf abgelösten Zustände
+    enden in einer NullReferenceException
+  - Manuelle Patch-Assembly 0.0.60 und Original plus Runtime-Patch: alle sechs
+    Szenarien bestehen
 - [x] `avatar-network-pickup`
   - Ziel: `Avatar.NetworkAction(ref CharacterActionMessage)`
   - Technik: Transpiler mit einer Prüfung unmittelbar vor den beiden
@@ -2002,8 +2014,9 @@ Versionsnachweis.
   Drei-Wege-Szenarien migriert; direkte `StaticList<Entity>.Insert`-Aufrufe und
   die Erweiterungs-Telemetrie sind noch offen.
 - [ ] `Magicka/GameLogic/Controls/KeyboardMouseController.cs` — TEILWEISE:
-  `Clear()` löst beide Zielreferenzen und beide laufenden Interaktionsflags.
-  Der eigene Interactable-Guard und Eingabetelemetrie bleiben offen.
+  `Clear()` löst beide Zielreferenzen und beide laufenden Interaktionsflags;
+  `FindInteractable(ref Segment)` prüft die vollständige Szenenkette. Nur die
+  Eingabetelemetrie bleibt offen.
 - [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuSurvivalStatistics.cs` — VOLLSTÄNDIG: alle acht Reads verwenden den aktuellen PlayState; die lokale Cast-Darstellung und der statische Initialisierer-Diff sind semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Items/BookOfMagick.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Rain.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, sechs laufende PlayState-Zugriffe und die Szenen-/Caster-Freigabe; 4 Transpiler, 1 Prefix und 4 Drei-Wege-Szenarien.
