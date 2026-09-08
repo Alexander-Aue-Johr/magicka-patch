@@ -44,12 +44,14 @@ namespace Magicka.CommunityPatch.Runtime
             Pool("Magicka.GameLogic.Entities.Shield", "mCache"),
             Pool("Magicka.GameLogic.Entities.Abilities.SpecialAbilities.WaveEntity", "mWaveCache"),
             Pool("Magicka.GameLogic.Entities.SprayEntity", "sCache"),
-            Pool("Magicka.GameLogic.Entities.Dispenser", "mCache")
+            Pool("Magicka.GameLogic.Entities.Dispenser", "mCache"),
+            Pool("Magicka.Levels.Triggers.Actions.GiveOrder", "sInstances")
         };
 
         private static readonly object[] EmptyArguments = new object[0];
         private static PoolField[] pools;
         private static MethodInfo clearHandlesMethod;
+        private static FieldInfo giveOrderPlayState;
 
         internal static readonly RuntimePatchDefinition Definition =
             RuntimePatchDefinition.Transpile(
@@ -91,6 +93,17 @@ namespace Magicka.CommunityPatch.Runtime
             Type playStateType = targetAssembly.GetType(
                 "Magicka.GameLogic.GameStates.PlayState",
                 true);
+            Type giveOrderType = targetAssembly.GetType(
+                "Magicka.Levels.Triggers.Actions.GiveOrder",
+                true);
+            giveOrderPlayState = giveOrderType.GetField(
+                "sPlayState",
+                BindingFlags.Static | BindingFlags.NonPublic |
+                    BindingFlags.DeclaredOnly);
+            if (giveOrderPlayState == null ||
+                giveOrderPlayState.FieldType != playStateType)
+                throw new MissingFieldException(giveOrderType.FullName, "sPlayState");
+
             MethodInfo dispose = playStateType.GetMethod(
                 "Dispose",
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.DeclaredOnly,
@@ -172,6 +185,7 @@ namespace Magicka.CommunityPatch.Runtime
                 else
                     pool.Clear.Invoke(collection, EmptyArguments);
             }
+            giveOrderPlayState.SetValue(null, null);
         }
 
         private static string[] Pool(string typeName, params string[] fields)

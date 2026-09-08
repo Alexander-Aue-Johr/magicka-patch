@@ -128,6 +128,8 @@ one hundred eighty-four method patches:
 - Active chant spells run their existing stop lifecycle during level disposal.
 - Static ability, spell, spell-effect, and lightweight entity pools are emptied
   after the original entity-manager cleanup during level disposal.
+- The same cleanup releases the static `GiveOrder` action list and its owning
+  play state instead of retaining the completed level until another order loads.
 - `JudgementSpray.SpawnProjectile` allocates a replacement condition collection
   when the shared pool is temporarily empty and otherwise reuses the original
   cached object.

@@ -1089,16 +1089,19 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Ziel: `PlayState.Dispose`
   - Technik: ein Transpiler fügt nach dem vorhandenen Aufruf von
     `Entity.ClearHandles()` genau einen gemeinsamen Cleanup-Aufruf ein
-  - Fehlerfall: 40 statische Collections in 34 Ability-, Spell-, SpellEffect-
-    und leichten Entity-Klassen behalten gepoolte Instanzen des abgebauten
-    Levels
-  - Verhalten: ausschließlich die 40 validierten Collections werden geleert;
-    Elemente werden in diesem Patch weder freigegeben noch anderweitig verändert
+  - Fehlerfall: 41 statische Collections in 35 Ability-, Spell-, SpellEffect-,
+    Action- und leichten Entity-Klassen behalten gepoolte Instanzen des
+    abgebauten Levels; `GiveOrder.sPlayState` hält den Eigentümer zusätzlich
+    direkt
+  - Verhalten: ausschließlich die 41 validierten Collections werden geleert;
+    zusätzlich wird das exakt validierte `GiveOrder.sPlayState` auf null
+    gesetzt. Elemente werden in diesem Patch weder freigegeben noch anderweitig
+    verändert
   - Kontrollverhalten: ein nicht initialisierter `PlayState` erreicht den
     eingefügten Aufruf nicht und lässt alle Collections unverändert
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten alle Einträge. Die manuelle
-    Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile leeren alle 40
-    Collections.
+    Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile leeren alle 41
+    Collections und lösen die `GiveOrder`-PlayState-Referenz.
 - [x] `entity-update-character-marker-decode`
   - Ziele: `NetworkServer.Update` und `NetworkClient.Update`
   - Technik: zwei Transpiler rufen unmittelbar vor dem vorhandenen
@@ -1578,7 +1581,8 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Grow.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/Levels/Triggers/Actions/GiveOrder.cs` — TEILWEISE: der
   Kahn-Kill-Plane-Fallback ist mit einem Transpiler und 4 Drei-Wege-Szenarien
-  migriert; Recovery-Telemetrie und statische Cache-Freigabe bleiben offen.
+  migriert; die statische Action-Liste und ihre PlayState-Referenz werden beim
+  Levelabbau freigegeben. Nur die Recovery-Telemetrie bleibt offen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/PerformanceEnchantment.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/EarthQuake.cs` — VOLLSTÄNDIG: Aktivierungs-PlayState-Freigabe sowie aktuelle Szene, Kamera und EntityManager mit 3 Transpilern und 3 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/BreakBarriers.cs` — TEILWEISE: PlayState-Lebensdauer und statische Poolfreigabe sind migriert; die RetentionRegistry-Diagnostik ist noch offen.

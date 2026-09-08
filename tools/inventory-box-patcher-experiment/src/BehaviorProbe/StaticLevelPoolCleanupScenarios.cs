@@ -59,7 +59,8 @@ internal sealed class StaticLevelPoolCleanupHarness
         Pool("Magicka.GameLogic.Entities.Shield", "mCache"),
         Pool("Magicka.GameLogic.Entities.Abilities.SpecialAbilities.WaveEntity", "mWaveCache"),
         Pool("Magicka.GameLogic.Entities.SprayEntity", "sCache"),
-        Pool("Magicka.GameLogic.Entities.Dispenser", "mCache")
+        Pool("Magicka.GameLogic.Entities.Dispenser", "mCache"),
+        Pool("Magicka.Levels.Triggers.Actions.GiveOrder", "sInstances")
     };
 
     private readonly bool runtimePatchEnabled;
@@ -67,6 +68,7 @@ internal sealed class StaticLevelPoolCleanupHarness
     private readonly MethodInfo playStateDispose;
     private readonly PoolFixture[] pools;
     private readonly MethodInfo[] manualCleanupMethods;
+    private readonly FieldInfo giveOrderPlayState;
 
     internal StaticLevelPoolCleanupHarness(
         Assembly magicka,
@@ -117,6 +119,16 @@ internal sealed class StaticLevelPoolCleanupHarness
 
         pools = foundPools.ToArray();
         manualCleanupMethods = cleanupMethods.ToArray();
+        Type giveOrderType = magicka.GetType(
+            "Magicka.Levels.Triggers.Actions.GiveOrder",
+            true);
+        giveOrderPlayState = giveOrderType.GetField(
+            "sPlayState",
+            BindingFlags.Static | BindingFlags.NonPublic |
+                BindingFlags.DeclaredOnly);
+        if (giveOrderPlayState == null ||
+            giveOrderPlayState.FieldType != playStateType)
+            throw new MissingFieldException(giveOrderType.FullName, "sPlayState");
     }
 
     internal ScenarioResult InitializedDispose()
@@ -160,6 +172,7 @@ internal sealed class StaticLevelPoolCleanupHarness
     {
         for (int index = 0; index < pools.Length; index++)
             pools[index].Populate();
+        giveOrderPlayState.SetValue(null, NewUninitialized(playStateType));
     }
 
     private ScenarioResult CountsResult(int expectedCount)
@@ -171,10 +184,16 @@ internal sealed class StaticLevelPoolCleanupHarness
                 matching++;
         }
         string description = "matching:" + matching + "/" + pools.Length;
+        bool playStateMatches =
+            (giveOrderPlayState.GetValue(null) == null) == (expectedCount == 0);
+        description += ",play_state:" +
+            (giveOrderPlayState.GetValue(null) == null ? "null" : "set");
+        string expected = "matching:" + pools.Length + "/" + pools.Length +
+            ",play_state:" + (expectedCount == 0 ? "null" : "set");
         return new ScenarioResult(
-            matching == pools.Length,
+            matching == pools.Length && playStateMatches,
             description,
-            "matching:" + pools.Length + "/" + pools.Length);
+            expected);
     }
 
     private static string[] Pool(string typeName, params string[] fields)
