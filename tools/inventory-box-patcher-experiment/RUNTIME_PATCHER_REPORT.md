@@ -99,6 +99,18 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original plus Runtime-Patch: Fehler- und Kontrollfälle bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: Prefix wird angewendet und alle fünf
     Szenarien bestehen
+- [x] `avatar-network-pickup`
+  - Ziel: `Avatar.NetworkAction(ref CharacterActionMessage)`
+  - Technik: Transpiler mit einer Prüfung unmittelbar vor den beiden
+    Pickup-Aufrufen
+  - Fehlerfall: Eine verspätete `PickUp`- oder `PickUpRequest`-Aktion verweist
+    noch auf ein Item, dessen Physikkörper beim Szenenabbau bereits gelöst wurde
+  - Verhalten: Die verspätete Aktion wird verworfen; fehlende Zielhandles
+    behalten den bisherigen wirkungslosen Pfad
+  - Original 1.10.4.2 sowie 1.4.16.0 und 1.5.1.0: beide körperlosen
+    Pickup-Szenarien werfen eine Ausnahme
+  - Manuelle Patch-Assembly 0.0.60 und Original plus Runtime-Patch: beide
+    Fehlerfälle und der Kontrollfall bestehen
 - [x] `ai-attack-detached-target`
   - Ziel: `AIStateAttack.OnExecute(IAI, float)`
   - Technik: boolescher Prefix
@@ -1768,7 +1780,9 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Items/Item.cs`
 - [ ] `Magicka/SharedContentManager.cs`
 - [ ] `Magicka/GameLogic/UI/Tome.cs`
-- [ ] `Magicka/GameLogic/Entities/Avatar.cs` — TEILWEISE: `FindInteractable`, Prefix und 5 Drei-Wege-Szenarien; die übrigen manuellen Änderungen dieser großen Klasse sind noch offen.
+- [ ] `Magicka/GameLogic/Entities/Avatar.cs` — TEILWEISE: `FindInteractable`
+  sowie die Guards gegen verspätete Pickup-Aktionen sind migriert; die übrigen
+  manuellen Änderungen dieser großen Klasse sind noch offen.
 - [ ] `Magicka/GameLogic/GameStates/PlayState.cs` — TEILWEISE: `AddWorldSyncMessage`, das bedingte Lösen der ShadowBlobs-Szene sowie die dokumentierten levelgebundenen Cleanup-Injektionen sind migriert; weitere Dispose-, Übergangs- und Diagnoseänderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Spells/Magick.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Spells/Railgun.cs` — TEILWEISE: statische Poolfreigabe, Ahnenprüfung vor dem Verknüpfen und zyklussichere Lock-Traversierung sind migriert; offen sind nur RetentionRegistry- und Recovery-Telemetrieaufrufe des manuellen Diffs.

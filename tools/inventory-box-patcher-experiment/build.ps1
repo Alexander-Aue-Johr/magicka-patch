@@ -186,6 +186,8 @@ function Test-BehaviorMatrix {
         "avatar_interactable.missing_level",
         "avatar_interactable.missing_scene",
         "avatar_interactable.missing_triggers",
+        "network_pickup.bodyless_pickup",
+        "network_pickup.bodyless_pickup_request",
         "ai_attack.bodyless_target",
         "ai_move.enter_bodyless_target",
         "ai_move.execute_bodyless_target",
@@ -501,6 +503,8 @@ function Test-BehaviorProfile(
             "typing_text.empty",
             "late_udp.empty_client_list",
             "late_udp.negative_client_index",
+            "network_pickup.bodyless_pickup",
+            "network_pickup.bodyless_pickup_request",
             "summon_phoenix.vector_state",
             "summon_phoenix.owner_state",
             "summon_phoenix.update_state",
@@ -1210,9 +1214,10 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Entity level teardown cleanup" -or
         $auditLines -notcontains "patch_end=TypingText malformed-state recovery" -or
         $auditLines -notcontains "patch_end=NetworkServer late UDP client guard: Magicka.Network.EntityRemoveMessage" -or
+        $auditLines -notcontains "patch_end=Avatar late network pickup guard" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 39 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 8 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 256) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 257) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1227,7 +1232,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=303")
+    $summary.Add("implemented_patches=304")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

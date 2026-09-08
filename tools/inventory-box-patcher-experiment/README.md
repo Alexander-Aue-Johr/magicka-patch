@@ -2,10 +2,12 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-three hundred three method patches:
+three hundred four method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
+- `Avatar.NetworkAction` drops late pickup actions after the referenced item has
+  already lost its physics body.
 - `AIStateAttack.OnExecute` releases a target whose physics body has already
   been detached.
 - `AIStateMove.OnEnter` omits the target-relative waypoint when that target's

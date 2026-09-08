@@ -12,6 +12,9 @@ namespace Magicka.CommunityPatch.Runtime
                 AvatarFindInteractablePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                AvatarNetworkPickupPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 AIStateAttackOnExecutePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

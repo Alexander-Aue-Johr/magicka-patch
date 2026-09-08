@@ -9,6 +9,7 @@ internal static class BehaviorSuite
         BehaviorReport report = new BehaviorReport();
         TimeWarpScenarios.Run(magicka, report);
         AvatarFindInteractableScenarios.Run(magicka, report);
+        AvatarNetworkPickupScenarios.Run(magicka, report);
         AIStateAttackScenarios.Run(magicka, report);
         AIStateMoveScenarios.Run(magicka, report);
         AgentChooseTargetScenarios.Run(magicka, report);
