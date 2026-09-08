@@ -278,6 +278,12 @@ namespace Magicka.CommunityPatch.Runtime
                 VladPlayStatePatch.InitializeDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                NapalmPlayStatePatch.ExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                NapalmPlayStatePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 DrinkBloodPlayStatePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

@@ -786,6 +786,21 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     PlayState werden korrigiert.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern in beiden Szenarien. Die
     manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile bestehen sie.
+- [x] `napalm-play-state-lifetime`
+  - Ziele: `Napalm.Execute(ISpellCaster, PlayState)` und
+    `Update(DataChannel, float)`
+  - Technik: ein Transpiler entfernt genau die gespeicherte
+    `mPlayState`-Zuweisung. Ein zweiter ersetzt genau zehn Reads durch
+    `PlayState.RecentPlayState`.
+  - Fehlerfall: ein laufender Napalm-Effekt hält den Levelzustand seines Casts
+    fest und kann Kollision, Flüssigkeiten, Kamera, Schaden, Beleuchtung und
+    Rendering an einem alten Zustand ausführen.
+  - Verhalten: Erstcast, Retargeting, Airstrike, Timer, Schaden und
+    Netzwerkautorität bleiben unverändert. Die größere Umordnung der
+    `Execute`-Zweige im manuellen C#-Diff ist semantikfreies
+    Rekompilierungsrauschen und wird nicht übernommen.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern in beiden Szenarien. Die
+    manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile bestehen sie.
 - [x] `drink-blood-play-state-lifetime`
   - Ziel: `DrinkBlood.Execute(ISpellCaster, PlayState)`
   - Technik: Transpiler; ersetzt ausschließlich `mPlayState = iPlayState`
@@ -1533,7 +1548,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 74 Dateien vollständig, 61 Dateien teilweise und 85 Dateien noch
+Aktueller Stand: 75 Dateien vollständig, 61 Dateien teilweise und 84 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1571,7 +1586,7 @@ Versionsnachweis.
   Add-Pfade wachsen volle WeakReference-Arrays unter einem stabilen
   CLR-2-kompatiblen Instanz-Lock; direkte generische Insert-/Expand-Aufrufe und
   die Erweiterungs-Telemetrie sind noch offen.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Napalm.cs`
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Napalm.cs` — VOLLSTÄNDIG: die gespeicherte PlayState-Zuweisung und alle zehn laufenden Reads sind mit 2 Transpilern und 2 Drei-Wege-Szenarien migriert; die umgekehrte Darstellung der unveränderten Execute-Zweige und Segment-Syntax sind Compilerrauschen.
 - [ ] `Magicka/GameLogic/Spells/ArcaneBlade.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Shield.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/RailGunSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.

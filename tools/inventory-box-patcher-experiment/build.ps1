@@ -295,6 +295,8 @@ function Test-BehaviorMatrix {
         "summon_phoenix.update_state",
         "vlad.constructor_state_release",
         "vlad.current_state_initialize",
+        "napalm.execute_state_release",
+        "napalm.current_state_update",
         "play_state.missing_spawn",
         "play_state.non_npc_spawn",
         "play_state.foreign_state_spawn",
@@ -476,6 +478,8 @@ function Test-BehaviorProfile(
             "summon_phoenix.update_state",
             "vlad.constructor_state_release",
             "vlad.current_state_initialize",
+            "napalm.execute_state_release",
+            "napalm.current_state_update",
             "menu_image_text.literal_font_change",
             "menu_image_text.localized_font_change",
             "language_manager.simplified_chinese_name",
@@ -771,6 +775,8 @@ function Test-BehaviorProfile(
         "summon_phoenix.update_state",
         "vlad.constructor_state_release",
         "vlad.current_state_initialize",
+        "napalm.execute_state_release",
+        "napalm.current_state_update",
         "play_state.ordinary_message",
         "play_state.other_action",
         "play_state.missing_spawn",
@@ -1140,9 +1146,11 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=SummonPhoenix current play-state update" -or
         $auditLines -notcontains "patch_end=Vlad play-state reference release" -or
         $auditLines -notcontains "patch_end=Vlad current play-state initialization" -or
+        $auditLines -notcontains "patch_end=Napalm play-state reference release" -or
+        $auditLines -notcontains "patch_end=Napalm current play-state update" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 34 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 6 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 174) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 176) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1157,7 +1165,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=214")
+    $summary.Add("implemented_patches=216")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
