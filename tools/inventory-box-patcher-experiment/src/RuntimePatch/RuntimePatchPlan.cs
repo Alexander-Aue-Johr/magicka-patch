@@ -293,6 +293,12 @@ namespace Magicka.CommunityPatch.Runtime
                 ThunderboltPlayStatePatch.CastDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                EntanglementEffectPatch.ConstructorDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                EntanglementEffectPatch.InitializeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 DrinkBloodPlayStatePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

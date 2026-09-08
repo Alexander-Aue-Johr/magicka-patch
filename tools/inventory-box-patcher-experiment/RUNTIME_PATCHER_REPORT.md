@@ -817,6 +817,24 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern in allen drei
     Zustands-Szenarien. Die manuelle Patch-Assembly 0.0.60 und alle
     Runtime-Patch-Profile bestehen sie.
+- [x] `entanglement-shared-render-effect`
+  - Ziele: `Entanglement(Character)` und `Initialize()`
+  - Technik: der Konstruktor-Transpiler ersetzt genau eine direkte
+    `EntangleEffect`-Allokation durch einen Lookup im globalen
+    `RenderManager`. Nur beim fehlenden Eintrag wird mit denselben Argumenten
+    ein Effekt erzeugt, vor der Registrierung mit der Diffuse-Map des Modells
+    initialisiert und danach wiederverwendet. Ein zweiter Transpiler entfernt
+    die dadurch überflüssige spätere Diffuse-Map-Zuweisung.
+  - Fehlerfall: jede Fesselung erzeugt und hält ein weiteres XNA-Effect-Objekt,
+    obwohl ihre Renderdaten ausschließlich den global registrierten
+    `EntangleEffect.TYPEHASH` verwenden.
+  - Verhalten: Modell- und Skeleton-Initialisierung, Renderdaten,
+    Besitzerabmessungen und Update bleiben unverändert. Der vorhandene
+    GraphicsDevice-Lock schützt auch den Registry-Lookup und den seltenen
+    Fallback.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern in beiden
+    Ressourcen-Szenarien. Die manuelle Patch-Assembly 0.0.60 und alle
+    Runtime-Patch-Profile bestehen sie.
 - [x] `drink-blood-play-state-lifetime`
   - Ziel: `DrinkBlood.Execute(ISpellCaster, PlayState)`
   - Technik: Transpiler; ersetzt ausschließlich `mPlayState = iPlayState`
@@ -1564,7 +1582,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 76 Dateien vollständig, 61 Dateien teilweise und 83 Dateien noch
+Aktueller Stand: 77 Dateien vollständig, 61 Dateien teilweise und 82 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1622,7 +1640,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/ShieldSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/VortexEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SpawnSlime.cs` — VOLLSTÄNDIG: gespeicherter PlayState in `Execute` und beide veralteten NavMesh-Zugriffe, 3 Transpiler und 3 Drei-Wege-Szenarien; der leere `DisposeCache()` und die statischen Hash-Initialisierer ändern kein Laufzeitverhalten.
-- [ ] `Magicka/GameLogic/Entities/Entanglement.cs`
+- [x] `Magicka/GameLogic/Entities/Entanglement.cs` — VOLLSTÄNDIG: der global registrierte EntangleEffect wird wiederverwendet und nur bei fehlendem Registry-Eintrag vollständig angelegt; 2 Transpiler und 2 Drei-Wege-Szenarien. Lokale Variablennamen und explizit dargestellte statische Initialisierer sind semantikfreies Compilerrauschen.
 - [ ] `Magicka/Levels/Level.cs`
 - [ ] `Magicka/Graphics/Effects/RadialBlur.cs` — TEILWEISE: levelgebundener
   Content und gespeicherte Szene werden nicht mehr gehalten, der Renderpfad

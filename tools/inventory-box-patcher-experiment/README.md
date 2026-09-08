@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-two hundred nineteen method patches:
+two hundred twenty-one method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -110,6 +110,8 @@ two hundred nineteen method patches:
 - `Thunderbolt` no longer retains either supplied casting play state and
   resolves all later scene, entity, camera, damage, effect and achievement
   work through the current state.
+- `Entanglement` reuses the process-wide registered render effect instead of
+  allocating and retaining another XNA effect for every entangled character.
 - `DrinkBlood.Execute` no longer stores an unused strong reference to the play
   state that created the effect.
 - `RandomMine.Execute` no longer stores the last play state on its process-wide
