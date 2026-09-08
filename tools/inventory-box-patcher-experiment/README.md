@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-one hundred twenty-one method patches:
+one hundred twenty-three method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -28,6 +28,8 @@ one hundred twenty-one method patches:
   centred 16:9 safe area on ultrawide displays while 16:9 layout is unchanged.
 - `TutorialManager` no longer retains the last disposed play state and resolves
   its active level state only when updating tutorial content.
+- `EtherealClone` no longer retains its last play state and resolves the current
+  NavMesh when placing a clone.
 - `MagickCamera.Update` releases a followed entity whose physics body has
   detached.
 - `BossHealthBar` no longer retains the scene supplied to its constructor or
@@ -132,7 +134,7 @@ one hundred twenty-one method patches:
 The Avatar, AI, Blizzard, BossHealthBar, Helper, InventoryBox, KeyboardHUD, MagickCamera, MeteorShower, Player, PlayState, and Rain
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
-The Agent, AnimatedLevelPart, AudioManager, Blizzard, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, MeteorShower, Rain,
+The Agent, AnimatedLevelPart, AudioManager, Blizzard, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, EtherealClone, MeteorShower, Rain,
 EntityStateStorage, Flash, Machine, Jormungandr, pack, PoisonSpray, Portal,
 RandomMine, SpawnSlime, SummonCross, SummonFlamer, SummonSpirit, SummonUndead,
 Starfall, Thunderstorm, TutorialManager, VersusRuleset, JudgementSpray, DialogLayout, ShadowBlobs, and

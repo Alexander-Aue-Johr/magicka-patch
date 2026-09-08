@@ -243,6 +243,18 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Zwei Drei-Wege-Szenarien prüfen die Freigabe unmittelbar nach dem früheren
     Zuweisungspunkt sowie einen Update-Pfad mit fehlender Alt- und gültiger
     aktueller Referenz.
+- [x] `ethereal-clone-play-state-lifetime`
+  - Ziele: `EtherealClone.Execute(ISpellCaster, PlayState)` und
+    `SpawnClone(CharacterTemplate, int, uint)`.
+  - Technik: Zwei eng geprüfte Transpiler entfernen genau eine gespeicherte
+    PlayState-Zuweisung und ersetzen den einzigen späteren Feldzugriff durch
+    `PlayState.RecentPlayState`.
+  - Verhalten: Der Prozess-Singleton hält keinen beendeten PlayState mehr. Die
+    Klonplatzierung fragt das NavMesh des aktuellen PlayState ab; Besitzer,
+    Zufallsposition, Netzwerkpaket und Spawnablauf bleiben unverändert.
+  - Zwei Drei-Wege-Szenarien stoppen unmittelbar nach der früheren Zuweisung
+    beziehungsweise beim NavMesh-Aufruf und unterscheiden alte und aktuelle
+    Objektidentität.
 - [x] `magick-camera-follow-entity`
   - Ziel: `MagickCamera.Update(DataChannel, float)`
   - Technik: Prefix; setzt ausschließlich einen körperlosen `mFollowing`-Verweis
@@ -1108,7 +1120,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 58 Dateien vollständig, 56 Dateien teilweise und 106 Dateien noch
+Aktueller Stand: 59 Dateien vollständig, 56 Dateien teilweise und 105 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1362,7 +1374,7 @@ Versionsnachweis.
   statischen Lock-Initialisierers ändern kein Laufzeitverhalten.
 - [ ] `Magicka/GameLogic/UI/GenericHealthBar.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/WaveEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/EtherealClone.cs`
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/EtherealClone.cs` — VOLLSTÄNDIG: gespeicherte PlayState-Zuweisung entfernt und NavMesh-Zugriff auf `RecentPlayState` migriert; der leere manuelle Cleanup und verschobene statische Initialisierungen sind semantikfrei.
 - [ ] `Magicka/GameLogic/Entities/Snare.cs`
 - [x] `Magicka/Levels/Triggers/Interactable.cs` — VOLLSTÄNDIG: fehlende Szene
   oder fehlendes Levelmodell in `Highlight`, Prefix und 3

@@ -19,6 +19,7 @@ internal static class Program
         bool applyRuntimePatch = ParseMode(arguments[1]);
         AppDomain.CurrentDomain.AssemblyResolve += ResolveTargetAssembly;
         targetAssembly = Assembly.LoadFrom(targetPath);
+        EtherealCloneScenarios.Prepare(targetAssembly);
 
         if (applyRuntimePatch)
             Bootstrap.Apply(targetAssembly);
