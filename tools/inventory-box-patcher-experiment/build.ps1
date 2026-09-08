@@ -196,6 +196,9 @@ function Test-BehaviorMatrix {
         "entity_clear.stale_grid",
         "entity_physics_cleanup.deinitialize",
         "entity_physics_cleanup.reuse_fallback",
+        "typing_text.truncated_plain",
+        "typing_text.truncated_markup",
+        "typing_text.empty",
         "entity_state_storage.constructor_release",
         "entity_state_storage.current_restore",
         "helper_array_equals.left_null",
@@ -491,6 +494,9 @@ function Test-BehaviorProfile(
             "dialog_manager.empty_additional_list",
             "entity_physics_cleanup.deinitialize",
             "entity_physics_cleanup.reuse_fallback",
+            "typing_text.truncated_plain",
+            "typing_text.truncated_markup",
+            "typing_text.empty",
             "summon_phoenix.vector_state",
             "summon_phoenix.owner_state",
             "summon_phoenix.update_state",
@@ -1198,7 +1204,8 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=PhysicsEntity stale physics replacement cleanup" -or
         $auditLines -notcontains "patch_end=PhysicsEntity deinitialization cleanup" -or
         $auditLines -notcontains "patch_end=Entity level teardown cleanup" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 38 -or
+        $auditLines -notcontains "patch_end=TypingText malformed-state recovery" -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 39 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 8 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 183) {
         throw "The runtime audit does not contain all registered Harmony patches."
@@ -1215,7 +1222,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=229")
+    $summary.Add("implemented_patches=230")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

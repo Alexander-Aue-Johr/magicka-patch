@@ -1599,6 +1599,23 @@ der `Entity`-Migration. Deshalb bleiben `PlayState.cs` und
 Die maschinenlesbaren Einzelergebnisse stehen nach einem Build in
 `audit/behavior-matrix.txt`.
 
+- [x] `typing-text-malformed-state-recovery`
+  - Ziel: `TypingText.Update(float)`.
+  - Technik: Prefix, der den unveränderten Parserablauf mit den sechs
+    validierten Instanzfeldern ausführt und nur `IndexOutOfRangeException`
+    abfängt.
+  - Fehlerfall: Stimmen Quelltext und erzeugte Primitive nicht überein oder
+    endet ein Formatblock vor seinem Abschluss, liest der Parser hinter das
+    `mText`-Array.
+  - Verhalten: Vorhandene Primitive werden sichtbar, der Zeichenindex wird auf
+    das letzte vorhandene Zeichen begrenzt und `mNextChar` auf positiv
+    unendlich gesetzt. Andere Syntaxfehler bleiben sichtbar.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 werfen in allen drei
+    Abbruchszenarien. Die manuelle Patch-Assembly 0.0.60 und alle
+    Runtime-Patch-Profile schließen sie kontrolliert ab. Normale Zeichen,
+    Interpunktion, gültige Pausenmarkierung und der gewöhnliche Syntaxfehler
+    bleiben in allen Profilen unverändert.
+
 ## Entfernte Versuchswege
 
 Der statische Patcher, die statische Verifikations-Assembly, C#-Diff-Strings und
@@ -1645,7 +1662,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 81 Dateien vollständig, 61 Dateien teilweise und 78 Dateien noch
+Aktueller Stand: 81 Dateien vollständig, 62 Dateien teilweise und 77 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1793,7 +1810,10 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/NonPlayerCharacter.cs` — TEILWEISE: der
   Challenge-Score-Zustand wird pro Pool-Lebenszyklus zurückgesetzt; die
   umfangreicheren Dispose-, AI- und Retention-Diagnoseänderungen bleiben offen.
-- [ ] `Magicka/Graphics/TypingText.cs`
+- [ ] `Magicka/Graphics/TypingText.cs` — TEILWEISE: die Recovery bei einem
+  Arrayzugriff hinter dem Textende ist mit einem Prefix und 7
+  Drei-Wege-Szenarien migriert; nur das begrenzte Diagnoseereignis folgt im
+  gemeinsamen Runtime-Telemetrieblock.
 - [ ] `Magicka/Program.cs`
 - [ ] `Magicka/GameLogic/Entities/AnimatedPhysicsEntity.cs` — TEILWEISE:
   Crossfade und ForceAnimation verwenden Idle nur dann als Ersatz, wenn dessen

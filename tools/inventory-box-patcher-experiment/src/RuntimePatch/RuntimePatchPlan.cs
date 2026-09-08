@@ -42,6 +42,9 @@ namespace Magicka.CommunityPatch.Runtime
                 EntityPhysicsCleanupPatch.ClearHandlesDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                TypingTextUpdatePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 EntityStateStoragePatch.ConstructorDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

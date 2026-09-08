@@ -146,6 +146,7 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        TypingTextScenarios.Run(magicka, report);
         JudgementSprayConditionCacheScenarios.Run(
             magicka,
             runtimePatchEnabled,
