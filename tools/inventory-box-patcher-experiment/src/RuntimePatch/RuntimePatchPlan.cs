@@ -117,6 +117,12 @@ namespace Magicka.CommunityPatch.Runtime
                 TimeWarpPlayStatePatch.StaffRemoveDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                SpellWheelPlayStatePatch.InitializeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SpellWheelPlayStatePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 MagickCameraFollowEntityPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

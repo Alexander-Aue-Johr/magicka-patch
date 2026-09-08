@@ -346,6 +346,18 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     beide Effekttypen. Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten oder
     verändern den veralteten Zustand; die manuelle Patch-Assembly und alle
     Runtime-Patch-Profile verwenden ausschließlich den aktuellen Zustand.
+- [x] `spell-wheel-current-play-state`
+  - Ziele: `SpellWheel.Initialize(PlayState)` und
+    `SpellWheel.Update(DataChannel, float)`.
+  - Technik: Zwei eng geprüfte Transpiler entfernen die einzige Zuweisung an
+    `mPlayState` und ersetzen je nach Magicka-Version den einen oder die drei
+    vorhandenen Feldzugriffe durch `PlayState.RecentPlayState`.
+  - Verhalten: Das SpellWheel hält keinen beendeten PlayState mehr und reicht
+    seine unveränderten Renderdaten an die aktuelle Szene weiter. Icon-Timer,
+    Spielerprüfung, Controllerlogik und Position bleiben unverändert.
+  - Zwei Drei-Wege-Szenarien prüfen die Freigabe nach `Initialize` und den
+    tatsächlichen Szenenempfänger beim Update. Die Matrix umfasst Original,
+    manuellen Patch und Runtime-Patch sowie Magicka 1.4.16.0 und 1.5.1.0.
 - [x] `magick-camera-follow-entity`
   - Ziel: `MagickCamera.Update(DataChannel, float)`
   - Technik: Prefix; setzt ausschließlich einen körperlosen `mFollowing`-Verweis
@@ -1443,7 +1455,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TornadoEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/FloorStomp.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/Graphics/MagickCamera.cs` — TEILWEISE: körperloses `FollowEntity`-Ziel, Prefix und 3 Drei-Wege-Szenarien; weitere Lifetime- und Dispose-Änderungen sind noch offen.
-- [ ] `Magicka/GameLogic/UI/SpellWheel.cs`
+- [ ] `Magicka/GameLogic/UI/SpellWheel.cs` — TEILWEISE: PlayState-Lebensdauer und aktueller Szenenempfänger sind mit 2 Transpilern und 2 Drei-Wege-Szenarien migriert; die UI-Skalierung im Renderpfad bleibt offen.
 - [ ] `Magicka/GameLogic/Entities/EntityManager.cs` — TEILWEISE: `GetClosestIDamageable`, das vierparametrige `GetEntities` und `ClearAndStore` mit 8 Drei-Wege-Szenarien; Konstruktor- und weitere Diagnoseänderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/TeslaField.cs` — TEILWEISE: Konstruktoren der statischen Poolobjekte speichern den ungenutzten PlayState nicht mehr und die Poolfreigabe bei Levelende ist migriert; die RetentionRegistry-Diagnostik ist noch offen.
 - [ ] `Magicka/GameLogic/Spells/LightningBolt.cs`
