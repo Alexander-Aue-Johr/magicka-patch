@@ -292,6 +292,9 @@ function Test-BehaviorMatrix {
         "judgement_spray.empty_condition_cache",
         "blizzard_cleanup.active_release",
         "blizzard_cleanup.stop_failure_release",
+        "blizzard.vector_current_play_state",
+        "blizzard.owner_current_play_state",
+        "blizzard.update_current_play_state",
         "animated_level_part.detached_entity",
         "animated_level_part.missing_entity",
         "dynamic_light_cache.level_dispose",
@@ -384,7 +387,10 @@ function Test-BehaviorProfile(
             "meteor_shower.owner_current_play_state",
             "meteor_shower.active_release",
             "meteor_shower.stop_failure_release",
-            "meteor_shower.already_stopping_release")
+            "meteor_shower.already_stopping_release",
+            "blizzard.vector_current_play_state",
+            "blizzard.owner_current_play_state",
+            "blizzard.update_current_play_state")
     }
     $probeDirectory = Join-Path $toolBuildDirectory "behavior-probe"
     $probe = Join-Path $probeDirectory "BehaviorProbe.exe"
@@ -612,6 +618,9 @@ function Test-BehaviorProfile(
         "blizzard_cleanup.active_release",
         "blizzard_cleanup.stop_failure_release",
         "blizzard_cleanup.empty",
+        "blizzard.vector_current_play_state",
+        "blizzard.owner_current_play_state",
+        "blizzard.update_current_play_state",
         "animated_level_part.detached_entity",
         "animated_level_part.missing_entity",
         "animated_level_part.expired_valid_entity",
@@ -741,6 +750,10 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Active chant-spell level cleanup" -or
         $auditLines -notcontains "patch_end=Static level pool cleanup" -or
         $auditLines -notcontains "patch_end=JudgementSpray empty condition-cache recovery" -or
+        $auditLines -notcontains "patch_end=Blizzard vector play-state release" -or
+        $auditLines -notcontains "patch_end=Blizzard owner play-state release" -or
+        $auditLines -notcontains "patch_end=Blizzard current execute play state" -or
+        $auditLines -notcontains "patch_end=Blizzard current update play state" -or
         $auditLines -notcontains "patch_end=Blizzard singleton reference cleanup" -or
         $auditLines -notcontains "patch_end=AnimatedLevelPart detached entity cleanup" -or
         $auditLines -notcontains "patch_end=DynamicLight cache release" -or
@@ -778,7 +791,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Player notifier level release" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 21 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 78) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 82) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -793,7 +806,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=103")
+    $summary.Add("implemented_patches=107")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

@@ -863,11 +863,14 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Telemetrieblock. Bis dahin ist die betroffene Quelldatei in der Checkliste
     bewusst nur teilweise migriert.
 
-- [x] `blizzard-singleton-reference-cleanup`
-  - Ziel: `Blizzard.OnRemove()`.
-  - Technik: boolescher Prefix; validiert die drei Referenzfelder, `mTTL`, den
-    XNA-Cue-Typ und exakt `Cue.Stop(AudioStopOptions)` und ersetzt die kleine
-    Originalmethode vollständig.
+- [x] `blizzard-play-state-lifetime`
+  - Ziele: beide öffentlichen `Blizzard.Execute(...)`-Überladungen, das private
+    `Execute()`, `Update(...)` und `OnRemove()`.
+  - Technik: vier eng geprüfte Transpiler entfernen die beiden Zuweisungen an
+    `mPlayState` und ersetzen exakt drei Zugriffe im privaten `Execute()` sowie
+    vier Zugriffe in `Update(...)` durch `PlayState.RecentPlayState`. Ein
+    boolescher Prefix validiert die drei Referenzfelder, `mTTL`, den XNA-Cue-Typ
+    und exakt `Cue.Stop(AudioStopOptions)` und ersetzt `OnRemove()` vollständig.
   - Fehlerfall: Das prozessweit lebende Blizzard-Singleton behält nach dem
     Entfernen die alte Szene, den Caster und den Ambience-Cue. Wirft das
     Stoppen des Cues, bleiben die Referenzen im Original ebenfalls erhalten.
@@ -876,12 +879,10 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     `AudioStopOptions.AsAuthored`-Aufruf ausgeführt. `mTTL` bleibt wie im
     Original auf null gesetzt.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten die Referenzen im normalen
-    und im absichtlich fehlschlagenden Cue-Pfad. Die manuelle Patch-Assembly
-    0.0.60 und alle Runtime-Patch-Profile lösen sie in beiden Fällen. Der
-    Kontrollfall ohne Referenzen und Cue besteht überall.
-  - Die übrige Entfernung des gespeicherten `mPlayState` und die Umstellung
-    laufender Blizzard-Zugriffe folgen getrennt. Deshalb bleibt die Datei in
-    der Checkliste teilweise migriert.
+    und im absichtlich fehlschlagenden Cue-Pfad. Sie wählen außerdem die beim
+    Aufruf übergebene statt der aktuellen Szene. Die manuelle Patch-Assembly
+    0.0.60 und alle Runtime-Patch-Profile lösen die Referenzen und verwenden die
+    aktuelle Szene. Der Kontrollfall ohne Referenzen und Cue besteht überall.
 
 - [x] `animated-level-part-detached-entity-cleanup`
   - Ziel: `AnimatedLevelPart.Update(DataChannel, float, ref Matrix, GameScene)`.
@@ -1054,7 +1055,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 50 Dateien vollständig, 59 Dateien teilweise und 111 Dateien noch
+Aktueller Stand: 51 Dateien vollständig, 58 Dateien teilweise und 111 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1118,10 +1119,10 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsResolution.cs`
 - [ ] `Magicka/Graphics/TutorialManager.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Thunderbolt.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Blizzard.cs`
-  — TEILWEISE: `OnRemove` löst Szene, Caster und Cue vor dem Stop-Aufruf;
-  Prefix und 3 Drei-Wege-Szenarien. Die gespeicherte PlayState-Referenz und
-  ihre laufenden Zugriffe sind noch offen.
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Blizzard.cs` —
+  VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, drei Zugriffe im
+  privaten Startpfad, vier Update-Zugriffe und die ausfallsichere
+  `OnRemove`-Bereinigung; 4 Transpiler, 1 Prefix und 6 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonZombie.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, zwei Start- und vier Update-Zugriffe sowie Pool- und Template-Freigabe; 4 Transpiler und 4 eigene Drei-Wege-Szenarien. RetentionRegistry-Aufrufe folgen gesammelt im Diagnostics-Block, die statischen Initialisierer sind Compilerrauschen.
 - [ ] `Magicka/Game.cs`
 - [ ] `Magicka/CommunityPatch/PayloadContract.cs`

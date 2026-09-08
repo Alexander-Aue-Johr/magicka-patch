@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-one hundred three method patches:
+one hundred seven method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -90,8 +90,10 @@ one hundred three method patches:
 - `JudgementSpray.SpawnProjectile` allocates a replacement condition collection
   when the shared pool is temporarily empty and otherwise reuses the original
   cached object.
-- `Blizzard.OnRemove` releases its scene, caster, and ambience cue before the
-  existing cue-stop operation can fail.
+- `Blizzard` no longer retains its supplied play state, resolves scene, camera,
+  entity, liquid, and post-effect work through the current play state, and
+  releases its scene, caster, and ambience cue before the existing cue-stop
+  operation can fail.
 - `AnimatedLevelPart.Update` removes collision registrations whose entity or
   physics body has already been detached.
 - `DynamicLight.DisposeCache` releases each cached shadow map and then drops
@@ -122,7 +124,7 @@ one hundred three method patches:
 The Avatar, AI, Blizzard, BossHealthBar, Helper, InventoryBox, MagickCamera, MeteorShower, Player, and PlayState
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
-The Agent, AnimatedLevelPart, AudioManager, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, MeteorShower,
+The Agent, AnimatedLevelPart, AudioManager, Blizzard, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, MeteorShower,
 EntityStateStorage, Flash, Machine, Jormungandr, pack, PoisonSpray, Portal,
 RandomMine, SpawnSlime, SummonCross, SummonFlamer, SummonSpirit, SummonUndead,
 Starfall, VersusRuleset, JudgementSpray, DialogLayout, ShadowBlobs, and
