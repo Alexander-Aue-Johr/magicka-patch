@@ -266,6 +266,16 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     EntityManager; TTL, Besitzer und Barrierenfilter bleiben unverändert.
   - Zwei Drei-Wege-Szenarien prüfen den vollständigen Execute-Pfad und zeichnen
     bei getrennten alten und aktuellen Managern beide Update-Empfänger auf.
+- [x] `tesla-field-play-state-lifetime`
+  - Ziel: privater Konstruktor `TeslaField(PlayState)`.
+  - Technik: Ein eng geprüfter Konstruktor-Transpiler entfernt ausschließlich
+    die einzige Zuweisung an das ungenutzte Feld `mPlaystate`. Das Feld bleibt
+    für den binären Vertrag der Originalassembly bestehen.
+  - Verhalten: Weder die von `InitializeCache` vorab erzeugten Poolobjekte noch
+    eine Ersatzallokation aus `GetFromCache` halten den Levelzustand fest.
+    Poolgröße, Entnahmereihenfolge und Tesla-Effektlogik bleiben unverändert.
+  - Zwei Drei-Wege-Szenarien prüfen den vorab erzeugten Pool mit drei Einträgen
+    und die Ersatzallokation bei leerem Pool.
 - [x] `magick-camera-follow-entity`
   - Ziel: `MagickCamera.Update(DataChannel, float)`
   - Technik: Prefix; setzt ausschließlich einen körperlosen `mFollowing`-Verweis
@@ -1365,7 +1375,7 @@ Versionsnachweis.
 - [ ] `Magicka/Graphics/MagickCamera.cs` — TEILWEISE: körperloses `FollowEntity`-Ziel, Prefix und 3 Drei-Wege-Szenarien; weitere Lifetime- und Dispose-Änderungen sind noch offen.
 - [ ] `Magicka/GameLogic/UI/SpellWheel.cs`
 - [ ] `Magicka/GameLogic/Entities/EntityManager.cs` — TEILWEISE: `GetClosestIDamageable`, das vierparametrige `GetEntities` und `ClearAndStore` mit 8 Drei-Wege-Szenarien; Konstruktor- und weitere Diagnoseänderungen sind noch offen.
-- [ ] `Magicka/GameLogic/Entities/TeslaField.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [ ] `Magicka/GameLogic/Entities/TeslaField.cs` — TEILWEISE: Konstruktoren der statischen Poolobjekte speichern den ungenutzten PlayState nicht mehr und die Poolfreigabe bei Levelende ist migriert; die RetentionRegistry-Diagnostik ist noch offen.
 - [ ] `Magicka/GameLogic/Spells/LightningBolt.cs`
 - [ ] `Magicka/Levels/Triggers/Actions/Action.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TimeWarpStaff.cs`

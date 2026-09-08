@@ -72,6 +72,9 @@ namespace Magicka.CommunityPatch.Runtime
                 BreakBarriersPlayStatePatch.UpdateDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                TeslaFieldPlayStatePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 MagickCameraFollowEntityPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

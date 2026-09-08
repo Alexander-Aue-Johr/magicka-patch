@@ -23,6 +23,7 @@ internal static class BehaviorSuite
         TutorialManagerPlayStateScenarios.Run(magicka, report);
         EtherealCloneScenarios.Run(magicka, report);
         BreakBarriersScenarios.Run(magicka, report);
+        TeslaFieldScenarios.Run(magicka, report);
         MagickCameraScenarios.Run(magicka, report);
         BossHealthBarScenarios.Run(magicka, report);
         LoadingScreenScenarios.Run(magicka, report);
