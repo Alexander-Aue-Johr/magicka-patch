@@ -421,6 +421,9 @@ namespace Magicka.CommunityPatch.Runtime
                 ActionLifecyclePatch.DisposeDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                DialogManagerLevelCleanupPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 StaticLevelPoolCleanupPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

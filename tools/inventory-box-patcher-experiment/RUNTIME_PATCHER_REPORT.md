@@ -866,6 +866,21 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten die Referenzen und das Tag.
     Die manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile geben sie
     frei.
+- [x] `dialog-manager-level-lifetime`
+  - Ziel: der eine `DialogManager.SetDialogs(null)`-Aufruf in
+    `PlayState.Dispose()`
+  - Technik: ein Transpiler ersetzt nur diesen Aufruf durch einen Helfer, der
+    zuerst `EndAll()` ausführt, danach die Levelreferenzen aller festen,
+    Cutscene- und zusätzlichen TextBoxen löst, die zusätzliche Liste leert und
+    den transienten Dialogzustand zurücksetzt.
+  - Fehlerfall: Der Prozess-Singleton hält sonst TextBox-Besitzer, Szenen und
+    dynamisch hinzugefügte TextBoxen über das Levelende hinaus fest.
+  - Verhalten: Dialogende und Input-/Physics-Freigabe bleiben über den
+    vorhandenen `EndAll()`-Pfad erhalten. Außerhalb des initialisierten
+    PlayState-Dispose ändert sich nichts.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten die Testreferenzen. Die
+    manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile lösen sie; der
+    Kontrollfall mit leerer Zusatzliste bleibt fehlerfrei.
 - [x] `drink-blood-play-state-lifetime`
   - Ziel: `DrinkBlood.Execute(ISpellCaster, PlayState)`
   - Technik: Transpiler; ersetzt ausschließlich `mPlayState = iPlayState`
@@ -1613,7 +1628,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 79 Dateien vollständig, 61 Dateien teilweise und 80 Dateien noch
+Aktueller Stand: 80 Dateien vollständig, 61 Dateien teilweise und 79 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1803,8 +1818,8 @@ Versionsnachweis.
   Challenge-Score-Pfade verwenden denselben Einmal-pro-Gegner-Guard, zwei
   Transpiler und 3 Drei-Wege-Szenarien.
 - [ ] `Magicka/Graphics/TextBox.cs` — TEILWEISE: die Freigabe ihrer
-  levelgebundenen Besitzer- und Szenenreferenzen ist durch einen Prefix und 3
-  Drei-Wege-Szenarien migriert; die Ultrawide-Zeichenänderung bleibt offen.
+  levelgebundenen Besitzer- und Szenenreferenzen bei Player- und
+  DialogManager-Abbau ist migriert; die Ultrawide-Zeichenänderung bleibt offen.
 - [x] `Magicka/Levels/Triggers/Actions/AssignItem.cs` — VOLLSTÄNDIG:
   ausschließlich semantikfreie Darstellung derselben drei statischen
   Hash-Initialisierungen in einem expliziten Typinitialisierer; Reihenfolge,
@@ -1873,7 +1888,7 @@ Versionsnachweis.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ArrowRain.cs` — VOLLSTÄNDIG: PlayState- und Szenenfreigabe sowie aktuelle Missile-, Blitz-, Kamera- und Entfernungspfade mit 6 Transpilern und 4 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Entities/SprayEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ConfuseWho.cs` — VOLLSTÄNDIG: abgelaufene, bereits deinitialisierte Opfer verwenden bei der Bereinigung die weiterhin verfügbare aktuelle Fraktion, ein Transpiler und 2 Drei-Wege-Szenarien; die statische Initialisierer-Umschreibung ist semantikfreies Compilerrauschen.
-- [ ] `Magicka/GameLogic/UI/DialogManager.cs`
+- [x] `Magicka/GameLogic/UI/DialogManager.cs` — VOLLSTÄNDIG: der Levelabbau beendet aktive Dialoge, trennt alle festen, Cutscene- und zusätzlichen TextBoxen von Levelobjekten, leert die Zusatzliste und setzt den transienten Zustand zurück; ein Transpiler und 2 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Confuse.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TornadoEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/FloorStomp.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.

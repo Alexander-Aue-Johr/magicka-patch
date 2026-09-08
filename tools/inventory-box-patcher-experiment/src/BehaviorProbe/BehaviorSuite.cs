@@ -138,6 +138,10 @@ internal static class BehaviorSuite
             runtimePatchEnabled,
             report);
         ActionLifecycleScenarios.Run(magicka, report);
+        DialogManagerLevelCleanupScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         JudgementSprayConditionCacheScenarios.Run(
             magicka,
             runtimePatchEnabled,

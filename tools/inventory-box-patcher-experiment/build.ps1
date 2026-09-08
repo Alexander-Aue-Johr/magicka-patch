@@ -343,6 +343,8 @@ function Test-BehaviorMatrix {
         "confuse_who.detached_victim",
         "action_lifecycle.clear_references",
         "action_lifecycle.state_reset_tag",
+        "dialog_manager.level_reference_release",
+        "dialog_manager.empty_additional_list",
         "homing_charge.execute_release",
         "stop_charge.execute_release",
         "homing_charge.current_query_manager",
@@ -483,6 +485,8 @@ function Test-BehaviorProfile(
             "radial_blur.cache_clear",
             "action_lifecycle.clear_references",
             "action_lifecycle.state_reset_tag",
+            "dialog_manager.level_reference_release",
+            "dialog_manager.empty_additional_list",
             "summon_phoenix.vector_state",
             "summon_phoenix.owner_state",
             "summon_phoenix.update_state",
@@ -864,6 +868,8 @@ function Test-BehaviorProfile(
         "action_lifecycle.clear_references",
         "action_lifecycle.state_reset_tag",
         "action_lifecycle.empty_clear",
+        "dialog_manager.level_reference_release",
+        "dialog_manager.empty_additional_list",
         "homing_charge.execute_release",
         "stop_charge.execute_release",
         "homing_charge.current_query_manager",
@@ -1182,9 +1188,10 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Action instance reference cleanup" -or
         $auditLines -notcontains "patch_end=Action state tag cleanup" -or
         $auditLines -notcontains "patch_end=Action cleanup at play-state disposal" -or
+        $auditLines -notcontains "patch_end=DialogManager level reference cleanup" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 36 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 7 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 182) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 183) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1199,7 +1206,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=225")
+    $summary.Add("implemented_patches=226")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
