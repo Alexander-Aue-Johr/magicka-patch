@@ -757,6 +757,22 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Runtime-Patch-Profile bestehen alle fünf Fehler- und Kontrollszenarien.
   - Noch offen: die manuellen `RetentionRegistry`-Markierungen folgen mit dem
     gemeinsamen Runtime-Diagnostics-Block.
+- [x] `summon-phoenix-play-state-lifetime`
+  - Ziele: beide `SummonPhoenix.Execute`-Überladungen und
+    `Update(DataChannel, float)`
+  - Technik: zwei Transpiler entfernen jeweils die statische
+    `sPlayState`-Zuweisung und ersetzen jeweils drei Reads. Der Update-Transpiler
+    ersetzt sieben weitere Reads durch `PlayState.RecentPlayState`.
+  - Fehlerfall: der Singleton hält den startenden Levelzustand statisch fest.
+    Ein über einen Szenenwechsel hinaus laufender Effekt registriert Rendering,
+    Schaden, Kameraeffekte, Navigation und Wiederbelebung weiterhin am alten
+    Zustand.
+  - Verhalten: alle vorhandenen Phoenix-Abläufe bleiben erhalten, verwenden
+    aber im jeweiligen Moment den aktuellen PlayState. Die Transpiler lehnen
+    abweichende Store- oder Read-Anzahlen bei der Registrierung ab.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern in allen drei
+    Zustands-Szenarien. Die manuelle Patch-Assembly 0.0.60 und alle
+    Runtime-Patch-Profile bestehen sie.
 - [x] `drink-blood-play-state-lifetime`
   - Ziel: `DrinkBlood.Execute(ISpellCaster, PlayState)`
   - Technik: Transpiler; ersetzt ausschließlich `mPlayState = iPlayState`
@@ -1504,7 +1520,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 72 Dateien vollständig, 61 Dateien teilweise und 87 Dateien noch
+Aktueller Stand: 73 Dateien vollständig, 61 Dateien teilweise und 86 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1521,7 +1537,7 @@ Versionsnachweis.
 - [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuTimedObjectiveStatistics.cs` — VOLLSTÄNDIG: alle neun Reads verwenden den aktuellen PlayState; der übrige statische Initialisierer-Diff ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/CommunityPatch/TelemetryRuntimeContext.cs`
 - [ ] `Magicka/GameLogic/Entities/SpellMine.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonPhoenix.cs`
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonPhoenix.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen und alle dreizehn laufenden Zugriffe sind mit 3 Transpilern und 3 Drei-Wege-Szenarien migriert; die Segment-Initialisierungen im C#-Diff sind semantikfreies Compilerrauschen.
 - [x] `Magicka/CommunityPatch/DialogLayoutCompatibility.cs` — VOLLSTÄNDIG: beide reinen Formatierungshelfer sind im Runtime-Patcher enthalten und durch sechs Drei-Wege-Szenarien abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Bosses/Vlad.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Thunderstorm.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, elf laufende PlayState-Zugriffe und die per-cast Owner-Freigabe; 4 Transpiler und 4 Drei-Wege-Szenarien.

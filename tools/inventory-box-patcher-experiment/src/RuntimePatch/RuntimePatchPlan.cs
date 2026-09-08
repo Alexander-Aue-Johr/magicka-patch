@@ -263,6 +263,15 @@ namespace Magicka.CommunityPatch.Runtime
                 RadialBlurLifetimePatch.DisposeCacheDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                SummonPhoenixPlayStatePatch.VectorExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonPhoenixPlayStatePatch.OwnerExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonPhoenixPlayStatePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 DrinkBloodPlayStatePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

@@ -290,6 +290,9 @@ function Test-BehaviorMatrix {
         "radial_blur.level_content_release",
         "radial_blur.current_scene",
         "radial_blur.cache_clear",
+        "summon_phoenix.vector_state",
+        "summon_phoenix.owner_state",
+        "summon_phoenix.update_state",
         "play_state.missing_spawn",
         "play_state.non_npc_spawn",
         "play_state.foreign_state_spawn",
@@ -466,6 +469,9 @@ function Test-BehaviorProfile(
             "radial_blur.level_content_release",
             "radial_blur.current_scene",
             "radial_blur.cache_clear",
+            "summon_phoenix.vector_state",
+            "summon_phoenix.owner_state",
+            "summon_phoenix.update_state",
             "menu_image_text.literal_font_change",
             "menu_image_text.localized_font_change",
             "language_manager.simplified_chinese_name",
@@ -756,6 +762,9 @@ function Test-BehaviorProfile(
         "radial_blur.same_scene",
         "radial_blur.cache_clear",
         "radial_blur.empty_cache",
+        "summon_phoenix.vector_state",
+        "summon_phoenix.owner_state",
+        "summon_phoenix.update_state",
         "play_state.ordinary_message",
         "play_state.other_action",
         "play_state.missing_spawn",
@@ -1120,9 +1129,12 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=RadialBlur scene retention removal" -or
         $auditLines -notcontains "patch_end=RadialBlur current-scene rendering" -or
         $auditLines -notcontains "patch_end=RadialBlur disposed-cache release" -or
+        $auditLines -notcontains "patch_end=SummonPhoenix vector play-state lifetime" -or
+        $auditLines -notcontains "patch_end=SummonPhoenix owner play-state lifetime" -or
+        $auditLines -notcontains "patch_end=SummonPhoenix current play-state update" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 34 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 6 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 169) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 172) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1137,7 +1149,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=209")
+    $summary.Add("implemented_patches=212")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
