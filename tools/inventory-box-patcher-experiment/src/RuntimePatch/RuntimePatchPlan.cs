@@ -227,6 +227,30 @@ namespace Magicka.CommunityPatch.Runtime
                 RailgunParentCyclePatch.LockAllDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                AnimationClipCompatibilityPatch.ConstructorDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                AnimationClipCompatibilityPatch.CharacterTemplateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                AnimationClipCompatibilityPatch.PhysicsTemplateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                AnimationClipCompatibilityPatch.CharacterInitializeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                AnimationClipCompatibilityPatch.CharacterGoToDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                AnimationClipCompatibilityPatch.CharacterForceDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                AnimationClipCompatibilityPatch.AnimatedGoToDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                AnimationClipCompatibilityPatch.AnimatedForceDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 DrinkBloodPlayStatePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

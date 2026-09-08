@@ -714,6 +714,29 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     0.0.60 und alle Runtime-Patch-Profile bestehen alle fünf Szenarien.
   - Noch offen: die drei begrenzten Recovery-Telemetriegründe aus dem
     manuellen Patch folgen mit dem gemeinsamen Runtime-Telemetrieblock.
+- [x] `animation-clip-compatibility`
+  - Ziele: der Content-Konstruktor von `AnimationClipAction`, die beiden
+    Template-Reader, `Character.Initialize` sowie `GoToAnimation` und
+    `ForceAnimation` auf `Character` und `AnimatedPhysicsEntity`
+  - Technik: vier Transpiler ändern nur den fehlertoleranten Clip-Lookup, die
+    bedingte Slot-Zuweisung und den initialen Idle-Lookup. Vier boolesche
+    Prefixe behandeln ausschließlich Animationsanforderungen, deren Aktion
+    oder Clip fehlt.
+  - Fehlerfall: ein Content-Asset verweist auf einen fehlenden Animationsclip,
+    speichert dadurch eine unbrauchbare Aktion oder fordert später einen
+    fehlenden Idle-Slot an. Das Original wirft dabei je nach Pfad
+    `KeyNotFoundException`, `NullReferenceException` oder
+    `IndexOutOfRangeException`.
+  - Verhalten: Der Reader konsumiert den vollständigen Datensatz weiter,
+    speichert aber keine Aktion ohne Clip. Animationspfade verwenden den
+    vorhandenen Idle-Clip als Ersatz oder lassen den Controller unverändert,
+    wenn auch Idle fehlt. Gültige Lookups und Slots behalten das
+    Originalverhalten.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern in den fünf ungültigen
+    Szenarien. Die manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile
+    bestehen alle sieben Fehler- und Kontrollszenarien.
+  - Noch offen: die begrenzte Meldung fehlender Clip-Namen folgt mit dem
+    gemeinsamen Runtime-Telemetrieblock.
 - [x] `drink-blood-play-state-lifetime`
   - Ziel: `DrinkBlood.Execute(ISpellCaster, PlayState)`
   - Technik: Transpiler; ersetzt ausschließlich `mPlayState = iPlayState`
@@ -1538,7 +1561,9 @@ Versionsnachweis.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonZombie.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, zwei Start- und vier Update-Zugriffe sowie Pool- und Template-Freigabe; 4 Transpiler und 4 eigene Drei-Wege-Szenarien. RetentionRegistry-Aufrufe folgen gesammelt im Diagnostics-Block, die statischen Initialisierer sind Compilerrauschen.
 - [ ] `Magicka/Game.cs` — TEILWEISE: `EndRun` gibt die Paradox-Kontodaten nach dem Dienstabbau frei; die weiteren manuellen Änderungen der Klasse sind noch offen.
 - [ ] `Magicka/CommunityPatch/PayloadContract.cs`
-- [ ] `Magicka/CommunityPatch/AnimationClipCompatibility.cs`
+- [ ] `Magicka/CommunityPatch/AnimationClipCompatibility.cs` — TEILWEISE: die
+  sicheren Array-Lookups sind migriert; die begrenzte Missing-Clip-Telemetrie
+  folgt mit dem gemeinsamen Runtime-Telemetrieblock.
 - [ ] `Magicka/CommunityPatch/PatchSettings.cs`
 - [ ] `Magicka/GameLogic/Entities/Items/Item.cs`
 - [ ] `Magicka/SharedContentManager.cs`
@@ -1555,7 +1580,10 @@ Versionsnachweis.
   Ambient-Audio-Locator wird bei einem internen XACT-Cue-Indexfehler entfernt;
   die weiteren manuellen Änderungen der Klasse bleiben offen.
 - [ ] `Magicka/CommunityPatch/PatchTelemetry.cs`
-- [ ] `Magicka/GameLogic/Entities/Character.cs`
+- [ ] `Magicka/GameLogic/Entities/Character.cs` — TEILWEISE: Initialisierung,
+  Crossfade und ForceAnimation behandeln fehlende Animationsaktionen und
+  fehlende Idle-Clips; weitere Netzwerk-, Dispose- und Diagnoseänderungen sind
+  noch offen.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/ProjectileSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCharacterSelect.cs` —
   TEILWEISE: die vier Pack-Anzeigeprüfungen verwenden die gemeinsame
@@ -1566,7 +1594,9 @@ Versionsnachweis.
 - [ ] `Magicka/CommunityPatch/HybridInputSupport.cs`
 - [ ] `Magicka/CommunityPatch/OriginalBackupAudit.cs`
 - [ ] `Magicka/CommunityPatch/Magicka2ControllerSupport.cs`
-- [ ] `Magicka/GameLogic/Entities/CharacterTemplate.cs`
+- [ ] `Magicka/GameLogic/Entities/CharacterTemplate.cs` — TEILWEISE:
+  Animationsaktionen ohne auflösbaren Clip werden nicht gespeichert; die
+  umfangreicheren Dispose-Änderungen sind noch offen.
 - [ ] `Magicka/CommunityPatch/PatchUpdateManager.cs`
 - [ ] `Magicka/CommunityPatch/NetworkLifecycleCompatibility.cs`
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCutscene.cs`
@@ -1574,7 +1604,9 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Barrier.cs`
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/SpraySpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/Levels/LevelModel.cs`
-- [ ] `Magicka/GameLogic/Entities/PhysicsEntityTemplate.cs`
+- [ ] `Magicka/GameLogic/Entities/PhysicsEntityTemplate.cs` — TEILWEISE:
+  Animationsaktionen ohne auflösbaren Clip werden nicht gespeichert; die
+  weiteren Lebensdaueränderungen sind noch offen.
 - [ ] `Magicka/CommunityPatch/CommunityPatchInfo.cs`
 - [ ] `Magicka/Physics/PhysicsManager.cs`
 - [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuMagicks.cs` — VOLLSTÄNDIG: beide GameType-Reads verwenden den aktuellen PlayState und `LanguageChanged` validiert den markierten Index. Die lokale Variable im Namenpfad, die tote `num2 = 28`-Zuweisung und der statische Initialisierer-Diff ändern kein Verhalten.
@@ -1599,7 +1631,10 @@ Versionsnachweis.
   umfangreicheren Dispose-, AI- und Retention-Diagnoseänderungen bleiben offen.
 - [ ] `Magicka/Graphics/TypingText.cs`
 - [ ] `Magicka/Program.cs`
-- [ ] `Magicka/GameLogic/Entities/AnimatedPhysicsEntity.cs`
+- [ ] `Magicka/GameLogic/Entities/AnimatedPhysicsEntity.cs` — TEILWEISE:
+  Crossfade und ForceAnimation verwenden Idle nur dann als Ersatz, wenn dessen
+  Aktion und Clip vorhanden sind; Deinitialize- und Dispose-Änderungen sind
+  noch offen.
 - [ ] `Magicka/GameLogic/Spells/UnderGroundAttack.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/CommunityPatch/NetworkGuardTelemetryBackoff.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/HealingRain.cs` — VOLLSTÄNDIG: aktuelle Zustandsauflösung und abschließende Szene-/Caster-Freigabe mit 4 Transpilern, 1 Prefix und 5 Drei-Wege-Szenarien.

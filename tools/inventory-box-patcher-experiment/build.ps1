@@ -282,6 +282,11 @@ function Test-BehaviorMatrix {
         "railgun.parent_cycle_candidate",
         "railgun.parent_check_limit",
         "railgun.lock_cycle",
+        "animation_clip.lookup_missing",
+        "animation_clip.invalid_slot",
+        "animation_clip.null_set",
+        "animation_clip.out_of_range",
+        "animation_clip.missing_idle",
         "play_state.missing_spawn",
         "play_state.non_npc_spawn",
         "play_state.foreign_state_spawn",
@@ -450,6 +455,11 @@ function Test-BehaviorProfile(
             "railgun.parent_cycle_candidate",
             "railgun.parent_check_limit",
             "railgun.lock_cycle",
+            "animation_clip.lookup_missing",
+            "animation_clip.invalid_slot",
+            "animation_clip.null_set",
+            "animation_clip.out_of_range",
+            "animation_clip.missing_idle",
             "menu_image_text.literal_font_change",
             "menu_image_text.localized_font_change",
             "language_manager.simplified_chinese_name",
@@ -728,6 +738,13 @@ function Test-BehaviorProfile(
         "railgun.parent_check_limit",
         "railgun.lock_cycle",
         "railgun.lock_acyclic",
+        "animation_clip.lookup_missing",
+        "animation_clip.lookup_present",
+        "animation_clip.invalid_slot",
+        "animation_clip.valid_slot",
+        "animation_clip.null_set",
+        "animation_clip.out_of_range",
+        "animation_clip.missing_idle",
         "play_state.ordinary_message",
         "play_state.other_action",
         "play_state.missing_spawn",
@@ -1080,9 +1097,17 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=TriggerArea StaticWeakList growth" -or
         $auditLines -notcontains "patch_end=Railgun parent-cycle prevention" -or
         $auditLines -notcontains "patch_end=Railgun cycle-safe lock traversal" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 30 -or
+        $auditLines -notcontains "patch_end=AnimationClipAction missing-key recovery" -or
+        $auditLines -notcontains "patch_end=CharacterTemplate invalid animation-slot filter" -or
+        $auditLines -notcontains "patch_end=PhysicsEntityTemplate invalid animation-slot filter" -or
+        $auditLines -notcontains "patch_end=Character missing-idle initialization recovery" -or
+        $auditLines -notcontains "patch_end=Character missing-idle crossfade recovery" -or
+        $auditLines -notcontains "patch_end=Character missing-idle force recovery" -or
+        $auditLines -notcontains "patch_end=AnimatedPhysicsEntity idle crossfade fallback" -or
+        $auditLines -notcontains "patch_end=AnimatedPhysicsEntity idle force fallback" -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 34 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 6 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 161) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 165) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1097,7 +1122,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=197")
+    $summary.Add("implemented_patches=205")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
