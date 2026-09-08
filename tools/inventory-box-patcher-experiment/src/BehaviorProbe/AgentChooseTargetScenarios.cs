@@ -29,6 +29,7 @@ internal sealed class AgentChooseTargetHarness
     private readonly Type staticEquatableListType;
     private readonly FieldInfo gameSingleton;
     private readonly MethodInfo chooseTarget;
+    private object bodylessPlayer;
 
     internal AgentChooseTargetHarness(Assembly magicka)
     {
@@ -95,6 +96,8 @@ internal sealed class AgentChooseTargetHarness
         }
         finally
         {
+            GC.KeepAlive(bodylessPlayer);
+            bodylessPlayer = null;
             gameSingleton.SetValue(null, previousGame);
         }
     }
@@ -135,6 +138,7 @@ internal sealed class AgentChooseTargetHarness
         object target = includeBodylessPlayer
             ? FormatterServices.GetUninitializedObject(avatarType)
             : null;
+        bodylessPlayer = target;
         if (target != null)
             GC.SuppressFinalize(target);
         for (int index = 0; index < players.Length; index++)
