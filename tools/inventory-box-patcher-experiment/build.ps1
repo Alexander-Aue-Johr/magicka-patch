@@ -295,6 +295,14 @@ function Test-BehaviorMatrix {
         "blizzard.vector_current_play_state",
         "blizzard.owner_current_play_state",
         "blizzard.update_current_play_state",
+        "rain.vector_current_play_state",
+        "rain.owner_current_play_state",
+        "rain.update_current_play_state",
+        "rain.remove_releases_scene",
+        "thunderstorm.vector_current_play_state",
+        "thunderstorm.owner_current_play_state",
+        "thunderstorm.update_current_play_state",
+        "thunderstorm.remove_current_play_state",
         "animated_level_part.detached_entity",
         "animated_level_part.missing_entity",
         "dynamic_light_cache.level_dispose",
@@ -390,7 +398,15 @@ function Test-BehaviorProfile(
             "meteor_shower.already_stopping_release",
             "blizzard.vector_current_play_state",
             "blizzard.owner_current_play_state",
-            "blizzard.update_current_play_state")
+            "blizzard.update_current_play_state",
+            "rain.vector_current_play_state",
+            "rain.owner_current_play_state",
+            "rain.update_current_play_state",
+            "rain.remove_releases_scene",
+            "thunderstorm.vector_current_play_state",
+            "thunderstorm.owner_current_play_state",
+            "thunderstorm.update_current_play_state",
+            "thunderstorm.remove_current_play_state")
     }
     $probeDirectory = Join-Path $toolBuildDirectory "behavior-probe"
     $probe = Join-Path $probeDirectory "BehaviorProbe.exe"
@@ -621,6 +637,14 @@ function Test-BehaviorProfile(
         "blizzard.vector_current_play_state",
         "blizzard.owner_current_play_state",
         "blizzard.update_current_play_state",
+        "rain.vector_current_play_state",
+        "rain.owner_current_play_state",
+        "rain.update_current_play_state",
+        "rain.remove_releases_scene",
+        "thunderstorm.vector_current_play_state",
+        "thunderstorm.owner_current_play_state",
+        "thunderstorm.update_current_play_state",
+        "thunderstorm.remove_current_play_state",
         "animated_level_part.detached_entity",
         "animated_level_part.missing_entity",
         "animated_level_part.expired_valid_entity",
@@ -755,6 +779,15 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Blizzard current execute play state" -or
         $auditLines -notcontains "patch_end=Blizzard current update play state" -or
         $auditLines -notcontains "patch_end=Blizzard singleton reference cleanup" -or
+        $auditLines -notcontains "patch_end=Rain vector play-state release" -or
+        $auditLines -notcontains "patch_end=Rain owner play-state release" -or
+        $auditLines -notcontains "patch_end=Rain current execute play state" -or
+        $auditLines -notcontains "patch_end=Rain current update play state" -or
+        $auditLines -notcontains "patch_end=Rain scene and caster cleanup" -or
+        $auditLines -notcontains "patch_end=Thunderstorm vector play-state release" -or
+        $auditLines -notcontains "patch_end=Thunderstorm owner play-state release" -or
+        $auditLines -notcontains "patch_end=Thunderstorm current update play state" -or
+        $auditLines -notcontains "patch_end=Thunderstorm remove reference cleanup" -or
         $auditLines -notcontains "patch_end=AnimatedLevelPart detached entity cleanup" -or
         $auditLines -notcontains "patch_end=DynamicLight cache release" -or
         $auditLines -notcontains "patch_end=MeteorShower vector play-state release" -or
@@ -789,9 +822,9 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Player controller avatar release" -or
         $auditLines -notcontains "patch_end=Player obtained text-box level release" -or
         $auditLines -notcontains "patch_end=Player notifier level release" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 21 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 22 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 4 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 82) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 90) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -806,7 +839,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=107")
+    $summary.Add("implemented_patches=116")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

@@ -884,6 +884,28 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     0.0.60 und alle Runtime-Patch-Profile lösen die Referenzen und verwenden die
     aktuelle Szene. Der Kontrollfall ohne Referenzen und Cue besteht überall.
 
+- [x] `weather-singleton-play-state-lifetime`
+  - Ziele: beide `Execute(...)`-Überladungen, `Update(...)` und `OnRemove()`
+    von `Rain` und `Thunderstorm`.
+  - Technik: acht eng geprüfte Transpiler entfernen vier gespeicherte
+    PlayState-Zuweisungen, ersetzen alle 17 verbleibenden Feldzugriffe durch
+    `PlayState.RecentPlayState` und lösen den Thunderstorm-Owner direkt nach dem
+    vorhandenen Cue-Stop. Ein Prefix bildet `Rain.OnRemove()` mit denselben
+    Cue-, Effekt- und Lichtoperationen nach und löst anschließend Szene und
+    Caster.
+  - Fehlerfall: Beide prozessweit lebenden Wettersingletons können einen alten
+    PlayState halten. `Thunderstorm` hält über sein dauerhaftes `mRain` außerdem
+    dessen alte Szene. Spätere Update- und Remove-Aufrufe arbeiten dadurch auf
+    einem bereits abgebauten Levelgraphen.
+  - Verhalten: Laufende Wetterarbeit verwendet den aktuellen PlayState. Rain
+    stellt die Lichtintensität weiterhin auf der zuvor verwendeten Szene wieder
+    her und löst danach die per-cast Referenzen. Thunderstorm behält sein
+    dauerhaftes Rain-Objekt, löst aber den Owner im vorhandenen aktiven
+    Cue-Pfad. Timing, Netzwerkformat und Schadenslogik bleiben unverändert.
+  - Acht Drei-Wege-Szenarien sind im Original 1.10.4.2 rot und in der manuellen
+    Patch-Assembly sowie im Runtime-Patch grün. Dieselbe Runtime-Matrix besteht
+    mit 1.4.16.0 und 1.5.1.0.
+
 - [x] `animated-level-part-detached-entity-cleanup`
   - Ziel: `AnimatedLevelPart.Update(DataChannel, float, ref Matrix, GameScene)`.
   - Technik: Transpiler; validiert den exakten Methodenkontrakt, den
@@ -1055,7 +1077,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 51 Dateien vollständig, 58 Dateien teilweise und 111 Dateien noch
+Aktueller Stand: 53 Dateien vollständig, 58 Dateien teilweise und 109 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1075,7 +1097,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonPhoenix.cs`
 - [x] `Magicka/CommunityPatch/DialogLayoutCompatibility.cs` — VOLLSTÄNDIG: beide reinen Formatierungshelfer sind im Runtime-Patcher enthalten und durch sechs Drei-Wege-Szenarien abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Bosses/Vlad.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Thunderstorm.cs`
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Thunderstorm.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, elf laufende PlayState-Zugriffe und die per-cast Owner-Freigabe; 4 Transpiler und 4 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuVersusStatistics.cs`
 - [ ] `Magicka/Levels/Triggers/TriggerArea.cs`
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenu.cs`
@@ -1102,7 +1124,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Controls/KeyboardMouseController.cs`
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuSurvivalStatistics.cs`
 - [ ] `Magicka/GameLogic/Entities/Items/BookOfMagick.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Rain.cs`
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Rain.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, sechs laufende PlayState-Zugriffe und die Szenen-/Caster-Freigabe; 4 Transpiler, 1 Prefix und 4 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/PushSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/ShieldSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/VortexEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.

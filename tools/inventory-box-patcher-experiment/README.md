@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-one hundred seven method patches:
+one hundred sixteen method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -94,6 +94,10 @@ one hundred seven method patches:
   entity, liquid, and post-effect work through the current play state, and
   releases its scene, caster, and ambience cue before the existing cue-stop
   operation can fail.
+- `Rain` and `Thunderstorm` no longer retain their supplied play states and
+  resolve weather work through the current play state. Rain releases its scene
+  and caster on removal; Thunderstorm releases its per-cast owner after the
+  active ambience cue stops.
 - `AnimatedLevelPart.Update` removes collision registrations whose entity or
   physics body has already been detached.
 - `DynamicLight.DisposeCache` releases each cached shadow map and then drops
@@ -121,13 +125,13 @@ one hundred seven method patches:
 - The same teardown independently clears the notifier's owner, attached text
   box, and visible alpha state while retaining its reusable graphics objects.
 
-The Avatar, AI, Blizzard, BossHealthBar, Helper, InventoryBox, MagickCamera, MeteorShower, Player, and PlayState
+The Avatar, AI, Blizzard, BossHealthBar, Helper, InventoryBox, MagickCamera, MeteorShower, Player, PlayState, and Rain
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
-The Agent, AnimatedLevelPart, AudioManager, Blizzard, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, MeteorShower,
+The Agent, AnimatedLevelPart, AudioManager, Blizzard, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, MeteorShower, Rain,
 EntityStateStorage, Flash, Machine, Jormungandr, pack, PoisonSpray, Portal,
 RandomMine, SpawnSlime, SummonCross, SummonFlamer, SummonSpirit, SummonUndead,
-Starfall, VersusRuleset, JudgementSpray, DialogLayout, ShadowBlobs, and
+Starfall, Thunderstorm, VersusRuleset, JudgementSpray, DialogLayout, ShadowBlobs, and
 remaining EntityManager changes use narrowly checked transpilers for small
 branches inside their original methods. ControlManager, Interactable, and
 SubMenuMain use conditional prefixes.

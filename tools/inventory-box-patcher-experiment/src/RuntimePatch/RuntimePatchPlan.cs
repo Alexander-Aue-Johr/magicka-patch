@@ -204,6 +204,33 @@ namespace Magicka.CommunityPatch.Runtime
                 BlizzardCleanupPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                RainPlayStatePatch.VectorExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                RainPlayStatePatch.OwnerExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                RainPlayStatePatch.ExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                RainPlayStatePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                RainPlayStatePatch.CleanupDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ThunderstormPlayStatePatch.VectorExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ThunderstormPlayStatePatch.OwnerExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ThunderstormPlayStatePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ThunderstormPlayStatePatch.RemoveDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 AnimatedLevelPartCollisionPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
