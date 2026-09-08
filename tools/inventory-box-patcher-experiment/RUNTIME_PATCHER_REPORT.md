@@ -1616,6 +1616,25 @@ Die maschinenlesbaren Einzelergebnisse stehen nach einem Build in
     Interpunktion, gültige Pausenmarkierung und der gewöhnliche Syntaxfehler
     bleiben in allen Profilen unverändert.
 
+- [x] `network-server-late-udp-client-guard`
+  - Ziel: alle 73 geschlossenen Instanziierungen von
+    `NetworkServer.QueueUDPMessage<T>(int, ref T)` für konkrete
+    `ISendable`-Nachrichtentypen.
+  - Technik: Transpiler je geschlossener Generic-Methode; der Index-Guard wird
+    innerhalb des vorhandenen `mClients`-Locks unmittelbar vor `get_Item`
+    eingefügt. Harmony 1 kann die offene Generic-Definition nicht gültig
+    patchen.
+  - Fehlerfall: Ein bereits entfernter Client hinterlässt einen negativen oder
+    veralteten Listenindex. Der ursprüngliche Zugriff beendet den LogicThread
+    mit `ArgumentOutOfRangeException`.
+  - Verhalten: Ein ungültiger Index beendet nur den verspäteten Sendevorgang;
+    Serialisierung und Versand an weiterhin vorhandene Clients bleiben
+    unverändert.
+  - Original 1.10.4.2, 1.4.16.0, 1.5.1.0 und die manuelle Patch-Assembly
+    0.0.60 werfen bei leerer Liste sowie negativem Index. Alle
+    Runtime-Patch-Profile verwerfen beide Fälle kontrolliert; der gültige
+    Index-Kontrollfall bleibt in allen Profilen unverändert.
+
 ## Entfernte Versuchswege
 
 Der statische Patcher, die statische Verifikations-Assembly, C#-Diff-Strings und
@@ -1771,7 +1790,10 @@ Versionsnachweis.
   Custom-Content-Lizenzregel und `DrawWidget` überspringt Images mit fehlender
   oder freigegebener Textur; die weiteren manuellen Änderungen bleiben offen.
 - [ ] `Magicka/Network/NetworkClient.cs`
-- [ ] `Magicka/Network/NetworkServer.cs`
+- [ ] `Magicka/Network/NetworkServer.cs` — TEILWEISE: alle geschlossenen
+  `QueueUDPMessage<T>`-Instanziierungen prüfen einen veralteten Clientindex
+  atomar im vorhandenen Listen-Lock; weitere Server-, Telemetrie- und
+  Lebensdaueränderungen sind noch offen.
 - [ ] `Magicka/CommunityPatch/HybridInputSupport.cs`
 - [ ] `Magicka/CommunityPatch/OriginalBackupAudit.cs`
 - [ ] `Magicka/CommunityPatch/Magicka2ControllerSupport.cs`

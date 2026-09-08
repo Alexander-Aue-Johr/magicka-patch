@@ -43,6 +43,7 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 TypingTextUpdatePatch.Definition);
+            NetworkServerLateUdpPatch.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 EntityStateStoragePatch.ConstructorDefinition);

@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-two hundred thirty method patches:
+three hundred three method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -25,6 +25,9 @@ two hundred thirty method patches:
   stale play-state references for every registered entity.
 - `TypingText.Update` finishes malformed or truncated text after an
   out-of-range parser read instead of aborting the update path.
+- Every closed `NetworkServer.QueueUDPMessage<T>` instantiation drops a late
+  reply after its client index has been removed. The check runs inside the
+  existing client-list lock.
 - `EntityStateStorage` releases its constructor play-state reference and
   restores saved entities into the current play state.
 - `Helper.ArrayEquals` treats every missing byte array as unequal.
