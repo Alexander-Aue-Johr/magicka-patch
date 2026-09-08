@@ -1108,7 +1108,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 55 Dateien vollständig, 59 Dateien teilweise und 106 Dateien noch
+Aktueller Stand: 58 Dateien vollständig, 56 Dateien teilweise und 106 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1278,15 +1278,15 @@ Versionsnachweis.
   — TEILWEISE: die Recovery für einen leeren ConditionCollection-Pool ist mit
   einem Transpiler und 2 Drei-Wege-Szenarien migriert; die begrenzte
   Recovery-Telemetrie folgt mit dem gemeinsamen Telemetrieblock.
-- [ ] `Magicka/GameLogic/Spells/IceSpikes.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Spells/IceSpikes.cs` — VOLLSTÄNDIG: statische Poolfreigabe bei Levelende; das Verschieben der unveränderten `Random`-Initialisierung in den explizit dargestellten Typinitialisierer ist semantikfreies Decompilerrauschen.
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptions.cs`
 - [x] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuMain.cs` — VOLLSTÄNDIG: Gamepad-B öffnet die vorhandene Beenden-Bestätigung, Keyboard/Maus behält den Cursorpfad; Prefix und 2 Drei-Wege-Szenarien. Die leere manuelle Markermethode hat kein Laufzeitverhalten und wird nicht übernommen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Starfall.cs` — VOLLSTÄNDIG: statische PlayState-Retention und veraltete Update-Zugriffe, 2 Transpiler und 3 Drei-Wege-Szenarien; lokale Variablennamen sind nicht Teil des Runtime-Patches.
 - [x] `Magicka/GameLogic/Entities/ChantSpellManager.cs` — VOLLSTÄNDIG: aktive
   Chant-Spells werden im initialisierten Levelabbau über ihren vorhandenen
   `Stop()`-Pfad entfernt, Prefix und 2 Drei-Wege-Szenarien.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Zap.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/VladZap.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Zap.cs` — VOLLSTÄNDIG: statische Poolfreigabe bei Levelende; die explizite Darstellung der unveränderten `SOUND`-Initialisierung ist semantikfreies Decompilerrauschen.
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/VladZap.cs` — VOLLSTÄNDIG: statische Poolfreigabe bei Levelende; die explizite Darstellung der unveränderten `SOUND`-Initialisierung ist semantikfreies Decompilerrauschen.
 - [ ] `Magicka/Network/EntityUpdateMessage.cs` — TEILWEISE: das payloadlose
   `Character`-Feature wird vor dem Originaldecoder maskiert, zwei Transpiler und
   3 Drei-Wege-Szenarien; die Diagnose `entity_update_character_feature` folgt
