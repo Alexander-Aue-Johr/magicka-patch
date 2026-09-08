@@ -419,6 +419,18 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Zwei Drei-Wege-Szenarien prüfen die statische Freigabe und die tatsächlich
     angesprochene Renderszene. 1.10 ersetzt 43 Reads, 1.4 ersetzt 41 und 1.5
     ersetzt 44. Der vollständige Build besteht für alle drei Versionen.
+- [x] `in-game-menu-stack-cleanup`
+  - Ziel: `PlayState.Dispose`
+  - Technik: Ein Transpiler fügt unmittelbar nach dem eindeutigen
+    `BossFight.Clear()`-Aufruf einen gemeinsamen Cleanup-Aufruf ein.
+  - Verhalten: Der vorhandene statische `InGameMenu.sMenuStack` wird nur im
+    initialisierten Dispose-Pfad geleert. Ein nicht initialisierter PlayState
+    kehrt weiterhin zurück, ohne den Stack zu verändern.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten den Testeintrag. Die
+    manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile leeren ihn.
+  - Der kommentarlos dekompilierte Runtime-Diff enthält nur die neue
+    Patchklasse und ihre Registrierung. Alle fünf geänderten konkreten
+    Runtime-Methoden JITten unter CLR 2 und Mono 6.12 ohne Skip.
 - [x] `magick-camera-follow-entity`
   - Ziel: `MagickCamera.Update(DataChannel, float)`
   - Technik: Prefix; setzt ausschließlich einen körperlosen `mFollowing`-Verweis
@@ -1284,7 +1296,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 68 Dateien vollständig, 62 Dateien teilweise und 90 Dateien noch
+Aktueller Stand: 71 Dateien vollständig, 59 Dateien teilweise und 90 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1298,16 +1310,16 @@ Runtime-Patch nötig.
 eine neue Dateiliste erzeugen; Dateinamen allein reichen nicht als
 Versionsnachweis.
 
-- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuTimedObjectiveStatistics.cs` — TEILWEISE: alle neun Reads verwenden den aktuellen PlayState; die separate Statistikbereinigung ist noch offen.
+- [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuTimedObjectiveStatistics.cs` — VOLLSTÄNDIG: alle neun Reads verwenden den aktuellen PlayState; der übrige statische Initialisierer-Diff ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/CommunityPatch/TelemetryRuntimeContext.cs`
 - [ ] `Magicka/GameLogic/Entities/SpellMine.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonPhoenix.cs`
 - [x] `Magicka/CommunityPatch/DialogLayoutCompatibility.cs` — VOLLSTÄNDIG: beide reinen Formatierungshelfer sind im Runtime-Patcher enthalten und durch sechs Drei-Wege-Szenarien abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Bosses/Vlad.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Thunderstorm.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, elf laufende PlayState-Zugriffe und die per-cast Owner-Freigabe; 4 Transpiler und 4 Drei-Wege-Szenarien.
-- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuVersusStatistics.cs` — TEILWEISE: alle acht Reads verwenden den aktuellen PlayState; die separate Statistikbereinigung ist noch offen.
+- [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuVersusStatistics.cs` — VOLLSTÄNDIG: alle acht Reads verwenden den aktuellen PlayState; der übrige statische Initialisierer-Diff ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/Levels/Triggers/TriggerArea.cs`
-- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenu.cs` — TEILWEISE: die statische PlayState-Zuweisung ist entfernt und alle vier Reads verwenden den aktuellen Zustand; Safe-Area-Layout und explizites Stack-Leeren sind noch offen.
+- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenu.cs` — TEILWEISE: die statische PlayState-Zuweisung ist entfernt, alle vier Reads verwenden den aktuellen Zustand und der Stack wird beim Levelabbau geleert; nur das Safe-Area-Layout ist noch offen.
 - [ ] `Magicka/CommunityPatch/NetworkEntityHandleGuard.cs` — TEILWEISE: nur die für `AddWorldSyncMessage` benötigte SpawnNPC-Entscheidung, ohne Übernahme der übrigen manuellen Hilfsklasse.
 - [ ] `Magicka/GameLogic/Spells/ArcaneBlast.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/CoreFramework/GameSystem/Store/StoreItemDatabase.cs`
@@ -1329,7 +1341,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/GreaseLump.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/StaticList.cs`
 - [ ] `Magicka/GameLogic/Controls/KeyboardMouseController.cs`
-- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuSurvivalStatistics.cs` — TEILWEISE: alle acht Reads verwenden den aktuellen PlayState; die separate Statistikbereinigung ist noch offen.
+- [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuSurvivalStatistics.cs` — VOLLSTÄNDIG: alle acht Reads verwenden den aktuellen PlayState; die lokale Cast-Darstellung und der statische Initialisierer-Diff sind semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Items/BookOfMagick.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Rain.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, sechs laufende PlayState-Zugriffe und die Szenen-/Caster-Freigabe; 4 Transpiler, 1 Prefix und 4 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/PushSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
