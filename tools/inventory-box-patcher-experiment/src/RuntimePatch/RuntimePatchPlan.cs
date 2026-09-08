@@ -221,6 +221,12 @@ namespace Magicka.CommunityPatch.Runtime
             StaticCollectionGrowthPatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                RailgunParentCyclePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                RailgunParentCyclePatch.LockAllDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 DrinkBloodPlayStatePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

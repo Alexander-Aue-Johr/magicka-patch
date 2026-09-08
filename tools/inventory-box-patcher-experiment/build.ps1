@@ -279,6 +279,9 @@ function Test-BehaviorMatrix {
         "static_weak_list.add_full",
         "static_weak_list.insert_full",
         "static_weak_list.character_add_full",
+        "railgun.parent_cycle_candidate",
+        "railgun.parent_check_limit",
+        "railgun.lock_cycle",
         "play_state.missing_spawn",
         "play_state.non_npc_spawn",
         "play_state.foreign_state_spawn",
@@ -444,6 +447,9 @@ function Test-BehaviorProfile(
             "static_weak_list.add_full",
             "static_weak_list.insert_full",
             "static_weak_list.character_add_full",
+            "railgun.parent_cycle_candidate",
+            "railgun.parent_check_limit",
+            "railgun.lock_cycle",
             "menu_image_text.literal_font_change",
             "menu_image_text.localized_font_change",
             "language_manager.simplified_chinese_name",
@@ -717,6 +723,11 @@ function Test-BehaviorProfile(
         "static_weak_list.insert_full",
         "static_weak_list.below_capacity",
         "static_weak_list.character_add_full",
+        "railgun.parent_cycle_candidate",
+        "railgun.acyclic_candidate",
+        "railgun.parent_check_limit",
+        "railgun.lock_cycle",
+        "railgun.lock_acyclic",
         "play_state.ordinary_message",
         "play_state.other_action",
         "play_state.missing_spawn",
@@ -1067,9 +1078,11 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=StaticList Spell stable Insert" -or
         $auditLines -notcontains "patch_end=EntityManager StaticList growth" -or
         $auditLines -notcontains "patch_end=TriggerArea StaticWeakList growth" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 29 -or
+        $auditLines -notcontains "patch_end=Railgun parent-cycle prevention" -or
+        $auditLines -notcontains "patch_end=Railgun cycle-safe lock traversal" -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 30 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 6 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 160) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 161) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1084,7 +1097,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=195")
+    $summary.Add("implemented_patches=197")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-one hundred ninety-five method patches:
+one hundred ninety-seven method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -91,6 +91,8 @@ one hundred ninety-five method patches:
   failure and continues updating the remaining locators.
 - Every `StaticList` and `StaticWeakList` insertion path used by the game grows
   full backing arrays under a stable CLR-2-compatible instance lock.
+- Railgun intersections reject indirect ancestors before linking them as
+  children, and the defensive lock traversal terminates on an existing cycle.
 - `DrinkBlood.Execute` no longer stores an unused strong reference to the play
   state that created the effect.
 - `RandomMine.Execute` no longer stores the last play state on its process-wide

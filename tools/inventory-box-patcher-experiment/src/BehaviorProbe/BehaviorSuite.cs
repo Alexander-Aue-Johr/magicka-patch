@@ -88,6 +88,10 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        RailgunParentCycleScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         InteractableHighlightScenarios.Run(magicka, report);
         AudioManagerScenarios.Run(magicka, report);
         DeflectionAuraScenarios.Run(magicka, report);

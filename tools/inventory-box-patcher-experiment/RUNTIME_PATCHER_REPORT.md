@@ -694,6 +694,26 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     sind noch nicht migriert. Direkte generische Referenztyp-Aufrufe außerhalb
     der drei im Spiel vorhandenen Add-Stellen werden bewusst nicht als
     verifiziert behauptet.
+- [x] `railgun-parent-cycle-prevention`
+  - Ziele: `Railgun.Update(DataChannel, float)` und `Railgun.LockAll()`
+  - Technik: ein Transpiler fügt die Ahnenprüfung unmittelbar nach den
+    vorhandenen Geometrie- und Reichweitenprüfungen und vor der ersten
+    Zustandsänderung ein. Ein boolescher Prefix ersetzt die rekursive
+    Lock-Traversierung durch eine iterative, auf 256 Einträge begrenzte
+    Traversierung.
+  - Fehlerfall: die Originalfilter erkennen nur direkte Eltern und Kinder. Ein
+    indirekter Vorfahr kann deshalb als Kind angehängt werden und einen Zyklus
+    bilden, in dem `LockAll` bis zum StackOverflow rekursiert.
+  - Verhalten: indirekte Vorfahren, eine ausgeschöpfte Traversierungsgrenze
+    und unerwartete Traversierungsfehler werden vor der Graphmutation
+    abgewiesen. Zyklen in einem bereits beschädigten Graphen werden beim
+    Sperren genau einmal besucht. Ein azyklischer Kandidat und ein normaler
+    azyklischer Lock-Graph behalten das Originalverhalten.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 akzeptieren den zyklischen
+    Kandidaten und besitzen keinen Lock-Schutz. Die manuelle Patch-Assembly
+    0.0.60 und alle Runtime-Patch-Profile bestehen alle fünf Szenarien.
+  - Noch offen: die drei begrenzten Recovery-Telemetriegründe aus dem
+    manuellen Patch folgen mit dem gemeinsamen Runtime-Telemetrieblock.
 - [x] `drink-blood-play-state-lifetime`
   - Ziel: `DrinkBlood.Execute(ISpellCaster, PlayState)`
   - Technik: Transpiler; ersetzt ausschließlich `mPlayState = iPlayState`
@@ -1526,7 +1546,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Avatar.cs` — TEILWEISE: `FindInteractable`, Prefix und 5 Drei-Wege-Szenarien; die übrigen manuellen Änderungen dieser großen Klasse sind noch offen.
 - [ ] `Magicka/GameLogic/GameStates/PlayState.cs` — TEILWEISE: `AddWorldSyncMessage`, das bedingte Lösen der ShadowBlobs-Szene sowie die dokumentierten levelgebundenen Cleanup-Injektionen sind migriert; weitere Dispose-, Übergangs- und Diagnoseänderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Spells/Magick.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
-- [ ] `Magicka/GameLogic/Spells/Railgun.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [ ] `Magicka/GameLogic/Spells/Railgun.cs` — TEILWEISE: statische Poolfreigabe, Ahnenprüfung vor dem Verknüpfen und zyklussichere Lock-Traversierung sind migriert; offen sind nur RetentionRegistry- und Recovery-Telemetrieaufrufe des manuellen Diffs.
 - [ ] `Magicka/Levels/Triggers/Trigger.cs` — TEILWEISE: `SpawnNPC` übernimmt den über das unveränderte Paketformat transportierten Undead-Zustand; weitere Netzwerk-, Dispose- und Diagnoseänderungen dieser Klasse sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/Gib.cs`
 - [ ] `Magicka/GameLogic/Entities/MissileEntity.cs`
