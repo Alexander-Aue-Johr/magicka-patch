@@ -801,6 +801,22 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Rekompilierungsrauschen und wird nicht übernommen.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern in beiden Szenarien. Die
     manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile bestehen sie.
+- [x] `thunderbolt-play-state-lifetime`
+  - Ziele: beide öffentlichen `Thunderbolt.Execute`-Überladungen und der
+    private Cast-Pfad `Execute(Vector3, Vector3, ISpellCaster)`
+  - Technik: zwei Transpiler entfernen jeweils genau die gespeicherte
+    `mPlayState`-Zuweisung. Ein dritter ersetzt genau elf Reads durch
+    `PlayState.RecentPlayState`.
+  - Fehlerfall: der Singleton hält den Levelzustand des letzten Casts fest und
+    kann Szene, EntityManager, Kamera, Schaden, Effekte und Achievement-Zugriff
+    später gegen diesen alten Zustand ausführen.
+  - Verhalten: beide Startpfade und der vollständige Blitzablauf bleiben
+    unverändert. Nur Besitz und Auflösung des PlayState werden korrigiert. Die
+    abweichende Segment-Initialisierungsdarstellung im manuellen C#-Diff ist
+    semantikfreies Rekompilierungsrauschen und wird nicht übernommen.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern in allen drei
+    Zustands-Szenarien. Die manuelle Patch-Assembly 0.0.60 und alle
+    Runtime-Patch-Profile bestehen sie.
 - [x] `drink-blood-play-state-lifetime`
   - Ziel: `DrinkBlood.Execute(ISpellCaster, PlayState)`
   - Technik: Transpiler; ersetzt ausschließlich `mPlayState = iPlayState`
@@ -1548,7 +1564,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 75 Dateien vollständig, 61 Dateien teilweise und 84 Dateien noch
+Aktueller Stand: 76 Dateien vollständig, 61 Dateien teilweise und 83 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1620,7 +1636,7 @@ Versionsnachweis.
 - [ ] `Magicka/Levels/Water.cs`
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsResolution.cs` — TEILWEISE: der Kamera-Aspektzugriff verwendet den aktuellen PlayState; die Safe-Area-Auswahl bleibt offen.
 - [x] `Magicka/Graphics/TutorialManager.cs` — VOLLSTÄNDIG: Safe-Area-Position sowie vollständige PlayState-Lebensdaueränderung in `Initialize`, `UpdateResolution` und `Update`; die verschobene statische Initialisierung ist semantikfreies Compilerrauschen.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Thunderbolt.cs`
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Thunderbolt.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen und alle elf laufenden Reads sind mit 3 Transpilern und 3 Drei-Wege-Szenarien migriert; die Segment-Initialisierungen im C#-Diff sind semantikfreies Rekompilierungsrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Blizzard.cs` —
   VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, drei Zugriffe im
   privaten Startpfad, vier Update-Zugriffe und die ausfallsichere

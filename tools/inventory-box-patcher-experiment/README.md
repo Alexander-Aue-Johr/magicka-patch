@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-two hundred sixteen method patches:
+two hundred nineteen method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -107,6 +107,9 @@ two hundred sixteen method patches:
 - `Napalm` no longer retains its casting play state and resolves collision,
   liquid, camera, damage, lighting and rendering work through the current
   state.
+- `Thunderbolt` no longer retains either supplied casting play state and
+  resolves all later scene, entity, camera, damage, effect and achievement
+  work through the current state.
 - `DrinkBlood.Execute` no longer stores an unused strong reference to the play
   state that created the effect.
 - `RandomMine.Execute` no longer stores the last play state on its process-wide
