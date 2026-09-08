@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-three hundred eighty-four method patches:
+three hundred eighty-five method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -214,6 +214,8 @@ three hundred eighty-four method patches:
   and rumble cue before the existing cue-stop operation can fail.
 - `EntityUpdate` packets carrying the payloadless Character feature marker are
   decoded without aborting the remaining update fields.
+- `Character.CastSpell` skips only optional element-usage statistics when an
+  Avatar's Gamer has already detached; the spell itself still executes.
 - Loading-screen clears restore the managed depth buffer before drawing.
 - Controller option discovery tolerates unavailable DirectInput and reports the
   problem after the main menu is ready.

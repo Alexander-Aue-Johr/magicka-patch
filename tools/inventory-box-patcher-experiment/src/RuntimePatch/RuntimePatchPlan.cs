@@ -284,6 +284,9 @@ namespace Magicka.CommunityPatch.Runtime
                 AnimationClipCompatibilityPatch.AnimatedForceDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                CharacterSpellUsagePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 RadialBlurLifetimePatch.InitializeCacheDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

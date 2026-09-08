@@ -766,6 +766,20 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     bestehen alle sieben Fehler- und Kontrollszenarien.
   - Noch offen: die begrenzte Meldung fehlender Clip-Namen folgt mit dem
     gemeinsamen Runtime-Telemetrieblock.
+- [x] `character-spell-usage-detached-gamer`
+  - Ziel: `Character.CastSpell(bool, string)`.
+  - Technik: Ein Transpiler ersetzt nur die zweite der zwei
+    `NetworkGamer`-Prüfungen. Diese zweite Prüfung gehört zum optionalen
+    `Profile.UsedElements`-Aufruf; der Magick-Zweig bleibt unverändert.
+  - Fehlerfall: Ein Avatar besitzt noch einen Player, dessen Gamer während des
+    Zustandswechsels bereits gelöst wurde. Das Original behandelt `null` als
+    lokalen Gamer und dereferenziert danach `Player.GamerTag`.
+  - Verhalten: Die optionale Nutzungsstatistik wird nur mit vorhandenem,
+    lokalem Gamer geschrieben. `Spell.Cast`, Zaubertelemetrie, Entanglement und
+    Spell-Reset laufen unverändert weiter.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern am Detached-Gamer-Fall.
+    Die manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile bestehen
+    diesen Fall sowie die lokalen und Netzwerk-Gamer-Kontrollfälle.
 - [x] `radial-blur-level-lifetime`
   - Ziele: `RadialBlur.InitializeCache(ContentManager, int)`, die vollständige
     `Initialize`-Überladung, `Update(DataChannel, float)` und `DisposeCache()`
@@ -1930,8 +1944,9 @@ Versionsnachweis.
 - [ ] `Magicka/CommunityPatch/PatchTelemetry.cs`
 - [ ] `Magicka/GameLogic/Entities/Character.cs` — TEILWEISE: Initialisierung,
   Crossfade und ForceAnimation behandeln fehlende Animationsaktionen und
-  fehlende Idle-Clips; weitere Netzwerk-, Dispose- und Diagnoseänderungen sind
-  noch offen.
+  fehlende Idle-Clips; `CastSpell` überspringt nur die optionale
+  Elementstatistik bei gelöstem Gamer. Weitere Netzwerk-, Dispose- und
+  Diagnoseänderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/ProjectileSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCharacterSelect.cs` —
   TEILWEISE: die vier Pack-Anzeigeprüfungen verwenden die gemeinsame
