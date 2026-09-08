@@ -737,6 +737,26 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     bestehen alle sieben Fehler- und Kontrollszenarien.
   - Noch offen: die begrenzte Meldung fehlender Clip-Namen folgt mit dem
     gemeinsamen Runtime-Telemetrieblock.
+- [x] `radial-blur-level-lifetime`
+  - Ziele: `RadialBlur.InitializeCache(ContentManager, int)`, die vollständige
+    `Initialize`-Überladung, `Update(DataChannel, float)` und `DisposeCache()`
+  - Technik: vier Transpiler entfernen die statische Level-Content-Zuweisung
+    und die gespeicherte Szenenzuweisung. Neue Cache-Einträge verwenden
+    `Game.Instance.Content`, der Renderpfad verwendet die Szene des aktuellen
+    `PlayState`, und `DisposeCache` leert die Liste nach der vorhandenen
+    Dispose-Schleife.
+  - Fehlerfall: der statische Content-Manager und jede aktive Instanz können
+    einen beendeten Levelzustand festhalten. Bereits freigegebene Effekte
+    bleiben außerdem als Einträge in der statischen Cache-Liste erhalten.
+  - Verhalten: der Effekt besitzt keine starke Referenz auf einen
+    levelgebundenen Content-Manager oder eine alte Szene. Nach einem
+    Szenenwechsel wird er in die aktuelle Szene eingereiht. Freigegebene
+    Cache-Einträge werden nicht weiter gehalten.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern bei den drei
+    Lebensdauerfällen. Die manuelle Patch-Assembly 0.0.60 und alle
+    Runtime-Patch-Profile bestehen alle fünf Fehler- und Kontrollszenarien.
+  - Noch offen: die manuellen `RetentionRegistry`-Markierungen folgen mit dem
+    gemeinsamen Runtime-Diagnostics-Block.
 - [x] `drink-blood-play-state-lifetime`
   - Ziel: `DrinkBlood.Execute(ISpellCaster, PlayState)`
   - Technik: Transpiler; ersetzt ausschließlich `mPlayState = iPlayState`
@@ -1484,7 +1504,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 72 Dateien vollständig, 60 Dateien teilweise und 88 Dateien noch
+Aktueller Stand: 72 Dateien vollständig, 61 Dateien teilweise und 87 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1544,7 +1564,10 @@ Versionsnachweis.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SpawnSlime.cs` — VOLLSTÄNDIG: gespeicherter PlayState in `Execute` und beide veralteten NavMesh-Zugriffe, 3 Transpiler und 3 Drei-Wege-Szenarien; der leere `DisposeCache()` und die statischen Hash-Initialisierer ändern kein Laufzeitverhalten.
 - [ ] `Magicka/GameLogic/Entities/Entanglement.cs`
 - [ ] `Magicka/Levels/Level.cs`
-- [ ] `Magicka/Graphics/Effects/RadialBlur.cs`
+- [ ] `Magicka/Graphics/Effects/RadialBlur.cs` — TEILWEISE: levelgebundener
+  Content und gespeicherte Szene werden nicht mehr gehalten, der Renderpfad
+  verwendet die aktuelle Szene und der freigegebene Cache wird geleert; die
+  `RetentionRegistry`-Diagnostik folgt im gemeinsamen Diagnostics-Block.
 - [ ] `Magicka/Levels/Lava.cs`
 - [x] `Magicka/GameLogic/Spells/SpellEffects/SpellEffect.cs` — VOLLSTÄNDIG: die globale PlayState-Zuweisung entfällt und die statische Poolfreigabe bei Levelende ist migriert; ein Transpiler und vier gemeinsame Drei-Wege-Szenarien. Die Darstellung der statischen Initialisierer ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/CommunityPatch/WarlordAbilityDiagnostic.cs`

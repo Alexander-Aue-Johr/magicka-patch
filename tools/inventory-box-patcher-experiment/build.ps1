@@ -287,6 +287,9 @@ function Test-BehaviorMatrix {
         "animation_clip.null_set",
         "animation_clip.out_of_range",
         "animation_clip.missing_idle",
+        "radial_blur.level_content_release",
+        "radial_blur.current_scene",
+        "radial_blur.cache_clear",
         "play_state.missing_spawn",
         "play_state.non_npc_spawn",
         "play_state.foreign_state_spawn",
@@ -460,6 +463,9 @@ function Test-BehaviorProfile(
             "animation_clip.null_set",
             "animation_clip.out_of_range",
             "animation_clip.missing_idle",
+            "radial_blur.level_content_release",
+            "radial_blur.current_scene",
+            "radial_blur.cache_clear",
             "menu_image_text.literal_font_change",
             "menu_image_text.localized_font_change",
             "language_manager.simplified_chinese_name",
@@ -745,6 +751,11 @@ function Test-BehaviorProfile(
         "animation_clip.null_set",
         "animation_clip.out_of_range",
         "animation_clip.missing_idle",
+        "radial_blur.level_content_release",
+        "radial_blur.current_scene",
+        "radial_blur.same_scene",
+        "radial_blur.cache_clear",
+        "radial_blur.empty_cache",
         "play_state.ordinary_message",
         "play_state.other_action",
         "play_state.missing_spawn",
@@ -1105,9 +1116,13 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Character missing-idle force recovery" -or
         $auditLines -notcontains "patch_end=AnimatedPhysicsEntity idle crossfade fallback" -or
         $auditLines -notcontains "patch_end=AnimatedPhysicsEntity idle force fallback" -or
+        $auditLines -notcontains "patch_end=RadialBlur global content lifetime" -or
+        $auditLines -notcontains "patch_end=RadialBlur scene retention removal" -or
+        $auditLines -notcontains "patch_end=RadialBlur current-scene rendering" -or
+        $auditLines -notcontains "patch_end=RadialBlur disposed-cache release" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 34 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 6 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 165) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 169) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1122,7 +1137,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=205")
+    $summary.Add("implemented_patches=209")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

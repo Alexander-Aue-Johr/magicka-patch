@@ -251,6 +251,18 @@ namespace Magicka.CommunityPatch.Runtime
                 AnimationClipCompatibilityPatch.AnimatedForceDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                RadialBlurLifetimePatch.InitializeCacheDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                RadialBlurLifetimePatch.InitializeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                RadialBlurLifetimePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                RadialBlurLifetimePatch.DisposeCacheDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 DrinkBloodPlayStatePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

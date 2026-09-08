@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-two hundred five method patches:
+two hundred nine method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -96,6 +96,9 @@ two hundred five method patches:
 - Missing animation clips no longer abort content loading. Invalid animation
   slots are left empty, and character animation paths fall back to idle only
   when that clip is available.
+- `RadialBlur` uses the process-wide content manager, does not retain the scene
+  supplied during initialization, renders into the current scene, and releases
+  disposed cache entries.
 - `DrinkBlood.Execute` no longer stores an unused strong reference to the play
   state that created the effect.
 - `RandomMine.Execute` no longer stores the last play state on its process-wide
