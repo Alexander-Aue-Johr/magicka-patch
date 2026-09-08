@@ -269,6 +269,8 @@ function Test-BehaviorMatrix {
         "give_order_khan.terminated",
         "challenge_score.duplicate_paths",
         "challenge_score.pooled_reuse",
+        "character_select_widget.null_texture",
+        "character_select_widget.disposed_texture",
         "play_state.missing_spawn",
         "play_state.non_npc_spawn",
         "play_state.foreign_state_spawn",
@@ -382,7 +384,11 @@ function Test-BehaviorMatrix {
         "chilly_blast.current_query_manager",
         "direct_input.warning_once",
         "paradox_popup.plain_clears_extra",
-        "paradox_popup.with_extra_unchanged"
+        "paradox_popup.with_extra_unchanged",
+        "character_select_widget.null_texture",
+        "character_select_widget.disposed_texture",
+        "character_select_widget.live_texture",
+        "character_select_widget.non_image"
     )
     $matrix = New-Object System.Collections.Generic.List[string]
 
@@ -679,6 +685,10 @@ function Test-BehaviorProfile(
         "challenge_score.duplicate_paths",
         "challenge_score.pooled_reuse",
         "challenge_score.distinct_enemies",
+        "character_select_widget.null_texture",
+        "character_select_widget.disposed_texture",
+        "character_select_widget.live_texture",
+        "character_select_widget.non_image",
         "play_state.ordinary_message",
         "play_state.other_action",
         "play_state.missing_spawn",
@@ -1023,7 +1033,8 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Challenge score direct-damage guard" -or
         $auditLines -notcontains "patch_end=Challenge score kill-event guard" -or
         $auditLines -notcontains "patch_end=Challenge score pooled-enemy reset" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 24 -or
+        $auditLines -notcontains "patch_end=Character-select disposed widget texture guard" -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 25 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 6 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 157) {
         throw "The runtime audit does not contain all registered Harmony patches."
@@ -1040,7 +1051,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=187")
+    $summary.Add("implemented_patches=188")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

@@ -214,6 +214,7 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 PackLicensePatch.CharacterSelectDrawDefinition);
+            CharacterSelectWidgetTexturePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 DrinkBloodPlayStatePatch.Definition);

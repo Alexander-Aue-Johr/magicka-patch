@@ -634,6 +634,24 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Custom-Anzeigefälle und der Registrierungsfall schlagen vor dem Patch fehl
   - Manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile: alle sechs
     zusätzlichen Anzeigeszenarien bestehen
+- [x] `character-select-widget-texture-lifetime`
+  - Ziel: `SubMenuCharacterSelect.DrawWidget(Widget)`
+  - Technik: boolescher Prefix mit einem einmalig erzeugten, typisierten
+    CLR-2-Adapter; im Zeichenpfad selbst findet keine Reflection statt
+  - Fehlerfälle: ein `Image` besitzt keine Textur oder seine Textur ist bereits
+    freigegeben
+  - Verhalten: nur diese beiden Image-Zustände kehren zurück, bevor einer der
+    beiden GUI-Effekte beendet oder neu gestartet wird. Nicht-Image-Widgets und
+    Images mit lebender Textur behalten den vollständigen Originalpfad.
+  - Original 1.10.4.2 besitzt keinen Guard. Die manuelle Patch-Assembly 0.0.60
+    enthält exakt `Image`-Typprüfung, Texture-Getter, `IsDisposed`-Prüfung und
+    frühen Rücksprung; der Runtime-Patch registriert den entsprechenden Prefix.
+  - Der XNA-`Image`-Typinitialisierer benötigt ein laufendes Grafikgerät. Das
+    Headless-Harness prüft deshalb die exakte Inline-Guard-Struktur der
+    manuellen Assembly und die exakte Runtime-Registrierung, ohne den
+    Typinitialisierer auszuführen. Alle vier Zustände bestehen nach dem Patch.
+  - Magicka 1.4.16.0 und 1.5.1.0 besitzen das spätere UISystem-Image nicht; Patch
+    und Szenarien melden dort explizit `NOT_APPLICABLE`.
 - [x] `drink-blood-play-state-lifetime`
   - Ziel: `DrinkBlood.Execute(ISpellCaster, PlayState)`
   - Technik: Transpiler; ersetzt ausschließlich `mPlayState = iPlayState`
@@ -1469,7 +1487,10 @@ Versionsnachweis.
 - [ ] `Magicka/CommunityPatch/PatchTelemetry.cs`
 - [ ] `Magicka/GameLogic/Entities/Character.cs`
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/ProjectileSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
-- [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCharacterSelect.cs` — TEILWEISE: die vier Pack-Anzeigeprüfungen verwenden die gemeinsame Custom-Content-Lizenzregel; die weiteren manuellen Änderungen der Klasse sind noch offen.
+- [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCharacterSelect.cs` —
+  TEILWEISE: die vier Pack-Anzeigeprüfungen verwenden die gemeinsame
+  Custom-Content-Lizenzregel und `DrawWidget` überspringt Images mit fehlender
+  oder freigegebener Textur; die weiteren manuellen Änderungen bleiben offen.
 - [ ] `Magicka/Network/NetworkClient.cs`
 - [ ] `Magicka/Network/NetworkServer.cs`
 - [ ] `Magicka/CommunityPatch/HybridInputSupport.cs`

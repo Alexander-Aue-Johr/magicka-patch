@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-one hundred eighty-seven method patches:
+one hundred eighty-eight method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -85,6 +85,8 @@ one hundred eighty-seven method patches:
 - `ItemPack` and `MagickPack` apply the Community Patch custom-content license
   policy in both their license and enabled setters. The character-select pack
   list uses the same policy for thumbnails and unused-pack markers.
+- Character selection skips only image widgets whose texture is missing or
+  already disposed, before changing either GUI effect state.
 - `DrinkBlood.Execute` no longer stores an unused strong reference to the play
   state that created the effect.
 - `RandomMine.Execute` no longer stores the last play state on its process-wide
@@ -173,7 +175,8 @@ one hundred eighty-seven method patches:
 - The same teardown independently clears the notifier's owner, attached text
   box, and visible alpha state while retaining its reusable graphics objects.
 
-The Avatar, AI, Blizzard, BossHealthBar, Helper, InventoryBox, KeyboardHUD, MagickCamera, MeteorShower, Player, PlayState, and Rain
+The Avatar, AI, Blizzard, BossHealthBar, character-select widget, Helper,
+InventoryBox, KeyboardHUD, MagickCamera, MeteorShower, Player, PlayState, and Rain
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager, NonPlayerCharacter, and one EntityManager change use
 ordinary postfixes.
