@@ -652,6 +652,20 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Typinitialisierer auszuführen. Alle vier Zustände bestehen nach dem Patch.
   - Magicka 1.4.16.0 und 1.5.1.0 besitzen das spätere UISystem-Image nicht; Patch
     und Szenarien melden dort explizit `NOT_APPLICABLE`.
+- [x] `ambient-audio-invalid-locator-recovery`
+  - Ziel: `GameScene.Update(DataChannel, float)`
+  - Technik: Transpiler; ersetzt genau den vorhandenen
+    `AudioLocator.Update(GameScene)`-Aufruf durch einen typisierten Adapter und
+    springt nur bei dessen Rückgabewert `false` zum bereits vorhandenen
+    `mSounds.RemoveAt`-Pfad
+  - Fehlerfall: XACT wirft beim Aktualisieren eines Locators eine
+    `IndexOutOfRangeException`, weil dessen Cue-Index nicht mehr gültig ist
+  - Verhalten: Der ungültige Locator wird einmal entfernt und die übrigen
+    Locators werden weiter verarbeitet. Gültige Locators bleiben unverändert;
+    andere Exception-Typen werden weiterhin weitergereicht.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 brechen im Fehlerfall ab. Die
+    manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile entfernen den
+    Locator und fahren fort; beide Kontrollfälle bestehen in allen Profilen.
 - [x] `drink-blood-play-state-lifetime`
   - Ziel: `DrinkBlood.Execute(ISpellCaster, PlayState)`
   - Technik: Transpiler; ersetzt ausschließlich `mPlayState = iPlayState`
@@ -1483,7 +1497,9 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Gib.cs`
 - [ ] `Magicka/GameLogic/Entities/MissileEntity.cs`
 - [ ] `Magicka/GameLogic/Controls/XInputController.cs`
-- [ ] `Magicka/Levels/GameScene.cs`
+- [ ] `Magicka/Levels/GameScene.cs` — TEILWEISE: der ungültige
+  Ambient-Audio-Locator wird bei einem internen XACT-Cue-Indexfehler entfernt;
+  die weiteren manuellen Änderungen der Klasse bleiben offen.
 - [ ] `Magicka/CommunityPatch/PatchTelemetry.cs`
 - [ ] `Magicka/GameLogic/Entities/Character.cs`
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/ProjectileSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.

@@ -217,6 +217,9 @@ namespace Magicka.CommunityPatch.Runtime
             CharacterSelectWidgetTexturePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                AmbientAudioLocatorPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 DrinkBloodPlayStatePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

@@ -271,6 +271,7 @@ function Test-BehaviorMatrix {
         "challenge_score.pooled_reuse",
         "character_select_widget.null_texture",
         "character_select_widget.disposed_texture",
+        "ambient_audio.invalid_locator",
         "play_state.missing_spawn",
         "play_state.non_npc_spawn",
         "play_state.foreign_state_spawn",
@@ -428,6 +429,7 @@ function Test-BehaviorProfile(
             "give_order_khan.terminated",
             "challenge_score.duplicate_paths",
             "challenge_score.pooled_reuse",
+            "ambient_audio.invalid_locator",
             "menu_image_text.literal_font_change",
             "menu_image_text.localized_font_change",
             "language_manager.simplified_chinese_name",
@@ -689,6 +691,9 @@ function Test-BehaviorProfile(
         "character_select_widget.disposed_texture",
         "character_select_widget.live_texture",
         "character_select_widget.non_image",
+        "ambient_audio.invalid_locator",
+        "ambient_audio.valid_locator",
+        "ambient_audio.other_exception",
         "play_state.ordinary_message",
         "play_state.other_action",
         "play_state.missing_spawn",
@@ -1034,9 +1039,10 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Challenge score kill-event guard" -or
         $auditLines -notcontains "patch_end=Challenge score pooled-enemy reset" -or
         $auditLines -notcontains "patch_end=Character-select disposed widget texture guard" -or
+        $auditLines -notcontains "patch_end=Ambient audio invalid locator recovery" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 25 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 6 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 157) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 158) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1051,7 +1057,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=188")
+    $summary.Add("implemented_patches=189")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-one hundred eighty-eight method patches:
+one hundred eighty-nine method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -87,6 +87,8 @@ one hundred eighty-eight method patches:
   list uses the same policy for thumbnails and unused-pack markers.
 - Character selection skips only image widgets whose texture is missing or
   already disposed, before changing either GUI effect state.
+- Scene audio removes one invalid XACT locator after an internal cue-index
+  failure and continues updating the remaining locators.
 - `DrinkBlood.Execute` no longer stores an unused strong reference to the play
   state that created the effect.
 - `RandomMine.Execute` no longer stores the last play state on its process-wide
@@ -180,7 +182,7 @@ InventoryBox, KeyboardHUD, MagickCamera, MeteorShower, Player, PlayState, and Ra
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager, NonPlayerCharacter, and one EntityManager change use
 ordinary postfixes.
-The Agent, AnimatedLevelPart, AudioManager, Blizzard, BreakBarriers, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, EtherealClone, GenericHealthBar, GreaseTrail, LightningSpell, MeteorShower, Rain, SpellEffect, TeslaField,
+The Agent, AnimatedLevelPart, AudioManager, Blizzard, BreakBarriers, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, EtherealClone, GameScene, GenericHealthBar, GreaseTrail, LightningSpell, MeteorShower, Rain, SpellEffect, TeslaField,
 EntityStateStorage, Flash, GiveOrder, Machine, Jormungandr, pack, PoisonSpray, Portal,
 RandomMine, SpawnSlime, SummonCross, SummonFlamer, SummonSpirit, SummonUndead,
 Starfall, StatisticsManager, Thunderstorm, TutorialManager, VersusRuleset,
