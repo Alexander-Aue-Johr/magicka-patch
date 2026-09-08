@@ -163,6 +163,7 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 HealingRainPlayStatePatch.CleanupDefinition);
+            InGameMenuPlayStatePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 MagickCameraFollowEntityPatch.Definition);

@@ -401,6 +401,24 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     vollständige Referenzfreigabe und den Abbau ohne Szene. Der manuelle Patch
     besteht die ersten drei, behält aber im Gegensatz zum Runtime-Patch die
     letzten Szene-/Caster-Referenzen und ist ohne Szene nicht null-sicher.
+- [x] `in-game-menu-current-play-state`
+  - Ziele: `InGameMenu.Initialize`, 20 aktuelle Menümethoden und der nur in
+    1.4/1.5 vorhandene `InGameMenuMain.IDraw`-Pfad.
+  - Technik: Ein Transpiler entfernt die statische PlayState-Zuweisung. Ein
+    Postfix installiert nach dem ersten `InGameMenu.Initialize` die für die
+    jeweilige Spielversion passenden Read-Transpiler. Die verzögerten Ziele
+    werden beim Bootstrap vollständig aufgelöst und als `DEFERRED`
+    protokolliert.
+  - Verhalten: Die Menü-Singletons halten keinen beendeten PlayState mehr.
+    Rendering, Rückkehr, Neustart, Endgame, Magickfreigabe,
+    Auflösungsanpassung und Statistikseiten verwenden den aktuellen Zustand.
+  - Der verzögerte Installationszeitpunkt ist erforderlich: Harmony JITtet
+    große Menümethoden beim Patchen. Der Versus-Statistikpfad kann dabei den
+    `Gamer`-Initialisierer erreichen, der vor `Game.Instance` nicht sicher
+    ausgeführt werden kann.
+  - Zwei Drei-Wege-Szenarien prüfen die statische Freigabe und die tatsächlich
+    angesprochene Renderszene. 1.10 ersetzt 43 Reads, 1.4 ersetzt 41 und 1.5
+    ersetzt 44. Der vollständige Build besteht für alle drei Versionen.
 - [x] `magick-camera-follow-entity`
   - Ziel: `MagickCamera.Update(DataChannel, float)`
   - Technik: Prefix; setzt ausschließlich einen körperlosen `mFollowing`-Verweis
@@ -1248,11 +1266,11 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Kompatibilitätsstatus
 
-| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChantSpells | StaticPools | JudgementSpray | Blizzard | AnimatedLevelPart | DynamicLight | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | EntityUpdate | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonUndead | UndeadNetwork | SummonZombie | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset | AbilityTemplates | LoadingScreen | DirectInput | MenuImageText | ParadoxPopup | Language | DialogLayout | ShadowBlobs | PlayerAvatar | PlayerCleanup | MeteorShower |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS |
-| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS |
+| Magicka-Version | Runtime-Host | ActiveBuffs | Agent | AudioManager | Avatar | AIStateAttack | AIStateMove | BossHealthBar | ChargeAbilities | ChantSpells | StaticPools | JudgementSpray | Blizzard | AnimatedLevelPart | DynamicLight | ChillyBlast | CompanyState | ControlManager | DeflectionAura | DrainLife | DrinkBlood | EntityManager | EntityStateStorage | EntityUpdate | Flash | Helper | Interactable | InventoryBox | MagickCamera | HUDManager | Machine | Jormungandr | PackLicense | PlayState | PoisonSpray | Portal | RandomMine | SpawnSlime | SummonFlamer | SummonSpirit | SummonUndead | UndeadNetwork | SummonZombie | SummonCross | StarGaze | Starfall | SubMenuMain | VersusRuleset | AbilityTemplates | LoadingScreen | DirectInput | MenuImageText | ParadoxPopup | Language | DialogLayout | ShadowBlobs | PlayerAvatar | PlayerCleanup | MeteorShower | InGameMenu |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1.10.4.2 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.4.16.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
+| 1.5.1.0 | erzeugt | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | PASS | NOT_APPLICABLE | NOT_APPLICABLE | NOT_APPLICABLE | PASS | PASS | PASS | PASS | NOT_APPLICABLE | PASS | PASS | PASS | PASS | PASS | PASS | PASS |
 
 `NOT_APPLICABLE` bedeutet hier nicht „ungeprüft“. Die alten Assemblies
 enthalten weder die spätere `HUDManager`-Klasse noch `WorldSyncMessage` und
@@ -1266,7 +1284,7 @@ genannten 1.10.4.2-Hashes. Er enthält 220 unterschiedliche C#-Dateien. Die
 Eingaben und Abhängigkeiten werden vor ILSpy isoliert bereitgestellt, damit der
 Ablageort einer EXE die Auflösung von Typen und damit die Inventur nicht ändert.
 
-Aktueller Stand: 67 Dateien vollständig, 56 Dateien teilweise und 97 Dateien noch
+Aktueller Stand: 68 Dateien vollständig, 62 Dateien teilweise und 90 Dateien noch
 nicht migriert. `analyze.ps1` erzeugt zusätzlich
 `source-analysis/file-diff-ranking.csv`, um weitere Kandidaten nach Diffgröße
 auszuwählen.
@@ -1280,16 +1298,16 @@ Runtime-Patch nötig.
 eine neue Dateiliste erzeugen; Dateinamen allein reichen nicht als
 Versionsnachweis.
 
-- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuTimedObjectiveStatistics.cs`
+- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuTimedObjectiveStatistics.cs` — TEILWEISE: alle neun Reads verwenden den aktuellen PlayState; die separate Statistikbereinigung ist noch offen.
 - [ ] `Magicka/CommunityPatch/TelemetryRuntimeContext.cs`
 - [ ] `Magicka/GameLogic/Entities/SpellMine.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonPhoenix.cs`
 - [x] `Magicka/CommunityPatch/DialogLayoutCompatibility.cs` — VOLLSTÄNDIG: beide reinen Formatierungshelfer sind im Runtime-Patcher enthalten und durch sechs Drei-Wege-Szenarien abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Bosses/Vlad.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Thunderstorm.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, elf laufende PlayState-Zugriffe und die per-cast Owner-Freigabe; 4 Transpiler und 4 Drei-Wege-Szenarien.
-- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuVersusStatistics.cs`
+- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuVersusStatistics.cs` — TEILWEISE: alle acht Reads verwenden den aktuellen PlayState; die separate Statistikbereinigung ist noch offen.
 - [ ] `Magicka/Levels/Triggers/TriggerArea.cs`
-- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenu.cs`
+- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenu.cs` — TEILWEISE: die statische PlayState-Zuweisung ist entfernt und alle vier Reads verwenden den aktuellen Zustand; Safe-Area-Layout und explizites Stack-Leeren sind noch offen.
 - [ ] `Magicka/CommunityPatch/NetworkEntityHandleGuard.cs` — TEILWEISE: nur die für `AddWorldSyncMessage` benötigte SpawnNPC-Entscheidung, ohne Übernahme der übrigen manuellen Hilfsklasse.
 - [ ] `Magicka/GameLogic/Spells/ArcaneBlast.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/CoreFramework/GameSystem/Store/StoreItemDatabase.cs`
@@ -1311,7 +1329,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/GreaseLump.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/StaticList.cs`
 - [ ] `Magicka/GameLogic/Controls/KeyboardMouseController.cs`
-- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuSurvivalStatistics.cs`
+- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuSurvivalStatistics.cs` — TEILWEISE: alle acht Reads verwenden den aktuellen PlayState; die separate Statistikbereinigung ist noch offen.
 - [ ] `Magicka/GameLogic/Entities/Items/BookOfMagick.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Rain.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, sechs laufende PlayState-Zugriffe und die Szenen-/Caster-Freigabe; 4 Transpiler, 1 Prefix und 4 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/PushSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
@@ -1327,7 +1345,7 @@ Versionsnachweis.
 - [ ] `Magicka/CommunityPatch/CollisionCallbackCleanup.cs`
 - [ ] `Magicka/GameLogic/Entities/Bosses/GenericBoss.cs`
 - [ ] `Magicka/Levels/Water.cs`
-- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsResolution.cs`
+- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsResolution.cs` — TEILWEISE: der Kamera-Aspektzugriff verwendet den aktuellen PlayState; die Safe-Area-Auswahl bleibt offen.
 - [x] `Magicka/Graphics/TutorialManager.cs` — VOLLSTÄNDIG: Safe-Area-Position sowie vollständige PlayState-Lebensdaueränderung in `Initialize`, `UpdateResolution` und `Update`; die verschobene statische Initialisierung ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Thunderbolt.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Blizzard.cs` —
@@ -1371,7 +1389,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/PhysicsEntityTemplate.cs`
 - [ ] `Magicka/CommunityPatch/CommunityPatchInfo.cs`
 - [ ] `Magicka/Physics/PhysicsManager.cs`
-- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuMagicks.cs`
+- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuMagicks.cs` — TEILWEISE: beide GameType-Reads verwenden den aktuellen PlayState; die separate Auswahlkorrektur bleibt offen.
 - [ ] `Magicka/GameLogic/Entities/Entity.cs`
 - [ ] `Magicka/Levels/ForceField.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Revive.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
@@ -1505,7 +1523,7 @@ Versionsnachweis.
 - [ ] `Magicka/Levels/Triggers/Actions/Action.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TimeWarpStaff.cs` — VOLLSTÄNDIG: gespeicherte PlayState-Zuweisung und laufende Zugriffe in `Execute`, `Update` und `OnRemove`, 3 Transpiler und 3 Drei-Wege-Szenarien; die statische Initialisiererdarstellung ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TimeWarp.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen und laufende Zugriffe in beiden `Execute`-Überladungen, `Update` und `OnRemove`, 4 Transpiler und 3 Drei-Wege-Szenarien; die statische Initialisiererdarstellung ist semantikfreies Compilerrauschen.
-- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuMain.cs`
+- [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuMain.cs` — VOLLSTÄNDIG: alle elf aktuellen Reads verwenden den aktuellen PlayState; 1.4 und 1.5 erhalten zusätzlich die zwei historischen Draw-Reads. Der statische Initialisierer-Diff ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/MeteorShower.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, beide laufenden PlayState-Zugriffe und die Singleton-Freigabe in `OnRemove`, 4 Transpiler, ein Prefix und 5 Drei-Wege-Szenarien; die Darstellung der statischen Initialisierer ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/GreaseTrail.cs` — TEILWEISE: PlayState-Lebensdauer, beide aktuellen Spawnzugriffe und statische Poolfreigabe sind migriert; die RetentionRegistry-Diagnostik ist noch offen.
 - [ ] `Magicka/GameLogic/Entities/Dispenser.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.

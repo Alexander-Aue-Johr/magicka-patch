@@ -46,6 +46,25 @@ namespace Magicka.CommunityPatch.Runtime
             }
         }
 
+        internal static void WriteDeferred(
+            Assembly targetAssembly,
+            MethodBase targetMethod,
+            RuntimePatchDefinition definition,
+            string trigger)
+        {
+            if (run == null)
+                BeginRun(targetAssembly);
+            run.Add("patch_begin=" + definition.Name);
+            run.Add("target=" + targetMethod.DeclaringType.FullName + "." + targetMethod.Name);
+            run.Add("harmony_owner=" + definition.HarmonyOwner);
+            run.Add("patch_kind=" + definition.Kind);
+            run.Add("registered_patches=0");
+            run.Add("status=DEFERRED");
+            run.Add("trigger=" + trigger);
+            run.Add("patch_end=" + definition.Name);
+            WriteRun();
+        }
+
         internal static void WriteNotApplicable(
             RuntimePatchDefinition definition,
             string reason)
