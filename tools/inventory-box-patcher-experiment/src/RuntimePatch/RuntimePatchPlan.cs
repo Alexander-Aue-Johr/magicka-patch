@@ -287,6 +287,9 @@ namespace Magicka.CommunityPatch.Runtime
                 CharacterSpellUsagePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                GraphicsStartupErrorPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 RadialBlurLifetimePatch.InitializeCacheDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

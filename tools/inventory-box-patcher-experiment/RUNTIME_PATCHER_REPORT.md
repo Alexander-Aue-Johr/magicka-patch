@@ -780,6 +780,22 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern am Detached-Gamer-Fall.
     Die manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile bestehen
     diesen Fall sowie die lokalen und Netzwerk-Gamer-Kontrollfälle.
+- [x] `graphics-startup-error-guidance`
+  - Ziel: `Program.WriteReport(object, UnhandledExceptionEventArgs)`.
+  - Technik: Ein Prefix klassifiziert ausschließlich XNA-stämmige
+    `ArgumentException`-Fehler und
+    `Microsoft.Xna.Framework.NoSuitableGraphicsDeviceException`. Die
+    MessageBox wird ohne neue statische Assemblyreferenz reflektiv aufgerufen.
+  - Fehlerfall: Grafikadapter-, Monitor- und Gerätefehler enden bisher nur im
+    allgemeinen Absturzbericht. Nutzer erhalten deshalb keinen Hinweis auf
+    Treiber, virtuelle Displays, Remote Desktop oder Proton-Konfiguration.
+  - Verhalten: Die beiden bekannten Grafikfehler zeigen vor dem vorhandenen
+    Absturzbericht eine passende Hilfestellung. Fremde Exceptions bleiben
+    unverändert; ein Fehler beim Anzeigen des Dialogs kann den ursprünglichen
+    Reportpfad nicht unterbrechen.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 besitzen keine solche
+    Klassifizierung. Die manuelle Patch-Assembly 0.0.60 und alle
+    Runtime-Patch-Profile bestehen beide Fehler- und beide Kontrollszenarien.
 - [x] `radial-blur-level-lifetime`
   - Ziele: `RadialBlur.InitializeCache(ContentManager, int)`, die vollständige
     `Initialize`-Überladung, `Update(DataChannel, float)` und `DisposeCache()`
@@ -2008,7 +2024,10 @@ Versionsnachweis.
   Arrayzugriff hinter dem Textende ist mit einem Prefix und 7
   Drei-Wege-Szenarien migriert; nur das begrenzte Diagnoseereignis folgt im
   gemeinsamen Runtime-Telemetrieblock.
-- [ ] `Magicka/Program.cs`
+- [ ] `Magicka/Program.cs` — TEILWEISE: die beiden gezielten Hinweise für
+  XNA-Adapter- und Grafikgerätefehler in `WriteReport` sind migriert; die
+  weiteren Start-, Payload-, Telemetrie- und Fehlerberichtänderungen bleiben
+  offen.
 - [ ] `Magicka/GameLogic/Entities/AnimatedPhysicsEntity.cs` — TEILWEISE:
   Crossfade und ForceAnimation verwenden Idle nur dann als Ersatz, wenn dessen
   Aktion und Clip vorhanden sind; Deinitialize- und Dispose-Änderungen sind
