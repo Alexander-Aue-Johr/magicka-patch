@@ -246,6 +246,9 @@ namespace Magicka.CommunityPatch.Runtime
             ParadoxAccountLifetimePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                GiveOrderKhanFallbackPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 InteractableHighlightPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

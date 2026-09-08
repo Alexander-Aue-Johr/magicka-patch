@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-one hundred eighty-three method patches:
+one hundred eighty-four method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -71,6 +71,8 @@ one hundred eighty-three method patches:
   referenced warlock entity exists.
 - `Jormungandr.UndergroundState.OnUpdate` waits for a live target before
   beginning its emergence sequence.
+- `GiveOrder.Exec` invokes Kahn's existing defeat trigger when the battlefield
+  kill plane terminates him before his scripted animation event can run.
 - `PlayState.AddWorldSyncMessage` rejects unusable SpawnNPC handles before the
   original enqueue method runs.
 - `Portal.PortalEntity.Update` skips queued entities that are null or whose
@@ -170,7 +172,7 @@ The Avatar, AI, Blizzard, BossHealthBar, Helper, InventoryBox, KeyboardHUD, Magi
 changes use Harmony prefixes; BossHealthBar additionally uses a constructor
 postfix, while HUDManager and one EntityManager change use ordinary postfixes.
 The Agent, AnimatedLevelPart, AudioManager, Blizzard, BreakBarriers, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, EtherealClone, GenericHealthBar, GreaseTrail, LightningSpell, MeteorShower, Rain, SpellEffect, TeslaField,
-EntityStateStorage, Flash, Machine, Jormungandr, pack, PoisonSpray, Portal,
+EntityStateStorage, Flash, GiveOrder, Machine, Jormungandr, pack, PoisonSpray, Portal,
 RandomMine, SpawnSlime, SummonCross, SummonFlamer, SummonSpirit, SummonUndead,
 Starfall, Thunderstorm, TutorialManager, VersusRuleset, JudgementSpray, DialogLayout, ShadowBlobs, and
 remaining EntityManager changes use narrowly checked transpilers for small
@@ -226,7 +228,7 @@ Magicka 1.4.16.0 and 1.5.1.0 contain the Agent, AudioManager, Avatar,
 AIStateAttack, DeflectionAura,
 AIStateMove, BossHealthBar, CompanyState, ControlManager, DrainLife, DrinkBlood,
 EntityManager, Flash, Interactable,
-EntityStateStorage, Helper, InventoryBox, ItemPack, Jormungandr, MagickCamera,
+EntityStateStorage, GiveOrder, Helper, InventoryBox, ItemPack, Jormungandr, MagickCamera,
 MagickPack, Machine, PoisonSpray, Portal, RandomMine, SpawnSlime, SummonCross,
 SummonFlamer, SummonSpirit, SummonUndead, Starfall, and VersusRuleset targets and
 accept their runtime patches. All

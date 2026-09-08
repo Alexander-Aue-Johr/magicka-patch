@@ -524,6 +524,23 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original plus Runtime-Patch: Fehler- und Kontrollfall bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: Transpiler wird angewendet und beide
     Szenarien bestehen
+- [x] `khan-killplane-defeat-fallback`
+  - Ziel: `GiveOrder.Exec()`
+  - Technik: ein Transpiler setzt nach dem ersten der beiden exakt erwarteten
+    `Agent.SetOrder`-Aufrufe einen eng begrenzten Runtime-Handler ein; der
+    zweite, flächenbasierte Order-Pfad bleibt unverändert
+  - Fehlerfall: `#boss_n06` ist bereits terminiert, bevor sein erster
+    Animation-Event den vorhandenen Defeat-Trigger ausführen kann
+  - Verhalten: nur ein terminierter `WarlordCharacter` mit passender Order-ID,
+    erstem Animation-Event und Trigger ungleich null führt den vorhandenen
+    `GameScene.ExecuteTrigger`-Pfad aus
+  - Original 1.10.4.2: der Trigger wird nicht ausgeführt
+  - Manuelle Patch-Assembly 0.0.60 und Runtime-Patch: der Trigger wird einmal
+    ausgeführt; lebender Kahn, fremde ID und Trigger null bleiben unverändert
+  - Magicka 1.4.16.0 und 1.5.1.0 besitzen dieselbe geprüfte Order-Struktur;
+    Runtime-Patch und alle vier Szenarien bestehen dort ebenfalls
+  - Die bestehende Recovery-Telemetrie folgt mit dem gemeinsamen
+    Telemetrieblock; die separate statische Cache-Freigabe bleibt offen
 - [x] `play-state-world-sync-spawn-npc-guard`
   - Ziel: `PlayState.AddWorldSyncMessage(WorldSyncMessage)`
   - Technik: boolescher Prefix
@@ -1559,7 +1576,9 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Spells/IceBlade.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsGraphics.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Grow.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
-- [ ] `Magicka/Levels/Triggers/Actions/GiveOrder.cs`
+- [ ] `Magicka/Levels/Triggers/Actions/GiveOrder.cs` — TEILWEISE: der
+  Kahn-Kill-Plane-Fallback ist mit einem Transpiler und 4 Drei-Wege-Szenarien
+  migriert; Recovery-Telemetrie und statische Cache-Freigabe bleiben offen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/PerformanceEnchantment.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/EarthQuake.cs` — VOLLSTÄNDIG: Aktivierungs-PlayState-Freigabe sowie aktuelle Szene, Kamera und EntityManager mit 3 Transpilern und 3 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/BreakBarriers.cs` — TEILWEISE: PlayState-Lebensdauer und statische Poolfreigabe sind migriert; die RetentionRegistry-Diagnostik ist noch offen.

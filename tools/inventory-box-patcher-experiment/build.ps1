@@ -1009,7 +1009,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Magicks menu language selection guard" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 24 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 5 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 154) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 155) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1024,7 +1024,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=183")
+    $summary.Add("implemented_patches=184")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
