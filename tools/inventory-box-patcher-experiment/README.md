@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-three hundred eighty-two method patches:
+three hundred eighty-three method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -34,6 +34,8 @@ three hundred eighty-two method patches:
   longer present while preserving the valid sync-point update.
 - `NetworkClient.ReadMessage` drops a late `RulesetUpdate` after its play-state
   scene chain has detached.
+- `NetworkClient.ReadMessage` accepts world-spawn `TriggerAction` messages only
+  from the connected server while preserving peer-authoritative action types.
 - `MissileEntity.NetworkEventMessage` drops events for incomplete missiles and
   collision or hit events whose required target has already disappeared. A
   consumed collision missile is killed locally so ordinary cleanup removes it.

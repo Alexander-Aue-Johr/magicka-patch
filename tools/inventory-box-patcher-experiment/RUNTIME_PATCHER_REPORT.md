@@ -1679,6 +1679,21 @@ Die maschinenlesbaren Einzelergebnisse stehen nach einem Build in
     manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile schließen den
     Zweig kontrolliert ab.
 
+- [x] `network-client-trigger-action-authority`
+  - Ziel: `NetworkClient.ReadMessage(BinaryReader, SteamID)` im
+    `TriggerAction`-Zweig.
+  - Technik: Ein Transpiler prüft unmittelbar vor `Trigger.NetworkAction`, ob
+    acht weltverändernde Spawn-Aktionen vom verbundenen Server stammen.
+  - Verhalten: `SpawnNPC`, `SpawnLuggage`, `SpawnElemental`, `SpawnItem`,
+    `SpawnMagick`, `SpawnDamageablePhysicsEntity`, `SpawnGrease` und
+    `SpawnTornado` werden von anderen Absendern verworfen. Andere
+    TriggerAction-Typen sowie alle Nachrichten des Servers laufen unverändert
+    weiter. Das Paketformat bleibt gleich.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 akzeptieren einen Peer-Spawn. Die
+    manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile verwerfen
+    ihn. Server-Spawns und peer-autorisierte Aktionen bestehen als
+    Kontrollfälle in allen Profilen.
+
 - [x] `missile-entity-network-event-guard`
   - Ziel: `MissileEntity.NetworkEventMessage(ref MissileEntityEventMessage)`.
   - Technik: boolescher Prefix mit exakt typisiertem Ref-Argumentadapter.
@@ -1908,7 +1923,8 @@ Versionsnachweis.
   oder freigegebener Textur; die weiteren manuellen Änderungen bleiben offen.
 - [ ] `Magicka/Network/NetworkClient.cs` — TEILWEISE: verspätete
   `RulesetUpdate`-Pakete werden bei gelöster PlayState-/Szenenkette verworfen;
-  weitere Client-, Telemetrie- und Lebensdaueränderungen sind noch offen.
+  weltverändernde Spawn-Trigger werden nur vom Server angenommen. Weitere
+  Client-, Telemetrie- und Lebensdaueränderungen sind noch offen.
 - [ ] `Magicka/Network/NetworkServer.cs` — TEILWEISE: alle geschlossenen
   `QueueUDPMessage<T>`-Instanziierungen prüfen einen veralteten Clientindex
   atomar im vorhandenen Listen-Lock; `EnterSync` verwirft unbekannte Sender
