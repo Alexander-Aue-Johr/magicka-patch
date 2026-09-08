@@ -876,6 +876,20 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Die manuelle 0.0.60-Assembly ruft denselben Preload am Anfang von Main auf.
     Alle Runtime-Profile bestehen Startreihenfolge, absolute Pfade und den
     Nicht-Windows-Kontrollfall.
+- [x] `keyboard-mouse-clear-state`
+  - Ziel: `KeyboardMouseController.Clear()`.
+  - Technik: Ein Prefix setzt die beiden privaten Zielreferenzen und die beiden
+    laufenden Interaktionsflags zurück und lässt danach die Originalmethode
+    unverändert weiterlaufen.
+  - Fehlerfall: Das Original besitzt einen leeren Clear-Pfad. Entfernte Entities
+    und ein halbfertiger Mausklick können deshalb über einen Zustandswechsel
+    hinweg im Controller verbleiben.
+  - Verhalten: Reset löst CursorPressedTarget und LockedTarget und beendet
+    StillPressing sowie InteractMoveLock. Bindings, Mausposition und normaler
+    Frame-Input bleiben unverändert.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten gesetzte Testwerte. Die
+    manuelle 0.0.60-Assembly und alle Runtime-Profile leeren sie; ein bereits
+    leerer Controller bleibt leer.
 - [x] `radial-blur-level-lifetime`
   - Ziele: `RadialBlur.InitializeCache(ContentManager, int)`, die vollständige
     `Initialize`-Überladung, `Update(DataChannel, float)` und `DisposeCache()`
@@ -1987,7 +2001,9 @@ Versionsnachweis.
   sowie der einzige `Entity`-Add-Pfad sind mit sechs Runtime-Patches und neun
   Drei-Wege-Szenarien migriert; direkte `StaticList<Entity>.Insert`-Aufrufe und
   die Erweiterungs-Telemetrie sind noch offen.
-- [ ] `Magicka/GameLogic/Controls/KeyboardMouseController.cs`
+- [ ] `Magicka/GameLogic/Controls/KeyboardMouseController.cs` — TEILWEISE:
+  `Clear()` löst beide Zielreferenzen und beide laufenden Interaktionsflags.
+  Der eigene Interactable-Guard und Eingabetelemetrie bleiben offen.
 - [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuSurvivalStatistics.cs` — VOLLSTÄNDIG: alle acht Reads verwenden den aktuellen PlayState; die lokale Cast-Darstellung und der statische Initialisierer-Diff sind semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Items/BookOfMagick.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Rain.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, sechs laufende PlayState-Zugriffe und die Szenen-/Caster-Freigabe; 4 Transpiler, 1 Prefix und 4 Drei-Wege-Szenarien.

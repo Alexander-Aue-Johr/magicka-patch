@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-three hundred ninety-two method patches:
+three hundred ninety-three method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -227,6 +227,8 @@ three hundred ninety-two method patches:
   borderless window leaves the desktop topmost layer after focus changes.
 - Startup skips an unavailable process-thread entry before reading its ID while
   preserving the original affinity setup for the current thread.
+- Resetting keyboard and mouse input releases stale cursor targets and pending
+  interaction state from the previous game state.
 - Startup loads `version.dll`, `winmm.dll`, and `winhttp.dll` from the absolute
   Windows system directory before original game or patch web code runs.
 - Loading-screen clears restore the managed depth buffer before drawing.

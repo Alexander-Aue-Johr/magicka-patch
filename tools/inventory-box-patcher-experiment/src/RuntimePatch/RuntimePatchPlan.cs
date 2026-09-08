@@ -308,6 +308,9 @@ namespace Magicka.CommunityPatch.Runtime
                 ProcessThreadAffinityPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                KeyboardMouseClearPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 RadialBlurLifetimePatch.InitializeCacheDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
