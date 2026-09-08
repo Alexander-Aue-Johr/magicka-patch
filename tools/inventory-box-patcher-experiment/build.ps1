@@ -213,6 +213,10 @@ function Test-BehaviorMatrix {
         "forced_sync.sparse_players",
         "forced_sync.missing_avatar",
         "trigger_authority.peer_spawn",
+        "trigger_lifecycle.missing_item_slot",
+        "trigger_lifecycle.wrong_item_slot_type",
+        "trigger_lifecycle.active_living_npc",
+        "trigger_lifecycle.missing_active_target",
         "entity_state_storage.constructor_release",
         "entity_state_storage.current_restore",
         "helper_array_equals.left_null",
@@ -523,6 +527,10 @@ function Test-BehaviorProfile(
             "forced_sync.sparse_players",
             "forced_sync.missing_avatar",
             "trigger_authority.peer_spawn",
+            "trigger_lifecycle.missing_item_slot",
+            "trigger_lifecycle.wrong_item_slot_type",
+            "trigger_lifecycle.active_living_npc",
+            "trigger_lifecycle.missing_active_target",
             "network_pickup.bodyless_pickup",
             "network_pickup.bodyless_pickup_request",
             "summon_phoenix.vector_state",
@@ -937,6 +945,14 @@ function Test-BehaviorProfile(
         "trigger_authority.peer_spawn",
         "trigger_authority.server_spawn",
         "trigger_authority.peer_nonspawn",
+        "trigger_lifecycle.missing_item_slot",
+        "trigger_lifecycle.wrong_item_slot_type",
+        "trigger_lifecycle.active_item_reuse",
+        "trigger_lifecycle.inactive_item_slot",
+        "trigger_lifecycle.active_living_npc",
+        "trigger_lifecycle.active_dead_npc_reuse",
+        "trigger_lifecycle.missing_active_target",
+        "trigger_lifecycle.active_target",
         "homing_charge.execute_release",
         "stop_charge.execute_release",
         "homing_charge.current_query_manager",
@@ -1265,11 +1281,12 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=NetworkServer EnterSync client guard" -or
         $auditLines -notcontains "patch_end=NetworkClient detached RulesetUpdate guard" -or
         $auditLines -notcontains "patch_end=NetworkClient TriggerAction server authority" -or
+        $auditLines -notcontains "patch_end=TriggerAction lifecycle validation" -or
         $auditLines -notcontains "patch_end=MissileEntity invalid network event guard" -or
         $auditLines -notcontains "patch_end=NetworkServer hotjoin broadcast continuation: Magicka.Network.EntityRemoveMessage" -or
         $auditLines -notcontains "patch_end=NetworkServer forced sync player and sender resolution" -or
         $auditLines -notcontains "patch_end=NetworkServer forced sync response builder" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 41 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 42 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 8 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 334) {
         throw "The runtime audit does not contain all registered Harmony patches."
@@ -1286,7 +1303,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=383")
+    $summary.Add("implemented_patches=384")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

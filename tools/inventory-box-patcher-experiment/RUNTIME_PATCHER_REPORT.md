@@ -1694,6 +1694,22 @@ Die maschinenlesbaren Einzelergebnisse stehen nach einem Build in
     ihn. Server-Spawns und peer-autorisierte Aktionen bestehen als
     Kontrollfälle in allen Profilen.
 
+- [x] `trigger-action-lifecycle-validation`
+  - Ziel: `Trigger.NetworkAction(ref TriggerActionMessage)` vor der bestehenden
+    Action-Verteilung.
+  - Technik: Ein exakt typisierter Prefix prüft Handle, Dispose-Zustand,
+    PlayState-Zugehörigkeit, EntityManager-Mitgliedschaft, erwarteten Typ und
+    erforderliche Template-Caches.
+  - Verhalten: Ungültige Spawn- und zielgebundene Aktionen werden verworfen.
+    Aktive Slots von `Item`, `ElementalEgg`, `GreaseField` und `TornadoEntity`
+    bleiben wiederverwendbar. Ein aktiver NPC-Slot darf nur wiederverwendet
+    werden, wenn der NPC bereits tot ist. Inaktive kompatible Slots bleiben
+    gültig.
+  - Die Kontrollmatrix deckt fehlende und typfalsche Slots, aktive und inaktive
+    Items, lebende und tote aktive NPCs sowie fehlende und aktive Ziele ab. Die
+    manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile liefern in
+    allen acht Zuständen dasselbe Ergebnis.
+
 - [x] `missile-entity-network-event-guard`
   - Ziel: `MissileEntity.NetworkEventMessage(ref MissileEntityEventMessage)`.
   - Technik: boolescher Prefix mit exakt typisiertem Ref-Argumentadapter.
@@ -1900,7 +1916,7 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/GameStates/PlayState.cs` — TEILWEISE: `AddWorldSyncMessage`, das bedingte Lösen der ShadowBlobs-Szene sowie die dokumentierten levelgebundenen Cleanup-Injektionen sind migriert; weitere Dispose-, Übergangs- und Diagnoseänderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Spells/Magick.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Spells/Railgun.cs` — TEILWEISE: statische Poolfreigabe, Ahnenprüfung vor dem Verknüpfen und zyklussichere Lock-Traversierung sind migriert; offen sind nur RetentionRegistry- und Recovery-Telemetrieaufrufe des manuellen Diffs.
-- [ ] `Magicka/Levels/Triggers/Trigger.cs` — TEILWEISE: `SpawnNPC` übernimmt den über das unveränderte Paketformat transportierten Undead-Zustand; weitere Netzwerk-, Dispose- und Diagnoseänderungen dieser Klasse sind noch offen.
+- [ ] `Magicka/Levels/Triggers/Trigger.cs` — TEILWEISE: `SpawnNPC` übernimmt den über das unveränderte Paketformat transportierten Undead-Zustand; eingehende TriggerActions erhalten dieselbe Lifecycle-Prüfung wie in 0.0.60. Weitere Dispose- und Diagnoseänderungen dieser Klasse sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/Gib.cs`
 - [ ] `Magicka/GameLogic/Entities/MissileEntity.cs` — TEILWEISE: ungültige
   Netzwerkereignisse für unvollständige Projektile und verschwundene Ziele
@@ -1940,7 +1956,9 @@ Versionsnachweis.
   Animationsaktionen ohne auflösbaren Clip werden nicht gespeichert; die
   umfangreicheren Dispose-Änderungen sind noch offen.
 - [ ] `Magicka/CommunityPatch/PatchUpdateManager.cs`
-- [ ] `Magicka/CommunityPatch/NetworkLifecycleCompatibility.cs`
+- [ ] `Magicka/CommunityPatch/NetworkLifecycleCompatibility.cs` — TEILWEISE:
+  TriggerAction-Absender- und Lifecycle-Regeln sind migriert; Telemetrie und
+  weitere Netzwerkhelfer bleiben offen.
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCutscene.cs`
 - [ ] `Magicka/CommunityPatch/RuntimeCompatibilityGuards.cs` — TEILWEISE: die DirectInput-Ausfallerkennung und verzögerte Warnung sind migriert; Steam-API-, Store-, Versionszeilen- und Unterstützerdialog-Helfer sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/Barrier.cs`

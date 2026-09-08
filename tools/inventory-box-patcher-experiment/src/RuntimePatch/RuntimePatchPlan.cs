@@ -58,6 +58,9 @@ namespace Magicka.CommunityPatch.Runtime
                 TriggerActionAuthorityPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                TriggerActionLifecyclePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 MissileEntityNetworkEventPatch.Definition);
             NetworkServerHotjoinPatch.ApplyTo(targetAssembly);
             NetworkServerForcedSyncPatch.ApplyTo(targetAssembly);
