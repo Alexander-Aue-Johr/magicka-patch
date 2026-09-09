@@ -22,6 +22,19 @@ namespace Magicka.CommunityPatch.Runtime
         private static FieldInfo highlightRenderDataField;
         private static FieldInfo conditionsField;
         private static FieldInfo effectsField;
+        private static FieldInfo liveEffectsField;
+        private static FieldInfo hitListField;
+        private static FieldInfo templateField;
+        private static FieldInfo renderVerticesField;
+        private static FieldInfo renderIndicesField;
+        private static FieldInfo renderDeclarationField;
+        private static FieldInfo highlightVerticesField;
+        private static FieldInfo highlightIndicesField;
+        private static FieldInfo highlightDeclarationField;
+        private static FieldInfo highlightMaterialField;
+        private static MethodInfo effectManagerInstanceGetter;
+        private static MethodInfo effectStopMethod;
+        private static Type physicsEntityType;
         private static MethodInfo disableBodyMethod;
         private static PropertyInfo bodyCollisionSkinProperty;
         private static FieldInfo bodyTagField;
@@ -125,6 +138,7 @@ namespace Magicka.CommunityPatch.Runtime
             Type physicsEntity = targetAssembly.GetType(
                 "Magicka.GameLogic.Entities.PhysicsEntity",
                 true);
+            physicsEntityType = physicsEntity;
             if (physicsEntity.BaseType != entity)
                 throw new InvalidOperationException(
                     "PhysicsEntity no longer directly derives from Entity.");
@@ -194,6 +208,84 @@ namespace Magicka.CommunityPatch.Runtime
                 physicsEntity,
                 "mEffects",
                 InstanceFields | BindingFlags.DeclaredOnly);
+            liveEffectsField = RequireField(
+                physicsEntity,
+                "mLiveEffects",
+                InstanceFields | BindingFlags.DeclaredOnly);
+            hitListField = RequireField(
+                physicsEntity,
+                "mHitList",
+                InstanceFields | BindingFlags.DeclaredOnly);
+            templateField = RequireField(
+                physicsEntity,
+                "mTemplate",
+                InstanceFields | BindingFlags.DeclaredOnly);
+
+            Type renderDataType = renderDataField.FieldType.GetElementType();
+            Type highlightDataType =
+                highlightRenderDataField.FieldType.GetElementType();
+            if (renderDataType == null || highlightDataType == null)
+                throw new MissingMemberException(
+                    physicsEntity.FullName,
+                    "render data arrays");
+            renderVerticesField = RequireField(
+                renderDataType,
+                "mVertices",
+                InstanceFields | BindingFlags.DeclaredOnly);
+            renderIndicesField = RequireField(
+                renderDataType,
+                "mIndices",
+                InstanceFields | BindingFlags.DeclaredOnly);
+            renderDeclarationField = RequireField(
+                renderDataType,
+                "mVertexDeclaration",
+                InstanceFields | BindingFlags.DeclaredOnly);
+            highlightVerticesField = RequireField(
+                highlightDataType,
+                "mVertexBuffer",
+                InstanceFields | BindingFlags.DeclaredOnly);
+            highlightIndicesField = RequireField(
+                highlightDataType,
+                "mIndexBuffer",
+                InstanceFields | BindingFlags.DeclaredOnly);
+            highlightDeclarationField = RequireField(
+                highlightDataType,
+                "mVertexDeclaration",
+                InstanceFields | BindingFlags.DeclaredOnly);
+            highlightMaterialField = RequireField(
+                highlightDataType,
+                "mMaterial",
+                InstanceFields | BindingFlags.DeclaredOnly);
+
+            Type effectManager = targetAssembly.GetType(
+                "Magicka.Graphics.EffectManager",
+                true);
+            PropertyInfo effectManagerInstance = effectManager.GetProperty(
+                "Instance",
+                BindingFlags.Static | BindingFlags.Public);
+            effectManagerInstanceGetter = effectManagerInstance == null
+                ? null
+                : effectManagerInstance.GetGetMethod();
+            Type[] liveEffectArguments = liveEffectsField.FieldType.IsGenericType
+                ? liveEffectsField.FieldType.GetGenericArguments()
+                : Type.EmptyTypes;
+            if (liveEffectArguments.Length != 1)
+                throw new MissingMemberException(
+                    physicsEntity.FullName,
+                    "mLiveEffects item type");
+            effectStopMethod = effectManager.GetMethod(
+                "Stop",
+                BindingFlags.Instance | BindingFlags.Public |
+                    BindingFlags.DeclaredOnly,
+                null,
+                new Type[] { liveEffectArguments[0].MakeByRefType() },
+                null);
+            if (effectManagerInstanceGetter == null ||
+                effectManagerInstanceGetter.ReturnType != effectManager ||
+                effectStopMethod == null ||
+                effectStopMethod.ReturnType != typeof(void))
+                throw new MissingMemberException(
+                    "PhysicsEntity effect cleanup members are incomplete.");
             return physicsEntity;
         }
 
@@ -259,12 +351,88 @@ namespace Magicka.CommunityPatch.Runtime
                     object entity = snapshot[index];
                     if (entity == null)
                         continue;
+                    if (physicsEntityType.IsInstanceOfType(entity))
+                        CleanupFinalPhysicsEntity(entity);
                     DetachEntity(entity);
                     TryClear(inboundStampField.GetValue(entity));
                     TrySet(playStateField, entity, null);
                 }
             }
             TryClear(uniqueEntitiesField.GetValue(null));
+        }
+
+        private static void CleanupFinalPhysicsEntity(object entity)
+        {
+            object liveEffects = liveEffectsField.GetValue(entity);
+            IList effects = liveEffects as IList;
+            if (effects != null)
+            {
+                for (int index = 0; index < effects.Count; index++)
+                {
+                    object[] arguments = new object[] { effects[index] };
+                    try
+                    {
+                        object manager = effectManagerInstanceGetter.Invoke(null, null);
+                        effectStopMethod.Invoke(manager, arguments);
+                    }
+                    catch
+                    {
+                    }
+                }
+                TryClear(effects);
+            }
+            TrySet(liveEffectsField, entity, null);
+
+            ClearRenderData(renderDataField.GetValue(entity));
+            TrySet(renderDataField, entity, null);
+            ClearHighlightRenderData(highlightRenderDataField.GetValue(entity));
+            TrySet(highlightRenderDataField, entity, null);
+            TryClear(hitListField.GetValue(entity));
+            TrySet(hitListField, entity, null);
+            TrySet(conditionsField, entity, null);
+            TrySet(effectsField, entity, null);
+            TrySet(templateField, entity, null);
+        }
+
+        private static void ClearRenderData(object value)
+        {
+            Array entries = value as Array;
+            if (entries == null)
+                return;
+            for (int index = 0; index < entries.Length; index++)
+            {
+                object entry = entries.GetValue(index);
+                if (entry == null)
+                    continue;
+                TrySet(renderVerticesField, entry, null);
+                TrySet(renderIndicesField, entry, null);
+                TrySet(renderDeclarationField, entry, null);
+            }
+        }
+
+        private static void ClearHighlightRenderData(object value)
+        {
+            Array entries = value as Array;
+            if (entries == null)
+                return;
+            for (int index = 0; index < entries.Length; index++)
+            {
+                object entry = entries.GetValue(index);
+                if (entry == null)
+                    continue;
+                TrySet(highlightVerticesField, entry, null);
+                TrySet(highlightIndicesField, entry, null);
+                TrySet(highlightDeclarationField, entry, null);
+                try
+                {
+                    highlightMaterialField.SetValue(
+                        entry,
+                        Activator.CreateInstance(highlightMaterialField.FieldType));
+                }
+                catch
+                {
+                }
+            }
         }
 
         public static void DetachEntity(object entity)

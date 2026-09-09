@@ -22,6 +22,9 @@ internal static class EntityPhysicsCleanupScenarios
         report.Add(
             "entity_physics_cleanup.reuse_fallback",
             harness.ReuseFallback());
+        report.Add(
+            "entity_physics_cleanup.final_teardown",
+            harness.FinalTeardown());
     }
 }
 
@@ -41,6 +44,9 @@ internal sealed class EntityPhysicsCleanupHarness
     private readonly FieldInfo conditionsField;
     private readonly FieldInfo effectsField;
     private readonly FieldInfo liveEffectsField;
+    private readonly FieldInfo hitListField;
+    private readonly FieldInfo templateField;
+    private readonly FieldInfo instancesField;
     private readonly PropertyInfo bodyCollisionSkinProperty;
     private readonly FieldInfo bodyTagField;
     private readonly PropertyInfo skinCollisionsProperty;
@@ -51,6 +57,7 @@ internal sealed class EntityPhysicsCleanupHarness
     private readonly MethodInfo deinitialize;
     private readonly MethodInfo manualDetach;
     private readonly MethodInfo runtimeDetach;
+    private readonly MethodInfo clearHandles;
 
     internal EntityPhysicsCleanupHarness(
         Assembly magicka,
@@ -82,6 +89,9 @@ internal sealed class EntityPhysicsCleanupHarness
         liveEffectsField = RequireField(
             physicsEntityType,
             "mLiveEffects");
+        hitListField = RequireField(physicsEntityType, "mHitList");
+        templateField = RequireField(physicsEntityType, "mTemplate");
+        instancesField = RequireField(entityType, "mInstances");
 
         bodyCollisionSkinProperty = RequireProperty(
             bodyType,
@@ -125,6 +135,15 @@ internal sealed class EntityPhysicsCleanupHarness
         runtimeDetach = runtimeType.GetMethod(
             "DetachEntity",
             BindingFlags.Static | BindingFlags.Public);
+        clearHandles = entityType.GetMethod(
+            "ClearHandles",
+            BindingFlags.Static | BindingFlags.Public |
+                BindingFlags.DeclaredOnly,
+            null,
+            Type.EmptyTypes,
+            null);
+        if (clearHandles == null)
+            throw new MissingMethodException(entityType.FullName, "ClearHandles");
     }
 
     internal ScenarioResult Deinitialize()
@@ -155,6 +174,33 @@ internal sealed class EntityPhysicsCleanupHarness
             failure == null && IsDetached(fixture),
             actual,
             Expected(false));
+    }
+
+    internal ScenarioResult FinalTeardown()
+    {
+        PhysicsFixture fixture = CreateFixture();
+        IList instances = instancesField.GetValue(null) as IList;
+        if (instances == null)
+            throw new InvalidOperationException("Entity handle list is unavailable.");
+        instances.Clear();
+        instances.Add(fixture.Entity);
+        Exception failure = Invoke(clearHandles, null, new object[0]);
+        bool released =
+            liveEffectsField.GetValue(fixture.Entity) == null &&
+            renderDataField.GetValue(fixture.Entity) == null &&
+            highlightRenderDataField.GetValue(fixture.Entity) == null &&
+            hitListField.GetValue(fixture.Entity) == null &&
+            conditionsField.GetValue(fixture.Entity) == null &&
+            effectsField.GetValue(fixture.Entity) == null &&
+            templateField.GetValue(fixture.Entity) == null;
+        instances.Clear();
+        string exception = failure == null
+            ? "none"
+            : failure.GetType().FullName;
+        return new ScenarioResult(
+            failure == null && released,
+            "exception:" + exception + ",references_released:" + released,
+            "exception:none,references_released:True");
     }
 
     private PhysicsFixture CreateFixture()
@@ -194,6 +240,16 @@ internal sealed class EntityPhysicsCleanupHarness
         liveEffectsField.SetValue(
             entity,
             Activator.CreateInstance(liveEffectsField.FieldType));
+        ConstructorInfo hitListConstructor = hitListField.FieldType.GetConstructor(
+            new Type[] { typeof(int) });
+        if (hitListConstructor == null)
+            throw new MissingMethodException(hitListField.FieldType.FullName, ".ctor(Int32)");
+        hitListField.SetValue(
+            entity,
+            hitListConstructor.Invoke(new object[] { 4 }));
+        templateField.SetValue(
+            entity,
+            FormatterServices.GetUninitializedObject(templateField.FieldType));
         renderDataField.SetValue(entity, CreateArray(renderDataField, 1));
         highlightRenderDataField.SetValue(
             entity,

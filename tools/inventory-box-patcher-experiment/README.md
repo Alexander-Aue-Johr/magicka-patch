@@ -27,6 +27,8 @@ four hundred forty-six method patches:
   it deinitializes and before reuse. Final entity-handle cleanup also releases
   body tags, skin tags, owners, collision lists, both callback delegates, and
   stale play-state references for every registered entity.
+- Final handle cleanup also stops each `PhysicsEntity` live effect and releases
+  its render, hit-list, condition, effect-definition, and template references.
 - `DamageablePhysicsEntity.Deinitialize` releases the inactive entity's gib
   list entries and resistance array before returning it to the reuse pool.
 - `SummonDeath` no longer retains a completed play state in its singleton, and

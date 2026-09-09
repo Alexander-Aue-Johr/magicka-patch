@@ -2228,7 +2228,13 @@ Versionsnachweis.
   `Initialize` speichern keinen PlayState mehr; der einzige spätere Read im
   `TomeMagick`-Setter verwendet den aktuellen Zustand. Die Skalierung des
   projizierten Renderpunkts durch das High-Resolution-UI-System bleibt offen.
-- [ ] `Magicka/GameLogic/Entities/PhysicsEntity.cs` — TEILWEISE: die Trennung des ersetzbaren Body/CollisionSkin-Paars vor Wiederverwendung und nach Deinitialize sowie die leeren Renderkanäle sind migriert; die abschließende Freigabe der übrigen klassenspezifischen Felder und RetentionRegistry-Diagnostik bleiben offen.
+- [x] `Magicka/GameLogic/Entities/PhysicsEntity.cs` — VOLLSTÄNDIG: Das
+  ersetzbare Body/CollisionSkin-Paar wird vor Wiederverwendung und nach
+  Deinitialize getrennt, die wiederverwendbaren Renderkanäle werden neu
+  aufgebaut, und der finale Handle-Abbau stoppt Live-Effekte und löst Render-,
+  Highlight-, Hitlist-, Condition-, Effect- und Template-Referenzen. Drei
+  Drei-Wege-Szenarien decken Wiederverwendung und finalen Abbau ab;
+  RetentionRegistry-Aufrufe sind Diagnostik.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Conflagration.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/UI/Credits.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Wave.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
