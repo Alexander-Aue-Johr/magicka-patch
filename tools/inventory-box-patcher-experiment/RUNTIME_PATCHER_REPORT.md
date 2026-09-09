@@ -2513,20 +2513,30 @@ Versionsnachweis.
   `Character`-Feature wird vor dem Originaldecoder maskiert, zwei Transpiler und
   3 Drei-Wege-Szenarien; die Diagnose `entity_update_character_feature` folgt
   im Telemetrieblock.
-- [ ] `Magicka/GameLogic/Entities/Bosses/CthulhuMist.cs`
-- [ ] `Magicka/GameLogic/Entities/Bosses/BossCollisionZone.cs`
+- [x] `Magicka/GameLogic/Entities/Bosses/CthulhuMist.cs` — VOLLSTÄNDIG: Der
+  manuelle Diff enthält ausschließlich RetentionRegistry-Markierungen in
+  `Initialize` und `Deactivate`; das Spielverhalten ist unverändert.
+- [x] `Magicka/GameLogic/Entities/Bosses/BossCollisionZone.cs` — VOLLSTÄNDIG:
+  Beide manuellen Änderungen sind RetentionRegistry-Markierungen nach den
+  unveränderten `Initialize`-Aufrufen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/DrinkBlood.cs` — VOLLSTÄNDIG: ungenutzte PlayState-Referenz in `Execute`, Transpiler und 2 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/Entities/Bosses/Jormungandr.cs` — VOLLSTÄNDIG: fehlendes Ziel nach `SelectTarget`, Transpiler und 2 Drei-Wege-Szenarien.
-- [ ] `Magicka/GameLogic/Entities/FrogTongue.cs`
+- [x] `Magicka/GameLogic/Entities/FrogTongue.cs` — VOLLSTÄNDIG: Der manuelle
+  Diff ergänzt nur RetentionRegistry-Markierungen. Initialisierung,
+  Deinitialisierung und Owner-Freigabe sind im Originalpfad unverändert.
 - [x] `Magicka/GameLogic/Entities/ChantSpells.cs` — VOLLSTÄNDIG: ausschließlich semantikfreie Eliminierung einer lokalen `LightningBolt`-Variablen; `GetLightning()` und `InitializeEffect(...)` bleiben in derselben Reihenfolge und werden jeweils einmal ausgeführt.
-- [ ] `Magicka/GameLogic/Entities/Items/Pickable.cs`
+- [x] `Magicka/GameLogic/Entities/Items/Pickable.cs` — VOLLSTÄNDIG: Der
+  einzige manuelle Unterschied ist eine RetentionRegistry-Markierung vor der
+  unveränderten Deinitialisierung.
 - [ ] `Magicka/GameLogic/Controls/DirectInputController.cs`
 - [x] `Magicka/AI/AgentStates/AIStateAttack.cs` — VOLLSTÄNDIG: `OnExecute`, Prefix und 3 Drei-Wege-Szenarien.
 - [ ] `Magicka/GlobalSettings.cs`
 - [x] `Magicka/CoreFramework/GameSystem/HUDCustomisation/HUDManager.cs` — VOLLSTÄNDIG: `Initialise`, Postfix und 2 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/UI/InventoryBox.cs` — VOLLSTÄNDIG: `RenderData.Draw`, Prefix und 2 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Entities/Bosses/WarlordCharacter.cs`
-- [ ] `Magicka/GameLogic/Entities/Bosses/Tentacle.cs`
+- [x] `Magicka/GameLogic/Entities/Bosses/Tentacle.cs` — VOLLSTÄNDIG: Der
+  einzige manuelle Unterschied ist eine RetentionRegistry-Markierung nach der
+  unveränderten Initialisierung.
 - [x] `Magicka/GameLogic/Entities/Bosses/Machine.cs` — VOLLSTÄNDIG: `NetworkInitialize`, Transpiler und 3 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/GameStates/LoadingScreen.cs` — VOLLSTÄNDIG: gespeicherten Depth-Stencil-Buffer vor dem Clear wiederherstellen, Transpiler und 2 Drei-Wege-Szenarien; die lokale `DirectoryInfo`-Umschreibung ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Items/Attachment.cs`
@@ -2590,7 +2600,11 @@ Versionsnachweis.
 - [x] `Magicka/GameLogic/UI/GenericHealthBar.cs` — VOLLSTÄNDIG: Die Renderübergabe verwendet nach Szenenwechseln den aktuellen PlayState; ein Transpiler und ein Drei-Wege-Szenario. Die Darstellung der statischen Initialisierer ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/WaveEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/EtherealClone.cs` — VOLLSTÄNDIG: gespeicherte PlayState-Zuweisung entfernt und NavMesh-Zugriff auf `RecentPlayState` migriert; der leere manuelle Cleanup und verschobene statische Initialisierungen sind semantikfrei.
-- [ ] `Magicka/GameLogic/Entities/Snare.cs`
+- [x] `Magicka/GameLogic/Entities/Snare.cs` — VOLLSTÄNDIG: Sämtliche Änderungen
+  an den aktiven Pfaden sind RetentionRegistry-Diagnostik oder lokale
+  Variablendarstellung. Der zusätzlich definierte `DisposeCache`-Helper wird in
+  der manuellen Assembly nirgends aufgerufen und ändert daher kein
+  Laufzeitverhalten.
 - [x] `Magicka/Levels/Triggers/Interactable.cs` — VOLLSTÄNDIG: fehlende Szene
   oder fehlendes Levelmodell in `Highlight`, Prefix und 3
   Drei-Wege-Szenarien; die Wiederverwendung des Schleifenindex im manuellen
