@@ -328,6 +328,7 @@ function Test-BehaviorMatrix {
         "barrier_teardown.active_instance",
         "barrier_teardown.cached_instance",
         "barrier_teardown.hit_list_cache",
+        "shield.global_content_owner",
         "gib_teardown.active_instance",
         "gib_teardown.cached_instance",
         "effect_manager.duplicate_name",
@@ -844,6 +845,7 @@ function Test-BehaviorProfile(
             "barrier_teardown.active_instance",
             "barrier_teardown.cached_instance",
             "barrier_teardown.hit_list_cache",
+            "shield.global_content_owner",
             "gib_teardown.active_instance",
             "gib_teardown.cached_instance",
             "effect_manager.duplicate_name",
@@ -1061,6 +1063,8 @@ function Test-BehaviorProfile(
         "barrier_teardown.active_instance",
         "barrier_teardown.cached_instance",
         "barrier_teardown.hit_list_cache",
+        "shield.global_content_owner",
+        "shield.graphics_load_shape",
         "gib_teardown.active_instance",
         "gib_teardown.cached_instance",
         "effect_manager.duplicate_name",
@@ -1809,9 +1813,10 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Portal current message initialization play state" -or
         $auditLines -notcontains "patch_end=Portal current update play state" -or
         $auditLines -notcontains "patch_end=Portal level teardown" -or
+        $auditLines -notcontains "patch_end=Shield global graphics content lifetime" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 71 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 18 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 408) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 409) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1826,7 +1831,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=497")
+    $summary.Add("implemented_patches=498")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

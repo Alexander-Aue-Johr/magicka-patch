@@ -90,6 +90,10 @@ internal static class BehaviorSuite
         PropBossTeardownScenarios.Run(magicka, runtimePatchEnabled, report);
         FairyTeardownScenarios.Run(magicka, runtimePatchEnabled, report);
         BarrierTeardownScenarios.Run(magicka, runtimePatchEnabled, report);
+        ShieldContentLifetimeScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         GibTeardownScenarios.Run(magicka, runtimePatchEnabled, report);
         EffectManagerScenarios.Run(magicka, report);
         MagickCameraScenarios.Run(magicka, report);

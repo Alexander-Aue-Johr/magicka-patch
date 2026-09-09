@@ -2508,7 +2508,13 @@ Versionsnachweis.
   Laufzeitverhalten. RetentionRegistry-Aufrufe, statische Initialisierer und
   lokale Ausdrucksformen sind Diagnostik oder semantikfreies
   Compiler-/Decompilerrauschen.
-- [ ] `Magicka/GameLogic/Entities/Shield.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Entities/Shield.cs` — VOLLSTÄNDIG: beide gemeinsam
+  genutzten Grafikressourcen werden über den globalen ContentManager geladen,
+  und der statische Shield-Pool wird beim Levelabbau geleert. Ein Transpiler
+  und 2 Drei-Wege-Szenarien decken die Semantik ab. Die Umformungen in
+  `OnCollision`, `CircleCircleIntersect`, `ResistanceAgainst` und `Update`
+  sind semantikfreies Compiler-/Decompilerrauschen; die übrigen Änderungen
+  sind RetentionRegistry-Diagnostik.
 - [x] `Magicka/GameLogic/Spells/SpellEffects/RailGunSpell.cs` — VOLLSTÄNDIG:
   Leerpool-Recovery, alle sieben laufenden PlayState-Zugriffe und die statische
   Poolfreigabe sind migriert. Ein Prefix, 5 Transpiler und die gemeinsamen

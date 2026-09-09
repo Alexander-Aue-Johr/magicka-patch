@@ -442,6 +442,9 @@ namespace Magicka.CommunityPatch.Runtime
                 PortalLifecyclePatch.CleanupDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                ShieldContentLifetimePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 VersusRulesetRevivePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

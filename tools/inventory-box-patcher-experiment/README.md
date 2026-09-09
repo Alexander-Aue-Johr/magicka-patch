@@ -106,6 +106,8 @@ four hundred fifty-four method patches:
   fairies reachable only through an Avatar or non-player character.
 - Final entity-handle teardown releases active and cached Barrier resources,
   clears the Barrier pool, and clears both shared Barrier hit-list collections.
+- Cached Shield graphics are owned by the process-wide content manager rather
+  than a level content manager that can unload them before reuse.
 - The same teardown stops pooled Gib effects, releases their model and render
   references, and clears the Gib pool.
 - `EffectManager` keeps the first visual-effect definition when multiple XML
