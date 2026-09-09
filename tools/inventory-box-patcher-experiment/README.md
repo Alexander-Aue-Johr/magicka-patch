@@ -271,6 +271,9 @@ four hundred fifty-four method patches:
   decoded without aborting the remaining update fields.
 - `Character.CastSpell` skips only optional element-usage statistics when an
   Avatar's Gamer has already detached; the spell itself still executes.
+- Final level teardown stops Character-owned effects, cues, and lights; removes
+  animation callbacks; severs equipment, grip, summon, and combat references;
+  and releases level-bound model, render, animation, and state data.
 - Fatal XNA adapter and graphics-device startup failures show focused setup
   guidance before the original crash report is written.
 - A missing file referenced by the level hash worker shows its path locally and

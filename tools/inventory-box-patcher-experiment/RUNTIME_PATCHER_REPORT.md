@@ -598,6 +598,20 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     wird vollständig freigegeben
   - Magicka 1.4.16.0 und 1.5.1.0: Prefix wird angewendet und das
     Teardown-Szenario besteht
+- [x] `character-final-teardown`
+  - Ziel: `Entity.ClearHandles()`
+  - Technik: Prefix; alle registrierten Character werden bereinigt, bevor die
+    Originalmethode die gemeinsame Entity-Liste leert
+  - Fehlerfall: ein Character behaelt AnimationController-Callbacks,
+    Attachment-Items, gegenseitige Grip-Kanten, Summons, Kampfverweise und
+    levelgebundene Modell-, Render-, Animations- und Zustandsdaten
+  - Verhalten: laufende Character-Effekte, Cues und Lichter werden beendet;
+    danach werden alle genannten Referenzen getrennt und mutable Listen geleert
+  - Der Prefix gilt nur fuer den finalen Levelabbau. Der wiederverwendbare
+    `Deinitialize()`-Pfad behaelt seine eigene, kleinere Lebensdauergrenze.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0: das Szenario schlaegt fehl
+  - Manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile: das Szenario
+    besteht
 - [x] `npc-reusable-teardown`
   - Ziel: `NonPlayerCharacter.Deinitialize()`
   - Technik: Prefix und Postfix; der Prefix deaktiviert den Agent vor dem
@@ -2399,7 +2413,8 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Character.cs` — TEILWEISE: Initialisierung,
   Crossfade und ForceAnimation behandeln fehlende Animationsaktionen und
   fehlende Idle-Clips; `CastSpell` überspringt nur die optionale
-  Elementstatistik bei gelöstem Gamer. Weitere Netzwerk-, Dispose- und
+  Elementstatistik bei gelöstem Gamer. Der finale Levelabbau gibt außerdem den
+  vollständigen Character-eigenen Objektgraphen frei. Weitere Netzwerk- und
   Diagnoseänderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/ProjectileSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCharacterSelect.cs` —

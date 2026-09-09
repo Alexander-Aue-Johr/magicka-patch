@@ -14,6 +14,10 @@ internal static class BehaviorSuite
         AIStateMoveScenarios.Run(magicka, report);
         AgentChooseTargetScenarios.Run(magicka, report);
         AgentLifecycleScenarios.Run(magicka, runtimePatchEnabled, report);
+        CharacterTeardownScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         NonPlayerCharacterTeardownScenarios.Run(
             magicka,
             runtimePatchEnabled,
