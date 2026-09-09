@@ -323,6 +323,8 @@ function Test-BehaviorMatrix {
         "pool_expansion.shield_spell",
         "projectile_spawn.null_owner",
         "projectile_spell.empty_condition_cache",
+        "projectile_spell.null_missile_result",
+        "projectile_spell.detached_missile_state",
         "prop_boss.level_teardown",
         "fairy_teardown.listed",
         "fairy_teardown.avatar_owned",
@@ -843,6 +845,8 @@ function Test-BehaviorProfile(
             "pool_expansion.shield_spell",
             "projectile_spawn.null_owner",
             "projectile_spell.empty_condition_cache",
+            "projectile_spell.null_missile_result",
+            "projectile_spell.detached_missile_state",
             "prop_boss.level_teardown",
             "fairy_teardown.listed",
             "fairy_teardown.avatar_owned",
@@ -1066,6 +1070,9 @@ function Test-BehaviorProfile(
         "projectile_spawn.complete_owner",
         "projectile_spell.empty_condition_cache",
         "projectile_spell.cached_condition_identity",
+        "projectile_spell.null_missile_result",
+        "projectile_spell.detached_missile_state",
+        "projectile_spell.usable_missile_state",
         "prop_boss.level_teardown",
         "fairy_teardown.listed",
         "fairy_teardown.avatar_owned",
@@ -1829,9 +1836,10 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Shield global graphics content lifetime" -or
         $auditLines -notcontains "patch_end=ProjectileSpell detached owner guard" -or
         $auditLines -notcontains "patch_end=ProjectileSpell empty condition-cache recovery" -or
+        $auditLines -notcontains "patch_end=ProjectileSpell incomplete missile guard" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 73 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 18 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 410) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 411) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1846,7 +1854,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=501")
+    $summary.Add("implemented_patches=502")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

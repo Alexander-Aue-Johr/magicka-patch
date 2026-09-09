@@ -451,6 +451,9 @@ namespace Magicka.CommunityPatch.Runtime
                 ProjectileSpellConditionCachePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                ProjectileSpellMissileLifecyclePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 VersusRulesetRevivePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

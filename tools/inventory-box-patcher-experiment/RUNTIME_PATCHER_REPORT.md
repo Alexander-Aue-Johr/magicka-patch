@@ -2055,6 +2055,23 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile bestehen Leerfall und
     Identitätskontrolle.
 
+- [x] `projectile-spell-missile-lifecycle`
+  - Ziel: `ProjectileSpell.SpawnMissile(...)`.
+  - Technik: Transpiler; nach `GetMissileInstance()` und nach
+    `MissileEntity.Initialize(...)` werden die beiden vorhandenen
+    Lebensdauergrenzen geprüft. Beide Fehlerpfade geben die ausgeliehene
+    `ConditionCollection` unter dem Queue-Lock zurück und beenden die Methode.
+  - Fehlerfälle: Der Owner liefert kein Missile, oder das initialisierte
+    Missile besitzt weiterhin keinen nutzbaren PlayState mit EntityManager.
+  - Verhalten: Ein unvollständiges Missile wird nicht dereferenziert oder beim
+    EntityManager registriert. Der gültige Initialisierungs- und
+    Registrierungspfad bleibt unverändert.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern in beiden
+    Lebensdauerfällen. Die manuelle Patch-Assembly 0.0.60 und alle
+    Runtime-Patch-Profile bestehen beide Fehlerfälle sowie den gültigen
+    Kontrollfall; der Cache enthält danach jeweils wieder die ausgeliehene
+    Collection.
+
 - [x] `blizzard-play-state-lifetime`
   - Ziele: beide öffentlichen `Blizzard.Execute(...)`-Überladungen, das private
     `Execute()`, `Update(...)` und `OnRemove()`.
@@ -2678,9 +2695,11 @@ Versionsnachweis.
   sind migriert. `SpawnMissile` verwirft außerdem Owner ohne PlayState oder
   EntityManager vor jeder Cachemutation; ein Prefix und 2 Drei-Wege-Szenarien
   decken diese Eingangsprüfung ab. Der Leerzustand von `sCachedConditions` ist
-  ebenfalls migriert; die exception-sichere Rückgabe, ein fehlendes
-  Missile-Ergebnis sowie die
-  Diagnoseaufrufe bleiben offen.
+  ebenfalls migriert. Ein fehlendes Missile-Ergebnis und ein nach der
+  Initialisierung weiterhin abgelöster Missile-Zustand beenden die Methode
+  unter sicherer Rückgabe der ausgeliehenen Collection. Die allgemeine
+  exception-sichere Rückgabe bei anderen Fehlern sowie die Diagnoseaufrufe
+  bleiben offen.
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCharacterSelect.cs` —
   TEILWEISE: die vier Pack-Anzeigeprüfungen verwenden die gemeinsame
   Custom-Content-Lizenzregel und `DrawWidget` überspringt Images mit fehlender
