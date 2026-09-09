@@ -1566,6 +1566,26 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile lösen beide.
   - Der Runtime-Patch enthält 398 Definitionen. Alle sechs geänderten
     Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip.
+- [x] `elemental-egg-cache-cleanup`
+  - Ziel: `PlayState.Dispose`
+  - Technik: ein Transpiler fügt nach dem exakt einmal vorhandenen Aufruf von
+    `Entity.ClearHandles()` einen Cleanup-Aufruf im initialisierten Dispose-Pfad
+    ein. Die generischen Typen von `ElementalEgg.sCache` und
+    `ElementalEgg.sTemplateLookup` werden vor der Registrierung vollständig
+    validiert.
+  - Fehlerfall: der statische Egg-Pool hält Instanzen des beendeten Levels;
+    das Template-Lookup hält die daraus geladenen Elementarvorlagen.
+  - Verhalten: beide vorhandenen Collections werden geleert. Die darin
+    enthaltenen Eggs und CharacterTemplates werden nicht zusätzlich verändert
+    oder freigegeben, weil ihre Ressourcen anderen Eigentümern gehören können.
+  - Kontrollverhalten: ein nicht initialisierter `PlayState` erreicht den
+    eingefügten Aufruf nicht und behält beide Collections.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten beide Collections. Die
+    manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile leeren beide.
+  - Der Runtime-Patch enthält 399 Definitionen. Alle sechs geänderten
+    Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip. Der kommentarlos
+    dekompilierte DLL-Diff enthält ausschließlich die neue Hilfsklasse und ihre
+    Registrierung.
 - [x] `entity-update-character-marker-decode`
   - Ziele: `NetworkServer.Update` und `NetworkClient.Update`
   - Technik: zwei Transpiler rufen unmittelbar vor dem vorhandenen
@@ -2184,7 +2204,9 @@ Versionsnachweis.
 - [ ] `Magicka/Levels/ForceField.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Revive.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Portal.cs` — TEILWEISE: ungültige Einträge in `PortalEntity.mTeleportQueue`, Transpiler und 3 Drei-Wege-Szenarien; weitere manuelle Änderungen sind noch offen.
-- [ ] `Magicka/GameLogic/Entities/ElementalEgg.cs`
+- [ ] `Magicka/GameLogic/Entities/ElementalEgg.cs` — TEILWEISE: der statische
+  Egg-Pool und das Elementar-Template-Lookup werden beim Levelabbau geleert;
+  die übrigen Dispose- und Diagnostikänderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/Fairy.cs`
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsControls.cs`
 - [ ] `Magicka/GameLogic/Entities/DamageablePhysicsEntity.cs`

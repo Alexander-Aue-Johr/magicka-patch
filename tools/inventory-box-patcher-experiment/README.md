@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-three hundred ninety-eight method patches:
+three hundred ninety-nine method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -199,6 +199,9 @@ three hundred ninety-eight method patches:
   play state instead of retaining the completed level until another order loads.
 - The static `LightningBolt` cache and its level content manager are released
   during initialized `PlayState.Dispose`.
+- The static `ElementalEgg` instance cache and elemental-template lookup are
+  released during initialized `PlayState.Dispose` without disposing their
+  entries.
 - `JudgementSpray.SpawnProjectile` allocates a replacement condition collection
   when the shared pool is temporarily empty and otherwise reuses the original
   cached object.

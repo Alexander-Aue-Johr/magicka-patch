@@ -493,6 +493,9 @@ namespace Magicka.CommunityPatch.Runtime
                 LightningBoltCachePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                ElementalEggCachePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 JudgementSprayConditionCachePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

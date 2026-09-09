@@ -176,6 +176,10 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        ElementalEggCacheScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         ActionLifecycleScenarios.Run(magicka, report);
         DialogManagerLevelCleanupScenarios.Run(
             magicka,
