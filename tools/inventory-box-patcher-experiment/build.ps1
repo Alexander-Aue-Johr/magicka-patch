@@ -522,6 +522,7 @@ function Test-BehaviorMatrix {
         "static_level_pools.level_dispose",
         "lightning_bolt_cache.level_dispose",
         "elemental_egg_cache.level_dispose",
+        "elemental_egg_teardown.retained_graph",
         "item_pickable_cache.level_dispose",
         "physics_entity_template_cache.level_dispose",
         "character_template_cache.shared_template",
@@ -888,6 +889,7 @@ function Test-BehaviorProfile(
             "thunderstorm.remove_current_play_state",
             "lightning_bolt_cache.level_dispose",
             "elemental_egg_cache.level_dispose",
+            "elemental_egg_teardown.retained_graph",
             "item_pickable_cache.level_dispose")
     }
     $probeDirectory = Join-Path $toolBuildDirectory "behavior-probe"
@@ -1405,6 +1407,8 @@ function Test-BehaviorProfile(
         "lightning_bolt_cache.uninitialized_dispose",
         "elemental_egg_cache.level_dispose",
         "elemental_egg_cache.uninitialized_dispose",
+        "elemental_egg_teardown.retained_graph",
+        "elemental_egg_teardown.empty",
         "item_pickable_cache.level_dispose",
         "item_pickable_cache.uninitialized_dispose",
         "physics_entity_template_cache.level_dispose",
@@ -1577,6 +1581,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Static level pool cleanup" -or
         $auditLines -notcontains "patch_end=Lightning bolt cache cleanup" -or
         $auditLines -notcontains "patch_end=Elemental egg cache cleanup" -or
+        $auditLines -notcontains "patch_end=ElementalEgg final teardown" -or
         $auditLines -notcontains "patch_end=Pickable item cache release" -or
         $auditLines -notcontains "patch_end=Physics entity template cache cleanup" -or
         $auditLines -notcontains "patch_end=Character template shared-asset cache cleanup" -or
@@ -1824,7 +1829,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Shield global graphics content lifetime" -or
         $auditLines -notcontains "patch_end=ProjectileSpell detached owner guard" -or
         $auditLines -notcontains "patch_end=ProjectileSpell empty condition-cache recovery" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 72 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 73 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 18 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 410) {
         throw "The runtime audit does not contain all registered Harmony patches."
@@ -1841,7 +1846,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=500")
+    $summary.Add("implemented_patches=501")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

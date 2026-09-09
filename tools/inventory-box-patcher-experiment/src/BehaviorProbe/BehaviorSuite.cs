@@ -260,6 +260,10 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        ElementalEggTeardownScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         ItemPickableCacheScenarios.Run(
             magicka,
             runtimePatchEnabled,

@@ -1800,6 +1800,20 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     eingefügten Aufruf nicht und behält beide Collections.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten beide Collections. Die
     manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile leeren beide.
+- [x] `elemental-egg-final-teardown`
+  - Ziel: alle beim Aufruf von `Entity.ClearHandles()` noch registrierten
+    `ElementalEgg`-Instanzen.
+  - Technik: Prefix mit einem Snapshot der bestehenden Entity-Liste; die
+    Basisklassenbereinigung bleibt bei den gemeinsamen Entity-Patches.
+  - Fehlerfall: Controller, Schadensspeicher, Renderdaten, Summoner, Modell und
+    Clip bleiben nach dem Levelabbau über eine veraltete Egg-Referenz erreichbar.
+  - Verhalten: Controller und Skeleton werden gelöst, der Schadensspeicher wird
+    geleert, beide Renderreferenzen jeder RenderData werden gelöst und alle
+    übrigen Egg-eigenen Levelreferenzen werden auf null gesetzt. Der normale
+    `Deinitialize`-Pfad innerhalb eines laufenden Levels bleibt unverändert.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten den gesetzten Objektgraphen.
+    Die manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile lösen ihn;
+    der leere und wiederholte Cleanup ist in allen Profilen sicher.
   - Der Runtime-Patch enthält 399 Definitionen. Alle sechs geänderten
     Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip. Der kommentarlos
     dekompilierte DLL-Diff enthält ausschließlich die neue Hilfsklasse und ihre
@@ -2745,9 +2759,13 @@ Versionsnachweis.
   Drei-Wege-Szenarien decken die Semantik ab. RetentionRegistry-Aufrufe,
   statische Initialisierer und lokale Ausdrucksformen sind Diagnostik oder
   semantikfreies Compiler-/Decompilerrauschen.
-- [ ] `Magicka/GameLogic/Entities/ElementalEgg.cs` — TEILWEISE: der statische
-  Egg-Pool und das Elementar-Template-Lookup werden beim Levelabbau geleert;
-  die übrigen Dispose- und Diagnostikänderungen sind noch offen.
+- [x] `Magicka/GameLogic/Entities/ElementalEgg.cs` — VOLLSTÄNDIG: statischer
+  Egg-Pool und Template-Lookup werden beim Levelabbau geleert. Der finale
+  Handle-Abbau löst Controller, Skeleton, Schadensspeicher, Renderdaten,
+  Summoner, Modell und Clip jeder registrierten Egg-Instanz. Ein Transpiler,
+  ein Prefix und 4 Drei-Wege-Szenarien decken die Semantik ab;
+  RetentionRegistry-Aufrufe und statische Initialisierer sind Diagnostik oder
+  semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Fairy.cs` — VOLLSTÄNDIG: Der initialisierte
   PlayState-Abbau stoppt beide Effekte und einen aktiven Zufallsdialog,
   deaktiviert die Fairy und löst ihre Owner-Referenz. Die Suche umfasst aktive

@@ -719,6 +719,9 @@ namespace Magicka.CommunityPatch.Runtime
                 ElementalEggCachePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                ElementalEggTeardownPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 ItemPickableCachePatch.Definition);
             DamageableEntityStatePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
