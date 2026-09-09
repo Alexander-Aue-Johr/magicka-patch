@@ -2381,7 +2381,12 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/ElementalEgg.cs` — TEILWEISE: der statische
   Egg-Pool und das Elementar-Template-Lookup werden beim Levelabbau geleert;
   die übrigen Dispose- und Diagnostikänderungen sind noch offen.
-- [ ] `Magicka/GameLogic/Entities/Fairy.cs`
+- [x] `Magicka/GameLogic/Entities/Fairy.cs` — VOLLSTÄNDIG: Der initialisierte
+  PlayState-Abbau stoppt beide Effekte und einen aktiven Zufallsdialog,
+  deaktiviert die Fairy und löst ihre Owner-Referenz. Die Suche umfasst aktive
+  Fairies sowie nur über Avatar oder NPC erreichbare inaktive Instanzen; ein
+  Prefix und 3 Drei-Wege-Szenarien. Statische Initialisiererdarstellung und
+  RetentionRegistry-Aufrufe sind semantikfrei beziehungsweise Diagnostik.
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsControls.cs`
 - [ ] `Magicka/GameLogic/Entities/DamageablePhysicsEntity.cs` — TEILWEISE:
   `Deinitialize()` löst die Gib- und Resistance-Template-Referenzen vor der

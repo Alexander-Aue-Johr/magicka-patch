@@ -165,6 +165,9 @@ namespace Magicka.CommunityPatch.Runtime
             PropBossTeardownPatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                FairyTeardownPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 EffectManagerDuplicatePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
