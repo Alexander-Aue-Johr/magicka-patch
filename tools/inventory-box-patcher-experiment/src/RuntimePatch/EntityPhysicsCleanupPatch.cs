@@ -35,6 +35,17 @@ namespace Magicka.CommunityPatch.Runtime
         private static MethodInfo effectManagerInstanceGetter;
         private static MethodInfo effectStopMethod;
         private static Type physicsEntityType;
+        private static Type damageablePhysicsEntityType;
+        private static FieldInfo damageableStatusEffectsField;
+        private static FieldInfo damageableStatusLightField;
+        private static FieldInfo damageableGibsField;
+        private static FieldInfo damageableAnimationsField;
+        private static FieldInfo damageableResistancesField;
+        private static FieldInfo damageableCurrentStatusField;
+        private static MethodInfo statusEffectStopMethod;
+        private static MethodInfo statusLightDisableMethod;
+        private static PropertyInfo animationLevelPartProperty;
+        private static FieldInfo animationLevelPartField;
         private static MethodInfo disableBodyMethod;
         private static PropertyInfo bodyCollisionSkinProperty;
         private static FieldInfo bodyTagField;
@@ -286,6 +297,81 @@ namespace Magicka.CommunityPatch.Runtime
                 effectStopMethod.ReturnType != typeof(void))
                 throw new MissingMemberException(
                     "PhysicsEntity effect cleanup members are incomplete.");
+
+            damageablePhysicsEntityType = targetAssembly.GetType(
+                "Magicka.GameLogic.Entities.DamageablePhysicsEntity",
+                true);
+            damageableStatusEffectsField = RequireField(
+                damageablePhysicsEntityType,
+                "mStatusEffects",
+                InstanceFields | BindingFlags.DeclaredOnly);
+            damageableStatusLightField = RequireField(
+                damageablePhysicsEntityType,
+                "mStatusEffectLight",
+                InstanceFields | BindingFlags.DeclaredOnly);
+            damageableGibsField = RequireField(
+                damageablePhysicsEntityType,
+                "mGibs",
+                InstanceFields | BindingFlags.DeclaredOnly);
+            damageableAnimationsField = RequireField(
+                damageablePhysicsEntityType,
+                "mAnimations",
+                InstanceFields | BindingFlags.DeclaredOnly);
+            damageableResistancesField = RequireField(
+                damageablePhysicsEntityType,
+                "mResistances",
+                InstanceFields | BindingFlags.DeclaredOnly);
+            damageableCurrentStatusField = RequireField(
+                damageablePhysicsEntityType,
+                "mCurrentStatusEffects",
+                InstanceFields | BindingFlags.DeclaredOnly);
+            Type statusEffectType =
+                damageableStatusEffectsField.FieldType.GetElementType();
+            statusEffectStopMethod = statusEffectType == null
+                ? null
+                : statusEffectType.GetMethod(
+                    "Stop",
+                    BindingFlags.Instance | BindingFlags.Public,
+                    null,
+                    Type.EmptyTypes,
+                    null);
+            statusLightDisableMethod = damageableStatusLightField.FieldType.GetMethod(
+                "Disable",
+                BindingFlags.Instance | BindingFlags.Public,
+                null,
+                Type.EmptyTypes,
+                null);
+            Type[] animationArguments =
+                damageableAnimationsField.FieldType.IsGenericType
+                    ? damageableAnimationsField.FieldType.GetGenericArguments()
+                    : Type.EmptyTypes;
+            Type animationType = animationArguments.Length == 1
+                ? animationArguments[0]
+                : null;
+            animationLevelPartProperty = animationType == null
+                ? null
+                : animationType.GetProperty(
+                    "AnimatedLevelPart",
+                    BindingFlags.Instance | BindingFlags.Public |
+                        BindingFlags.NonPublic);
+            animationLevelPartField = animationType == null
+                ? null
+                : animationType.GetField(
+                    "AnimatedLevelPart",
+                    BindingFlags.Instance | BindingFlags.Public |
+                        BindingFlags.NonPublic);
+            if (!damageableStatusEffectsField.FieldType.IsArray ||
+                statusEffectStopMethod == null ||
+                statusEffectStopMethod.ReturnType != typeof(void) ||
+                statusLightDisableMethod == null ||
+                statusLightDisableMethod.ReturnType != typeof(void) ||
+                animationType == null ||
+                ((animationLevelPartProperty == null ||
+                    !animationLevelPartProperty.CanWrite) &&
+                    animationLevelPartField == null) ||
+                !damageableCurrentStatusField.FieldType.IsEnum)
+                throw new MissingMemberException(
+                    "DamageablePhysicsEntity final cleanup members are incomplete.");
             return physicsEntity;
         }
 
@@ -351,6 +437,8 @@ namespace Magicka.CommunityPatch.Runtime
                     object entity = snapshot[index];
                     if (entity == null)
                         continue;
+                    if (damageablePhysicsEntityType.IsInstanceOfType(entity))
+                        CleanupFinalDamageableEntity(entity);
                     if (physicsEntityType.IsInstanceOfType(entity))
                         CleanupFinalPhysicsEntity(entity);
                     DetachEntity(entity);
@@ -359,6 +447,81 @@ namespace Magicka.CommunityPatch.Runtime
                 }
             }
             TryClear(uniqueEntitiesField.GetValue(null));
+        }
+
+        private static void CleanupFinalDamageableEntity(object entity)
+        {
+            Array statusEffects =
+                damageableStatusEffectsField.GetValue(entity) as Array;
+            if (statusEffects != null)
+            {
+                for (int index = 0; index < statusEffects.Length; index++)
+                {
+                    object statusEffect = statusEffects.GetValue(index);
+                    if (statusEffect == null)
+                        continue;
+                    try
+                    {
+                        statusEffectStopMethod.Invoke(statusEffect, null);
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+            TrySet(damageableStatusEffectsField, entity, null);
+
+            object statusLight = damageableStatusLightField.GetValue(entity);
+            if (statusLight != null)
+                TryInvoke(statusLightDisableMethod, statusLight);
+            TrySet(damageableStatusLightField, entity, null);
+
+            TryClear(damageableGibsField.GetValue(entity));
+            TrySet(damageableGibsField, entity, null);
+            ClearDamageableAnimations(entity);
+            TrySet(damageableResistancesField, entity, null);
+            try
+            {
+                damageableCurrentStatusField.SetValue(
+                    entity,
+                    Activator.CreateInstance(
+                        damageableCurrentStatusField.FieldType));
+            }
+            catch
+            {
+            }
+        }
+
+        private static void ClearDamageableAnimations(object entity)
+        {
+            IList animations =
+                damageableAnimationsField.GetValue(entity) as IList;
+            if (animations != null)
+            {
+                for (int index = 0; index < animations.Count; index++)
+                {
+                    object animation = animations[index];
+                    if (animation == null)
+                        continue;
+                    try
+                    {
+                        if (animationLevelPartProperty != null &&
+                            animationLevelPartProperty.CanWrite)
+                            animationLevelPartProperty.SetValue(
+                                animation,
+                                null,
+                                null);
+                        else
+                            animationLevelPartField.SetValue(animation, null);
+                        animations[index] = animation;
+                    }
+                    catch
+                    {
+                    }
+                }
+                TryClear(animations);
+            }
+            TrySet(damageableAnimationsField, entity, null);
         }
 
         private static void CleanupFinalPhysicsEntity(object entity)

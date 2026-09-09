@@ -2405,10 +2405,14 @@ Versionsnachweis.
   Prefix und 3 Drei-Wege-Szenarien. Statische Initialisiererdarstellung und
   RetentionRegistry-Aufrufe sind semantikfrei beziehungsweise Diagnostik.
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsControls.cs`
-- [ ] `Magicka/GameLogic/Entities/DamageablePhysicsEntity.cs` — TEILWEISE:
-  `Deinitialize()` löst die Gib- und Resistance-Template-Referenzen vor der
-  Rückgabe in den Pool. Pool-Erweiterung, vollständige Dispose-Bereinigung und
-  Retention-Diagnostik bleiben offen.
+- [x] `Magicka/GameLogic/Entities/DamageablePhysicsEntity.cs` — VOLLSTÄNDIG:
+  `Deinitialize()` löst Gib- und Resistance-Template-Referenzen vor der
+  Poolrückgabe; der finale Handle-Abbau stoppt Status-Effekte und Statuslicht,
+  trennt Animationsziele und löst Gib-, Animations-, Resistance- und
+  Statusfelder. Pool-Recovery, 3 Deinitialize-Szenarien und ein finales
+  Drei-Wege-Szenario decken das Verhalten ab. Der unaufgerufene
+  `DisposeGibReference`-Helper und RetentionRegistry-Aufrufe ändern kein
+  Laufzeitverhalten.
 - [x] `Magicka/Levels/AnimatedLevelPart.cs` — VOLLSTÄNDIG: `Update` entfernt
   Einträge ohne auflösbare Entity oder Body; `Dispose` gibt den gesamten
   levelgebundenen Ressourcenbaum genau einmal frei. Ein Transpiler, ein Prefix,

@@ -31,6 +31,8 @@ four hundred forty-six method patches:
   its render, hit-list, condition, effect-definition, and template references.
 - `DamageablePhysicsEntity.Deinitialize` releases the inactive entity's gib
   list entries and resistance array before returning it to the reuse pool.
+- Final handle cleanup additionally stops and releases damageable-entity status
+  effects, status lights, Gib and physical-animation lists, and resistance state.
 - `SummonDeath` no longer retains a completed play state in its singleton, and
   both its spawn path and active Death entity resolve the current play state.
 - `TypingText.Update` finishes malformed or truncated text after an

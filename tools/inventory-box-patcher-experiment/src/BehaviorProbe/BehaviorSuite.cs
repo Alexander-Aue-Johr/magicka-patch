@@ -223,6 +223,7 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        DamageableEntityTeardownScenarios.Run(magicka, report);
         TypingTextScenarios.Run(magicka, report);
         NetworkServerLateUdpScenarios.Run(
             magicka,
