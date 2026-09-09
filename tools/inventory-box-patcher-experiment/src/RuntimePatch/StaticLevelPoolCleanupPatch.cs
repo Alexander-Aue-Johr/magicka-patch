@@ -45,6 +45,8 @@ namespace Magicka.CommunityPatch.Runtime
             Pool("Magicka.GameLogic.Entities.Abilities.SpecialAbilities.WaveEntity", "mWaveCache"),
             Pool("Magicka.GameLogic.Entities.SprayEntity", "sCache"),
             Pool("Magicka.GameLogic.Entities.Dispenser", "mCache"),
+            Pool("Magicka.GameLogic.Entities.Items.BookOfMagick", "sCache"),
+            Pool("Magicka.GameLogic.Entities.Bosses.GenericBoss", "sCache"),
             Pool("Magicka.Levels.Triggers.Actions.GiveOrder", "sInstances")
         };
 
@@ -72,7 +74,14 @@ namespace Magicka.CommunityPatch.Runtime
                 for (int fieldIndex = 1;
                     fieldIndex < contract.Length;
                     fieldIndex++)
-                    foundPools.Add(RequirePool(type, contract[fieldIndex]));
+                {
+                    PoolField pool = RequirePool(
+                        type,
+                        contract[fieldIndex],
+                        IsOptionalPool(type, contract[fieldIndex]));
+                    if (pool != null)
+                        foundPools.Add(pool);
+                }
             }
             pools = foundPools.ToArray();
 
@@ -115,14 +124,22 @@ namespace Magicka.CommunityPatch.Runtime
             return dispose;
         }
 
-        private static PoolField RequirePool(Type type, string fieldName)
+        private static PoolField RequirePool(
+            Type type,
+            string fieldName,
+            bool optional)
         {
             FieldInfo field = type.GetField(
                 fieldName,
                 BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic |
                     BindingFlags.DeclaredOnly);
-            if (field == null ||
-                !typeof(ICollection).IsAssignableFrom(field.FieldType))
+            if (field == null)
+            {
+                if (optional)
+                    return null;
+                throw new MissingFieldException(type.FullName, fieldName);
+            }
+            if (!typeof(ICollection).IsAssignableFrom(field.FieldType))
                 throw new MissingFieldException(type.FullName, fieldName);
 
             MethodInfo clear = field.FieldType.GetMethod(
@@ -134,6 +151,13 @@ namespace Magicka.CommunityPatch.Runtime
             if (clear == null || clear.ReturnType != typeof(void))
                 throw new MissingMethodException(field.FieldType.FullName, "Clear");
             return new PoolField(field, clear);
+        }
+
+        private static bool IsOptionalPool(Type type, string fieldName)
+        {
+            return type.FullName ==
+                    "Magicka.GameLogic.Entities.Bosses.GenericBoss" &&
+                fieldName == "sCache";
         }
 
         public static IEnumerable<CodeInstruction> Transpiler(

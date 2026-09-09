@@ -1537,18 +1537,17 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Ziel: `PlayState.Dispose`
   - Technik: ein Transpiler fügt nach dem vorhandenen Aufruf von
     `Entity.ClearHandles()` genau einen gemeinsamen Cleanup-Aufruf ein
-  - Fehlerfall: 41 statische Collections in 35 Ability-, Spell-, SpellEffect-,
-    Action- und leichten Entity-Klassen behalten gepoolte Instanzen des
-    abgebauten Levels; `GiveOrder.sPlayState` hält den Eigentümer zusätzlich
-    direkt
-  - Verhalten: ausschließlich die 41 validierten Collections werden geleert;
+  - Fehlerfall: 43 statische Collections in 37 Ability-, Spell-, SpellEffect-,
+    Action- und Entity-Klassen behalten gepoolte Instanzen des abgebauten
+    Levels; `GiveOrder.sPlayState` hält den Eigentümer zusätzlich direkt
+  - Verhalten: ausschließlich die 43 validierten Collections werden geleert;
     zusätzlich wird das exakt validierte `GiveOrder.sPlayState` auf null
     gesetzt. Elemente werden in diesem Patch weder freigegeben noch anderweitig
     verändert
   - Kontrollverhalten: ein nicht initialisierter `PlayState` erreicht den
     eingefügten Aufruf nicht und lässt alle Collections unverändert
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten alle Einträge. Die manuelle
-    Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile leeren alle 41
+    Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile leeren alle 43
     Collections und lösen die `GiveOrder`-PlayState-Referenz.
 - [x] `entity-update-character-marker-decode`
   - Ziele: `NetworkServer.Update` und `NetworkClient.Update`
@@ -2053,7 +2052,9 @@ Versionsnachweis.
   `FindInteractable(ref Segment)` prüft die vollständige Szenenkette. Nur die
   Eingabetelemetrie bleibt offen.
 - [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuSurvivalStatistics.cs` — VOLLSTÄNDIG: alle acht Reads verwenden den aktuellen PlayState; die lokale Cast-Darstellung und der statische Initialisierer-Diff sind semantikfreies Compilerrauschen.
-- [ ] `Magicka/GameLogic/Entities/Items/BookOfMagick.cs`
+- [ ] `Magicka/GameLogic/Entities/Items/BookOfMagick.cs` — TEILWEISE: der
+  statische Pool wird beim Levelabbau geleert; Retention-Diagnostik bleibt
+  offen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Rain.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, sechs laufende PlayState-Zugriffe und die Szenen-/Caster-Freigabe; 4 Transpiler, 1 Prefix und 4 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/PushSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/ShieldSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
@@ -2072,7 +2073,9 @@ Versionsnachweis.
 - [x] `Magicka/GameLogic/Spells/SpellEffects/SpellEffect.cs` — VOLLSTÄNDIG: die globale PlayState-Zuweisung entfällt und die statische Poolfreigabe bei Levelende ist migriert; ein Transpiler und vier gemeinsame Drei-Wege-Szenarien. Die Darstellung der statischen Initialisierer ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/CommunityPatch/WarlordAbilityDiagnostic.cs`
 - [x] `Magicka/CommunityPatch/CollisionCallbackCleanup.cs` — VOLLSTÄNDIG: der Runtime-Helfer löst beide privaten JigLibX-Callbackfelder vor Patchregistrierung auf und leert sie beim zentralen Entity-Abbau ohne Exceptions in den Spielpfad weiterzugeben.
-- [ ] `Magicka/GameLogic/Entities/Bosses/GenericBoss.cs`
+- [ ] `Magicka/GameLogic/Entities/Bosses/GenericBoss.cs` — TEILWEISE: der
+  statische Pool wird beim Levelabbau geleert; Pool-Erweiterung, Dispose und
+  Retention-Diagnostik bleiben offen.
 - [x] `Magicka/Levels/Water.cs` — VOLLSTÄNDIG: Effektbesitz und idempotente
   Freigabe aller Collision- und GPU-Ressourcen sind über Konstruktor-Postfix
   und den gemeinsamen Liquid-Abbau migriert; die entfernte lokale

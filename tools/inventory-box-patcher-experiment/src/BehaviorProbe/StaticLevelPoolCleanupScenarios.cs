@@ -60,6 +60,8 @@ internal sealed class StaticLevelPoolCleanupHarness
         Pool("Magicka.GameLogic.Entities.Abilities.SpecialAbilities.WaveEntity", "mWaveCache"),
         Pool("Magicka.GameLogic.Entities.SprayEntity", "sCache"),
         Pool("Magicka.GameLogic.Entities.Dispenser", "mCache"),
+        Pool("Magicka.GameLogic.Entities.Items.BookOfMagick", "sCache"),
+        Pool("Magicka.GameLogic.Entities.Bosses.GenericBoss", "sCache"),
         Pool("Magicka.Levels.Triggers.Actions.GiveOrder", "sInstances")
     };
 
@@ -99,6 +101,10 @@ internal sealed class StaticLevelPoolCleanupHarness
                 fieldIndex < contract.Length;
                 fieldIndex++)
             {
+                FieldInfo field = FindPoolField(type, contract[fieldIndex]);
+                if (field == null &&
+                    IsOptionalPool(type, contract[fieldIndex]))
+                    continue;
                 foundPools.Add(new PoolFixture(type, contract[fieldIndex]));
             }
 
@@ -202,6 +208,21 @@ internal sealed class StaticLevelPoolCleanupHarness
         contract[0] = typeName;
         Array.Copy(fields, 0, contract, 1, fields.Length);
         return contract;
+    }
+
+    private static FieldInfo FindPoolField(Type type, string fieldName)
+    {
+        return type.GetField(
+            fieldName,
+            BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic |
+                BindingFlags.DeclaredOnly);
+    }
+
+    private static bool IsOptionalPool(Type type, string fieldName)
+    {
+        return type.FullName ==
+                "Magicka.GameLogic.Entities.Bosses.GenericBoss" &&
+            fieldName == "sCache";
     }
 
     private static object Invoke(MethodInfo method, object target)

@@ -192,8 +192,9 @@ three hundred ninety-seven method patches:
 - The remaining level-owned summon templates, charge-ability pools, and active
   Haste and Shrink pools are released during `PlayState.Dispose`.
 - Active chant spells run their existing stop lifecycle during level disposal.
-- Static ability, spell, spell-effect, and lightweight entity pools are emptied
-  after the original entity-manager cleanup during level disposal.
+- Static ability, spell, spell-effect, lightweight entity, BookOfMagick, and
+  GenericBoss pools are emptied after the original entity-manager cleanup
+  during level disposal.
 - The same cleanup releases the static `GiveOrder` action list and its owning
   play state instead of retaining the completed level until another order loads.
 - `JudgementSpray.SpawnProjectile` allocates a replacement condition collection
