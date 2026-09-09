@@ -166,6 +166,12 @@ namespace Magicka.CommunityPatch.Runtime
                 UnderGroundAttackPlayStatePatch.UpdateDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                ArcaneBladePlayStatePatch.InitializeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ArcaneBladePlayStatePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 SpellEffectPlayStatePatch.InitializeDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

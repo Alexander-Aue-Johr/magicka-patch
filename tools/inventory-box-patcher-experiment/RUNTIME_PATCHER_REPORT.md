@@ -401,6 +401,19 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     vollständigen Update-Pfad mit zwei Bodenschnitten, Shield-Liste, fünf
     Effektupdates sowie Entity-Abfrage und -Rückgabe. Das Original und beide
     historischen Versionen sind rot; manueller Patch und Runtime-Patch sind grün.
+- [x] `arcane-blade-play-state-lifetime`
+  - Ziele: `ArcaneBlade.Initialize(PlayState, Item, Elements, float)` und
+    `Update(DataChannel, float)`.
+  - Technik: Zwei eng geprüfte Transpiler entfernen die einzige gespeicherte
+    PlayState-Zuweisung und ersetzen die beiden späteren Szenenzugriffe durch
+    `PlayState.RecentPlayState`.
+  - Verhalten: Gepoolte ArcaneBlade-Effekte halten keinen beendeten Levelzustand
+    mehr. Lichtregistrierung und additive Renderübergabe folgen der aktuellen
+    Szene; Geometrie, Farbe, Besitzer, Timing, Effekte und Poolverhalten bleiben
+    unverändert.
+  - Zwei Drei-Wege-Szenarien prüfen die gelöste Zustandskante, die beim Licht
+    verwendete Szene und den Renderempfänger. Das Original und beide historischen
+    Versionen sind rot; manueller Patch und Runtime-Patch sind grün.
 - [x] `spell-effect-current-play-state`
   - Ziele: `SpellEffect.IntializeCaches(PlayState, ContentManager)`,
     `LightningSpell.GetFromCache()` und
@@ -2391,7 +2404,13 @@ Versionsnachweis.
   CLR-2-kompatiblen Instanz-Lock; direkte generische Insert-/Expand-Aufrufe und
   die Erweiterungs-Telemetrie sind noch offen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Napalm.cs` — VOLLSTÄNDIG: die gespeicherte PlayState-Zuweisung und alle zehn laufenden Reads sind mit 2 Transpilern und 2 Drei-Wege-Szenarien migriert; die umgekehrte Darstellung der unveränderten Execute-Zweige und Segment-Syntax sind Compilerrauschen.
-- [ ] `Magicka/GameLogic/Spells/ArcaneBlade.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Spells/ArcaneBlade.cs` — VOLLSTÄNDIG: gespeicherter
+  PlayState, beide laufenden Szenenzugriffe und die statische Poolfreigabe bei
+  Levelende sind mit 2 Transpilern und 2 Drei-Wege-Szenarien migriert. Die
+  unaufgerufene parameterlose `InitializeCache()`-Ergänzung ändert kein
+  Laufzeitverhalten. RetentionRegistry-Aufrufe, statische Initialisierer und
+  lokale Ausdrucksformen sind Diagnostik oder semantikfreies
+  Compiler-/Decompilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Shield.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/RailGunSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Polymorph.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.

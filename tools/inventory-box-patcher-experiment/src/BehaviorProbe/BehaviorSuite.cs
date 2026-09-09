@@ -52,6 +52,7 @@ internal static class BehaviorSuite
             report);
         GreaseLumpScenarios.Run(magicka, report);
         UnderGroundAttackScenarios.Run(magicka, report);
+        ArcaneBladeScenarios.Run(magicka, report);
         SpellEffectPlayStateScenarios.Run(magicka, report);
         DerivedSpellEffectPlayStateScenarios.Run(
             magicka,

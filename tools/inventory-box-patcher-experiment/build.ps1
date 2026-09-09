@@ -272,6 +272,8 @@ function Test-BehaviorMatrix {
         "underground_attack.play_state_release",
         "underground_attack.initialize_current_play_state",
         "underground_attack.update_current_play_state",
+        "arcane_blade.initialize_current_scene",
+        "arcane_blade.update_current_scene",
         "spell_effect.initialize_release",
         "lightning_spell.cached_current_play_state",
         "lightning_spell.empty_cache_current_play_state",
@@ -761,6 +763,8 @@ function Test-BehaviorProfile(
             "underground_attack.play_state_release",
             "underground_attack.initialize_current_play_state",
             "underground_attack.update_current_play_state",
+            "arcane_blade.initialize_current_scene",
+            "arcane_blade.update_current_scene",
             "spell_effect.initialize_release",
             "lightning_spell.cached_current_play_state",
             "lightning_spell.empty_cache_current_play_state",
@@ -949,6 +953,8 @@ function Test-BehaviorProfile(
         "underground_attack.play_state_release",
         "underground_attack.initialize_current_play_state",
         "underground_attack.update_current_play_state",
+        "arcane_blade.initialize_current_scene",
+        "arcane_blade.update_current_scene",
         "spell_effect.initialize_release",
         "lightning_spell.cached_current_play_state",
         "lightning_spell.empty_cache_current_play_state",
@@ -1550,6 +1556,8 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=UnderGroundAttack play-state release" -or
         $auditLines -notcontains "patch_end=UnderGroundAttack current initialize play state" -or
         $auditLines -notcontains "patch_end=UnderGroundAttack current update play state" -or
+        $auditLines -notcontains "patch_end=ArcaneBlade play-state release" -or
+        $auditLines -notcontains "patch_end=ArcaneBlade current render scene" -or
         $auditLines -notcontains "patch_end=SpellEffect play-state release" -or
         $auditLines -notcontains "patch_end=LightningSpell current cache play state" -or
         $auditLines -notcontains "patch_end=LightningSpell current cast play state" -or
@@ -1700,7 +1708,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=LevelModel complete teardown" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 69 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 18 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 383) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 385) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1715,7 +1723,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=470")
+    $summary.Add("implemented_patches=472")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
