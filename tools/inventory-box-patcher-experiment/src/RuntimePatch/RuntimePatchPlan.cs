@@ -538,6 +538,15 @@ namespace Magicka.CommunityPatch.Runtime
                 AnimatedLevelPartCollisionPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                AnimatedLevelPartDisposePatch.WaterConstructorDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                AnimatedLevelPartDisposePatch.LavaConstructorDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                AnimatedLevelPartDisposePatch.DisposeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 DynamicLightCachePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

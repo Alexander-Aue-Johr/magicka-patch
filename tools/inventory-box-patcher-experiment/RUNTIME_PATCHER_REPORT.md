@@ -1652,8 +1652,29 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern an den beiden gelösten
     Zuständen. Die manuelle Patch-Assembly 0.0.60 und alle Runtime-Profile
     bestehen diese Fälle sowie den Kontrollfall mit gültigem, ablaufendem Body.
-  - Die umfangreichere Dispose-Änderung der Klasse folgt separat. Deshalb
-    bleibt die Datei in der Checkliste teilweise migriert.
+
+- [x] `animated-level-part-resource-disposal`
+  - Ziel: Konstruktoren von `Water` und `Lava` sowie
+    `AnimatedLevelPart.Dispose()`.
+  - Technik: zwei Konstruktor-Postfixe speichern den eingelesenen Effekt mit
+    einer schwachen Besitzerreferenz. Ein Prefix ersetzt den unvollständigen
+    Dispose-Pfad und validiert vorher alle verwendeten Felder, Eigenschaften
+    und Methoden.
+  - Fehlerfall: Das Original setzt nur `mLevel` zurück und setzt Modellpuffer
+    sowie Kindteile als vollständig vorhanden voraus. Collision-Skins,
+    Flüssigkeitsressourcen, NavMesh-Einträge, Renderdaten, Kontakte und Decals
+    können dadurch einen abgebauten Levelgraphen halten. Wiederholter oder
+    teilweise initialisierter Abbau kann außerdem bereits freigegebene oder
+    fehlende Ressourcen dereferenzieren.
+  - Verhalten: Der Runtime-Patch entfernt nur Callbacks des betroffenen
+    Levelteils beziehungsweise Liquids, meldet aktive Skins ab, gibt deren
+    GPU-Ressourcen frei, löst alle levelgebundenen Felder und unterdrückt den
+    Finalizer. Eine schwache Dispose-Registrierung macht denselben Ablauf im
+    unveränderten Original wiederholbar, ohne Levelteile am Leben zu halten.
+  - Drei Drei-Wege-Szenarien prüfen wiederholten Minimalabbau, rekursiven
+    Kindabbau und die Freigabe von Flüssigkeitseffekt und -arrays. Original
+    1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern; die manuelle Patch-Assembly
+    0.0.60 und alle Runtime-Profile bestehen.
 
 - [x] `dynamic-light-cache-release`
   - Ziel: `DynamicLight.DisposeCache()`.
@@ -2044,12 +2065,18 @@ Versionsnachweis.
   Content und gespeicherte Szene werden nicht mehr gehalten, der Renderpfad
   verwendet die aktuelle Szene und der freigegebene Cache wird geleert; die
   `RetentionRegistry`-Diagnostik folgt im gemeinsamen Diagnostics-Block.
-- [ ] `Magicka/Levels/Lava.cs`
+- [x] `Magicka/Levels/Lava.cs` — VOLLSTÄNDIG: Effektbesitz und idempotente
+  Freigabe aller Collision- und GPU-Ressourcen sind über Konstruktor-Postfix
+  und den gemeinsamen Liquid-Abbau migriert; die entfernte lokale
+  Zwischenvariable ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Spells/SpellEffects/SpellEffect.cs` — VOLLSTÄNDIG: die globale PlayState-Zuweisung entfällt und die statische Poolfreigabe bei Levelende ist migriert; ein Transpiler und vier gemeinsame Drei-Wege-Szenarien. Die Darstellung der statischen Initialisierer ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/CommunityPatch/WarlordAbilityDiagnostic.cs`
 - [x] `Magicka/CommunityPatch/CollisionCallbackCleanup.cs` — VOLLSTÄNDIG: der Runtime-Helfer löst beide privaten JigLibX-Callbackfelder vor Patchregistrierung auf und leert sie beim zentralen Entity-Abbau ohne Exceptions in den Spielpfad weiterzugeben.
 - [ ] `Magicka/GameLogic/Entities/Bosses/GenericBoss.cs`
-- [ ] `Magicka/Levels/Water.cs`
+- [x] `Magicka/Levels/Water.cs` — VOLLSTÄNDIG: Effektbesitz und idempotente
+  Freigabe aller Collision- und GPU-Ressourcen sind über Konstruktor-Postfix
+  und den gemeinsamen Liquid-Abbau migriert; die entfernte lokale
+  Zwischenvariable ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsResolution.cs` — TEILWEISE: der Kamera-Aspektzugriff verwendet den aktuellen PlayState; die Safe-Area-Auswahl bleibt offen.
 - [x] `Magicka/Graphics/TutorialManager.cs` — VOLLSTÄNDIG: Safe-Area-Position sowie vollständige PlayState-Lebensdaueränderung in `Initialize`, `UpdateResolution` und `Update`; die verschobene statische Initialisierung ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Thunderbolt.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen und alle elf laufenden Reads sind mit 3 Transpilern und 3 Drei-Wege-Szenarien migriert; die Segment-Initialisierungen im C#-Diff sind semantikfreies Rekompilierungsrauschen.
@@ -2141,9 +2168,11 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Fairy.cs`
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsControls.cs`
 - [ ] `Magicka/GameLogic/Entities/DamageablePhysicsEntity.cs`
-- [ ] `Magicka/Levels/AnimatedLevelPart.cs` — TEILWEISE: `Update` entfernt
-  Einträge ohne auflösbare Entity oder ohne Body, ein Transpiler und 3
-  Drei-Wege-Szenarien. Die Dispose-Änderungen sind noch offen.
+- [x] `Magicka/Levels/AnimatedLevelPart.cs` — VOLLSTÄNDIG: `Update` entfernt
+  Einträge ohne auflösbare Entity oder Body; `Dispose` gibt den gesamten
+  levelgebundenen Ressourcenbaum genau einmal frei. Ein Transpiler, ein Prefix,
+  zwei Konstruktor-Postfixe und 6 Drei-Wege-Szenarien decken beide Änderungen
+  ab; der explizite statische Initialisierer ist Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Bosses/BossFight.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Grease.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonDeath.cs`
@@ -2179,7 +2208,10 @@ Versionsnachweis.
   Teil des späteren Telemetrieblocks.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/RandomMine.cs` — VOLLSTÄNDIG: ungenutzte PlayState-Referenz im Singleton, Transpiler und 3 Drei-Wege-Szenarien; die sichtbare statische Initialisierer-Umschreibung ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/DrainLife.cs` — VOLLSTÄNDIG: ungenutzte PlayState-Referenz im erfolgreichen Effektpfad, Transpiler und 2 Drei-Wege-Szenarien; die statische Initialisierer-Umschreibung ist semantikfreies Compilerrauschen.
-- [ ] `Magicka/Levels/Liquid.cs`
+- [x] `Magicka/Levels/Liquid.cs` — VOLLSTÄNDIG: Der Runtime-Patcher bildet den
+  hinzugefügten Effektbesitz ohne Änderung der Original-Typhierarchie über
+  schwache Besitzerregistrierungen ab und gibt den Effekt beim gemeinsamen
+  Liquid-Abbau frei.
 - [x] `Magicka/Levels/Triggers/Actions/SetDialogHint.cs` — VOLLSTÄNDIG: strukturierte Elementhinweise erhalten vor `ParseReferences` ihre Zeilenumbrüche, Transpiler und 3 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/Controls/Controller.cs` — VOLLSTÄNDIG: bedingtes Lösen des passenden Avatars durch den `Player.Avatar`-Prefix und 3 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/Entities/EntityStateStorage.cs` — VOLLSTÄNDIG: PlayState-Lebensdauer in Konstruktor und `Restore`, 2 Runtime-Patches und 3 Drei-Wege-Szenarien.

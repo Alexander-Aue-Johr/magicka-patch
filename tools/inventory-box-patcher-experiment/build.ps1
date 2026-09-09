@@ -438,6 +438,9 @@ function Test-BehaviorMatrix {
         "thunderstorm.remove_current_play_state",
         "animated_level_part.detached_entity",
         "animated_level_part.missing_entity",
+        "animated_level_part.dispose_idempotent",
+        "animated_level_part.dispose_children",
+        "animated_level_part.dispose_liquid",
         "dynamic_light_cache.level_dispose",
         "meteor_shower.vector_current_play_state",
         "meteor_shower.owner_current_play_state",
@@ -552,6 +555,9 @@ function Test-BehaviorProfile(
             "keyboard_mouse_interactable.missing_level",
             "keyboard_mouse_interactable.missing_scene",
             "keyboard_mouse_interactable.missing_triggers",
+            "animated_level_part.dispose_idempotent",
+            "animated_level_part.dispose_children",
+            "animated_level_part.dispose_liquid",
             "radial_blur.level_content_release",
             "radial_blur.current_scene",
             "radial_blur.cache_clear",
@@ -1098,6 +1104,9 @@ function Test-BehaviorProfile(
         "animated_level_part.detached_entity",
         "animated_level_part.missing_entity",
         "animated_level_part.expired_valid_entity",
+        "animated_level_part.dispose_idempotent",
+        "animated_level_part.dispose_children",
+        "animated_level_part.dispose_liquid",
         "dynamic_light_cache.level_dispose",
         "meteor_shower.vector_current_play_state",
         "meteor_shower.owner_current_play_state",
@@ -1251,6 +1260,9 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Thunderstorm current update play state" -or
         $auditLines -notcontains "patch_end=Thunderstorm remove reference cleanup" -or
         $auditLines -notcontains "patch_end=AnimatedLevelPart detached entity cleanup" -or
+        $auditLines -notcontains "patch_end=Water liquid effect ownership" -or
+        $auditLines -notcontains "patch_end=Lava liquid effect ownership" -or
+        $auditLines -notcontains "patch_end=AnimatedLevelPart resource disposal" -or
         $auditLines -notcontains "patch_end=DynamicLight cache release" -or
         $auditLines -notcontains "patch_end=MeteorShower vector play-state release" -or
         $auditLines -notcontains "patch_end=MeteorShower owner play-state release" -or
@@ -1383,8 +1395,8 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=NetworkServer hotjoin broadcast continuation: Magicka.Network.EntityRemoveMessage" -or
         $auditLines -notcontains "patch_end=NetworkServer forced sync player and sender resolution" -or
         $auditLines -notcontains "patch_end=NetworkServer forced sync response builder" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 46 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 8 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 47 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 10 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 340) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
@@ -1400,7 +1412,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=394")
+    $summary.Add("implemented_patches=397")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

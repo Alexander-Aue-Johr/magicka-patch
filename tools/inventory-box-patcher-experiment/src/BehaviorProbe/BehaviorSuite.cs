@@ -216,6 +216,10 @@ internal static class BehaviorSuite
             report);
         InGameMenuMagicksScenarios.Run(magicka, report);
         AnimatedLevelPartCollisionScenarios.Run(magicka, report);
+        AnimatedLevelPartDisposeScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         DynamicLightCacheScenarios.Run(magicka, report);
         MeteorShowerScenarios.Run(magicka, report);
         return report;

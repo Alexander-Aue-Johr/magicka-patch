@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-three hundred ninety-four method patches:
+three hundred ninety-seven method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -209,6 +209,9 @@ three hundred ninety-four method patches:
   active ambience cue stops.
 - `AnimatedLevelPart.Update` removes collision registrations whose entity or
   physics body has already been detached.
+- `AnimatedLevelPart.Dispose` now releases collision, liquid, nav-mesh, model,
+  child, render, contact, and decal resources exactly once. Water and lava
+  effects are retained only until their owning liquid is disposed.
 - `DynamicLight.DisposeCache` releases each cached shadow map and then drops
   the static light-cache entries for the unloaded level.
 - `MeteorShower` no longer retains its supplied play state, resolves scene and
@@ -258,9 +261,10 @@ three hundred ninety-four method patches:
 
 The Avatar, AI, Blizzard, BossHealthBar, character-select widget, Entity,
 PhysicsEntity, Helper,
-InventoryBox, KeyboardHUD, MagickCamera, MeteorShower, Player, PlayState, and Rain
-changes use Harmony prefixes; BossHealthBar additionally uses a constructor
-postfix, while HUDManager, NonPlayerCharacter, PhysicsEntity, and one
+InventoryBox, KeyboardHUD, MagickCamera, MeteorShower, Player, PlayState, Rain,
+and AnimatedLevelPart disposal changes use Harmony prefixes; BossHealthBar,
+Water, and Lava additionally use constructor postfixes, while HUDManager,
+NonPlayerCharacter, PhysicsEntity, and one
 EntityManager change use ordinary postfixes.
 The Agent, AnimatedLevelPart, AudioManager, Blizzard, BreakBarriers, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, EtherealClone, GameScene, GenericHealthBar, GreaseTrail, LightningSpell, MeteorShower, Rain, SpellEffect, TeslaField,
 EntityStateStorage, Flash, GiveOrder, Machine, Jormungandr, pack, PoisonSpray, Portal,
