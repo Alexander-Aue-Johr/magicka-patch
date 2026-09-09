@@ -222,6 +222,9 @@ function Test-BehaviorMatrix {
         "icon_renderer.constructor_state_release",
         "icon_renderer.initialize_state_release",
         "icon_renderer.current_game_type",
+        "damageable_deinitialize.gib_release",
+        "damageable_deinitialize.resistance_release",
+        "damageable_deinitialize.cache_order",
         "helper_array_equals.left_null",
         "helper_array_equals.right_null",
         "helper_array_equals.both_null",
@@ -465,6 +468,9 @@ function Test-BehaviorMatrix {
         "play_state.foreign_state_spawn"
     )
     $legacyNotAvailable = @($playStateNotAvailable) + @(
+        "damageable_deinitialize.gib_release",
+        "damageable_deinitialize.resistance_release",
+        "damageable_deinitialize.cache_order",
         "boss_health_bar.constructor_release",
         "hud_manager.disabled_original_hud",
         "hud_manager.enabled_original_hud",
@@ -777,6 +783,9 @@ function Test-BehaviorProfile(
         "icon_renderer.initialize_state_release",
         "icon_renderer.current_game_type",
         "icon_renderer.selection_shape",
+        "damageable_deinitialize.gib_release",
+        "damageable_deinitialize.resistance_release",
+        "damageable_deinitialize.cache_order",
         "helper_array_equals.equal",
         "helper_array_equals.different",
         "helper_array_equals.left_null",
@@ -1435,9 +1444,10 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=IconRenderer constructor play-state release" -or
         $auditLines -notcontains "patch_end=IconRenderer initialization play-state release" -or
         $auditLines -notcontains "patch_end=IconRenderer current play-state magick selection" -or
+        $auditLines -notcontains "patch_end=DamageablePhysicsEntity inactive template release" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 48 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 10 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 347) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 348) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1452,7 +1462,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=405")
+    $summary.Add("implemented_patches=406")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

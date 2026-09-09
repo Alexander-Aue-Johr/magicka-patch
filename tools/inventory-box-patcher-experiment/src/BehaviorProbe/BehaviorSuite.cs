@@ -188,6 +188,10 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        DamageableEntityStateScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         PhysicsEntityTemplateCacheScenarios.Run(
             magicka,
             runtimePatchEnabled,

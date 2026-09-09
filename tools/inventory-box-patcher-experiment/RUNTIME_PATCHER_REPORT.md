@@ -1673,6 +1673,27 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     kommentarlos dekompilierte DLL-Diff enthält nur die zwei neuen
     Hilfsklassen und ihre eine Registrierung; Assemblyreferenzen bleiben
     unverändert.
+- [x] `damageable-physics-entity-inactive-template-release`
+  - Ziel: `DamageablePhysicsEntity.Deinitialize()` in Magicka 1.10.4.2.
+  - Technik: Ein Transpiler verankert sich an dem einen vorhandenen
+    `ReturnToCache(this)`-Aufruf und fügt unmittelbar davor `mGibs.Clear()`
+    sowie `mResistances = null` ein. Feldtypen, Methodensignaturen, Anzahl des
+    Cache-Aufrufs und dessen IL-Form werden vor der Änderung geprüft.
+  - Fehlerfall: Ein inaktives `DamageablePhysicsEntity` verbleibt im statischen
+    Wiederverwendungspool und hält bis zur nächsten Initialisierung die
+    Gib-Modelle und das Resistance-Array seines vorherigen Templates fest.
+  - Verhalten: Beide Referenzen werden vor dem unveränderten Cache-Aufruf
+    freigegeben. `Initialize(...)` leert und befüllt die Gib-Liste erneut und
+    weist das Resistance-Array neu zu, bevor das Objekt wieder aktiv wird.
+  - Magicka 1.4.16.0 und 1.5.1.0 haben noch keinen
+    `DamageablePhysicsEntity`-Wiederverwendungspool. Definition und Szenarien
+    werden dort ausdrücklich als nicht anwendbar protokolliert.
+  - Der vorherige Runtime-Patch schlägt in den drei neuen Szenarien rot fehl.
+    Der vollständige Build mit 406 Definitionen besteht alle Profile. Alle acht
+    geänderten Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip. Der
+    kommentarlos dekompilierte DLL-Diff enthält nur die beiden neuen
+    Hilfsklassen und ihre eine Registrierung; Assemblyreferenzen bleiben
+    unverändert.
 - [x] `entity-update-character-marker-decode`
   - Ziele: `NetworkServer.Update` und `NetworkClient.Update`
   - Technik: zwei Transpiler rufen unmittelbar vor dem vorhandenen
@@ -2303,7 +2324,10 @@ Versionsnachweis.
   die übrigen Dispose- und Diagnostikänderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/Fairy.cs`
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsControls.cs`
-- [ ] `Magicka/GameLogic/Entities/DamageablePhysicsEntity.cs`
+- [ ] `Magicka/GameLogic/Entities/DamageablePhysicsEntity.cs` — TEILWEISE:
+  `Deinitialize()` löst die Gib- und Resistance-Template-Referenzen vor der
+  Rückgabe in den Pool. Pool-Erweiterung, vollständige Dispose-Bereinigung und
+  Retention-Diagnostik bleiben offen.
 - [x] `Magicka/Levels/AnimatedLevelPart.cs` — VOLLSTÄNDIG: `Update` entfernt
   Einträge ohne auflösbare Entity oder Body; `Dispose` gibt den gesamten
   levelgebundenen Ressourcenbaum genau einmal frei. Ein Transpiler, ein Prefix,
