@@ -301,6 +301,13 @@ function Test-BehaviorMatrix {
         "chant_spell_cleanup.initialized_dispose",
         "hud_manager.disabled_original_hud",
         "machine.missing_warlock",
+        "boss_fight.setup_state_release",
+        "boss_fight.initialize_current_state",
+        "boss_fight.reset_current_state",
+        "boss_fight.update_current_state",
+        "boss_fight.pending_initialize",
+        "boss_fight.pending_start",
+        "boss_fight.pending_clear",
         "jormungandr.missing_target",
         "give_order_khan.terminated",
         "challenge_score.duplicate_paths",
@@ -535,6 +542,13 @@ function Test-BehaviorProfile(
     if ($profile -eq "1.4.16.0-original" -or
         $profile -eq "1.5.1.0-original") {
         $expectedFailures = @($expectedFailures) + @(
+            "boss_fight.setup_state_release",
+            "boss_fight.initialize_current_state",
+            "boss_fight.reset_current_state",
+            "boss_fight.update_current_state",
+            "boss_fight.pending_initialize",
+            "boss_fight.pending_start",
+            "boss_fight.pending_clear",
             "summon_death.owner_state",
             "summon_death.vector_state",
             "summon_death.spawn_state",
@@ -903,6 +917,14 @@ function Test-BehaviorProfile(
         "machine.missing_warlock",
         "machine.valid_warlock",
         "machine.other_message",
+        "boss_fight.setup_state_release",
+        "boss_fight.initialize_current_state",
+        "boss_fight.reset_current_state",
+        "boss_fight.update_current_state",
+        "boss_fight.pending_initialize",
+        "boss_fight.pending_start",
+        "boss_fight.pending_clear",
+        "boss_fight.original_shape",
         "jormungandr.missing_target",
         "jormungandr.before_warning",
         "give_order_khan.terminated",
@@ -1474,9 +1496,19 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=SummonDeath entity current play-state initialization" -or
         $auditLines -notcontains "patch_end=SummonDeath entity current play-state update" -or
         $auditLines -notcontains "patch_end=SummonDeath entity current play-state removal" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 48 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 10 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 355) {
+        $auditLines -notcontains "patch_end=BossFight play-state setup release" -or
+        $auditLines -notcontains "patch_end=BossFight deferred client initialization" -or
+        $auditLines -notcontains "patch_end=BossFight current initialization play state" -or
+        $auditLines -notcontains "patch_end=BossFight deferred client start" -or
+        $auditLines -notcontains "patch_end=BossFight pending-state clear" -or
+        $auditLines -notcontains "patch_end=BossFight pending-state reset" -or
+        $auditLines -notcontains "patch_end=BossFight current reset play state" -or
+        $auditLines -notcontains "patch_end=BossFight pending initialization retry" -or
+        $auditLines -notcontains "patch_end=BossFight current update play state" -or
+        $auditLines -notcontains "patch_end=BossFight pending packet completion" -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 52 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 12 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 359) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1491,7 +1523,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=413")
+    $summary.Add("implemented_patches=423")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

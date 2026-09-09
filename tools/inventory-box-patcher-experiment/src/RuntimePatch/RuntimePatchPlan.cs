@@ -225,6 +225,36 @@ namespace Magicka.CommunityPatch.Runtime
                 MachineNetworkInitializePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                BossFightOrderingPatch.SetupDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                BossFightOrderingPatch.InitializePrefixDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                BossFightOrderingPatch.InitializeStateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                BossFightOrderingPatch.StartDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                BossFightOrderingPatch.ClearDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                BossFightOrderingPatch.ResetDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                BossFightOrderingPatch.ResetStateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                BossFightOrderingPatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                BossFightOrderingPatch.UpdateStateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                BossFightOrderingPatch.NetworkInitializeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 JormungandrUndergroundPatch.Definition);
             PlayStatePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(

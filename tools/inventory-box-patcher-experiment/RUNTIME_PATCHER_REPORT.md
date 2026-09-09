@@ -1721,6 +1721,38 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     geänderten Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip. Der
     kommentarlos dekompilierte DLL-Diff enthält nur die neue Patchklasse und
     ihre sieben Registrierungen; Assemblyreferenzen bleiben unverändert.
+- [x] `boss-fight-deferred-client-initialization`
+  - Ziele: `BossFight.Setup`, `Initialize`, `Start`, `Clear`, `Reset`, `Update`
+    und `NetworkInitialize`; der bereits migrierte
+    `Machine.NetworkInitialize`-Guard ist die zweite Hälfte desselben
+    Initialisierungsvertrags.
+  - Technik: Vier eng geprüfte Transpiler entfernen den gespeicherten
+    BossFight-PlayState und ersetzen fünf Reads durch
+    `PlayState.RecentPlayState`. Vier Prefixe verwalten die verzögerte
+    Clientinitialisierung und zwei Postfixe räumen den zugehörigen
+    Runtime-Zustand nach `Clear` oder `Reset` auf. Der Runtime-Zustand enthält
+    nur Boss, Locator-Hash, Unique ID und das eine ausstehende Start-Flag; das
+    Netzwerkpaketformat bleibt unverändert.
+  - Fehlerfall: Auf einem Client kann `BossFight.Initialize` laufen, bevor ein
+    passendes `BossInitializeMessage` alle vom Boss benötigten Entities
+    aufgelöst hat. Der unvollständig initialisierte Boss gelangt dann in den
+    normalen Updatepfad. Ein früher `Start` macht diesen Zustand zusätzlich für
+    Kampf- und HUD-Updates sichtbar.
+  - Verhalten: Eine unvollständige Clientinitialisierung bleibt pending.
+    Passende Nachrichten werden nicht vorzeitig verworfen, pro Update wird eine
+    Nachricht erneut versucht, und ein früher Start wird genau einmal nach dem
+    letzten erfolgreichen Setup nachgeholt. Nicht-Client-Pfade und die
+    ursprünglichen Locator-, Boss-Initialize- und Boss-Update-Aufrufe bleiben
+    erhalten.
+  - Original Magicka 1.10.4.2, 1.4.16.0 und 1.5.1.0 schlagen in allen sieben
+    Zustands- und Ordering-Szenarien fehl. Die manuelle Patch-Assembly 0.0.60
+    und alle drei Runtime-Profile bestehen sie; der Kontrollfall bestätigt die
+    unveränderte Boss-Setup- und Update-Struktur.
+  - Der vollständige Build mit 423 Definitionen besteht alle Profile. Alle 54
+    geänderten Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip. Der
+    kommentarlos dekompilierte DLL-Diff enthält nur die vier neuen Hilfstypen,
+    die Patchklasse und zehn Registrierungen; Assemblyreferenzen bleiben
+    unverändert.
 - [x] `entity-update-character-marker-decode`
   - Ziele: `NetworkServer.Update` und `NetworkClient.Update`
   - Technik: zwei Transpiler rufen unmittelbar vor dem vorhandenen
@@ -2360,7 +2392,10 @@ Versionsnachweis.
   levelgebundenen Ressourcenbaum genau einmal frei. Ein Transpiler, ein Prefix,
   zwei Konstruktor-Postfixe und 6 Drei-Wege-Szenarien decken beide Änderungen
   ab; der explizite statische Initialisierer ist Compilerrauschen.
-- [ ] `Magicka/GameLogic/Entities/Bosses/BossFight.cs`
+- [x] `Magicka/GameLogic/Entities/Bosses/BossFight.cs` — VOLLSTÄNDIG: alle
+  semantischen Änderungen sind durch 4 Prefixe, 2 Postfixe, 4 Transpiler und 8
+  Drei-Wege-Szenarien abgedeckt; die verschobene Initialisierung des
+  Singleton-Locks ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Grease.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonDeath.cs` —
   TEILWEISE: beide Singleton-Stores und alle neunzehn laufenden

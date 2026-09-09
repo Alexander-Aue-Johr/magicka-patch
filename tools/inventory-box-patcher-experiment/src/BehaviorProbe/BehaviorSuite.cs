@@ -42,6 +42,10 @@ internal static class BehaviorSuite
         LoadingScreenScenarios.Run(magicka, report);
         HUDManagerScenarios.Run(magicka, report);
         MachineScenarios.Run(magicka, report);
+        BossFightOrderingScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         JormungandrScenarios.Run(magicka, report);
         PlayStateScenarios.Run(magicka, report);
         PortalTeleportQueueScenarios.Run(magicka, report);
