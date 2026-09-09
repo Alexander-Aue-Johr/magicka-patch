@@ -2924,7 +2924,13 @@ Versionsnachweis.
   unveränderten Initialisierung.
 - [x] `Magicka/GameLogic/Entities/Bosses/Machine.cs` — VOLLSTÄNDIG: `NetworkInitialize`, Transpiler und 3 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/GameStates/LoadingScreen.cs` — VOLLSTÄNDIG: gespeicherten Depth-Stencil-Buffer vor dem Clear wiederherstellen, Transpiler und 2 Drei-Wege-Szenarien; die lokale `DirectoryInfo`-Umschreibung ist semantikfreies Compilerrauschen.
-- [ ] `Magicka/GameLogic/Entities/Items/Attachment.cs`
+- [x] `Magicka/GameLogic/Entities/Items/Attachment.cs` — VOLLSTÄNDIG: Das
+  manuell ergänzte `Dispose` löst ausschließlich `mItem`. Der bereits
+  migrierte finale Character-Abbau löst `mItem` für jeden Ausrüstungsanhang,
+  bevor der Character-Objektgraph freigegeben wird; die gemeinsamen
+  Character-Teardown-Szenarien prüfen genau diese Referenztrennung. Ein
+  zusätzlicher Patch der ansonsten unbenutzten Methode würde das
+  Laufzeitverhalten nicht erweitern.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonElemental.cs` — VOLLSTÄNDIG: statischer levelgeladener Template-Cache, bestehender PlayState-Cleanup-Transpiler und 2 gemeinsame Drei-Wege-Szenarien.
 - [ ] `Magicka/Graphics/CutsceneText.cs`
 - [x] `Magicka/GameLogic/UI/BossHealthBar.cs` — VOLLSTÄNDIG: Konstruktor sowie `Scene`-Getter und -Setter, 3 Runtime-Patches und 3 Drei-Wege-Szenarien.
