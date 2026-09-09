@@ -353,6 +353,25 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     unverändert.
   - Zwei Drei-Wege-Szenarien prüfen den normalen Offline-Execute-Pfad sowie bei
     getrennten alten und aktuellen Zuständen beide Update-Empfänger.
+- [x] `grease-play-state-and-cache-lifecycle`
+  - Ziele: `Grease.Execute(ISpellCaster, PlayState)`,
+    `Grease.Update(DataChannel, float)`, `Grease.GreaseField..ctor(PlayState)`,
+    `Grease.GreaseField.Initialize(ISpellCaster, AnimatedLevelPart, Vector3,
+    Vector3)` und
+    `PlayState.Dispose()`.
+  - Technik: Vier eng geprüfte Transpiler entfernen die beiden gespeicherten
+    PlayState-Zuweisungen und ersetzen fünf spätere Feldzugriffe durch
+    `PlayState.RecentPlayState`. Ein weiterer Transpiler räumt beide statischen
+    Pools unmittelbar vor `Entity.ClearHandles()` auf.
+  - Verhalten: Gepoolte Grease-Instanzen halten keinen beendeten PlayState mehr.
+    Beim Levelabbau werden laufende Audio- und Partikeleffekte beendet, Besitzer,
+    animierte Levelteile und Trefferlisten freigegeben und GreaseField-Physik
+    abgetrennt. Packetformat, Timing und Gameplaylogik außerhalb des Abbaus
+    bleiben unverändert.
+  - Vier Drei-Wege-Szenarien prüfen die Freigabe gespeicherter Zustände, die
+    Nutzung des aktuellen PlayState sowie vollständige und wiederholbare
+    Poolbereinigung. Das Original und beide historischen Versionen sind rot;
+    manueller Patch und Runtime-Patch sind grün.
 - [x] `spell-effect-current-play-state`
   - Ziele: `SpellEffect.IntializeCaches(PlayState, ContentManager)`,
     `LightningSpell.GetFromCache()` und
@@ -2518,7 +2537,12 @@ Versionsnachweis.
   semantischen Änderungen sind durch 4 Prefixe, 2 Postfixe, 4 Transpiler und 8
   Drei-Wege-Szenarien abgedeckt; die verschobene Initialisierung des
   Singleton-Locks ist semantikfreies Compilerrauschen.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Grease.cs`
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Grease.cs` — VOLLSTÄNDIG:
+  beide gespeicherten PlayState-Zuweisungen, alle fünf laufenden PlayState-Zugriffe
+  und die vollständige Freigabe beider statischen Pools bei Levelende sind mit
+  5 Transpilern und 4 Drei-Wege-Szenarien migriert. RetentionRegistry-Aufrufe
+  sind reine Diagnostik; verschobene statische Initialisierer und lokale Namen
+  sind semantikfreies Compiler- beziehungsweise Decompilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonDeath.cs` —
   TEILWEISE: beide Singleton-Stores und alle neunzehn laufenden
   PlayState-Zugriffe sind mit 7 Transpilern und 8 Drei-Wege-Szenarien

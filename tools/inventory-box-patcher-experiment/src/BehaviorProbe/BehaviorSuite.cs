@@ -46,6 +46,10 @@ internal static class BehaviorSuite
         EarthQuakePlayStateScenarios.Run(magicka, report);
         ArrowRainPlayStateScenarios.Run(magicka, report);
         GreaseTrailScenarios.Run(magicka, report);
+        GreaseLifecycleScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         SpellEffectPlayStateScenarios.Run(magicka, report);
         DerivedSpellEffectPlayStateScenarios.Run(
             magicka,

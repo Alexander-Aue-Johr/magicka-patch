@@ -263,6 +263,10 @@ function Test-BehaviorMatrix {
         "generic_health_bar.current_scene",
         "grease_trail.play_state_release",
         "grease_trail.current_play_state",
+        "grease.play_state_release",
+        "grease.current_play_state",
+        "grease.cache_cleanup",
+        "grease.cache_cleanup_idempotent",
         "spell_effect.initialize_release",
         "lightning_spell.cached_current_play_state",
         "lightning_spell.empty_cache_current_play_state",
@@ -743,6 +747,10 @@ function Test-BehaviorProfile(
             "generic_health_bar.current_scene",
             "grease_trail.play_state_release",
             "grease_trail.current_play_state",
+            "grease.play_state_release",
+            "grease.current_play_state",
+            "grease.cache_cleanup",
+            "grease.cache_cleanup_idempotent",
             "spell_effect.initialize_release",
             "lightning_spell.cached_current_play_state",
             "lightning_spell.empty_cache_current_play_state",
@@ -922,6 +930,10 @@ function Test-BehaviorProfile(
         "generic_health_bar.current_scene",
         "grease_trail.play_state_release",
         "grease_trail.current_play_state",
+        "grease.play_state_release",
+        "grease.current_play_state",
+        "grease.cache_cleanup",
+        "grease.cache_cleanup_idempotent",
         "spell_effect.initialize_release",
         "lightning_spell.cached_current_play_state",
         "lightning_spell.empty_cache_current_play_state",
@@ -1513,6 +1525,11 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=GenericHealthBar current scene" -or
         $auditLines -notcontains "patch_end=GreaseTrail play-state release" -or
         $auditLines -notcontains "patch_end=GreaseTrail current play state" -or
+        $auditLines -notcontains "patch_end=Grease play-state release" -or
+        $auditLines -notcontains "patch_end=Grease current play state" -or
+        $auditLines -notcontains "patch_end=GreaseField constructor play-state release" -or
+        $auditLines -notcontains "patch_end=GreaseField current play state" -or
+        $auditLines -notcontains "patch_end=Grease level cache cleanup" -or
         $auditLines -notcontains "patch_end=SpellEffect play-state release" -or
         $auditLines -notcontains "patch_end=LightningSpell current cache play state" -or
         $auditLines -notcontains "patch_end=LightningSpell current cast play state" -or
@@ -1662,7 +1679,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=LevelModel complete teardown" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 69 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 18 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 372) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 377) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1677,7 +1694,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=459")
+    $summary.Add("implemented_patches=464")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

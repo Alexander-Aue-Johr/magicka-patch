@@ -136,6 +136,21 @@ namespace Magicka.CommunityPatch.Runtime
                 GreaseTrailPlayStatePatch.UpdateDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                GreaseLifecyclePatch.GreaseExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                GreaseLifecyclePatch.GreaseUpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                GreaseLifecyclePatch.FieldConstructorDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                GreaseLifecyclePatch.FieldInitializeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                GreaseLifecyclePatch.CacheCleanupDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 SpellEffectPlayStatePatch.InitializeDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
