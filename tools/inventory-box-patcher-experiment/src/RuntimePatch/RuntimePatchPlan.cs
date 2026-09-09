@@ -151,6 +151,12 @@ namespace Magicka.CommunityPatch.Runtime
                 GreaseLifecyclePatch.CacheCleanupDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                GreaseLumpPlayStatePatch.ExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                GreaseLumpPlayStatePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 UnderGroundAttackPlayStatePatch.ConstructorDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

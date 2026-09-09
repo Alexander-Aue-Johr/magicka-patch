@@ -372,6 +372,20 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Nutzung des aktuellen PlayState sowie vollständige und wiederholbare
     Poolbereinigung. Das Original und beide historischen Versionen sind rot;
     manueller Patch und Runtime-Patch sind grün.
+- [x] `grease-lump-play-state-lifetime`
+  - Ziele: `GreaseLump.Execute(ISpellCaster, PlayState)` und
+    `Update(DataChannel, float)`.
+  - Technik: Zwei eng geprüfte Transpiler entfernen die einzige gespeicherte
+    PlayState-Zuweisung und ersetzen beide späteren Feldzugriffe durch
+    `PlayState.RecentPlayState`.
+  - Verhalten: Gepoolte GreaseLump-Effekte halten keinen beendeten Levelzustand
+    mehr. Erzeugung und Registrierung eines GreaseField verwenden denselben
+    aktuellen PlayState; Missile-, Timing-, Audio-, Schadens- und Netzwerkpfad
+    bleiben unverändert.
+  - Ein Drei-Wege-Szenario prüft bei getrenntem alten und aktuellem Zustand den
+    an `GreaseField.GetInstance` übergebenen Zustand, den EntityManager und die
+    Identität des registrierten Felds. Das Original und beide historischen
+    Versionen sind rot; manueller Patch und Runtime-Patch sind grün.
 - [x] `underground-attack-play-state-lifetime`
   - Ziele: `UnderGroundAttack..ctor(PlayState)`,
     `Initialize(ref Vector3, ref Vector2, ISpellCaster, double, float,
@@ -2372,7 +2386,12 @@ Versionsnachweis.
 - [x] `Magicka/CommunityPatch/MouseInputCompatibility.cs` — VOLLSTÄNDIG: die
   koordinatengenaue, begrenzte Skalierung für randloses Fullscreen liegt im
   Runtime-Helper und wird typisiert aus `Game.Draw` aufgerufen.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/GreaseLump.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/GreaseLump.cs` —
+  VOLLSTÄNDIG: gespeicherter PlayState, beide laufenden Zustandszugriffe und die
+  statische Poolfreigabe bei Levelende sind mit 2 Transpilern und einem
+  Drei-Wege-Szenario migriert. RetentionRegistry-Aufrufe sind reine Diagnostik;
+  die statische Initialisiererdarstellung und lokale Namen sind semantikfreies
+  Compiler- beziehungsweise Decompilerrauschen.
 - [ ] `Magicka/StaticList.cs` — TEILWEISE: Add und Insert für `int` und `Spell`
   sowie der einzige `Entity`-Add-Pfad sind mit sechs Runtime-Patches und neun
   Drei-Wege-Szenarien migriert; direkte `StaticList<Entity>.Insert`-Aufrufe und
