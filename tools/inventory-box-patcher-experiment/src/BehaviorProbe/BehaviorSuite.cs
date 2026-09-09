@@ -18,6 +18,7 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        NonPlayerCharacterLifecycleScenarios.Run(magicka, report);
         EntityManagerClosestDamageableScenarios.Run(magicka, report);
         EntityManagerTransitionScenarios.Run(magicka, report);
         EntityStateStorageScenarios.Run(magicka, report);

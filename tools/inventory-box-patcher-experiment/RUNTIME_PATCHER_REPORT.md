@@ -598,6 +598,24 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     wird vollständig freigegeben
   - Magicka 1.4.16.0 und 1.5.1.0: Prefix wird angewendet und das
     Teardown-Szenario besteht
+- [x] `npc-reusable-teardown`
+  - Ziel: `NonPlayerCharacter.Deinitialize()`
+  - Technik: Prefix und Postfix; der Prefix deaktiviert den Agent vor dem
+    Basisklassenabbau, der Postfix setzt ihn zurück und räumt den inaktiven
+    NPC-Zustand auf
+  - Fehlerfall: ein NPC im Wiederverwendungspool behält Agent-Zielzustand, den
+    alten AnimationController samt Event-Abonnements, Animation-Clips, Gibs,
+    Modell und CharacterTemplate
+  - Verhalten: der alte Controller wird abgemeldet und durch einen frischen,
+    genau einmal abonnierten Controller ersetzt; alle beim nächsten
+    `Initialize` neu gesetzten Felder werden freigegeben
+  - Original 1.10.4.2: die Referenzen bleiben am inaktiven NPC erhalten
+  - Manuelle Patch-Assembly 0.0.60 und Original plus Runtime-Patch: der
+    wiederverwendbare Zustand wird freigegeben und korrekt vorbereitet
+  - Magicka 1.4.16.0 und 1.5.1.0: beide Patches werden angewendet und das
+    Reuse-Szenario besteht
+  - Die zuvor nur protokollierten NPC-Final- und Reuse-Szenarien sind nun auch
+    feste Einträge der Build-Matrix und können den Build stoppen
 - [x] `khan-killplane-defeat-fallback`
   - Ziel: `GiveOrder.Exec()`
   - Technik: ein Transpiler setzt nach dem ersten der beiden exakt erwarteten
@@ -2472,9 +2490,10 @@ Versionsnachweis.
   Challenge-Score-Zustand wird pro Pool-Lebenszyklus zurückgesetzt und der
   vollständige Agent-Zustand wird an seinen Lebensdauergrenzen freigegeben.
   Der finale Levelabbau löst außerdem NPC-Cache, Agent, Fairy,
-  Summon-Beziehungen, Abilities, Zauber- und Effektzustand. Die
-  wiederverwendbare Deinitialize-Bereinigung und Retention-Diagnostik bleiben
-  offen.
+  Summon-Beziehungen, Abilities, Zauber- und Effektzustand. Beim
+  Wiederverwenden werden Agent, AnimationController, Clips, Gibs, Modell und
+  Template sauber zurückgesetzt. Offen ist nur die gemeinsame
+  RetentionRegistry-Diagnostik.
 - [ ] `Magicka/Graphics/TypingText.cs` — TEILWEISE: die Recovery bei einem
   Arrayzugriff hinter dem Textende ist mit einem Prefix und 7
   Drei-Wege-Szenarien migriert; nur das begrenzte Diagnoseereignis folgt im

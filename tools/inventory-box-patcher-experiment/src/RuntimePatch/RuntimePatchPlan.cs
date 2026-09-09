@@ -186,6 +186,12 @@ namespace Magicka.CommunityPatch.Runtime
                 NonPlayerCharacterTeardownPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                NonPlayerCharacterLifecyclePatch.PrefixDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                NonPlayerCharacterLifecyclePatch.PostfixDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 BarrierTeardownPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
