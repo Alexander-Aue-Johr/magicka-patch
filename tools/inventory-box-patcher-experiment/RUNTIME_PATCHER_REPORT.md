@@ -2457,7 +2457,10 @@ Versionsnachweis.
 - [ ] `Magicka/Levels/Triggers/TriggerArea.cs`
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenu.cs` — TEILWEISE: die statische PlayState-Zuweisung ist entfernt, alle vier Reads verwenden den aktuellen Zustand und der Stack wird beim Levelabbau geleert; nur das Safe-Area-Layout ist noch offen.
 - [ ] `Magicka/CommunityPatch/NetworkEntityHandleGuard.cs` — TEILWEISE: nur die für `AddWorldSyncMessage` benötigte SpawnNPC-Entscheidung, ohne Übernahme der übrigen manuellen Hilfsklasse.
-- [ ] `Magicka/GameLogic/Spells/ArcaneBlast.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Spells/ArcaneBlast.cs` — VOLLSTÄNDIG: der statische
+  Pool wird beim Levelabbau geleert. Alle übrigen Änderungen sind
+  RetentionRegistry-Diagnostik, lokale Variablennamen oder eine äquivalente
+  Darstellung statischer Initialisierer.
 - [ ] `Magicka/CoreFramework/GameSystem/Store/StoreItemDatabase.cs`
 - [ ] `Magicka/GameLogic/UI/IconRenderer.cs` — TEILWEISE: Konstruktor und
   `Initialize` speichern keinen PlayState mehr; der einzige spätere Read im
@@ -2859,7 +2862,10 @@ Versionsnachweis.
   statische String-Initialisierer-Umschreibung ist semantikfreies
   Compilerrauschen.
 - [x] `Magicka/GameLogic/UI/Message.cs` — VOLLSTÄNDIG: Dialoglisten erhalten vor `BitmapFont.Wrap` ihre Zeilenumbrüche, Transpiler und 3 Drei-Wege-Szenarien.
-- [ ] `Magicka/GameLogic/Spells/IceBlade.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Spells/IceBlade.cs` — VOLLSTÄNDIG: der statische Pool
+  wird beim Levelabbau geleert. Alle übrigen Änderungen sind
+  RetentionRegistry-Diagnostik, lokale Variablennamen oder eine äquivalente
+  Darstellung statischer Initialisierer.
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsGraphics.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Grow.cs` —
   VOLLSTÄNDIG: ein Prefix beendet verwaiste aktive Grow-Effekte ohne Owner und
@@ -2872,11 +2878,18 @@ Versionsnachweis.
   Kahn-Kill-Plane-Fallback ist mit einem Transpiler und 4 Drei-Wege-Szenarien
   migriert; die statische Action-Liste und ihre PlayState-Referenz werden beim
   Levelabbau freigegeben. Nur die Recovery-Telemetrie bleibt offen.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/PerformanceEnchantment.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/PerformanceEnchantment.cs` —
+  VOLLSTÄNDIG: freier und aktiver Pool werden beim Levelabbau geleert. Die
+  übrigen Änderungen sind RetentionRegistry-Diagnostik oder eine äquivalente
+  Darstellung statischer Initialisierer.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/EarthQuake.cs` — VOLLSTÄNDIG: Aktivierungs-PlayState-Freigabe sowie aktuelle Szene, Kamera und EntityManager mit 3 Transpilern und 3 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/BreakBarriers.cs` — TEILWEISE: PlayState-Lebensdauer und statische Poolfreigabe sind migriert; die RetentionRegistry-Diagnostik ist noch offen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ArrowRain.cs` — VOLLSTÄNDIG: PlayState- und Szenenfreigabe sowie aktuelle Missile-, Blitz-, Kamera- und Entfernungspfade mit 6 Transpilern und 4 Drei-Wege-Szenarien.
-- [ ] `Magicka/GameLogic/Entities/SprayEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Entities/SprayEntity.cs` — VOLLSTÄNDIG: der statische
+  Entity-Pool wird beim Levelabbau geleert. Der zusätzliche manuelle
+  `RenderData.DisposeCache()`-Helper wird nicht aufgerufen; alle übrigen
+  Änderungen sind RetentionRegistry-Diagnostik oder statische
+  Initialisiererdarstellung.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ConfuseWho.cs` — VOLLSTÄNDIG: abgelaufene, bereits deinitialisierte Opfer verwenden bei der Bereinigung die weiterhin verfügbare aktuelle Fraktion, ein Transpiler und 2 Drei-Wege-Szenarien; die statische Initialisierer-Umschreibung ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/UI/DialogManager.cs` — VOLLSTÄNDIG: der Levelabbau beendet aktive Dialoge, trennt alle festen, Cutscene- und zusätzlichen TextBoxen von Levelobjekten, leert die Zusatzliste und setzt den transienten Zustand zurück; ein Transpiler und 2 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Confuse.cs` —
@@ -2887,7 +2900,10 @@ Versionsnachweis.
   Ein Transpiler und 2 Drei-Wege-Szenarien decken beide Zustände ab; die
   statische Poolfreigabe ist ebenfalls migriert. RetentionRegistry-Aufrufe sind
   Diagnostik und statische Initialisierer Compilerrauschen.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TornadoEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TornadoEntity.cs` —
+  VOLLSTÄNDIG: der statische Pool wird über `Magick.DisposeMagicks()` beim
+  Levelabbau geleert. Die übrigen Änderungen sind RetentionRegistry-Diagnostik,
+  lokale Variablenbewegung oder statische Initialisiererdarstellung.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/FloorStomp.cs` —
   VOLLSTÄNDIG: gespeicherter PlayState, alle sechs laufenden EntityManager-Reads
   und die statische Poolfreigabe bei Levelende sind mit 2 Transpilern und 2
@@ -2905,7 +2921,10 @@ Versionsnachweis.
 - [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuMain.cs` — VOLLSTÄNDIG: alle elf aktuellen Reads verwenden den aktuellen PlayState; 1.4 und 1.5 erhalten zusätzlich die zwei historischen Draw-Reads. Der statische Initialisierer-Diff ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/MeteorShower.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, beide laufenden PlayState-Zugriffe und die Singleton-Freigabe in `OnRemove`, 4 Transpiler, ein Prefix und 5 Drei-Wege-Szenarien; die Darstellung der statischen Initialisierer ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/GreaseTrail.cs` — TEILWEISE: PlayState-Lebensdauer, beide aktuellen Spawnzugriffe und statische Poolfreigabe sind migriert; die RetentionRegistry-Diagnostik ist noch offen.
-- [ ] `Magicka/GameLogic/Entities/Dispenser.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Entities/Dispenser.cs` — VOLLSTÄNDIG: der statische
+  Entity-Pool wird beim Levelabbau geleert. Der zusätzliche manuelle
+  `RenderData.DisposeCache()`-Helper wird nicht aufgerufen; alle übrigen
+  Änderungen sind RetentionRegistry-Diagnostik oder lokale Variablennamen.
 - [x] `Magicka/Helper.cs` — VOLLSTÄNDIG: `ArrayEquals`, Prefix und 5 Drei-Wege-Szenarien.
 - [x] `Magicka/Graphics/Lights/DynamicLight.cs` — VOLLSTÄNDIG: Die statische
   Licht-Queue wird nach der vorhandenen Shadow-Map-Freigabe geleert, ein
@@ -2916,7 +2935,10 @@ Versionsnachweis.
   Drei-Wege-Szenarien; der leere `IDisposable`-Wrapper und die Darstellung des
   statischen Lock-Initialisierers ändern kein Laufzeitverhalten.
 - [x] `Magicka/GameLogic/UI/GenericHealthBar.cs` — VOLLSTÄNDIG: Die Renderübergabe verwendet nach Szenenwechseln den aktuellen PlayState; ein Transpiler und ein Drei-Wege-Szenario. Die Darstellung der statischen Initialisierer ist semantikfreies Compilerrauschen.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/WaveEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/WaveEntity.cs` —
+  VOLLSTÄNDIG: der statische Entity-Pool wird beim Levelabbau geleert. Alle
+  übrigen Änderungen sind RetentionRegistry-Diagnostik oder lokale
+  Variablendarstellung.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/EtherealClone.cs` — VOLLSTÄNDIG: gespeicherte PlayState-Zuweisung entfernt und NavMesh-Zugriff auf `RecentPlayState` migriert; der leere manuelle Cleanup und verschobene statische Initialisierungen sind semantikfrei.
 - [x] `Magicka/GameLogic/Entities/Snare.cs` — VOLLSTÄNDIG: Sämtliche Änderungen
   an den aktiven Pfaden sind RetentionRegistry-Diagnostik oder lokale
