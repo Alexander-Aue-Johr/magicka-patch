@@ -2702,7 +2702,14 @@ Versionsnachweis.
   Drei-Wege-Szenarien migriert. RetentionRegistry-Aufrufe sind reine Diagnostik;
   statische Initialisierer sind semantikfreies Compiler- beziehungsweise
   Decompilerrauschen.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Portal.cs` — TEILWEISE: ungültige Einträge in `PortalEntity.mTeleportQueue`, Transpiler und 3 Drei-Wege-Szenarien; weitere manuelle Änderungen sind noch offen.
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Portal.cs` —
+  VOLLSTÄNDIG: Der bestehende Queue-Guard überspringt gelöste Teleportziele.
+  Zusätzlich entfallen die ungenutzte äußere PlayState-Zuweisung und alle vier
+  laufenden Reads des konstruktorgebundenen PlayState; beide statischen
+  Portal-Entities werden beim Levelabbau freigegeben. 6 Transpiler und 8
+  Drei-Wege-Szenarien decken die Semantik ab. RetentionRegistry-Aufrufe,
+  statische Initialisierer und lokale Ausdrucksformen sind Diagnostik oder
+  semantikfreies Compiler-/Decompilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/ElementalEgg.cs` — TEILWEISE: der statische
   Egg-Pool und das Elementar-Template-Lookup werden beim Levelabbau geleert;
   die übrigen Dispose- und Diagnostikänderungen sind noch offen.

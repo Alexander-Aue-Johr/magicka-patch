@@ -427,6 +427,21 @@ namespace Magicka.CommunityPatch.Runtime
                 PortalTeleportQueuePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                PortalLifecyclePatch.ExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                PortalLifecyclePatch.VectorInitializeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                PortalLifecyclePatch.MessageInitializeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                PortalLifecyclePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                PortalLifecyclePatch.CleanupDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 VersusRulesetRevivePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

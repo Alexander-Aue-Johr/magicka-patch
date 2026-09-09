@@ -291,6 +291,11 @@ function Test-BehaviorMatrix {
         "floor_stomp.update_state",
         "revive.execute_state",
         "revive.update_state",
+        "portal.execute_state_release",
+        "portal.vector_initialize_current_state",
+        "portal.message_initialize_current_state",
+        "portal.update_current_state",
+        "portal.level_cleanup",
         "grow.orphaned_owner",
         "spell_effect.initialize_release",
         "lightning_spell.cached_current_play_state",
@@ -803,6 +808,11 @@ function Test-BehaviorProfile(
             "floor_stomp.update_state",
             "revive.execute_state",
             "revive.update_state",
+            "portal.execute_state_release",
+            "portal.vector_initialize_current_state",
+            "portal.message_initialize_current_state",
+            "portal.update_current_state",
+            "portal.level_cleanup",
             "grow.orphaned_owner",
             "confuse.detached_target",
             "spell_effect.initialize_release",
@@ -1013,6 +1023,11 @@ function Test-BehaviorProfile(
         "floor_stomp.update_state",
         "revive.execute_state",
         "revive.update_state",
+        "portal.execute_state_release",
+        "portal.vector_initialize_current_state",
+        "portal.message_initialize_current_state",
+        "portal.update_current_state",
+        "portal.level_cleanup",
         "grow.orphaned_owner",
         "grow.owner_present",
         "spell_effect.initialize_release",
@@ -1789,9 +1804,14 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=ForceField play-state release" -or
         $auditLines -notcontains "patch_end=ForceField current play state" -or
         $auditLines -notcontains "patch_end=LevelModel complete teardown" -or
+        $auditLines -notcontains "patch_end=Portal play-state release" -or
+        $auditLines -notcontains "patch_end=Portal current vector initialization play state" -or
+        $auditLines -notcontains "patch_end=Portal current message initialization play state" -or
+        $auditLines -notcontains "patch_end=Portal current update play state" -or
+        $auditLines -notcontains "patch_end=Portal level teardown" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 71 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 18 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 403) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 408) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1806,7 +1826,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=492")
+    $summary.Add("implemented_patches=497")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

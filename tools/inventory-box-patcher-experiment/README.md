@@ -146,7 +146,9 @@ four hundred fifty-four method patches:
 - `PlayState.AddWorldSyncMessage` rejects unusable SpawnNPC handles before the
   original enqueue method runs.
 - `Portal.PortalEntity.Update` skips queued entities that are null or whose
-  physics body has already been detached.
+  physics body has already been detached. Portal initialization and rendering
+  use the current play state, and level teardown releases both static portal
+  entities instead of retaining the completed level.
 - `VersusRuleset.RevivePlayer` returns handle zero when the requested avatar
   cannot be obtained from the cache.
 - `ItemPack` and `MagickPack` apply the Community Patch custom-content license
