@@ -66,6 +66,15 @@ internal static class PoolExpansionScenarios
             magicka,
             runtimePatchEnabled,
             report,
+            "spray_spell",
+            "Magicka.GameLogic.Spells.SpellEffects.SpraySpell",
+            "org.magickacommunitypatch.pool-expansion.spray-spell",
+            new string[0],
+            false);
+        Add(
+            magicka,
+            runtimePatchEnabled,
+            report,
             "railgun_spell",
             "Magicka.GameLogic.Spells.SpellEffects.RailGunSpell",
             "org.magickacommunitypatch.pool-expansion.railgun-spell",

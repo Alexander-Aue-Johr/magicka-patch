@@ -2654,7 +2654,13 @@ Versionsnachweis.
   den Barrier-Pool und beide gemeinsamen Hitlist-Sammlungen. Ein Prefix und 3
   Drei-Wege-Szenarien decken den semantischen Diff ab; RetentionRegistry-Aufrufe
   und lokale Variablenumformung sind Diagnostik beziehungsweise Decompilerrauschen.
-- [ ] `Magicka/GameLogic/Spells/SpellEffects/SpraySpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Spells/SpellEffects/SpraySpell.cs` — VOLLSTÄNDIG:
+  Null- und Leerpoolzustände erhalten genau eine neue Instanz; Cacheeinfügung,
+  Cacherückgabe und der Geometriezugriff verwenden den aktuellen PlayState, und
+  der Pool wird beim Levelabbau geleert. Ein Prefix, 3 Transpiler und die
+  gemeinsamen Pool-/PlayState-Szenarien decken das Verhalten ab. Die übrigen
+  Unterschiede sind RetentionRegistry-Diagnostik, lokale Ausdrucksformen,
+  äquivalente Switch-Reihenfolge oder Compilerrauschen.
 - [x] `Magicka/Levels/LevelModel.cs` — VOLLSTÄNDIG: `Dispose()` löst den
   vollständigen levelgebundenen Objektgraphen, entfernt und entkoppelt den
   CollisionSkin, gibt Lights, AnimatedLevelParts, Liquids und das Modell frei

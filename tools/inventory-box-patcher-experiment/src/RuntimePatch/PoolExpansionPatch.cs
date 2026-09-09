@@ -29,6 +29,9 @@ namespace Magicka.CommunityPatch.Runtime
                 PoolExpansionPatch.ProjectileDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                PoolExpansionPatch.SprayDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 PoolExpansionPatch.RailGunDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
@@ -57,6 +60,7 @@ namespace Magicka.CommunityPatch.Runtime
         private static PoolConfiguration damageable;
         private static PoolConfiguration gib;
         private static PoolConfiguration projectile;
+        private static PoolConfiguration spray;
         private static PoolConfiguration railGun;
         private static PoolConfiguration shield;
         private static FieldInfo avatarPlayerField;
@@ -96,6 +100,13 @@ namespace Magicka.CommunityPatch.Runtime
                 "org.magickacommunitypatch.pool-expansion.projectile-spell",
                 FindProjectile,
                 FixedPrefix("ProjectilePrefix"));
+
+        internal static readonly RuntimePatchDefinition SprayDefinition =
+            RuntimePatchDefinition.Prefix(
+                "SpraySpell exhausted pool recovery",
+                "org.magickacommunitypatch.pool-expansion.spray-spell",
+                FindSpray,
+                FixedPrefix("SprayPrefix"));
 
         internal static readonly RuntimePatchDefinition RailGunDefinition =
             RuntimePatchDefinition.Prefix(
@@ -238,6 +249,15 @@ namespace Magicka.CommunityPatch.Runtime
                 "RailGunSpell",
                 "mCache",
                 out railGun);
+        }
+
+        private static MethodInfo FindSpray(Assembly assembly)
+        {
+            return FindSpellPool(
+                assembly,
+                "SpraySpell",
+                "mCache",
+                out spray);
         }
 
         private static MethodInfo FindShield(Assembly assembly)
@@ -407,6 +427,11 @@ namespace Magicka.CommunityPatch.Runtime
         public static void ProjectilePrefix()
         {
             EnsureEntry(projectile, new object[0]);
+        }
+
+        public static void SprayPrefix()
+        {
+            EnsureEntry(spray, new object[0]);
         }
 
         public static void RailGunPrefix()
