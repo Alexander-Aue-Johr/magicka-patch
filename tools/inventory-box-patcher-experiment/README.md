@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-four hundred thirty-five method patches:
+four hundred forty-two method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -78,6 +78,9 @@ four hundred thirty-five method patches:
   caches. `LightningSpell`, `PushSpell`, `SpraySpell`, `ProjectileSpell`, and
   `RailGunSpell` resolve cache, cast, scene-query, audio, and removal work
   through the current play state.
+- Exhausted `Avatar`, `GenericBoss`, `DamageablePhysicsEntity`, `Gib`,
+  `ProjectileSpell`, `RailGunSpell`, and `ShieldSpell` pools allocate one
+  additional reusable instance while leaving normal cache selection unchanged.
 - `EffectManager` keeps the first visual-effect definition when multiple XML
   files produce the same filename hash instead of aborting initialization.
 - `TimeWarp` and `TimeWarpStaff` release the play state supplied when the
@@ -284,7 +287,7 @@ PhysicsEntity, Helper,
 InventoryBox, KeyboardHUD, MagickCamera, MeteorShower, Player, PlayState, Rain,
 and AnimatedLevelPart disposal changes use Harmony prefixes; BossHealthBar,
 Water, and Lava additionally use constructor postfixes, while HUDManager,
-NonPlayerCharacter, PhysicsEntity, and one
+Avatar pool selection, NonPlayerCharacter, PhysicsEntity, and one
 EntityManager change use ordinary postfixes.
 The Agent, AnimatedLevelPart, AudioManager, Blizzard, BreakBarriers, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, EtherealClone, GameScene, GenericHealthBar, GreaseTrail, LightningSpell, MeteorShower, ProjectileSpell, PushSpell, RailGunSpell, Rain, SpellEffect, SpraySpell, TeslaField,
 EntityStateStorage, Flash, GiveOrder, IconRenderer, Machine, Jormungandr, pack, PoisonSpray, Portal,

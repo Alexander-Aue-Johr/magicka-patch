@@ -268,6 +268,13 @@ function Test-BehaviorMatrix {
         "railgun_spell.cast_self_current_play_state",
         "railgun_spell.cast_weapon_current_play_state",
         "railgun_spell.deinitialize_current_play_state",
+        "pool_expansion.avatar",
+        "pool_expansion.generic_boss",
+        "pool_expansion.damageable_physics_entity",
+        "pool_expansion.gib",
+        "pool_expansion.projectile_spell",
+        "pool_expansion.railgun_spell",
+        "pool_expansion.shield_spell",
         "effect_manager.duplicate_name",
         "time_warp.start_current_state",
         "time_warp.update_current_state",
@@ -516,6 +523,8 @@ function Test-BehaviorMatrix {
         "character_select_widget.live_texture",
         "character_select_widget.non_image",
         "hotjoin_broadcast.two_syncing_players",
+        "pool_expansion.generic_boss",
+        "pool_expansion.damageable_physics_entity",
         "physics_entity_template_cache.level_dispose",
         "physics_entity_template_cache.uninitialized_dispose",
         "character_template_cache.shared_template",
@@ -719,6 +728,11 @@ function Test-BehaviorProfile(
             "railgun_spell.cast_self_current_play_state",
             "railgun_spell.cast_weapon_current_play_state",
             "railgun_spell.deinitialize_current_play_state",
+            "pool_expansion.avatar",
+            "pool_expansion.gib",
+            "pool_expansion.projectile_spell",
+            "pool_expansion.railgun_spell",
+            "pool_expansion.shield_spell",
             "effect_manager.duplicate_name",
             "time_warp.start_current_state",
             "time_warp.update_current_state",
@@ -884,6 +898,13 @@ function Test-BehaviorProfile(
         "railgun_spell.cast_self_current_play_state",
         "railgun_spell.cast_weapon_current_play_state",
         "railgun_spell.deinitialize_current_play_state",
+        "pool_expansion.avatar",
+        "pool_expansion.generic_boss",
+        "pool_expansion.damageable_physics_entity",
+        "pool_expansion.gib",
+        "pool_expansion.projectile_spell",
+        "pool_expansion.railgun_spell",
+        "pool_expansion.shield_spell",
         "effect_manager.duplicate_name",
         "effect_manager.unique_names",
         "time_warp.start_current_state",
@@ -1554,8 +1575,15 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=RailGunSpell current self-cast play state" -or
         $auditLines -notcontains "patch_end=RailGunSpell current weapon-cast play state" -or
         $auditLines -notcontains "patch_end=RailGunSpell current removal play state" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 52 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 12 -or
+        $auditLines -notcontains "patch_end=Avatar exhausted pool recovery" -or
+        $auditLines -notcontains "patch_end=GenericBoss exhausted pool recovery" -or
+        $auditLines -notcontains "patch_end=DamageablePhysicsEntity exhausted pool recovery" -or
+        $auditLines -notcontains "patch_end=Gib exhausted pool recovery" -or
+        $auditLines -notcontains "patch_end=ProjectileSpell exhausted pool recovery" -or
+        $auditLines -notcontains "patch_end=RailGunSpell exhausted pool recovery" -or
+        $auditLines -notcontains "patch_end=ShieldSpell exhausted pool recovery" -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 58 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 13 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 371) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
@@ -1571,7 +1599,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=435")
+    $summary.Add("implemented_patches=442")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

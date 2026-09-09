@@ -161,6 +161,7 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 DerivedSpellEffectPlayStatePatch.RailGunDeinitializeDefinition);
+            PoolExpansionPatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 EffectManagerDuplicatePatch.Definition);

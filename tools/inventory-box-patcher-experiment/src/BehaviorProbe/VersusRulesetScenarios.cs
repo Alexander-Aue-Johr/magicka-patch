@@ -124,6 +124,7 @@ internal sealed class VersusRulesetHarness
 
         object player = NewUninitialized(playerType);
         RuntimeReflection.WriteField(player, "mGamer", NewUninitialized(gamerType));
+        RuntimeReflection.WriteField(player, "mUniqueAvatarHandle", (ushort)7);
         Array players = Array.CreateInstance(playerType, 1);
         players.SetValue(player, 0);
         RuntimeReflection.WriteField(ruleset, "mPlayers", players);
