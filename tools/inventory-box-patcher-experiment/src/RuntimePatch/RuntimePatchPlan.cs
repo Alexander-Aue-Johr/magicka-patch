@@ -70,6 +70,7 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 EntityStateStoragePatch.RestoreDefinition);
+            IconRendererPlayStatePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 HelperArrayEqualsPatch.Definition);

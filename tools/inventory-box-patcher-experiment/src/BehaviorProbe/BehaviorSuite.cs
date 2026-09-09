@@ -16,6 +16,10 @@ internal static class BehaviorSuite
         EntityManagerClosestDamageableScenarios.Run(magicka, report);
         EntityManagerTransitionScenarios.Run(magicka, report);
         EntityStateStorageScenarios.Run(magicka, report);
+        IconRendererPlayStateScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         HelperArrayEqualsScenarios.Run(magicka, report);
         InventoryBoxScenarios.Run(magicka, report);
         WidescreenSafeAreaScenarios.Run(

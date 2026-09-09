@@ -1652,6 +1652,27 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     geänderten Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip; der
     kommentarlos dekompilierte DLL-Diff enthält nur die zwei neuen
     Hilfsklassen und ihre eine Registrierung.
+- [x] `icon-renderer-play-state-lifetime`
+  - Ziele: `IconRenderer(Player, PlayState)`, `Initialize(PlayState)` und der
+    Setter von `TomeMagick`.
+  - Technik: Drei eng begrenzte Transpiler entfernen jeweils genau eine
+    Zuweisung oder ersetzen genau einen Feldzugriff. Alle drei Ziele werden vor
+    der Registrierung mit ihren vollständigen Signaturen geprüft.
+  - Fehlerfall: Der am `Player` weiterlebende `IconRenderer` hält den beim
+    Konstruktor oder bei einer späteren Initialisierung übergebenen PlayState
+    und verwendet dessen `GameType` noch bei einer Magick-Auswahl.
+  - Verhalten: Beide Zuweisungen entfallen. Die Auswahl liest `GameType` aus
+    `PlayState.RecentPlayState`; Schleife, Verfügbarkeitsprüfung und Zuweisung
+    des angezeigten Magicks bleiben unverändert.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 enthalten beide Stores und den
+    veralteten Read. Die manuelle Patch-Assembly 0.0.60 und alle drei
+    Runtime-Patch-Profile bestehen die drei Fehlerfälle und den Kontrollfall.
+  - Der vorherige Runtime-Patch schlägt in allen drei Fehlerfällen rot fehl.
+    Der vollständige Build mit 405 Definitionen besteht alle Profile. Alle 14
+    geänderten Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip. Der
+    kommentarlos dekompilierte DLL-Diff enthält nur die zwei neuen
+    Hilfsklassen und ihre eine Registrierung; Assemblyreferenzen bleiben
+    unverändert.
 - [x] `entity-update-character-marker-decode`
   - Ziele: `NetworkServer.Update` und `NetworkClient.Update`
   - Technik: zwei Transpiler rufen unmittelbar vor dem vorhandenen
@@ -2123,7 +2144,10 @@ Versionsnachweis.
 - [ ] `Magicka/CommunityPatch/NetworkEntityHandleGuard.cs` — TEILWEISE: nur die für `AddWorldSyncMessage` benötigte SpawnNPC-Entscheidung, ohne Übernahme der übrigen manuellen Hilfsklasse.
 - [ ] `Magicka/GameLogic/Spells/ArcaneBlast.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/CoreFramework/GameSystem/Store/StoreItemDatabase.cs`
-- [ ] `Magicka/GameLogic/UI/IconRenderer.cs`
+- [ ] `Magicka/GameLogic/UI/IconRenderer.cs` — TEILWEISE: Konstruktor und
+  `Initialize` speichern keinen PlayState mehr; der einzige spätere Read im
+  `TomeMagick`-Setter verwendet den aktuellen Zustand. Die Safe-Area-Skalierung
+  des projizierten Renderpunkts bleibt offen.
 - [ ] `Magicka/GameLogic/Entities/PhysicsEntity.cs` — TEILWEISE: die Trennung des ersetzbaren Body/CollisionSkin-Paars vor Wiederverwendung und nach Deinitialize sowie die leeren Renderkanäle sind migriert; die abschließende Freigabe der übrigen klassenspezifischen Felder und RetentionRegistry-Diagnostik bleiben offen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Conflagration.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/UI/Credits.cs`

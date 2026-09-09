@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-four hundred two method patches:
+four hundred five method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -50,6 +50,9 @@ four hundred two method patches:
   and their responses include every network player with an active Avatar.
 - `EntityStateStorage` releases its constructor play-state reference and
   restores saved entities into the current play state.
+- `IconRenderer` no longer retains the play state supplied during construction
+  or reinitialization and resolves magick availability through the current
+  play state.
 - `Helper.ArrayEquals` treats every missing byte array as unequal.
 - `InventoryBox.RenderData.Draw` updates `TextBoxEffect.ScreenSize` before the
   original method runs.
@@ -279,14 +282,15 @@ Water, and Lava additionally use constructor postfixes, while HUDManager,
 NonPlayerCharacter, PhysicsEntity, and one
 EntityManager change use ordinary postfixes.
 The Agent, AnimatedLevelPart, AudioManager, Blizzard, BreakBarriers, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, EtherealClone, GameScene, GenericHealthBar, GreaseTrail, LightningSpell, MeteorShower, Rain, SpellEffect, TeslaField,
-EntityStateStorage, Flash, GiveOrder, Machine, Jormungandr, pack, PoisonSpray, Portal,
+EntityStateStorage, Flash, GiveOrder, IconRenderer, Machine, Jormungandr, pack, PoisonSpray, Portal,
 RandomMine, SpawnSlime, SummonCross, SummonFlamer, SummonSpirit, SummonUndead,
 Starfall, StatisticsManager, Thunderstorm, TutorialManager, VersusRuleset,
 JudgementSpray, DialogLayout, ShadowBlobs, and
 remaining EntityManager changes use narrowly checked transpilers for small
 branches inside their original methods. ControlManager, Interactable, and
 SubMenuMain use conditional prefixes.
-EntityStateStorage also uses a constructor postfix.
+EntityStateStorage also uses a constructor postfix. IconRenderer uses a
+constructor transpiler for its one legacy state assignment.
 
 ## Run
 

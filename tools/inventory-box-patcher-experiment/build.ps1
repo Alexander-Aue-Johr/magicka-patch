@@ -219,6 +219,9 @@ function Test-BehaviorMatrix {
         "trigger_lifecycle.missing_active_target",
         "entity_state_storage.constructor_release",
         "entity_state_storage.current_restore",
+        "icon_renderer.constructor_state_release",
+        "icon_renderer.initialize_state_release",
+        "icon_renderer.current_game_type",
         "helper_array_equals.left_null",
         "helper_array_equals.right_null",
         "helper_array_equals.both_null",
@@ -519,6 +522,9 @@ function Test-BehaviorProfile(
     if ($profile -eq "1.4.16.0-original" -or
         $profile -eq "1.5.1.0-original") {
         $expectedFailures = @($expectedFailures) + @(
+            "icon_renderer.constructor_state_release",
+            "icon_renderer.initialize_state_release",
+            "icon_renderer.current_game_type",
             "direct_input.options_load_failure",
             "direct_input.discovery_load_failure",
             "give_order_khan.terminated",
@@ -767,6 +773,10 @@ function Test-BehaviorProfile(
         "entity_state_storage.constructor_release",
         "entity_state_storage.current_restore",
         "entity_state_storage.empty_restore",
+        "icon_renderer.constructor_state_release",
+        "icon_renderer.initialize_state_release",
+        "icon_renderer.current_game_type",
+        "icon_renderer.selection_shape",
         "helper_array_equals.equal",
         "helper_array_equals.different",
         "helper_array_equals.left_null",
@@ -1422,9 +1432,12 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=NetworkServer hotjoin broadcast continuation: Magicka.Network.EntityRemoveMessage" -or
         $auditLines -notcontains "patch_end=NetworkServer forced sync player and sender resolution" -or
         $auditLines -notcontains "patch_end=NetworkServer forced sync response builder" -or
+        $auditLines -notcontains "patch_end=IconRenderer constructor play-state release" -or
+        $auditLines -notcontains "patch_end=IconRenderer initialization play-state release" -or
+        $auditLines -notcontains "patch_end=IconRenderer current play-state magick selection" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 48 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 10 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 344) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 347) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1439,7 +1452,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=402")
+    $summary.Add("implemented_patches=405")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
