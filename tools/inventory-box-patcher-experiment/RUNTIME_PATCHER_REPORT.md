@@ -123,6 +123,19 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Pickup-Szenarien werfen eine Ausnahme
   - Manuelle Patch-Assembly 0.0.60 und Original plus Runtime-Patch: beide
     Fehlerfälle und der Kontrollfall bestehen
+- [x] `character-network-grip`
+  - Ziel: `Character.NetworkAction(ref CharacterActionMessage)`
+  - Technik: boolescher Prefix mit typgenauem By-Ref-Adapter
+  - Fehlerfälle: fehlendes Ziel, gelöster Actor- oder Target-Body sowie ein
+    fehlender AnimationController bei einem jointgebundenen Grip
+  - Verhalten: ein ungültiger Grip wird vor jeder Zustandsänderung verworfen;
+    gültige Grips und alle anderen Actions laufen durch die Originalmethode
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0: alle vier Fehlerfälle werfen oder
+    hinterlassen einen partiellen Grip-Zustand
+  - Manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile: alle vier
+    Fehlerfälle und der Nicht-Grip-Kontrollfall bestehen
+  - Die stabilen Drop-Reason-Codes bleiben für den gemeinsamen
+    Runtime-Telemetrieblock reserviert; der Guard selbst sendet nichts
 - [x] `ai-attack-detached-target`
   - Ziel: `AIStateAttack.OnExecute(IAI, float)`
   - Technik: boolescher Prefix
@@ -2414,8 +2427,9 @@ Versionsnachweis.
   Crossfade und ForceAnimation behandeln fehlende Animationsaktionen und
   fehlende Idle-Clips; `CastSpell` überspringt nur die optionale
   Elementstatistik bei gelöstem Gamer. Der finale Levelabbau gibt außerdem den
-  vollständigen Character-eigenen Objektgraphen frei. Weitere Netzwerk- und
-  Diagnoseänderungen sind noch offen.
+  vollständigen Character-eigenen Objektgraphen frei. Ungültige verspätete
+  Grip-Pakete werden vor jeder Zustandsänderung verworfen. Template-Reapply,
+  Telemetrie und Diagnoseänderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/ProjectileSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCharacterSelect.cs` —
   TEILWEISE: die vier Pack-Anzeigeprüfungen verwenden die gemeinsame

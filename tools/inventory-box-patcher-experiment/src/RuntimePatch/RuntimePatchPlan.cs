@@ -15,6 +15,9 @@ namespace Magicka.CommunityPatch.Runtime
                 AvatarNetworkPickupPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                CharacterNetworkGripPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 AIStateAttackOnExecutePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

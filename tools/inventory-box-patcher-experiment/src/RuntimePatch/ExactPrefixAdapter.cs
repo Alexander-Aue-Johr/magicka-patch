@@ -20,6 +20,19 @@ namespace Magicka.CommunityPatch.Runtime
                 target.ReturnType);
             return adapter.GetMethod("Prefix", BindingFlags.Static | BindingFlags.Public);
         }
+
+        internal static MethodInfo CreateRefArgument(MethodInfo target)
+        {
+            Type parameterType = target.GetParameters()[0].ParameterType;
+            if (!parameterType.IsByRef)
+                throw new ArgumentException(
+                    "The target argument must be passed by reference.",
+                    "target");
+            Type adapter = typeof(RefArgumentPrefix<,>).MakeGenericType(
+                target.DeclaringType,
+                parameterType.GetElementType());
+            return adapter.GetMethod("Prefix", BindingFlags.Static | BindingFlags.Public);
+        }
     }
 
     public static class TwoArgumentPrefix<TInstance, TArgument>
@@ -38,6 +51,14 @@ namespace Magicka.CommunityPatch.Runtime
             if (!runOriginal)
                 __result = default(TResult);
             return runOriginal;
+        }
+    }
+
+    public static class RefArgumentPrefix<TInstance, TArgument>
+    {
+        public static bool Prefix(TInstance __instance, ref TArgument iMsg)
+        {
+            return CharacterNetworkGripPatch.Prefix(__instance, iMsg);
         }
     }
 }

@@ -271,6 +271,10 @@ four hundred fifty-four method patches:
   decoded without aborting the remaining update fields.
 - `Character.CastSpell` skips only optional element-usage statistics when an
   Avatar's Gamer has already detached; the spell itself still executes.
+- Late Character `Grip` packets are rejected before changing grip state when
+  their target, physics bodies, controller, skeleton, joint, or bone is no
+  longer available. Valid grips and all other Character actions still use the
+  original method.
 - Final level teardown stops Character-owned effects, cues, and lights; removes
   animation callbacks; severs equipment, grip, summon, and combat references;
   and releases level-bound model, render, animation, and state data.

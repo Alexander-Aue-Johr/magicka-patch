@@ -18,6 +18,7 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        CharacterNetworkGripScenarios.Run(magicka, report);
         NonPlayerCharacterTeardownScenarios.Run(
             magicka,
             runtimePatchEnabled,
