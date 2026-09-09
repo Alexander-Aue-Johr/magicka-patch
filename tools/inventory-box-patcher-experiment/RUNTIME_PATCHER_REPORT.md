@@ -465,6 +465,19 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Vier strukturelle Drei-Wege-Szenarien prüfen die drei gelösten
     Zustandskanten und beide laufenden Reads. Das Original und beide historischen
     Versionen sind rot; manueller Patch und Runtime-Patch sind grün.
+- [x] `floor-stomp-play-state-lifetime`
+  - Ziele: `FloorStomp.Execute(ISpellCaster, PlayState)` und
+    `Update(DataChannel, float)`.
+  - Technik: Ein eng geprüfter Transpiler entfernt die einzige gespeicherte
+    PlayState-Zuweisung. Ein zweiter ersetzt genau sechs EntityManager-Zugriffe
+    durch `PlayState.RecentPlayState`.
+  - Verhalten: Ein aktiver oder gepoolter FloorStomp hält keinen beendeten
+    Levelzustand mehr. Alle drei zeitgesteuerten Abfragen und Listenrückgaben
+    folgen dem aktuellen EntityManager; Stomp-Timing, Zauber, Barrieren, Shields,
+    Besitzer und Effekte bleiben unverändert.
+  - Zwei strukturelle Drei-Wege-Szenarien prüfen die gelöste Zustandskante und
+    alle sechs laufenden Reads. Das Original und beide historischen Versionen
+    sind rot; manueller Patch und Runtime-Patch sind grün.
 - [x] `spell-effect-current-play-state`
   - Ziele: `SpellEffect.IntializeCaches(PlayState, ContentManager)`,
     `LightningSpell.GetFromCache()` und
@@ -2842,7 +2855,10 @@ Versionsnachweis.
 - [x] `Magicka/GameLogic/UI/DialogManager.cs` — VOLLSTÄNDIG: der Levelabbau beendet aktive Dialoge, trennt alle festen, Cutscene- und zusätzlichen TextBoxen von Levelobjekten, leert die Zusatzliste und setzt den transienten Zustand zurück; ein Transpiler und 2 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Confuse.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TornadoEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/FloorStomp.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/FloorStomp.cs` —
+  VOLLSTÄNDIG: gespeicherter PlayState, alle sechs laufenden EntityManager-Reads
+  und die statische Poolfreigabe bei Levelende sind mit 2 Transpilern und 2
+  Drei-Wege-Szenarien migriert. RetentionRegistry-Aufrufe sind reine Diagnostik.
 - [ ] `Magicka/Graphics/MagickCamera.cs` — TEILWEISE: körperloses `FollowEntity`-Ziel, Prefix und 3 Drei-Wege-Szenarien; weitere Lifetime- und Dispose-Änderungen sind noch offen.
 - [ ] `Magicka/GameLogic/UI/SpellWheel.cs` — TEILWEISE: PlayState-Lebensdauer und aktueller Szenenempfänger sind mit 2 Transpilern und 2 Drei-Wege-Szenarien migriert; die UI-Skalierung im Renderpfad bleibt offen.
 - [ ] `Magicka/GameLogic/Entities/EntityManager.cs` — TEILWEISE: `GetClosestIDamageable`, das vierparametrige `GetEntities`, `ClearAndStore` und der volle `Entity`-Listenpfad in `AddEntity` sind migriert; Konstruktor- und weitere Diagnoseänderungen sind noch offen.

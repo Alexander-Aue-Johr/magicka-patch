@@ -209,6 +209,12 @@ namespace Magicka.CommunityPatch.Runtime
                 PolymorphPlayStatePatch.RemoveDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                FloorStompPlayStatePatch.ExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                FloorStompPlayStatePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 SpellEffectPlayStatePatch.InitializeDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
