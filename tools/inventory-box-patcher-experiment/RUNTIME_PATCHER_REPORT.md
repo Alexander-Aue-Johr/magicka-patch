@@ -2509,7 +2509,11 @@ Versionsnachweis.
   lokale Ausdrucksformen sind Diagnostik oder semantikfreies
   Compiler-/Decompilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Shield.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
-- [ ] `Magicka/GameLogic/Spells/SpellEffects/RailGunSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Spells/SpellEffects/RailGunSpell.cs` — VOLLSTÄNDIG:
+  Leerpool-Recovery, alle sieben laufenden PlayState-Zugriffe und die statische
+  Poolfreigabe sind migriert. Ein Prefix, 5 Transpiler und die gemeinsamen
+  Pool-/PlayState-Szenarien decken das Verhalten ab; RetentionRegistry-Aufrufe
+  und statische Initialisierer sind Diagnostik beziehungsweise Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Polymorph.cs` —
   VOLLSTÄNDIG: die drei gespeicherten PlayState-Zuweisungen, beide späteren
   Zustandsprüfungen und die Freigabe von aktivem und freiem Pool bei Levelende
@@ -2539,9 +2543,19 @@ Versionsnachweis.
   statische Pool wird beim Levelabbau geleert; Retention-Diagnostik bleibt
   offen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Rain.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, sechs laufende PlayState-Zugriffe und die Szenen-/Caster-Freigabe; 4 Transpiler, 1 Prefix und 4 Drei-Wege-Szenarien.
-- [ ] `Magicka/GameLogic/Spells/SpellEffects/PushSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
-- [ ] `Magicka/GameLogic/Spells/SpellEffects/ShieldSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/VortexEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Spells/SpellEffects/PushSpell.cs` — VOLLSTÄNDIG:
+  Cacheeinfügung und Cacherückgabe verwenden den aktuellen PlayState, und der
+  Pool wird beim Levelabbau geleert. Zwei Transpiler und die gemeinsamen
+  PlayState-/Pool-Szenarien decken das Verhalten ab; die übrigen Unterschiede
+  sind RetentionRegistry-Diagnostik oder statische Initialisiererdarstellung.
+- [x] `Magicka/GameLogic/Spells/SpellEffects/ShieldSpell.cs` — VOLLSTÄNDIG:
+  Null- und Leerpoolzustände erhalten genau eine neue Instanz, und der Pool wird
+  beim Levelabbau geleert. Ein Prefix und die gemeinsamen Pool-Szenarien decken
+  das Verhalten ab; alle übrigen Änderungen sind RetentionRegistry-Diagnostik.
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/VortexEntity.cs` —
+  VOLLSTÄNDIG: der statische Entity-Pool wird beim Levelabbau geleert. Alle
+  übrigen Änderungen sind RetentionRegistry-Diagnostik, lokale
+  Variablenbewegung oder statische Initialisiererdarstellung.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SpawnSlime.cs` — VOLLSTÄNDIG: gespeicherter PlayState in `Execute` und beide veralteten NavMesh-Zugriffe, 3 Transpiler und 3 Drei-Wege-Szenarien; der leere `DisposeCache()` und die statischen Hash-Initialisierer ändern kein Laufzeitverhalten.
 - [x] `Magicka/GameLogic/Entities/Entanglement.cs` — VOLLSTÄNDIG: der global registrierte EntangleEffect wird wiederverwendet und nur bei fehlendem Registry-Eintrag vollständig angelegt; 2 Transpiler und 2 Drei-Wege-Szenarien. Lokale Variablennamen und explizit dargestellte statische Initialisierer sind semantikfreies Compilerrauschen.
 - [ ] `Magicka/Levels/Level.cs`
