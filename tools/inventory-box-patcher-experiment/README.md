@@ -99,6 +99,8 @@ four hundred fifty-four method patches:
 - Exhausted `Avatar`, `GenericBoss`, `DamageablePhysicsEntity`, `Gib`,
   `ProjectileSpell`, `RailGunSpell`, and `ShieldSpell` pools allocate one
   additional reusable instance while leaving normal cache selection unchanged.
+- `ProjectileSpell.SpawnMissile` rejects detached owners before touching its
+  condition cache or the caller's missile reference.
 - Final entity-handle teardown releases the constructor-owned `PropBoss` type
   reference without changing its earlier `DeInitialize` behavior.
 - Initialized play-state teardown stops active Fairy effects and dialogs,

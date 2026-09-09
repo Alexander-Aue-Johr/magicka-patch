@@ -445,6 +445,9 @@ namespace Magicka.CommunityPatch.Runtime
                 ShieldContentLifetimePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                ProjectileSpawnOwnerGuardPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 VersusRulesetRevivePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

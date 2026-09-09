@@ -2645,7 +2645,13 @@ Versionsnachweis.
   vollständigen Character-eigenen Objektgraphen frei. Ungültige verspätete
   Grip-Pakete werden vor jeder Zustandsänderung verworfen. Template-Reapply,
   Telemetrie und Diagnoseänderungen sind noch offen.
-- [ ] `Magicka/GameLogic/Spells/SpellEffects/ProjectileSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [ ] `Magicka/GameLogic/Spells/SpellEffects/ProjectileSpell.cs` — TEILWEISE:
+  Leerpool-Recovery, aktuelle PlayState-Zugriffe und statische Poolfreigabe
+  sind migriert. `SpawnMissile` verwirft außerdem Owner ohne PlayState oder
+  EntityManager vor jeder Cachemutation; ein Prefix und 2 Drei-Wege-Szenarien
+  decken diese Eingangsprüfung ab. Leerzustand und exception-sichere Rückgabe
+  von `sCachedConditions`, ein fehlendes Missile-Ergebnis sowie die
+  Diagnoseaufrufe bleiben offen.
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCharacterSelect.cs` —
   TEILWEISE: die vier Pack-Anzeigeprüfungen verwenden die gemeinsame
   Custom-Content-Lizenzregel und `DrawWidget` überspringt Images mit fehlender
