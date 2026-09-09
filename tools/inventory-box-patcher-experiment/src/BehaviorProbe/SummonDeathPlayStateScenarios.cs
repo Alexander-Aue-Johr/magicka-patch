@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.Serialization;
 using Harmony;
 using Harmony.ILCopying;
 
@@ -24,6 +25,7 @@ internal static class SummonDeathPlayStateScenarios
         report.Add("death_entity.initialize_state", harness.Initialize());
         report.Add("death_entity.update_state", harness.Update());
         report.Add("death_entity.deinitialize_state", harness.Deinitialize());
+        report.Add("summon_death.level_cleanup", harness.LevelCleanup());
     }
 }
 
@@ -46,6 +48,9 @@ internal sealed class SummonDeathPlayStateHarness
     private readonly MethodInfo initialize;
     private readonly MethodInfo update;
     private readonly MethodInfo deinitialize;
+    private readonly FieldInfo singletonField;
+    private readonly FieldInfo deathReferenceField;
+    private readonly MethodInfo manualDispose;
 
     internal SummonDeathPlayStateHarness(
         Assembly magicka,
@@ -134,9 +139,29 @@ internal sealed class SummonDeathPlayStateHarness
                 BindingFlags.DeclaredOnly,
             Type.EmptyTypes,
             typeof(void));
+        singletonField = outer.GetField(
+            "mSingelton",
+            BindingFlags.Static | BindingFlags.NonPublic |
+                BindingFlags.DeclaredOnly);
+        deathReferenceField = outer.GetField(
+            "mDeath",
+            BindingFlags.Instance | BindingFlags.NonPublic |
+                BindingFlags.DeclaredOnly);
+        manualDispose = outer.GetMethod(
+            "Dispose",
+            BindingFlags.Instance | BindingFlags.Public |
+                BindingFlags.DeclaredOnly,
+            null,
+            Type.EmptyTypes,
+            null);
         if (recentPlayState == null || constructor == null)
             throw new MissingMemberException(
                 "SummonDeath play-state contract is incomplete.");
+        if (singletonField == null || singletonField.FieldType != outer ||
+            deathReferenceField == null ||
+            deathReferenceField.FieldType != death)
+            throw new MissingMemberException(
+                "SummonDeath cleanup contract is incomplete.");
     }
 
     internal ScenarioResult OwnerExecute()
@@ -207,6 +232,52 @@ internal sealed class SummonDeathPlayStateHarness
             entityPlayState,
             0,
             1);
+    }
+
+    internal ScenarioResult LevelCleanup()
+    {
+        object originalSingleton = singletonField.GetValue(null);
+        object singleton = NewUninitialized(outer);
+        object deathEntity = NewUninitialized(death);
+        deathReferenceField.SetValue(singleton, deathEntity);
+        singletonField.SetValue(null, singleton);
+        try
+        {
+            if (manualDispose != null)
+            {
+                manualDispose.Invoke(singleton, new object[0]);
+            }
+            else if (runtimePatchEnabled)
+            {
+                Type patch = Type.GetType(
+                    "Magicka.CommunityPatch.Runtime.SummonDeathCleanupPatch, " +
+                    "Magicka.CommunityPatch.Runtime",
+                    true);
+                MethodInfo release = patch.GetMethod(
+                    "ReleaseDeathEntity",
+                    BindingFlags.Static | BindingFlags.Public);
+                if (release == null)
+                    throw new MissingMethodException(
+                        patch.FullName,
+                        "ReleaseDeathEntity");
+                release.Invoke(null, new object[0]);
+            }
+
+            bool released = deathReferenceField.GetValue(singleton) == null;
+            bool singletonPreserved = ReferenceEquals(
+                singletonField.GetValue(null),
+                singleton);
+            return new ScenarioResult(
+                released && singletonPreserved,
+                "death:" + (released ? "released" : "retained") +
+                    ",singleton:" +
+                    (singletonPreserved ? "preserved" : "changed"),
+                "death:released,singleton:preserved");
+        }
+        finally
+        {
+            singletonField.SetValue(null, originalSingleton);
+        }
     }
 
     internal ScenarioResult SpawnShape()
@@ -353,5 +424,12 @@ internal sealed class SummonDeathPlayStateHarness
         for (int index = 0; index < decoded.Count; index++)
             result.Add(decoded[index].GetCodeInstruction());
         return result;
+    }
+
+    private static object NewUninitialized(Type type)
+    {
+        object value = FormatterServices.GetUninitializedObject(type);
+        GC.SuppressFinalize(value);
+        return value;
     }
 }

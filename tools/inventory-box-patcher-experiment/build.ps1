@@ -243,6 +243,7 @@ function Test-BehaviorMatrix {
         "death_entity.initialize_state",
         "death_entity.update_state",
         "death_entity.deinitialize_state",
+        "summon_death.level_cleanup",
         "helper_array_equals.left_null",
         "helper_array_equals.right_null",
         "helper_array_equals.both_null",
@@ -605,6 +606,7 @@ function Test-BehaviorProfile(
             "death_entity.initialize_state",
             "death_entity.update_state",
             "death_entity.deinitialize_state",
+            "summon_death.level_cleanup",
             "icon_renderer.constructor_state_release",
             "icon_renderer.initialize_state_release",
             "icon_renderer.current_game_type",
@@ -916,6 +918,7 @@ function Test-BehaviorProfile(
         "death_entity.initialize_state",
         "death_entity.update_state",
         "death_entity.deinitialize_state",
+        "summon_death.level_cleanup",
         "helper_array_equals.equal",
         "helper_array_equals.different",
         "helper_array_equals.left_null",
@@ -1654,6 +1657,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=SummonDeath entity current play-state initialization" -or
         $auditLines -notcontains "patch_end=SummonDeath entity current play-state update" -or
         $auditLines -notcontains "patch_end=SummonDeath entity current play-state removal" -or
+        $auditLines -notcontains "patch_end=SummonDeath singleton entity cleanup" -or
         $auditLines -notcontains "patch_end=BossFight play-state setup release" -or
         $auditLines -notcontains "patch_end=BossFight deferred client initialization" -or
         $auditLines -notcontains "patch_end=BossFight current initialization play state" -or
@@ -1696,7 +1700,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=LevelModel complete teardown" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 69 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 18 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 382) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 383) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1711,7 +1715,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=469")
+    $summary.Add("implemented_patches=470")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

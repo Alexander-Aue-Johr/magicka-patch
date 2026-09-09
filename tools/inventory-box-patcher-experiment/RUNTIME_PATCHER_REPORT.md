@@ -1847,6 +1847,19 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     geänderten Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip. Der
     kommentarlos dekompilierte DLL-Diff enthält nur die neue Patchklasse und
     ihre sieben Registrierungen; Assemblyreferenzen bleiben unverändert.
+- [x] `summon-death-singleton-entity-cleanup`
+  - Ziel: `PlayState.Dispose()` und die verbleibende `SummonDeath.mDeath`-Kante.
+  - Technik: Ein eng geprüfter Transpiler ruft unmittelbar vor
+    `Entity.ClearHandles()` einen Cleanup-Helfer auf. Dieser liest ausschließlich
+    das vorhandene private Singleton-Feld und setzt dessen `mDeath` auf `null`;
+    der `Instance`-Getter wird nicht aufgerufen.
+  - Verhalten: Der Prozess-Singleton hält die bereits abgebaute MagickDeath-
+    Entity samt Render-, Animations-, Ziel- und Physikgraph nicht über das
+    Levelende hinaus. Ein noch nicht erzeugter Singleton bleibt unerzeugt und
+    wiederholte Bereinigung ist wirkungslos.
+  - Ein Drei-Wege-Szenario prüft die Freigabe der Entity bei erhaltener
+    Singleton-Identität. Das Original und beide historischen Versionen sind rot;
+    manueller Patch und Runtime-Patch sind grün.
 - [x] `boss-fight-deferred-client-initialization`
   - Ziele: `BossFight.Setup`, `Initialize`, `Start`, `Clear`, `Reset`, `Update`
     und `NetworkInitialize`; der bereits migrierte
@@ -2577,11 +2590,13 @@ Versionsnachweis.
   5 Transpilern und 4 Drei-Wege-Szenarien migriert. RetentionRegistry-Aufrufe
   sind reine Diagnostik; verschobene statische Initialisierer und lokale Namen
   sind semantikfreies Compiler- beziehungsweise Decompilerrauschen.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonDeath.cs` —
-  TEILWEISE: beide Singleton-Stores und alle neunzehn laufenden
-  PlayState-Zugriffe sind mit 7 Transpilern und 8 Drei-Wege-Szenarien
-  migriert. Die unaufgerufene manuelle `Dispose()`-Ergänzung und
-  RetentionRegistry-Diagnostik bleiben offen.
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonDeath.cs` —
+  VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, alle neunzehn laufenden
+  Zustandszugriffe und die Freigabe der vom Prozess-Singleton gehaltenen
+  MagickDeath-Entity sind mit 8 Transpilern und 9 Drei-Wege-Szenarien migriert.
+  RetentionRegistry-Aufrufe sind reine Diagnostik; statische Initialisierer,
+  lokale Ausdrücke und temporäre Variablen sind semantikfreies Compiler- oder
+  Decompilerrauschen.
 - [ ] `Magicka/CommunityPatch/InGameUiCompatibility.cs`
 - [x] `Magicka/CommunityPatch/WidescreenSafeArea.cs` — VOLLSTÄNDIG: beide Berechnungen liegen CLR-2-kompatibel im Runtime-Patcher und werden durch 4 Rechenszenarien abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/NonPlayerCharacter.cs` — TEILWEISE: der

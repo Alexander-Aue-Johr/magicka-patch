@@ -657,6 +657,9 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 SummonDeathPlayStatePatch.DeathDeinitializeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonDeathCleanupPatch.Definition);
             PhysicsEntityTemplateCachePatchPlan.ApplyTo(targetAssembly);
             CharacterTemplateCachePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
