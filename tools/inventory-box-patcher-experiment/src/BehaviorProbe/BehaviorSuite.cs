@@ -50,6 +50,7 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        UnderGroundAttackScenarios.Run(magicka, report);
         SpellEffectPlayStateScenarios.Run(magicka, report);
         DerivedSpellEffectPlayStateScenarios.Run(
             magicka,

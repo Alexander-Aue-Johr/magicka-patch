@@ -372,6 +372,21 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Nutzung des aktuellen PlayState sowie vollständige und wiederholbare
     Poolbereinigung. Das Original und beide historischen Versionen sind rot;
     manueller Patch und Runtime-Patch sind grün.
+- [x] `underground-attack-play-state-lifetime`
+  - Ziele: `UnderGroundAttack..ctor(PlayState)`,
+    `Initialize(ref Vector3, ref Vector2, ISpellCaster, double, float,
+    DamageCollection5, bool)` und `Update(DataChannel, float)`.
+  - Technik: Drei eng geprüfte Transpiler entfernen genau eine gespeicherte
+    PlayState-Zuweisung und ersetzen zwei Reads in `Initialize` sowie fünf Reads
+    in `Update` durch `PlayState.RecentPlayState`.
+  - Verhalten: Statisch gepoolte Untergrundangriffe halten keinen beendeten
+    Levelzustand mehr. Bodenschnitte, Kamera-Audio, Shields, Entity-Abfragen und
+    die Rückgabe der Abfrageliste folgen dem aktuellen PlayState; Bewegung,
+    Schaden, Effekte und Poolverhalten bleiben unverändert.
+  - Drei Drei-Wege-Szenarien prüfen Konstruktorfreigabe, Initialisierung und den
+    vollständigen Update-Pfad mit zwei Bodenschnitten, Shield-Liste, fünf
+    Effektupdates sowie Entity-Abfrage und -Rückgabe. Das Original und beide
+    historischen Versionen sind rot; manueller Patch und Runtime-Patch sind grün.
 - [x] `spell-effect-current-play-state`
   - Ziele: `SpellEffect.IntializeCaches(PlayState, ContentManager)`,
     `LightningSpell.GetFromCache()` und
@@ -2576,7 +2591,12 @@ Versionsnachweis.
   Renderreferenzen. Die beiden Lifecycle-Szenarien laufen als Drei-Wege-Test auf
   1.10.4.2, 1.5.1.0 und 1.4.16.0. Statische Initialisiererdarstellung und
   RetentionRegistry-Aufrufe ändern kein Laufzeitverhalten.
-- [ ] `Magicka/GameLogic/Spells/UnderGroundAttack.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Spells/UnderGroundAttack.cs` — VOLLSTÄNDIG: gespeicherter
+  PlayState, alle sieben laufenden Zustandszugriffe und die statische Poolfreigabe
+  bei Levelende sind mit 3 Transpilern sowie 3 Drei-Wege-Szenarien migriert.
+  RetentionRegistry-Aufrufe sind reine Diagnostik; statische Initialisierer,
+  lokale Namen und äquivalente Struct-Zuweisungen sind semantikfreies
+  Compiler- beziehungsweise Decompilerrauschen.
 - [ ] `Magicka/CommunityPatch/NetworkGuardTelemetryBackoff.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/HealingRain.cs` — VOLLSTÄNDIG: aktuelle Zustandsauflösung und abschließende Szene-/Caster-Freigabe mit 4 Transpilern, 1 Prefix und 5 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/GameStates/Menu/MenuImageTextItem.cs` — VOLLSTÄNDIG:
