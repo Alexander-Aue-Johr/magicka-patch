@@ -428,6 +428,19 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Zustandskanten und alle vier laufenden Zugriffe. Das Original und beide
     historischen Versionen sind rot; manueller Patch und Runtime-Patch sind
     grün.
+- [x] `wave-play-state-lifetime`
+  - Ziele: die drei `Wave.Execute`-Überladungen und
+    `Update(DataChannel, float)`.
+  - Technik: Drei eng geprüfte Transpiler entfernen jeweils die einzige
+    gespeicherte PlayState-Zuweisung. Ein vierter Transpiler ersetzt den einzigen
+    späteren Feldzugriff durch `PlayState.RecentPlayState`.
+  - Verhalten: Gepoolte Wave-Effekte halten keinen beendeten Levelzustand mehr.
+    Die Übergabe des Verzerrungseffekts folgt der aktuellen Szene; Erzeugung,
+    Kollision, Schaden, Timing, Audio und Netzwerkverhalten bleiben unverändert.
+  - Vier strukturelle Drei-Wege-Szenarien prüfen die drei gelösten
+    Zustandskanten und den laufenden Szenenzugriff. Das Original und beide
+    historischen Versionen sind rot; manueller Patch und Runtime-Patch sind
+    grün.
 - [x] `spell-effect-current-play-state`
   - Ziele: `SpellEffect.IntializeCaches(PlayState, ContentManager)`,
     `LightningSpell.GetFromCache()` und
@@ -2408,7 +2421,13 @@ Versionsnachweis.
   reine Diagnostik; statische Initialisierer und lokale Ausdrucksformen sind
   semantikfreies Compiler- beziehungsweise Decompilerrauschen.
 - [ ] `Magicka/GameLogic/UI/Credits.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Wave.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Wave.cs` —
+  VOLLSTÄNDIG: die drei gespeicherten PlayState-Zuweisungen, der laufende
+  Szenenzugriff und die statische Poolfreigabe bei Levelende sind mit 4
+  Transpilern und 4 Drei-Wege-Szenarien migriert. RetentionRegistry-Aufrufe sind
+  reine Diagnostik; statische Initialisierer, lokale Namen und äquivalente
+  Ausdrucksformen sind semantikfreies Compiler- beziehungsweise
+  Decompilerrauschen.
 - [x] `Magicka/AI/Agent.cs` — VOLLSTÄNDIG: der Body-Guard in `ChooseTarget`
   sowie Owner-Aktualisierung, Reset-, Disable-, Fuzzy-Scratch- und finaler
   Agent-Abbau sind mit einem Transpiler, 2 Prefixen, 3 Postfixen und 7

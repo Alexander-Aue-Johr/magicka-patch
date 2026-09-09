@@ -184,6 +184,18 @@ namespace Magicka.CommunityPatch.Runtime
                 ConflagrationPlayStatePatch.UpdateDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                WavePlayStatePatch.VectorDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                WavePlayStatePatch.DirectionDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                WavePlayStatePatch.OwnerDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                WavePlayStatePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 SpellEffectPlayStatePatch.InitializeDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
