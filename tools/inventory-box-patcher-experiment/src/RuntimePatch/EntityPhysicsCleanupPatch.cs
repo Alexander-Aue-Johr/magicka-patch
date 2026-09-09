@@ -46,6 +46,24 @@ namespace Magicka.CommunityPatch.Runtime
         private static MethodInfo statusLightDisableMethod;
         private static PropertyInfo animationLevelPartProperty;
         private static FieldInfo animationLevelPartField;
+        private static Type animatedPhysicsEntityType;
+        private static FieldInfo animatedModelField;
+        private static FieldInfo animatedControllerField;
+        private static FieldInfo animatedClipsField;
+        private static FieldInfo animatedActionsField;
+        private static FieldInfo animatedRenderDataField;
+        private static ConstructorInfo animatedControllerConstructor;
+        private static ConstructorInfo animatedRenderDataConstructor;
+        private static EventInfo animationLoopedEvent;
+        private static EventInfo crossfadeFinishedEvent;
+        private static MethodInfo onAnimationLoopedMethod;
+        private static MethodInfo onCrossfadeFinishedMethod;
+        private static MethodInfo clearCrossfadeQueueMethod;
+        private static PropertyInfo controllerSkeletonProperty;
+        private static FieldInfo animatedRenderVerticesField;
+        private static FieldInfo animatedRenderIndicesField;
+        private static FieldInfo animatedRenderDeclarationField;
+        private static FieldInfo animatedRenderSkeletonField;
         private static MethodInfo disableBodyMethod;
         private static PropertyInfo bodyCollisionSkinProperty;
         private static FieldInfo bodyTagField;
@@ -372,6 +390,118 @@ namespace Magicka.CommunityPatch.Runtime
                 !damageableCurrentStatusField.FieldType.IsEnum)
                 throw new MissingMemberException(
                     "DamageablePhysicsEntity final cleanup members are incomplete.");
+
+            animatedPhysicsEntityType = targetAssembly.GetType(
+                "Magicka.GameLogic.Entities.AnimatedPhysicsEntity",
+                true);
+            if (animatedPhysicsEntityType.BaseType != damageablePhysicsEntityType)
+                throw new InvalidOperationException(
+                    "AnimatedPhysicsEntity no longer derives from DamageablePhysicsEntity.");
+            animatedModelField = RequireField(
+                animatedPhysicsEntityType,
+                "mModel",
+                InstanceFields | BindingFlags.DeclaredOnly);
+            animatedControllerField = RequireField(
+                animatedPhysicsEntityType,
+                "mAnimationController",
+                InstanceFields | BindingFlags.DeclaredOnly);
+            animatedClipsField = RequireField(
+                animatedPhysicsEntityType,
+                "mAnimationClips",
+                InstanceFields | BindingFlags.DeclaredOnly);
+            animatedActionsField = RequireField(
+                animatedPhysicsEntityType,
+                "mCurrentActions",
+                InstanceFields | BindingFlags.DeclaredOnly);
+            animatedRenderDataField = RequireField(
+                animatedPhysicsEntityType,
+                "mAnimatedRenderData",
+                InstanceFields | BindingFlags.DeclaredOnly);
+
+            Type controllerType = animatedControllerField.FieldType;
+            animatedControllerConstructor = controllerType.GetConstructor(
+                Type.EmptyTypes);
+            animationLoopedEvent = controllerType.GetEvent(
+                "AnimationLooped",
+                BindingFlags.Instance | BindingFlags.Public |
+                    BindingFlags.NonPublic);
+            crossfadeFinishedEvent = controllerType.GetEvent(
+                "CrossfadeFinished",
+                BindingFlags.Instance | BindingFlags.Public |
+                    BindingFlags.NonPublic);
+            clearCrossfadeQueueMethod = controllerType.GetMethod(
+                "ClearCrossfadeQueue",
+                BindingFlags.Instance | BindingFlags.Public |
+                    BindingFlags.NonPublic,
+                null,
+                Type.EmptyTypes,
+                null);
+            controllerSkeletonProperty = controllerType.GetProperty(
+                "Skeleton",
+                BindingFlags.Instance | BindingFlags.Public |
+                    BindingFlags.NonPublic);
+            onAnimationLoopedMethod = animatedPhysicsEntityType.GetMethod(
+                "OnAnimationLooped",
+                BindingFlags.Instance | BindingFlags.Public |
+                    BindingFlags.NonPublic,
+                null,
+                Type.EmptyTypes,
+                null);
+            onCrossfadeFinishedMethod = animatedPhysicsEntityType.GetMethod(
+                "OnCrossfadeFinished",
+                BindingFlags.Instance | BindingFlags.Public |
+                    BindingFlags.NonPublic,
+                null,
+                Type.EmptyTypes,
+                null);
+
+            Type animatedRenderDataType =
+                animatedRenderDataField.FieldType.GetElementType();
+            animatedRenderDataConstructor = animatedRenderDataType == null
+                ? null
+                : animatedRenderDataType.GetConstructor(
+                    BindingFlags.Instance | BindingFlags.Public |
+                        BindingFlags.NonPublic,
+                    null,
+                    new Type[] { animatedPhysicsEntityType },
+                    null);
+            animatedRenderVerticesField = animatedRenderDataType == null
+                ? null
+                : animatedRenderDataType.GetField(
+                    "mVertexBuffer",
+                    InstanceFields | BindingFlags.DeclaredOnly);
+            animatedRenderIndicesField = animatedRenderDataType == null
+                ? null
+                : animatedRenderDataType.GetField(
+                    "mIndexBuffer",
+                    InstanceFields | BindingFlags.DeclaredOnly);
+            animatedRenderDeclarationField = animatedRenderDataType == null
+                ? null
+                : animatedRenderDataType.GetField(
+                    "mVertexDeclaration",
+                    InstanceFields | BindingFlags.DeclaredOnly);
+            animatedRenderSkeletonField = animatedRenderDataType == null
+                ? null
+                : animatedRenderDataType.GetField(
+                    "mSkeleton",
+                    InstanceFields | BindingFlags.DeclaredOnly);
+            if (animatedControllerConstructor == null ||
+                animationLoopedEvent == null ||
+                crossfadeFinishedEvent == null ||
+                onAnimationLoopedMethod == null ||
+                onCrossfadeFinishedMethod == null ||
+                clearCrossfadeQueueMethod == null ||
+                clearCrossfadeQueueMethod.ReturnType != typeof(void) ||
+                controllerSkeletonProperty == null ||
+                !controllerSkeletonProperty.CanWrite ||
+                animatedRenderDataType == null ||
+                animatedRenderDataConstructor == null ||
+                animatedRenderVerticesField == null ||
+                animatedRenderIndicesField == null ||
+                animatedRenderDeclarationField == null ||
+                animatedRenderSkeletonField == null)
+                throw new MissingMemberException(
+                    "AnimatedPhysicsEntity lifecycle cleanup members are incomplete.");
             return physicsEntity;
         }
 
@@ -423,6 +553,8 @@ namespace Magicka.CommunityPatch.Runtime
         {
             DetachEntity(__instance);
             ResetPhysicsEntityReferences(__instance);
+            if (animatedPhysicsEntityType.IsInstanceOfType(__instance))
+                ResetAnimatedPhysicsEntityReferences(__instance);
         }
 
         public static void ClearHandlesPrefix()
@@ -437,6 +569,8 @@ namespace Magicka.CommunityPatch.Runtime
                     object entity = snapshot[index];
                     if (entity == null)
                         continue;
+                    if (animatedPhysicsEntityType.IsInstanceOfType(entity))
+                        CleanupFinalAnimatedPhysicsEntity(entity);
                     if (damageablePhysicsEntityType.IsInstanceOfType(entity))
                         CleanupFinalDamageableEntity(entity);
                     if (physicsEntityType.IsInstanceOfType(entity))
@@ -486,6 +620,107 @@ namespace Magicka.CommunityPatch.Runtime
                     entity,
                     Activator.CreateInstance(
                         damageableCurrentStatusField.FieldType));
+            }
+            catch
+            {
+            }
+        }
+
+        private static void ResetAnimatedPhysicsEntityReferences(object entity)
+        {
+            animatedClipsField.SetValue(entity, null);
+            animatedModelField.SetValue(entity, null);
+
+            object controller = animatedControllerConstructor.Invoke(null);
+            animationLoopedEvent.AddEventHandler(
+                controller,
+                Delegate.CreateDelegate(
+                    animationLoopedEvent.EventHandlerType,
+                    entity,
+                    onAnimationLoopedMethod));
+            crossfadeFinishedEvent.AddEventHandler(
+                controller,
+                Delegate.CreateDelegate(
+                    crossfadeFinishedEvent.EventHandlerType,
+                    entity,
+                    onCrossfadeFinishedMethod));
+            animatedControllerField.SetValue(entity, controller);
+
+            Array renderData = Array.CreateInstance(
+                animatedRenderDataField.FieldType.GetElementType(),
+                3);
+            for (int index = 0; index < renderData.Length; index++)
+                renderData.SetValue(
+                    animatedRenderDataConstructor.Invoke(
+                        new object[] { entity }),
+                    index);
+            animatedRenderDataField.SetValue(entity, renderData);
+        }
+
+        private static void CleanupFinalAnimatedPhysicsEntity(object entity)
+        {
+            object controller = animatedControllerField.GetValue(entity);
+            if (controller != null)
+            {
+                TryRemoveEvent(
+                    animationLoopedEvent,
+                    controller,
+                    entity,
+                    onAnimationLoopedMethod);
+                TryRemoveEvent(
+                    crossfadeFinishedEvent,
+                    controller,
+                    entity,
+                    onCrossfadeFinishedMethod);
+                TryInvoke(clearCrossfadeQueueMethod, controller);
+                try
+                {
+                    controllerSkeletonProperty.SetValue(
+                        controller,
+                        null,
+                        null);
+                }
+                catch
+                {
+                }
+            }
+            TrySet(animatedControllerField, entity, null);
+            TrySet(animatedClipsField, entity, null);
+            TrySet(animatedActionsField, entity, null);
+            TrySet(animatedModelField, entity, null);
+
+            Array renderData =
+                animatedRenderDataField.GetValue(entity) as Array;
+            if (renderData != null)
+            {
+                for (int index = 0; index < renderData.Length; index++)
+                {
+                    object item = renderData.GetValue(index);
+                    if (item == null)
+                        continue;
+                    TrySet(animatedRenderVerticesField, item, null);
+                    TrySet(animatedRenderIndicesField, item, null);
+                    TrySet(animatedRenderDeclarationField, item, null);
+                    TrySet(animatedRenderSkeletonField, item, null);
+                }
+            }
+            TrySet(animatedRenderDataField, entity, null);
+        }
+
+        private static void TryRemoveEvent(
+            EventInfo eventInfo,
+            object source,
+            object target,
+            MethodInfo method)
+        {
+            try
+            {
+                eventInfo.RemoveEventHandler(
+                    source,
+                    Delegate.CreateDelegate(
+                        eventInfo.EventHandlerType,
+                        target,
+                        method));
             }
             catch
             {

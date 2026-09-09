@@ -33,6 +33,10 @@ four hundred forty-six method patches:
   list entries and resistance array before returning it to the reuse pool.
 - Final handle cleanup additionally stops and releases damageable-entity status
   effects, status lights, Gib and physical-animation lists, and resistance state.
+- `AnimatedPhysicsEntity.Deinitialize` replaces template-specific animation and
+  render state with a fresh subscribed controller and three reusable render
+  slots. Final handle cleanup removes both controller callbacks and releases the
+  controller, model, clips, actions, skeleton, and render-resource references.
 - `SummonDeath` no longer retains a completed play state in its singleton, and
   both its spawn path and active Death entity resolve the current play state.
 - `TypingText.Update` finishes malformed or truncated text after an

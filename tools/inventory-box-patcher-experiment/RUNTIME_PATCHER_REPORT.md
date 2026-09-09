@@ -2443,10 +2443,14 @@ Versionsnachweis.
   geschützt. Die beiden gezielten Hinweise für XNA-Adapter- und
   Grafikgerätefehler in `WriteReport` sind ebenfalls migriert. Payload-,
   Telemetrie- und weitere Fehlerberichtänderungen bleiben offen.
-- [ ] `Magicka/GameLogic/Entities/AnimatedPhysicsEntity.cs` — TEILWEISE:
+- [x] `Magicka/GameLogic/Entities/AnimatedPhysicsEntity.cs` — VOLLSTÄNDIG:
   Crossfade und ForceAnimation verwenden Idle nur dann als Ersatz, wenn dessen
-  Aktion und Clip vorhanden sind; Deinitialize- und Dispose-Änderungen sind
-  noch offen.
+  Aktion und Clip vorhanden sind. `Deinitialize` ersetzt Controller und drei
+  Render-Slots für eine saubere Wiederverwendung; der finale Handle-Abbau löst
+  Controller-Callbacks, Queue, Skeleton, Modell, Clips, Actions und sämtliche
+  Renderreferenzen. Die beiden Lifecycle-Szenarien laufen als Drei-Wege-Test auf
+  1.10.4.2, 1.5.1.0 und 1.4.16.0. Statische Initialisiererdarstellung und
+  RetentionRegistry-Aufrufe ändern kein Laufzeitverhalten.
 - [ ] `Magicka/GameLogic/Spells/UnderGroundAttack.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/CommunityPatch/NetworkGuardTelemetryBackoff.cs`
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/HealingRain.cs` — VOLLSTÄNDIG: aktuelle Zustandsauflösung und abschließende Szene-/Caster-Freigabe mit 4 Transpilern, 1 Prefix und 5 Drei-Wege-Szenarien.
