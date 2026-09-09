@@ -441,6 +441,18 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Zustandskanten und den laufenden Szenenzugriff. Das Original und beide
     historischen Versionen sind rot; manueller Patch und Runtime-Patch sind
     grün.
+- [x] `spell-mine-level-part-lifetime`
+  - Ziel: `SpellMine.Deinitialize()`.
+  - Technik: Ein eng geprüfter Transpiler fügt unmittelbar vor dem einzigen
+    Methodenende genau `mAnimatedLevelPart = null` ein. Verzweigungen zum
+    Methodenende werden einschließlich Harmony-Labels auf den Cleanup geführt.
+  - Verhalten: Eine deinitialisierte, weiterhin in der statischen Rotationsqueue
+    gehaltene Mine hält kein animiertes Levelteil mehr fest. Der bestehende
+    Basisklassenabbau und die Kollisionsbereinigung bleiben davor unverändert.
+  - Ein strukturelles Drei-Wege-Szenario prüft die abschließende Nullzuweisung.
+    Das Original 1.10.4.2 ist rot; manueller und Runtime-Patch sind grün. In
+    Magicka 1.4.16.0 und 1.5.1.0 besitzt `SpellMine` dieses Feld nicht; Patch und
+    Szenario melden dort ausdrücklich `NOT_APPLICABLE`.
 - [x] `spell-effect-current-play-state`
   - Ziele: `SpellEffect.IntializeCaches(PlayState, ContentManager)`,
     `LightningSpell.GetFromCache()` und
@@ -2392,7 +2404,11 @@ Versionsnachweis.
 
 - [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuTimedObjectiveStatistics.cs` — VOLLSTÄNDIG: alle neun Reads verwenden den aktuellen PlayState; der übrige statische Initialisierer-Diff ist semantikfreies Compilerrauschen.
 - [ ] `Magicka/CommunityPatch/TelemetryRuntimeContext.cs`
-- [ ] `Magicka/GameLogic/Entities/SpellMine.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Entities/SpellMine.cs` — VOLLSTÄNDIG: Deinitialize löst
+  das animierte Levelteil und die statische Rotationsqueue wird bei Levelende
+  geleert. RetentionRegistry-Aufrufe sind reine Diagnostik; statische
+  Initialisierer sind semantikfreies Compiler- beziehungsweise
+  Decompilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonPhoenix.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen und alle dreizehn laufenden Zugriffe sind mit 3 Transpilern und 3 Drei-Wege-Szenarien migriert; die Segment-Initialisierungen im C#-Diff sind semantikfreies Compilerrauschen.
 - [x] `Magicka/CommunityPatch/DialogLayoutCompatibility.cs` — VOLLSTÄNDIG: beide reinen Formatierungshelfer sind im Runtime-Patcher enthalten und durch sechs Drei-Wege-Szenarien abgedeckt.
 - [x] `Magicka/GameLogic/Entities/Bosses/Vlad.cs` — VOLLSTÄNDIG: die gespeicherte Konstruktor-Referenz und beide späteren PlayState-Reads sind mit 2 Transpilern und 2 Drei-Wege-Szenarien migriert; statische Initialisiererdarstellungen und Segment-Syntax sind semantikfreies Compilerrauschen.

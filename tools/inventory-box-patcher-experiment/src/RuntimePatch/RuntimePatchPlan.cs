@@ -194,6 +194,7 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 WavePlayStatePatch.UpdateDefinition);
+            SpellMineLevelPartPatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 SpellEffectPlayStatePatch.InitializeDefinition);

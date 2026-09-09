@@ -282,6 +282,7 @@ function Test-BehaviorMatrix {
         "wave.direction_state",
         "wave.owner_state",
         "wave.update_state",
+        "spell_mine.animated_part_release",
         "spell_effect.initialize_release",
         "lightning_spell.cached_current_play_state",
         "lightning_spell.empty_cache_current_play_state",
@@ -567,7 +568,8 @@ function Test-BehaviorMatrix {
         "physics_entity_template_cache.level_dispose",
         "physics_entity_template_cache.uninitialized_dispose",
         "character_template_cache.shared_template",
-        "character_template_cache.empty"
+        "character_template_cache.empty",
+        "spell_mine.animated_part_release"
     )
     $matrix = New-Object System.Collections.Generic.List[string]
 
@@ -781,6 +783,7 @@ function Test-BehaviorProfile(
             "wave.direction_state",
             "wave.owner_state",
             "wave.update_state",
+            "spell_mine.animated_part_release",
             "spell_effect.initialize_release",
             "lightning_spell.cached_current_play_state",
             "lightning_spell.empty_cache_current_play_state",
@@ -979,6 +982,7 @@ function Test-BehaviorProfile(
         "wave.direction_state",
         "wave.owner_state",
         "wave.update_state",
+        "spell_mine.animated_part_release",
         "spell_effect.initialize_release",
         "lightning_spell.cached_current_play_state",
         "lightning_spell.empty_cache_current_play_state",
@@ -1590,6 +1594,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Wave direction play-state release" -or
         $auditLines -notcontains "patch_end=Wave owner play-state release" -or
         $auditLines -notcontains "patch_end=Wave current play state" -or
+        $auditLines -notcontains "patch_end=SpellMine animated level-part release" -or
         $auditLines -notcontains "patch_end=SpellEffect play-state release" -or
         $auditLines -notcontains "patch_end=LightningSpell current cache play state" -or
         $auditLines -notcontains "patch_end=LightningSpell current cast play state" -or
@@ -1740,7 +1745,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=LevelModel complete teardown" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 69 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 18 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 393) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 394) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1755,7 +1760,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=480")
+    $summary.Add("implemented_patches=481")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
