@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-four hundred thirteen method patches:
+four hundred thirty-five method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -75,8 +75,9 @@ four hundred thirteen method patches:
 - `GreaseTrail` no longer retains its activation play state and uses the
   current play state when creating and registering grease fields.
 - `SpellEffect` no longer retains the level state used to initialize its
-  caches, and `LightningSpell` resolves cache and cast work through the current
-  play state.
+  caches. `LightningSpell`, `PushSpell`, `SpraySpell`, `ProjectileSpell`, and
+  `RailGunSpell` resolve cache, cast, scene-query, audio, and removal work
+  through the current play state.
 - `EffectManager` keeps the first visual-effect definition when multiple XML
   files produce the same filename hash instead of aborting initialization.
 - `TimeWarp` and `TimeWarpStaff` release the play state supplied when the
@@ -285,7 +286,7 @@ and AnimatedLevelPart disposal changes use Harmony prefixes; BossHealthBar,
 Water, and Lava additionally use constructor postfixes, while HUDManager,
 NonPlayerCharacter, PhysicsEntity, and one
 EntityManager change use ordinary postfixes.
-The Agent, AnimatedLevelPart, AudioManager, Blizzard, BreakBarriers, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, EtherealClone, GameScene, GenericHealthBar, GreaseTrail, LightningSpell, MeteorShower, Rain, SpellEffect, TeslaField,
+The Agent, AnimatedLevelPart, AudioManager, Blizzard, BreakBarriers, ChillyBlast, CompanyState, DeflectionAura, DrainLife, DrinkBlood, DynamicLight, EtherealClone, GameScene, GenericHealthBar, GreaseTrail, LightningSpell, MeteorShower, ProjectileSpell, PushSpell, RailGunSpell, Rain, SpellEffect, SpraySpell, TeslaField,
 EntityStateStorage, Flash, GiveOrder, IconRenderer, Machine, Jormungandr, pack, PoisonSpray, Portal,
 RandomMine, SpawnSlime, SummonCross, SummonFlamer, SummonSpirit, SummonUndead,
 Starfall, StatisticsManager, Thunderstorm, TutorialManager, VersusRuleset,

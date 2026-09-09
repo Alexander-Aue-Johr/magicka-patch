@@ -127,6 +127,42 @@ namespace Magicka.CommunityPatch.Runtime
                 SpellEffectPlayStatePatch.CastDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                DerivedSpellEffectPlayStatePatch.PushGetDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                DerivedSpellEffectPlayStatePatch.PushReturnDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                DerivedSpellEffectPlayStatePatch.SprayGetDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                DerivedSpellEffectPlayStatePatch.SprayReturnDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                DerivedSpellEffectPlayStatePatch.SprayUpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                DerivedSpellEffectPlayStatePatch.ProjectileGetDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                DerivedSpellEffectPlayStatePatch.ProjectileReturnDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                DerivedSpellEffectPlayStatePatch.RailGunGetDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                DerivedSpellEffectPlayStatePatch.RailGunReturnDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                DerivedSpellEffectPlayStatePatch.RailGunSelfDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                DerivedSpellEffectPlayStatePatch.RailGunWeaponDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                DerivedSpellEffectPlayStatePatch.RailGunDeinitializeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 EffectManagerDuplicatePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

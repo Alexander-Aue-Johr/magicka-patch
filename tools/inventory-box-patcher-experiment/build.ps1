@@ -256,6 +256,18 @@ function Test-BehaviorMatrix {
         "lightning_spell.cached_current_play_state",
         "lightning_spell.empty_cache_current_play_state",
         "lightning_spell.cast_current_play_state",
+        "push_spell.get_from_cache_current_play_state",
+        "push_spell.return_to_cache_current_play_state",
+        "spray_spell.get_from_cache_current_play_state",
+        "spray_spell.return_to_cache_current_play_state",
+        "spray_spell.cast_update_current_play_state",
+        "projectile_spell.get_from_cache_current_play_state",
+        "projectile_spell.return_to_cache_current_play_state",
+        "railgun_spell.get_from_cache_current_play_state",
+        "railgun_spell.return_to_cache_current_play_state",
+        "railgun_spell.cast_self_current_play_state",
+        "railgun_spell.cast_weapon_current_play_state",
+        "railgun_spell.deinitialize_current_play_state",
         "effect_manager.duplicate_name",
         "time_warp.start_current_state",
         "time_warp.update_current_state",
@@ -695,6 +707,18 @@ function Test-BehaviorProfile(
             "lightning_spell.cached_current_play_state",
             "lightning_spell.empty_cache_current_play_state",
             "lightning_spell.cast_current_play_state",
+            "push_spell.get_from_cache_current_play_state",
+            "push_spell.return_to_cache_current_play_state",
+            "spray_spell.get_from_cache_current_play_state",
+            "spray_spell.return_to_cache_current_play_state",
+            "spray_spell.cast_update_current_play_state",
+            "projectile_spell.get_from_cache_current_play_state",
+            "projectile_spell.return_to_cache_current_play_state",
+            "railgun_spell.get_from_cache_current_play_state",
+            "railgun_spell.return_to_cache_current_play_state",
+            "railgun_spell.cast_self_current_play_state",
+            "railgun_spell.cast_weapon_current_play_state",
+            "railgun_spell.deinitialize_current_play_state",
             "effect_manager.duplicate_name",
             "time_warp.start_current_state",
             "time_warp.update_current_state",
@@ -848,6 +872,18 @@ function Test-BehaviorProfile(
         "lightning_spell.cached_current_play_state",
         "lightning_spell.empty_cache_current_play_state",
         "lightning_spell.cast_current_play_state",
+        "push_spell.get_from_cache_current_play_state",
+        "push_spell.return_to_cache_current_play_state",
+        "spray_spell.get_from_cache_current_play_state",
+        "spray_spell.return_to_cache_current_play_state",
+        "spray_spell.cast_update_current_play_state",
+        "projectile_spell.get_from_cache_current_play_state",
+        "projectile_spell.return_to_cache_current_play_state",
+        "railgun_spell.get_from_cache_current_play_state",
+        "railgun_spell.return_to_cache_current_play_state",
+        "railgun_spell.cast_self_current_play_state",
+        "railgun_spell.cast_weapon_current_play_state",
+        "railgun_spell.deinitialize_current_play_state",
         "effect_manager.duplicate_name",
         "effect_manager.unique_names",
         "time_warp.start_current_state",
@@ -1506,9 +1542,21 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=BossFight pending initialization retry" -or
         $auditLines -notcontains "patch_end=BossFight current update play state" -or
         $auditLines -notcontains "patch_end=BossFight pending packet completion" -or
+        $auditLines -notcontains "patch_end=PushSpell current cache insertion play state" -or
+        $auditLines -notcontains "patch_end=PushSpell current cache return play state" -or
+        $auditLines -notcontains "patch_end=SpraySpell current cache insertion play state" -or
+        $auditLines -notcontains "patch_end=SpraySpell current cache return play state" -or
+        $auditLines -notcontains "patch_end=SpraySpell current geometry play state" -or
+        $auditLines -notcontains "patch_end=ProjectileSpell current cache insertion play state" -or
+        $auditLines -notcontains "patch_end=ProjectileSpell current cache return play state" -or
+        $auditLines -notcontains "patch_end=RailGunSpell current cache insertion play state" -or
+        $auditLines -notcontains "patch_end=RailGunSpell current cache return play state" -or
+        $auditLines -notcontains "patch_end=RailGunSpell current self-cast play state" -or
+        $auditLines -notcontains "patch_end=RailGunSpell current weapon-cast play state" -or
+        $auditLines -notcontains "patch_end=RailGunSpell current removal play state" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 52 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 12 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 359) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 371) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1523,7 +1571,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=423")
+    $summary.Add("implemented_patches=435")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
