@@ -2087,6 +2087,19 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Runtime-Patch-Profile liefern den aktuellen Zustand; der Kontrollfall
     besteht überall.
 
+- [x] `game-scene-menu-controller-reset`
+  - Ziel: `GameScene.Destroy(bool)`.
+  - Technik: Prefix; unmittelbar vor dem Szenenabbau wird der vorhandene
+    `KeyboardMouseController.Clear()`-Pfad aufgerufen.
+  - Fehlerfall: Ein angefangener Klick oder eine Interaktion hält Zielobjekte
+    aus der zu zerstörenden Szene und laufende Eingabeflags fest.
+  - Verhalten: CursorPressedTarget und LockedTarget werden gelöst;
+    StillPressing und InteractMoveLock werden beendet. Controllerzuweisungen,
+    Bindings und das `iSaveNPCs`-Verhalten bleiben unverändert.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten den gesetzten Zustand.
+    Die manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile leeren
+    ihn; der bereits leere Kontrollzustand besteht überall.
+
 - [x] `blizzard-play-state-lifetime`
   - Ziele: beide öffentlichen `Blizzard.Execute(...)`-Überladungen, das private
     `Execute()`, `Update(...)` und `OnRemove()`.
@@ -2697,7 +2710,8 @@ Versionsnachweis.
 - [ ] `Magicka/Levels/GameScene.cs` — TEILWEISE: der ungültige
   Ambient-Audio-Locator wird bei einem internen XACT-Cue-Indexfehler entfernt;
   `PlayState` liefert außerdem den aktuellen statt eines gespeicherten
-  Zustands. Die weiteren manuellen Änderungen der Klasse bleiben offen.
+  Zustands. `Destroy` leert den transienten Menücontroller vor dem Abbau der
+  Szenenobjekte. Die weiteren manuellen Änderungen der Klasse bleiben offen.
 - [ ] `Magicka/CommunityPatch/PatchTelemetry.cs`
 - [ ] `Magicka/GameLogic/Entities/Character.cs` — TEILWEISE: Initialisierung,
   Crossfade und ForceAnimation behandeln fehlende Animationsaktionen und

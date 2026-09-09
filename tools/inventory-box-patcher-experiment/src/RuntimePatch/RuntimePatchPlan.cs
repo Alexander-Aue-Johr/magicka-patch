@@ -824,6 +824,9 @@ namespace Magicka.CommunityPatch.Runtime
                 GameScenePlayStatePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                GameSceneMenuControllerResetPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 DynamicLightCachePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
