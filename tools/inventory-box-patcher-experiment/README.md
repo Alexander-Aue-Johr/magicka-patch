@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-three hundred ninety-nine method patches:
+four hundred method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -202,6 +202,8 @@ three hundred ninety-nine method patches:
 - The static `ElementalEgg` instance cache and elemental-template lookup are
   released during initialized `PlayState.Dispose` without disposing their
   entries.
+- The level-owned `Item` pickable queue is released during initialized
+  `PlayState.Dispose`; weapon-cache behavior remains unchanged.
 - `JudgementSpray.SpawnProjectile` allocates a replacement condition collection
   when the shared pool is temporarily empty and otherwise reuses the original
   cached object.

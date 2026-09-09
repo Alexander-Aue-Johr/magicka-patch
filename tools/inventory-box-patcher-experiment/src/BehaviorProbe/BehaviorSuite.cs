@@ -180,6 +180,10 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        ItemPickableCacheScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         ActionLifecycleScenarios.Run(magicka, report);
         DialogManagerLevelCleanupScenarios.Run(
             magicka,

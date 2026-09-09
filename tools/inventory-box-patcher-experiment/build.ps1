@@ -424,6 +424,7 @@ function Test-BehaviorMatrix {
         "static_level_pools.level_dispose",
         "lightning_bolt_cache.level_dispose",
         "elemental_egg_cache.level_dispose",
+        "item_pickable_cache.level_dispose",
         "judgement_spray.empty_condition_cache",
         "blizzard_cleanup.active_release",
         "blizzard_cleanup.stop_failure_release",
@@ -683,7 +684,8 @@ function Test-BehaviorProfile(
             "thunderstorm.update_current_play_state",
             "thunderstorm.remove_current_play_state",
             "lightning_bolt_cache.level_dispose",
-            "elemental_egg_cache.level_dispose")
+            "elemental_egg_cache.level_dispose",
+            "item_pickable_cache.level_dispose")
     }
     $probeDirectory = Join-Path $toolBuildDirectory "behavior-probe"
     $probe = Join-Path $probeDirectory "BehaviorProbe.exe"
@@ -1093,6 +1095,8 @@ function Test-BehaviorProfile(
         "lightning_bolt_cache.uninitialized_dispose",
         "elemental_egg_cache.level_dispose",
         "elemental_egg_cache.uninitialized_dispose",
+        "item_pickable_cache.level_dispose",
+        "item_pickable_cache.uninitialized_dispose",
         "judgement_spray.empty_condition_cache",
         "judgement_spray.cached_condition_identity",
         "blizzard_cleanup.active_release",
@@ -1254,6 +1258,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Static level pool cleanup" -or
         $auditLines -notcontains "patch_end=Lightning bolt cache cleanup" -or
         $auditLines -notcontains "patch_end=Elemental egg cache cleanup" -or
+        $auditLines -notcontains "patch_end=Pickable item cache release" -or
         $auditLines -notcontains "patch_end=JudgementSpray empty condition-cache recovery" -or
         $auditLines -notcontains "patch_end=Blizzard vector play-state release" -or
         $auditLines -notcontains "patch_end=Blizzard owner play-state release" -or
@@ -1407,7 +1412,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=NetworkServer forced sync response builder" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 47 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 10 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 342) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 343) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1422,7 +1427,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=399")
+    $summary.Add("implemented_patches=400")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

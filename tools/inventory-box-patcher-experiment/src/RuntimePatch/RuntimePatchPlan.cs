@@ -496,6 +496,9 @@ namespace Magicka.CommunityPatch.Runtime
                 ElementalEggCachePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                ItemPickableCachePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 JudgementSprayConditionCachePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

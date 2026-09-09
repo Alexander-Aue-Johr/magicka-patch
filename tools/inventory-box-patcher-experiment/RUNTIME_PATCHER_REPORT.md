@@ -1586,6 +1586,26 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip. Der kommentarlos
     dekompilierte DLL-Diff enthält ausschließlich die neue Hilfsklasse und ihre
     Registrierung.
+- [x] `item-pickable-cache-release`
+  - Ziel: `PlayState.Dispose`
+  - Technik: ein Transpiler fügt nach dem exakt einmal vorhandenen Aufruf von
+    `Entity.ClearHandles()` einen Cleanup-Aufruf im initialisierten Dispose-Pfad
+    ein. Das Feld wird vor der Registrierung als exaktes `Queue<Item>`
+    validiert.
+  - Fehlerfall: `Item.sPickableCache` hält das Queue-Objekt und alle für den
+    beendeten PlayState erzeugten Pickable-Items.
+  - Verhalten: der statische Queue-Verweis wird auf null gesetzt. Die Items
+    werden in diesem Patch nicht einzeln verändert; Weapon-Cache und
+    Item-Dispose bleiben separate Blöcke.
+  - Kontrollverhalten: ein nicht initialisierter `PlayState` erreicht den
+    eingefügten Aufruf nicht und behält exakt dieselbe Queue.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten die Queue. Die manuelle
+    Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile lösen sie.
+  - Der vorherige Runtime-Patch schlägt im neuen Fehlerfall rot fehl. Der
+    vollständige Build mit 400 Definitionen besteht alle Profile. Alle fünf
+    geänderten Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip; der
+    kommentarlos dekompilierte DLL-Diff enthält nur die neue Hilfsklasse und
+    ihre Registrierung.
 - [x] `entity-update-character-marker-decode`
   - Ziele: `NetworkServer.Update` und `NetworkClient.Update`
   - Technik: zwei Transpiler rufen unmittelbar vor dem vorhandenen
@@ -2136,7 +2156,9 @@ Versionsnachweis.
   sicheren Array-Lookups sind migriert; die begrenzte Missing-Clip-Telemetrie
   folgt mit dem gemeinsamen Runtime-Telemetrieblock.
 - [ ] `Magicka/CommunityPatch/PatchSettings.cs`
-- [ ] `Magicka/GameLogic/Entities/Items/Item.cs`
+- [ ] `Magicka/GameLogic/Entities/Items/Item.cs` — TEILWEISE: die
+  levelgebundene Pickable-Queue wird beim Levelabbau freigegeben; Weapon-Cache,
+  individuelle Dispose-Änderungen und Diagnostik bleiben offen.
 - [ ] `Magicka/SharedContentManager.cs`
 - [ ] `Magicka/GameLogic/UI/Tome.cs`
 - [ ] `Magicka/GameLogic/Entities/Avatar.cs` — TEILWEISE: `FindInteractable`
