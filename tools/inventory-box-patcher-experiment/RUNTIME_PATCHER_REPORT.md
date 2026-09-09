@@ -2318,7 +2318,12 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Spells/Magick.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Spells/Railgun.cs` — TEILWEISE: statische Poolfreigabe, Ahnenprüfung vor dem Verknüpfen und zyklussichere Lock-Traversierung sind migriert; offen sind nur RetentionRegistry- und Recovery-Telemetrieaufrufe des manuellen Diffs.
 - [ ] `Magicka/Levels/Triggers/Trigger.cs` — TEILWEISE: `SpawnNPC` übernimmt den über das unveränderte Paketformat transportierten Undead-Zustand; eingehende TriggerActions erhalten dieselbe Lifecycle-Prüfung wie in 0.0.60. Weitere Dispose- und Diagnoseänderungen dieser Klasse sind noch offen.
-- [ ] `Magicka/GameLogic/Entities/Gib.cs`
+- [x] `Magicka/GameLogic/Entities/Gib.cs` — VOLLSTÄNDIG: Der finale
+  Entity-Handle-Abbau stoppt verbleibende Blut- und Trail-Effekte, löst Modell-,
+  Render-, Mesh- und MeshPart-Referenzen aktiver und gepoolter Gibs und leert
+  `GibCache`. Ein Prefix und 2 Drei-Wege-Szenarien ergänzen die bereits
+  migrierte Pool-Recovery. RetentionRegistry-Aufrufe und die Darstellung der
+  statischen Initialisierer sind Diagnostik beziehungsweise Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/MissileEntity.cs` — TEILWEISE: ungültige
   Netzwerkereignisse für unvollständige Projektile und verschwundene Ziele
   werden vor der Originalmethode verworfen; verbrauchte Kollisionsprojektile

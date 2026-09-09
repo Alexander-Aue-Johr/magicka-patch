@@ -171,6 +171,9 @@ namespace Magicka.CommunityPatch.Runtime
                 BarrierTeardownPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                GibTeardownPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 EffectManagerDuplicatePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
