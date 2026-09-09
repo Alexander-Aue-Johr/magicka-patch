@@ -192,6 +192,10 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        SummonDeathPlayStateScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         PhysicsEntityTemplateCacheScenarios.Run(
             magicka,
             runtimePatchEnabled,

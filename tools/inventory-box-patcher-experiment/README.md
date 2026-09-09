@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-four hundred six method patches:
+four hundred thirteen method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -29,6 +29,8 @@ four hundred six method patches:
   stale play-state references for every registered entity.
 - `DamageablePhysicsEntity.Deinitialize` releases the inactive entity's gib
   list entries and resistance array before returning it to the reuse pool.
+- `SummonDeath` no longer retains a completed play state in its singleton, and
+  both its spawn path and active Death entity resolve the current play state.
 - `TypingText.Update` finishes malformed or truncated text after an
   out-of-range parser read instead of aborting the update path.
 - Every closed `NetworkServer.QueueUDPMessage<T>` instantiation drops a late

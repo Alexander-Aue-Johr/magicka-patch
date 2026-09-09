@@ -225,6 +225,13 @@ function Test-BehaviorMatrix {
         "damageable_deinitialize.gib_release",
         "damageable_deinitialize.resistance_release",
         "damageable_deinitialize.cache_order",
+        "summon_death.owner_state",
+        "summon_death.vector_state",
+        "summon_death.spawn_state",
+        "death_entity.constructor_state",
+        "death_entity.initialize_state",
+        "death_entity.update_state",
+        "death_entity.deinitialize_state",
         "helper_array_equals.left_null",
         "helper_array_equals.right_null",
         "helper_array_equals.both_null",
@@ -528,6 +535,13 @@ function Test-BehaviorProfile(
     if ($profile -eq "1.4.16.0-original" -or
         $profile -eq "1.5.1.0-original") {
         $expectedFailures = @($expectedFailures) + @(
+            "summon_death.owner_state",
+            "summon_death.vector_state",
+            "summon_death.spawn_state",
+            "death_entity.constructor_state",
+            "death_entity.initialize_state",
+            "death_entity.update_state",
+            "death_entity.deinitialize_state",
             "icon_renderer.constructor_state_release",
             "icon_renderer.initialize_state_release",
             "icon_renderer.current_game_type",
@@ -786,6 +800,14 @@ function Test-BehaviorProfile(
         "damageable_deinitialize.gib_release",
         "damageable_deinitialize.resistance_release",
         "damageable_deinitialize.cache_order",
+        "summon_death.owner_state",
+        "summon_death.vector_state",
+        "summon_death.spawn_state",
+        "summon_death.spawn_shape",
+        "death_entity.constructor_state",
+        "death_entity.initialize_state",
+        "death_entity.update_state",
+        "death_entity.deinitialize_state",
         "helper_array_equals.equal",
         "helper_array_equals.different",
         "helper_array_equals.left_null",
@@ -1445,9 +1467,16 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=IconRenderer initialization play-state release" -or
         $auditLines -notcontains "patch_end=IconRenderer current play-state magick selection" -or
         $auditLines -notcontains "patch_end=DamageablePhysicsEntity inactive template release" -or
+        $auditLines -notcontains "patch_end=SummonDeath owner play-state release" -or
+        $auditLines -notcontains "patch_end=SummonDeath vector play-state release" -or
+        $auditLines -notcontains "patch_end=SummonDeath current play-state spawn" -or
+        $auditLines -notcontains "patch_end=SummonDeath entity constructor play-state release" -or
+        $auditLines -notcontains "patch_end=SummonDeath entity current play-state initialization" -or
+        $auditLines -notcontains "patch_end=SummonDeath entity current play-state update" -or
+        $auditLines -notcontains "patch_end=SummonDeath entity current play-state removal" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 48 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 10 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 348) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 355) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1462,7 +1491,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=406")
+    $summary.Add("implemented_patches=413")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

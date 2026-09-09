@@ -499,6 +499,27 @@ namespace Magicka.CommunityPatch.Runtime
                 targetAssembly,
                 ItemPickableCachePatch.Definition);
             DamageableEntityStatePatchPlan.ApplyTo(targetAssembly);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonDeathPlayStatePatch.OwnerExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonDeathPlayStatePatch.VectorExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonDeathPlayStatePatch.SpawnDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonDeathPlayStatePatch.DeathConstructorDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonDeathPlayStatePatch.DeathInitializeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonDeathPlayStatePatch.DeathUpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                SummonDeathPlayStatePatch.DeathDeinitializeDefinition);
             PhysicsEntityTemplateCachePatchPlan.ApplyTo(targetAssembly);
             CharacterTemplateCachePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(

@@ -1694,6 +1694,33 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     kommentarlos dekompilierte DLL-Diff enthält nur die beiden neuen
     Hilfsklassen und ihre eine Registrierung; Assemblyreferenzen bleiben
     unverändert.
+- [x] `summon-death-play-state-lifetime`
+  - Ziele: beide öffentlichen `SummonDeath.Execute(...)`-Überladungen, der
+    private Spawnpfad sowie Konstruktor, `Initialize`, `Update` und
+    `Deinitialize` der verschachtelten `MagickDeath`-Entity.
+  - Technik: Sieben Transpiler entfernen vier exakt verankerte
+    PlayState-Zuweisungen und ersetzen neunzehn Feldzugriffe durch
+    `PlayState.RecentPlayState`. Jeder Methodenkandidat wird mit seiner
+    vollständigen Signatur aufgelöst; die erwartete Anzahl der Stores und
+    Reads ist fest geprüft.
+  - Fehlerfall: Das prozessweit lebende `SummonDeath`-Singleton hält den beim
+    letzten Cast übergebenen PlayState fest. Spawn- und Entitypfade können
+    dadurch Kamera, EntityManager, Szene, NavMesh oder Zeitsteuerung eines
+    abgeschlossenen Zustands verwenden.
+  - Verhalten: Die beiden öffentlichen Castpfade speichern keinen PlayState
+    mehr. Spawn, Initialisierung, Updates, Renderregistrierung, Trefferabfrage
+    und Zeitwiederherstellung verwenden den aktuellen PlayState. Zielwahl,
+    Zufallsauswahl, Audio, Bewegung, Kampf und Netzwerkverhalten bleiben
+    unverändert.
+  - Original Magicka 1.10.4.2, 1.4.16.0 und 1.5.1.0 schlägt in allen sieben
+    Zustandsfällen fehl. Die manuelle Patch-Assembly 0.0.60 und alle drei
+    Runtime-Profile bestehen sie. Ein zusätzlicher Kontrollfall bestätigt die
+    unveränderten EntityManager-, NavMesh-, Initialisierungs- und
+    Registrierungsaufrufe des Spawnpfads.
+  - Der vollständige Build mit 413 Definitionen besteht alle Profile. Alle 23
+    geänderten Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip. Der
+    kommentarlos dekompilierte DLL-Diff enthält nur die neue Patchklasse und
+    ihre sieben Registrierungen; Assemblyreferenzen bleiben unverändert.
 - [x] `entity-update-character-marker-decode`
   - Ziele: `NetworkServer.Update` und `NetworkClient.Update`
   - Technik: zwei Transpiler rufen unmittelbar vor dem vorhandenen
@@ -2167,8 +2194,8 @@ Versionsnachweis.
 - [ ] `Magicka/CoreFramework/GameSystem/Store/StoreItemDatabase.cs`
 - [ ] `Magicka/GameLogic/UI/IconRenderer.cs` — TEILWEISE: Konstruktor und
   `Initialize` speichern keinen PlayState mehr; der einzige spätere Read im
-  `TomeMagick`-Setter verwendet den aktuellen Zustand. Die Safe-Area-Skalierung
-  des projizierten Renderpunkts bleibt offen.
+  `TomeMagick`-Setter verwendet den aktuellen Zustand. Die Skalierung des
+  projizierten Renderpunkts durch das High-Resolution-UI-System bleibt offen.
 - [ ] `Magicka/GameLogic/Entities/PhysicsEntity.cs` — TEILWEISE: die Trennung des ersetzbaren Body/CollisionSkin-Paars vor Wiederverwendung und nach Deinitialize sowie die leeren Renderkanäle sind migriert; die abschließende Freigabe der übrigen klassenspezifischen Felder und RetentionRegistry-Diagnostik bleiben offen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Conflagration.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/UI/Credits.cs`
@@ -2335,7 +2362,11 @@ Versionsnachweis.
   ab; der explizite statische Initialisierer ist Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Bosses/BossFight.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Grease.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonDeath.cs`
+- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonDeath.cs` —
+  TEILWEISE: beide Singleton-Stores und alle neunzehn laufenden
+  PlayState-Zugriffe sind mit 7 Transpilern und 8 Drei-Wege-Szenarien
+  migriert. Die unaufgerufene manuelle `Dispose()`-Ergänzung und
+  RetentionRegistry-Diagnostik bleiben offen.
 - [ ] `Magicka/CommunityPatch/InGameUiCompatibility.cs`
 - [x] `Magicka/CommunityPatch/WidescreenSafeArea.cs` — VOLLSTÄNDIG: beide Berechnungen liegen CLR-2-kompatibel im Runtime-Patcher und werden durch 4 Rechenszenarien abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/NonPlayerCharacter.cs` — TEILWEISE: der
