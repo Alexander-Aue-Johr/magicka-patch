@@ -183,6 +183,9 @@ namespace Magicka.CommunityPatch.Runtime
                 FairyTeardownPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                NonPlayerCharacterTeardownPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 BarrierTeardownPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

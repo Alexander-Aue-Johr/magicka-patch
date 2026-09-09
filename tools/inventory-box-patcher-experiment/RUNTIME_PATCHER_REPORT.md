@@ -582,6 +582,22 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Szenarien bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: alle fünf Patches werden angewendet und alle
     Szenarien bestehen
+- [x] `npc-final-teardown`
+  - Ziel: `Entity.ClearHandles()`
+  - Technik: Prefix; vereinigt registrierte Entities und den statischen
+    NPC-Cache referenzgenau, bevor die Originalmethode beide Zugriffswege
+    verliert
+  - Fehlerfall: ein nur noch im NPC-Cache erreichbarer Gegner behält Agent,
+    Fairy, Summon-Master, Ability-Array, vorbereiteten Zauber, Summon-Flags und
+    den Handle seines beschworenen Effekts
+  - Verhalten: der finale Levelabbau stoppt den Effekt, löst Summon-, Agent-
+    und Fairy-Beziehungen, leert den NPC-eigenen Zustand und anschließend den
+    Cache; der wiederverwendbare `Deinitialize()`-Pfad bleibt unverändert
+  - Original 1.10.4.2: der abgeleitete Zustand bleibt erhalten
+  - Manuelle Patch-Assembly 0.0.60 und Original plus Runtime-Patch: der Zustand
+    wird vollständig freigegeben
+  - Magicka 1.4.16.0 und 1.5.1.0: Prefix wird angewendet und das
+    Teardown-Szenario besteht
 - [x] `khan-killplane-defeat-fallback`
   - Ziel: `GiveOrder.Exec()`
   - Technik: ein Transpiler setzt nach dem ersten der beiden exakt erwarteten
@@ -2454,9 +2470,11 @@ Versionsnachweis.
 - [x] `Magicka/CommunityPatch/WidescreenSafeArea.cs` — VOLLSTÄNDIG: beide Berechnungen liegen CLR-2-kompatibel im Runtime-Patcher und werden durch 4 Rechenszenarien abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/NonPlayerCharacter.cs` — TEILWEISE: der
   Challenge-Score-Zustand wird pro Pool-Lebenszyklus zurückgesetzt und der
-  vollständige Agent-Zustand wird an seinen Lebensdauergrenzen freigegeben;
-  die NPC-eigenen Deinitialize-/Dispose- und Retention-Diagnoseänderungen
-  bleiben offen.
+  vollständige Agent-Zustand wird an seinen Lebensdauergrenzen freigegeben.
+  Der finale Levelabbau löst außerdem NPC-Cache, Agent, Fairy,
+  Summon-Beziehungen, Abilities, Zauber- und Effektzustand. Die
+  wiederverwendbare Deinitialize-Bereinigung und Retention-Diagnostik bleiben
+  offen.
 - [ ] `Magicka/Graphics/TypingText.cs` — TEILWEISE: die Recovery bei einem
   Arrayzugriff hinter dem Textende ist mit einem Prefix und 7
   Drei-Wege-Szenarien migriert; nur das begrenzte Diagnoseereignis folgt im

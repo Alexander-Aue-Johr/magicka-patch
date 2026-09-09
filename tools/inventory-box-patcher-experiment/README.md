@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-four hundred fifty-one method patches:
+four hundred fifty-two method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -22,6 +22,9 @@ four hundred fifty-one method patches:
   events, leader state, and fuzzy-sort scratch references at the same lifecycle
   boundaries as the manual patch. Final handle cleanup also disconnects the
   agent from its NPC and `AIManager`.
+- Final handle cleanup releases the NPC cache and each NPC's agent, fairy,
+  summon relationship, ability array, pending spell, summon flags, and summoned
+  visual-effect handle.
 - `EntityManager.GetClosestIDamageable` skips candidates whose physics body has
   already been detached.
 - `EntityManager.GetEntities` skips null and bodyless spatial entries.
