@@ -2861,7 +2861,13 @@ Versionsnachweis.
 - [x] `Magicka/GameLogic/UI/Message.cs` — VOLLSTÄNDIG: Dialoglisten erhalten vor `BitmapFont.Wrap` ihre Zeilenumbrüche, Transpiler und 3 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Spells/IceBlade.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsGraphics.cs`
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Grow.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Grow.cs` —
+  VOLLSTÄNDIG: ein Prefix beendet verwaiste aktive Grow-Effekte ohne Owner und
+  setzt beide Laufzeittimer zurück; bei vorhandenem Owner läuft der originale
+  Update-Pfad unverändert weiter. Die statische Poolfreigabe bei Levelende ist
+  ebenfalls migriert. Zwei Drei-Wege-Szenarien decken beide Zustände ab;
+  RetentionRegistry- und RuntimeGuard-Aufrufe bleiben Teil des gemeinsamen
+  Diagnostikblocks, statische Initialisierer sind Compilerrauschen.
 - [ ] `Magicka/Levels/Triggers/Actions/GiveOrder.cs` — TEILWEISE: der
   Kahn-Kill-Plane-Fallback ist mit einem Transpiler und 4 Drei-Wege-Szenarien
   migriert; die statische Action-Liste und ihre PlayState-Referenz werden beim

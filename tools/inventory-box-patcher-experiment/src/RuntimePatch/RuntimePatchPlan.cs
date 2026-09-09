@@ -221,6 +221,9 @@ namespace Magicka.CommunityPatch.Runtime
                 RevivePlayStatePatch.UpdateDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                GrowOwnerGuardPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 SpellEffectPlayStatePatch.InitializeDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
