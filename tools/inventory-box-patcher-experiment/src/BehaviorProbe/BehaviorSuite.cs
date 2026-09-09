@@ -172,6 +172,10 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        LightningBoltCacheScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         ActionLifecycleScenarios.Run(magicka, report);
         DialogManagerLevelCleanupScenarios.Run(
             magicka,

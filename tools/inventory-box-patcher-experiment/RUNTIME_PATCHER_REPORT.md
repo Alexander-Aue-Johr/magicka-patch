@@ -1549,6 +1549,23 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten alle Einträge. Die manuelle
     Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile leeren alle 43
     Collections und lösen die `GiveOrder`-PlayState-Referenz.
+- [x] `lightning-bolt-cache-cleanup`
+  - Ziel: `PlayState.Dispose`
+  - Technik: ein Transpiler fügt nach dem exakt einmal vorhandenen Aufruf von
+    `Entity.ClearHandles()` einen Cleanup-Aufruf im initialisierten Dispose-Pfad
+    ein. Die Felder `LightningBolt.sContent` und `LightningBolt.sCache` werden
+    vor der Registrierung vollständig validiert.
+  - Fehlerfall: `sContent` hält den ContentManager des beendeten Levels;
+    `sCache` hält die darin erzeugten wiederverwendbaren Blitzobjekte.
+  - Verhalten: `sContent` wird auf null gesetzt und die vorhandene Liste wird
+    geleert. Aktive Blitze, Casting, Rendering und Cache-Initialisierung bleiben
+    unverändert.
+  - Kontrollverhalten: ein nicht initialisierter `PlayState` erreicht den
+    eingefügten Aufruf nicht und behält beide Referenzen.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 behalten beide Referenzen. Die
+    manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile lösen beide.
+  - Der Runtime-Patch enthält 398 Definitionen. Alle sechs geänderten
+    Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip.
 - [x] `entity-update-character-marker-decode`
   - Ziele: `NetworkServer.Update` und `NetworkClient.Update`
   - Technik: zwei Transpiler rufen unmittelbar vor dem vorhandenen
@@ -2315,7 +2332,9 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/UI/SpellWheel.cs` — TEILWEISE: PlayState-Lebensdauer und aktueller Szenenempfänger sind mit 2 Transpilern und 2 Drei-Wege-Szenarien migriert; die UI-Skalierung im Renderpfad bleibt offen.
 - [ ] `Magicka/GameLogic/Entities/EntityManager.cs` — TEILWEISE: `GetClosestIDamageable`, das vierparametrige `GetEntities`, `ClearAndStore` und der volle `Entity`-Listenpfad in `AddEntity` sind migriert; Konstruktor- und weitere Diagnoseänderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/TeslaField.cs` — TEILWEISE: Konstruktoren der statischen Poolobjekte speichern den ungenutzten PlayState nicht mehr und die Poolfreigabe bei Levelende ist migriert; die RetentionRegistry-Diagnostik ist noch offen.
-- [ ] `Magicka/GameLogic/Spells/LightningBolt.cs`
+- [ ] `Magicka/GameLogic/Spells/LightningBolt.cs` — TEILWEISE: statischer Pool
+  und ContentManager werden beim Levelabbau freigegeben; die
+  RetentionRegistry-Diagnostik bleibt offen.
 - [x] `Magicka/Levels/Triggers/Actions/Action.cs` — VOLLSTÄNDIG: statische Actions trennen vor dem Leeren ihre Trigger- und Szenenreferenzen, Zustandsresets leeren das Live-Tag und initialisierte PlayStates räumen die Liste bereits beim Dispose auf; 2 Prefixe, ein Postfix und 3 Drei-Wege-Szenarien. `IDisposable` und das nur dafür angelegte Flag des manuellen Typs sind für das identische Laufzeitverhalten nicht erforderlich.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TimeWarpStaff.cs` — VOLLSTÄNDIG: gespeicherte PlayState-Zuweisung und laufende Zugriffe in `Execute`, `Update` und `OnRemove`, 3 Transpiler und 3 Drei-Wege-Szenarien; die statische Initialisiererdarstellung ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TimeWarp.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen und laufende Zugriffe in beiden `Execute`-Überladungen, `Update` und `OnRemove`, 4 Transpiler und 3 Drei-Wege-Szenarien; die statische Initialisiererdarstellung ist semantikfreies Compilerrauschen.
