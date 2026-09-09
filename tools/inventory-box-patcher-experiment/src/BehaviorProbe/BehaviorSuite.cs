@@ -13,6 +13,7 @@ internal static class BehaviorSuite
         AIStateAttackScenarios.Run(magicka, report);
         AIStateMoveScenarios.Run(magicka, report);
         AgentChooseTargetScenarios.Run(magicka, report);
+        AgentLifecycleScenarios.Run(magicka, runtimePatchEnabled, report);
         EntityManagerClosestDamageableScenarios.Run(magicka, report);
         EntityManagerTransitionScenarios.Run(magicka, report);
         EntityStateStorageScenarios.Run(magicka, report);

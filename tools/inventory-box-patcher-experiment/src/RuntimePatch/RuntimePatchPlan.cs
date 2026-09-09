@@ -27,6 +27,21 @@ namespace Magicka.CommunityPatch.Runtime
                 AgentChooseTargetPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                AgentLifecyclePatch.InitializeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                AgentLifecyclePatch.ResetDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                AgentLifecyclePatch.DisableDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                AgentLifecyclePatch.ChooseTargetDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                AgentLifecyclePatch.FinalTeardownDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 EntityManagerClosestDamageablePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

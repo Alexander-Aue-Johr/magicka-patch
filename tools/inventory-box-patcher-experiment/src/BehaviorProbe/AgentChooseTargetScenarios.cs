@@ -9,6 +9,9 @@ internal static class AgentChooseTargetScenarios
         AgentChooseTargetHarness harness = new AgentChooseTargetHarness(magicka);
         report.Add("agent_target.bodyless_player", harness.BodylessPlayer());
         report.Add("agent_target.no_player", harness.NoPlayer());
+        report.Add(
+            "agent_lifecycle.choose_target_scratch",
+            harness.ScratchReleased());
     }
 }
 
@@ -22,6 +25,7 @@ internal sealed class AgentChooseTargetHarness
     private readonly Type characterBodyType;
     private readonly Type abilityType;
     private readonly Type spellType;
+    private readonly Type castSpellType;
     private readonly Type playStateType;
     private readonly Type entityManagerType;
     private readonly Type entityType;
@@ -43,6 +47,9 @@ internal sealed class AgentChooseTargetHarness
         characterBodyType = magicka.GetType("Magicka.Physics.CharacterBody", true);
         abilityType = magicka.GetType("Magicka.GameLogic.Entities.Abilities.Ability", true);
         spellType = magicka.GetType("Magicka.GameLogic.Spells.Spell", true);
+        castSpellType = magicka.GetType(
+            "Magicka.GameLogic.Entities.Abilities.CastSpell",
+            true);
         playStateType = magicka.GetType("Magicka.GameLogic.GameStates.PlayState", true);
         entityManagerType = magicka.GetType("Magicka.GameLogic.Entities.EntityManager", true);
         entityType = magicka.GetType("Magicka.GameLogic.Entities.Entity", true);
@@ -58,32 +65,44 @@ internal sealed class AgentChooseTargetHarness
 
     internal ScenarioResult BodylessPlayer()
     {
-        return Invoke(true);
+        return Invoke(true, false);
     }
 
     internal ScenarioResult NoPlayer()
     {
-        return Invoke(false);
+        return Invoke(false, false);
     }
 
-    private ScenarioResult Invoke(bool includeBodylessPlayer)
+    internal ScenarioResult ScratchReleased()
+    {
+        return Invoke(false, true);
+    }
+
+    private ScenarioResult Invoke(
+        bool includeBodylessPlayer,
+        bool inspectScratch)
     {
         object previousGame = gameSingleton.GetValue(null);
         try
         {
             gameSingleton.SetValue(null, NewGame(includeBodylessPlayer));
-            object agent = NewAgent();
+            object agent = NewAgent(inspectScratch);
             object[] arguments = new object[] { null, null };
             try
             {
                 chooseTarget.Invoke(agent, arguments);
                 string target = arguments[0] == null ? "null" : "set";
                 string ability = arguments[1] == null ? "null" : "set";
-                string actual = "target:" + target + ",ability:" + ability;
+                bool scratchReleased = !inspectScratch ||
+                    ArrayIsClear(RuntimeReflection.ReadField(
+                        agent,
+                        "mFuzzySortAbilities") as Array);
+                string actual = "target:" + target + ",ability:" + ability +
+                    ",scratch_released:" + scratchReleased;
                 return new ScenarioResult(
-                    target == "null" && ability == "null",
+                    target == "null" && ability == "null" && scratchReleased,
                     actual,
-                    "target:null,ability:null");
+                    "target:null,ability:null,scratch_released:True");
             }
             catch (TargetInvocationException exception)
             {
@@ -91,7 +110,7 @@ internal sealed class AgentChooseTargetHarness
                 return new ScenarioResult(
                     false,
                     inner.GetType().FullName,
-                    "target:null,ability:null");
+                    "target:null,ability:null,scratch_released:True");
             }
         }
         finally
@@ -102,7 +121,7 @@ internal sealed class AgentChooseTargetHarness
         }
     }
 
-    private object NewAgent()
+    private object NewAgent(bool seedScratch)
     {
         object owner = FormatterServices.GetUninitializedObject(ownerType);
         GC.SuppressFinalize(owner);
@@ -127,7 +146,28 @@ internal sealed class AgentChooseTargetHarness
             agent,
             "mFuzzySortEntities",
             Array.CreateInstance(damageableType, 8));
+        if (seedScratch)
+        {
+            Array abilities = (Array)RuntimeReflection.ReadField(
+                agent,
+                "mFuzzySortAbilities");
+            abilities.SetValue(
+                FormatterServices.GetUninitializedObject(castSpellType),
+                0);
+        }
         return agent;
+    }
+
+    private static bool ArrayIsClear(Array values)
+    {
+        if (values == null)
+            return false;
+        for (int index = 0; index < values.Length; index++)
+        {
+            if (values.GetValue(index) != null)
+                return false;
+        }
+        return true;
     }
 
     private object NewGame(bool includeBodylessPlayer)

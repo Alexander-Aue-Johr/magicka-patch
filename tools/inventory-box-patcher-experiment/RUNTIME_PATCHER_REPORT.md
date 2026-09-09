@@ -565,6 +565,23 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original plus Runtime-Patch: Fehler- und Kontrollfall bestehen
   - Magicka 1.4.16.0 und 1.5.1.0: Transpiler wird angewendet und beide
     Szenarien bestehen
+- [x] `agent-lifecycle-cleanup`
+  - Ziele: `Agent.Initialize`, `Reset`, `Disable`, `ChooseTarget` und
+    `Entity.ClearHandles`
+  - Technik: zwei Prefixe und drei Postfixe; die Initialisierung aktualisiert
+    den Owner vor der Originalmethode, alle übrigen Hooks bereinigen ihren
+    Zustand erst nach erfolgreicher Originalausführung
+  - Fehlerfälle: ein wiederverwendeter Agent behält seinen alten Owner,
+    `Reset` behält Ziel-, Ability-, Event- und Leader-Referenzen, `Disable`
+    behält den Zustand eines toten Owners, und `ChooseTarget` behält seine
+    Fuzzy-Sort-Arbeitsreferenzen
+  - Finaler Abbau: der Agent wird aus `AIManager` entfernt; Owner, Ziel-,
+    Ability-, Event-, Pfad- und State-Referenzen werden gelöst
+  - Original 1.10.4.2: alle fünf Lebensdauerszenarien schlagen fehl
+  - Manuelle Patch-Assembly 0.0.60 und Original plus Runtime-Patch: alle fünf
+    Szenarien bestehen
+  - Magicka 1.4.16.0 und 1.5.1.0: alle fünf Patches werden angewendet und alle
+    Szenarien bestehen
 - [x] `khan-killplane-defeat-fallback`
   - Ziel: `GiveOrder.Exec()`
   - Technik: ein Transpiler setzt nach dem ersten der beiden exakt erwarteten
@@ -2238,7 +2255,12 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Conflagration.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/UI/Credits.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Wave.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
-- [ ] `Magicka/AI/Agent.cs` — TEILWEISE: Body-Guard in `ChooseTarget`, Transpiler und 2 Drei-Wege-Szenarien; Initialisierungs-, Cleanup- und Dispose-Änderungen sind noch offen.
+- [x] `Magicka/AI/Agent.cs` — VOLLSTÄNDIG: der Body-Guard in `ChooseTarget`
+  sowie Owner-Aktualisierung, Reset-, Disable-, Fuzzy-Scratch- und finaler
+  Agent-Abbau sind mit einem Transpiler, 2 Prefixen, 3 Postfixen und 7
+  Drei-Wege-Szenarien migriert. `IDisposable` ist für das identische
+  Laufzeitverhalten nicht erforderlich; die statische
+  Initialisiererdarstellung ist semantikfreies Compilerrauschen.
 - [x] `Magicka/Levels/Campaign/LevelManager.cs` — VOLLSTÄNDIG: fehlende
   referenzierte Leveldateien werden ohne Crashtelemetrie mit Pfad gemeldet und
   beenden den unvollständigen Hashlauf mit Exit-Code 1.
@@ -2431,8 +2453,10 @@ Versionsnachweis.
 - [ ] `Magicka/CommunityPatch/InGameUiCompatibility.cs`
 - [x] `Magicka/CommunityPatch/WidescreenSafeArea.cs` — VOLLSTÄNDIG: beide Berechnungen liegen CLR-2-kompatibel im Runtime-Patcher und werden durch 4 Rechenszenarien abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/NonPlayerCharacter.cs` — TEILWEISE: der
-  Challenge-Score-Zustand wird pro Pool-Lebenszyklus zurückgesetzt; die
-  umfangreicheren Dispose-, AI- und Retention-Diagnoseänderungen bleiben offen.
+  Challenge-Score-Zustand wird pro Pool-Lebenszyklus zurückgesetzt und der
+  vollständige Agent-Zustand wird an seinen Lebensdauergrenzen freigegeben;
+  die NPC-eigenen Deinitialize-/Dispose- und Retention-Diagnoseänderungen
+  bleiben offen.
 - [ ] `Magicka/Graphics/TypingText.cs` — TEILWEISE: die Recovery bei einem
   Arrayzugriff hinter dem Textende ist mit einem Prefix und 7
   Drei-Wege-Szenarien migriert; nur das begrenzte Diagnoseereignis folgt im
