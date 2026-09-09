@@ -478,6 +478,21 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Zwei strukturelle Drei-Wege-Szenarien prüfen die gelöste Zustandskante und
     alle sechs laufenden Reads. Das Original und beide historischen Versionen
     sind rot; manueller Patch und Runtime-Patch sind grün.
+- [x] `revive-play-state-lifetime`
+  - Ziele: `Revive.Execute(Vector3, PlayState, float)` und
+    `Update(DataChannel, float)`.
+  - Technik: Der Execute-Transpiler entfernt die einzige gespeicherte
+    PlayState-Zuweisung und ersetzt zwei spätere Reads. Der Update-Transpiler
+    ersetzt genau drei weitere Reads; bereits vorhandene aktuelle Zugriffe
+    bleiben versionsabhängig unverändert.
+  - Verhalten: Ein aktiver oder gepoolter Revive-Effekt hält keinen beendeten
+    Levelzustand mehr. NavMesh, Spotlight, Ruleset, Avatarregistrierung und
+    additives Rendering folgen dem aktuellen PlayState; Auswahl, Gesundheit,
+    Animation, Audio, Rumble und Netzwerkpakete bleiben unverändert.
+  - Zwei strukturelle Drei-Wege-Szenarien prüfen Store und alle fünf ersetzten
+    Reads. Sie berücksichtigen, dass 1.10.4.2 bereits vier weitere aktuelle
+    Getter im Update besitzt, 1.4/1.5 dagegen keine. Alle Originale sind rot;
+    manueller Patch und Runtime-Patches sind grün.
 - [x] `spell-effect-current-play-state`
   - Ziele: `SpellEffect.IntializeCaches(PlayState, ContentManager)`,
     `LightningSpell.GetFromCache()` und
@@ -2658,7 +2673,12 @@ Versionsnachweis.
   Postfix, ein Transpiler und 2 Drei-Wege-Szenarien decken den semantischen
   Diff ab; das fehlende `Dispose()` im Original wird durch den Owner-Cleanup
   ersetzt.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Revive.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Revive.cs` —
+  VOLLSTÄNDIG: gespeicherter PlayState, alle fünf laufenden Reads und die
+  statische Poolfreigabe bei Levelende sind mit 2 Transpilern und 2
+  Drei-Wege-Szenarien migriert. RetentionRegistry-Aufrufe sind reine Diagnostik;
+  statische Initialisierer sind semantikfreies Compiler- beziehungsweise
+  Decompilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Portal.cs` — TEILWEISE: ungültige Einträge in `PortalEntity.mTeleportQueue`, Transpiler und 3 Drei-Wege-Szenarien; weitere manuelle Änderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/ElementalEgg.cs` — TEILWEISE: der statische
   Egg-Pool und das Elementar-Template-Lookup werden beim Levelabbau geleert;

@@ -73,6 +73,10 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        RevivePlayStateScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         SpellEffectPlayStateScenarios.Run(magicka, report);
         DerivedSpellEffectPlayStateScenarios.Run(
             magicka,

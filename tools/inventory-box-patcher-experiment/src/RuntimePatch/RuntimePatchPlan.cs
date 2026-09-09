@@ -215,6 +215,12 @@ namespace Magicka.CommunityPatch.Runtime
                 FloorStompPlayStatePatch.UpdateDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                RevivePlayStatePatch.ExecuteDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                RevivePlayStatePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 SpellEffectPlayStatePatch.InitializeDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
