@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-four hundred forty-two method patches:
+four hundred forty-three method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -81,6 +81,8 @@ four hundred forty-two method patches:
 - Exhausted `Avatar`, `GenericBoss`, `DamageablePhysicsEntity`, `Gib`,
   `ProjectileSpell`, `RailGunSpell`, and `ShieldSpell` pools allocate one
   additional reusable instance while leaving normal cache selection unchanged.
+- Final entity-handle teardown releases the constructor-owned `PropBoss` type
+  reference without changing its earlier `DeInitialize` behavior.
 - `EffectManager` keeps the first visual-effect definition when multiple XML
   files produce the same filename hash instead of aborting initialization.
 - `TimeWarp` and `TimeWarpStaff` release the play state supplied when the

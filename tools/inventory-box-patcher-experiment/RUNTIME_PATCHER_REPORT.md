@@ -2585,6 +2585,9 @@ Versionsnachweis.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ChillyBlast.cs` — VOLLSTÄNDIG: gespeicherter PlayState in `Execute` und beide veralteten EntityManager-Zugriffe in `Update`, 2 Transpiler und 3 Drei-Wege-Szenarien; statische Hash-Initialisierer sind semantikfreies Compilerrauschen. In 1.4.16.0 und 1.5.1.0 ist die Klasse nicht vorhanden.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/LightningSpell.cs` — TEILWEISE: alle drei Zugriffe auf den global gespeicherten PlayState und die statische Poolfreigabe sind migriert; die RetentionRegistry-Diagnostik ist noch offen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Haste.cs` — TEILWEISE: freier und aktiver Pool werden im initialisierten Level-Dispose geleert, ein Transpiler und 2 Drei-Wege-Szenarien; die GC-Diagnosemarkierungen folgen im Diagnostics-Block.
-- [ ] `Magicka/GameLogic/Entities/Bosses/PropBoss.cs`
+- [x] `Magicka/GameLogic/Entities/Bosses/PropBoss.cs` — VOLLSTÄNDIG: Die
+  konstruktorseitig gespeicherte Typreferenz wird unmittelbar vor dem finalen
+  Leeren der Entity-Handles gelöst; ein Prefix und ein Drei-Wege-Szenario. Die
+  übrigen manuellen Änderungen sind Retention-Diagnostik.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/StarGaze.cs` — VOLLSTÄNDIG: abgelaufene, bereits deinitialisierte Opfer verwenden bei der Bereinigung die weiterhin verfügbare aktuelle Fraktion, ein Transpiler und 2 Drei-Wege-Szenarien; die statische Initialisierer-Umschreibung ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/PoisonSpray.cs` — VOLLSTÄNDIG: gespeicherter PlayState in `Execute` und beide veralteten EntityManager-Zugriffe in `Update`, 2 Transpiler und 3 Drei-Wege-Szenarien; lokale `yaw`-Variable und statische Hash-Initialisierer sind semantikfreies Compilerrauschen.

@@ -275,6 +275,7 @@ function Test-BehaviorMatrix {
         "pool_expansion.projectile_spell",
         "pool_expansion.railgun_spell",
         "pool_expansion.shield_spell",
+        "prop_boss.level_teardown",
         "effect_manager.duplicate_name",
         "time_warp.start_current_state",
         "time_warp.update_current_state",
@@ -733,6 +734,7 @@ function Test-BehaviorProfile(
             "pool_expansion.projectile_spell",
             "pool_expansion.railgun_spell",
             "pool_expansion.shield_spell",
+            "prop_boss.level_teardown",
             "effect_manager.duplicate_name",
             "time_warp.start_current_state",
             "time_warp.update_current_state",
@@ -905,6 +907,7 @@ function Test-BehaviorProfile(
         "pool_expansion.projectile_spell",
         "pool_expansion.railgun_spell",
         "pool_expansion.shield_spell",
+        "prop_boss.level_teardown",
         "effect_manager.duplicate_name",
         "effect_manager.unique_names",
         "time_warp.start_current_state",
@@ -1582,7 +1585,8 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=ProjectileSpell exhausted pool recovery" -or
         $auditLines -notcontains "patch_end=RailGunSpell exhausted pool recovery" -or
         $auditLines -notcontains "patch_end=ShieldSpell exhausted pool recovery" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 58 -or
+        $auditLines -notcontains "patch_end=PropBoss level teardown" -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 59 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 13 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 371) {
         throw "The runtime audit does not contain all registered Harmony patches."
@@ -1599,7 +1603,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=442")
+    $summary.Add("implemented_patches=443")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
