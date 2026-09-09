@@ -1630,6 +1630,28 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     geänderten Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip; der
     kommentarlos dekompilierte DLL-Diff enthält nur die zwei neuen
     Hilfsklassen und ihre eine Registrierung.
+- [x] `character-template-shared-asset-cache-cleanup`
+  - Ziel: `CharacterTemplate.ClearCache`
+  - Technik: ein Prefix validiert die beiden exakten
+    `Dictionary<int, CharacterTemplate>`- und
+    `Dictionary<string, CharacterTemplate>`-Felder, leert beide und überspringt
+    den ursprünglichen Methodenrumpf.
+  - Fehlerfall: Original 1.10.4.2 leert nur das allgemeine Lookup und greift
+    dabei zerstörend auf GPU-Unterressourcen der weiterhin vom ContentManager
+    besessenen Templates zu. Der manuelle Patch 0.0.60 leert beide Lookups,
+    invalidiert aber jedes gemeinsam besessene Template durch `Dispose()`.
+  - Verhalten: beide Lookups werden geleert. Template-Felder, Modelle,
+    Vertex-Buffer und weitere Content-Manager-Assets bleiben unverändert und
+    werden anschließend durch den vorhandenen ContentManager entladen.
+  - Kontrollverhalten: zwei bereits leere Lookups bleiben leer und werfen
+    keine Ausnahme.
+  - Magicka 1.4.16.0 und 1.5.1.0 besitzen das paarige Avatar-Template-Lookup
+    noch nicht. Patch und Szenarien sind dort ausdrücklich nicht anwendbar.
+  - Der vorherige Runtime-Patch lässt das Avatar-Lookup rot befüllt. Der
+    vollständige Build mit 402 Definitionen besteht alle Profile. Alle zehn
+    geänderten Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip; der
+    kommentarlos dekompilierte DLL-Diff enthält nur die zwei neuen
+    Hilfsklassen und ihre eine Registrierung.
 - [x] `entity-update-character-marker-decode`
   - Ziele: `NetworkServer.Update` und `NetworkClient.Update`
   - Technik: zwei Transpiler rufen unmittelbar vor dem vorhandenen
@@ -2229,8 +2251,9 @@ Versionsnachweis.
 - [ ] `Magicka/CommunityPatch/OriginalBackupAudit.cs`
 - [ ] `Magicka/CommunityPatch/Magicka2ControllerSupport.cs`
 - [ ] `Magicka/GameLogic/Entities/CharacterTemplate.cs` — TEILWEISE:
-  Animationsaktionen ohne auflösbaren Clip werden nicht gespeichert; die
-  umfangreicheren Dispose-Änderungen sind noch offen.
+  Animationsaktionen ohne auflösbaren Clip werden nicht gespeichert. Beide
+  Template-Lookups werden ohne vorzeitige Freigabe gemeinsam besessener Assets
+  geleert; weitere Lese-, Reload- und Diagnostikänderungen sind noch offen.
 - [ ] `Magicka/CommunityPatch/PatchUpdateManager.cs`
 - [ ] `Magicka/CommunityPatch/NetworkLifecycleCompatibility.cs` — TEILWEISE:
   TriggerAction-Absender- und Lifecycle-Regeln sind migriert; Telemetrie und

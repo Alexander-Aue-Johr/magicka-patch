@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-four hundred one method patches:
+four hundred two method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -206,6 +206,8 @@ four hundred one method patches:
   `PlayState.Dispose`; weapon-cache behavior remains unchanged.
 - Cached physics entity templates release their generated skeleton vertex
   buffers and level-owned references during initialized `PlayState.Dispose`.
+- Character-template cache cleanup now releases both lookup dictionaries while
+  leaving shared ContentManager-owned templates and GPU assets intact.
 - `JudgementSpray.SpawnProjectile` allocates a replacement condition collection
   when the shared pool is temporarily empty and otherwise reuses the original
   cached object.
