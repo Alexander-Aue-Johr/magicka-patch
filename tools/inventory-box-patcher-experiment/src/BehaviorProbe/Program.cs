@@ -23,6 +23,7 @@ internal static class Program
         BreakBarriersScenarios.Prepare(targetAssembly);
         GenericHealthBarScenarios.Prepare(targetAssembly);
         GreaseTrailScenarios.Prepare(targetAssembly);
+        ForceFieldScenarios.Prepare(targetAssembly);
         SpellEffectPlayStateScenarios.Prepare(targetAssembly);
         EffectManagerScenarios.Prepare(targetAssembly);
         TimeWarpScenarios.Prepare(targetAssembly);

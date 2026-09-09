@@ -2482,7 +2482,13 @@ Versionsnachweis.
 - [ ] `Magicka/Physics/PhysicsManager.cs`
 - [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuMagicks.cs` — VOLLSTÄNDIG: beide GameType-Reads verwenden den aktuellen PlayState und `LanguageChanged` validiert den markierten Index. Die lokale Variable im Namenpfad, die tote `num2 = 28`-Zuweisung und der statische Initialisierer-Diff ändern kein Verhalten.
 - [ ] `Magicka/GameLogic/Entities/Entity.cs` — TEILWEISE: der finale Handle-Abbau trennt die vollständigen Physikrückreferenzen aller registrierten Entities und leert PlayState, eingehende UDP-Stamps sowie Unique-ID-Einträge; weitere manuelle Handle-, Cache-, Dispose- und Diagnostikänderungen bleiben offen.
-- [ ] `Magicka/Levels/ForceField.cs`
+- [x] `Magicka/Levels/ForceField.cs` — VOLLSTÄNDIG: `Initialize()` behält den
+  übergebenen PlayState nicht mehr, `Update()` verwendet den aktuellen
+  `RecentPlayState`, und der LevelModel-Abbau löst CollisionSkin, Callback,
+  Skin-Tag, Renderdaten, GPU-Puffer und die verbliebenen Referenzen. Ein
+  Postfix, ein Transpiler und 2 Drei-Wege-Szenarien decken den semantischen
+  Diff ab; das fehlende `Dispose()` im Original wird durch den Owner-Cleanup
+  ersetzt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Revive.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Portal.cs` — TEILWEISE: ungültige Einträge in `PortalEntity.mTeleportQueue`, Transpiler und 3 Drei-Wege-Szenarien; weitere manuelle Änderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Entities/ElementalEgg.cs` — TEILWEISE: der statische

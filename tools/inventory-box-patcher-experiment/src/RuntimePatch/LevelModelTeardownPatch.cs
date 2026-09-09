@@ -116,7 +116,7 @@ namespace Magicka.CommunityPatch.Runtime
                 animatedPartsField,
                 disposeAnimatedPartMethod);
             DisposeWaters(levelModel);
-            ClearArray(levelModel, forceFieldsField);
+            DisposeForceFields(levelModel);
             DisposeField(levelModel, modelField, disposeModelMethod);
             cameraMeshField.SetValue(levelModel, null);
             navMeshField.SetValue(levelModel, null);
@@ -189,12 +189,20 @@ namespace Magicka.CommunityPatch.Runtime
             watersField.SetValue(owner, null);
         }
 
-        private static void ClearArray(object owner, FieldInfo field)
+        private static void DisposeForceFields(object owner)
         {
-            Array values = field.GetValue(owner) as Array;
+            Array values = forceFieldsField.GetValue(owner) as Array;
             if (values != null)
-                Array.Clear(values, 0, values.Length);
-            field.SetValue(owner, null);
+            {
+                for (int index = 0; index < values.Length; index++)
+                {
+                    object forceField = values.GetValue(index);
+                    if (forceField != null)
+                        ForceFieldLifecyclePatch.Cleanup(forceField);
+                    values.SetValue(null, index);
+                }
+            }
+            forceFieldsField.SetValue(owner, null);
         }
 
         private static void DisposeField(

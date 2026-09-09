@@ -1657,10 +1657,12 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=NonPlayerCharacter reusable teardown finish" -or
         $auditLines -notcontains "patch_end=Barrier level teardown" -or
         $auditLines -notcontains "patch_end=Gib level teardown" -or
+        $auditLines -notcontains "patch_end=ForceField play-state release" -or
+        $auditLines -notcontains "patch_end=ForceField current play state" -or
         $auditLines -notcontains "patch_end=LevelModel complete teardown" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 69 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 17 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 371) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 18 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 372) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1675,7 +1677,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=457")
+    $summary.Add("implemented_patches=459")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

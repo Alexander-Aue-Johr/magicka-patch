@@ -688,6 +688,12 @@ namespace Magicka.CommunityPatch.Runtime
                 AnimatedLevelPartDisposePatch.DisposeDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                ForceFieldLifecyclePatch.InitializeDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ForceFieldLifecyclePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 LevelModelTeardownPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
