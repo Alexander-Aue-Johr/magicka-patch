@@ -1606,6 +1606,30 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     geänderten Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip; der
     kommentarlos dekompilierte DLL-Diff enthält nur die neue Hilfsklasse und
     ihre Registrierung.
+- [x] `physics-entity-template-cache-cleanup`
+  - Ziel: `PlayState.Dispose`
+  - Technik: ein Transpiler fügt den Cleanup unmittelbar nach dem exakt einmal
+    vorhandenen Aufruf von `PhysicsManager.Clear()` in den initialisierten
+    Dispose-Pfad ein. Dictionary-Typ, Template-Typ, Vertex-Buffer-Vertrag und
+    alle freizugebenden Instanzfelder werden vor der Registrierung validiert.
+  - Fehlerfall: `PhysicsEntityTemplate.sCache` hält Templates eines beendeten
+    Levels einschließlich Condition-Daten, Kollisions-Meshes, Animationen und
+    eines template-eigenen Skeleton-Vertex-Buffers.
+  - Verhalten: der Skeleton-Vertex-Buffer wird disposed, beide veränderbaren
+    Mesh-Listen werden geleert und elf template-eigene Referenzfelder werden
+    gelöst. Danach wird das Cache-Dictionary geleert. Content-Manager-Assets und
+    die prozessweite `sSkeletonVertexDeclaration` werden nicht disposed.
+  - Kontrollverhalten: ein nicht initialisierter `PlayState` behält Cache und
+    Template-Felder unverändert.
+  - Original 1.10.4.2 behält die Einträge. Die manuelle Patch-Assembly 0.0.60
+    und der Runtime-Patch geben sie frei. Magicka 1.4.16.0 und 1.5.1.0 besitzen
+    dieses statische Cache-Feld nicht; der Patch registriert sich dort bewusst
+    nicht und die Szenarien sind als nicht anwendbar markiert.
+  - Der vorherige Runtime-Patch schlägt im neuen Fehlerfall rot fehl. Der
+    vollständige Build mit 401 Definitionen besteht alle Profile. Alle neun
+    geänderten Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip; der
+    kommentarlos dekompilierte DLL-Diff enthält nur die zwei neuen
+    Hilfsklassen und ihre eine Registrierung.
 - [x] `entity-update-character-marker-decode`
   - Ziele: `NetworkServer.Update` und `NetworkClient.Update`
   - Technik: zwei Transpiler rufen unmittelbar vor dem vorhandenen
@@ -2217,8 +2241,9 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/SpraySpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/Levels/LevelModel.cs`
 - [ ] `Magicka/GameLogic/Entities/PhysicsEntityTemplate.cs` — TEILWEISE:
-  Animationsaktionen ohne auflösbaren Clip werden nicht gespeichert; die
-  weiteren Lebensdaueränderungen sind noch offen.
+  Animationsaktionen ohne auflösbaren Clip werden nicht gespeichert. Der
+  statische Template-Cache und seine template-eigenen Ressourcen werden beim
+  Levelabbau freigegeben; weitere Diagnostikänderungen bleiben offen.
 - [ ] `Magicka/CommunityPatch/CommunityPatchInfo.cs`
 - [ ] `Magicka/Physics/PhysicsManager.cs`
 - [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuMagicks.cs` — VOLLSTÄNDIG: beide GameType-Reads verwenden den aktuellen PlayState und `LanguageChanged` validiert den markierten Index. Die lokale Variable im Namenpfad, die tote `num2 = 28`-Zuweisung und der statische Initialisierer-Diff ändern kein Verhalten.

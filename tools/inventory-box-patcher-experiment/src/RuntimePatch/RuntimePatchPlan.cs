@@ -497,6 +497,7 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 ItemPickableCachePatch.Definition);
+            PhysicsEntityTemplateCachePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 JudgementSprayConditionCachePatch.Definition);
