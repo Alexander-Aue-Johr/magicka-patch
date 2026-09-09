@@ -252,6 +252,12 @@ namespace Magicka.CommunityPatch.Runtime
             return false;
         }
 
+        public static void DisposeStandaloneLiquid(object liquid)
+        {
+            if (liquid != null)
+                DisposeLiquid(liquid, null);
+        }
+
         private static bool MarkDisposed(object part)
         {
             lock (SyncRoot)

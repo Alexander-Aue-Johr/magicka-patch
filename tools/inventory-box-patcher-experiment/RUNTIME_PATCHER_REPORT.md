@@ -2468,7 +2468,12 @@ Versionsnachweis.
   Drei-Wege-Szenarien decken den semantischen Diff ab; RetentionRegistry-Aufrufe
   und lokale Variablenumformung sind Diagnostik beziehungsweise Decompilerrauschen.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/SpraySpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
-- [ ] `Magicka/Levels/LevelModel.cs`
+- [x] `Magicka/Levels/LevelModel.cs` — VOLLSTÄNDIG: `Dispose()` löst den
+  vollständigen levelgebundenen Objektgraphen, entfernt und entkoppelt den
+  CollisionSkin, gibt Lights, AnimatedLevelParts, Liquids und das Modell frei
+  und leert alle verbleibenden Level-Collections und -Referenzen. Ein Prefix
+  und ein idempotentes Drei-Wege-Szenario decken den semantischen Diff ab;
+  RetentionRegistry-Aufrufe sind Diagnostik.
 - [ ] `Magicka/GameLogic/Entities/PhysicsEntityTemplate.cs` — TEILWEISE:
   Animationsaktionen ohne auflösbaren Clip werden nicht gespeichert. Der
   statische Template-Cache und seine template-eigenen Ressourcen werden beim

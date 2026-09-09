@@ -688,6 +688,9 @@ namespace Magicka.CommunityPatch.Runtime
                 AnimatedLevelPartDisposePatch.DisposeDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                LevelModelTeardownPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 DynamicLightCachePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
