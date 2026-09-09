@@ -168,6 +168,9 @@ namespace Magicka.CommunityPatch.Runtime
                 FairyTeardownPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                BarrierTeardownPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 EffectManagerDuplicatePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

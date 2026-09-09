@@ -43,6 +43,7 @@ internal static class BehaviorSuite
         PoolExpansionScenarios.Run(magicka, runtimePatchEnabled, report);
         PropBossTeardownScenarios.Run(magicka, runtimePatchEnabled, report);
         FairyTeardownScenarios.Run(magicka, runtimePatchEnabled, report);
+        BarrierTeardownScenarios.Run(magicka, runtimePatchEnabled, report);
         EffectManagerScenarios.Run(magicka, report);
         MagickCameraScenarios.Run(magicka, report);
         BossHealthBarScenarios.Run(magicka, report);

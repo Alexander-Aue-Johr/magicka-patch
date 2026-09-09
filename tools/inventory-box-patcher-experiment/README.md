@@ -2,7 +2,7 @@
 
 This project migrates the manually edited Community Patch assembly to a small
 CLR-2-compatible Harmony runtime patcher. It currently implements and verifies
-four hundred forty-four method patches:
+four hundred forty-five method patches:
 
 - `Avatar.FindInteractable` returns no interaction while its play state or scene
   is detached.
@@ -86,6 +86,8 @@ four hundred forty-four method patches:
 - Initialized play-state teardown stops active Fairy effects and dialogs,
   deactivates each Fairy, and releases its Character owner, including inactive
   fairies reachable only through an Avatar or non-player character.
+- Final entity-handle teardown releases active and cached Barrier resources,
+  clears the Barrier pool, and clears both shared Barrier hit-list collections.
 - `EffectManager` keeps the first visual-effect definition when multiple XML
   files produce the same filename hash instead of aborting initialization.
 - `TimeWarp` and `TimeWarpStaff` release the play state supplied when the

@@ -2364,7 +2364,13 @@ Versionsnachweis.
   weitere Netzwerkhelfer bleiben offen.
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCutscene.cs`
 - [ ] `Magicka/CommunityPatch/RuntimeCompatibilityGuards.cs` — TEILWEISE: die DirectInput-Ausfallerkennung und verzögerte Warnung sind migriert; Steam-API-, Store-, Versionszeilen- und Unterstützerdialog-Helfer sind noch offen.
-- [ ] `Magicka/GameLogic/Entities/Barrier.cs`
+- [x] `Magicka/GameLogic/Entities/Barrier.cs` — VOLLSTÄNDIG: Der finale
+  Entity-Handle-Abbau gibt aktive und zwischengespeicherte Barrieren frei,
+  stoppt verbleibende Sounds, Animationen und Effekte, löst Hitlist-Owner sowie
+  levelgebundene Modell-, Widerstands-, Status- und Renderreferenzen und leert
+  den Barrier-Pool und beide gemeinsamen Hitlist-Sammlungen. Ein Prefix und 3
+  Drei-Wege-Szenarien decken den semantischen Diff ab; RetentionRegistry-Aufrufe
+  und lokale Variablenumformung sind Diagnostik beziehungsweise Decompilerrauschen.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/SpraySpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/Levels/LevelModel.cs`
 - [ ] `Magicka/GameLogic/Entities/PhysicsEntityTemplate.cs` — TEILWEISE:
