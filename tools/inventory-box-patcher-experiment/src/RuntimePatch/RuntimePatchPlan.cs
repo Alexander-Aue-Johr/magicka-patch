@@ -172,6 +172,18 @@ namespace Magicka.CommunityPatch.Runtime
                 ArcaneBladePlayStatePatch.UpdateDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                ConflagrationPlayStatePatch.VectorDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ConflagrationPlayStatePatch.DirectionDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ConflagrationPlayStatePatch.OwnerDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ConflagrationPlayStatePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 SpellEffectPlayStatePatch.InitializeDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

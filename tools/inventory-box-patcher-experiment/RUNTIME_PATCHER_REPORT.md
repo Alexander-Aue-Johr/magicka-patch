@@ -414,6 +414,20 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Zwei Drei-Wege-Szenarien prüfen die gelöste Zustandskante, die beim Licht
     verwendete Szene und den Renderempfänger. Das Original und beide historischen
     Versionen sind rot; manueller Patch und Runtime-Patch sind grün.
+- [x] `conflagration-play-state-lifetime`
+  - Ziele: die drei `Conflagration.Execute`-Überladungen und
+    `Update(DataChannel, float)`.
+  - Technik: Drei eng geprüfte Transpiler entfernen jeweils die einzige
+    gespeicherte PlayState-Zuweisung. Ein vierter Transpiler ersetzt genau vier
+    spätere Feldzugriffe durch `PlayState.RecentPlayState`.
+  - Verhalten: Gepoolte Conflagration-Effekte halten keinen beendeten
+    Levelzustand mehr. Entity-Abfrage, Shield-Liste, Rückgabe der Abfrageliste
+    und Post-Effect folgen dem aktuellen PlayState; Schaden, Timing, Audio,
+    Partikel und Netzwerkverhalten bleiben unverändert.
+  - Vier strukturelle Drei-Wege-Szenarien prüfen die drei gelösten
+    Zustandskanten und alle vier laufenden Zugriffe. Das Original und beide
+    historischen Versionen sind rot; manueller Patch und Runtime-Patch sind
+    grün.
 - [x] `spell-effect-current-play-state`
   - Ziele: `SpellEffect.IntializeCaches(PlayState, ContentManager)`,
     `LightningSpell.GetFromCache()` und
@@ -2387,7 +2401,12 @@ Versionsnachweis.
   Highlight-, Hitlist-, Condition-, Effect- und Template-Referenzen. Drei
   Drei-Wege-Szenarien decken Wiederverwendung und finalen Abbau ab;
   RetentionRegistry-Aufrufe sind Diagnostik.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Conflagration.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Conflagration.cs` —
+  VOLLSTÄNDIG: die drei gespeicherten PlayState-Zuweisungen, alle vier laufenden
+  Zustandszugriffe und die statische Poolfreigabe bei Levelende sind mit 4
+  Transpilern und 4 Drei-Wege-Szenarien migriert. RetentionRegistry-Aufrufe sind
+  reine Diagnostik; statische Initialisierer und lokale Ausdrucksformen sind
+  semantikfreies Compiler- beziehungsweise Decompilerrauschen.
 - [ ] `Magicka/GameLogic/UI/Credits.cs`
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Wave.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [x] `Magicka/AI/Agent.cs` — VOLLSTÄNDIG: der Body-Guard in `ChooseTarget`
