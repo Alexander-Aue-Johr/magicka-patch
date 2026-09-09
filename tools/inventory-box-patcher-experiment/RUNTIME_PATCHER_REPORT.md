@@ -453,6 +453,18 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Das Original 1.10.4.2 ist rot; manueller und Runtime-Patch sind grün. In
     Magicka 1.4.16.0 und 1.5.1.0 besitzt `SpellMine` dieses Feld nicht; Patch und
     Szenario melden dort ausdrücklich `NOT_APPLICABLE`.
+- [x] `polymorph-play-state-lifetime`
+  - Ziele: die drei `Polymorph.Execute`-Überladungen und `OnRemove()`.
+  - Technik: Drei eng geprüfte Transpiler entfernen jeweils die einzige
+    gespeicherte PlayState-Zuweisung. Ein vierter Transpiler ersetzt genau zwei
+    spätere Zustandsprüfungen durch `PlayState.RecentPlayState`.
+  - Verhalten: Aktive und gepoolte Polymorph-Effekte halten keinen beendeten
+    Levelzustand mehr. Die Rückverwandlung prüft den aktuellen Zustand; Zielwahl,
+    Bossausschlüsse, Transformation, Effekte, Timing und Netzwerkverhalten
+    bleiben unverändert.
+  - Vier strukturelle Drei-Wege-Szenarien prüfen die drei gelösten
+    Zustandskanten und beide laufenden Reads. Das Original und beide historischen
+    Versionen sind rot; manueller Patch und Runtime-Patch sind grün.
 - [x] `spell-effect-current-play-state`
   - Ziele: `SpellEffect.IntializeCaches(PlayState, ContentManager)`,
     `LightningSpell.GetFromCache()` und
@@ -2467,7 +2479,12 @@ Versionsnachweis.
   Compiler-/Decompilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Shield.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/RailGunSpell.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Polymorph.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Polymorph.cs` —
+  VOLLSTÄNDIG: die drei gespeicherten PlayState-Zuweisungen, beide späteren
+  Zustandsprüfungen und die Freigabe von aktivem und freiem Pool bei Levelende
+  sind mit 4 Transpilern und 4 Drei-Wege-Szenarien migriert.
+  RetentionRegistry-Aufrufe sind reine Diagnostik; statische Initialisierer sind
+  semantikfreies Compiler- beziehungsweise Decompilerrauschen.
 - [ ] `Magicka/GameLogic/UI/KeyboardHUD.cs` — TEILWEISE: der Safe-Area-Einzug in `RenderData.DrawIcon` ist migriert; die Hybrid-Input-Darstellung und Label-Aktualisierung sind noch offen.
 - [x] `Magicka/CommunityPatch/MouseInputCompatibility.cs` — VOLLSTÄNDIG: die
   koordinatengenaue, begrenzte Skalierung für randloses Fullscreen liegt im

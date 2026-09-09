@@ -197,6 +197,18 @@ namespace Magicka.CommunityPatch.Runtime
             SpellMineLevelPartPatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                PolymorphPlayStatePatch.OwnerDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                PolymorphPlayStatePatch.VectorDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                PolymorphPlayStatePatch.TargetDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                PolymorphPlayStatePatch.RemoveDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 SpellEffectPlayStatePatch.InitializeDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
