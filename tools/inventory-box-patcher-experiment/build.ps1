@@ -327,6 +327,7 @@ function Test-BehaviorMatrix {
         "projectile_spell.detached_missile_state",
         "game_scene.current_play_state",
         "game_scene.menu_controller_reset",
+        "game_scene.light_update_current_state",
         "prop_boss.level_teardown",
         "fairy_teardown.listed",
         "fairy_teardown.avatar_owned",
@@ -630,6 +631,7 @@ function Test-BehaviorProfile(
         $expectedFailures = @($expectedFailures) + @(
             "game_scene.current_play_state",
             "game_scene.menu_controller_reset",
+            "game_scene.light_update_current_state",
             "boss_fight.setup_state_release",
             "boss_fight.initialize_current_state",
             "boss_fight.reset_current_state",
@@ -1081,6 +1083,8 @@ function Test-BehaviorProfile(
         "game_scene.same_play_state",
         "game_scene.menu_controller_reset",
         "game_scene.menu_controller_already_clear",
+        "game_scene.light_update_current_state",
+        "game_scene.light_update_call_preserved",
         "prop_boss.level_teardown",
         "fairy_teardown.listed",
         "fairy_teardown.avatar_owned",
@@ -1847,9 +1851,10 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=ProjectileSpell incomplete missile guard" -or
         $auditLines -notcontains "patch_end=GameScene current play-state getter" -or
         $auditLines -notcontains "patch_end=GameScene menu-controller reset" -or
+        $auditLines -notcontains "patch_end=GameScene current light-update play state" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 75 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 18 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 411) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 412) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1864,7 +1869,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=504")
+    $summary.Add("implemented_patches=505")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

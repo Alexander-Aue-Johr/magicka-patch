@@ -2100,6 +2100,20 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Die manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile leeren
     ihn; der bereits leere Kontrollzustand besteht überall.
 
+- [x] `game-scene-current-light-update`
+  - Ziel: `GameScene.Destroy(bool)`.
+  - Technik: Transpiler; ersetzt genau den einen direkten `mPlayState`-Read
+    vor dem abschließenden `Scene.UpdateLights(...)` durch
+    `PlayState.RecentPlayState`.
+  - Fehlerfall: Während des Szenenabbaus verweist `mPlayState` noch auf den
+    vorherigen Zustand, obwohl der nachfolgende PlayState bereits aktuell ist.
+  - Verhalten: Das abschließende Licht-Update läuft genau einmal gegen die
+    aktuelle Szene; alle übrigen Teile von `Destroy` bleiben unverändert.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 verwenden den gespeicherten
+    Zustand. Die manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile
+    verwenden den aktuellen Zustand; der bestehende `UpdateLights`-Aufruf ist
+    in allen Profilen erhalten.
+
 - [x] `blizzard-play-state-lifetime`
   - Ziele: beide öffentlichen `Blizzard.Execute(...)`-Überladungen, das private
     `Execute()`, `Update(...)` und `OnRemove()`.
@@ -2711,7 +2725,8 @@ Versionsnachweis.
   Ambient-Audio-Locator wird bei einem internen XACT-Cue-Indexfehler entfernt;
   `PlayState` liefert außerdem den aktuellen statt eines gespeicherten
   Zustands. `Destroy` leert den transienten Menücontroller vor dem Abbau der
-  Szenenobjekte. Die weiteren manuellen Änderungen der Klasse bleiben offen.
+  Szenenobjekte und verwendet für das abschließende Licht-Update die aktuelle
+  Szene. Die weiteren manuellen Änderungen der Klasse bleiben offen.
 - [ ] `Magicka/CommunityPatch/PatchTelemetry.cs`
 - [ ] `Magicka/GameLogic/Entities/Character.cs` — TEILWEISE: Initialisierung,
   Crossfade und ForceAnimation behandeln fehlende Animationsaktionen und
