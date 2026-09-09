@@ -821,6 +821,9 @@ namespace Magicka.CommunityPatch.Runtime
                 LevelModelTeardownPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                GameScenePlayStatePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 DynamicLightCachePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

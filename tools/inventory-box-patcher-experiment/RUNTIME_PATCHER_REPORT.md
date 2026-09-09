@@ -2072,6 +2072,21 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Kontrollfall; der Cache enthält danach jeweils wieder die ausgeliehene
     Collection.
 
+- [x] `game-scene-current-play-state`
+  - Ziel: `GameScene.PlayState.get`.
+  - Technik: typgenauer Prefix; der Getter liefert
+    `PlayState.RecentPlayState`, ohne das gespeicherte `mPlayState` oder die
+    Szenenbesitzverhältnisse zu verändern.
+  - Fehlerfall: Ein noch erreichbares `GameScene` stammt aus dem vorherigen
+    PlayState, während der nächste PlayState bereits aktuell ist.
+  - Verhalten: Aufrufer wie `LevelModel` und `AnimatedLevelPart` gelangen nicht
+    mehr über den Getter zurück in den abgebauten Zustand. Sind gespeicherter
+    und aktueller Zustand identisch, bleibt das Ergebnis unverändert.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 liefern im Fehlerfall den
+    gespeicherten Zustand. Die manuelle Patch-Assembly 0.0.60 und alle
+    Runtime-Patch-Profile liefern den aktuellen Zustand; der Kontrollfall
+    besteht überall.
+
 - [x] `blizzard-play-state-lifetime`
   - Ziele: beide öffentlichen `Blizzard.Execute(...)`-Überladungen, das private
     `Execute()`, `Update(...)` und `OnRemove()`.
@@ -2681,7 +2696,8 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Controls/XInputController.cs`
 - [ ] `Magicka/Levels/GameScene.cs` — TEILWEISE: der ungültige
   Ambient-Audio-Locator wird bei einem internen XACT-Cue-Indexfehler entfernt;
-  die weiteren manuellen Änderungen der Klasse bleiben offen.
+  `PlayState` liefert außerdem den aktuellen statt eines gespeicherten
+  Zustands. Die weiteren manuellen Änderungen der Klasse bleiben offen.
 - [ ] `Magicka/CommunityPatch/PatchTelemetry.cs`
 - [ ] `Magicka/GameLogic/Entities/Character.cs` — TEILWEISE: Initialisierung,
   Crossfade und ForceAnimation behandeln fehlende Animationsaktionen und
