@@ -650,6 +650,9 @@ namespace Magicka.CommunityPatch.Runtime
                 ConfuseWhoFactionPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                ConfuseFactionPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 ChargeAbilityPlayStatePatch.HomingExecuteDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

@@ -2879,7 +2879,14 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/SprayEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/ConfuseWho.cs` — VOLLSTÄNDIG: abgelaufene, bereits deinitialisierte Opfer verwenden bei der Bereinigung die weiterhin verfügbare aktuelle Fraktion, ein Transpiler und 2 Drei-Wege-Szenarien; die statische Initialisierer-Umschreibung ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/UI/DialogManager.cs` — VOLLSTÄNDIG: der Levelabbau beendet aktive Dialoge, trennt alle festen, Cutscene- und zusätzlichen TextBoxen von Levelobjekten, leert die Zusatzliste und setzt den transienten Zustand zurück; ein Transpiler und 2 Drei-Wege-Szenarien.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Confuse.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Confuse.cs` —
+  VOLLSTÄNDIG: `OnRemove()` verwendet bei einem bereits deinitialisierten Ziel
+  dessen aktuelle Fraktion, behält bei einem intakten Template aber die
+  originale Wiederherstellung der Template-Fraktion bei. Damit ist auch die
+  unbeabsichtigte Verhaltensänderung des manuellen Patches nicht übernommen.
+  Ein Transpiler und 2 Drei-Wege-Szenarien decken beide Zustände ab; die
+  statische Poolfreigabe ist ebenfalls migriert. RetentionRegistry-Aufrufe sind
+  Diagnostik und statische Initialisierer Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/TornadoEntity.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/FloorStomp.cs` —
   VOLLSTÄNDIG: gespeicherter PlayState, alle sechs laufenden EntityManager-Reads
