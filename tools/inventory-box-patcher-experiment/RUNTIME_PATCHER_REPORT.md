@@ -2027,6 +2027,20 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Telemetrieblock. Bis dahin ist die betroffene Quelldatei in der Checkliste
     bewusst nur teilweise migriert.
 
+- [x] `projectile-spell-condition-cache`
+  - Ziel: `ProjectileSpell.SpawnMissile(...)`.
+  - Technik: Transpiler; unmittelbar vor dem einzigen
+    `Queue<ConditionCollection>.Dequeue()` wird bei leerer Queue genau eine
+    neue Collection eingestellt. Der vorhandene Monitor, das Dequeue und die
+    abschließende Rückgabe bleiben unverändert.
+  - Fehlerfall: Ist `sCachedConditions` erschöpft, wirft das Original vor der
+    Projektilinitialisierung eine `InvalidOperationException`.
+  - Verhalten: Der leere Pool liefert eine neue Collection. Ein vorhandener
+    Cacheeintrag wird weiterhin unverändert und identisch entnommen.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern im Leerfall. Die manuelle
+    Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile bestehen Leerfall und
+    Identitätskontrolle.
+
 - [x] `blizzard-play-state-lifetime`
   - Ziele: beide öffentlichen `Blizzard.Execute(...)`-Überladungen, das private
     `Execute()`, `Update(...)` und `OnRemove()`.
@@ -2649,8 +2663,9 @@ Versionsnachweis.
   Leerpool-Recovery, aktuelle PlayState-Zugriffe und statische Poolfreigabe
   sind migriert. `SpawnMissile` verwirft außerdem Owner ohne PlayState oder
   EntityManager vor jeder Cachemutation; ein Prefix und 2 Drei-Wege-Szenarien
-  decken diese Eingangsprüfung ab. Leerzustand und exception-sichere Rückgabe
-  von `sCachedConditions`, ein fehlendes Missile-Ergebnis sowie die
+  decken diese Eingangsprüfung ab. Der Leerzustand von `sCachedConditions` ist
+  ebenfalls migriert; die exception-sichere Rückgabe, ein fehlendes
+  Missile-Ergebnis sowie die
   Diagnoseaufrufe bleiben offen.
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCharacterSelect.cs` —
   TEILWEISE: die vier Pack-Anzeigeprüfungen verwenden die gemeinsame
