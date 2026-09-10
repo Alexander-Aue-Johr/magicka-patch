@@ -2734,7 +2734,16 @@ Versionsnachweis.
   `Update(GameTime)` korrigiert TopMost und der Konstruktor überspringt nicht
   verfügbare ProcessThread-Einträge. Weitere manuelle Änderungen der Klasse
   sind noch offen.
-- [ ] `Magicka/CommunityPatch/PayloadContract.cs`
+- [x] `Magicka/CommunityPatch/PayloadContract.cs` — VOLLSTÄNDIG / `NOT_APPLICABLE`:
+  Dieser Vertrag schützt ausschließlich die manuell gepaarte, veränderte
+  `Magicka.exe` und `PolygonHead.dll` vor einer Versionsmischung. Der
+  Runtime-Patcher verändert `PolygonHead.dll` nicht und verweist aus der
+  Original-EXE nicht auf dessen manuelle CommunityPatch-Typen. Die eigene
+  Runtime-Assembly wird bereits durch den injizierten Loader zwingend geladen;
+  fehlt sie, kann der Patch gar nicht angewendet werden. Ein zusätzlicher
+  PolygonHead-Payloadmarker würde deshalb keine erreichbare Fehlerklasse
+  absichern und wird für alle unterstützten Originalversionen ausdrücklich als
+  `NOT_APPLICABLE` behandelt.
 - [x] `Magicka/CommunityPatch/AnimationClipCompatibility.cs` — VOLLSTÄNDIG:
   Sichere Dictionary-/Array-Lookups, Slotfilter und Idle-Fallbacks sind
   migriert. Ein fehlender Clip sendet das vorhandene
