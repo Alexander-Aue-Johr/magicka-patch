@@ -1900,7 +1900,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=GameScene complete teardown" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 77 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 20 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 421) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 422) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1915,7 +1915,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=518")
+    $summary.Add("implemented_patches=519")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

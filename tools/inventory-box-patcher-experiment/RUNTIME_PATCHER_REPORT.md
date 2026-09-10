@@ -2579,7 +2579,11 @@ Versionsnachweis.
   Pool wird beim Levelabbau geleert. Alle übrigen Änderungen sind
   RetentionRegistry-Diagnostik, lokale Variablennamen oder eine äquivalente
   Darstellung statischer Initialisierer.
-- [ ] `Magicka/CoreFramework/GameSystem/Store/StoreItemDatabase.cs`
+- [x] `Magicka/CoreFramework/GameSystem/Store/StoreItemDatabase.cs` —
+  VOLLSTÄNDIG: Der vorhandene Preisabrufblock läuft höchstens einmal parallel
+  auf einem ThreadPool-Worker; der Aufrufer setzt sofort beim unveränderten
+  Inventarabschnitt fort. Die Offers-URL verwendet HTTPS. Ein Transpiler und
+  ein Drei-Wege-IL-Szenario prüfen Worker-Übergabe und URL.
 - [ ] `Magicka/GameLogic/UI/IconRenderer.cs` — TEILWEISE: Konstruktor und
   `Initialize` speichern keinen PlayState mehr; der einzige spätere Read im
   `TomeMagick`-Setter verwendet den aktuellen Zustand. Die Skalierung des
