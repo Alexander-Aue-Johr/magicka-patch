@@ -3035,7 +3035,14 @@ Versionsnachweis.
 - [x] `Magicka/Levels/Packs/ItemPack.cs` — VOLLSTÄNDIG: Custom-Lizenz in beiden Settern, 2 Transpiler und gemeinsame Pack-Szenarien.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/OtherworldlyDischarge.cs` — VOLLSTÄNDIG: statischer levelgeladener Template-Cache, bestehender PlayState-Cleanup-Transpiler und 2 gemeinsame Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/MutateBeastman.cs` — VOLLSTÄNDIG: statischer levelgeladener Template-Cache, bestehender PlayState-Cleanup-Transpiler und 2 gemeinsame Drei-Wege-Szenarien.
-- [ ] `Properties/AssemblyInfo.cs`
+- [?] `Properties/AssemblyInfo.cs` — INPUT: Die einzige beabsichtigte
+  Metadatenänderung der manuellen Assembly ist die sichtbare
+  `AssemblyDescription("Patched by Alexander Aue-Johr")`. Das zusätzlich
+  entstandene `CLSCompliant(true)` ist Rekompilierungsnoise und wird nicht
+  übernommen. Zu entscheiden ist, ob der Runtime-Loader die unveränderte
+  Original-EXE bewusst mit einer Patch-Beschreibung versehen soll oder ob die
+  minimale Loader-Injektion auch die Originalmetadaten bewahren soll. Dies hat
+  keinen Einfluss auf das Laufzeitverhalten.
 - [x] `Magicka/Audio/AudioManager.cs` — VOLLSTÄNDIG: `StopAll` überspringt
   bereits freigegebene Cues, Transpiler und 2 Drei-Wege-Szenarien; die
   statische String-Initialisierer-Umschreibung ist semantikfreies
