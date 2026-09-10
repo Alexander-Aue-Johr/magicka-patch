@@ -2781,7 +2781,12 @@ Versionsnachweis.
   Freigabe aller Collision- und GPU-Ressourcen sind über Konstruktor-Postfix
   und den gemeinsamen Liquid-Abbau migriert; die entfernte lokale
   Zwischenvariable ist semantikfreies Compilerrauschen.
-- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsResolution.cs` — TEILWEISE: der Kamera-Aspektzugriff verwendet den aktuellen PlayState; die Safe-Area-Auswahl bleibt offen.
+- [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsResolution.cs`
+  — VOLLSTÄNDIG: Der Kamera-Aspektzugriff verwendet den aktuellen PlayState.
+  Im begrenzten UI-Scale-Modus enthält die bestehende Liste ausschließlich
+  Off sowie 125 bis 400 Prozent, übernimmt die Auswahl und verlässt den Modus
+  bei Auswahl, Zurück oder Exit. Außerhalb dieses Modus bleibt der originale
+  Auflösungsablauf unverändert.
 - [x] `Magicka/Graphics/TutorialManager.cs` — VOLLSTÄNDIG: Safe-Area-Position sowie vollständige PlayState-Lebensdaueränderung in `Initialize`, `UpdateResolution` und `Update`; die verschobene statische Initialisierung ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Thunderbolt.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen und alle elf laufenden Reads sind mit 3 Transpilern und 3 Drei-Wege-Szenarien migriert; die Segment-Initialisierungen im C#-Diff sind semantikfreies Rekompilierungsrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Blizzard.cs` —
@@ -3084,10 +3089,12 @@ Versionsnachweis.
   RetentionRegistry-Aufrufe sind reine Diagnostik; statische Initialisierer,
   lokale Ausdrücke und temporäre Variablen sind semantikfreies Compiler- oder
   Decompilerrauschen.
-- [ ] `Magicka/CommunityPatch/InGameUiCompatibility.cs` — TEILWEISE: Laden,
+- [x] `Magicka/CommunityPatch/InGameUiCompatibility.cs` — VOLLSTÄNDIG: Laden,
   Begrenzen und Anwenden des gespeicherten Skalierungsfaktors sowie die
-  Renderpfade sind migriert. Auswahlzustand, Menükoordinaten, Speichern und
-  Telemetrie der im Optionsmenü geänderten Skalierung bleiben offen.
+  Renderpfade sind migriert. Der Runtime-Helfer besitzt nun auch den begrenzten
+  Auswahlzustand, formatiert, übernimmt und speichert den gewählten Wert und
+  aktualisiert den zwischengespeicherten Telemetriekontext. Drei
+  Drei-Wege-Szenarien prüfen Menüzeile, Auswahlbereich und Zustandsreset.
 - [x] `Magicka/CommunityPatch/WidescreenSafeArea.cs` — VOLLSTÄNDIG: beide Berechnungen liegen CLR-2-kompatibel im Runtime-Patcher und werden durch 4 Rechenszenarien abgedeckt.
 - [x] `Magicka/GameLogic/Entities/NonPlayerCharacter.cs` — VOLLSTÄNDIG: der
   Challenge-Score-Zustand wird pro Pool-Lebenszyklus zurückgesetzt und der
@@ -3276,7 +3283,11 @@ Versionsnachweis.
   wird beim Levelabbau geleert. Alle übrigen Änderungen sind
   RetentionRegistry-Diagnostik, lokale Variablennamen oder eine äquivalente
   Darstellung statischer Initialisierer.
-- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsGraphics.cs`
+- [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsGraphics.cs`
+  — VOLLSTÄNDIG: Ein Konstruktor-Postfix fügt die UI-Scale-Zeile vor Back ein;
+  Auswahl, Highlight, aktueller Anzeigetext und größere Menüfläche werden über
+  vier eng begrenzte Hooks ergänzt. Windowed- und Resolution-Pfade behalten
+  ihre Originalindizes und ihr Originalverhalten.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Grow.cs` —
   VOLLSTÄNDIG: ein Prefix beendet verwaiste aktive Grow-Effekte ohne Owner und
   setzt beide Laufzeittimer zurück; bei vorhandenem Owner läuft der originale

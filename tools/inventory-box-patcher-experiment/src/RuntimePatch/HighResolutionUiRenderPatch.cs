@@ -29,6 +29,7 @@ namespace Magicka.CommunityPatch.Runtime
         private static PropertyInfo effectScreenSizeProperty;
         private static Type vectorType;
         private static float scaleFactor = LoadScaleFactor();
+        private static bool scaleSelectionActive;
 
         internal static readonly RuntimePatchDefinition GameDefinition =
             RuntimePatchDefinition.Prefix(
@@ -214,6 +215,37 @@ namespace Magicka.CommunityPatch.Runtime
             setEnabled.Invoke(null, new object[] { enabled });
         }
 
+        public static string GetScaleText()
+        {
+            return scaleFactor <= 1.001f
+                ? "Off"
+                : ((int)(scaleFactor * 100f + 0.5f)).ToString(
+                    CultureInfo.InvariantCulture) + "%";
+        }
+
+        public static void BeginScaleSelection()
+        {
+            scaleSelectionActive = true;
+        }
+
+        public static bool IsScaleSelection()
+        {
+            return scaleSelectionActive;
+        }
+
+        public static void EndScaleSelection()
+        {
+            scaleSelectionActive = false;
+        }
+
+        public static void ApplyScalePercent(int percent)
+        {
+            scaleFactor = Math.Max(1f, Math.Min(4f, percent * 0.01f));
+            RuntimeTelemetryContext.RecordUiScale(scaleFactor);
+            setScale.Invoke(null, new object[] { scaleFactor });
+            SaveScaleFactor();
+        }
+
         public static void ProjectedPositionPrefix(object __instance)
         {
             Adjust(__instance, null);
@@ -345,6 +377,42 @@ namespace Magicka.CommunityPatch.Runtime
             {
             }
             return 2f;
+        }
+
+        private static void SaveScaleFactor()
+        {
+            try
+            {
+                string directory = Path.Combine(
+                    AppDomain.CurrentDomain.BaseDirectory,
+                    "CommunityPatch");
+                string path = Path.Combine(directory, "ui-scale.ini");
+                Directory.CreateDirectory(directory);
+                string[] lines = File.Exists(path)
+                    ? File.ReadAllLines(path)
+                    : new string[] { "[MagickaCommunityPatch]" };
+                string setting = "ui_scale=" + scaleFactor.ToString(
+                    "0.##", CultureInfo.InvariantCulture);
+                bool found = false;
+                for (int index = 0; index < lines.Length; index++)
+                    if (lines[index].TrimStart().StartsWith(
+                        "ui_scale=", StringComparison.OrdinalIgnoreCase))
+                    {
+                        lines[index] = setting;
+                        found = true;
+                    }
+                if (!found)
+                {
+                    string[] expanded = new string[lines.Length + 1];
+                    lines.CopyTo(expanded, 0);
+                    expanded[lines.Length] = setting;
+                    lines = expanded;
+                }
+                File.WriteAllLines(path, lines);
+            }
+            catch
+            {
+            }
         }
 
         private static Type RequireNested(Type type, string name)

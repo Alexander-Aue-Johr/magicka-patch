@@ -595,6 +595,8 @@ function Test-BehaviorMatrix {
         "character_template_lookup.missing_owner",
         "character_avatar_templates.active_players",
         "character_avatar_templates.lazy_lookup",
+        "ui_scale_selection.graphics_row",
+        "ui_scale_selection.choice_list",
         "judgement_spray.empty_condition_cache",
         "blizzard_cleanup.active_release",
         "blizzard_cleanup.stop_failure_release",
@@ -700,6 +702,9 @@ function Test-BehaviorMatrix {
         "character_avatar_templates.active_players",
         "character_avatar_templates.lazy_lookup",
         "character_avatar_templates.empty_players",
+        "ui_scale_selection.graphics_row",
+        "ui_scale_selection.choice_list",
+        "ui_scale_selection.state_reset",
         "spell_mine.animated_part_release"
     )
     $matrix = New-Object System.Collections.Generic.List[string]
@@ -1661,6 +1666,9 @@ function Test-BehaviorProfile(
         "character_avatar_templates.active_players",
         "character_avatar_templates.lazy_lookup",
         "character_avatar_templates.empty_players",
+        "ui_scale_selection.graphics_row",
+        "ui_scale_selection.choice_list",
+        "ui_scale_selection.state_reset",
         "judgement_spray.empty_condition_cache",
         "judgement_spray.cached_condition_identity",
         "blizzard_cleanup.active_release",
@@ -2138,9 +2146,18 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Character template safe lazy lookup" -or
         $auditLines -notcontains "patch_end=Active player avatar template initialization" -or
         $auditLines -notcontains "patch_end=Lazy player avatar template lookup" -or
+        $auditLines -notcontains "patch_end=Graphics menu UI-scale row" -or
+        $auditLines -notcontains "patch_end=Graphics menu UI-scale selection" -or
+        $auditLines -notcontains "patch_end=Graphics menu UI-scale label" -or
+        $auditLines -notcontains "patch_end=Graphics menu UI-scale refresh" -or
+        $auditLines -notcontains "patch_end=Graphics menu UI-scale layout" -or
+        $auditLines -notcontains "patch_end=UI-scale choice population" -or
+        $auditLines -notcontains "patch_end=UI-scale choice application" -or
+        $auditLines -notcontains "patch_end=UI-scale choice cancellation" -or
+        $auditLines -notcontains "patch_end=UI-scale choice exit reset" -or
         @($auditLines | Where-Object { $_ -like "patch_end=Shared content disposable ownership:*" }).Count -ne 13 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 112 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 25 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 118 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 28 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 444) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
@@ -2156,7 +2173,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=581")
+    $summary.Add("implemented_patches=590")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

@@ -183,6 +183,8 @@ internal static class BehaviorSuite
             magicka, runtimePatchEnabled, report);
         CharacterAvatarTemplateScenarios.Run(
             magicka, runtimePatchEnabled, report);
+        InGameUiScaleSelectionScenarios.Run(
+            magicka, runtimePatchEnabled, report);
         VersusRulesetScenarios.Run(magicka, report);
         PackLicenseScenarios.Run(magicka, runtimePatchEnabled, report);
         FlashScenarios.Run(magicka, report);
