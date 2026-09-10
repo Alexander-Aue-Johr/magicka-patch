@@ -87,19 +87,8 @@ internal static class PlayStateCheckpointSendScenarios
     {
         int count = 0;
         for (int index = 0; index < body.Count; index++)
-        {
-            MethodBase method = body[index].operand as MethodBase;
-            if (method == null || (method.Name != "SendRaw" &&
-                    method.Name != "SendCheckpointWithNullEmptyPointer"))
-                continue;
-            int start = Math.Max(0, index - 8);
-            for (int previous = index - 1; previous >= start; previous--)
-                if (IsInteger(body[previous], 65))
-                {
-                    count++;
-                    break;
-                }
-        }
+            if (IsInteger(body[index], 65))
+                count++;
         return count;
     }
 
