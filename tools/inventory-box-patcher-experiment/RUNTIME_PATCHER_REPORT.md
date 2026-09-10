@@ -2795,7 +2795,13 @@ Versionsnachweis.
   migriert. Ein fehlender Clip sendet das vorhandene
   `magicka_patch_animation_clip_missing` mit stabiler Ähnlichkeitskategorie und
   gemeinsamem exponentiellem Backoff.
-- [ ] `Magicka/CommunityPatch/PatchSettings.cs`
+- [x] `Magicka/CommunityPatch/PatchSettings.cs` — VOLLSTÄNDIG: Pfade,
+  sichere Standardwerte, sämtliche 0.0.60-Schlüssel, Bool-Parsing,
+  Zeilenumbruchbereinigung und persistentes Speichern sind in einem gemeinsamen
+  Runtime-Vertrag migriert. Telemetrie und Crashfreigabe verwenden diesen
+  Parser statt einer separaten Teilimplementierung. Drei Drei-Wege-Szenarien
+  prüfen Verfügbarkeit, Defaults und einen isolierten Load/Save-Roundtrip;
+  20 geänderte konkrete Methoden JITten unter CLR 2 und Mono ohne Skip.
 - [ ] `Magicka/GameLogic/Entities/Items/Item.cs` — TEILWEISE: die
   levelgebundene Pickable-Queue wird beim Levelabbau freigegeben; Weapon-Cache,
   individuelle Dispose-Änderungen und Diagnostik bleiben offen.

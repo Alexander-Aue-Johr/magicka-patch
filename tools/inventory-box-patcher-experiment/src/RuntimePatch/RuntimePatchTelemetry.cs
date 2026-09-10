@@ -573,7 +573,7 @@ namespace Magicka.CommunityPatch.Runtime
 
         private static bool TelemetryDisabled()
         {
-            return SettingDisabled("usage_sharing");
+            return !RuntimePatchSettings.Load().UsageSharing;
         }
 
         private static bool IsValidationProcess()
@@ -595,38 +595,8 @@ namespace Magicka.CommunityPatch.Runtime
 
         private static bool CrashReportsDisabled()
         {
-            return TelemetryDisabled() || SettingDisabled("crash_reports");
-        }
-
-        private static bool SettingDisabled(string key)
-        {
-            try
-            {
-                string path = Path.Combine(
-                    Path.Combine(
-                        AppDomain.CurrentDomain.BaseDirectory,
-                        "CommunityPatch"),
-                    "patch-settings.ini");
-                if (!File.Exists(path))
-                    return false;
-                string[] lines = File.ReadAllLines(path, Encoding.UTF8);
-                for (int index = 0; index < lines.Length; index++)
-                {
-                    string line = lines[index].Trim();
-                    int separator = line.IndexOf('=');
-                    if (separator <= 0 || !line.Substring(0, separator).Trim()
-                        .Equals(key, StringComparison.OrdinalIgnoreCase))
-                        continue;
-                    string value = line.Substring(separator + 1).Trim();
-                    return value.Equals("false", StringComparison.OrdinalIgnoreCase) ||
-                        value == "0" || value.Equals("no", StringComparison.OrdinalIgnoreCase) ||
-                        value.Equals("off", StringComparison.OrdinalIgnoreCase);
-                }
-            }
-            catch
-            {
-            }
-            return false;
+            return TelemetryDisabled() ||
+                !RuntimePatchSettings.Load().CrashReports;
         }
 
         private static string Safe(string value)
