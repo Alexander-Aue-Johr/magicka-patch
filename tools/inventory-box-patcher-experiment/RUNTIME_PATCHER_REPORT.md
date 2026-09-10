@@ -2888,6 +2888,9 @@ Versionsnachweis.
   ohne Ziel werden über `Kill()` entfernt. Die Initialisierung führt das
   Default-Ereignis auf der bereits kopierten beziehungsweise geleerten internen
   ConditionCollection aus und unterstützt damit einen `null`-Eingabeparameter.
+  Beide ausgehenden EventMessage-Konstruktionen initialisieren einen fehlenden
+  Zielhandle ausdrücklich mit `ushort.MaxValue`; ein vorhandenes Ziel
+  überschreibt diesen Wert weiterhin.
   Cache-Cleanup-, Telemetrie- und weitere Lebensdaueränderungen bleiben offen.
 - [x] `Magicka/GameLogic/Controls/XInputController.cs` — VOLLSTÄNDIG: Die
   bereits migrierte Magicka-2-Steuerung bleibt unverändert; nach der zweiten
