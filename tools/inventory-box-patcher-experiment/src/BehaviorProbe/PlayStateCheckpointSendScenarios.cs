@@ -44,14 +44,15 @@ internal static class PlayStateCheckpointSendScenarios
         }
 
         int safe = Count(body, "SendCheckpointWithNullEmptyPointer");
-        int sends = CountCheckpointSends(body);
-        bool manualGuard = !runtimePatchEnabled && sends == 5;
+        int sends = Count(body, "SendRaw");
+        bool manualGuard = !runtimePatchEnabled && sends == 3;
         bool normalized = runtimePatchEnabled ? safe == 1 : manualGuard;
         report.Add(
             "play_state_checkpoint.empty_payload",
             new ScenarioResult(normalized,
-                normalized ? "null-empty" : "raw-empty", "null-empty"));
-        bool control = runtimePatchEnabled ? safe == 1 : sends >= 4;
+                (normalized ? "null-empty" : "raw-empty") + ":" + sends,
+                "null-empty"));
+        bool control = runtimePatchEnabled ? safe == 1 : sends >= 2;
         report.Add(
             "play_state_checkpoint.nonempty_control",
             new ScenarioResult(control,
@@ -83,21 +84,4 @@ internal static class PlayStateCheckpointSendScenarios
         return count;
     }
 
-    private static int CountCheckpointSends(List<CodeInstruction> body)
-    {
-        int count = 0;
-        for (int index = 0; index < body.Count; index++)
-            if (IsInteger(body[index], 65))
-                count++;
-        return count;
-    }
-
-    private static bool IsInteger(CodeInstruction instruction, int expected)
-    {
-        if (instruction.opcode == OpCodes.Ldc_I4_S)
-            return Convert.ToInt32(instruction.operand) == expected;
-        if (instruction.opcode == OpCodes.Ldc_I4)
-            return Convert.ToInt32(instruction.operand) == expected;
-        return false;
-    }
 }
