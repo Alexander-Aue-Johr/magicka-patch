@@ -2920,7 +2920,10 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCharacterSelect.cs` —
   TEILWEISE: die vier Pack-Anzeigeprüfungen verwenden die gemeinsame
   Custom-Content-Lizenzregel und `DrawWidget` überspringt Images mit fehlender
-  oder freigegebener Textur; die weiteren manuellen Änderungen bleiben offen.
+  oder freigegebener Textur. `DrawAvatar` überspringt außerdem fehlende
+  Robentexturen sowie Custom-Roben ohne geladene Custom-Textur. Das Verlassen
+  eines einzelnen Offline-Spielers und die übrige semantische Prüfung bleiben
+  offen.
 - [ ] `Magicka/Network/NetworkClient.cs` — TEILWEISE: verspätete
   `RulesetUpdate`-Pakete werden bei gelöster PlayState-/Szenenkette verworfen;
   weltverändernde Spawn-Trigger werden nur vom Server angenommen. Weitere
