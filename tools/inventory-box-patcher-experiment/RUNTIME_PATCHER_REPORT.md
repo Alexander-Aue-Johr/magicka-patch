@@ -2626,8 +2626,9 @@ Versionsnachweis.
   und Mono ohne Skip. Die Änderung ist für 1.4/1.5 nicht anwendbar.
 - [ ] `Magicka/CommunityPatch/NetworkEntityHandleGuard.cs` — TEILWEISE:
   SpawnNPC-WorldSync sowie schwache, zentralisierte Resolve-, ResolveActive-,
-  Body- und Lifecycle-Prüfungen sind migriert. Die verbleibenden Aufrufer in
-  den Spawn- und Damage-Paketpfaden sind noch offen.
+  Body- und Lifecycle-Prüfungen sind migriert. Damage auf Client und Server
+  verwirft inaktive Angreifer und körperlose Ziele mit stabilen Reason-Codes.
+  Die verbleibenden Aufrufer in den Spawn-Paketpfaden sind noch offen.
 - [x] `Magicka/GameLogic/Spells/ArcaneBlast.cs` — VOLLSTÄNDIG: der statische
   Pool wird beim Levelabbau geleert. Alle übrigen Änderungen sind
   RetentionRegistry-Diagnostik, lokale Variablennamen oder eine äquivalente
@@ -2972,7 +2973,8 @@ Versionsnachweis.
   `RulesetUpdate`-Pakete werden bei gelöster PlayState-/Szenenkette verworfen;
   weltverändernde Spawn-Trigger werden nur vom Server angenommen. EntityUpdate
   verwendet nur aktive Handles; CharacterAction stellt ein fehlendes Template
-  kontrolliert wieder her. Weitere Spawn-, Damage-, Telemetrie- und
+  kontrolliert wieder her. Damage verwirft inaktive Angreifer und körperlose
+  Ziele. Weitere Spawn-, Telemetrie- und
   Lebensdaueränderungen sind noch offen.
 - [ ] `Magicka/Network/NetworkServer.cs` — TEILWEISE: alle geschlossenen
   `QueueUDPMessage<T>`-Instanziierungen prüfen einen veralteten Clientindex
@@ -2981,7 +2983,8 @@ Versionsnachweis.
   für einen synchronisierenden Spieler mit allen weiteren Clients fort. Forced
   Player Status Sync prüft Player-ID und Sender und erstellt vollständige
   Antworten aus lückenhaften Player-Slots. EntityUpdate verwendet nur aktive
-  Handles. Weitere Spawn-, Damage-, Telemetrie- und Lebensdaueränderungen sind
+  Handles. Damage verwirft inaktive Angreifer und körperlose Ziele. Weitere
+  Spawn-, Telemetrie- und Lebensdaueränderungen sind
   noch offen.
 - [?] `Magicka/CommunityPatch/HybridInputSupport.cs` — INPUT: unteilbarer Teil
   des Controller-UI-Bündels; siehe `InGameMenuOptionsControls`.
@@ -3024,7 +3027,7 @@ Versionsnachweis.
 - [ ] `Magicka/CommunityPatch/NetworkLifecycleCompatibility.cs` — TEILWEISE:
   TriggerAction-Absender- und Lifecycle-Regeln, aktive Entity-Auflösung,
   Forced-Sync, Hotjoin-Fortsetzung, Undead-Zustand und Ruleset-Lifecycle sind
-  migriert. Damage- und Spawn-Helfer bleiben offen.
+  migriert. Die Damage-Helfer sind migriert; Spawn-Helfer bleiben offen.
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCutscene.cs`
 - [x] `Magicka/CommunityPatch/RuntimeCompatibilityGuards.cs` — VOLLSTÄNDIG:
   DirectInput-Ausfallerkennung und verzögerte Warnung, Versionszeilen- und
