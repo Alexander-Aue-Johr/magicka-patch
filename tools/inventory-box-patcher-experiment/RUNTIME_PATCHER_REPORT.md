@@ -2103,6 +2103,20 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Runtime-Patch-Profile liefern den aktuellen Zustand; der Kontrollfall
     besteht überall.
 
+- [x] `level-current-play-state`
+  - Ziele: `Level.State.ApplyState`, `Level.PlayState.get`, `Level.Update`,
+    `Level.ChangeScene` und `Level.ClearTransition`.
+  - Technik: Fünf eng geprüfte Transpiler ersetzen zusammen genau zehn Reads
+    von `Level.mPlayState` durch `PlayState.RecentPlayState`. Jeder Transpiler
+    besitzt eine eigene Sollzahl und bricht bei einer geänderten Methode ab.
+  - Verhalten: verzögerte Zustandswiederherstellung, Titelrendering,
+    Szenenwechsel und Übergangsbereinigung arbeiten mit dem aktuellsten
+    PlayState. Alle übrigen Anweisungen und alle zehn Leseorte bleiben erhalten.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 lesen an allen zehn Stellen den
+    gespeicherten Zustand. Die manuelle Patch-Assembly 0.0.60 und alle drei
+    Runtime-Patch-Profile lesen den aktuellen Zustand. Ein zweites Szenario
+    bestätigt in jedem Profil, dass die Gesamtzahl der Reads zehn bleibt.
+
 - [x] `game-scene-menu-controller-reset`
   - Ziel: `GameScene.Destroy(bool)`.
   - Technik: Prefix; unmittelbar vor dem Szenenabbau wird der vorhandene
@@ -2711,7 +2725,11 @@ Versionsnachweis.
   Variablenbewegung oder statische Initialisiererdarstellung.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SpawnSlime.cs` — VOLLSTÄNDIG: gespeicherter PlayState in `Execute` und beide veralteten NavMesh-Zugriffe, 3 Transpiler und 3 Drei-Wege-Szenarien; der leere `DisposeCache()` und die statischen Hash-Initialisierer ändern kein Laufzeitverhalten.
 - [x] `Magicka/GameLogic/Entities/Entanglement.cs` — VOLLSTÄNDIG: der global registrierte EntangleEffect wird wiederverwendet und nur bei fehlendem Registry-Eintrag vollständig angelegt; 2 Transpiler und 2 Drei-Wege-Szenarien. Lokale Variablennamen und explizit dargestellte statische Initialisierer sind semantikfreies Compilerrauschen.
-- [ ] `Magicka/Levels/Level.cs`
+- [ ] `Magicka/Levels/Level.cs` — TEILWEISE: Alle zehn Laufzeitzugriffe in
+  Zustandswiederherstellung, Getter, Update, Szenenwechsel und
+  Übergangsbereinigung verwenden den aktuellen PlayState. Render-Sperren,
+  Szenen-Ladereihenfolge, Navigationstelemetrie und reine
+  RetentionRegistry-Diagnostik bleiben getrennt offen.
 - [x] `Magicka/Graphics/Effects/RadialBlur.cs` — VOLLSTÄNDIG: levelgebundener
   Content und gespeicherte Szene werden nicht mehr gehalten, der Renderpfad
   verwendet die aktuelle Szene und der freigegebene Cache wird geleert. Die

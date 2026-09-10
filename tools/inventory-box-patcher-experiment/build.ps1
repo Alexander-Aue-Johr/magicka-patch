@@ -188,6 +188,7 @@ function Test-BehaviorMatrix {
         "ui_render.projected_positions",
         "ui_render.notifier_restoration",
         "ui_render.screen_size",
+        "level_current_state.read_sites",
         "avatar_interactable.missing_play_state",
         "avatar_interactable.missing_level",
         "avatar_interactable.missing_scene",
@@ -657,6 +658,7 @@ function Test-BehaviorProfile(
     if ($profile -eq "1.4.16.0-original" -or
         $profile -eq "1.5.1.0-original") {
         $expectedFailures = @($expectedFailures) + @(
+            "level_current_state.read_sites",
             "game_scene.current_play_state",
             "game_scene.menu_controller_reset",
             "game_scene.light_update_current_state",
@@ -988,6 +990,8 @@ function Test-BehaviorProfile(
     $matrix.Add("profile=$profile|assembly=$assemblyName|sha256=$sha256|mode=$mode")
 
     $scenarioNames = @(
+        "level_current_state.read_sites",
+        "level_current_state.read_count_preserved",
         "ui_render.activation",
         "ui_render.projected_positions",
         "ui_render.notifier_restoration",
@@ -1928,9 +1932,14 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=SpellWheel projected UI scaling" -or
         $auditLines -notcontains "patch_end=Notifier projected UI scaling" -or
         $auditLines -notcontains "patch_end=Notifier projected position restoration" -or
+        $auditLines -notcontains "patch_end=Level state restore current play state" -or
+        $auditLines -notcontains "patch_end=Level current play-state getter" -or
+        $auditLines -notcontains "patch_end=Level update current play state" -or
+        $auditLines -notcontains "patch_end=Level scene change current play state" -or
+        $auditLines -notcontains "patch_end=Level transition clear current play state" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 85 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 21 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 424) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 429) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1945,7 +1954,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=530")
+    $summary.Add("implemented_patches=535")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

@@ -824,6 +824,7 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 LevelModelTeardownPatch.Definition);
+            LevelCurrentPlayStatePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 GameScenePlayStatePatch.Definition);
