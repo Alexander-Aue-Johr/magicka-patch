@@ -2811,7 +2811,14 @@ Versionsnachweis.
   äquivalente Freigabe an den vorhandenen Content- und Entity-Abbaupunkten.
   RetentionRegistry-Aufrufe bleiben bewusst reine Testdiagnostik und gehören
   nicht in den Runtime-Patcher.
-- [ ] `Magicka/SharedContentManager.cs`
+- [x] `Magicka/SharedContentManager.cs` — VOLLSTÄNDIG: alle 13 im Programm
+  geschlossenen `Load<T>`-Varianten übergeben beim Lesen nun einen
+  Disposable-Callback. Unterressourcen werden ausschließlich schwach ihrem
+  ReferencedAsset zugeordnet, doppelte Child-Kanten werden verhindert und bei
+  Referenzstand null freigegeben, sofern sie nicht selbst noch als Asset
+  registriert sind. Der letzte SharedContentManager räumt alle verbleibenden
+  Unterressourcen auf. Die Runtime-Implementierung hält keine freigegebenen
+  Assetgraphen stark fest.
 - [x] `Magicka/GameLogic/UI/Tome.cs` — VOLLSTÄNDIG: `DrawShadows` leert nun
   Target und DepthBuffer wie 0.0.60. Die Versionsanzeige besitzt ebenfalls die
   512-Zeichen-Kapazität, den gemeinsamen Patch-/Update-Text und das sichere

@@ -112,6 +112,7 @@ namespace Magicka.CommunityPatch.Runtime
             TomeSupporterPatchPlan.ApplyTo(targetAssembly);
             TomeLanguageRefreshPatchPlan.ApplyTo(targetAssembly);
             ItemWeaponCachePatchPlan.ApplyTo(targetAssembly);
+            SharedContentLifetimePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 TutorialManagerPlayStatePatch.InitializeDefinition);

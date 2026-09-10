@@ -205,6 +205,11 @@ function Test-BehaviorMatrix {
         "item_weapon_cache.asset_name",
         "item_weapon_cache.conditional_release",
         "item_weapon_cache.lookup_routes",
+        "shared_content.disposable_callback",
+        "shared_content.duplicate_children",
+        "shared_content.release",
+        "shared_content.final_release",
+        "shared_content.weak_tracking",
         "original_backup_audit.available",
         "original_backup_audit.missing",
         "original_backup_audit.unverified",
@@ -714,6 +719,11 @@ function Test-BehaviorProfile(
             "item_weapon_cache.asset_name",
             "item_weapon_cache.conditional_release",
             "item_weapon_cache.lookup_routes",
+            "shared_content.disposable_callback",
+            "shared_content.duplicate_children",
+            "shared_content.release",
+            "shared_content.final_release",
+            "shared_content.weak_tracking",
             "game_scene.current_play_state",
             "game_scene.menu_controller_reset",
             "game_scene.light_update_current_state",
@@ -1073,6 +1083,11 @@ function Test-BehaviorProfile(
         "item_weapon_cache.asset_name",
         "item_weapon_cache.conditional_release",
         "item_weapon_cache.lookup_routes",
+        "shared_content.disposable_callback",
+        "shared_content.duplicate_children",
+        "shared_content.release",
+        "shared_content.final_release",
+        "shared_content.weak_tracking",
         "level_current_state.read_sites",
         "level_current_state.read_count_preserved",
         "ui_render.activation",
@@ -2031,9 +2046,12 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Item weapon lazy cache query" -or
         $auditLines -notcontains "patch_end=Item weapon lazy cache copy" -or
         $auditLines -notcontains "patch_end=Item weapon content release" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 91 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 23 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 432) {
+        $auditLines -notcontains "patch_end=Shared content disposable release" -or
+        $auditLines -notcontains "patch_end=Shared content final disposable release" -or
+        @($auditLines | Where-Object { $_ -like "patch_end=Shared content disposable ownership:*" }).Count -ne 13 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 104 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 24 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 433) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -2048,7 +2066,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=546")
+    $summary.Add("implemented_patches=561")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
