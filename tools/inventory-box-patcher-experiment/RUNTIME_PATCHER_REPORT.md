@@ -3307,13 +3307,17 @@ Versionsnachweis.
   PlayState-Lebensdauer und aktueller Szenenempfänger sind mit 2 Transpilern
   und 2 Drei-Wege-Szenarien migriert; der Render-Prefix skaliert zusätzlich
   den projizierten Punkt wie in 0.0.60.
-- [ ] `Magicka/GameLogic/Entities/EntityManager.cs` — TEILWEISE:
+- [x] `Magicka/GameLogic/Entities/EntityManager.cs` — VOLLSTÄNDIG:
   `GetClosestIDamageable`, das vierparametrige `GetEntities`, `ClearAndStore`
   und der volle `Entity`-Listenpfad in `AddEntity` sind migriert. Der
   Konstruktor speichert seinen PlayState nicht mehr und verwendet für alle
   drei Cache-Initialisierungen den aktuellen Zustand; ein Transpiler und zwei
-  Drei-Wege-Szenarien decken dies ab. Der vollständige Manager-Abbau und reine
-  Diagnoseänderungen bleiben offen.
+  Drei-Wege-Szenarien decken dies ab. Der vorhandene `Clear()` entfernt und
+  deinitialisiert weiterhin alle Manager-Entities und leert Shield-/Barrier-
+  Listen. Der unmittelbar folgende, bereits migrierte `Entity.ClearHandles()`-
+  Block übernimmt die im manuellen `EntityManager.Dispose()` enthaltene finale
+  Objekt- und Cachebereinigung. Die verbleibenden Unterschiede sind reine
+  Retention-Diagnostik.
 - [x] `Magicka/GameLogic/Entities/TeslaField.cs` — VOLLSTÄNDIG: Konstruktoren
   der statischen Poolobjekte speichern den ungenutzten PlayState nicht mehr,
   und der Pool wird beim Levelabbau geleert. Die übrigen Änderungen sind
