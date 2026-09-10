@@ -2930,7 +2930,13 @@ Versionsnachweis.
   Animationsaktionen ohne auflösbaren Clip werden nicht gespeichert. Der
   statische Template-Cache und seine template-eigenen Ressourcen werden beim
   Levelabbau freigegeben; weitere Diagnostikänderungen bleiben offen.
-- [ ] `Magicka/CommunityPatch/CommunityPatchInfo.cs`
+- [x] `Magicka/CommunityPatch/CommunityPatchInfo.cs` — VOLLSTÄNDIG: Name,
+  Version, Autor, Credits, Anzeige- und Vollversionstext, URLs, User-Agent,
+  Toolname und Unterstützerliste liegen in einem gemeinsamen Runtime-Vertrag.
+  Settings, Telemetrie und Update-Manager verwenden diese Werte. Der
+  Vollversionstext übernimmt die zwischengespeicherte Update-Erweiterung aus
+  0.0.60. Ein Drei-Wege-Szenario prüft den vollständigen stabilen Vertrag;
+  6 geänderte konkrete Methoden JITten unter CLR 2 und Mono ohne Skip.
 - [ ] `Magicka/Physics/PhysicsManager.cs`
 - [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuMagicks.cs` — VOLLSTÄNDIG: beide GameType-Reads verwenden den aktuellen PlayState und `LanguageChanged` validiert den markierten Index. Die lokale Variable im Namenpfad, die tote `num2 = 28`-Zuweisung und der statische Initialisierer-Diff ändern kein Verhalten.
 - [ ] `Magicka/GameLogic/Entities/Entity.cs` — TEILWEISE: der finale Handle-Abbau trennt die vollständigen Physikrückreferenzen aller registrierten Entities und leert PlayState, eingehende UDP-Stamps sowie Unique-ID-Einträge; weitere manuelle Handle-, Cache-, Dispose- und Diagnostikänderungen bleiben offen.

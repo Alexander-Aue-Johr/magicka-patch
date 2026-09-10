@@ -15,6 +15,10 @@ namespace Magicka.CommunityPatch.Runtime
 		{
 			try
 			{
+				if (IsValidationProcess())
+				{
+					return;
+				}
 				if (RuntimePatchSettings.Load().CheckForUpdates)
 				{
 					if (Interlocked.Exchange(ref RuntimePatchUpdateManager.sCheckStarted, 1) == 0)
@@ -28,6 +32,22 @@ namespace Magicka.CommunityPatch.Runtime
 			}
 			catch
 			{
+			}
+		}
+
+		private static bool IsValidationProcess()
+		{
+			try
+			{
+				System.Reflection.Assembly entry =
+					System.Reflection.Assembly.GetEntryAssembly();
+				string name = entry == null ? string.Empty : entry.GetName().Name;
+				return name == "BehaviorProbe" ||
+					name == "RuntimeRegistrationProbe";
+			}
+			catch
+			{
+				return false;
 			}
 		}
 
@@ -468,4 +488,3 @@ namespace Magicka.CommunityPatch.Runtime
 		}
 	}
 }
-

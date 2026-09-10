@@ -13,8 +13,6 @@ namespace Magicka.CommunityPatch.Runtime
 {
     public static class RuntimePatchTelemetry
     {
-        private const string PatchName = "Community Patch";
-        private const string PatchVersion = "0.0.60";
         private const string Endpoint = "https://eu.i.posthog.com/capture/";
         private const string ApiKey =
             "phc_vbVuHJdtwsf2gzBY36KcLo8btGZY4D6foFGqtxbkfog8";
@@ -407,7 +405,7 @@ namespace Magicka.CommunityPatch.Runtime
                     (HttpWebRequest)WebRequest.Create(Endpoint);
                 request.Method = "POST";
                 request.ContentType = "application/json";
-                request.UserAgent = "MagickaPatchTelemetry/" + PatchVersion;
+                request.UserAgent = RuntimePatchMetadata.TelemetryUserAgent;
                 request.Timeout = timeoutMilliseconds;
                 request.ReadWriteTimeout = timeoutMilliseconds;
                 request.ContentLength = body.Length;
@@ -426,8 +424,8 @@ namespace Magicka.CommunityPatch.Runtime
         {
             Dictionary<string, string> properties =
                 new Dictionary<string, string>();
-            properties["patch_name"] = PatchName;
-            properties["patch_version"] = PatchVersion;
+            properties["patch_name"] = RuntimePatchMetadata.Name;
+            properties["patch_version"] = RuntimePatchMetadata.Version;
             properties["game_version"] = GameVersion();
             properties["os"] = Safe(Environment.OSVersion.ToString());
             properties["game_integrity"] = GameIntegrity();
