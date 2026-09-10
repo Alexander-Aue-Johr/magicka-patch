@@ -2885,8 +2885,10 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/MissileEntity.cs` — TEILWEISE: ungültige
   Netzwerkereignisse für unvollständige Projektile und verschwundene Ziele
   werden vor der Originalmethode verworfen; verbrauchte Kollisionsprojektile
-  ohne Ziel werden über `Kill()` entfernt. Cache-Cleanup-, Telemetrie- und
-  weitere Lebensdaueränderungen bleiben offen.
+  ohne Ziel werden über `Kill()` entfernt. Die Initialisierung führt das
+  Default-Ereignis auf der bereits kopierten beziehungsweise geleerten internen
+  ConditionCollection aus und unterstützt damit einen `null`-Eingabeparameter.
+  Cache-Cleanup-, Telemetrie- und weitere Lebensdaueränderungen bleiben offen.
 - [x] `Magicka/GameLogic/Controls/XInputController.cs` — VOLLSTÄNDIG: Die
   bereits migrierte Magicka-2-Steuerung bleibt unverändert; nach der zweiten
   erfolgreichen `HandleCombo`-Übergabe wird genau eine Controllerauswahl
