@@ -2589,7 +2589,11 @@ Versionsnachweis.
   Transpilern und 4 Drei-Wege-Szenarien migriert. RetentionRegistry-Aufrufe sind
   reine Diagnostik; statische Initialisierer und lokale Ausdrucksformen sind
   semantikfreies Compiler- beziehungsweise Decompilerrauschen.
-- [ ] `Magicka/GameLogic/UI/Credits.cs`
+- [x] `Magicka/GameLogic/UI/Credits.cs` — VOLLSTÄNDIG: Der manuelle Diff
+  enthält keine Verhaltensänderung. Er besteht aus lokalen Umbenennungen,
+  expliziten/impliziten Delegate- und Interface-Casts, symbolischen Enum-Namen
+  sowie äquivalenten Array-Index- und `out`-Darstellungen des Decompilers.
+  Dafür ist kein Runtime-Patch erforderlich.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Wave.cs` —
   VOLLSTÄNDIG: die drei gespeicherten PlayState-Zuweisungen, der laufende
   Szenenzugriff und die statische Poolfreigabe bei Levelende sind mit 4
