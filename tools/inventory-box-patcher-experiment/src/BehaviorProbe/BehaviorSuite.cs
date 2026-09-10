@@ -346,6 +346,10 @@ internal static class BehaviorSuite
             runtimePatchEnabled,
             report);
         GameSceneTeardownScenarios.Run(magicka, report);
+        RuntimeTelemetryBackoffScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         ForceFieldScenarios.Run(magicka, runtimePatchEnabled, report);
         DynamicLightCacheScenarios.Run(magicka, report);
         MeteorShowerScenarios.Run(magicka, report);

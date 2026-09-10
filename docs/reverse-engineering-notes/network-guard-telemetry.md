@@ -199,6 +199,11 @@ Diagnostic events use the same backoff with a bounded similarity key. The next
 event includes `skipped_count`, so the server receives the suppressed volume
 without receiving every repeated event.
 
+The runtime patcher retains at most 128 backoff categories per process. Once
+that bound is reached, new reason/similarity combinations share one overflow
+category. This keeps malformed or externally influenced keys from growing the
+telemetry state table for the remainder of the session.
+
 ## Player Controls
 
 Telemetry is sent to PostHog at `https://eu.i.posthog.com/capture/` with a

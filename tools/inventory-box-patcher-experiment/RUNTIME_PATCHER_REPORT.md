@@ -2930,7 +2930,14 @@ Versionsnachweis.
   RetentionRegistry-Aufrufe sind reine Diagnostik; statische Initialisierer,
   lokale Namen und äquivalente Struct-Zuweisungen sind semantikfreies
   Compiler- beziehungsweise Decompilerrauschen.
-- [ ] `Magicka/CommunityPatch/NetworkGuardTelemetryBackoff.cs`
+- [x] `Magicka/CommunityPatch/NetworkGuardTelemetryBackoff.cs` —
+  VOLLSTÄNDIG: Der Runtime-Helfer sendet die erste Kategorie sofort,
+  unterdrückt Wiederholungen mit exponentiellem Backoff, liefert beim nächsten
+  Sendezeitpunkt die Zahl der übersprungenen Ereignisse und hält unabhängige
+  Ähnlichkeitskategorien getrennt. Im Gegensatz zur manuellen Implementierung
+  ist die Tabelle auf 128 Session-Kategorien begrenzt; weitere Schlüssel werden
+  in eine gemeinsame Overflow-Kategorie gefaltet. Drei Verhaltensszenarien
+  prüfen Timing, Kategorietrennung und Speichergrenze auf allen Versionen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/HealingRain.cs` — VOLLSTÄNDIG: aktuelle Zustandsauflösung und abschließende Szene-/Caster-Freigabe mit 4 Transpilern, 1 Prefix und 5 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/GameStates/Menu/MenuImageTextItem.cs` — VOLLSTÄNDIG:
   Font-Zeilenhöhe und literale Textvertices werden bei einem Sprachwechsel
