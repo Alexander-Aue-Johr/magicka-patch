@@ -159,14 +159,16 @@ namespace Magicka.CommunityPatch.Runtime
             if (instances == null)
                 return;
             for (int index = 0; index < instances.Count; index++)
-            {
-                object action = instances[index];
-                if (action == null)
-                    continue;
-                queueField.SetValue(action, 0);
-                triggerField.SetValue(action, null);
-                sceneField.SetValue(action, null);
-            }
+                Cleanup(instances[index]);
+        }
+
+        internal static void Cleanup(object action)
+        {
+            if (action == null)
+                return;
+            queueField.SetValue(action, 0);
+            triggerField.SetValue(action, null);
+            sceneField.SetValue(action, null);
         }
 
         public static void ResetPostfix(object __0)

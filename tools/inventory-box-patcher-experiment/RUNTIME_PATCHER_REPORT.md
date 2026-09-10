@@ -2114,6 +2114,24 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     verwenden den aktuellen Zustand; der bestehende `UpdateLights`-Aufruf ist
     in allen Profilen erhalten.
 
+- [x] `game-scene-complete-teardown`
+  - Ziel: `GameScene.Dispose()`.
+  - Technik: boolescher Prefix als vollständiger, idempotenter Ersatz des
+    ursprünglichen Abbaus. Der vorhandene Action-Lifecycle-Helfer wird für die
+    Action-Einträge der Szenentrigger wiederverwendet.
+  - Fehlerfall: Bei einem teilweise initialisierten oder bereits teilweise
+    zerstörten `GameScene` ist `mModel` oder `mContent` nicht mehr vorhanden.
+    Das Original überspringt dadurch große Teile des Objektgraphen oder bricht
+    den Dispose-Pfad mit einer `NullReferenceException` ab.
+  - Verhalten: Kill-Plane, Ruleset, Audio, Trigger, Modell, Sway-Ressourcen,
+    Content-Manager, gespeicherte Entities und Animationen sowie sämtliche
+    übrigen levelgebundenen Collections und Referenzen werden unabhängig
+    voneinander gelöst. Ein zweiter Dispose-Aufruf bleibt wirkungslos.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern am partiellen Zustand
+    und behalten Referenzen. Die manuelle Patch-Assembly 0.0.60 und alle
+    Runtime-Patch-Profile lösen den Graphen, einschließlich der
+    Trigger-/Action-Rückreferenzen, und bestehen auch den zweiten Aufruf.
+
 - [x] `blizzard-play-state-lifetime`
   - Ziele: beide öffentlichen `Blizzard.Execute(...)`-Überladungen, das private
     `Execute()`, `Update(...)` und `OnRemove()`.
@@ -2708,7 +2726,7 @@ Versionsnachweis.
   Lock-Traversierung sind migriert. Die übrigen Unterschiede sind
   RetentionRegistry-/Recovery-Diagnostik oder statische
   Initialisiererdarstellung.
-- [ ] `Magicka/Levels/Triggers/Trigger.cs` — TEILWEISE: `SpawnNPC` übernimmt den über das unveränderte Paketformat transportierten Undead-Zustand; eingehende TriggerActions erhalten dieselbe Lifecycle-Prüfung wie in 0.0.60. Weitere Dispose- und Diagnoseänderungen dieser Klasse sind noch offen.
+- [ ] `Magicka/Levels/Triggers/Trigger.cs` — TEILWEISE: `SpawnNPC` übernimmt den über das unveränderte Paketformat transportierten Undead-Zustand; eingehende TriggerActions erhalten dieselbe Lifecycle-Prüfung wie in 0.0.60. Der `GameScene`-Abbau löst Actions, Conditions, Szenen- und ID-Referenzen entsprechend dem manuellen `Dispose`. Nur die Netzwerkdiagnostik bleibt offen.
 - [x] `Magicka/GameLogic/Entities/Gib.cs` — VOLLSTÄNDIG: Der finale
   Entity-Handle-Abbau stoppt verbleibende Blut- und Trail-Effekte, löst Modell-,
   Render-, Mesh- und MeshPart-Referenzen aktiver und gepoolter Gibs und leert
@@ -2726,7 +2744,9 @@ Versionsnachweis.
   `PlayState` liefert außerdem den aktuellen statt eines gespeicherten
   Zustands. `Destroy` leert den transienten Menücontroller vor dem Abbau der
   Szenenobjekte und verwendet für das abschließende Licht-Update die aktuelle
-  Szene. Die weiteren manuellen Änderungen der Klasse bleiben offen.
+  Szene. `Dispose` löst den vollständigen Szenengraphen idempotent und räumt
+  dabei auch die Trigger-/Action-Rückreferenzen auf. Die weiteren manuellen
+  Änderungen der Klasse bleiben offen.
 - [ ] `Magicka/CommunityPatch/PatchTelemetry.cs`
 - [ ] `Magicka/GameLogic/Entities/Character.cs` — TEILWEISE: Initialisierung,
   Crossfade und ForceAnimation behandeln fehlende Animationsaktionen und

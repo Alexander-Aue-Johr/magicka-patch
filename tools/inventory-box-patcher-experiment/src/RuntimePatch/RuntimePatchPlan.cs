@@ -830,6 +830,9 @@ namespace Magicka.CommunityPatch.Runtime
                 GameSceneLightUpdatePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                GameSceneTeardownPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 DynamicLightCachePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
