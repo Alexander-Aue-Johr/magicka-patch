@@ -3017,10 +3017,11 @@ Versionsnachweis.
   `Stop()`-Pfad entfernt, Prefix und 2 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Zap.cs` — VOLLSTÄNDIG: statische Poolfreigabe bei Levelende; die explizite Darstellung der unveränderten `SOUND`-Initialisierung ist semantikfreies Decompilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/VladZap.cs` — VOLLSTÄNDIG: statische Poolfreigabe bei Levelende; die explizite Darstellung der unveränderten `SOUND`-Initialisierung ist semantikfreies Decompilerrauschen.
-- [ ] `Magicka/Network/EntityUpdateMessage.cs` — TEILWEISE: das payloadlose
+- [x] `Magicka/Network/EntityUpdateMessage.cs` — VOLLSTÄNDIG: das payloadlose
   `Character`-Feature wird vor dem Originaldecoder maskiert, zwei Transpiler und
-  3 Drei-Wege-Szenarien; die Diagnose `entity_update_character_feature` folgt
-  im Telemetrieblock.
+  3 Drei-Wege-Szenarien. Die begrenzte Diagnose
+  `entity_update_character_feature` erfasst Seite, Handle, UDP-Stamp und die
+  ursprüngliche Featuremaske, bevor nur Bit `0x10` entfernt wird.
 - [x] `Magicka/GameLogic/Entities/Bosses/CthulhuMist.cs` — VOLLSTÄNDIG: Der
   manuelle Diff enthält ausschließlich RetentionRegistry-Markierungen in
   `Initialize` und `Deactivate`; das Spielverhalten ist unverändert.

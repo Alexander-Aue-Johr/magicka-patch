@@ -18,14 +18,14 @@ namespace Magicka.CommunityPatch.Runtime
                 "NetworkServer EntityUpdate Character marker decode",
                 "org.magickacommunitypatch.server-entity-update-character-read",
                 assembly => FindTarget(assembly, "NetworkServer"),
-                typeof(EntityUpdateMessageReadPatch).GetMethod("Transpiler"));
+                typeof(EntityUpdateMessageReadPatch).GetMethod("ServerTranspiler"));
 
         internal static readonly RuntimePatchDefinition ClientDefinition =
             RuntimePatchDefinition.Transpile(
                 "NetworkClient EntityUpdate Character marker decode",
                 "org.magickacommunitypatch.client-entity-update-character-read",
                 assembly => FindTarget(assembly, "NetworkClient"),
-                typeof(EntityUpdateMessageReadPatch).GetMethod("Transpiler"));
+                typeof(EntityUpdateMessageReadPatch).GetMethod("ClientTranspiler"));
 
         private static MethodInfo FindTarget(Assembly targetAssembly, string typeName)
         {
@@ -75,8 +75,21 @@ namespace Magicka.CommunityPatch.Runtime
             return match;
         }
 
-        public static IEnumerable<CodeInstruction> Transpiler(
+        public static IEnumerable<CodeInstruction> ServerTranspiler(
             IEnumerable<CodeInstruction> instructions)
+        {
+            return Transpile(instructions, "server");
+        }
+
+        public static IEnumerable<CodeInstruction> ClientTranspiler(
+            IEnumerable<CodeInstruction> instructions)
+        {
+            return Transpile(instructions, "client");
+        }
+
+        private static IEnumerable<CodeInstruction> Transpile(
+            IEnumerable<CodeInstruction> instructions,
+            string side)
         {
             List<CodeInstruction> result = new List<CodeInstruction>(instructions);
             int match = -1;
@@ -108,15 +121,22 @@ namespace Magicka.CommunityPatch.Runtime
             result[insertAt].blocks.Clear();
             result.Insert(insertAt, loadOwner);
             result.Insert(insertAt + 1, new CodeInstruction(OpCodes.Ldfld, readerField));
+            result.Insert(insertAt + 2, new CodeInstruction(OpCodes.Ldstr, side));
             result.Insert(
-                insertAt + 2,
+                insertAt + 3,
                 new CodeInstruction(
                     OpCodes.Call,
-                    typeof(EntityUpdateMessageReadPatch).GetMethod("PrepareReader")));
+                    typeof(EntityUpdateMessageReadPatch).GetMethod(
+                        "PrepareReaderForSide")));
             return result;
         }
 
         public static void PrepareReader(BinaryReader reader)
+        {
+            PrepareReaderForSide(reader, "network");
+        }
+
+        public static void PrepareReaderForSide(BinaryReader reader, string side)
         {
             if (reader == null)
                 return;
@@ -148,6 +168,17 @@ namespace Magicka.CommunityPatch.Runtime
                     return;
                 stream.Position = start + 5;
                 stream.WriteByte((byte)(low & 0xef));
+                RuntimePatchTelemetry.SendNetworkDiagnostic(
+                    side,
+                    "EntityUpdate",
+                    "entity_update_character_feature",
+                    "Character",
+                    String.Format(
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        "Handle={0};UDPStamp={1};Features={2}",
+                        ReadUInt16(stream, start + 1),
+                        ReadUInt16(stream, start + 3),
+                        low | high << 8));
             }
             catch (Exception)
             {
@@ -162,6 +193,14 @@ namespace Magicka.CommunityPatch.Runtime
                 {
                 }
             }
+        }
+
+        private static int ReadUInt16(Stream stream, long position)
+        {
+            stream.Position = position;
+            int low = stream.ReadByte();
+            int high = stream.ReadByte();
+            return low < 0 || high < 0 ? -1 : low | high << 8;
         }
 
         private static bool Calls(CodeInstruction instruction, MethodInfo method)
