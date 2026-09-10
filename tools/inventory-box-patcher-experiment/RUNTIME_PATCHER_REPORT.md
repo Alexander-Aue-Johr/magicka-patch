@@ -3001,10 +3001,12 @@ Versionsnachweis.
   ausschließlich semantikfreie Darstellung derselben drei statischen
   Hash-Initialisierungen in einem expliziten Typinitialisierer; Reihenfolge,
   aufgerufene Methode und zugewiesene Werte sind im IL identisch.
-- [ ] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/JudgementSpray.cs`
-  — TEILWEISE: die Recovery für einen leeren ConditionCollection-Pool ist mit
-  einem Transpiler und 2 Drei-Wege-Szenarien migriert; die begrenzte
-  Recovery-Telemetrie folgt mit dem gemeinsamen Telemetrieblock.
+- [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/JudgementSpray.cs`
+  — VOLLSTÄNDIG: Die Recovery für einen leeren ConditionCollection-Pool ist
+  mit einem Transpiler und 2 Drei-Wege-Szenarien migriert. Die Ersatzallokation
+  sendet das begrenzte Ereignis
+  `judgement_spray_condition_cache_empty_recovered`; der normale Cachepfad
+  sendet nichts.
 - [x] `Magicka/GameLogic/Spells/IceSpikes.cs` — VOLLSTÄNDIG: statische Poolfreigabe bei Levelende; das Verschieben der unveränderten `Random`-Initialisierung in den explizit dargestellten Typinitialisierer ist semantikfreies Decompilerrauschen.
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptions.cs`
 - [x] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuMain.cs` — VOLLSTÄNDIG: Gamepad-B öffnet die vorhandene Beenden-Bestätigung, Keyboard/Maus behält den Cursorpfad; Prefix und 2 Drei-Wege-Szenarien. Die leere manuelle Markermethode hat kein Laufzeitverhalten und wird nicht übernommen.

@@ -158,6 +158,13 @@ namespace Magicka.CommunityPatch.Runtime
 
             object replacement = conditionCollectionConstructor.Invoke(EmptyArguments);
             enqueueMethod.Invoke(cache, new object[] { replacement });
+            RuntimePatchTelemetry.SendRuntimeGuard(
+                "magicka_patch_runtime_recovery",
+                "judgement_spray_condition_cache_empty_recovered",
+                "ProjectileSpell.sCachedConditions",
+                "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.JudgementSpray",
+                "Allocated a replacement ConditionCollection and continued projectile spawn.",
+                String.Empty);
         }
 
         private static bool IsVectorReference(Type type)
