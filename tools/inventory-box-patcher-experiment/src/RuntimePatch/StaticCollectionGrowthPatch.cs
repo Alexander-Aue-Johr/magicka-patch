@@ -327,6 +327,13 @@ namespace Magicka.CommunityPatch.Runtime
                 capacity);
             Array.Copy(objects, expanded, count);
             state.SetObjects(instance, expanded);
+            RuntimePatchTelemetry.SendRuntimeGuard(
+                "magicka_patch_cache_expand",
+                "static_list_expanded",
+                "StaticList<T>",
+                objects.GetType().GetElementType().FullName,
+                "Expanded a full StaticList.",
+                String.Empty);
             return expanded;
         }
     }
@@ -431,6 +438,13 @@ namespace Magicka.CommunityPatch.Runtime
             Array.Copy(objects, expanded, objects.Length);
             Initialize(expanded, objects.Length);
             state.SetObjects(instance, expanded);
+            RuntimePatchTelemetry.SendRuntimeGuard(
+                "magicka_patch_cache_expand",
+                "static_weak_list_expanded",
+                "StaticWeakList<T>",
+                instance.GetType().GetGenericArguments()[0].FullName,
+                "Expanded a full StaticWeakList.",
+                String.Empty);
             return expanded;
         }
 

@@ -2622,10 +2622,12 @@ Versionsnachweis.
 - [x] `Magicka/Levels/Campaign/LevelManager.cs` — VOLLSTÄNDIG: fehlende
   referenzierte Leveldateien werden ohne Crashtelemetrie mit Pfad gemeldet und
   beenden den unvollständigen Hashlauf mit Exit-Code 1.
-- [ ] `Magicka/StaticWeakList.cs` — TEILWEISE: beide im Spiel verwendeten
+- [x] `Magicka/StaticWeakList.cs` — VOLLSTÄNDIG: beide im Spiel verwendeten
   Add-Pfade wachsen volle WeakReference-Arrays unter einem stabilen
-  CLR-2-kompatiblen Instanz-Lock; direkte generische Insert-/Expand-Aufrufe und
-  die Erweiterungs-Telemetrie sind noch offen.
+  CLR-2-kompatiblen Instanz-Lock und senden die begrenzte Diagnose
+  `static_weak_list_expanded`. Im vollständigen 1.10-Aufrufgraph existieren
+  keine direkten generischen Insert-/Expand-Aufrufe; diese werden deshalb
+  nicht als unerreichbare Harmony-Spezialisierungen erzeugt.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Napalm.cs` — VOLLSTÄNDIG: die gespeicherte PlayState-Zuweisung und alle zehn laufenden Reads sind mit 2 Transpilern und 2 Drei-Wege-Szenarien migriert; die umgekehrte Darstellung der unveränderten Execute-Zweige und Segment-Syntax sind Compilerrauschen.
 - [x] `Magicka/GameLogic/Spells/ArcaneBlade.cs` — VOLLSTÄNDIG: gespeicherter
   PlayState, beide laufenden Szenenzugriffe und die statische Poolfreigabe bei
@@ -2662,10 +2664,11 @@ Versionsnachweis.
   Drei-Wege-Szenario migriert. RetentionRegistry-Aufrufe sind reine Diagnostik;
   die statische Initialisiererdarstellung und lokale Namen sind semantikfreies
   Compiler- beziehungsweise Decompilerrauschen.
-- [ ] `Magicka/StaticList.cs` — TEILWEISE: Add und Insert für `int` und `Spell`
-  sowie der einzige `Entity`-Add-Pfad sind mit sechs Runtime-Patches und neun
-  Drei-Wege-Szenarien migriert; direkte `StaticList<Entity>.Insert`-Aufrufe und
-  die Erweiterungs-Telemetrie sind noch offen.
+- [x] `Magicka/StaticList.cs` — VOLLSTÄNDIG: Add und Insert für `int` und
+  `Spell` sowie der einzige `Entity`-Add-Pfad sind mit sechs Runtime-Patches
+  und neun Drei-Wege-Szenarien migriert. Erweiterungen senden begrenzt
+  `static_list_expanded`. Der vollständige 1.10-Aufrufgraph enthält keinen
+  direkten `StaticList<Entity>.Insert`-Aufruf.
 - [x] `Magicka/GameLogic/Controls/KeyboardMouseController.cs` — VOLLSTÄNDIG:
   `Clear()` löst beide Zielreferenzen und beide laufenden Interaktionsflags;
   `FindInteractable(ref Segment)` prüft die vollständige Szenenkette. Der
