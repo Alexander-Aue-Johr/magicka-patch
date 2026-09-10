@@ -351,6 +351,7 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        PhysicsManagerClearScenarios.Run(magicka, report);
         DamageableEntityTeardownScenarios.Run(magicka, report);
         AnimatedPhysicsEntityLifecycleScenarios.Run(magicka, report);
         TypingTextScenarios.Run(magicka, report);

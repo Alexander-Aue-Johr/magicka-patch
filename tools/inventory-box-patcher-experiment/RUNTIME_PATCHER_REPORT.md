@@ -2972,7 +2972,14 @@ Versionsnachweis.
   Vollversionstext übernimmt die zwischengespeicherte Update-Erweiterung aus
   0.0.60. Ein Drei-Wege-Szenario prüft den vollständigen stabilen Vertrag;
   6 geänderte konkrete Methoden JITten unter CLR 2 und Mono ohne Skip.
-- [ ] `Magicka/Physics/PhysicsManager.cs`
+- [x] `Magicka/Physics/PhysicsManager.cs` — VOLLSTÄNDIG: `Clear()` arbeitet
+  auf stabilen Snapshots der Bodies und CollisionSkins, entfernt verbliebene
+  Skins, leert deren Kollisionslisten und löst alle nichtleeren Collision
+  Islands, bevor die Island-Liste geleert wird. Ein fehlender Simulator und
+  wiederholte Aufrufe sind sichere No-ops. Entity-Tags werden weiterhin am
+  fachlich richtigen Entity-Abbaupunkt gelöst. Drei Drei-Wege-Szenarien prüfen
+  befüllten, wiederholten und simulatorlosen Abbau auf 1.10, 1.4 und 1.5; zehn
+  geänderte konkrete Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip.
 - [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuMagicks.cs` — VOLLSTÄNDIG: beide GameType-Reads verwenden den aktuellen PlayState und `LanguageChanged` validiert den markierten Index. Die lokale Variable im Namenpfad, die tote `num2 = 28`-Zuweisung und der statische Initialisierer-Diff ändern kein Verhalten.
 - [ ] `Magicka/GameLogic/Entities/Entity.cs` — TEILWEISE: der finale Handle-Abbau trennt die vollständigen Physikrückreferenzen aller registrierten Entities und leert PlayState, eingehende UDP-Stamps sowie Unique-ID-Einträge; weitere manuelle Handle-, Cache-, Dispose- und Diagnostikänderungen bleiben offen.
 - [x] `Magicka/Levels/ForceField.cs` — VOLLSTÄNDIG: `Initialize()` behält den

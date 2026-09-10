@@ -64,6 +64,9 @@ namespace Magicka.CommunityPatch.Runtime
                 EntityPhysicsCleanupPatch.ClearHandlesDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                PhysicsManagerClearPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 TypingTextUpdatePatch.Definition);
             NetworkServerLateUdpPatch.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
