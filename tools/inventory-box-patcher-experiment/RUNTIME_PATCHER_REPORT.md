@@ -2864,7 +2864,7 @@ Versionsnachweis.
   nur `CommunityPatchClearSpellQueue` aus dem Magicka-2-Controllerblock;
   RetentionRegistry-Aufrufe und lokale Umbenennungen sind Diagnostik
   beziehungsweise Compilerrauschen.
-- [ ] `Magicka/GameLogic/GameStates/PlayState.cs` — TEILWEISE: `AddWorldSyncMessage`, das bedingte Lösen der ShadowBlobs-Szene, die dokumentierten levelgebundenen Cleanup-Injektionen und die Render-Synchronisierung des eingereihten `OnExit`-Abbaus sind migriert; weitere Dispose-, Checkpoint- und Diagnoseänderungen sind noch offen.
+- [ ] `Magicka/GameLogic/GameStates/PlayState.cs` — TEILWEISE: `AddWorldSyncMessage`, das bedingte Lösen der ShadowBlobs-Szene, die dokumentierten levelgebundenen Cleanup-Injektionen, die Render-Synchronisierung des eingereihten `OnExit`-Abbaus und der leere Checkpoint-Payload sind migriert; weitere Dispose- und Diagnoseänderungen sind noch offen.
 - [x] `Magicka/GameLogic/Spells/Magick.cs` — VOLLSTÄNDIG: sämtliche von
   `DisposeMagicks()` aufgerufenen Cache-, Singleton- und Template-Freigaben
   werden durch die jeweiligen fachlichen Runtime-Patches beim initialisierten

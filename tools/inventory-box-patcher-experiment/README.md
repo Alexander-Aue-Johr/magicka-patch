@@ -252,6 +252,8 @@ four hundred fifty-four method patches:
   buffers and level-owned references during initialized `PlayState.Dispose`.
 - The queued `PlayState.OnExit` teardown waits for rendering to stop before
   disposing the outgoing state and enables rendering again after teardown.
+- Empty checkpoint synchronization messages use a null payload pointer while
+  non-empty checkpoint buffers keep the original forwarding path.
 - Character-template cache cleanup now releases both lookup dictionaries while
   leaving shared ContentManager-owned templates and GPU assets intact.
 - `JudgementSpray.SpawnProjectile` allocates a replacement condition collection

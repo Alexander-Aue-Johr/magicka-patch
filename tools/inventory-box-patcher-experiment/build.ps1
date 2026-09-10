@@ -2186,6 +2186,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Character-select avatar texture guard" -or
         $auditLines -notcontains "patch_end=Character-select last offline player leave" -or
         $auditLines -notcontains "patch_end=PlayState render-safe exit task" -or
+        $auditLines -notcontains "patch_end=PlayState empty checkpoint payload" -or
         @($auditLines | Where-Object { $_ -like "patch_end=Shared content disposable ownership:*" }).Count -ne 13 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 120 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 29 -or
@@ -2193,7 +2194,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Missile update empty target sentinel" -or
         $auditLines -notcontains "patch_end=Missile collision empty target sentinel" -or
         $auditLines -notcontains "patch_end=Missile deinitialize reference release" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 448) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 449) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -2208,7 +2209,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=597")
+    $summary.Add("implemented_patches=598")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

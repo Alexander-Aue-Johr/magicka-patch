@@ -6,6 +6,15 @@ namespace Magicka.CommunityPatch.Runtime
     {
         internal static void ApplyTo(Assembly targetAssembly)
         {
+            if (PlayStateCheckpointSendPatch.IsAvailableIn(targetAssembly))
+                RuntimePatchSession.Apply(
+                    targetAssembly,
+                    PlayStateCheckpointSendPatch.Definition);
+            else
+                RuntimePatchAudit.WriteNotApplicable(
+                    PlayStateCheckpointSendPatch.Definition,
+                    "PlayState.Initialize is not present in this Magicka version.");
+
             if (PlayStateExitRenderingPatch.IsAvailableIn(targetAssembly))
                 RuntimePatchSession.Apply(
                     targetAssembly,

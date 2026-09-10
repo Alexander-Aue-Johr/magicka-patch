@@ -176,6 +176,8 @@ internal static class BehaviorSuite
         PlayStateScenarios.Run(magicka, report);
         PlayStateExitRenderingScenarios.Run(
             magicka, runtimePatchEnabled, report);
+        PlayStateCheckpointSendScenarios.Run(
+            magicka, runtimePatchEnabled, report);
         PortalTeleportQueueScenarios.Run(magicka, report);
         PortalLifecycleScenarios.Run(
             magicka,
