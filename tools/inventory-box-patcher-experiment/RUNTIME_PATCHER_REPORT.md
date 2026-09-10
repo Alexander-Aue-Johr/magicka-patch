@@ -2851,8 +2851,14 @@ Versionsnachweis.
   Switches, statischen Initialisierern, Literalen und lokalen Variablen sind
   Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Avatar.cs` — TEILWEISE: `FindInteractable`
-  sowie die Guards gegen verspätete Pickup-Aktionen sind migriert; die übrigen
-  manuellen Änderungen dieser großen Klasse sind noch offen.
+  sowie die Guards gegen verspätete Pickup-Aktionen sind migriert. Der
+  Inventory-Close beim Deinitialisieren toleriert einen bereits gelösten
+  PlayState beziehungsweise ein bereits gelöstes Inventory, ohne den übrigen
+  Abbau zu überspringen. Poolerweiterung, Cache- und finaler Objektabbau werden
+  bereits durch die gemeinsamen Pool-/Handle-Patches abgedeckt. Offen bleibt
+  nur `CommunityPatchClearSpellQueue` aus dem Magicka-2-Controllerblock;
+  RetentionRegistry-Aufrufe und lokale Umbenennungen sind Diagnostik
+  beziehungsweise Compilerrauschen.
 - [ ] `Magicka/GameLogic/GameStates/PlayState.cs` — TEILWEISE: `AddWorldSyncMessage`, das bedingte Lösen der ShadowBlobs-Szene sowie die dokumentierten levelgebundenen Cleanup-Injektionen sind migriert; weitere Dispose-, Übergangs- und Diagnoseänderungen sind noch offen.
 - [x] `Magicka/GameLogic/Spells/Magick.cs` — VOLLSTÄNDIG: sämtliche von
   `DisposeMagicks()` aufgerufenen Cache-, Singleton- und Template-Freigaben

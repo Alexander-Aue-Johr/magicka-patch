@@ -120,6 +120,7 @@ namespace Magicka.CommunityPatch.Runtime
             LevelSceneTransitionPatchPlan.ApplyTo(targetAssembly);
             GameSparksRetirementPatchPlan.ApplyTo(targetAssembly);
             GameOptionalEffectPatchPlan.ApplyTo(targetAssembly);
+            AvatarInventoryClosePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 TutorialManagerPlayStatePatch.InitializeDefinition);

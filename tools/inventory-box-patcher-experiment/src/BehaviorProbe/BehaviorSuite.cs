@@ -11,6 +11,8 @@ internal static class BehaviorSuite
         TimeWarpScenarios.Run(magicka, report);
         AvatarFindInteractableScenarios.Run(magicka, report);
         AvatarNetworkPickupScenarios.Run(magicka, report);
+        AvatarInventoryCloseScenarios.Run(
+            magicka, runtimePatchEnabled, report);
         AIStateAttackScenarios.Run(magicka, report);
         AIStateMoveScenarios.Run(magicka, report);
         AgentChooseTargetScenarios.Run(magicka, report);

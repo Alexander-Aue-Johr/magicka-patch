@@ -619,7 +619,9 @@ function Test-BehaviorMatrix {
         "gamesparks.initialize_removed",
         "gamesparks.update_removed",
         "gamesparks.end_run_removed",
-        "game_effects.optional_removed"
+        "game_effects.optional_removed",
+        "avatar_inventory.missing_play_state",
+        "avatar_inventory.missing_inventory"
     )
     $playStateNotAvailable = @(
         "play_state.ordinary_message",
@@ -719,6 +721,13 @@ function Test-BehaviorProfile(
     [string[]]$expectedFailures,
     [string[]]$notApplicable,
     [System.Collections.Generic.List[string]]$matrix) {
+    if ($profile -eq "1.4.16.0-original" -or
+        $profile -eq "1.5.1.0-original") {
+        $expectedFailures = @($expectedFailures) + @(
+            "avatar_inventory.missing_play_state",
+            "avatar_inventory.missing_inventory"
+        )
+    }
     if ($profile -eq "1.4.16.0-original" -or
         $profile -eq "1.5.1.0-original") {
         $expectedFailures = @($expectedFailures) + @(
@@ -1661,7 +1670,10 @@ function Test-BehaviorProfile(
         "meteor_shower.owner_current_play_state",
         "meteor_shower.active_release",
         "meteor_shower.stop_failure_release",
-        "meteor_shower.already_stopping_release"
+        "meteor_shower.already_stopping_release",
+        "avatar_inventory.missing_play_state",
+        "avatar_inventory.missing_inventory",
+        "avatar_inventory.valid_close"
     )
     foreach ($scenarioName in $scenarioNames) {
         $prefix = "scenario.$scenarioName="
@@ -2103,10 +2115,11 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=GameSparks retirement update" -or
         $auditLines -notcontains "patch_end=GameSparks retirement end run" -or
         $auditLines -notcontains "patch_end=Game optional render effects" -or
+        $auditLines -notcontains "patch_end=Avatar released inventory close" -or
         @($auditLines | Where-Object { $_ -like "patch_end=Shared content disposable ownership:*" }).Count -ne 13 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 109 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 24 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 443) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 444) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -2121,7 +2134,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=576")
+    $summary.Add("implemented_patches=577")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
