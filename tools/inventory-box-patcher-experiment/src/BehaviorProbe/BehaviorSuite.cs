@@ -150,6 +150,10 @@ internal static class BehaviorSuite
         CompanyStateScenarios.Run(magicka, report);
         ControlManagerScenarios.Run(magicka, report);
         DirectInputCompatibilityScenarios.Run(magicka, report);
+        ElementSelectionTelemetryScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         ParadoxAccountLifetimeScenarios.Run(
             magicka,
             runtimePatchEnabled,

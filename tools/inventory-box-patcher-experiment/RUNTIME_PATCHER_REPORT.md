@@ -2665,7 +2665,8 @@ Versionsnachweis.
 - [x] `Magicka/GameLogic/Controls/KeyboardMouseController.cs` — VOLLSTÄNDIG:
   `Clear()` löst beide Zielreferenzen und beide laufenden Interaktionsflags;
   `FindInteractable(ref Segment)` prüft die vollständige Szenenkette. Der
-  Restdiff ist ausschließlich Eingabediagnostik.
+  Eingabediagnostik zählt außerdem ausschließlich die acht erfolgreich
+  abgeschlossenen Elementauswahlen.
 - [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuSurvivalStatistics.cs` — VOLLSTÄNDIG: alle acht Reads verwenden den aktuellen PlayState; die lokale Cast-Darstellung und der statische Initialisierer-Diff sind semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Items/BookOfMagick.cs` — VOLLSTÄNDIG: der
   statische Pool wird beim Levelabbau unter seinem vorhandenen Cache-Lock
@@ -2760,7 +2761,10 @@ Versionsnachweis.
   werden vor der Originalmethode verworfen; verbrauchte Kollisionsprojektile
   ohne Ziel werden über `Kill()` entfernt. Cache-Cleanup-, Telemetrie- und
   weitere Lebensdaueränderungen bleiben offen.
-- [ ] `Magicka/GameLogic/Controls/XInputController.cs`
+- [x] `Magicka/GameLogic/Controls/XInputController.cs` — VOLLSTÄNDIG: Die
+  bereits migrierte Magicka-2-Steuerung bleibt unverändert; nach der zweiten
+  erfolgreichen `HandleCombo`-Übergabe wird genau eine Controllerauswahl
+  gezählt.
 - [ ] `Magicka/Levels/GameScene.cs` — TEILWEISE: der ungültige
   Ambient-Audio-Locator wird bei einem internen XACT-Cue-Indexfehler entfernt;
   `PlayState` liefert außerdem den aktuellen statt eines gespeicherten
@@ -3037,7 +3041,9 @@ Versionsnachweis.
 - [x] `Magicka/GameLogic/Entities/Items/Pickable.cs` — VOLLSTÄNDIG: Der
   einzige manuelle Unterschied ist eine RetentionRegistry-Markierung vor der
   unveränderten Deinitialisierung.
-- [ ] `Magicka/GameLogic/Controls/DirectInputController.cs`
+- [x] `Magicka/GameLogic/Controls/DirectInputController.cs` — VOLLSTÄNDIG:
+  Nach der zweiten erfolgreichen `HandleCombo`-Übergabe wird genau eine
+  Controllerauswahl gezählt; alle Eingabeentscheidungen bleiben unverändert.
 - [x] `Magicka/AI/AgentStates/AIStateAttack.cs` — VOLLSTÄNDIG: `OnExecute`, Prefix und 3 Drei-Wege-Szenarien.
 - [x] `Magicka/GlobalSettings.cs` — VOLLSTÄNDIG: Der zentrale
   `Resolution`-Setter aktualisiert den zwischengespeicherten Telemetriewert;

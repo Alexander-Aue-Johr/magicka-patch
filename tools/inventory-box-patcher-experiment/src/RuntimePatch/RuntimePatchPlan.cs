@@ -612,6 +612,7 @@ namespace Magicka.CommunityPatch.Runtime
                 targetAssembly,
                 ControlManagerPlayerLockPatch.UnlockDefinition);
             DirectInputCompatibilityPatchPlan.ApplyTo(targetAssembly);
+            ElementSelectionTelemetryPatchPlan.ApplyTo(targetAssembly);
             ParadoxAccountLifetimePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,

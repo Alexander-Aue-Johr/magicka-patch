@@ -20,6 +20,18 @@ namespace Magicka.CommunityPatch.Runtime
             "phc_vbVuHJdtwsf2gzBY36KcLo8btGZY4D6foFGqtxbkfog8";
         private static readonly object Sync = new object();
         private static string distinctId;
+        private static long keyboardElementSelectionCount;
+        private static long controllerElementSelectionCount;
+
+        public static void RecordKeyboardElementSelection()
+        {
+            Interlocked.Increment(ref keyboardElementSelectionCount);
+        }
+
+        public static void RecordControllerElementSelection()
+        {
+            Interlocked.Increment(ref controllerElementSelectionCount);
+        }
 
         public static void SendGameClosedNormally()
         {
@@ -409,6 +421,23 @@ namespace Magicka.CommunityPatch.Runtime
             properties["game_version"] = GameVersion();
             properties["os"] = Safe(Environment.OSVersion.ToString());
             properties["game_integrity"] = GameIntegrity();
+            long keyboard = Interlocked.CompareExchange(
+                ref keyboardElementSelectionCount,
+                0,
+                0);
+            long controller = Interlocked.CompareExchange(
+                ref controllerElementSelectionCount,
+                0,
+                0);
+            double total = (double)keyboard + (double)controller;
+            properties["keyboard_element_selection_count"] =
+                keyboard.ToString(CultureInfo.InvariantCulture);
+            properties["controller_element_selection_count"] =
+                controller.ToString(CultureInfo.InvariantCulture);
+            properties["controller_element_selection_ratio"] =
+                (total > 0.0 ? (double)controller / total : 0.0).ToString(
+                    "R",
+                    CultureInfo.InvariantCulture);
             return properties;
         }
 
@@ -439,7 +468,10 @@ namespace Magicka.CommunityPatch.Runtime
             string value)
         {
             double number;
-            if (key == "skipped_count" &&
+            if ((key == "skipped_count" ||
+                 key == "keyboard_element_selection_count" ||
+                 key == "controller_element_selection_count" ||
+                 key == "controller_element_selection_ratio") &&
                 Double.TryParse(
                     value,
                     NumberStyles.Float,
