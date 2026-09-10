@@ -882,6 +882,22 @@ namespace Magicka.CommunityPatch.Runtime
                 RuntimePatchAudit.WriteNotApplicable(
                     GameSceneContentUnloadPatch.Definition,
                     "The render-safe GameScene unload API is absent.");
+            if (GameSceneSavedCharacterPatch.IsAvailableIn(targetAssembly))
+            {
+                RuntimePatchSession.Apply(targetAssembly,
+                    GameSceneSavedCharacterPatch.InitializeDefinition);
+                RuntimePatchSession.Apply(targetAssembly,
+                    GameSceneSavedCharacterPatch.SavedEntitiesDefinition);
+            }
+            else
+            {
+                RuntimePatchAudit.WriteNotApplicable(
+                    GameSceneSavedCharacterPatch.InitializeDefinition,
+                    "The saved-character lifecycle API is absent.");
+                RuntimePatchAudit.WriteNotApplicable(
+                    GameSceneSavedCharacterPatch.SavedEntitiesDefinition,
+                    "The saved-character lifecycle API is absent.");
+            }
             RuntimePatchSession.Apply(
                 targetAssembly,
                 GameSceneTeardownPatch.Definition);

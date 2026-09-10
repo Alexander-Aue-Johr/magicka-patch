@@ -2900,7 +2900,7 @@ Versionsnachweis.
   bereits migrierte Magicka-2-Steuerung bleibt unverändert; nach der zweiten
   erfolgreichen `HandleCombo`-Übergabe wird genau eine Controllerauswahl
   gezählt.
-- [ ] `Magicka/Levels/GameScene.cs` — TEILWEISE: der ungültige
+- [x] `Magicka/Levels/GameScene.cs` — VOLLSTÄNDIG: der ungültige
   Ambient-Audio-Locator wird bei einem internen XACT-Cue-Indexfehler entfernt;
   `PlayState` liefert außerdem den aktuellen statt eines gespeicherten
   Zustands. `Destroy` leert den transienten Menücontroller vor dem Abbau der
@@ -2910,8 +2910,11 @@ Versionsnachweis.
   kanonischen Default-Depth-Stencil-Buffer des Renderers wieder her; 1.4/1.5
   besitzen diese API nicht und sind explizit `NOT_APPLICABLE`. `UnloadContent`
   wartet render-sicher, entsorgt das Levelmodell und führt danach den originalen
-  Content-Unload aus. Die weiteren manuellen
-  Änderungen der Klasse bleiben offen.
+  Content-Unload aus. Gespeicherte Avatare werden vor dem bestehenden Move
+  reinitialisiert, gespeicherte NPCs erhalten ihr aktuelles Cache-Template und
+  werden über den aktuellen EntityManager wieder eingereiht. Der zusätzliche
+  `Content`-Getter ist innerhalb der manuellen Assembly unbenutzt; erzwungene
+  Collections und Retention-Aufrufe sind Diagnostik, der Rest Compilerrauschen.
 - [ ] `Magicka/CommunityPatch/PatchTelemetry.cs`
 - [ ] `Magicka/GameLogic/Entities/Character.cs` — TEILWEISE: Initialisierung,
   Crossfade und ForceAnimation behandeln fehlende Animationsaktionen und
@@ -2919,7 +2922,8 @@ Versionsnachweis.
   Elementstatistik bei gelöstem Gamer. Der finale Levelabbau gibt außerdem den
   vollständigen Character-eigenen Objektgraphen frei. Ungültige verspätete
   Grip-Pakete werden vor jeder Zustandsänderung verworfen. Template-Reapply,
-  Telemetrie und Diagnoseänderungen sind noch offen.
+  einschließlich des GameScene-Wiederherstellungspfads, ist migriert;
+  NetworkClient-Recovery, Telemetrie und Diagnoseänderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/ProjectileSpell.cs` — TEILWEISE:
   Leerpool-Recovery, aktuelle PlayState-Zugriffe und statische Poolfreigabe
   sind migriert. `SpawnMissile` verwirft außerdem Owner ohne PlayState oder
