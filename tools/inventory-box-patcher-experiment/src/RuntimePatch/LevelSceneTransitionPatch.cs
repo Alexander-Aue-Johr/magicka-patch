@@ -198,7 +198,7 @@ namespace Magicka.CommunityPatch.Runtime
             Queue(new Action(EnableRendering));
         }
 
-        private static void EnableRendering()
+        public static void EnableRendering()
         {
             object game = gameInstanceGetter.Invoke(null, null);
             enableRenderingMethod.Invoke(game, null);

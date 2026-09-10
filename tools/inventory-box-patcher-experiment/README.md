@@ -250,6 +250,8 @@ four hundred fifty-four method patches:
   `PlayState.Dispose`; weapon-cache behavior remains unchanged.
 - Cached physics entity templates release their generated skeleton vertex
   buffers and level-owned references during initialized `PlayState.Dispose`.
+- The queued `PlayState.OnExit` teardown waits for rendering to stop before
+  disposing the outgoing state and enables rendering again after teardown.
 - Character-template cache cleanup now releases both lookup dictionaries while
   leaving shared ContentManager-owned templates and GPU assets intact.
 - `JudgementSpray.SpawnProjectile` allocates a replacement condition collection

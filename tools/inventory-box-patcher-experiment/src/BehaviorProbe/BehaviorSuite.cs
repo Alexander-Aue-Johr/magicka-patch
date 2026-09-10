@@ -174,6 +174,8 @@ internal static class BehaviorSuite
             report);
         JormungandrScenarios.Run(magicka, report);
         PlayStateScenarios.Run(magicka, report);
+        PlayStateExitRenderingScenarios.Run(
+            magicka, runtimePatchEnabled, report);
         PortalTeleportQueueScenarios.Run(magicka, report);
         PortalLifecycleScenarios.Run(
             magicka,
