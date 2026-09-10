@@ -108,6 +108,9 @@ namespace Magicka.CommunityPatch.Runtime
                 TomeShadowMapClearPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                TomeVersionTextPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 TutorialManagerPlayStatePatch.InitializeDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

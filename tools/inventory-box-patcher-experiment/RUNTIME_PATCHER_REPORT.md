@@ -2807,10 +2807,11 @@ Versionsnachweis.
   individuelle Dispose-Änderungen und Diagnostik bleiben offen.
 - [ ] `Magicka/SharedContentManager.cs`
 - [ ] `Magicka/GameLogic/UI/Tome.cs` — TEILWEISE: `DrawShadows` leert nun
-  Target und DepthBuffer wie 0.0.60. Die vergrößerte Versionsanzeige und ihre
-  sichere Patch-Versions-/Modified-Erweiterung bleiben offen. Alle übrigen
-  sichtbaren Initialisierer-, Literal- und lokalen Umschreibungen sind
-  semantikfreies Compilerrauschen.
+  Target und DepthBuffer wie 0.0.60. Die Versionsanzeige besitzt ebenfalls die
+  512-Zeichen-Kapazität, den gemeinsamen Patch-/Update-Text und das sichere
+  Modified-Suffix. Sprachwechsel-Aktualisierung, Unterstützer-Hitbox und die
+  übrigen tatsächlichen Menüänderungen bleiben offen; verschobene statische
+  Initialisierer, Literale und lokale Umschreibungen sind Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Avatar.cs` — TEILWEISE: `FindInteractable`
   sowie die Guards gegen verspätete Pickup-Aktionen sind migriert; die übrigen
   manuellen Änderungen dieser großen Klasse sind noch offen.
