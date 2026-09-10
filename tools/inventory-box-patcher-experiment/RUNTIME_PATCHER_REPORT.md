@@ -2734,12 +2734,15 @@ Versionsnachweis.
   `Update(GameTime)` korrigiert TopMost und der Konstruktor überspringt nicht
   verfügbare ProcessThread-Einträge. Weitere manuelle Änderungen der Klasse
   sind noch offen.
-- [ ] `Magicka/CommunityPatch/PayloadContract.cs` — OFFEN: Der erste
-  Runtime-Entwurf behandelte `PolygonHead.dll` irrtümlich als unverändert. Die
-  ausgelieferte Datei enthält jedoch weiterhin die seit 0.0.42 ergänzte
-  High-Resolution-UI-Implementierung. Der Vertrag bleibt deshalb relevant, bis
-  auch der PolygonHead-Anteil reproduzierbar aus dem echten Original erzeugt
-  oder seine bestehende gepatchte Payload früh validiert wird.
+- [x] `Magicka/CommunityPatch/PayloadContract.cs` — VOLLSTÄNDIG: Der Bootstrap
+  prüft für 1.10 vor jeder Harmony-Registrierung denselben konstanten
+  PolygonHead-Payloadmarker sowie die vollständigen öffentlichen `Begin`- und
+  `End`-Signaturen der High-Resolution-UI. Ein fehlendes oder gemischtes
+  Payload zeigt den Installationsfehler und beendet den Prozess mit Code 1.
+  1.4 und 1.5 verwenden diese spätere PolygonHead-Erweiterung nicht und sind
+  ausdrücklich `NOT_APPLICABLE`. Zwei Drei-Wege-Szenarien prüfen vorhandenen
+  Schutz und Ablehnung einer fehlenden Assembly; fünf geänderte konkrete
+  Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip.
 - [x] `Magicka/CommunityPatch/AnimationClipCompatibility.cs` — VOLLSTÄNDIG:
   Sichere Dictionary-/Array-Lookups, Slotfilter und Idle-Fallbacks sind
   migriert. Ein fehlender Clip sendet das vorhandene

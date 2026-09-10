@@ -7,6 +7,7 @@ internal static class BehaviorSuite
     internal static BehaviorReport Run(Assembly magicka, bool runtimePatchEnabled)
     {
         BehaviorReport report = new BehaviorReport();
+        PayloadContractScenarios.Run(magicka, runtimePatchEnabled, report);
         TimeWarpScenarios.Run(magicka, report);
         AvatarFindInteractableScenarios.Run(magicka, report);
         AvatarNetworkPickupScenarios.Run(magicka, report);

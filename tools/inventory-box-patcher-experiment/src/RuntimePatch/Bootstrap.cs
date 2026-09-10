@@ -27,6 +27,7 @@ namespace Magicka.CommunityPatch.Runtime
             try
             {
                 SystemLibraryPreload.PreloadSystemLibraries();
+                RuntimePayloadContract.EnsureCompatible(targetAssembly);
                 RuntimePatchPlan.ApplyTo(targetAssembly);
             }
             catch (Exception exception)

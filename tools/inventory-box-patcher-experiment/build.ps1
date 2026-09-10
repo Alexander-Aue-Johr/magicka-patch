@@ -182,6 +182,8 @@ function Create-RuntimeHost(
 
 function Test-BehaviorMatrix {
     $patchFailures = @(
+        "payload_contract.compatible_pair",
+        "payload_contract.rejects_missing_pair",
         "avatar_interactable.missing_play_state",
         "avatar_interactable.missing_level",
         "avatar_interactable.missing_scene",
@@ -578,6 +580,8 @@ function Test-BehaviorMatrix {
         "play_state.foreign_state_spawn"
     )
     $legacyNotAvailable = @($playStateNotAvailable) + @(
+        "payload_contract.compatible_pair",
+        "payload_contract.rejects_missing_pair",
         "damageable_deinitialize.gib_release",
         "damageable_deinitialize.resistance_release",
         "damageable_deinitialize.cache_order",
