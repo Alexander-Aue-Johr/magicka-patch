@@ -108,7 +108,7 @@ internal static class BehaviorSuite
             report);
         GibTeardownScenarios.Run(magicka, runtimePatchEnabled, report);
         EffectManagerScenarios.Run(magicka, report);
-        MagickCameraScenarios.Run(magicka, report);
+        MagickCameraScenarios.Run(magicka, runtimePatchEnabled, report);
         BossHealthBarScenarios.Run(magicka, report);
         LoadingScreenScenarios.Run(magicka, report);
         HUDManagerScenarios.Run(magicka, report);

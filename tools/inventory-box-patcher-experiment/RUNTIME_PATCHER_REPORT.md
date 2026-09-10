@@ -3145,7 +3145,13 @@ Versionsnachweis.
   VOLLSTÄNDIG: gespeicherter PlayState, alle sechs laufenden EntityManager-Reads
   und die statische Poolfreigabe bei Levelende sind mit 2 Transpilern und 2
   Drei-Wege-Szenarien migriert. RetentionRegistry-Aufrufe sind reine Diagnostik.
-- [ ] `Magicka/Graphics/MagickCamera.cs` — TEILWEISE: körperloses `FollowEntity`-Ziel, Prefix und 3 Drei-Wege-Szenarien; weitere Lifetime- und Dispose-Änderungen sind noch offen.
+- [x] `Magicka/Graphics/MagickCamera.cs` — VOLLSTÄNDIG: körperlose
+  `FollowEntity`-Ziele fallen auf `FollowPlayers` zurück. `SetPlayState` hält
+  keinen Zustand mehr fest, `GetInfluenceVector` liest den aktuellen
+  `RecentPlayState`, und Dispose leert Spieler-, Netzwerkspieler- und
+  Effektlisten. Vier Patches und sechs Drei-Wege-Szenarien decken Guard,
+  Lebensdauer und Cleanup ab; statische Initialisiererdarstellung und lokale
+  Namen sind semantikfreies Decompilerrauschen.
 - [ ] `Magicka/GameLogic/UI/SpellWheel.cs` — TEILWEISE: PlayState-Lebensdauer und aktueller Szenenempfänger sind mit 2 Transpilern und 2 Drei-Wege-Szenarien migriert; die UI-Skalierung im Renderpfad bleibt offen.
 - [ ] `Magicka/GameLogic/Entities/EntityManager.cs` — TEILWEISE: `GetClosestIDamageable`, das vierparametrige `GetEntities`, `ClearAndStore` und der volle `Entity`-Listenpfad in `AddEntity` sind migriert; Konstruktor- und weitere Diagnoseänderungen sind noch offen.
 - [x] `Magicka/GameLogic/Entities/TeslaField.cs` — VOLLSTÄNDIG: Konstruktoren

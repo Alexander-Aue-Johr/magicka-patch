@@ -372,6 +372,7 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 MagickCameraFollowEntityPatch.Definition);
+            MagickCameraLifetimePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 BossHealthBarScenePatch.ConstructorDefinition);
