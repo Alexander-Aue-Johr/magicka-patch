@@ -210,6 +210,10 @@ function Test-BehaviorMatrix {
         "shared_content.release",
         "shared_content.final_release",
         "shared_content.weak_tracking",
+        "in_game_menu_scale.layout_hooks",
+        "in_game_menu_scale.mouse_hooks",
+        "in_game_menu_scale.active_size",
+        "in_game_menu_scale.inactive_size",
         "original_backup_audit.available",
         "original_backup_audit.missing",
         "original_backup_audit.unverified",
@@ -630,6 +634,10 @@ function Test-BehaviorMatrix {
         "ui_render.projected_positions",
         "ui_render.notifier_restoration",
         "ui_render.screen_size",
+        "in_game_menu_scale.layout_hooks",
+        "in_game_menu_scale.mouse_hooks",
+        "in_game_menu_scale.active_size",
+        "in_game_menu_scale.inactive_size",
         "entity_manager_state.retention",
         "entity_manager_state.cache_state",
         "damageable_deinitialize.gib_release",
@@ -1088,6 +1096,10 @@ function Test-BehaviorProfile(
         "shared_content.release",
         "shared_content.final_release",
         "shared_content.weak_tracking",
+        "in_game_menu_scale.layout_hooks",
+        "in_game_menu_scale.mouse_hooks",
+        "in_game_menu_scale.active_size",
+        "in_game_menu_scale.inactive_size",
         "level_current_state.read_sites",
         "level_current_state.read_count_preserved",
         "ui_render.activation",
@@ -2048,10 +2060,17 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Item weapon content release" -or
         $auditLines -notcontains "patch_end=Shared content disposable release" -or
         $auditLines -notcontains "patch_end=Shared content final disposable release" -or
+        $auditLines -notcontains "patch_end=In-game menu constructor scale" -or
+        $auditLines -notcontains "patch_end=In-game menu activation scale" -or
+        $auditLines -notcontains "patch_end=In-game menu position scale" -or
+        $auditLines -notcontains "patch_end=In-game menu scaled MouseScroll" -or
+        $auditLines -notcontains "patch_end=In-game menu scaled MouseMove" -or
+        $auditLines -notcontains "patch_end=In-game menu scaled MouseDown" -or
+        $auditLines -notcontains "patch_end=In-game menu scaled MouseUp" -or
         @($auditLines | Where-Object { $_ -like "patch_end=Shared content disposable ownership:*" }).Count -ne 13 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 104 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 108 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 24 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 433) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 436) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -2066,7 +2085,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=561")
+    $summary.Add("implemented_patches=568")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

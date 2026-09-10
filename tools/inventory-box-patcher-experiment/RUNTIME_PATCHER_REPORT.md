@@ -2615,7 +2615,15 @@ Versionsnachweis.
   Der C#-Diff besteht nur aus Decompiler-Darstellung (`as`-Cast,
   Delegate-Syntax, lokale Namen und äquivalente `out`-Form). Dafür ist kein
   Runtime-Patch erforderlich.
-- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenu.cs` — TEILWEISE: die statische PlayState-Zuweisung ist entfernt, alle vier Reads verwenden den aktuellen Zustand und der Stack wird beim Levelabbau geleert; nur das Safe-Area-Layout ist noch offen.
+- [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenu.cs` — VOLLSTÄNDIG:
+  die statische PlayState-Zuweisung ist entfernt, alle vier Reads verwenden den
+  aktuellen Zustand und der Stack wird beim Levelabbau geleert. Konstruktor,
+  `Show` und `UpdateAllPositions` berechnen das Menü nun im skalierten
+  Koordinatenraum; alle vier Mauseinstiege verwenden denselben Maßstab für die
+  Eingabe. Bei inaktiver Skalierung bleiben Größe und Eingabe unverändert.
+  Vier Drei-Wege-Szenarien prüfen Layout-Hooks, Maus-Hooks sowie aktives und
+  inaktives Scaling; 19 geänderte konkrete Runtime-Methoden JITten unter CLR 2
+  und Mono ohne Skip. Die Änderung ist für 1.4/1.5 nicht anwendbar.
 - [ ] `Magicka/CommunityPatch/NetworkEntityHandleGuard.cs` — TEILWEISE: nur die für `AddWorldSyncMessage` benötigte SpawnNPC-Entscheidung, ohne Übernahme der übrigen manuellen Hilfsklasse.
 - [x] `Magicka/GameLogic/Spells/ArcaneBlast.cs` — VOLLSTÄNDIG: der statische
   Pool wird beim Levelabbau geleert. Alle übrigen Änderungen sind
