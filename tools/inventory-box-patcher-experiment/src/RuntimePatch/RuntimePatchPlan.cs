@@ -110,6 +110,7 @@ namespace Magicka.CommunityPatch.Runtime
                 targetAssembly,
                 TomeVersionTextPatch.Definition);
             TomeSupporterPatchPlan.ApplyTo(targetAssembly);
+            TomeLanguageRefreshPatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 TutorialManagerPlayStatePatch.InitializeDefinition);
