@@ -247,6 +247,7 @@ function Test-BehaviorMatrix {
         "entity_physics_cleanup.deinitialize",
         "entity_physics_cleanup.reuse_fallback",
         "entity_physics_cleanup.final_teardown",
+        "entity_physics_cleanup.handle_storage_reset",
         "damageable_teardown.final_references",
         "animated_physics_lifecycle.deinitialize",
         "animated_physics_lifecycle.final_teardown",
@@ -888,6 +889,7 @@ function Test-BehaviorProfile(
             "entity_physics_cleanup.deinitialize",
             "entity_physics_cleanup.reuse_fallback",
             "entity_physics_cleanup.final_teardown",
+            "entity_physics_cleanup.handle_storage_reset",
             "damageable_teardown.final_references",
             "animated_physics_lifecycle.deinitialize",
             "animated_physics_lifecycle.final_teardown",
@@ -1584,6 +1586,7 @@ function Test-BehaviorProfile(
         "entity_physics_cleanup.deinitialize",
         "entity_physics_cleanup.reuse_fallback",
         "entity_physics_cleanup.final_teardown",
+        "entity_physics_cleanup.handle_storage_reset",
         "damageable_teardown.final_references",
         "animated_physics_lifecycle.deinitialize",
         "animated_physics_lifecycle.final_teardown",
@@ -2187,9 +2190,10 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Character-select last offline player leave" -or
         $auditLines -notcontains "patch_end=PlayState render-safe exit task" -or
         $auditLines -notcontains "patch_end=PlayState empty checkpoint payload" -or
+        $auditLines -notcontains "patch_end=Entity handle storage reset" -or
         @($auditLines | Where-Object { $_ -like "patch_end=Shared content disposable ownership:*" }).Count -ne 13 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 120 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 29 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 30 -or
         $auditLines -notcontains "patch_end=Missile initialized condition collection" -or
         $auditLines -notcontains "patch_end=Missile update empty target sentinel" -or
         $auditLines -notcontains "patch_end=Missile collision empty target sentinel" -or
@@ -2209,7 +2213,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=598")
+    $summary.Add("implemented_patches=599")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

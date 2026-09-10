@@ -254,6 +254,8 @@ four hundred fifty-four method patches:
   disposing the outgoing state and enables rendering again after teardown.
 - Empty checkpoint synchronization messages use a null payload pointer while
   non-empty checkpoint buffers keep the original forwarding path.
+- Entity teardown replaces the emptied handle list, its read-only view, and
+  the unique-ID dictionary so oversized backing storage does not cross levels.
 - Character-template cache cleanup now releases both lookup dictionaries while
   leaving shared ContentManager-owned templates and GPU assets intact.
 - `JudgementSpray.SpawnProjectile` allocates a replacement condition collection

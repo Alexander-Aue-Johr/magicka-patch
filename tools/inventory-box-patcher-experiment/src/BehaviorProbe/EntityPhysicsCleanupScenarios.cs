@@ -25,6 +25,9 @@ internal static class EntityPhysicsCleanupScenarios
         report.Add(
             "entity_physics_cleanup.final_teardown",
             harness.FinalTeardown());
+        report.Add(
+            "entity_physics_cleanup.handle_storage_reset",
+            harness.HandleStorageReset());
     }
 }
 
@@ -201,6 +204,30 @@ internal sealed class EntityPhysicsCleanupHarness
             failure == null && released,
             "exception:" + exception + ",references_released:" + released,
             "exception:none,references_released:True");
+    }
+
+    internal ScenarioResult HandleStorageReset()
+    {
+        object before = instancesField.GetValue(null);
+        MethodInfo disposeCache = entityType.GetMethod(
+            "DisposeCache",
+            BindingFlags.Static | BindingFlags.Public |
+                BindingFlags.DeclaredOnly,
+            null,
+            Type.EmptyTypes,
+            null);
+        Exception failure = Invoke(
+            disposeCache ?? clearHandles,
+            null,
+            new object[0]);
+        object after = instancesField.GetValue(null);
+        bool replaced = !Object.ReferenceEquals(before, after);
+        int count = after == null ? -1 : ((IList)after).Count;
+        return new ScenarioResult(
+            failure == null && replaced && count == 0,
+            "exception:" + (failure == null ? "none" : failure.GetType().FullName) +
+                ",replaced:" + replaced + ",count:" + count,
+            "exception:none,replaced:True,count:0");
     }
 
     private PhysicsFixture CreateFixture()

@@ -11,6 +11,7 @@ namespace Magicka.CommunityPatch.Runtime
             BindingFlags.NonPublic;
 
         private static FieldInfo entityInstancesField;
+        private static FieldInfo protectedInstancesField;
         private static FieldInfo uniqueEntitiesField;
         private static FieldInfo bodyField;
         private static FieldInfo collisionField;
@@ -97,6 +98,14 @@ namespace Magicka.CommunityPatch.Runtime
                 target => typeof(EntityPhysicsCleanupPatch).GetMethod(
                     "ClearHandlesPrefix"));
 
+        internal static readonly RuntimePatchDefinition ResetHandleStorageDefinition =
+            RuntimePatchDefinition.Postfix(
+                "Entity handle storage reset",
+                "org.magickacommunitypatch.entity-handle-storage-reset",
+                FindClearHandles,
+                target => typeof(EntityPhysicsCleanupPatch).GetMethod(
+                    "ClearHandlesPostfix"));
+
         private static MethodInfo FindInitialize(Assembly targetAssembly)
         {
             Type physicsEntity = ResolveContracts(targetAssembly);
@@ -175,6 +184,11 @@ namespace Magicka.CommunityPatch.Runtime
             entityInstancesField = RequireField(
                 entity,
                 "mInstances",
+                BindingFlags.Static | BindingFlags.NonPublic |
+                    BindingFlags.DeclaredOnly);
+            protectedInstancesField = RequireField(
+                entity,
+                "mProtectedInstances",
                 BindingFlags.Static | BindingFlags.NonPublic |
                     BindingFlags.DeclaredOnly);
             uniqueEntitiesField = RequireField(
@@ -581,6 +595,28 @@ namespace Magicka.CommunityPatch.Runtime
                 }
             }
             TryClear(uniqueEntitiesField.GetValue(null));
+        }
+
+        public static void ClearHandlesPostfix()
+        {
+            object instances = Activator.CreateInstance(
+                entityInstancesField.FieldType,
+                new object[] { 512 });
+            entityInstancesField.SetValue(null, instances);
+
+            ConstructorInfo wrapperConstructor =
+                protectedInstancesField.FieldType.GetConstructor(
+                    new Type[] { entityInstancesField.FieldType });
+            if (wrapperConstructor == null)
+                throw new MissingMethodException(
+                    protectedInstancesField.FieldType.FullName,
+                    ".ctor(List<Entity>)");
+            protectedInstancesField.SetValue(
+                null,
+                wrapperConstructor.Invoke(new object[] { instances }));
+            uniqueEntitiesField.SetValue(
+                null,
+                Activator.CreateInstance(uniqueEntitiesField.FieldType));
         }
 
         private static void CleanupFinalDamageableEntity(object entity)

@@ -64,6 +64,9 @@ namespace Magicka.CommunityPatch.Runtime
                 EntityPhysicsCleanupPatch.ClearHandlesDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                EntityPhysicsCleanupPatch.ResetHandleStorageDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 PhysicsManagerClearPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

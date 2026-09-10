@@ -2864,7 +2864,7 @@ Versionsnachweis.
   nur `CommunityPatchClearSpellQueue` aus dem Magicka-2-Controllerblock;
   RetentionRegistry-Aufrufe und lokale Umbenennungen sind Diagnostik
   beziehungsweise Compilerrauschen.
-- [ ] `Magicka/GameLogic/GameStates/PlayState.cs` — TEILWEISE: `AddWorldSyncMessage`, das bedingte Lösen der ShadowBlobs-Szene, die dokumentierten levelgebundenen Cleanup-Injektionen, die Render-Synchronisierung des eingereihten `OnExit`-Abbaus und der leere Checkpoint-Payload sind migriert; weitere Dispose- und Diagnoseänderungen sind noch offen.
+- [x] `Magicka/GameLogic/GameStates/PlayState.cs` — VOLLSTÄNDIG: `AddWorldSyncMessage`, ShadowBlobs-Lebensdauer, sämtliche fachlich dokumentierten Level-Cleanup-Injektionen, der eingereihte render-sichere `OnExit`-Abbau, der leere Checkpoint-Payload sowie PlayState-/Menü-Telemetriekontext sind migriert. `RetentionRegistry` und zusätzliche erzwungene GC-Aufrufe der manuellen Testassembly sind Diagnostik und kein auszulieferndes Laufzeitverhalten; die übrigen Unterschiede sind Compilerrauschen.
 - [x] `Magicka/GameLogic/Spells/Magick.cs` — VOLLSTÄNDIG: sämtliche von
   `DisposeMagicks()` aufgerufenen Cache-, Singleton- und Template-Freigaben
   werden durch die jeweiligen fachlichen Runtime-Patches beim initialisierten
@@ -3036,7 +3036,7 @@ Versionsnachweis.
   befüllten, wiederholten und simulatorlosen Abbau auf 1.10, 1.4 und 1.5; zehn
   geänderte konkrete Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip.
 - [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuMagicks.cs` — VOLLSTÄNDIG: beide GameType-Reads verwenden den aktuellen PlayState und `LanguageChanged` validiert den markierten Index. Die lokale Variable im Namenpfad, die tote `num2 = 28`-Zuweisung und der statische Initialisierer-Diff ändern kein Verhalten.
-- [ ] `Magicka/GameLogic/Entities/Entity.cs` — TEILWEISE: der finale Handle-Abbau trennt die vollständigen Physikrückreferenzen aller registrierten Entities und leert PlayState, eingehende UDP-Stamps sowie Unique-ID-Einträge; weitere manuelle Handle-, Cache-, Dispose- und Diagnostikänderungen bleiben offen.
+- [x] `Magicka/GameLogic/Entities/Entity.cs` — VOLLSTÄNDIG: der finale Handle-Abbau trennt die vollständigen Physikrückreferenzen aller registrierten Entities und leert PlayState, eingehende UDP-Stamps sowie Unique-ID-Einträge. Nach dem Original-`ClearHandles` werden Handleliste, Read-only-View und Unique-ID-Dictionary wie beim manuellen `DisposeCache` frisch angelegt. `TryGetFromHandle` ist gegenüber dem Original semantisch unverändert; `IDisposable`, `mDisposed` und RetentionRegistry-Aufrufe der manuellen Assembly werden durch den zentralen idempotenten Runtime-Abbau ersetzt beziehungsweise sind reine Diagnostik.
 - [x] `Magicka/Levels/ForceField.cs` — VOLLSTÄNDIG: `Initialize()` behält den
   übergebenen PlayState nicht mehr, `Update()` verwendet den aktuellen
   `RecentPlayState`, und der LevelModel-Abbau löst CollisionSkin, Callback,
