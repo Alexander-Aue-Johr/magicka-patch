@@ -339,6 +339,7 @@ function Test-BehaviorMatrix {
         "telemetry_context.language",
         "telemetry_context.navigation_bound",
         "telemetry_context.payload",
+        "warlord_ability.diagnostic_before_cast",
         "prop_boss.level_teardown",
         "fairy_teardown.listed",
         "fairy_teardown.avatar_owned",
@@ -654,6 +655,7 @@ function Test-BehaviorProfile(
             "telemetry_context.language",
             "telemetry_context.navigation_bound",
             "telemetry_context.payload",
+            "warlord_ability.diagnostic_before_cast",
             "boss_fight.setup_state_release",
             "boss_fight.initialize_current_state",
             "boss_fight.reset_current_state",
@@ -1118,6 +1120,7 @@ function Test-BehaviorProfile(
         "telemetry_context.language",
         "telemetry_context.navigation_bound",
         "telemetry_context.payload",
+        "warlord_ability.diagnostic_before_cast",
         "prop_boss.level_teardown",
         "fairy_teardown.listed",
         "fairy_teardown.avatar_owned",
@@ -1697,6 +1700,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Telemetry cached language context" -or
         $auditLines -notcontains "patch_end=Normal-close telemetry context" -or
         $auditLines -notcontains "patch_end=Crash telemetry context" -or
+        $auditLines -notcontains "patch_end=Warlord primary-ability diagnostic" -or
         $auditLines -notcontains "patch_end=TeslaField play-state release" -or
         $auditLines -notcontains "patch_end=GenericHealthBar current scene" -or
         $auditLines -notcontains "patch_end=GreaseTrail play-state release" -or
@@ -1896,7 +1900,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=GameScene complete teardown" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 77 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 20 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 417) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 418) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1911,7 +1915,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=514")
+    $summary.Add("implemented_patches=515")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

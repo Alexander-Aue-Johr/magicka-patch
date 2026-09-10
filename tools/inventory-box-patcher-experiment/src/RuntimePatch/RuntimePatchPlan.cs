@@ -954,6 +954,9 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 ProgramTelemetryPatch.CrashDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                WarlordAbilityDiagnosticPatch.Definition);
         }
     }
 }

@@ -2698,7 +2698,10 @@ Versionsnachweis.
   und den gemeinsamen Liquid-Abbau migriert; die entfernte lokale
   Zwischenvariable ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Spells/SpellEffects/SpellEffect.cs` — VOLLSTÄNDIG: die globale PlayState-Zuweisung entfällt und die statische Poolfreigabe bei Levelende ist migriert; ein Transpiler und vier gemeinsame Drei-Wege-Szenarien. Die Darstellung der statischen Initialisierer ist semantikfreies Compilerrauschen.
-- [ ] `Magicka/CommunityPatch/WarlordAbilityDiagnostic.cs`
+- [x] `Magicka/CommunityPatch/WarlordAbilityDiagnostic.cs` — VOLLSTÄNDIG: Der
+  Runtime-Helfer prüft die tatsächlich am NPC anliegende Ability-Liste, erfasst
+  den Template-/Array-Zustand und sendet ausschließlich bei einem ungültigen
+  primären Typ das bestehende begrenzte Diagnoseereignis.
 - [x] `Magicka/CommunityPatch/CollisionCallbackCleanup.cs` — VOLLSTÄNDIG: der Runtime-Helfer löst beide privaten JigLibX-Callbackfelder vor Patchregistrierung auf und leert sie beim zentralen Entity-Abbau ohne Exceptions in den Spielpfad weiterzugeben.
 - [x] `Magicka/GameLogic/Entities/Bosses/GenericBoss.cs` — VOLLSTÄNDIG:
   Leerpool-Recovery und statische Poolfreigabe sind mit dem gemeinsamen
@@ -3031,7 +3034,11 @@ Versionsnachweis.
   ein Postfix und das gemeinsame Anzeige-Szenario decken die Änderung ab.
 - [x] `Magicka/CoreFramework/GameSystem/HUDCustomisation/HUDManager.cs` — VOLLSTÄNDIG: `Initialise`, Postfix und 2 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/UI/InventoryBox.cs` — VOLLSTÄNDIG: `RenderData.Draw`, Prefix und 2 Drei-Wege-Szenarien.
-- [ ] `Magicka/GameLogic/Entities/Bosses/WarlordCharacter.cs`
+- [x] `Magicka/GameLogic/Entities/Bosses/WarlordCharacter.cs` — VOLLSTÄNDIG:
+  Ein Transpiler setzt die Diagnose nach `base.ApplyTemplate` und unmittelbar
+  vor den unveränderten `Melee`-Cast. Das Originalverhalten einschließlich
+  eines möglichen Fehlers bleibt erhalten; ein Drei-Wege-IL-Szenario prüft die
+  Reihenfolge.
 - [x] `Magicka/GameLogic/Entities/Bosses/Tentacle.cs` — VOLLSTÄNDIG: Der
   einzige manuelle Unterschied ist eine RetentionRegistry-Markierung nach der
   unveränderten Initialisierung.
