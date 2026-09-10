@@ -2917,13 +2917,14 @@ Versionsnachweis.
   unter sicherer Rückgabe der ausgeliehenen Collection. Die allgemeine
   exception-sichere Rückgabe bei anderen Fehlern sowie die Diagnoseaufrufe
   bleiben offen.
-- [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCharacterSelect.cs` —
-  TEILWEISE: die vier Pack-Anzeigeprüfungen verwenden die gemeinsame
+- [x] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCharacterSelect.cs` —
+  VOLLSTÄNDIG: die vier Pack-Anzeigeprüfungen verwenden die gemeinsame
   Custom-Content-Lizenzregel und `DrawWidget` überspringt Images mit fehlender
   oder freigegebener Textur. `DrawAvatar` überspringt außerdem fehlende
-  Robentexturen sowie Custom-Roben ohne geladene Custom-Textur. Das Verlassen
-  eines einzelnen Offline-Spielers und die übrige semantische Prüfung bleiben
-  offen.
+  Robentexturen sowie Custom-Roben ohne geladene Custom-Textur. Back löst im
+  normalen Offline-Leave-Pfad auch den letzten offenen Spielerslot und kehrt
+  zum vorigen Menü zurück; Countdown-, Dropdown- und Submenü-Aktionen behalten
+  Vorrang. Die übrigen Unterschiede sind Compiler-/Decompilerrauschen.
 - [ ] `Magicka/Network/NetworkClient.cs` — TEILWEISE: verspätete
   `RulesetUpdate`-Pakete werden bei gelöster PlayState-/Szenenkette verworfen;
   weltverändernde Spawn-Trigger werden nur vom Server angenommen. Weitere

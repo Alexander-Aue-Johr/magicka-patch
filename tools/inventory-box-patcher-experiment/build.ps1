@@ -599,6 +599,7 @@ function Test-BehaviorMatrix {
         "ui_scale_selection.choice_list",
         "character_select_avatar_texture.missing_avatar",
         "character_select_avatar_texture.missing_custom",
+        "character_select_offline_leave.contract",
         "judgement_spray.empty_condition_cache",
         "blizzard_cleanup.active_release",
         "blizzard_cleanup.stop_failure_release",
@@ -710,6 +711,8 @@ function Test-BehaviorMatrix {
         "character_select_avatar_texture.missing_avatar",
         "character_select_avatar_texture.missing_custom",
         "character_select_avatar_texture.valid",
+        "character_select_offline_leave.contract",
+        "character_select_offline_leave.priority_control",
         "spell_mine.animated_part_release"
     )
     $matrix = New-Object System.Collections.Generic.List[string]
@@ -1677,6 +1680,8 @@ function Test-BehaviorProfile(
         "character_select_avatar_texture.missing_avatar",
         "character_select_avatar_texture.missing_custom",
         "character_select_avatar_texture.valid",
+        "character_select_offline_leave.contract",
+        "character_select_offline_leave.priority_control",
         "judgement_spray.empty_condition_cache",
         "judgement_spray.cached_condition_identity",
         "blizzard_cleanup.active_release",
@@ -2164,8 +2169,9 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=UI-scale choice cancellation" -or
         $auditLines -notcontains "patch_end=UI-scale choice exit reset" -or
         $auditLines -notcontains "patch_end=Character-select avatar texture guard" -or
+        $auditLines -notcontains "patch_end=Character-select last offline player leave" -or
         @($auditLines | Where-Object { $_ -like "patch_end=Shared content disposable ownership:*" }).Count -ne 13 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 119 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 120 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 28 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 444) {
         throw "The runtime audit does not contain all registered Harmony patches."
@@ -2182,7 +2188,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=591")
+    $summary.Add("implemented_patches=592")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

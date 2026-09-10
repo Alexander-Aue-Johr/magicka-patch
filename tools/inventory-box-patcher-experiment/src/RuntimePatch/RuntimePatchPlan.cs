@@ -781,6 +781,7 @@ namespace Magicka.CommunityPatch.Runtime
             CharacterAvatarTemplatePatchPlan.ApplyTo(targetAssembly);
             InGameUiScaleSelectionPatchPlan.ApplyTo(targetAssembly);
             CharacterSelectAvatarTexturePatchPlan.ApplyTo(targetAssembly);
+            CharacterSelectOfflineLeavePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 JudgementSprayConditionCachePatch.Definition);
