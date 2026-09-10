@@ -2874,7 +2874,14 @@ Versionsnachweis.
   Antworten aus lückenhaften Player-Slots. Weitere Server-, Telemetrie- und
   Lebensdaueränderungen sind noch offen.
 - [ ] `Magicka/CommunityPatch/HybridInputSupport.cs`
-- [ ] `Magicka/CommunityPatch/OriginalBackupAudit.cs`
+- [x] `Magicka/CommunityPatch/OriginalBackupAudit.cs` — VOLLSTÄNDIG: Das
+  Start-Ereignis prüft im asynchronen Worker dieselben Manifest-, Installer-
+  und manuell benannten Sicherungskandidaten wie 0.0.60. Der rekursive Scan
+  bleibt auf 256 Verzeichnisse und 4096 Dateien begrenzt, folgt keinen
+  Reparse-Points und verifiziert Magicka sowie PolygonHead anhand des
+  Steam-Build-4143032-Katalogs. Drei Drei-Wege-Szenarien prüfen Verfügbarkeit,
+  fehlende und nicht verifizierte Kandidaten; 16 geänderte konkrete Methoden
+  JITten unter CLR 2 und Mono ohne Skip.
 - [ ] `Magicka/CommunityPatch/Magicka2ControllerSupport.cs`
 - [ ] `Magicka/GameLogic/Entities/CharacterTemplate.cs` — TEILWEISE:
   Animationsaktionen ohne auflösbaren Clip werden nicht gespeichert. Beide

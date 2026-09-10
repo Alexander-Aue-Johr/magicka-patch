@@ -33,6 +33,11 @@ namespace Magicka.CommunityPatch.Runtime
             Interlocked.Increment(ref controllerElementSelectionCount);
         }
 
+        public static void SendStartup()
+        {
+            SendAsync("magicka_patch_start", CommonProperties());
+        }
+
         public static void SendGameClosedNormally()
         {
             Dictionary<string, string> properties = CommonProperties();
@@ -361,10 +366,15 @@ namespace Magicka.CommunityPatch.Runtime
             {
                 SendState state = value as SendState;
                 if (state != null)
+                {
+                    if (state.EventName == "magicka_patch_start")
+                        RuntimeOriginalBackupAudit.AddTelemetryProperties(
+                            state.Properties);
                     SendBlocking(
                         state.EventName,
                         state.Properties,
                         state.TimeoutMilliseconds);
+                }
             }
             catch
             {

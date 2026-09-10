@@ -190,6 +190,9 @@ function Test-BehaviorMatrix {
         "ui_render.screen_size",
         "level_current_state.read_sites",
         "tome_shadow.depth_clear",
+        "original_backup_audit.available",
+        "original_backup_audit.missing",
+        "original_backup_audit.unverified",
         "avatar_interactable.missing_play_state",
         "avatar_interactable.missing_level",
         "avatar_interactable.missing_scene",
@@ -659,6 +662,9 @@ function Test-BehaviorProfile(
     if ($profile -eq "1.4.16.0-original" -or
         $profile -eq "1.5.1.0-original") {
         $expectedFailures = @($expectedFailures) + @(
+            "original_backup_audit.available",
+            "original_backup_audit.missing",
+            "original_backup_audit.unverified",
             "level_current_state.read_sites",
             "tome_shadow.depth_clear",
             "game_scene.current_play_state",
@@ -992,6 +998,9 @@ function Test-BehaviorProfile(
     $matrix.Add("profile=$profile|assembly=$assemblyName|sha256=$sha256|mode=$mode")
 
     $scenarioNames = @(
+        "original_backup_audit.available",
+        "original_backup_audit.missing",
+        "original_backup_audit.unverified",
         "tome_shadow.depth_clear",
         "tome_shadow.single_clear",
         "level_current_state.read_sites",
