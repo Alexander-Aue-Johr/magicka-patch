@@ -168,7 +168,26 @@ namespace Magicka.CommunityPatch.Runtime
         {
             if (Object.Equals(sender, serverId))
                 return true;
-            return !serverOnlyActions.Contains(actionType);
+            string action = Enum.GetName(actionTypeField.FieldType, actionType) ??
+                actionType.ToString();
+            if (serverOnlyActions.Contains(actionType))
+            {
+                RuntimePatchTelemetry.SendNetworkGuardDrop(
+                    "client",
+                    "TriggerAction",
+                    String.Empty,
+                    String.Empty,
+                    "trigger_action_sender_is_not_server",
+                    "actionType=" + action);
+                return false;
+            }
+            RuntimePatchTelemetry.SendNetworkDiagnostic(
+                "client",
+                "TriggerActionAuthority",
+                "trigger_action_non_server_sender_observed",
+                action,
+                "actionType=" + action);
+            return true;
         }
     }
 }

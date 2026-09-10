@@ -242,8 +242,14 @@ namespace Magicka.CommunityPatch.Runtime
             try
             {
                 object playState = recentPlayStateField.GetValue(null);
-                if (playState == null || message == null)
+                if (message == null)
                     return false;
+                if (playState == null)
+                    return Reject(
+                        "trigger_action_without_playstate",
+                        message,
+                        null,
+                        null);
 
                 int action = Convert.ToInt32(actionTypeField.GetValue(message));
                 if (characterSpawnActions.Contains(action))
@@ -259,18 +265,44 @@ namespace Magicka.CommunityPatch.Runtime
 
                 int handle = Convert.ToInt32(handleField.GetValue(message));
                 if (activeSingleActions.Contains(action))
-                    return IsActive(GetEntity(handle), playState);
+                {
+                    object entity = GetEntity(handle);
+                    return IsActive(entity, playState) || Reject(
+                        "trigger_action_primary_entity_inactive",
+                        message,
+                        playState,
+                        entity);
+                }
                 if (activeDoubleActions.Contains(action))
                 {
                     int argument = Convert.ToInt32(
                         argumentField.GetValue(message));
-                    return IsActive(GetEntity(handle), playState) &&
-                        IsActive(GetEntity(argument), playState);
+                    object primary = GetEntity(handle);
+                    if (!IsActive(primary, playState))
+                        return Reject(
+                            "trigger_action_primary_entity_inactive",
+                            message,
+                            playState,
+                            primary);
+                    object secondary = GetEntity(argument);
+                    return IsActive(secondary, playState) || Reject(
+                        "trigger_action_secondary_entity_inactive",
+                        message,
+                        playState,
+                        secondary);
                 }
                 return true;
             }
-            catch
+            catch (Exception exception)
             {
+                RuntimePatchTelemetry.SendNetworkGuardException(
+                    "client",
+                    "TriggerAction",
+                    String.Empty,
+                    String.Empty,
+                    "trigger_action_validation_exception",
+                    String.Empty,
+                    exception);
                 return false;
             }
         }
@@ -283,11 +315,21 @@ namespace Magicka.CommunityPatch.Runtime
                 handleField.GetValue(message)));
             if (!npcType.IsInstanceOfType(entity) ||
                 !IsReservedForSpawn(entity, playState))
-                return false;
+                return Reject(
+                    "trigger_action_character_spawn_invalid_slot",
+                    message,
+                    playState,
+                    entity);
             int template = Convert.ToInt32(templateField.GetValue(message));
-            return characterTemplateGetter.Invoke(
+            if (characterTemplateGetter.Invoke(
                 null,
-                new object[] { template }) != null;
+                new object[] { template }) != null)
+                return true;
+            return Reject(
+                "trigger_action_character_spawn_template_not_cached",
+                message,
+                playState,
+                entity);
         }
 
         private static bool ValidateReservedSpawn(
@@ -298,15 +340,30 @@ namespace Magicka.CommunityPatch.Runtime
         {
             object entity = GetEntity(Convert.ToInt32(
                 handleField.GetValue(message)));
-            if (!IsReservedForSpawn(entity, playState) ||
-                !IsTypeOrSubclass(entity, expectedType))
-                return false;
+            if (!IsReservedForSpawn(entity, playState))
+                return Reject(
+                    "trigger_action_spawn_invalid_slot",
+                    message,
+                    playState,
+                    entity);
+            if (!IsTypeOrSubclass(entity, expectedType))
+                return Reject(
+                    "trigger_action_spawn_wrong_entity_type",
+                    message,
+                    playState,
+                    entity);
             if (action != damageablePhysicsAction)
                 return true;
             int template = Convert.ToInt32(templateField.GetValue(message));
-            return physicsTemplateGetter.Invoke(
+            if (physicsTemplateGetter.Invoke(
                 null,
-                new object[] { template }) != null;
+                new object[] { template }) != null)
+                return true;
+            return Reject(
+                "trigger_action_physics_spawn_template_not_cached",
+                message,
+                playState,
+                entity);
         }
 
         private static object GetEntity(int handle)
@@ -347,11 +404,57 @@ namespace Magicka.CommunityPatch.Runtime
                 typeName == "Magicka.GameLogic.Entities.ElementalEgg" ||
                 typeName == "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Grease+GreaseField" ||
                 typeName == "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.TornadoEntity")
+            {
+                ReportActiveReuse(entity, playState, typeName);
                 return true;
+            }
 
             if (!npcType.IsInstanceOfType(entity))
                 return false;
-            return (bool)npcDeadProperty.GetValue(entity, null);
+            bool dead = (bool)npcDeadProperty.GetValue(entity, null);
+            if (dead)
+                ReportActiveReuse(entity, playState, typeName);
+            return dead;
+        }
+
+        private static bool Reject(
+            string reason,
+            object message,
+            object playState,
+            object entity)
+        {
+            int handle = message == null
+                ? -1
+                : Convert.ToInt32(handleField.GetValue(message));
+            int template = message == null
+                ? 0
+                : Convert.ToInt32(templateField.GetValue(message));
+            RuntimePatchTelemetry.SendNetworkGuardDrop(
+                "client",
+                "TriggerAction",
+                String.Empty,
+                String.Empty,
+                reason,
+                "handle=" + handle + "; template=" + template +
+                    "; playStateNull=" + (playState == null) +
+                    "; entityType=" + (entity == null
+                        ? "<null>"
+                        : entity.GetType().FullName));
+            return false;
+        }
+
+        private static void ReportActiveReuse(
+            object entity,
+            object playState,
+            string typeName)
+        {
+            RuntimePatchTelemetry.SendNetworkDiagnostic(
+                "client",
+                "TriggerAction",
+                "trigger_action_active_slot_reused",
+                typeName,
+                "entityType=" + typeName +
+                    "; playStateNull=" + (playState == null));
         }
 
         private static bool HasCompatibleLifetime(

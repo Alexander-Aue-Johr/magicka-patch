@@ -2875,7 +2875,13 @@ Versionsnachweis.
   Lock-Traversierung sind migriert. Die übrigen Unterschiede sind
   RetentionRegistry-/Recovery-Diagnostik oder statische
   Initialisiererdarstellung.
-- [ ] `Magicka/Levels/Triggers/Trigger.cs` — TEILWEISE: `SpawnNPC` übernimmt den über das unveränderte Paketformat transportierten Undead-Zustand; eingehende TriggerActions erhalten dieselbe Lifecycle-Prüfung wie in 0.0.60. Der `GameScene`-Abbau löst Actions, Conditions, Szenen- und ID-Referenzen entsprechend dem manuellen `Dispose`. Nur die Netzwerkdiagnostik bleibt offen.
+- [x] `Magicka/Levels/Triggers/Trigger.cs` — VOLLSTÄNDIG: `SpawnNPC` übernimmt
+  den über das unveränderte Paketformat transportierten Undead-Zustand;
+  eingehende TriggerActions erhalten dieselbe Lifecycle- und Authority-Prüfung
+  wie in 0.0.60. Verwerfungen und zulässige aktive Pool-Slot-Wiederverwendung
+  senden die stabilen, begrenzten Netzwerk-Reason-Codes. Der `GameScene`-Abbau
+  löst Actions, Conditions, Szenen- und ID-Referenzen entsprechend dem manuellen
+  `Dispose`.
 - [x] `Magicka/GameLogic/Entities/Gib.cs` — VOLLSTÄNDIG: Der finale
   Entity-Handle-Abbau stoppt verbleibende Blut- und Trail-Effekte, löst Modell-,
   Render-, Mesh- und MeshPart-Referenzen aktiver und gepoolter Gibs und leert
