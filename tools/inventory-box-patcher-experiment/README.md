@@ -256,6 +256,8 @@ four hundred fifty-four method patches:
   non-empty checkpoint buffers keep the original forwarding path.
 - The sway pre-render pass restores the renderer's canonical default
   depth-stencil buffer instead of preserving a transient device binding.
+- Scene content unload waits until rendering is disabled, disposes the active
+  level model, clears its field, and then runs the original content unload.
 - Entity teardown replaces the emptied handle list, its read-only view, and
   the unique-ID dictionary so oversized backing storage does not cross levels.
 - Character-template cache cleanup now releases both lookup dictionaries while

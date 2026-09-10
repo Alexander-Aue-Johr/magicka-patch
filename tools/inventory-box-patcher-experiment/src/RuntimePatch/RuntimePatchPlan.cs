@@ -874,6 +874,14 @@ namespace Magicka.CommunityPatch.Runtime
                 RuntimePatchAudit.WriteNotApplicable(
                     GameSceneSwayDepthBufferPatch.Definition,
                     "GameScene.PreRenderUpdate is not present in this Magicka version.");
+            if (GameSceneContentUnloadPatch.IsAvailableIn(targetAssembly))
+                RuntimePatchSession.Apply(
+                    targetAssembly,
+                    GameSceneContentUnloadPatch.Definition);
+            else
+                RuntimePatchAudit.WriteNotApplicable(
+                    GameSceneContentUnloadPatch.Definition,
+                    "The render-safe GameScene unload API is absent.");
             RuntimePatchSession.Apply(
                 targetAssembly,
                 GameSceneTeardownPatch.Definition);
