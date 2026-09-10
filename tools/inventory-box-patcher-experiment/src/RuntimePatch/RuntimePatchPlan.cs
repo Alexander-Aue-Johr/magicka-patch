@@ -777,6 +777,7 @@ namespace Magicka.CommunityPatch.Runtime
                 SummonDeathCleanupPatch.Definition);
             PhysicsEntityTemplateCachePatchPlan.ApplyTo(targetAssembly);
             CharacterTemplateCachePatchPlan.ApplyTo(targetAssembly);
+            CharacterTemplateLookupPatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 JudgementSprayConditionCachePatch.Definition);

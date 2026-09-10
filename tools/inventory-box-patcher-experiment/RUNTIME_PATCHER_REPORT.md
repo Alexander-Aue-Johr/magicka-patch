@@ -2941,7 +2941,12 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/Entities/CharacterTemplate.cs` — TEILWEISE:
   Animationsaktionen ohne auflösbaren Clip werden nicht gespeichert. Beide
   Template-Lookups werden ohne vorzeitige Freigabe gemeinsam besessener Assets
-  geleert; weitere Lese-, Reload- und Diagnostikänderungen sind noch offen.
+  geleert. `Read` merkt den Assetnamen jedes geladenen Templates; ein späterer
+  benannter Cache-Miss lädt es nur über einen verfügbaren aktuellen PlayState
+  nach und liefert während des Übergangs kontrolliert `null`. Vier
+  Drei-Wege-Szenarien prüfen benannten Miss, fehlenden Content-Owner, Cache-Hit
+  und unbekannte ID. Die aktive Avatar-Vorauswahl und ihr separater Lazy-Lookup
+  sowie die verbleibenden Diagnostikänderungen sind noch offen.
 - [x] `Magicka/CommunityPatch/PatchUpdateManager.cs` — VOLLSTÄNDIG:
   Hintergrundprüfung, Release-Asset-Parser, Versionsvergleich, Download,
   Pending-/Skip-Zustand und Tool-Handoff entsprechen 0.0.60. Bootstrap startet
