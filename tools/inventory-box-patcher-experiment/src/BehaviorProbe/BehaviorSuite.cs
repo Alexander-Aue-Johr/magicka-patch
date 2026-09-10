@@ -42,6 +42,10 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        HighResolutionUiRenderScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         TutorialManagerPlayStateScenarios.Run(magicka, report);
         EtherealCloneScenarios.Run(magicka, report);
         BreakBarriersScenarios.Run(magicka, report);

@@ -282,6 +282,22 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     fehlt der Helfer; die manuelle Patch-Assembly und alle Runtime-Profile
     liefern dieselben Werte. Beide Zielmethoden werden zusätzlich über ihren
     vollständigen Signatur-, Feld- und Lokalspeichervertrag registriert.
+- [x] `high-resolution-ui-rendering`
+  - Ziele: `Game.Draw(GameTime)` sowie die Renderdaten von `TextBox`,
+    `CutsceneText`, `IconRenderer`, `SpellWheel` und `NotifierButton`.
+  - Technik: Sechs Prefixe aktivieren die vorhandene PolygonHead-Skalierung,
+    passen projizierte Positionen und Effekt-ScreenSize an; ein Postfix stellt
+    die nur für das Zeichnen verschobene Notifier-Position wieder her.
+  - Verhalten: Der Skalierungsfaktor wird wie in 0.0.60 aus
+    `CommunityPatch/ui-scale.ini` geladen und auf 100 bis 400 Prozent begrenzt.
+    Die Skalierung ist nur in einem PlayState aktiv. Notifier-Offsets bleiben
+    im logischen UI-Koordinatensystem und die gespeicherte Position wird nicht
+    dauerhaft verändert.
+  - Vier Drei-Wege-Szenarien prüfen Aktivierung, normale und offsetbezogene
+    Positionsrechnung, Notifier-Wiederherstellung sowie die ScreenSize-Pfade.
+    Das Original schlägt in allen vier Szenarien fehl, 0.0.60 und der
+    Runtime-Patch bestehen. Magicka 1.4 und 1.5 besitzen diese spätere
+    PolygonHead-Erweiterung nicht und sind explizit `NOT_APPLICABLE`.
 - [x] `tutorial-manager-play-state-lifetime`
   - Ziele: `TutorialManager.Initialize(PlayState)`, `UpdateResolution()` und
     `Update(DataChannel, float)`.
@@ -2584,10 +2600,10 @@ Versionsnachweis.
   auf einem ThreadPool-Worker; der Aufrufer setzt sofort beim unveränderten
   Inventarabschnitt fort. Die Offers-URL verwendet HTTPS. Ein Transpiler und
   ein Drei-Wege-IL-Szenario prüfen Worker-Übergabe und URL.
-- [ ] `Magicka/GameLogic/UI/IconRenderer.cs` — TEILWEISE: Konstruktor und
+- [x] `Magicka/GameLogic/UI/IconRenderer.cs` — VOLLSTÄNDIG: Konstruktor und
   `Initialize` speichern keinen PlayState mehr; der einzige spätere Read im
-  `TomeMagick`-Setter verwendet den aktuellen Zustand. Die Skalierung des
-  projizierten Renderpunkts durch das High-Resolution-UI-System bleibt offen.
+  `TomeMagick`-Setter verwendet den aktuellen Zustand. Der Render-Prefix
+  skaliert den projizierten Punkt wie in 0.0.60.
 - [x] `Magicka/GameLogic/Entities/PhysicsEntity.cs` — VOLLSTÄNDIG: Das
   ersetzbare Body/CollisionSkin-Paar wird vor Wiederverwendung und nach
   Deinitialize getrennt, die wiederverwendbaren Renderkanäle werden neu
@@ -2732,8 +2748,9 @@ Versionsnachweis.
   dem Dienstabbau frei, `Draw` skaliert randlose Mauskoordinaten, Konstruktor
   und Gerätehandler bilden die nicht exklusive Fullscreen-Präsentation ab,
   `Update(GameTime)` korrigiert TopMost und der Konstruktor überspringt nicht
-  verfügbare ProcessThread-Einträge. Weitere manuelle Änderungen der Klasse
-  sind noch offen.
+  verfügbare ProcessThread-Einträge. Die High-Resolution-UI-Aktivierung in
+  `Draw` ist ebenfalls migriert. Weitere manuelle Änderungen der Klasse sind
+  noch offen.
 - [x] `Magicka/CommunityPatch/PayloadContract.cs` — VOLLSTÄNDIG: Der Bootstrap
   prüft für 1.10 vor jeder Harmony-Registrierung denselben konstanten
   PolygonHead-Payloadmarker sowie die vollständigen öffentlichen `Begin`- und
@@ -2928,7 +2945,10 @@ Versionsnachweis.
   RetentionRegistry-Aufrufe sind reine Diagnostik; statische Initialisierer,
   lokale Ausdrücke und temporäre Variablen sind semantikfreies Compiler- oder
   Decompilerrauschen.
-- [ ] `Magicka/CommunityPatch/InGameUiCompatibility.cs`
+- [ ] `Magicka/CommunityPatch/InGameUiCompatibility.cs` — TEILWEISE: Laden,
+  Begrenzen und Anwenden des gespeicherten Skalierungsfaktors sowie die
+  Renderpfade sind migriert. Auswahlzustand, Menükoordinaten, Speichern und
+  Telemetrie der im Optionsmenü geänderten Skalierung bleiben offen.
 - [x] `Magicka/CommunityPatch/WidescreenSafeArea.cs` — VOLLSTÄNDIG: beide Berechnungen liegen CLR-2-kompatibel im Runtime-Patcher und werden durch 4 Rechenszenarien abgedeckt.
 - [ ] `Magicka/GameLogic/Entities/NonPlayerCharacter.cs` — TEILWEISE: der
   Challenge-Score-Zustand wird pro Pool-Lebenszyklus zurückgesetzt und der
@@ -3008,15 +3028,17 @@ Versionsnachweis.
   — VOLLSTÄNDIG: ungenutzte PlayState-Referenz in `Execute`, Transpiler und 2
   Drei-Wege-Szenarien; die statische Hash-Initialisierer-Umschreibung ist
   semantikfreies Compilerrauschen.
-- [ ] `Magicka/Graphics/NotifierButton.cs` — TEILWEISE: die Freigabe von
+- [x] `Magicka/Graphics/NotifierButton.cs` — VOLLSTÄNDIG: die Freigabe von
   Besitzer, angehängter TextBox und Alpha-Zustand ist durch einen Prefix und 3
-  Drei-Wege-Szenarien migriert; die Ultrawide-Zeichenänderung bleibt offen.
+  Drei-Wege-Szenarien migriert. Der Render-Prefix skaliert die Position relativ
+  zum Layoutoffset; der Postfix stellt den gespeicherten Wert danach wieder her.
 - [x] `Magicka/GameLogic/Statistics/StatisticsManager.cs` — VOLLSTÄNDIG: beide
   Challenge-Score-Pfade verwenden denselben Einmal-pro-Gegner-Guard, zwei
   Transpiler und 3 Drei-Wege-Szenarien.
-- [ ] `Magicka/Graphics/TextBox.cs` — TEILWEISE: die Freigabe ihrer
+- [x] `Magicka/Graphics/TextBox.cs` — VOLLSTÄNDIG: die Freigabe ihrer
   levelgebundenen Besitzer- und Szenenreferenzen bei Player- und
-  DialogManager-Abbau ist migriert; die Ultrawide-Zeichenänderung bleibt offen.
+  DialogManager-Abbau ist migriert. Der Render-Prefix skaliert die projizierte
+  Position und aktualisiert die Effekt-ScreenSize.
 - [x] `Magicka/Levels/Triggers/Actions/AssignItem.cs` — VOLLSTÄNDIG:
   ausschließlich semantikfreie Darstellung derselben drei statischen
   Hash-Initialisierungen in einem expliziten Typinitialisierer; Reihenfolge,
@@ -3083,7 +3105,9 @@ Versionsnachweis.
   zusätzlicher Patch der ansonsten unbenutzten Methode würde das
   Laufzeitverhalten nicht erweitern.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonElemental.cs` — VOLLSTÄNDIG: statischer levelgeladener Template-Cache, bestehender PlayState-Cleanup-Transpiler und 2 gemeinsame Drei-Wege-Szenarien.
-- [ ] `Magicka/Graphics/CutsceneText.cs`
+- [x] `Magicka/Graphics/CutsceneText.cs` — VOLLSTÄNDIG: der Render-Prefix
+  skaliert die projizierte Position und aktualisiert die Effekt-ScreenSize wie
+  in der manuellen 0.0.60-Assembly.
 - [x] `Magicka/GameLogic/UI/BossHealthBar.cs` — VOLLSTÄNDIG: Konstruktor sowie `Scene`-Getter und -Setter, 3 Runtime-Patches und 3 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/GameStates/Menu/Main/Options/SubMenuOptionsControls.cs` — VOLLSTÄNDIG: beide DirectInput-gefährdeten Controllerlisten-Aufrufe, 2 Transpiler und gemeinsame Fünf-Wege-Szenarien.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonBug.cs` — VOLLSTÄNDIG: statischer levelgeladener Template-Cache, bestehender PlayState-Cleanup-Transpiler und 2 gemeinsame Drei-Wege-Szenarien.
@@ -3163,7 +3187,10 @@ Versionsnachweis.
   Effektlisten. Vier Patches und sechs Drei-Wege-Szenarien decken Guard,
   Lebensdauer und Cleanup ab; statische Initialisiererdarstellung und lokale
   Namen sind semantikfreies Decompilerrauschen.
-- [ ] `Magicka/GameLogic/UI/SpellWheel.cs` — TEILWEISE: PlayState-Lebensdauer und aktueller Szenenempfänger sind mit 2 Transpilern und 2 Drei-Wege-Szenarien migriert; die UI-Skalierung im Renderpfad bleibt offen.
+- [x] `Magicka/GameLogic/UI/SpellWheel.cs` — VOLLSTÄNDIG:
+  PlayState-Lebensdauer und aktueller Szenenempfänger sind mit 2 Transpilern
+  und 2 Drei-Wege-Szenarien migriert; der Render-Prefix skaliert zusätzlich
+  den projizierten Punkt wie in 0.0.60.
 - [ ] `Magicka/GameLogic/Entities/EntityManager.cs` — TEILWEISE:
   `GetClosestIDamageable`, das vierparametrige `GetEntities`, `ClearAndStore`
   und der volle `Entity`-Listenpfad in `AddEntity` sind migriert. Der

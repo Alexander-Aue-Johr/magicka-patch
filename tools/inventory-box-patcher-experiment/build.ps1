@@ -184,6 +184,10 @@ function Test-BehaviorMatrix {
     $patchFailures = @(
         "payload_contract.compatible_pair",
         "payload_contract.rejects_missing_pair",
+        "ui_render.activation",
+        "ui_render.projected_positions",
+        "ui_render.notifier_restoration",
+        "ui_render.screen_size",
         "avatar_interactable.missing_play_state",
         "avatar_interactable.missing_level",
         "avatar_interactable.missing_scene",
@@ -584,6 +588,10 @@ function Test-BehaviorMatrix {
     $legacyNotAvailable = @($playStateNotAvailable) + @(
         "payload_contract.compatible_pair",
         "payload_contract.rejects_missing_pair",
+        "ui_render.activation",
+        "ui_render.projected_positions",
+        "ui_render.notifier_restoration",
+        "ui_render.screen_size",
         "entity_manager_state.retention",
         "entity_manager_state.cache_state",
         "damageable_deinitialize.gib_release",
@@ -980,6 +988,10 @@ function Test-BehaviorProfile(
     $matrix.Add("profile=$profile|assembly=$assemblyName|sha256=$sha256|mode=$mode")
 
     $scenarioNames = @(
+        "ui_render.activation",
+        "ui_render.projected_positions",
+        "ui_render.notifier_restoration",
+        "ui_render.screen_size",
         "avatar_interactable.missing_play_state",
         "avatar_interactable.missing_level",
         "avatar_interactable.missing_scene",
@@ -1909,8 +1921,15 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=GameScene current light-update play state" -or
         $auditLines -notcontains "patch_end=GameScene complete teardown" -or
         $auditLines -notcontains "patch_end=EntityManager play-state release" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 79 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 20 -or
+        $auditLines -notcontains "patch_end=High-resolution UI render activation" -or
+        $auditLines -notcontains "patch_end=TextBox projected UI scaling" -or
+        $auditLines -notcontains "patch_end=Cutscene text projected UI scaling" -or
+        $auditLines -notcontains "patch_end=IconRenderer projected UI scaling" -or
+        $auditLines -notcontains "patch_end=SpellWheel projected UI scaling" -or
+        $auditLines -notcontains "patch_end=Notifier projected UI scaling" -or
+        $auditLines -notcontains "patch_end=Notifier projected position restoration" -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 85 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 21 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 424) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
@@ -1926,7 +1945,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=523")
+    $summary.Add("implemented_patches=530")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
