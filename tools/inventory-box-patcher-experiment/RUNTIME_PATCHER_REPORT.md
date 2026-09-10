@@ -2906,7 +2906,9 @@ Versionsnachweis.
   Zustands. `Destroy` leert den transienten Menücontroller vor dem Abbau der
   Szenenobjekte und verwendet für das abschließende Licht-Update die aktuelle
   Szene. `Dispose` löst den vollständigen Szenengraphen idempotent und räumt
-  dabei auch die Trigger-/Action-Rückreferenzen auf. Die weiteren manuellen
+  dabei auch die Trigger-/Action-Rückreferenzen auf. Der Sway-Pass stellt den
+  kanonischen Default-Depth-Stencil-Buffer des Renderers wieder her; 1.4/1.5
+  besitzen diese API nicht und sind explizit `NOT_APPLICABLE`. Die weiteren manuellen
   Änderungen der Klasse bleiben offen.
 - [ ] `Magicka/CommunityPatch/PatchTelemetry.cs`
 - [ ] `Magicka/GameLogic/Entities/Character.cs` — TEILWEISE: Initialisierung,

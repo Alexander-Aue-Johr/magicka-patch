@@ -254,6 +254,8 @@ four hundred fifty-four method patches:
   disposing the outgoing state and enables rendering again after teardown.
 - Empty checkpoint synchronization messages use a null payload pointer while
   non-empty checkpoint buffers keep the original forwarding path.
+- The sway pre-render pass restores the renderer's canonical default
+  depth-stencil buffer instead of preserving a transient device binding.
 - Entity teardown replaces the emptied handle list, its read-only view, and
   the unique-ID dictionary so oversized backing storage does not cross levels.
 - Character-template cache cleanup now releases both lookup dictionaries while

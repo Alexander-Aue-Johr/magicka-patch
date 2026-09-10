@@ -437,6 +437,8 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        GameSceneSwayDepthBufferScenarios.Run(
+            magicka, runtimePatchEnabled, report);
         GameSceneTeardownScenarios.Run(magicka, report);
         RuntimeTelemetryBackoffScenarios.Run(
             magicka,

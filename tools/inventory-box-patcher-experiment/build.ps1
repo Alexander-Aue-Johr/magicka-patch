@@ -248,6 +248,7 @@ function Test-BehaviorMatrix {
         "entity_physics_cleanup.reuse_fallback",
         "entity_physics_cleanup.final_teardown",
         "entity_physics_cleanup.handle_storage_reset",
+        "game_scene_sway.default_depth",
         "damageable_teardown.final_references",
         "animated_physics_lifecycle.deinitialize",
         "animated_physics_lifecycle.final_teardown",
@@ -647,6 +648,8 @@ function Test-BehaviorMatrix {
         "play_state.foreign_state_spawn"
     )
     $legacyNotAvailable = @($playStateNotAvailable) + @(
+        "game_scene_sway.default_depth",
+        "game_scene_sway.control",
         "tome_supporters.hook",
         "tome_supporters.hitbox",
         "tome_language.account_widgets",
@@ -890,6 +893,7 @@ function Test-BehaviorProfile(
             "entity_physics_cleanup.reuse_fallback",
             "entity_physics_cleanup.final_teardown",
             "entity_physics_cleanup.handle_storage_reset",
+            "game_scene_sway.default_depth",
             "damageable_teardown.final_references",
             "animated_physics_lifecycle.deinitialize",
             "animated_physics_lifecycle.final_teardown",
@@ -1587,6 +1591,8 @@ function Test-BehaviorProfile(
         "entity_physics_cleanup.reuse_fallback",
         "entity_physics_cleanup.final_teardown",
         "entity_physics_cleanup.handle_storage_reset",
+        "game_scene_sway.default_depth",
+        "game_scene_sway.control",
         "damageable_teardown.final_references",
         "animated_physics_lifecycle.deinitialize",
         "animated_physics_lifecycle.final_teardown",
@@ -2191,6 +2197,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=PlayState render-safe exit task" -or
         $auditLines -notcontains "patch_end=PlayState empty checkpoint payload" -or
         $auditLines -notcontains "patch_end=Entity handle storage reset" -or
+        $auditLines -notcontains "patch_end=GameScene sway default depth buffer" -or
         @($auditLines | Where-Object { $_ -like "patch_end=Shared content disposable ownership:*" }).Count -ne 13 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 120 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 30 -or
@@ -2198,7 +2205,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Missile update empty target sentinel" -or
         $auditLines -notcontains "patch_end=Missile collision empty target sentinel" -or
         $auditLines -notcontains "patch_end=Missile deinitialize reference release" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 449) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 450) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -2213,7 +2220,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=599")
+    $summary.Add("implemented_patches=600")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

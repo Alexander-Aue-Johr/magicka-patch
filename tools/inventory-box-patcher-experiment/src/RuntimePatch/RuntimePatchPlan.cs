@@ -866,6 +866,14 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 GameSceneLightUpdatePatch.Definition);
+            if (GameSceneSwayDepthBufferPatch.IsAvailableIn(targetAssembly))
+                RuntimePatchSession.Apply(
+                    targetAssembly,
+                    GameSceneSwayDepthBufferPatch.Definition);
+            else
+                RuntimePatchAudit.WriteNotApplicable(
+                    GameSceneSwayDepthBufferPatch.Definition,
+                    "GameScene.PreRenderUpdate is not present in this Magicka version.");
             RuntimePatchSession.Apply(
                 targetAssembly,
                 GameSceneTeardownPatch.Definition);
