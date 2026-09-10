@@ -251,6 +251,10 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        SteamApiPreflightScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         ProgramArgumentScenarios.Run(
             magicka,
             runtimePatchEnabled,

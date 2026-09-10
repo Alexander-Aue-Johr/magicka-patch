@@ -2914,7 +2914,12 @@ Versionsnachweis.
   TriggerAction-Absender- und Lifecycle-Regeln sind migriert; Telemetrie und
   weitere Netzwerkhelfer bleiben offen.
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCutscene.cs`
-- [ ] `Magicka/CommunityPatch/RuntimeCompatibilityGuards.cs` — TEILWEISE: die DirectInput-Ausfallerkennung und verzögerte Warnung sowie Versionszeilen- und Unterstützerdialog-Helfer sind migriert; Steam-API- und Store-Helfer bleiben offen.
+- [x] `Magicka/CommunityPatch/RuntimeCompatibilityGuards.cs` — VOLLSTÄNDIG:
+  DirectInput-Ausfallerkennung und verzögerte Warnung, Versionszeilen- und
+  Unterstützerdialog-Helfer, asynchroner Store-Abruf sowie die absolute
+  Steam-API-Zugriffsprüfung sind migriert. Der Bootstrap führt die
+  Steam-Prüfung vor Harmony aus, damit sie schon für den ersten Main-Aufruf
+  gilt.
 - [x] `Magicka/GameLogic/Entities/Barrier.cs` — VOLLSTÄNDIG: Der finale
   Entity-Handle-Abbau gibt aktive und zwischengespeicherte Barrieren frei,
   stoppt verbleibende Sounds, Animationen und Effekte, löst Hitlist-Owner sowie

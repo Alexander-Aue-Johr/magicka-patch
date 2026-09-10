@@ -10,12 +10,14 @@ namespace Magicka.CommunityPatch.Runtime
 
         public static void Apply()
         {
+            RuntimeSteamApiPreflight.EnsureAccessible();
             Apply(Assembly.GetEntryAssembly());
         }
 
         public static void Apply(string[] arguments)
         {
             ProgramArgumentSanitizer.Sanitize(arguments);
+            RuntimeSteamApiPreflight.EnsureAccessible();
             Apply(Assembly.GetEntryAssembly());
         }
 
