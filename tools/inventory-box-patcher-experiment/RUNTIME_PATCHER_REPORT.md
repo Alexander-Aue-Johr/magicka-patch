@@ -2980,10 +2980,15 @@ Versionsnachweis.
   und leert alle verbleibenden Level-Collections und -Referenzen. Ein Prefix
   und ein idempotentes Drei-Wege-Szenario decken den semantischen Diff ab;
   RetentionRegistry-Aufrufe sind Diagnostik.
-- [ ] `Magicka/GameLogic/Entities/PhysicsEntityTemplate.cs` — TEILWEISE:
+- [x] `Magicka/GameLogic/Entities/PhysicsEntityTemplate.cs` — VOLLSTÄNDIG:
   Animationsaktionen ohne auflösbaren Clip werden nicht gespeichert. Der
   statische Template-Cache und seine template-eigenen Ressourcen werden beim
-  Levelabbau freigegeben; weitere Diagnostikänderungen bleiben offen.
+  Levelabbau freigegeben. Dabei werden alle elf besessenen Felder gelöst, die
+  beiden Mesh-Listen vor dem Lösen geleert und der Skeleton-Vertexpuffer
+  freigegeben. `mDisposed`, Finalizer-Ausgabe und RetentionRegistry-Aufrufe des
+  manuellen Dekompilats sind ausschließlich Diagnoseinstrumentierung; die
+  statischen Initialisierer sind Compilerform und benötigen keinen Runtime-
+  Patch.
 - [x] `Magicka/CommunityPatch/CommunityPatchInfo.cs` — VOLLSTÄNDIG: Name,
   Version, Autor, Credits, Anzeige- und Vollversionstext, URLs, User-Agent,
   Toolname und Unterstützerliste liegen in einem gemeinsamen Runtime-Vertrag.
