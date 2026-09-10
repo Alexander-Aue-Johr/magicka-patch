@@ -2820,7 +2820,11 @@ Versionsnachweis.
   sowie die Guards gegen verspätete Pickup-Aktionen sind migriert; die übrigen
   manuellen Änderungen dieser großen Klasse sind noch offen.
 - [ ] `Magicka/GameLogic/GameStates/PlayState.cs` — TEILWEISE: `AddWorldSyncMessage`, das bedingte Lösen der ShadowBlobs-Szene sowie die dokumentierten levelgebundenen Cleanup-Injektionen sind migriert; weitere Dispose-, Übergangs- und Diagnoseänderungen sind noch offen.
-- [ ] `Magicka/GameLogic/Spells/Magick.cs` — TEILWEISE: die statische Poolfreigabe bei Levelende ist migriert; der übrige manuelle Diff ist in diesem Block nicht abgedeckt.
+- [x] `Magicka/GameLogic/Spells/Magick.cs` — VOLLSTÄNDIG: sämtliche von
+  `DisposeMagicks()` aufgerufenen Cache-, Singleton- und Template-Freigaben
+  werden durch die jeweiligen fachlichen Runtime-Patches beim initialisierten
+  PlayState-Abbau ausgeführt. Die verschobenen Initialisierungen der drei
+  unveränderten Lookup-Arrays sind ausschließlich Compiler-/Decompilerform.
 - [x] `Magicka/GameLogic/Spells/Railgun.cs` — VOLLSTÄNDIG: statische
   Poolfreigabe, Ahnenprüfung vor dem Verknüpfen und zyklussichere
   Lock-Traversierung sind migriert. Die übrigen Unterschiede sind
