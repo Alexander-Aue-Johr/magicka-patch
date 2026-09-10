@@ -21,6 +21,11 @@ namespace Magicka.CommunityPatch.Runtime
         private static PropertyInfo skeletonProperty;
         private static PropertyInfo skeletonCountProperty;
         private static PropertyInfo skeletonItemProperty;
+        private static PropertyInfo isGrippedProperty;
+        private static PropertyInfo gripperAttachedProperty;
+        private static PropertyInfo gripperProperty;
+        private static PropertyInfo isGrippingProperty;
+        private static FieldInfo grippedCharacterField;
         private static object gripAction;
         private static int pickupGripType;
 
@@ -52,6 +57,13 @@ namespace Magicka.CommunityPatch.Runtime
             animationControllerField = RequireField(
                 characterType,
                 "mAnimationController");
+            grippedCharacterField = RequireField(characterType,
+                "mGrippedCharacter");
+            isGrippedProperty = RequireProperty(characterType, "IsGripped");
+            gripperAttachedProperty = RequireProperty(characterType,
+                "GripperAttached");
+            gripperProperty = RequireProperty(characterType, "Gripper");
+            isGrippingProperty = RequireProperty(characterType, "IsGripping");
 
             gripAction = Enum.Parse(actionField.FieldType, "Grip");
             FieldInfo gripTypeField = RequireField(characterType, "mGripType");
@@ -115,6 +127,19 @@ namespace Magicka.CommunityPatch.Runtime
             throw new MissingFieldException(type.FullName, name);
         }
 
+        private static PropertyInfo RequireProperty(Type type, string name)
+        {
+            for (Type current = type; current != null; current = current.BaseType)
+            {
+                PropertyInfo property = current.GetProperty(name,
+                    BindingFlags.Instance | BindingFlags.Public |
+                    BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+                if (property != null)
+                    return property;
+            }
+            throw new MissingMemberException(type.FullName, name);
+        }
+
         public static bool Prefix(object character, object message)
         {
             if (character == null || message == null ||
@@ -124,13 +149,21 @@ namespace Magicka.CommunityPatch.Runtime
             IList instances = instancesField.GetValue(null) as IList;
             int handle = Convert.ToInt32(targetHandleField.GetValue(message));
             if (instances == null || handle < 0 || handle >= instances.Count)
-                return false;
+                return Reject("target_character_not_found", handle);
             object target = instances[handle];
             if (target == null || !characterType.IsInstanceOfType(target))
-                return false;
-            if (bodyField.GetValue(character) == null ||
-                bodyField.GetValue(target) == null)
-                return false;
+                return Reject("target_character_not_found", handle);
+            if (bodyField.GetValue(character) == null)
+                return Reject("actor_body_missing", handle);
+            if (bodyField.GetValue(target) == null)
+                return Reject("target_body_missing", handle);
+            if ((bool)isGrippedProperty.GetValue(target, null) &&
+                (bool)gripperAttachedProperty.GetValue(target, null) &&
+                gripperProperty.GetValue(target, null) == null)
+                return Reject("target_gripper_missing", handle);
+            if ((bool)isGrippingProperty.GetValue(target, null) &&
+                grippedCharacterField.GetValue(target) == null)
+                return Reject("target_gripped_character_missing", handle);
 
             int jointIndex = Convert.ToInt32(jointIndexField.GetValue(message));
             if (jointIndex < 0)
@@ -140,16 +173,28 @@ namespace Magicka.CommunityPatch.Runtime
             object controller = animationControllerField.GetValue(
                 gripType == pickupGripType ? character : target);
             if (controller == null)
-                return false;
+                return Reject(gripType == pickupGripType
+                    ? "actor_animation_controller_missing"
+                    : "target_animation_controller_missing", handle);
             object skeleton = skeletonProperty.GetValue(controller, null);
             if (skeleton == null)
-                return false;
+                return Reject("skeleton_missing", handle);
             int count = (int)skeletonCountProperty.GetValue(skeleton, null);
             if (jointIndex >= count)
-                return false;
-            return skeletonItemProperty.GetValue(
-                skeleton,
-                new object[] { jointIndex }) != null;
+                return Reject("joint_index_out_of_range", handle);
+            if (skeletonItemProperty.GetValue(
+                skeleton, new object[] { jointIndex }) == null)
+                return Reject("skeleton_bone_missing", handle);
+            return true;
+        }
+
+        private static bool Reject(string reason, int targetHandle)
+        {
+            RuntimePatchTelemetry.SendNetworkGuardDrop(
+                "client", "CharacterActionMessage.Grip",
+                String.Empty, String.Empty, reason,
+                "targetHandle=" + targetHandle);
+            return false;
         }
     }
 }

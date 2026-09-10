@@ -2944,7 +2944,7 @@ Versionsnachweis.
   ebenfalls verbunden. Die beiden Network-PlayState-Wait- sowie der
   Avatar-Dispose-Sender haben in der manuellen Assembly keine Aufrufer und
   ändern kein Laufzeitverhalten.
-- [ ] `Magicka/GameLogic/Entities/Character.cs` — TEILWEISE: Initialisierung,
+- [x] `Magicka/GameLogic/Entities/Character.cs` — VOLLSTÄNDIG: Initialisierung,
   Crossfade und ForceAnimation behandeln fehlende Animationsaktionen und
   fehlende Idle-Clips; `CastSpell` überspringt nur die optionale
   Elementstatistik bei gelöstem Gamer. Der finale Levelabbau gibt außerdem den
@@ -2953,7 +2953,9 @@ Versionsnachweis.
   einschließlich des GameScene-Wiederherstellungspfads und der schwach über
   `Deinitialize` erhaltenen Template-ID, ist migriert. Der NetworkClient stellt
   das Template vor `Character.NetworkAction` wieder her oder verwirft die
-  Aktion kontrolliert. Telemetrie und Diagnoseänderungen sind noch offen.
+  Aktion kontrolliert. Sämtliche verworfenen Grip-Zustände verwenden die
+  stabilen, begrenzten Reason-Codes aus 0.0.60; inkonsistente Gripper- und
+  GrippedCharacter-Zustände werden vor jeder Mutation verworfen.
 - [x] `Magicka/GameLogic/Spells/SpellEffects/ProjectileSpell.cs` —
   VOLLSTÄNDIG: Leerpool-Recovery, aktuelle PlayState-Zugriffe und statische
   Poolfreigabe sind migriert. `SpawnMissile` verwirft Owner ohne PlayState oder
