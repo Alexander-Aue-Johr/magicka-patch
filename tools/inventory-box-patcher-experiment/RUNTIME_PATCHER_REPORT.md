@@ -2806,14 +2806,16 @@ Versionsnachweis.
   levelgebundene Pickable-Queue wird beim Levelabbau freigegeben; Weapon-Cache,
   individuelle Dispose-Änderungen und Diagnostik bleiben offen.
 - [ ] `Magicka/SharedContentManager.cs`
-- [ ] `Magicka/GameLogic/UI/Tome.cs` — TEILWEISE: `DrawShadows` leert nun
+- [x] `Magicka/GameLogic/UI/Tome.cs` — VOLLSTÄNDIG: `DrawShadows` leert nun
   Target und DepthBuffer wie 0.0.60. Die Versionsanzeige besitzt ebenfalls die
   512-Zeichen-Kapazität, den gemeinsamen Patch-/Update-Text und das sichere
   Modified-Suffix. Die exakt gemessene Unterstützer-Hitbox und ihr Popup sind
   ebenfalls migriert. Sprachwechsel aktualisieren nun auch die drei
   Account-Widgets, ohne die bestehende Versionsaktualisierung zu verändern.
-  Die übrigen tatsächlichen Menüänderungen bleiben offen; verschobene statische
-  Initialisierer, Literale und lokale Umschreibungen sind Compilerrauschen.
+  Die Renderkanal-Lebensdauerentscheidung schützt außerdem den verzögerten
+  Character-Select-Unload. Die übrigen Unterschiede bei Zuweisungen,
+  Switches, statischen Initialisierern, Literalen und lokalen Variablen sind
+  Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Avatar.cs` — TEILWEISE: `FindInteractable`
   sowie die Guards gegen verspätete Pickup-Aktionen sind migriert; die übrigen
   manuellen Änderungen dieser großen Klasse sind noch offen.

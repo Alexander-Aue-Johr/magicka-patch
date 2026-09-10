@@ -482,6 +482,7 @@ namespace Magicka.CommunityPatch.Runtime
                 targetAssembly,
                 PackLicensePatch.CharacterSelectDrawDefinition);
             CharacterSelectWidgetTexturePatchPlan.ApplyTo(targetAssembly);
+            CharacterSelectContentUnloadPatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 AmbientAudioLocatorPatch.Definition);

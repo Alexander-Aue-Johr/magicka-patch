@@ -203,6 +203,10 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        CharacterSelectContentUnloadScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         AmbientAudioLocatorScenarios.Run(
             magicka,
             runtimePatchEnabled,

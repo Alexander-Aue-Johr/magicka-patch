@@ -195,6 +195,8 @@ function Test-BehaviorMatrix {
         "tome_supporters.hook",
         "tome_supporters.hitbox",
         "tome_language.account_widgets",
+        "character_select_unload.render_lifetime",
+        "character_select_unload.adjacent_transition",
         "original_backup_audit.available",
         "original_backup_audit.missing",
         "original_backup_audit.unverified",
@@ -606,6 +608,9 @@ function Test-BehaviorMatrix {
         "tome_supporters.hitbox",
         "tome_language.account_widgets",
         "tome_language.version_dirty",
+        "character_select_unload.render_lifetime",
+        "character_select_unload.adjacent_transition",
+        "character_select_unload.unrelated_menu",
         "payload_contract.compatible_pair",
         "payload_contract.rejects_missing_pair",
         "ui_render.activation",
@@ -691,6 +696,8 @@ function Test-BehaviorProfile(
             "tome_version.complete_label",
             "tome_version.single_edit",
             "tome_language.account_widgets",
+            "character_select_unload.render_lifetime",
+            "character_select_unload.adjacent_transition",
             "game_scene.current_play_state",
             "game_scene.menu_controller_reset",
             "game_scene.light_update_current_state",
@@ -1039,6 +1046,9 @@ function Test-BehaviorProfile(
         "tome_supporters.hitbox",
         "tome_language.account_widgets",
         "tome_language.version_dirty",
+        "character_select_unload.render_lifetime",
+        "character_select_unload.adjacent_transition",
+        "character_select_unload.unrelated_menu",
         "level_current_state.read_sites",
         "level_current_state.read_count_preserved",
         "ui_render.activation",
@@ -1990,7 +2000,8 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Tome Community Patch version label" -or
         $auditLines -notcontains "patch_end=Tome supporter credits interaction" -or
         $auditLines -notcontains "patch_end=Tome account-widget language refresh" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 86 -or
+        $auditLines -notcontains "patch_end=Character-select render-safe content unload" -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 87 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 21 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 432) {
         throw "The runtime audit does not contain all registered Harmony patches."
@@ -2007,7 +2018,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=539")
+    $summary.Add("implemented_patches=540")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
