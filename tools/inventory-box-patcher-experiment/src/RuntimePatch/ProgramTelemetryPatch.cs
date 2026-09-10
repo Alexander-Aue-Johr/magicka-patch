@@ -86,12 +86,19 @@ namespace Magicka.CommunityPatch.Runtime
             if (shutdown < 0)
                 throw new InvalidOperationException(
                     "Steam shutdown call was not found.");
-            result.Insert(
+            result.InsertRange(
                 shutdown + 1,
-                new CodeInstruction(
-                    OpCodes.Call,
-                    typeof(RuntimePatchTelemetry).GetMethod(
-                        "SendGameClosedNormally")));
+                new CodeInstruction[]
+                {
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(RuntimePatchTelemetry).GetMethod(
+                            "SendGameClosedNormally")),
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(RuntimePatchUpdateManager).GetMethod(
+                            "OfferPendingUpdateAfterGameExit"))
+                });
             return result;
         }
 
@@ -143,6 +150,10 @@ namespace Magicka.CommunityPatch.Runtime
                 OpCodes.Call,
                 typeof(RuntimePatchTelemetry).GetMethod(
                     "SendCrashFromReportPath")));
+            addition.Add(new CodeInstruction(
+                OpCodes.Call,
+                typeof(RuntimePatchUpdateManager).GetMethod(
+                    "OfferPendingUpdateAfterCrash")));
             result.InsertRange(dispose + 1, addition);
             return result;
         }

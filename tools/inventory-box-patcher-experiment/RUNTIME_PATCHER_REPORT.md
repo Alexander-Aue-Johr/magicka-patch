@@ -2893,7 +2893,14 @@ Versionsnachweis.
   Animationsaktionen ohne auflösbaren Clip werden nicht gespeichert. Beide
   Template-Lookups werden ohne vorzeitige Freigabe gemeinsam besessener Assets
   geleert; weitere Lese-, Reload- und Diagnostikänderungen sind noch offen.
-- [ ] `Magicka/CommunityPatch/PatchUpdateManager.cs`
+- [x] `Magicka/CommunityPatch/PatchUpdateManager.cs` — VOLLSTÄNDIG:
+  Hintergrundprüfung, Release-Asset-Parser, Versionsvergleich, Download,
+  Pending-/Skip-Zustand und Tool-Handoff entsprechen 0.0.60. Bootstrap startet
+  höchstens eine Prüfung, normales Ende zeigt das Drei-Wege-Angebot und der
+  Crashpfad startet den entkoppelten Angebotsmodus. Zwei Drei-Wege-Szenarien
+  prüfen Parser und Versionsentscheidungen ohne Netzwerk-, Dialog- oder
+  Prozessseiteneffekte; 31 geänderte konkrete Methoden JITten unter CLR 2 und
+  Mono ohne Skip.
 - [ ] `Magicka/CommunityPatch/NetworkLifecycleCompatibility.cs` — TEILWEISE:
   TriggerAction-Absender- und Lifecycle-Regeln sind migriert; Telemetrie und
   weitere Netzwerkhelfer bleiben offen.
@@ -3016,7 +3023,8 @@ Versionsnachweis.
   geschützt. Die beiden gezielten Hinweise für XNA-Adapter- und
   Grafikgerätefehler in `WriteReport` sind ebenfalls migriert. Crash- und
   Normal-Close-Telemetrie einschließlich des zwischengespeicherten
-  Laufzeitkontexts sind migriert. Payload- und weitere
+  Laufzeitkontexts sowie Updateprüfung und Pending-Update-Handoff an allen drei
+  Lebenszykluspunkten sind migriert. Payload- und weitere
   Fehlerberichtänderungen bleiben offen.
 - [x] `Magicka/GameLogic/Entities/AnimatedPhysicsEntity.cs` — VOLLSTÄNDIG:
   Crossfade und ForceAnimation verwenden Idle nur dann als Ersatz, wenn dessen

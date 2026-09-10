@@ -387,6 +387,10 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        RuntimePatchUpdateScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         WarlordAbilityDiagnosticScenarios.Run(
             magicka,
             runtimePatchEnabled,

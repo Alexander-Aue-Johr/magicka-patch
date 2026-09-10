@@ -29,6 +29,7 @@ namespace Magicka.CommunityPatch.Runtime
                 SystemLibraryPreload.PreloadSystemLibraries();
                 RuntimePayloadContract.EnsureCompatible(targetAssembly);
                 RuntimePatchPlan.ApplyTo(targetAssembly);
+                RuntimePatchUpdateManager.CheckForUpdatesInBackground();
                 RuntimePatchTelemetry.SendStartup();
             }
             catch (Exception exception)
