@@ -200,6 +200,11 @@ function Test-BehaviorMatrix {
         "steam_api.absolute_path",
         "steam_api.accessible_preflight",
         "steam_api.bootstrap_order",
+        "item_weapon_cache.first_registration",
+        "item_weapon_cache.missing_returns_null",
+        "item_weapon_cache.asset_name",
+        "item_weapon_cache.conditional_release",
+        "item_weapon_cache.lookup_routes",
         "original_backup_audit.available",
         "original_backup_audit.missing",
         "original_backup_audit.unverified",
@@ -704,6 +709,11 @@ function Test-BehaviorProfile(
             "steam_api.absolute_path",
             "steam_api.accessible_preflight",
             "steam_api.bootstrap_order",
+            "item_weapon_cache.first_registration",
+            "item_weapon_cache.missing_returns_null",
+            "item_weapon_cache.asset_name",
+            "item_weapon_cache.conditional_release",
+            "item_weapon_cache.lookup_routes",
             "game_scene.current_play_state",
             "game_scene.menu_controller_reset",
             "game_scene.light_update_current_state",
@@ -1058,6 +1068,11 @@ function Test-BehaviorProfile(
         "steam_api.absolute_path",
         "steam_api.accessible_preflight",
         "steam_api.bootstrap_order",
+        "item_weapon_cache.first_registration",
+        "item_weapon_cache.missing_returns_null",
+        "item_weapon_cache.asset_name",
+        "item_weapon_cache.conditional_release",
+        "item_weapon_cache.lookup_routes",
         "level_current_state.read_sites",
         "level_current_state.read_count_preserved",
         "ui_render.activation",
@@ -2010,8 +2025,14 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Tome supporter credits interaction" -or
         $auditLines -notcontains "patch_end=Tome account-widget language refresh" -or
         $auditLines -notcontains "patch_end=Character-select render-safe content unload" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 87 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 21 -or
+        $auditLines -notcontains "patch_end=Item weapon asset-name registration" -or
+        $auditLines -notcontains "patch_end=Item weapon first-registration cache" -or
+        $auditLines -notcontains "patch_end=Item weapon lazy cache restore" -or
+        $auditLines -notcontains "patch_end=Item weapon lazy cache query" -or
+        $auditLines -notcontains "patch_end=Item weapon lazy cache copy" -or
+        $auditLines -notcontains "patch_end=Item weapon content release" -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 91 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 23 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 432) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
@@ -2027,7 +2048,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=540")
+    $summary.Add("implemented_patches=546")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

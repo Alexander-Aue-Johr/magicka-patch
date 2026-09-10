@@ -2802,9 +2802,15 @@ Versionsnachweis.
   Parser statt einer separaten Teilimplementierung. Drei Drei-Wege-Szenarien
   prüfen Verfügbarkeit, Defaults und einen isolierten Load/Save-Roundtrip;
   20 geänderte konkrete Methoden JITten unter CLR 2 und Mono ohne Skip.
-- [ ] `Magicka/GameLogic/Entities/Items/Item.cs` — TEILWEISE: die
-  levelgebundene Pickable-Queue wird beim Levelabbau freigegeben; Weapon-Cache,
-  individuelle Dispose-Änderungen und Diagnostik bleiben offen.
+- [x] `Magicka/GameLogic/Entities/Items/Item.cs` — VOLLSTÄNDIG: die
+  levelgebundene Pickable-Queue wird beim Levelabbau freigegeben. Der
+  Weapon-Cache bewahrt nun die erste Registrierung, merkt sich den Assetpfad,
+  entfernt beim Content-Unload ausschließlich die aktuell referenzierte
+  Instanz und lädt sie bei Bedarf über den aktuellen PlayState neu. Da Harmony
+  keine neue virtuelle `Item.Dispose`-Methode ergänzen kann, erfolgt die
+  äquivalente Freigabe an den vorhandenen Content- und Entity-Abbaupunkten.
+  RetentionRegistry-Aufrufe bleiben bewusst reine Testdiagnostik und gehören
+  nicht in den Runtime-Patcher.
 - [ ] `Magicka/SharedContentManager.cs`
 - [x] `Magicka/GameLogic/UI/Tome.cs` — VOLLSTÄNDIG: `DrawShadows` leert nun
   Target und DepthBuffer wie 0.0.60. Die Versionsanzeige besitzt ebenfalls die

@@ -838,6 +838,8 @@ namespace Magicka.CommunityPatch.Runtime
             if (entity == null || bodyField == null || collisionField == null)
                 return;
 
+            ItemWeaponCachePatch.RemoveIfCurrent(entity);
+
             object body = bodyField.GetValue(entity);
             object collision = collisionField.GetValue(entity);
             if (body != null)
