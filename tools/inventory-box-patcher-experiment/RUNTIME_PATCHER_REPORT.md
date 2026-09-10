@@ -2938,15 +2938,23 @@ Versionsnachweis.
   fehlende und nicht verifizierte Kandidaten; 16 geänderte konkrete Methoden
   JITten unter CLR 2 und Mono ohne Skip.
 - [ ] `Magicka/CommunityPatch/Magicka2ControllerSupport.cs`
-- [ ] `Magicka/GameLogic/Entities/CharacterTemplate.cs` — TEILWEISE:
+- [x] `Magicka/GameLogic/Entities/CharacterTemplate.cs` — VOLLSTÄNDIG:
   Animationsaktionen ohne auflösbaren Clip werden nicht gespeichert. Beide
   Template-Lookups werden ohne vorzeitige Freigabe gemeinsam besessener Assets
   geleert. `Read` merkt den Assetnamen jedes geladenen Templates; ein späterer
   benannter Cache-Miss lädt es nur über einen verfügbaren aktuellen PlayState
   nach und liefert während des Übergangs kontrolliert `null`. Vier
   Drei-Wege-Szenarien prüfen benannten Miss, fehlenden Content-Owner, Cache-Hit
-  und unbekannte ID. Die aktive Avatar-Vorauswahl und ihr separater Lazy-Lookup
-  sowie die verbleibenden Diagnostikänderungen sind noch offen.
+  und unbekannte ID. Die Avatarinitialisierung lädt nur die unterschiedlichen
+  Vorlagen aktiver Spieler; der separate Lookup lädt sicher über den aktuellen
+  Content-Owner nach. Drei weitere Szenarien prüfen die aktive Auswahl, den
+  Lazy-Lookup und leere Players-Slots. Die manuelle `IDisposable`-Form wird
+  nicht in die Originalklasse eingebaut: der gemeinsame Content-Patch erfasst
+  die beim Lesen erzeugten `IDisposable`-Ressourcen und gibt sie erst bei
+  Referenzzähler null frei, während die Cache-Patches anschließend alle
+  Templatehalter lösen. RetentionRegistry und Finalizer-Ausgabe sind reine
+  Diagnostik; statische Initialisierer und lokale Umformungen sind
+  Rekompilierungsnoise.
 - [x] `Magicka/CommunityPatch/PatchUpdateManager.cs` — VOLLSTÄNDIG:
   Hintergrundprüfung, Release-Asset-Parser, Versionsvergleich, Download,
   Pending-/Skip-Zustand und Tool-Handoff entsprechen 0.0.60. Bootstrap startet

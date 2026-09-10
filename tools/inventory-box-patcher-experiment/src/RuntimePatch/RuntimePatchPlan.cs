@@ -778,6 +778,7 @@ namespace Magicka.CommunityPatch.Runtime
             PhysicsEntityTemplateCachePatchPlan.ApplyTo(targetAssembly);
             CharacterTemplateCachePatchPlan.ApplyTo(targetAssembly);
             CharacterTemplateLookupPatchPlan.ApplyTo(targetAssembly);
+            CharacterAvatarTemplatePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 JudgementSprayConditionCachePatch.Definition);
