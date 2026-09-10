@@ -2794,7 +2794,9 @@ Versionsnachweis.
   und Gerätehandler bilden die nicht exklusive Fullscreen-Präsentation ab,
   `Update(GameTime)` korrigiert TopMost und der Konstruktor überspringt nicht
   verfügbare ProcessThread-Einträge. Die High-Resolution-UI-Aktivierung in
-  `Draw` ist ebenfalls migriert. Weitere manuelle Änderungen der Klasse sind
+  `Draw` ist ebenfalls migriert. Die drei überholten GameSparks-Aufrufe in
+  `Initialize`, `Update(float)` und `EndRun` entfallen, während der benachbarte
+  Paradox-Dienst erhalten bleibt. Weitere manuelle Änderungen der Klasse sind
   noch offen.
 - [x] `Magicka/CommunityPatch/PayloadContract.cs` — VOLLSTÄNDIG: Der Bootstrap
   prüft für 1.10 vor jeder Harmony-Registrierung denselben konstanten

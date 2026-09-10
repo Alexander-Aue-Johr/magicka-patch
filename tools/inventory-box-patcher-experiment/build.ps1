@@ -615,7 +615,10 @@ function Test-BehaviorMatrix {
         "meteor_shower.owner_current_play_state",
         "meteor_shower.active_release",
         "meteor_shower.stop_failure_release",
-        "meteor_shower.already_stopping_release"
+        "meteor_shower.already_stopping_release",
+        "gamesparks.initialize_removed",
+        "gamesparks.update_removed",
+        "gamesparks.end_run_removed"
     )
     $playStateNotAvailable = @(
         "play_state.ordinary_message",
@@ -647,6 +650,10 @@ function Test-BehaviorMatrix {
         "level_transition.animated",
         "level_transition.load_before_publish",
         "level_transition.control_flow",
+        "gamesparks.initialize_removed",
+        "gamesparks.update_removed",
+        "gamesparks.end_run_removed",
+        "gamesparks.paradox_preserved",
         "entity_manager_state.retention",
         "entity_manager_state.cache_state",
         "damageable_deinitialize.gib_release",
@@ -2089,10 +2096,13 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Level serialized scene transition" -or
         $auditLines -notcontains "patch_end=Level serialized transition finish" -or
         $auditLines -notcontains "patch_end=Level load before scene publication" -or
+        $auditLines -notcontains "patch_end=GameSparks retirement initialize" -or
+        $auditLines -notcontains "patch_end=GameSparks retirement update" -or
+        $auditLines -notcontains "patch_end=GameSparks retirement end run" -or
         @($auditLines | Where-Object { $_ -like "patch_end=Shared content disposable ownership:*" }).Count -ne 13 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 109 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 24 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 439) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 442) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -2107,7 +2117,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=572")
+    $summary.Add("implemented_patches=575")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

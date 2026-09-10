@@ -118,6 +118,7 @@ namespace Magicka.CommunityPatch.Runtime
             SharedContentLifetimePatchPlan.ApplyTo(targetAssembly);
             InGameMenuScalePatchPlan.ApplyTo(targetAssembly);
             LevelSceneTransitionPatchPlan.ApplyTo(targetAssembly);
+            GameSparksRetirementPatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 TutorialManagerPlayStatePatch.InitializeDefinition);
