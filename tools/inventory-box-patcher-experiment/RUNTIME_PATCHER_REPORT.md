@@ -2789,15 +2789,19 @@ Versionsnachweis.
   privaten Startpfad, vier Update-Zugriffe und die ausfallsichere
   `OnRemove`-Bereinigung; 4 Transpiler, 1 Prefix und 6 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SummonZombie.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, zwei Start- und vier Update-Zugriffe sowie Pool- und Template-Freigabe; 4 Transpiler und 4 eigene Drei-Wege-Szenarien. RetentionRegistry-Aufrufe folgen gesammelt im Diagnostics-Block, die statischen Initialisierer sind Compilerrauschen.
-- [ ] `Magicka/Game.cs` — TEILWEISE: `EndRun` gibt die Paradox-Kontodaten nach
+- [x] `Magicka/Game.cs` — VOLLSTÄNDIG: `EndRun` gibt die Paradox-Kontodaten nach
   dem Dienstabbau frei, `Draw` skaliert randlose Mauskoordinaten, Konstruktor
   und Gerätehandler bilden die nicht exklusive Fullscreen-Präsentation ab,
   `Update(GameTime)` korrigiert TopMost und der Konstruktor überspringt nicht
   verfügbare ProcessThread-Einträge. Die High-Resolution-UI-Aktivierung in
   `Draw` ist ebenfalls migriert. Die drei überholten GameSparks-Aufrufe in
   `Initialize`, `Update(float)` und `EndRun` entfallen, während der benachbarte
-  Paradox-Dienst erhalten bleibt. Weitere manuelle Änderungen der Klasse sind
-  noch offen.
+  Paradox-Dienst erhalten bleibt. `LoadContent` legt die optionalen
+  `RenderDeferredEffect`- und `EntangleEffect`-Instanzen nicht mehr vorzeitig
+  an; die vier benachbarten benötigten Effektregistrierungen bleiben erhalten.
+  `AwaitDisabledRendering` ist als typunabhängiger Runtime-Helfer im
+  Szenenübergang umgesetzt. Die verbleibende statische Initialisiererdarstellung
+  und die zusätzlichen Using-Direktiven ändern kein Laufzeitverhalten.
 - [x] `Magicka/CommunityPatch/PayloadContract.cs` — VOLLSTÄNDIG: Der Bootstrap
   prüft für 1.10 vor jeder Harmony-Registrierung denselben konstanten
   PolygonHead-Payloadmarker sowie die vollständigen öffentlichen `Begin`- und

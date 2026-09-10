@@ -618,7 +618,8 @@ function Test-BehaviorMatrix {
         "meteor_shower.already_stopping_release",
         "gamesparks.initialize_removed",
         "gamesparks.update_removed",
-        "gamesparks.end_run_removed"
+        "gamesparks.end_run_removed",
+        "game_effects.optional_removed"
     )
     $playStateNotAvailable = @(
         "play_state.ordinary_message",
@@ -654,6 +655,8 @@ function Test-BehaviorMatrix {
         "gamesparks.update_removed",
         "gamesparks.end_run_removed",
         "gamesparks.paradox_preserved",
+        "game_effects.optional_removed",
+        "game_effects.required_preserved",
         "entity_manager_state.retention",
         "entity_manager_state.cache_state",
         "damageable_deinitialize.gib_release",
@@ -2099,10 +2102,11 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=GameSparks retirement initialize" -or
         $auditLines -notcontains "patch_end=GameSparks retirement update" -or
         $auditLines -notcontains "patch_end=GameSparks retirement end run" -or
+        $auditLines -notcontains "patch_end=Game optional render effects" -or
         @($auditLines | Where-Object { $_ -like "patch_end=Shared content disposable ownership:*" }).Count -ne 13 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 109 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 24 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 442) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 443) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -2117,7 +2121,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=575")
+    $summary.Add("implemented_patches=576")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

@@ -58,6 +58,10 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        GameOptionalEffectScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         TomeShadowMapClearScenarios.Run(
             magicka,
             runtimePatchEnabled,
