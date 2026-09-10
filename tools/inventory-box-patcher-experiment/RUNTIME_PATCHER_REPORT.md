@@ -2882,7 +2882,7 @@ Versionsnachweis.
   `GibCache`. Ein Prefix und 2 Drei-Wege-Szenarien ergänzen die bereits
   migrierte Pool-Recovery. RetentionRegistry-Aufrufe und die Darstellung der
   statischen Initialisierer sind Diagnostik beziehungsweise Compilerrauschen.
-- [ ] `Magicka/GameLogic/Entities/MissileEntity.cs` — TEILWEISE: ungültige
+- [x] `Magicka/GameLogic/Entities/MissileEntity.cs` — VOLLSTÄNDIG: ungültige
   Netzwerkereignisse für unvollständige Projektile und verschwundene Ziele
   werden vor der Originalmethode verworfen; verbrauchte Kollisionsprojektile
   ohne Ziel werden über `Kill()` entfernt. Die Initialisierung führt das
@@ -2891,7 +2891,11 @@ Versionsnachweis.
   Beide ausgehenden EventMessage-Konstruktionen initialisieren einen fehlenden
   Zielhandle ausdrücklich mit `ushort.MaxValue`; ein vorhandenes Ziel
   überschreibt diesen Wert weiterhin.
-  Cache-Cleanup-, Telemetrie- und weitere Lebensdaueränderungen bleiben offen.
+  `Deinitialize` löst Owner, Ziel und Kollisionsziel. Der statische Missile-Pool
+  wird nach dem vorhandenen Entity-/Ressourcenabbau am Levelende freigegeben;
+  das explizite Leeren der Renderfelder aus dem manuellen `Dispose` ist danach
+  für Erreichbarkeit und GPU-Lebensdauer redundant. Die übrigen Unterschiede
+  sind RetentionRegistry- und Netzwerkdiagnostik.
 - [x] `Magicka/GameLogic/Controls/XInputController.cs` — VOLLSTÄNDIG: Die
   bereits migrierte Magicka-2-Steuerung bleibt unverändert; nach der zweiten
   erfolgreichen `HandleCombo`-Übergabe wird genau eine Controllerauswahl

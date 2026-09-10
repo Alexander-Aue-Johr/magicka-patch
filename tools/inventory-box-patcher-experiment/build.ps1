@@ -603,6 +603,8 @@ function Test-BehaviorMatrix {
         "missile_condition_init.null_input",
         "missile_event_target.update_sentinel",
         "missile_event_target.collision_sentinel",
+        "missile_lifetime.deinitialize_references",
+        "missile_lifetime.level_cache",
         "judgement_spray.empty_condition_cache",
         "blizzard_cleanup.active_release",
         "blizzard_cleanup.stop_failure_release",
@@ -720,6 +722,8 @@ function Test-BehaviorMatrix {
         "missile_condition_init.single_default_call",
         "missile_event_target.update_sentinel",
         "missile_event_target.collision_sentinel",
+        "missile_lifetime.deinitialize_references",
+        "missile_lifetime.level_cache",
         "spell_mine.animated_part_release"
     )
     $matrix = New-Object System.Collections.Generic.List[string]
@@ -1691,6 +1695,8 @@ function Test-BehaviorProfile(
         "character_select_offline_leave.priority_control",
         "missile_event_target.update_sentinel",
         "missile_event_target.collision_sentinel",
+        "missile_lifetime.deinitialize_references",
+        "missile_lifetime.level_cache",
         "judgement_spray.empty_condition_cache",
         "judgement_spray.cached_condition_identity",
         "blizzard_cleanup.active_release",
@@ -2181,10 +2187,11 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Character-select last offline player leave" -or
         @($auditLines | Where-Object { $_ -like "patch_end=Shared content disposable ownership:*" }).Count -ne 13 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 120 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 28 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 29 -or
         $auditLines -notcontains "patch_end=Missile initialized condition collection" -or
         $auditLines -notcontains "patch_end=Missile update empty target sentinel" -or
         $auditLines -notcontains "patch_end=Missile collision empty target sentinel" -or
+        $auditLines -notcontains "patch_end=Missile deinitialize reference release" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 447) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
@@ -2200,7 +2207,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=595")
+    $summary.Add("implemented_patches=596")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

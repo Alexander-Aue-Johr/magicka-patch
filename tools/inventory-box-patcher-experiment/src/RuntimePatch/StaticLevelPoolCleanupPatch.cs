@@ -41,6 +41,7 @@ namespace Magicka.CommunityPatch.Runtime
             Pool("Magicka.GameLogic.Spells.SpellEffects.ShieldSpell", "sCache"),
             Pool("Magicka.GameLogic.Entities.SpellMine", "sCache"),
             Pool("Magicka.GameLogic.Entities.TeslaField", "sCache"),
+            Pool("Magicka.GameLogic.Entities.MissileEntity", "sCache"),
             Pool("Magicka.GameLogic.Entities.Shield", "mCache"),
             Pool("Magicka.GameLogic.Entities.Abilities.SpecialAbilities.WaveEntity", "mWaveCache"),
             Pool("Magicka.GameLogic.Entities.SprayEntity", "sCache"),
