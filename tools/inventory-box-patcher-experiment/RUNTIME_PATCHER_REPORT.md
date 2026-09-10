@@ -697,6 +697,18 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile liefern `depth,clear`.
   - Die Zusammenfassung der beiden lokalen `DirectoryInfo`-Anweisungen in
     `Initialize` ist semantikfreies Compilerrauschen und wird nicht übernommen.
+- [x] `tome-shadow-map-depth-clear`
+  - Ziel: `Tome.RenderData.DrawShadows()`.
+  - Technik: Ein Transpiler ersetzt genau den einen
+    `GraphicsDevice.Clear(Color)`-Aufruf durch die vorhandene vollständige
+    Überladung und fügt ausschließlich Flags, Tiefe und Stencilwert hinzu.
+  - Verhalten: Jeder Shadow-Map-Pass leert Target und DepthBuffer mit Weiß,
+    Tiefe 1 und Stencil 0. Renderzustände, Matrizen und Modellreihenfolge
+    bleiben unverändert.
+  - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 leeren nur das Target. Die manuelle
+    Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile leeren Target und
+    DepthBuffer. Der Kontrolltest bestätigt in allen Profilen genau einen
+    Clear-Aufruf.
 - [x] `hud-manager-original-hud-enable`
   - Ziel: `HUDManager.Initialise()`
   - Technik: Postfix
@@ -2788,7 +2800,11 @@ Versionsnachweis.
   levelgebundene Pickable-Queue wird beim Levelabbau freigegeben; Weapon-Cache,
   individuelle Dispose-Änderungen und Diagnostik bleiben offen.
 - [ ] `Magicka/SharedContentManager.cs`
-- [ ] `Magicka/GameLogic/UI/Tome.cs`
+- [ ] `Magicka/GameLogic/UI/Tome.cs` — TEILWEISE: `DrawShadows` leert nun
+  Target und DepthBuffer wie 0.0.60. Die vergrößerte Versionsanzeige und ihre
+  sichere Patch-Versions-/Modified-Erweiterung bleiben offen. Alle übrigen
+  sichtbaren Initialisierer-, Literal- und lokalen Umschreibungen sind
+  semantikfreies Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Avatar.cs` — TEILWEISE: `FindInteractable`
   sowie die Guards gegen verspätete Pickup-Aktionen sind migriert; die übrigen
   manuellen Änderungen dieser großen Klasse sind noch offen.

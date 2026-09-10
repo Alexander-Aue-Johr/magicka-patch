@@ -105,6 +105,9 @@ namespace Magicka.CommunityPatch.Runtime
             HighResolutionUiRenderPatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                TomeShadowMapClearPatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 TutorialManagerPlayStatePatch.InitializeDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,

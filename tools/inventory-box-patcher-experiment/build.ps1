@@ -189,6 +189,7 @@ function Test-BehaviorMatrix {
         "ui_render.notifier_restoration",
         "ui_render.screen_size",
         "level_current_state.read_sites",
+        "tome_shadow.depth_clear",
         "avatar_interactable.missing_play_state",
         "avatar_interactable.missing_level",
         "avatar_interactable.missing_scene",
@@ -659,6 +660,7 @@ function Test-BehaviorProfile(
         $profile -eq "1.5.1.0-original") {
         $expectedFailures = @($expectedFailures) + @(
             "level_current_state.read_sites",
+            "tome_shadow.depth_clear",
             "game_scene.current_play_state",
             "game_scene.menu_controller_reset",
             "game_scene.light_update_current_state",
@@ -990,6 +992,8 @@ function Test-BehaviorProfile(
     $matrix.Add("profile=$profile|assembly=$assemblyName|sha256=$sha256|mode=$mode")
 
     $scenarioNames = @(
+        "tome_shadow.depth_clear",
+        "tome_shadow.single_clear",
         "level_current_state.read_sites",
         "level_current_state.read_count_preserved",
         "ui_render.activation",
@@ -1937,9 +1941,10 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Level update current play state" -or
         $auditLines -notcontains "patch_end=Level scene change current play state" -or
         $auditLines -notcontains "patch_end=Level transition clear current play state" -or
+        $auditLines -notcontains "patch_end=Tome shadow-map depth clear" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 85 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 21 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 429) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 430) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1954,7 +1959,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=535")
+    $summary.Add("implemented_patches=536")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
