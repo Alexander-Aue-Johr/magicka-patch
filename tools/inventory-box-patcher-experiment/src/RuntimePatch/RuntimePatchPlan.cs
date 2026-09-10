@@ -21,6 +21,12 @@ namespace Magicka.CommunityPatch.Runtime
                 CharacterNetworkTemplatePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                NetworkEntityUpdateLifecyclePatch.ClientDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                NetworkEntityUpdateLifecyclePatch.ServerDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 AIStateAttackOnExecutePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

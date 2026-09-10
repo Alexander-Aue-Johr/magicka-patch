@@ -2624,7 +2624,10 @@ Versionsnachweis.
   Vier Drei-Wege-Szenarien prüfen Layout-Hooks, Maus-Hooks sowie aktives und
   inaktives Scaling; 19 geänderte konkrete Runtime-Methoden JITten unter CLR 2
   und Mono ohne Skip. Die Änderung ist für 1.4/1.5 nicht anwendbar.
-- [ ] `Magicka/CommunityPatch/NetworkEntityHandleGuard.cs` — TEILWEISE: nur die für `AddWorldSyncMessage` benötigte SpawnNPC-Entscheidung, ohne Übernahme der übrigen manuellen Hilfsklasse.
+- [ ] `Magicka/CommunityPatch/NetworkEntityHandleGuard.cs` — TEILWEISE:
+  SpawnNPC-WorldSync sowie schwache, zentralisierte Resolve-, ResolveActive-,
+  Body- und Lifecycle-Prüfungen sind migriert. Die verbleibenden Aufrufer in
+  den Spawn- und Damage-Paketpfaden sind noch offen.
 - [x] `Magicka/GameLogic/Spells/ArcaneBlast.cs` — VOLLSTÄNDIG: der statische
   Pool wird beim Levelabbau geleert. Alle übrigen Änderungen sind
   RetentionRegistry-Diagnostik, lokale Variablennamen oder eine äquivalente
@@ -2704,7 +2707,10 @@ Versionsnachweis.
   sind mit 4 Transpilern und 4 Drei-Wege-Szenarien migriert.
   RetentionRegistry-Aufrufe sind reine Diagnostik; statische Initialisierer sind
   semantikfreies Compiler- beziehungsweise Decompilerrauschen.
-- [ ] `Magicka/GameLogic/UI/KeyboardHUD.cs` — TEILWEISE: der Safe-Area-Einzug in `RenderData.DrawIcon` ist migriert; die Hybrid-Input-Darstellung und Label-Aktualisierung sind noch offen.
+- [?] `Magicka/GameLogic/UI/KeyboardHUD.cs` — INPUT: der Safe-Area-Einzug ist
+  migriert. Hybrid-Anzeige und Label-Aktualisierung gehören zum unteilbaren
+  Controller-UI-Bündel; die dafür nötige Architekturentscheidung steht bei
+  `InGameMenuOptionsControls`.
 - [x] `Magicka/CommunityPatch/MouseInputCompatibility.cs` — VOLLSTÄNDIG: die
   koordinatengenaue, begrenzte Skalierung für randloses Fullscreen liegt im
   Runtime-Helper und wird typisiert aus `Game.Draw` aufgerufen.
@@ -2855,13 +2861,15 @@ Versionsnachweis.
   Character-Select-Unload. Die übrigen Unterschiede bei Zuweisungen,
   Switches, statischen Initialisierern, Literalen und lokalen Variablen sind
   Compilerrauschen.
-- [ ] `Magicka/GameLogic/Entities/Avatar.cs` — TEILWEISE: `FindInteractable`
+- [?] `Magicka/GameLogic/Entities/Avatar.cs` — INPUT: `FindInteractable`
   sowie die Guards gegen verspätete Pickup-Aktionen sind migriert. Der
   Inventory-Close beim Deinitialisieren toleriert einen bereits gelösten
   PlayState beziehungsweise ein bereits gelöstes Inventory, ohne den übrigen
   Abbau zu überspringen. Poolerweiterung, Cache- und finaler Objektabbau werden
   bereits durch die gemeinsamen Pool-/Handle-Patches abgedeckt. Offen bleibt
-  nur `CommunityPatchClearSpellQueue` aus dem Magicka-2-Controllerblock;
+  nur `CommunityPatchClearSpellQueue` aus dem unteilbaren
+  Magicka-2-Controllerblock; die Architekturentscheidung steht bei
+  `InGameMenuOptionsControls`.
   RetentionRegistry-Aufrufe und lokale Umbenennungen sind Diagnostik
   beziehungsweise Compilerrauschen.
 - [x] `Magicka/GameLogic/GameStates/PlayState.cs` — VOLLSTÄNDIG: `AddWorldSyncMessage`, ShadowBlobs-Lebensdauer, sämtliche fachlich dokumentierten Level-Cleanup-Injektionen, der eingereihte render-sichere `OnExit`-Abbau, der leere Checkpoint-Payload sowie PlayState-/Menü-Telemetriekontext sind migriert. `RetentionRegistry` und zusätzliche erzwungene GC-Aufrufe der manuellen Testassembly sind Diagnostik und kein auszulieferndes Laufzeitverhalten; die übrigen Unterschiede sind Compilerrauschen.
@@ -2902,10 +2910,10 @@ Versionsnachweis.
   das explizite Leeren der Renderfelder aus dem manuellen `Dispose` ist danach
   für Erreichbarkeit und GPU-Lebensdauer redundant. Die übrigen Unterschiede
   sind RetentionRegistry- und Netzwerkdiagnostik.
-- [x] `Magicka/GameLogic/Controls/XInputController.cs` — VOLLSTÄNDIG: Die
-  bereits migrierte Magicka-2-Steuerung bleibt unverändert; nach der zweiten
-  erfolgreichen `HandleCombo`-Übergabe wird genau eine Controllerauswahl
-  gezählt.
+- [?] `Magicka/GameLogic/Controls/XInputController.cs` — INPUT: Root-Menü-B und
+  Elementauswahl-Telemetrie sind migriert. Die Magicka-2-Eingabelogik gehört
+  zum unteilbaren Controller-UI-Bündel; die Architekturentscheidung steht bei
+  `InGameMenuOptionsControls`.
 - [x] `Magicka/Levels/GameScene.cs` — VOLLSTÄNDIG: der ungültige
   Ambient-Audio-Locator wird bei einem internen XACT-Cue-Indexfehler entfernt;
   `PlayState` liefert außerdem den aktuellen statt eines gespeicherten
@@ -2962,17 +2970,21 @@ Versionsnachweis.
   Vorrang. Die übrigen Unterschiede sind Compiler-/Decompilerrauschen.
 - [ ] `Magicka/Network/NetworkClient.cs` — TEILWEISE: verspätete
   `RulesetUpdate`-Pakete werden bei gelöster PlayState-/Szenenkette verworfen;
-  weltverändernde Spawn-Trigger werden nur vom Server angenommen. Weitere
-  Client-, Telemetrie- und Lebensdaueränderungen sind noch offen.
+  weltverändernde Spawn-Trigger werden nur vom Server angenommen. EntityUpdate
+  verwendet nur aktive Handles; CharacterAction stellt ein fehlendes Template
+  kontrolliert wieder her. Weitere Spawn-, Damage-, Telemetrie- und
+  Lebensdaueränderungen sind noch offen.
 - [ ] `Magicka/Network/NetworkServer.cs` — TEILWEISE: alle geschlossenen
   `QueueUDPMessage<T>`-Instanziierungen prüfen einen veralteten Clientindex
   atomar im vorhandenen Listen-Lock; `EnterSync` verwirft unbekannte Sender
   ebenfalls innerhalb des Locks. Cachebare Broadcasts laufen nach dem Einreihen
   für einen synchronisierenden Spieler mit allen weiteren Clients fort. Forced
   Player Status Sync prüft Player-ID und Sender und erstellt vollständige
-  Antworten aus lückenhaften Player-Slots. Weitere Server-, Telemetrie- und
-  Lebensdaueränderungen sind noch offen.
-- [ ] `Magicka/CommunityPatch/HybridInputSupport.cs`
+  Antworten aus lückenhaften Player-Slots. EntityUpdate verwendet nur aktive
+  Handles. Weitere Spawn-, Damage-, Telemetrie- und Lebensdaueränderungen sind
+  noch offen.
+- [?] `Magicka/CommunityPatch/HybridInputSupport.cs` — INPUT: unteilbarer Teil
+  des Controller-UI-Bündels; siehe `InGameMenuOptionsControls`.
 - [x] `Magicka/CommunityPatch/OriginalBackupAudit.cs` — VOLLSTÄNDIG: Das
   Start-Ereignis prüft im asynchronen Worker dieselben Manifest-, Installer-
   und manuell benannten Sicherungskandidaten wie 0.0.60. Der rekursive Scan
@@ -2981,7 +2993,9 @@ Versionsnachweis.
   Steam-Build-4143032-Katalogs. Drei Drei-Wege-Szenarien prüfen Verfügbarkeit,
   fehlende und nicht verifizierte Kandidaten; 16 geänderte konkrete Methoden
   JITten unter CLR 2 und Mono ohne Skip.
-- [ ] `Magicka/CommunityPatch/Magicka2ControllerSupport.cs`
+- [?] `Magicka/CommunityPatch/Magicka2ControllerSupport.cs` — INPUT:
+  unteilbarer Teil des Controller-UI-Bündels; siehe
+  `InGameMenuOptionsControls`.
 - [x] `Magicka/GameLogic/Entities/CharacterTemplate.cs` — VOLLSTÄNDIG:
   Animationsaktionen ohne auflösbaren Clip werden nicht gespeichert. Beide
   Template-Lookups werden ohne vorzeitige Freigabe gemeinsam besessener Assets
@@ -3008,8 +3022,9 @@ Versionsnachweis.
   Prozessseiteneffekte; 31 geänderte konkrete Methoden JITten unter CLR 2 und
   Mono ohne Skip.
 - [ ] `Magicka/CommunityPatch/NetworkLifecycleCompatibility.cs` — TEILWEISE:
-  TriggerAction-Absender- und Lifecycle-Regeln sind migriert; Telemetrie und
-  weitere Netzwerkhelfer bleiben offen.
+  TriggerAction-Absender- und Lifecycle-Regeln, aktive Entity-Auflösung,
+  Forced-Sync, Hotjoin-Fortsetzung, Undead-Zustand und Ruleset-Lifecycle sind
+  migriert. Damage- und Spawn-Helfer bleiben offen.
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCutscene.cs`
 - [x] `Magicka/CommunityPatch/RuntimeCompatibilityGuards.cs` — VOLLSTÄNDIG:
   DirectInput-Ausfallerkennung und verzögerte Warnung, Versionszeilen- und
@@ -3097,7 +3112,14 @@ Versionsnachweis.
   Fairies sowie nur über Avatar oder NPC erreichbare inaktive Instanzen; ein
   Prefix und 3 Drei-Wege-Szenarien. Statische Initialisiererdarstellung und
   RetentionRegistry-Aufrufe sind semantikfrei beziehungsweise Diagnostik.
-- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsControls.cs`
+- [?] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsControls.cs` —
+  INPUT: 0.0.60 fügt einen neuen, von Magickas `InGameMenu` abgeleiteten Typ
+  mit virtuellen UI-Overrides hinzu. Harmony kann diesen Typ nicht in die
+  Zielassembly einfügen. Benötigt wird eine Entscheidung zwischen (a) einem
+  CLR-2-`Reflection.Emit`-Untertyp, (b) einer direkten Build-Referenz auf die
+  jeweilige Magicka-Version mit getrennten Runtime-DLLs oder (c) einer
+  abweichenden Menüinterception ohne neuen Untertyp. Danach ist ein Test mit
+  physischem Controller für Wechsel, HUD, Modifier und Pause nötig.
 - [x] `Magicka/GameLogic/Entities/DamageablePhysicsEntity.cs` — VOLLSTÄNDIG:
   `Deinitialize()` löst Gib- und Resistance-Template-Referenzen vor der
   Poolrückgabe; der finale Handle-Abbau stoppt Status-Effekte und Statuslicht,
@@ -3242,7 +3264,9 @@ Versionsnachweis.
   `judgement_spray_condition_cache_empty_recovered`; der normale Cachepfad
   sendet nichts.
 - [x] `Magicka/GameLogic/Spells/IceSpikes.cs` — VOLLSTÄNDIG: statische Poolfreigabe bei Levelende; das Verschieben der unveränderten `Random`-Initialisierung in den explizit dargestellten Typinitialisierer ist semantikfreies Decompilerrauschen.
-- [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptions.cs`
+- [?] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptions.cs` — INPUT:
+  der neue Controls-Eintrag hängt vom neuen Untermenütyp und damit von der bei
+  `InGameMenuOptionsControls` dokumentierten Architekturentscheidung ab.
 - [x] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuMain.cs` — VOLLSTÄNDIG: Gamepad-B öffnet die vorhandene Beenden-Bestätigung, Keyboard/Maus behält den Cursorpfad; Prefix und 2 Drei-Wege-Szenarien. Die leere manuelle Markermethode hat kein Laufzeitverhalten und wird nicht übernommen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Starfall.cs` — VOLLSTÄNDIG: statische PlayState-Retention und veraltete Update-Zugriffe, 2 Transpiler und 3 Drei-Wege-Szenarien; lokale Variablennamen sind nicht Teil des Runtime-Patches.
 - [x] `Magicka/GameLogic/Entities/ChantSpellManager.cs` — VOLLSTÄNDIG: aktive
@@ -3444,7 +3468,11 @@ Versionsnachweis.
   Drei-Wege-Szenarien; die Wiederverwendung des Schleifenindex im manuellen
   Dekompilat ist semantikfreies Compilerrauschen.
 - [x] `Magicka/Levels/Packs/PackMan.cs` — VOLLSTÄNDIG: das gemeinsame Lizenzprädikat ist für beide Pack-Setter und alle vier Anzeigeaufrufe migriert.
-- [ ] `Magicka/GameLogic/Controls/ControlManager.cs` — TEILWEISE: die drei `Controller`-Überladungen der Player-Input-Sperre sind mit 3 Prefixen und 3 Drei-Wege-Szenarien migriert; `HybridInputSupport.Update` in `HandleInput` ist noch offen.
+- [?] `Magicka/GameLogic/Controls/ControlManager.cs` — INPUT: die drei
+  `Controller`-Überladungen der Player-Input-Sperre sind mit 3 Prefixen und 3
+  Drei-Wege-Szenarien migriert; `HybridInputSupport.Update` gehört zum
+  unteilbaren Controller-UI-Bündel und wartet auf die bei
+  `InGameMenuOptionsControls` dokumentierte Architekturentscheidung.
 - [x] `Magicka/GameLogic/Player.cs` — VOLLSTÄNDIG: Avatar-Setter sowie die
   unabhängige Freigabe von TextBox und Notifier in `DeinitializeGame`, 3
   Prefixe und 9 Drei-Wege-Szenarien.

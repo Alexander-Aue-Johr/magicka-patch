@@ -2225,7 +2225,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Missile update empty target sentinel" -or
         $auditLines -notcontains "patch_end=Missile collision empty target sentinel" -or
         $auditLines -notcontains "patch_end=Missile deinitialize reference release" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 454) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 456) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -2240,7 +2240,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=604")
+    $summary.Add("implemented_patches=606")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

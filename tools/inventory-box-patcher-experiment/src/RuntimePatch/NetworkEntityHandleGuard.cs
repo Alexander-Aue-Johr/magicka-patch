@@ -1,13 +1,99 @@
 using System;
 using System.Reflection;
+using System.Collections;
 
 namespace Magicka.CommunityPatch
 {
-    internal static class NetworkEntityHandleGuard
+    public static class NetworkEntityHandleGuard
     {
+        private static Assembly targetAssembly;
+
+        internal static void Initialize(Assembly assembly)
+        {
+            targetAssembly = assembly;
+        }
+
+        internal static object Resolve(
+            int handle,
+            string side,
+            string reason,
+            bool emitTelemetry)
+        {
+            object entity = GetEntity(handle);
+            if (IsUsable(entity))
+                return entity;
+            if (emitTelemetry)
+                Runtime.RuntimePatchTelemetry.SendNetworkGuardDrop(
+                    side, "EntityHandle", String.Empty, String.Empty,
+                    reason, "handle=" + handle);
+            return null;
+        }
+
+        internal static object ResolveActive(
+            int handle,
+            string side,
+            string reason,
+            bool emitTelemetry)
+        {
+            object entity = GetEntity(handle);
+            if (IsActive(entity))
+                return entity;
+            if (emitTelemetry)
+                Runtime.RuntimePatchTelemetry.SendNetworkGuardDrop(
+                    side, "EntityHandle", String.Empty, String.Empty,
+                    reason, "handle=" + handle);
+            return null;
+        }
+
+        public static bool IsActive(object entity)
+        {
+            if (!IsUsable(entity))
+                return false;
+            object playState = ReadProperty(entity, "PlayState");
+            object manager = ReadProperty(playState, "EntityManager");
+            if (manager == null)
+                return false;
+            MethodInfo contains = manager.GetType().GetMethod(
+                "Contains",
+                BindingFlags.Instance | BindingFlags.Public |
+                    BindingFlags.NonPublic,
+                null,
+                new Type[] { targetAssembly.GetType(
+                    "Magicka.GameLogic.Entities.Entity", true) },
+                null);
+            return contains != null && (bool)contains.Invoke(
+                manager, new object[] { entity });
+        }
+
+        internal static bool IsUsable(object entity)
+        {
+            return entity != null &&
+                !ReadOptionalBoolean(entity, "IsDisposed", "mDisposed") &&
+                ReadProperty(entity, "PlayState") != null;
+        }
+
+        internal static bool HasBody(object entity)
+        {
+            return IsActive(entity) && ReadProperty(entity, "Body") != null;
+        }
+
+        private static object GetEntity(int handle)
+        {
+            if (targetAssembly == null || handle < 0)
+                return null;
+            Type entityType = targetAssembly.GetType(
+                "Magicka.GameLogic.Entities.Entity", true);
+            FieldInfo instances = FindField(entityType, "mInstances");
+            IList list = instances == null
+                ? null
+                : instances.GetValue(null) as IList;
+            return list != null && handle < list.Count ? list[handle] : null;
+        }
+
         internal static bool IsUsableWorldSyncSpawnNpc(int handle, object playState)
         {
             Assembly magicka = playState.GetType().Assembly;
+            Initialize(magicka);
             Type entityType = magicka.GetType("Magicka.GameLogic.Entities.Entity", true);
             object entity = entityType.GetMethod(
                 "GetFromHandle",
