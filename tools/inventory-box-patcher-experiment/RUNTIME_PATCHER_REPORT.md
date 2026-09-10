@@ -3139,15 +3139,19 @@ Versionsnachweis.
   Drei-Wege-Szenarien migriert. Vor dem Zustandsclamp sendet sie das begrenzte
   `magicka_patch_typing_text_guard_exception` mit Indizes, Textfingerprint und
   einem auf 160 Zeichen begrenzten Kontext.
-- [ ] `Magicka/Program.cs` — TEILWEISE: die drei System-Proxy-Bibliotheken
+- [x] `Magicka/Program.cs` — VOLLSTÄNDIG: die drei System-Proxy-Bibliotheken
   werden noch vor der ersten Originalinstruktion absolut vorgeladen und die
   drei wertnehmenden Startparameter werden vor einem fehlenden Folgewert
   geschützt. Die beiden gezielten Hinweise für XNA-Adapter- und
   Grafikgerätefehler in `WriteReport` sind ebenfalls migriert. Crash- und
   Normal-Close-Telemetrie einschließlich des zwischengespeicherten
   Laufzeitkontexts sowie Updateprüfung und Pending-Update-Handoff an allen drei
-  Lebenszykluspunkten sind migriert. Payload- und weitere
-  Fehlerberichtänderungen bleiben offen.
+  Lebenszykluspunkten sind migriert. Der PolygonHead-Payloadvertrag wird vor
+  Harmony und Spielkonstruktion geprüft. Die Runtime-Architektur injiziert
+  keine direkten `Magicka.GcDiagnostics`-Aufrufe in Spielmethoden und besitzt
+  daher nicht die Pflichtabhängigkeit, für die der manuelle Startabbruch nötig
+  war. Stack-Ausgabe und Patchversionsfelder werden von den Runtime-Sendern
+  erzeugt; die übrigen Unterschiede sind lokale Namen und Compilerform.
 - [x] `Magicka/GameLogic/Entities/AnimatedPhysicsEntity.cs` — VOLLSTÄNDIG:
   Crossfade und ForceAnimation verwenden Idle nur dann als Ersatz, wenn dessen
   Aktion und Clip vorhanden sind. `Deinitialize` ersetzt Controller und drei
