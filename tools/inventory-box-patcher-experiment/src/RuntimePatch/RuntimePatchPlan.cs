@@ -52,6 +52,7 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 EntityManagerClearAndStorePatch.Definition);
+            EntityManagerPlayStatePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 EntityPhysicsCleanupPatch.InitializeDefinition);

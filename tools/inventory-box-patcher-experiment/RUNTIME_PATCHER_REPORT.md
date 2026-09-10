@@ -3164,7 +3164,13 @@ Versionsnachweis.
   Lebensdauer und Cleanup ab; statische Initialisiererdarstellung und lokale
   Namen sind semantikfreies Decompilerrauschen.
 - [ ] `Magicka/GameLogic/UI/SpellWheel.cs` — TEILWEISE: PlayState-Lebensdauer und aktueller Szenenempfänger sind mit 2 Transpilern und 2 Drei-Wege-Szenarien migriert; die UI-Skalierung im Renderpfad bleibt offen.
-- [ ] `Magicka/GameLogic/Entities/EntityManager.cs` — TEILWEISE: `GetClosestIDamageable`, das vierparametrige `GetEntities`, `ClearAndStore` und der volle `Entity`-Listenpfad in `AddEntity` sind migriert; Konstruktor- und weitere Diagnoseänderungen sind noch offen.
+- [ ] `Magicka/GameLogic/Entities/EntityManager.cs` — TEILWEISE:
+  `GetClosestIDamageable`, das vierparametrige `GetEntities`, `ClearAndStore`
+  und der volle `Entity`-Listenpfad in `AddEntity` sind migriert. Der
+  Konstruktor speichert seinen PlayState nicht mehr und verwendet für alle
+  drei Cache-Initialisierungen den aktuellen Zustand; ein Transpiler und zwei
+  Drei-Wege-Szenarien decken dies ab. Der vollständige Manager-Abbau und reine
+  Diagnoseänderungen bleiben offen.
 - [x] `Magicka/GameLogic/Entities/TeslaField.cs` — VOLLSTÄNDIG: Konstruktoren
   der statischen Poolobjekte speichern den ungenutzten PlayState nicht mehr,
   und der Pool wird beim Levelabbau geleert. Die übrigen Änderungen sind

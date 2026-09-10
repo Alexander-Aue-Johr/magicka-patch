@@ -198,6 +198,8 @@ function Test-BehaviorMatrix {
         "entity_query.bodyless_entry",
         "entity_query.null_entry",
         "entity_clear.stale_grid",
+        "entity_manager_state.retention",
+        "entity_manager_state.cache_state",
         "entity_physics_cleanup.deinitialize",
         "entity_physics_cleanup.reuse_fallback",
         "entity_physics_cleanup.final_teardown",
@@ -582,6 +584,8 @@ function Test-BehaviorMatrix {
     $legacyNotAvailable = @($playStateNotAvailable) + @(
         "payload_contract.compatible_pair",
         "payload_contract.rejects_missing_pair",
+        "entity_manager_state.retention",
+        "entity_manager_state.cache_state",
         "damageable_deinitialize.gib_release",
         "damageable_deinitialize.resistance_release",
         "damageable_deinitialize.cache_order",
@@ -1001,6 +1005,8 @@ function Test-BehaviorProfile(
         "entity_query.empty_grid",
         "entity_clear.stale_grid",
         "entity_clear.empty_grid",
+        "entity_manager_state.retention",
+        "entity_manager_state.cache_state",
         "entity_state_storage.constructor_release",
         "entity_state_storage.current_restore",
         "entity_state_storage.empty_restore",
@@ -1902,9 +1908,10 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=GameScene menu-controller reset" -or
         $auditLines -notcontains "patch_end=GameScene current light-update play state" -or
         $auditLines -notcontains "patch_end=GameScene complete teardown" -or
+        $auditLines -notcontains "patch_end=EntityManager play-state release" -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 79 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 20 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 423) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 424) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1919,7 +1926,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=522")
+    $summary.Add("implemented_patches=523")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
