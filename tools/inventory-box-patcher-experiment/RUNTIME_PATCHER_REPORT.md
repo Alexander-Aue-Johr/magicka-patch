@@ -2745,11 +2745,18 @@ Versionsnachweis.
   Variablenbewegung oder statische Initialisiererdarstellung.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SpawnSlime.cs` — VOLLSTÄNDIG: gespeicherter PlayState in `Execute` und beide veralteten NavMesh-Zugriffe, 3 Transpiler und 3 Drei-Wege-Szenarien; der leere `DisposeCache()` und die statischen Hash-Initialisierer ändern kein Laufzeitverhalten.
 - [x] `Magicka/GameLogic/Entities/Entanglement.cs` — VOLLSTÄNDIG: der global registrierte EntangleEffect wird wiederverwendet und nur bei fehlendem Registry-Eintrag vollständig angelegt; 2 Transpiler und 2 Drei-Wege-Szenarien. Lokale Variablennamen und explizit dargestellte statische Initialisierer sind semantikfreies Compilerrauschen.
-- [ ] `Magicka/Levels/Level.cs` — TEILWEISE: Alle zehn Laufzeitzugriffe in
+- [x] `Magicka/Levels/Level.cs` — VOLLSTÄNDIG: Alle zehn Laufzeitzugriffe in
   Zustandswiederherstellung, Getter, Update, Szenenwechsel und
-  Übergangsbereinigung verwenden den aktuellen PlayState. Render-Sperren,
-  Szenen-Ladereihenfolge, Navigationstelemetrie und reine
-  RetentionRegistry-Diagnostik bleiben getrennt offen.
+  Übergangsbereinigung verwenden den aktuellen PlayState. Direkte und
+  eingereihte Szenenwechsel warten nun auf den PlayState und deaktiviertes
+  Rendering; eingereihte Wechsel aktivieren Rendering anschließend wieder.
+  Die nächste Szene wird vor ihrer Veröffentlichung als aktuelle Szene
+  geladen und die vorige unmittelbar danach entladen. Die bereits migrierte
+  Navigationstelemetrie bleibt unverändert; RetentionRegistry-Aufrufe sind
+  reine Testdiagnostik. Vier Drei-Wege-Szenarien prüfen beide
+  Übergangspfade, Ladereihenfolge und benachbarten Kontrollfluss; 21 geänderte
+  konkrete Runtime-Methoden JITten unter CLR 2 und Mono ohne Skip. Die spätere
+  Render-Synchronisation ist für 1.4/1.5 ausdrücklich nicht anwendbar.
 - [x] `Magicka/Graphics/Effects/RadialBlur.cs` — VOLLSTÄNDIG: levelgebundener
   Content und gespeicherte Szene werden nicht mehr gehalten, der Renderpfad
   verwendet die aktuelle Szene und der freigegebene Cache wird geleert. Die

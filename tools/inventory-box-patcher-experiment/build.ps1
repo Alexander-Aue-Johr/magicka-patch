@@ -216,6 +216,9 @@ function Test-BehaviorMatrix {
         "in_game_menu_scale.inactive_size",
         "physics_clear.retained_collision_state",
         "physics_clear.missing_simulator",
+        "level_transition.direct_and_immediate",
+        "level_transition.animated",
+        "level_transition.load_before_publish",
         "original_backup_audit.available",
         "original_backup_audit.missing",
         "original_backup_audit.unverified",
@@ -640,6 +643,10 @@ function Test-BehaviorMatrix {
         "in_game_menu_scale.mouse_hooks",
         "in_game_menu_scale.active_size",
         "in_game_menu_scale.inactive_size",
+        "level_transition.direct_and_immediate",
+        "level_transition.animated",
+        "level_transition.load_before_publish",
+        "level_transition.control_flow",
         "entity_manager_state.retention",
         "entity_manager_state.cache_state",
         "damageable_deinitialize.gib_release",
@@ -1107,6 +1114,10 @@ function Test-BehaviorProfile(
         "physics_clear.retained_collision_state",
         "physics_clear.repeated",
         "physics_clear.missing_simulator",
+        "level_transition.direct_and_immediate",
+        "level_transition.animated",
+        "level_transition.load_before_publish",
+        "level_transition.control_flow",
         "level_current_state.read_sites",
         "level_current_state.read_count_preserved",
         "ui_render.activation",
@@ -2075,10 +2086,13 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=In-game menu scaled MouseDown" -or
         $auditLines -notcontains "patch_end=In-game menu scaled MouseUp" -or
         $auditLines -notcontains "patch_end=Physics manager complete clear" -or
+        $auditLines -notcontains "patch_end=Level serialized scene transition" -or
+        $auditLines -notcontains "patch_end=Level serialized transition finish" -or
+        $auditLines -notcontains "patch_end=Level load before scene publication" -or
         @($auditLines | Where-Object { $_ -like "patch_end=Shared content disposable ownership:*" }).Count -ne 13 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 109 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 24 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 436) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 439) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -2093,7 +2107,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=569")
+    $summary.Add("implemented_patches=572")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
