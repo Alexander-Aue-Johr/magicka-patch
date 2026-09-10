@@ -2919,10 +2919,11 @@ Versionsnachweis.
   Wiederverwenden werden Agent, AnimationController, Clips, Gibs, Modell und
   Template sauber zurückgesetzt. Offen ist nur die gemeinsame
   RetentionRegistry-Diagnostik.
-- [ ] `Magicka/Graphics/TypingText.cs` — TEILWEISE: die Recovery bei einem
+- [x] `Magicka/Graphics/TypingText.cs` — VOLLSTÄNDIG: Die Recovery bei einem
   Arrayzugriff hinter dem Textende ist mit einem Prefix und 7
-  Drei-Wege-Szenarien migriert; nur das begrenzte Diagnoseereignis folgt im
-  gemeinsamen Runtime-Telemetrieblock.
+  Drei-Wege-Szenarien migriert. Vor dem Zustandsclamp sendet sie das begrenzte
+  `magicka_patch_typing_text_guard_exception` mit Indizes, Textfingerprint und
+  einem auf 160 Zeichen begrenzten Kontext.
 - [ ] `Magicka/Program.cs` — TEILWEISE: die drei System-Proxy-Bibliotheken
   werden noch vor der ersten Originalinstruktion absolut vorgeladen und die
   drei wertnehmenden Startparameter werden vor einem fehlenden Folgewert

@@ -141,8 +141,17 @@ namespace Magicka.CommunityPatch.Runtime
                     }
                 }
             }
-            catch (IndexOutOfRangeException)
+            catch (IndexOutOfRangeException exception)
             {
+                RuntimePatchTelemetry.SendTypingTextGuardException(
+                    "text_index_out_of_range",
+                    text,
+                    charIndex,
+                    visibleCharacters,
+                    primitiveCount,
+                    nextChar,
+                    typeSpeed,
+                    exception);
                 if (primitiveCount > 0)
                     visibleCharacters = primitiveCount / 2;
                 charIndex = text != null && text.Length != 0

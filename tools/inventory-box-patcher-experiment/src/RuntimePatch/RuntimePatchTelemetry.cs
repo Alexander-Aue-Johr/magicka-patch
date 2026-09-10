@@ -141,6 +141,79 @@ namespace Magicka.CommunityPatch.Runtime
             }
         }
 
+        public static void SendTypingTextGuardException(
+            string reason,
+            char[] text,
+            int charIndex,
+            int visibleCharacters,
+            int primitiveCount,
+            float nextChar,
+            float typeSpeed,
+            Exception exception)
+        {
+            try
+            {
+                string fullText = text == null
+                    ? String.Empty
+                    : new String(text);
+                int contextStart = Math.Max(0, charIndex - 80);
+                if (contextStart > fullText.Length)
+                    contextStart = fullText.Length;
+                int contextLength = Math.Min(
+                    160,
+                    fullText.Length - contextStart);
+                int skipped;
+                if (!RuntimeTelemetryBackoff.TryBeginSend(
+                    reason,
+                    exception == null
+                        ? String.Empty
+                        : exception.GetType().FullName,
+                    out skipped))
+                    return;
+                Dictionary<string, string> properties = CommonProperties();
+                properties["reason"] = Safe(reason);
+                properties["text_length"] = fullText.Length.ToString(
+                    CultureInfo.InvariantCulture);
+                properties["text_hash"] = HashShort(fullText);
+                properties["char_index"] = charIndex.ToString(
+                    CultureInfo.InvariantCulture);
+                properties["visible_characters"] = visibleCharacters.ToString(
+                    CultureInfo.InvariantCulture);
+                properties["primitive_count"] = primitiveCount.ToString(
+                    CultureInfo.InvariantCulture);
+                properties["expected_visible_characters"] =
+                    (primitiveCount / 2).ToString(CultureInfo.InvariantCulture);
+                properties["next_char"] = nextChar.ToString(
+                    CultureInfo.InvariantCulture);
+                properties["type_speed"] = typeSpeed.ToString(
+                    CultureInfo.InvariantCulture);
+                properties["text_context_start"] = contextStart.ToString(
+                    CultureInfo.InvariantCulture);
+                properties["text_context"] = contextLength == 0
+                    ? String.Empty
+                    : SafeLong(fullText.Substring(
+                        contextStart,
+                        contextLength));
+                properties["exception_type"] = exception == null
+                    ? String.Empty
+                    : Safe(exception.GetType().FullName);
+                properties["exception_message"] = exception == null
+                    ? String.Empty
+                    : Safe(exception.Message);
+                properties["exception_hash"] = exception == null
+                    ? "unknown"
+                    : HashShort(exception.ToString());
+                properties["skipped_count"] = skipped.ToString(
+                    CultureInfo.InvariantCulture);
+                SendAsync(
+                    "magicka_patch_typing_text_guard_exception",
+                    properties);
+            }
+            catch
+            {
+            }
+        }
+
         public static void SendNetworkGuardDrop(
             string side,
             string packetType,
@@ -261,7 +334,7 @@ namespace Magicka.CommunityPatch.Runtime
             string eventName,
             Dictionary<string, string> properties)
         {
-            if (TelemetryDisabled())
+            if (TelemetryDisabled() || IsValidationProcess())
                 return;
             SendState state = new SendState();
             state.EventName = eventName;
@@ -293,7 +366,7 @@ namespace Magicka.CommunityPatch.Runtime
         {
             try
             {
-                if (TelemetryDisabled())
+                if (TelemetryDisabled() || IsValidationProcess())
                     return;
                 try
                 {
@@ -459,6 +532,23 @@ namespace Magicka.CommunityPatch.Runtime
         private static bool TelemetryDisabled()
         {
             return SettingDisabled("usage_sharing");
+        }
+
+        private static bool IsValidationProcess()
+        {
+            try
+            {
+                Assembly entry = Assembly.GetEntryAssembly();
+                string name = entry == null
+                    ? String.Empty
+                    : entry.GetName().Name;
+                return name == "BehaviorProbe" ||
+                    name == "RuntimeRegistrationProbe";
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private static bool CrashReportsDisabled()
