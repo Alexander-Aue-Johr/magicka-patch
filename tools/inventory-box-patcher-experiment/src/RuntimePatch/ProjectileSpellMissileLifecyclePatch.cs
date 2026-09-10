@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading;
 using Harmony;
+using Harmony.ILCopying;
 
 namespace Magicka.CommunityPatch.Runtime
 {
@@ -15,6 +16,7 @@ namespace Magicka.CommunityPatch.Runtime
         private static MethodInfo getMissileInstanceMethod;
         private static MethodInfo initializeMissileMethod;
         private static MethodInfo enqueueMethod;
+        private static MethodInfo dequeueMethod;
         private static FieldInfo conditionCacheField;
         private static ProjectileSpawnObjectGetter getPlayState;
         private static ProjectileSpawnObjectGetter getEntityManager;
@@ -124,6 +126,15 @@ namespace Magicka.CommunityPatch.Runtime
                 null);
             if (enqueueMethod == null || enqueueMethod.ReturnType != typeof(void))
                 throw new MissingMethodException(queue.FullName, "Enqueue");
+            dequeueMethod = queue.GetMethod(
+                "Dequeue",
+                BindingFlags.Instance | BindingFlags.Public,
+                null,
+                Type.EmptyTypes,
+                null);
+            if (dequeueMethod == null ||
+                dequeueMethod.ReturnType != conditionCollection)
+                throw new MissingMethodException(queue.FullName, "Dequeue");
 
             MethodInfo method = projectileSpell.GetMethod(
                 "SpawnMissile",
@@ -180,6 +191,21 @@ namespace Magicka.CommunityPatch.Runtime
                 throw new InvalidOperationException(
                     "Expected the condition cache and borrowed collection before Enqueue.");
 
+            int dequeue = FindSingleCall(
+                result,
+                dequeueMethod,
+                "condition-cache borrow");
+            if (dequeue + 1 >= result.Count ||
+                !IsStoreLocal(result[dequeue + 1]))
+                throw new InvalidOperationException(
+                    "Expected borrowed ProjectileSpell conditions to be stored locally.");
+
+            int cleanupStart = FindCleanupStart(result, enqueue);
+            CodeInstruction cleanupInstruction = result[cleanupStart];
+            CodeInstruction protectedStart = result[dequeue + 2];
+            Label cleanupLabel = generator.DefineLabel();
+            cleanupInstruction.labels.Add(cleanupLabel);
+
             CodeInstruction queueLoad = CopyWithoutFlow(result[enqueue - 2]);
             CodeInstruction conditionLoad = CopyWithoutFlow(result[enqueue - 1]);
             InsertGuard(
@@ -187,8 +213,7 @@ namespace Magicka.CommunityPatch.Runtime
                 generator,
                 getMissile + 2,
                 false,
-                queueLoad,
-                conditionLoad);
+                cleanupLabel);
 
             initialize = FindSingleCall(
                 result,
@@ -199,9 +224,55 @@ namespace Magicka.CommunityPatch.Runtime
                 generator,
                 initialize + 1,
                 true,
-                queueLoad,
-                conditionLoad);
+                cleanupLabel);
+
+            protectedStart.blocks.Add(new ExceptionBlock(
+                ExceptionBlockType.BeginExceptionBlock,
+                null));
+            cleanupStart = result.IndexOf(cleanupInstruction);
+            List<CodeInstruction> handlers = new List<CodeInstruction>();
+            CodeInstruction nullHandler = new CodeInstruction(
+                OpCodes.Call,
+                typeof(ProjectileSpellMissileLifecyclePatch).GetMethod(
+                    "HandleSpawnNullReference"));
+            nullHandler.blocks.Add(new ExceptionBlock(
+                ExceptionBlockType.BeginCatchBlock,
+                typeof(NullReferenceException)));
+            handlers.Add(nullHandler);
+            handlers.Add(new CodeInstruction(OpCodes.Leave, cleanupLabel));
+
+            CodeInstruction exceptionHandler = new CodeInstruction(OpCodes.Pop);
+            exceptionHandler.blocks.Add(new ExceptionBlock(
+                ExceptionBlockType.BeginCatchBlock,
+                typeof(Exception)));
+            handlers.Add(exceptionHandler);
+            handlers.Add(CopyWithoutFlow(queueLoad));
+            handlers.Add(CopyWithoutFlow(conditionLoad));
+            handlers.Add(new CodeInstruction(
+                OpCodes.Call,
+                typeof(ProjectileSpellMissileLifecyclePatch).GetMethod(
+                    "ReturnConditionCollection")));
+            handlers.Add(new CodeInstruction(OpCodes.Rethrow));
+            CodeInstruction end = new CodeInstruction(OpCodes.Nop);
+            end.blocks.Add(new ExceptionBlock(
+                ExceptionBlockType.EndExceptionBlock,
+                null));
+            handlers.Add(end);
+            result.InsertRange(cleanupStart, handlers);
             return result;
+        }
+
+        public static void HandleSpawnNullReference(
+            NullReferenceException exception)
+        {
+            RuntimePatchTelemetry.SendNetworkGuardException(
+                "projectile_spell",
+                "SpawnMissile",
+                String.Empty,
+                String.Empty,
+                "spawn_missile_nullreference_inside_projectile_spawn",
+                String.Empty,
+                exception);
         }
 
         public static bool HasUsableEntityManager(object missile)
@@ -232,8 +303,7 @@ namespace Magicka.CommunityPatch.Runtime
             ILGenerator generator,
             int index,
             bool requireEntityManager,
-            CodeInstruction queueLoad,
-            CodeInstruction conditionLoad)
+            Label cleanupLabel)
         {
             Label continueLabel = generator.DefineLabel();
             instructions[index].labels.Add(continueLabel);
@@ -248,14 +318,49 @@ namespace Magicka.CommunityPatch.Runtime
                         "HasUsableEntityManager")));
             }
             guard.Add(new CodeInstruction(OpCodes.Brtrue, continueLabel));
-            guard.Add(CopyWithoutFlow(queueLoad));
-            guard.Add(CopyWithoutFlow(conditionLoad));
+            guard.Add(new CodeInstruction(OpCodes.Ldarg_0));
+            guard.Add(new CodeInstruction(OpCodes.Ldind_Ref));
             guard.Add(new CodeInstruction(
-                OpCodes.Call,
+                requireEntityManager ? OpCodes.Ldc_I4_1 : OpCodes.Ldc_I4_0));
+            guard.Add(new CodeInstruction(OpCodes.Call,
                 typeof(ProjectileSpellMissileLifecyclePatch).GetMethod(
-                    "ReturnConditionCollection")));
-            guard.Add(new CodeInstruction(OpCodes.Ret));
+                    "ReportUnusableMissile")));
+            guard.Add(new CodeInstruction(OpCodes.Br, cleanupLabel));
             instructions.InsertRange(index, guard);
+        }
+
+        public static void ReportUnusableMissile(
+            object missile,
+            bool afterInitialize)
+        {
+            string reason = afterInitialize
+                ? "spawn_missile_missile_has_no_playstate_after_initialize"
+                : "spawn_missile_get_missile_instance_returned_null";
+            RuntimePatchTelemetry.SendNetworkGuardDrop(
+                "projectile_spell",
+                "SpawnMissile",
+                String.Empty,
+                String.Empty,
+                reason,
+                missile == null
+                    ? String.Empty
+                    : "missileType=" + missile.GetType().FullName);
+        }
+
+        private static int FindCleanupStart(
+            IList<CodeInstruction> instructions,
+            int enqueue)
+        {
+            for (int index = enqueue - 1;
+                index >= Math.Max(0, enqueue - 12);
+                index--)
+            {
+                if (instructions[index].opcode == OpCodes.Ldsfld &&
+                    Object.Equals(instructions[index].operand, conditionCacheField))
+                    return index;
+            }
+            throw new InvalidOperationException(
+                "ProjectileSpell condition-cache cleanup start was not found.");
         }
 
         private static MethodInfo FindMissileInitialize(
@@ -317,6 +422,14 @@ namespace Magicka.CommunityPatch.Runtime
             return opcode == OpCodes.Ldloc || opcode == OpCodes.Ldloc_S ||
                 opcode == OpCodes.Ldloc_0 || opcode == OpCodes.Ldloc_1 ||
                 opcode == OpCodes.Ldloc_2 || opcode == OpCodes.Ldloc_3;
+        }
+
+        private static bool IsStoreLocal(CodeInstruction instruction)
+        {
+            OpCode opcode = instruction.opcode;
+            return opcode == OpCodes.Stloc || opcode == OpCodes.Stloc_S ||
+                opcode == OpCodes.Stloc_0 || opcode == OpCodes.Stloc_1 ||
+                opcode == OpCodes.Stloc_2 || opcode == OpCodes.Stloc_3;
         }
 
         private static CodeInstruction CopyWithoutFlow(CodeInstruction source)

@@ -2942,16 +2942,16 @@ Versionsnachweis.
   `Deinitialize` erhaltenen Template-ID, ist migriert. Der NetworkClient stellt
   das Template vor `Character.NetworkAction` wieder her oder verwirft die
   Aktion kontrolliert. Telemetrie und Diagnoseänderungen sind noch offen.
-- [ ] `Magicka/GameLogic/Spells/SpellEffects/ProjectileSpell.cs` — TEILWEISE:
-  Leerpool-Recovery, aktuelle PlayState-Zugriffe und statische Poolfreigabe
-  sind migriert. `SpawnMissile` verwirft außerdem Owner ohne PlayState oder
-  EntityManager vor jeder Cachemutation; ein Prefix und 2 Drei-Wege-Szenarien
-  decken diese Eingangsprüfung ab. Der Leerzustand von `sCachedConditions` ist
-  ebenfalls migriert. Ein fehlendes Missile-Ergebnis und ein nach der
-  Initialisierung weiterhin abgelöster Missile-Zustand beenden die Methode
-  unter sicherer Rückgabe der ausgeliehenen Collection. Die allgemeine
-  exception-sichere Rückgabe bei anderen Fehlern sowie die Diagnoseaufrufe
-  bleiben offen.
+- [x] `Magicka/GameLogic/Spells/SpellEffects/ProjectileSpell.cs` —
+  VOLLSTÄNDIG: Leerpool-Recovery, aktuelle PlayState-Zugriffe und statische
+  Poolfreigabe sind migriert. `SpawnMissile` verwirft Owner ohne PlayState oder
+  EntityManager vor jeder Cachemutation. Der Leerzustand von
+  `sCachedConditions` ist ebenfalls migriert. Fehlende oder nach Initialize
+  abgelöste Missiles laufen durch den vorhandenen gesperrten Rückgabepfad.
+  `NullReferenceException` wird begrenzt diagnostiziert und kontrolliert
+  beendet; jede andere Exception gibt die ausgeliehene Collection zurück und
+  wird unverändert erneut ausgelöst. Der Registration-Probe bereitet den
+  tatsächlich Harmony-gepatchten `SpawnMissile`-Body über den CLR-JIT vor.
 - [x] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCharacterSelect.cs` —
   VOLLSTÄNDIG: die vier Pack-Anzeigeprüfungen verwenden die gemeinsame
   Custom-Content-Lizenzregel und `DrawWidget` überspringt Images mit fehlender

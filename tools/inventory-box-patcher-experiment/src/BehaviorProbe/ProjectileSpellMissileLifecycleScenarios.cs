@@ -27,6 +27,9 @@ internal static class ProjectileSpellMissileLifecycleScenarios
         report.Add(
             "projectile_spell.usable_missile_state",
             harness.UsableMissileState());
+        report.Add(
+            "projectile_spell.exception_safe_condition_return",
+            harness.ExceptionSafeConditionReturn());
     }
 }
 
@@ -48,6 +51,7 @@ internal sealed class ProjectileSpellMissileLifecycleHarness
     private readonly MethodInfo runtimeUsable;
     private readonly MethodInfo runtimeReturn;
     private readonly bool manualLifecycleGuard;
+    private readonly bool exceptionSafeConditionReturn;
 
     internal ProjectileSpellMissileLifecycleHarness(
         Assembly magicka,
@@ -80,6 +84,10 @@ internal sealed class ProjectileSpellMissileLifecycleHarness
             true);
         MethodInfo spawnMissile = FindSpawnMissile(magicka, projectileSpell);
         manualLifecycleGuard = HasManualLifecycleGuard(spawnMissile);
+        exceptionSafeConditionReturn = HasExceptionSafeReturn(
+            magicka,
+            spawnMissile,
+            runtimePatchEnabled);
 
         runtimeUsable = null;
         runtimeReturn = null;
@@ -96,6 +104,67 @@ internal sealed class ProjectileSpellMissileLifecycleHarness
                     BindingFlags.Static | BindingFlags.Public);
             }
         }
+    }
+
+    internal ScenarioResult ExceptionSafeConditionReturn()
+    {
+        string actual = exceptionSafeConditionReturn ? "protected" : "unprotected";
+        return new ScenarioResult(
+            exceptionSafeConditionReturn,
+            actual,
+            "protected");
+    }
+
+    private static bool HasExceptionSafeReturn(
+        Assembly magicka,
+        MethodInfo spawnMissile,
+        bool runtimePatchEnabled)
+    {
+        if (!runtimePatchEnabled)
+        {
+            IList<ExceptionHandlingClause> clauses =
+                spawnMissile.GetMethodBody().ExceptionHandlingClauses;
+            for (int index = 0; index < clauses.Count; index++)
+            {
+                ExceptionHandlingClause clause = clauses[index];
+                if (clause.Flags == ExceptionHandlingClauseOptions.Clause &&
+                    clause.CatchType == typeof(NullReferenceException))
+                    return true;
+            }
+            return false;
+        }
+
+        Type patch = Type.GetType(PatchTypeName, true);
+        patch.GetMethod("FindSpawnMissile", BindingFlags.Static |
+            BindingFlags.NonPublic).Invoke(null, new object[] { magicka });
+        DynamicMethod target = new DynamicMethod(
+            "ReadProjectileExceptionSafety",
+            typeof(void),
+            Type.EmptyTypes,
+            typeof(ProjectileSpellMissileLifecycleScenarios),
+            true);
+        List<ILInstruction> decoded = MethodBodyReader.GetInstructions(
+            target.GetILGenerator(),
+            spawnMissile);
+        List<CodeInstruction> body = new List<CodeInstruction>(decoded.Count);
+        for (int index = 0; index < decoded.Count; index++)
+            body.Add(decoded[index].GetCodeInstruction());
+        IEnumerable<CodeInstruction> patched =
+            (IEnumerable<CodeInstruction>)patch.GetMethod("Transpiler").Invoke(
+                null,
+                new object[] { body, target.GetILGenerator() });
+        bool nullCatch = false;
+        bool generalCatch = false;
+        foreach (CodeInstruction instruction in patched)
+            for (int index = 0; index < instruction.blocks.Count; index++)
+            {
+                ExceptionBlock block = instruction.blocks[index];
+                if (block.blockType != ExceptionBlockType.BeginCatchBlock)
+                    continue;
+                nullCatch |= block.catchType == typeof(NullReferenceException);
+                generalCatch |= block.catchType == typeof(Exception);
+            }
+        return nullCatch && generalCatch;
     }
 
     internal ScenarioResult NullMissileResult()

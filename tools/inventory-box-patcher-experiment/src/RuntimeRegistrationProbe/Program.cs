@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Magicka.CommunityPatch.Runtime;
 
 internal static class Program
@@ -25,6 +26,7 @@ internal static class Program
         AppDomain.CurrentDomain.AssemblyResolve += ResolveOriginalAssembly;
         originalAssembly = Assembly.LoadFrom(originalPath);
         Bootstrap.Apply(originalAssembly);
+        PrepareProjectileSpawn();
 
         string auditPath = Path.Combine(
             AppDomain.CurrentDomain.BaseDirectory,
@@ -34,6 +36,25 @@ internal static class Program
 
         Console.WriteLine("original_registration=" + (auditPassed ? "PASS" : "FAIL"));
         return auditPassed ? 0 : 1;
+    }
+
+    private static void PrepareProjectileSpawn()
+    {
+        Type projectileSpell = originalAssembly.GetType(
+            "Magicka.GameLogic.Spells.SpellEffects.ProjectileSpell",
+            true);
+        MethodInfo[] methods = projectileSpell.GetMethods(
+            BindingFlags.Static | BindingFlags.Public |
+                BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+        for (int index = 0; index < methods.Length; index++)
+        {
+            if (methods[index].Name != "SpawnMissile" ||
+                methods[index].GetParameters().Length != 9)
+                continue;
+            RuntimeHelpers.PrepareMethod(methods[index].MethodHandle);
+            return;
+        }
+        throw new MissingMethodException(projectileSpell.FullName, "SpawnMissile");
     }
 
     private static Assembly ResolveOriginalAssembly(object sender, ResolveEventArgs arguments)

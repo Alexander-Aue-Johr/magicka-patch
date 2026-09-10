@@ -86,9 +86,20 @@ namespace Magicka.CommunityPatch.Runtime
         public static bool Prefix(object iOwner)
         {
             if (iOwner == null)
+            {
+                RuntimePatchTelemetry.SendNetworkGuardDrop(
+                    "projectile_spell", "SpawnMissile", String.Empty,
+                    String.Empty, "spawn_missile_owner_null", String.Empty);
                 return false;
+            }
             object playState = getPlayState(iOwner);
-            return playState != null && getEntityManager(playState) != null;
+            if (playState != null && getEntityManager(playState) != null)
+                return true;
+            RuntimePatchTelemetry.SendNetworkGuardDrop(
+                "projectile_spell", "SpawnMissile", String.Empty,
+                String.Empty, "spawn_missile_owner_has_no_playstate",
+                "ownerType=" + iOwner.GetType().FullName);
+            return false;
         }
 
         private static ProjectileSpawnObjectGetter CreateGetter(
