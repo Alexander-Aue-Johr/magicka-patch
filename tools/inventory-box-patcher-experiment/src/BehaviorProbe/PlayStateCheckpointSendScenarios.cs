@@ -44,14 +44,14 @@ internal static class PlayStateCheckpointSendScenarios
         }
 
         int safe = Count(body, "SendCheckpointWithNullEmptyPointer");
-        int sends = CountCheckpointSends(body, playState);
-        bool manualGuard = !runtimePatchEnabled && sends >= 2;
+        int sends = CountCheckpointSends(body);
+        bool manualGuard = !runtimePatchEnabled && sends == 5;
         bool normalized = runtimePatchEnabled ? safe == 1 : manualGuard;
         report.Add(
             "play_state_checkpoint.empty_payload",
             new ScenarioResult(normalized,
                 normalized ? "null-empty" : "raw-empty", "null-empty"));
-        bool control = runtimePatchEnabled ? safe == 1 : sends >= 1;
+        bool control = runtimePatchEnabled ? safe == 1 : sends >= 4;
         report.Add(
             "play_state_checkpoint.nonempty_control",
             new ScenarioResult(control,
@@ -83,25 +83,32 @@ internal static class PlayStateCheckpointSendScenarios
         return count;
     }
 
-    private static int CountCheckpointSends(
-        List<CodeInstruction> body, Type playState)
+    private static int CountCheckpointSends(List<CodeInstruction> body)
     {
-        FieldInfo checkpoint = playState.GetField("mCheckpointStream", Members);
         int count = 0;
         for (int index = 0; index < body.Count; index++)
         {
             MethodBase method = body[index].operand as MethodBase;
-            if (method == null || method.Name != "SendRaw")
+            if (method == null || (method.Name != "SendRaw" &&
+                    method.Name != "SendCheckpointWithNullEmptyPointer"))
                 continue;
-            int start = Math.Max(0, index - 20);
+            int start = Math.Max(0, index - 8);
             for (int previous = index - 1; previous >= start; previous--)
-                if (body[previous].opcode == OpCodes.Ldfld &&
-                    Object.Equals(body[previous].operand, checkpoint))
+                if (IsInteger(body[previous], 65))
                 {
                     count++;
                     break;
                 }
         }
         return count;
+    }
+
+    private static bool IsInteger(CodeInstruction instruction, int expected)
+    {
+        if (instruction.opcode == OpCodes.Ldc_I4_S)
+            return Convert.ToInt32(instruction.operand) == expected;
+        if (instruction.opcode == OpCodes.Ldc_I4)
+            return Convert.ToInt32(instruction.operand) == expected;
+        return false;
     }
 }
