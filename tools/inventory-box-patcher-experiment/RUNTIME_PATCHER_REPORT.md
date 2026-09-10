@@ -2559,7 +2559,12 @@ Versionsnachweis.
 - [x] `Magicka/GameLogic/Entities/Bosses/Vlad.cs` — VOLLSTÄNDIG: die gespeicherte Konstruktor-Referenz und beide späteren PlayState-Reads sind mit 2 Transpilern und 2 Drei-Wege-Szenarien migriert; statische Initialisiererdarstellungen und Segment-Syntax sind semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Thunderstorm.cs` — VOLLSTÄNDIG: beide gespeicherten PlayState-Zuweisungen, elf laufende PlayState-Zugriffe und die per-cast Owner-Freigabe; 4 Transpiler und 4 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuVersusStatistics.cs` — VOLLSTÄNDIG: alle acht Reads verwenden den aktuellen PlayState; der übrige statische Initialisierer-Diff ist semantikfreies Compilerrauschen.
-- [ ] `Magicka/Levels/Triggers/TriggerArea.cs`
+- [x] `Magicka/Levels/Triggers/TriggerArea.cs` — VOLLSTÄNDIG: Original und
+  manuelle 0.0.60-Assembly implementieren denselben idempotenten Dispose-Pfad
+  einschließlich Callback-, Tag-, Physikregistrierungs- und Collection-Abbau.
+  Der C#-Diff besteht nur aus Decompiler-Darstellung (`as`-Cast,
+  Delegate-Syntax, lokale Namen und äquivalente `out`-Form). Dafür ist kein
+  Runtime-Patch erforderlich.
 - [ ] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenu.cs` — TEILWEISE: die statische PlayState-Zuweisung ist entfernt, alle vier Reads verwenden den aktuellen Zustand und der Stack wird beim Levelabbau geleert; nur das Safe-Area-Layout ist noch offen.
 - [ ] `Magicka/CommunityPatch/NetworkEntityHandleGuard.cs` — TEILWEISE: nur die für `AddWorldSyncMessage` benötigte SpawnNPC-Entscheidung, ohne Übernahme der übrigen manuellen Hilfsklasse.
 - [x] `Magicka/GameLogic/Spells/ArcaneBlast.cs` — VOLLSTÄNDIG: der statische
