@@ -3089,14 +3089,16 @@ Versionsnachweis.
   Renderpfade sind migriert. Auswahlzustand, Menükoordinaten, Speichern und
   Telemetrie der im Optionsmenü geänderten Skalierung bleiben offen.
 - [x] `Magicka/CommunityPatch/WidescreenSafeArea.cs` — VOLLSTÄNDIG: beide Berechnungen liegen CLR-2-kompatibel im Runtime-Patcher und werden durch 4 Rechenszenarien abgedeckt.
-- [ ] `Magicka/GameLogic/Entities/NonPlayerCharacter.cs` — TEILWEISE: der
+- [x] `Magicka/GameLogic/Entities/NonPlayerCharacter.cs` — VOLLSTÄNDIG: der
   Challenge-Score-Zustand wird pro Pool-Lebenszyklus zurückgesetzt und der
   vollständige Agent-Zustand wird an seinen Lebensdauergrenzen freigegeben.
   Der finale Levelabbau löst außerdem NPC-Cache, Agent, Fairy,
   Summon-Beziehungen, Abilities, Zauber- und Effektzustand. Beim
   Wiederverwenden werden Agent, AnimationController, Clips, Gibs, Modell und
-  Template sauber zurückgesetzt. Offen ist nur die gemeinsame
-  RetentionRegistry-Diagnostik.
+  Template sauber zurückgesetzt. Die übrigen `RetentionRegistry`-Aufrufe sind
+  ausschließlich lokale GC-Diagnostik und verändern weder Lebensdauer noch
+  Spielverhalten; statische Initialisierung und lokale Variablenform sind
+  Rekompilierungsnoise.
 - [x] `Magicka/Graphics/TypingText.cs` — VOLLSTÄNDIG: Die Recovery bei einem
   Arrayzugriff hinter dem Textende ist mit einem Prefix und 7
   Drei-Wege-Szenarien migriert. Vor dem Zustandsclamp sendet sie das begrenzte
