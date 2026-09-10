@@ -930,6 +930,30 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 SummonPlayStatePatch.TemplateCleanupDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                RuntimeTelemetryContextPatch.LevelDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                RuntimeTelemetryContextPatch.SceneDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                RuntimeTelemetryContextPatch.RestoredSceneDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                RuntimeTelemetryContextPatch.MenuDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                RuntimeTelemetryContextPatch.ResolutionDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                RuntimeTelemetryContextPatch.LanguageDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ProgramTelemetryPatch.NormalCloseDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ProgramTelemetryPatch.CrashDefinition);
         }
     }
 }

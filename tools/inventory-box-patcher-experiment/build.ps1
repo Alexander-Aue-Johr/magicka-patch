@@ -334,6 +334,11 @@ function Test-BehaviorMatrix {
         "telemetry_backoff.repeat",
         "telemetry_backoff.independent_key",
         "telemetry_backoff.category_cap",
+        "telemetry_context.navigation",
+        "telemetry_context.display",
+        "telemetry_context.language",
+        "telemetry_context.navigation_bound",
+        "telemetry_context.payload",
         "prop_boss.level_teardown",
         "fairy_teardown.listed",
         "fairy_teardown.avatar_owned",
@@ -644,6 +649,11 @@ function Test-BehaviorProfile(
             "telemetry_backoff.repeat",
             "telemetry_backoff.independent_key",
             "telemetry_backoff.category_cap",
+            "telemetry_context.navigation",
+            "telemetry_context.display",
+            "telemetry_context.language",
+            "telemetry_context.navigation_bound",
+            "telemetry_context.payload",
             "boss_fight.setup_state_release",
             "boss_fight.initialize_current_state",
             "boss_fight.reset_current_state",
@@ -1103,6 +1113,11 @@ function Test-BehaviorProfile(
         "telemetry_backoff.repeat",
         "telemetry_backoff.independent_key",
         "telemetry_backoff.category_cap",
+        "telemetry_context.navigation",
+        "telemetry_context.display",
+        "telemetry_context.language",
+        "telemetry_context.navigation_bound",
+        "telemetry_context.payload",
         "prop_boss.level_teardown",
         "fairy_teardown.listed",
         "fairy_teardown.avatar_owned",
@@ -1674,6 +1689,14 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Player controller avatar release" -or
         $auditLines -notcontains "patch_end=Player obtained text-box level release" -or
         $auditLines -notcontains "patch_end=Player notifier level release" -or
+        $auditLines -notcontains "patch_end=Telemetry play-state navigation context" -or
+        $auditLines -notcontains "patch_end=Telemetry scene navigation context" -or
+        $auditLines -notcontains "patch_end=Telemetry restored-scene navigation context" -or
+        $auditLines -notcontains "patch_end=Telemetry menu navigation context" -or
+        $auditLines -notcontains "patch_end=Telemetry cached resolution context" -or
+        $auditLines -notcontains "patch_end=Telemetry cached language context" -or
+        $auditLines -notcontains "patch_end=Normal-close telemetry context" -or
+        $auditLines -notcontains "patch_end=Crash telemetry context" -or
         $auditLines -notcontains "patch_end=TeslaField play-state release" -or
         $auditLines -notcontains "patch_end=GenericHealthBar current scene" -or
         $auditLines -notcontains "patch_end=GreaseTrail play-state release" -or
@@ -1871,9 +1894,9 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=GameScene menu-controller reset" -or
         $auditLines -notcontains "patch_end=GameScene current light-update play state" -or
         $auditLines -notcontains "patch_end=GameScene complete teardown" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 76 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 18 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 412) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 77 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 20 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 417) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -1888,7 +1911,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=506")
+    $summary.Add("implemented_patches=514")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

@@ -2548,7 +2548,15 @@ eine neue Dateiliste erzeugen; Dateinamen allein reichen nicht als
 Versionsnachweis.
 
 - [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuTimedObjectiveStatistics.cs` — VOLLSTÄNDIG: alle neun Reads verwenden den aktuellen PlayState; der übrige statische Initialisierer-Diff ist semantikfreies Compilerrauschen.
-- [ ] `Magicka/CommunityPatch/TelemetryRuntimeContext.cs`
+- [x] `Magicka/CommunityPatch/TelemetryRuntimeContext.cs` — VOLLSTÄNDIG: Der
+  Runtime-Patcher führt denselben begrenzten Navigationsverlauf, die
+  PlayState-/Szenenzähler, Sprach- und Glyphenfingerprints sowie Auflösung und
+  UI-Skalierung. Acht gezielte Hooks erfassen die derzeit veränderlichen Werte
+  an ihren vorhandenen Zustandswechseln; die UI-Skalierungs-Schnittstelle wird
+  beim noch offenen UI-Kompatibilitätsschritt mit dessen Setter verbunden.
+  Die Sender hängen ausschließlich zwischengespeicherte Werte an
+  Crash- und Normal-Close-Telemetrie. Fünf Drei-Wege-Szenarien prüfen
+  Pfadbereinigung, Begrenzung, Sprache, Anzeigeparameter und JSON-Payload.
 - [x] `Magicka/GameLogic/Entities/SpellMine.cs` — VOLLSTÄNDIG: Deinitialize löst
   das animierte Levelteil und die statische Rotationsqueue wird bei Levelende
   geleert. RetentionRegistry-Aufrufe sind reine Diagnostik; statische
@@ -2914,8 +2922,10 @@ Versionsnachweis.
   werden noch vor der ersten Originalinstruktion absolut vorgeladen und die
   drei wertnehmenden Startparameter werden vor einem fehlenden Folgewert
   geschützt. Die beiden gezielten Hinweise für XNA-Adapter- und
-  Grafikgerätefehler in `WriteReport` sind ebenfalls migriert. Payload-,
-  Telemetrie- und weitere Fehlerberichtänderungen bleiben offen.
+  Grafikgerätefehler in `WriteReport` sind ebenfalls migriert. Crash- und
+  Normal-Close-Telemetrie einschließlich des zwischengespeicherten
+  Laufzeitkontexts sind migriert. Payload- und weitere
+  Fehlerberichtänderungen bleiben offen.
 - [x] `Magicka/GameLogic/Entities/AnimatedPhysicsEntity.cs` — VOLLSTÄNDIG:
   Crossfade und ForceAnimation verwenden Idle nur dann als Ersatz, wenn dessen
   Aktion und Clip vorhanden sind. `Deinitialize` ersetzt Controller und drei
@@ -2943,10 +2953,11 @@ Versionsnachweis.
   Font-Zeilenhöhe und literale Textvertices werden bei einem Sprachwechsel
   aktualisiert, Transpiler und 3 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/GameStates/CompanyState.cs` — VOLLSTÄNDIG: Content-Dispose nach Controller- und Tome-Cleanup, Transpiler und ein Drei-Wege-Reihenfolgetest; die statische Initialisierer-Umschreibung ist semantikfreies Compilerrauschen.
-- [ ] `Magicka/Localization/LanguageManager.cs` — TEILWEISE: Anzeigename und
+- [x] `Magicka/Localization/LanguageManager.cs` — VOLLSTÄNDIG: Anzeigename und
   Konfigurationsaliase für Simplified Chinese sind durch zwei Prefixe und drei
-  Drei-Wege-Szenarien migriert; das Aufzeichnen der aktuellen Sprache bleibt
-  Teil des späteren Telemetrieblocks.
+  Drei-Wege-Szenarien migriert. Ein Transpiler zeichnet die ausgewählte Sprache
+  und den Glyphenfingerprint unmittelbar nach `mCurrentLanguage` und vor dem
+  Font-Ladevorgang auf.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/RandomMine.cs` — VOLLSTÄNDIG: ungenutzte PlayState-Referenz im Singleton, Transpiler und 3 Drei-Wege-Szenarien; die sichtbare statische Initialisierer-Umschreibung ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/DrainLife.cs` — VOLLSTÄNDIG: ungenutzte PlayState-Referenz im erfolgreichen Effektpfad, Transpiler und 2 Drei-Wege-Szenarien; die statische Initialisierer-Umschreibung ist semantikfreies Compilerrauschen.
 - [x] `Magicka/Levels/Liquid.cs` — VOLLSTÄNDIG: Der Runtime-Patcher bildet den
@@ -3015,7 +3026,9 @@ Versionsnachweis.
   unveränderten Deinitialisierung.
 - [ ] `Magicka/GameLogic/Controls/DirectInputController.cs`
 - [x] `Magicka/AI/AgentStates/AIStateAttack.cs` — VOLLSTÄNDIG: `OnExecute`, Prefix und 3 Drei-Wege-Szenarien.
-- [ ] `Magicka/GlobalSettings.cs`
+- [x] `Magicka/GlobalSettings.cs` — VOLLSTÄNDIG: Der zentrale
+  `Resolution`-Setter aktualisiert den zwischengespeicherten Telemetriewert;
+  ein Postfix und das gemeinsame Anzeige-Szenario decken die Änderung ab.
 - [x] `Magicka/CoreFramework/GameSystem/HUDCustomisation/HUDManager.cs` — VOLLSTÄNDIG: `Initialise`, Postfix und 2 Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/UI/InventoryBox.cs` — VOLLSTÄNDIG: `RenderData.Draw`, Prefix und 2 Drei-Wege-Szenarien.
 - [ ] `Magicka/GameLogic/Entities/Bosses/WarlordCharacter.cs`
