@@ -108,6 +108,39 @@ namespace Magicka.CommunityPatch.Runtime
             }
         }
 
+        public static void SendAnimationClipMissing(
+            string assetName,
+            string clipKey,
+            string animationName,
+            int animationValue,
+            int availableClipCount)
+        {
+            try
+            {
+                int skipped;
+                if (!RuntimeTelemetryBackoff.TryBeginSend(
+                    "animation_clip_missing",
+                    Safe(assetName) + "|" + Safe(clipKey) + "|" +
+                        animationValue.ToString(CultureInfo.InvariantCulture),
+                    out skipped))
+                    return;
+                Dictionary<string, string> properties = CommonProperties();
+                properties["asset_name"] = Safe(assetName);
+                properties["clip_key"] = Safe(clipKey);
+                properties["animation_name"] = Safe(animationName);
+                properties["animation_value"] = animationValue.ToString(
+                    CultureInfo.InvariantCulture);
+                properties["available_clip_count"] =
+                    availableClipCount.ToString(CultureInfo.InvariantCulture);
+                properties["skipped_count"] = skipped.ToString(
+                    CultureInfo.InvariantCulture);
+                SendAsync("magicka_patch_animation_clip_missing", properties);
+            }
+            catch
+            {
+            }
+        }
+
         public static void SendNetworkGuardDrop(
             string side,
             string packetType,

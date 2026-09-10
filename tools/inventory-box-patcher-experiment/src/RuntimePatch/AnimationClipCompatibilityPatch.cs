@@ -417,6 +417,50 @@ namespace Magicka.CommunityPatch.Runtime
                     : default(TValue);
         }
 
+        public static TValue GetValueOrDefaultWithDiagnostic<TDictionary, TValue>(
+            TDictionary dictionary,
+            string key,
+            object animation,
+            object contentReader)
+        {
+            TValue value;
+            if ((object)dictionary != null)
+            {
+                AnimationDictionaryLookup<TDictionary, TValue> lookup =
+                    (AnimationDictionaryLookup<TDictionary, TValue>)
+                        GetDictionaryLookup(
+                            typeof(TDictionary),
+                            typeof(TValue));
+                if (lookup(dictionary, key, out value))
+                    return value;
+            }
+            string assetName = String.Empty;
+            try
+            {
+                if (contentReader != null)
+                {
+                    PropertyInfo asset = contentReader.GetType().GetProperty(
+                        "AssetName",
+                        BindingFlags.Instance | BindingFlags.Public |
+                            BindingFlags.NonPublic);
+                    if (asset != null)
+                        assetName = Convert.ToString(
+                            asset.GetValue(contentReader, null));
+                }
+            }
+            catch
+            {
+            }
+            ICollection collection = dictionary as ICollection;
+            RuntimePatchTelemetry.SendAnimationClipMissing(
+                assetName,
+                key,
+                animation == null ? String.Empty : animation.ToString(),
+                animation == null ? 0 : Convert.ToInt32(animation),
+                collection == null ? 0 : collection.Count);
+            return default(TValue);
+        }
+
         private static Delegate GetDictionaryLookup(
             Type dictionaryType,
             Type valueType)
@@ -534,8 +578,14 @@ namespace Magicka.CommunityPatch.Runtime
                     parameters[0].ParameterType != typeof(string))
                     continue;
                 MethodInfo safeLookup = typeof(AnimationClipCompatibilityPatch)
-                    .GetMethod("GetValueOrDefault")
+                    .GetMethod("GetValueOrDefaultWithDiagnostic")
                     .MakeGenericMethod(called.DeclaringType, clipType);
+                result.Insert(index, new CodeInstruction(OpCodes.Ldarg_1));
+                result.Insert(
+                    index + 1,
+                    new CodeInstruction(OpCodes.Box, animationsType));
+                result.Insert(index + 2, new CodeInstruction(OpCodes.Ldarg_2));
+                index += 3;
                 result[index].opcode = OpCodes.Call;
                 result[index].operand = safeLookup;
                 replaced++;

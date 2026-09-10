@@ -2727,9 +2727,11 @@ Versionsnachweis.
   verfügbare ProcessThread-Einträge. Weitere manuelle Änderungen der Klasse
   sind noch offen.
 - [ ] `Magicka/CommunityPatch/PayloadContract.cs`
-- [ ] `Magicka/CommunityPatch/AnimationClipCompatibility.cs` — TEILWEISE: die
-  sicheren Array-Lookups sind migriert; die begrenzte Missing-Clip-Telemetrie
-  folgt mit dem gemeinsamen Runtime-Telemetrieblock.
+- [x] `Magicka/CommunityPatch/AnimationClipCompatibility.cs` — VOLLSTÄNDIG:
+  Sichere Dictionary-/Array-Lookups, Slotfilter und Idle-Fallbacks sind
+  migriert. Ein fehlender Clip sendet das vorhandene
+  `magicka_patch_animation_clip_missing` mit stabiler Ähnlichkeitskategorie und
+  gemeinsamem exponentiellem Backoff.
 - [ ] `Magicka/CommunityPatch/PatchSettings.cs`
 - [ ] `Magicka/GameLogic/Entities/Items/Item.cs` — TEILWEISE: die
   levelgebundene Pickable-Queue wird beim Levelabbau freigegeben; Weapon-Cache,
@@ -2976,7 +2978,11 @@ Versionsnachweis.
   den Aufruf aus dem injizierten Helper; der Runtime-Patcher löst dieselbe
   private Methode per Reflection auf.
 - [x] `Magicka/GameLogic/UI/ShadowBlobs.cs` — VOLLSTÄNDIG: die beim Levelabbau bedingt gelöste Szenenreferenz, ein Transpiler und 2 Drei-Wege-Szenarien.
-- [ ] `Magicka/GameLogic/Entities/AnimationClipAction.cs`
+- [x] `Magicka/GameLogic/Entities/AnimationClipAction.cs` — VOLLSTÄNDIG: Der
+  Content-Konstruktor ersetzt ausschließlich den direkten Dictionary-Indexer
+  durch den nichtwerfenden Lookup mit Diagnose. Er liest anschließend wie im
+  Original alle serialisierten Actions weiter; vorhandene Clips bleiben
+  unverändert.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/SpawnSlimeOverkill.cs` — VOLLSTÄNDIG: gespeicherter PlayState in `Execute`, Transpiler und ein Drei-Wege-Szenario; die statische Initialisierer-Darstellung ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/DeflectionAura.cs`
   — VOLLSTÄNDIG: ungenutzte PlayState-Referenz in `Execute`, Transpiler und 2
