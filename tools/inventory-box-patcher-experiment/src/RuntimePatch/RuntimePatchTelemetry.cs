@@ -338,6 +338,18 @@ namespace Magicka.CommunityPatch.Runtime
             }
         }
 
+        public static void SendKhanKillPlaneFallback()
+        {
+            try
+            {
+                SendAsync("magicka_patch_khan_killplane_fallback",
+                    new Dictionary<string, string>());
+            }
+            catch
+            {
+            }
+        }
+
         public static string BuildPayloadForValidation(
             string eventName,
             Dictionary<string, string> properties)

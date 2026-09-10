@@ -2915,7 +2915,14 @@ Versionsnachweis.
   werden über den aktuellen EntityManager wieder eingereiht. Der zusätzliche
   `Content`-Getter ist innerhalb der manuellen Assembly unbenutzt; erzwungene
   Collections und Retention-Aufrufe sind Diagnostik, der Rest Compilerrauschen.
-- [ ] `Magicka/CommunityPatch/PatchTelemetry.cs`
+- [x] `Magicka/CommunityPatch/PatchTelemetry.cs` — VOLLSTÄNDIG: Startup,
+  Normal-Close, Crash, Runtime-Guard, Animation, Typing, Network-Drop,
+  Network-Diagnose und Network-Exception verwenden die Runtime-Sender mit
+  denselben stabilen Ereignis- und Reason-Codes, gemeinsamem Kontext und
+  begrenztem Backoff. Element-Auswahl und Kahn-Kill-Plane-Fallback sind
+  ebenfalls verbunden. Die beiden Network-PlayState-Wait- sowie der
+  Avatar-Dispose-Sender haben in der manuellen Assembly keine Aufrufer und
+  ändern kein Laufzeitverhalten.
 - [ ] `Magicka/GameLogic/Entities/Character.cs` — TEILWEISE: Initialisierung,
   Crossfade und ForceAnimation behandeln fehlende Animationsaktionen und
   fehlende Idle-Clips; `CastSpell` überspringt nur die optionale

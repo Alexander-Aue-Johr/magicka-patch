@@ -261,6 +261,8 @@ four hundred fifty-four method patches:
 - Saved avatars are reinitialized before their existing movement restore;
   saved NPCs reapply the current cached template and rejoin the current
   PlayState's EntityManager before AI resumes.
+- The Kahn kill-plane recovery emits the same bounded fallback event as the
+  manual patch before continuing the defeat trigger.
 - Entity teardown replaces the emptied handle list, its read-only view, and
   the unique-ID dictionary so oversized backing storage does not cross levels.
 - Character-template cache cleanup now releases both lookup dictionaries while

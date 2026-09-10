@@ -114,6 +114,7 @@ namespace Magicka.CommunityPatch.Runtime
             if (trigger == 0)
                 return;
 
+            RuntimePatchTelemetry.SendKhanKillPlaneFallback();
             object scene = RuntimeMember.ReadField(order, "mScene");
             executeTrigger.Invoke(scene, new object[] { trigger, khan, false });
         }

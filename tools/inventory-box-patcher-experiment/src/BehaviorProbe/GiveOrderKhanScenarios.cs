@@ -3,6 +3,9 @@ using System.Collections;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Reflection.Emit;
+using Harmony;
+using Harmony.ILCopying;
 
 internal static class GiveOrderKhanScenarios
 {
@@ -17,6 +20,7 @@ internal static class GiveOrderKhanScenarios
         report.Add("give_order_khan.live", harness.LiveKhan());
         report.Add("give_order_khan.other_order", harness.OtherOrder());
         report.Add("give_order_khan.zero_trigger", harness.ZeroTrigger());
+        report.Add("give_order_khan.telemetry", harness.TelemetryHook());
     }
 }
 
@@ -98,6 +102,30 @@ internal sealed class GiveOrderKhanHarness
     internal ScenarioResult ZeroTrigger()
     {
         return RunScenario("#boss_n06", true, 0, false);
+    }
+
+    internal ScenarioResult TelemetryHook()
+    {
+        MethodInfo method = manualFallback;
+        if (method == null && runtimePatchEnabled)
+            method = runtimeFallback;
+        bool present = method != null && Calls(method,
+            "SendKhanKillPlaneFallback");
+        return new ScenarioResult(present, present.ToString(), "True");
+    }
+
+    private static bool Calls(MethodInfo source, string name)
+    {
+        DynamicMethod reader = new DynamicMethod("ReadKhanTelemetry", typeof(void),
+            Type.EmptyTypes, typeof(GiveOrderKhanScenarios), true);
+        var body = MethodBodyReader.GetInstructions(reader.GetILGenerator(), source);
+        for (int i = 0; i < body.Count; i++)
+        {
+            MethodBase target = body[i].GetCodeInstruction().operand as MethodBase;
+            if (target != null && target.Name == name)
+                return true;
+        }
+        return false;
     }
 
     private ScenarioResult RunScenario(
