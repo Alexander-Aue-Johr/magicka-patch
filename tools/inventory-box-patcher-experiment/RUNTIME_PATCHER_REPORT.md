@@ -2542,18 +2542,18 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Einen weiteren Patch übernehmen
 
-- [ ] Manuellen C#-Diff lesen und dnSpy-Rauschen von semantischen Änderungen trennen.
-- [ ] Die kleinste geeignete Harmony-Technik wählen.
-- [ ] Patchdefinition in einer fachlich benannten Patchklasse anlegen.
-- [ ] Patch im passenden Plan eintragen.
-- [ ] Mindestens einen Fehlerfall definieren: Original FAIL, manuell PASS, Runtime PASS.
-- [ ] Benachbarte Kontrollfälle definieren: alle drei PASS.
-- [ ] Relevante Grenzfälle ergänzen.
-- [ ] Verhalten gegen jede unterstützte Magicka-Version ausführen.
-- [ ] Fehlende Ziele als explizit `NOT_APPLICABLE` behandeln, nicht still ignorieren.
-- [ ] Hash und Community-Patch-Version der manuellen Referenz aktualisieren.
-- [ ] Den betroffenen Eintrag in der Datei-Checkliste aktualisieren.
-- [ ] Vollständigen Build ausführen und `behavior-matrix.txt` prüfen.
+- [x] Manuellen C#-Diff lesen und dnSpy-Rauschen von semantischen Änderungen trennen.
+- [x] Die kleinste geeignete Harmony-Technik wählen.
+- [x] Patchdefinition in einer fachlich benannten Patchklasse anlegen.
+- [x] Patch im passenden Plan eintragen.
+- [x] Mindestens einen Fehlerfall definieren: Original FAIL, manuell PASS, Runtime PASS.
+- [x] Benachbarte Kontrollfälle definieren: alle drei PASS.
+- [x] Relevante Grenzfälle ergänzen.
+- [x] Verhalten gegen jede unterstützte Magicka-Version ausführen.
+- [x] Fehlende Ziele als explizit `NOT_APPLICABLE` behandeln, nicht still ignorieren.
+- [x] Hash und Community-Patch-Version der manuellen Referenz aktualisieren.
+- [x] Den betroffenen Eintrag in der Datei-Checkliste aktualisieren.
+- [x] Vollständigen Build ausführen und `behavior-matrix.txt` prüfen.
 
 ## Kompatibilitätsstatus
 
@@ -2624,7 +2624,7 @@ Versionsnachweis.
   Vier Drei-Wege-Szenarien prüfen Layout-Hooks, Maus-Hooks sowie aktives und
   inaktives Scaling; 19 geänderte konkrete Runtime-Methoden JITten unter CLR 2
   und Mono ohne Skip. Die Änderung ist für 1.4/1.5 nicht anwendbar.
-- [ ] `Magicka/CommunityPatch/NetworkEntityHandleGuard.cs` — TEILWEISE:
+- [?] `Magicka/CommunityPatch/NetworkEntityHandleGuard.cs` — INPUT:
   SpawnNPC-WorldSync sowie schwache, zentralisierte Resolve-, ResolveActive-,
   Body- und Lifecycle-Prüfungen sind migriert. Damage auf Client und Server
   verwirft inaktive Angreifer und körperlose Ziele mit stabilen Reason-Codes.
@@ -2974,7 +2974,7 @@ Versionsnachweis.
   normalen Offline-Leave-Pfad auch den letzten offenen Spielerslot und kehrt
   zum vorigen Menü zurück; Countdown-, Dropdown- und Submenü-Aktionen behalten
   Vorrang. Die übrigen Unterschiede sind Compiler-/Decompilerrauschen.
-- [ ] `Magicka/Network/NetworkClient.cs` — TEILWEISE: verspätete
+- [?] `Magicka/Network/NetworkClient.cs` — INPUT: verspätete
   `RulesetUpdate`-Pakete werden bei gelöster PlayState-/Szenenkette verworfen;
   weltverändernde Spawn-Trigger werden nur vom Server angenommen. EntityUpdate
   verwendet nur aktive Handles; CharacterAction stellt ein fehlendes Template
@@ -2982,7 +2982,7 @@ Versionsnachweis.
   Ziele. Spawn-Handles verwenden passend zur Rolle entweder reservierte
   Cache-Slots oder aktive Entities. Weitere Cache-, Hitlist-, Telemetrie- und
   Lebensdaueränderungen sind noch offen.
-- [ ] `Magicka/Network/NetworkServer.cs` — TEILWEISE: alle geschlossenen
+- [?] `Magicka/Network/NetworkServer.cs` — INPUT: alle geschlossenen
   `QueueUDPMessage<T>`-Instanziierungen prüfen einen veralteten Clientindex
   atomar im vorhandenen Listen-Lock; `EnterSync` verwirft unbekannte Sender
   ebenfalls innerhalb des Locks. Cachebare Broadcasts laufen nach dem Einreihen
@@ -3031,12 +3031,17 @@ Versionsnachweis.
   prüfen Parser und Versionsentscheidungen ohne Netzwerk-, Dialog- oder
   Prozessseiteneffekte; 31 geänderte konkrete Methoden JITten unter CLR 2 und
   Mono ohne Skip.
-- [ ] `Magicka/CommunityPatch/NetworkLifecycleCompatibility.cs` — TEILWEISE:
+- [?] `Magicka/CommunityPatch/NetworkLifecycleCompatibility.cs` — INPUT:
   TriggerAction-Absender- und Lifecycle-Regeln, aktive Entity-Auflösung,
   Forced-Sync, Hotjoin-Fortsetzung, Undead-Zustand und Ruleset-Lifecycle sind
   migriert. Damage- sowie Spawn-Handle-Helfer sind migriert; nachgelagerte
   Spawn-Validierung und Diagnose bleiben offen.
-- [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCutscene.cs`
+- [?] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCutscene.cs` — INPUT:
+  Harmony kann die in 0.0.60 hinzugefügten Instanzfelder nicht in den
+  Originaltyp einfügen. Zur Wahl stehen ein externer schwacher Zustandsstore
+  mit vollständiger GPU-Ressourcen-Neuanlage oder das sichere Entladen der
+  großen Texturen bei dauerhaft behaltenen kleinen Vertex-/Textobjekten.
+  Beide Varianten brauchen einen visuellen Enter/Exit/Re-enter-Test.
 - [x] `Magicka/CommunityPatch/RuntimeCompatibilityGuards.cs` — VOLLSTÄNDIG:
   DirectInput-Ausfallerkennung und verzögerte Warnung, Versionszeilen- und
   Unterstützerdialog-Helfer, asynchroner Store-Abruf sowie die absolute
