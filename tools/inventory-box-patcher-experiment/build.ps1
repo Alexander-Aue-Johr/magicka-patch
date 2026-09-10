@@ -572,6 +572,8 @@ function Test-BehaviorMatrix {
         "entity_update.character_damageable",
         "network_damage.client",
         "network_damage.server",
+        "network_spawn_handles.client",
+        "network_spawn_handles.server",
         "summon_flamer.vector_release",
         "summon_flamer.owner_release",
         "summon_spirit.vector_release",
@@ -773,7 +775,9 @@ function Test-BehaviorProfile(
             "avatar_inventory.missing_play_state",
             "avatar_inventory.missing_inventory",
             "network_damage.client",
-            "network_damage.server"
+            "network_damage.server",
+            "network_spawn_handles.client",
+            "network_spawn_handles.server"
         )
     }
     if ($profile -eq "1.4.16.0-original" -or
@@ -1670,6 +1674,8 @@ function Test-BehaviorProfile(
         "entity_update.no_features",
         "network_damage.client",
         "network_damage.server",
+        "network_spawn_handles.client",
+        "network_spawn_handles.server",
         "summon_flamer.vector_release",
         "summon_flamer.owner_release",
         "summon_spirit.vector_release",
@@ -2231,7 +2237,7 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Missile update empty target sentinel" -or
         $auditLines -notcontains "patch_end=Missile collision empty target sentinel" -or
         $auditLines -notcontains "patch_end=Missile deinitialize reference release" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 458) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 460) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -2246,7 +2252,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=608")
+    $summary.Add("implemented_patches=610")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

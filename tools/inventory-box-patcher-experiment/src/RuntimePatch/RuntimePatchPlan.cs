@@ -33,6 +33,12 @@ namespace Magicka.CommunityPatch.Runtime
                 NetworkDamageLifecyclePatch.ServerDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                NetworkSpawnHandlePatch.ClientDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                NetworkSpawnHandlePatch.ServerDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 AIStateAttackOnExecutePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
