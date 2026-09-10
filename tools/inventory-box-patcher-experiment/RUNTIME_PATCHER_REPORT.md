@@ -2809,8 +2809,9 @@ Versionsnachweis.
 - [ ] `Magicka/GameLogic/UI/Tome.cs` — TEILWEISE: `DrawShadows` leert nun
   Target und DepthBuffer wie 0.0.60. Die Versionsanzeige besitzt ebenfalls die
   512-Zeichen-Kapazität, den gemeinsamen Patch-/Update-Text und das sichere
-  Modified-Suffix. Sprachwechsel-Aktualisierung, Unterstützer-Hitbox und die
-  übrigen tatsächlichen Menüänderungen bleiben offen; verschobene statische
+  Modified-Suffix. Die exakt gemessene Unterstützer-Hitbox und ihr Popup sind
+  ebenfalls migriert. Sprachwechsel-Aktualisierung und die übrigen tatsächlichen
+  Menüänderungen bleiben offen; verschobene statische
   Initialisierer, Literale und lokale Umschreibungen sind Compilerrauschen.
 - [ ] `Magicka/GameLogic/Entities/Avatar.cs` — TEILWEISE: `FindInteractable`
   sowie die Guards gegen verspätete Pickup-Aktionen sind migriert; die übrigen
@@ -2906,7 +2907,7 @@ Versionsnachweis.
   TriggerAction-Absender- und Lifecycle-Regeln sind migriert; Telemetrie und
   weitere Netzwerkhelfer bleiben offen.
 - [ ] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCutscene.cs`
-- [ ] `Magicka/CommunityPatch/RuntimeCompatibilityGuards.cs` — TEILWEISE: die DirectInput-Ausfallerkennung und verzögerte Warnung sind migriert; Steam-API-, Store-, Versionszeilen- und Unterstützerdialog-Helfer sind noch offen.
+- [ ] `Magicka/CommunityPatch/RuntimeCompatibilityGuards.cs` — TEILWEISE: die DirectInput-Ausfallerkennung und verzögerte Warnung sowie Versionszeilen- und Unterstützerdialog-Helfer sind migriert; Steam-API- und Store-Helfer bleiben offen.
 - [x] `Magicka/GameLogic/Entities/Barrier.cs` — VOLLSTÄNDIG: Der finale
   Entity-Handle-Abbau gibt aktive und zwischengespeicherte Barrieren frei,
   stoppt verbleibende Sounds, Animationen und Effekte, löst Hitlist-Owner sowie

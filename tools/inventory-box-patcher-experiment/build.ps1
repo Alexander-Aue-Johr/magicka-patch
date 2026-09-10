@@ -192,6 +192,8 @@ function Test-BehaviorMatrix {
         "tome_shadow.depth_clear",
         "tome_version.complete_label",
         "tome_version.single_edit",
+        "tome_supporters.hook",
+        "tome_supporters.hitbox",
         "original_backup_audit.available",
         "original_backup_audit.missing",
         "original_backup_audit.unverified",
@@ -599,6 +601,8 @@ function Test-BehaviorMatrix {
         "play_state.foreign_state_spawn"
     )
     $legacyNotAvailable = @($playStateNotAvailable) + @(
+        "tome_supporters.hook",
+        "tome_supporters.hitbox",
         "payload_contract.compatible_pair",
         "payload_contract.rejects_missing_pair",
         "ui_render.activation",
@@ -1027,6 +1031,8 @@ function Test-BehaviorProfile(
         "tome_shadow.single_clear",
         "tome_version.complete_label",
         "tome_version.single_edit",
+        "tome_supporters.hook",
+        "tome_supporters.hitbox",
         "level_current_state.read_sites",
         "level_current_state.read_count_preserved",
         "ui_render.activation",
@@ -1976,7 +1982,8 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=Level transition clear current play state" -or
         $auditLines -notcontains "patch_end=Tome shadow-map depth clear" -or
         $auditLines -notcontains "patch_end=Tome Community Patch version label" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 85 -or
+        $auditLines -notcontains "patch_end=Tome supporter credits interaction" -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 86 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 21 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 431) {
         throw "The runtime audit does not contain all registered Harmony patches."
@@ -1993,7 +2000,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=537")
+    $summary.Add("implemented_patches=538")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")
