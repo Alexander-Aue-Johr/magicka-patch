@@ -39,6 +39,7 @@ internal static class GameSceneSavedCharacterScenarios
         bool controls = Count(initializeBody, "MoveTo", null) == 1 &&
             Count(savedBody, "Enable", null) >= 1 &&
             Count(savedBody, "AddEntity", null) == 1;
+        bool identityRecovery = HasTemplateIdentityRecovery(magicka, runtime);
         report.Add("game_scene.saved_avatar_initialize", new ScenarioResult(
             avatarInitializes >= 1, avatarInitializes.ToString(), ">=1"));
         report.Add("game_scene.saved_npc_template", new ScenarioResult(
@@ -47,6 +48,40 @@ internal static class GameSceneSavedCharacterScenarios
             currentManager, currentManager.ToString(), "True"));
         report.Add("game_scene.saved_controls", new ScenarioResult(
             controls, controls.ToString(), "True"));
+        report.Add("game_scene.saved_template_identity", new ScenarioResult(
+            identityRecovery, identityRecovery.ToString(), "True"));
+    }
+
+    private static bool HasTemplateIdentityRecovery(Assembly magicka,
+        bool runtime)
+    {
+        Type character = magicka.GetType(
+            "Magicka.GameLogic.Entities.Character",
+            true);
+        if (!runtime)
+        {
+            return character.GetField("mTemplateIDHash", Members) != null &&
+                Find(character, "TryReApplyCachedTemplate", 0) != null;
+        }
+
+        Assembly runtimeAssembly =
+            typeof(Magicka.CommunityPatch.Runtime.Bootstrap).Assembly;
+        Type store = runtimeAssembly.GetType(
+            "Magicka.CommunityPatch.Runtime.CharacterTemplateIdentityStore",
+            true);
+        object key = new object();
+        store.GetMethod("Remember", Members).Invoke(
+            null,
+            new object[] { key, 173 });
+        object[] arguments = new object[] { key, 0 };
+        bool found = (bool)store.GetMethod("TryGet", Members).Invoke(
+            null,
+            arguments);
+        Type patch = runtimeAssembly.GetType(
+            "Magicka.CommunityPatch.Runtime.CharacterNetworkTemplatePatch",
+            true);
+        return found && (int)arguments[1] == 173 &&
+            patch.GetMethod("Prefix", Members) != null;
     }
 
     private static List<CodeInstruction> NewBody(Type patch, string name,
@@ -115,5 +150,6 @@ internal static class GameSceneSavedCharacterScenarios
         report.AddNotApplicable("game_scene.saved_npc_template", "Saved-character APIs are absent.");
         report.AddNotApplicable("game_scene.saved_current_manager", "Saved-character APIs are absent.");
         report.AddNotApplicable("game_scene.saved_controls", "Saved-character APIs are absent.");
+        report.AddNotApplicable("game_scene.saved_template_identity", "Saved-character APIs are absent.");
     }
 }

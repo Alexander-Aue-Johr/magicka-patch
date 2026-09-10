@@ -177,6 +177,7 @@ namespace Magicka.CommunityPatch.Runtime
             result.Insert(aiLoad - 1, npcLoad);
             result.Insert(aiLoad, new CodeInstruction(OpCodes.Call,
                 typeof(GameSceneSavedCharacterPatch).GetMethod("ReapplyNpcTemplate")));
+            result.Insert(aiLoad + 1, new CodeInstruction(OpCodes.Pop));
 
             int playStateLoads = 0;
             for (int i = 0; i < result.Count; i++)
@@ -195,17 +196,25 @@ namespace Magicka.CommunityPatch.Runtime
             return result;
         }
 
-        public static void ReapplyNpcTemplate(object npc)
+        public static bool ReapplyNpcTemplate(object npc)
         {
             if (npc == null)
-                return;
+                return false;
             object previousTemplate = characterTemplateField.GetValue(npc);
-            if (previousTemplate == null)
-                return;
-            int type = Convert.ToInt32(templateIdGetter.Invoke(previousTemplate, null));
+            int type;
+            if (previousTemplate != null)
+            {
+                type = Convert.ToInt32(
+                    templateIdGetter.Invoke(previousTemplate, null));
+                CharacterTemplateIdentityStore.Remember(npc, type);
+            }
+            else if (!CharacterTemplateIdentityStore.TryGet(npc, out type))
+            {
+                return false;
+            }
             object template = cachedTemplateGetter.Invoke(null, new object[] { type });
             if (template == null)
-                return;
+                return false;
             object[] arguments = new object[] { template, -1 };
             applyTemplate.Invoke(npc, arguments);
             for (int fieldIndex = 0; fieldIndex < renderFields.Length; fieldIndex++)
@@ -221,6 +230,12 @@ namespace Magicka.CommunityPatch.Runtime
                             null, Type.EmptyTypes, null).Invoke(value, null);
                 }
             }
+            return characterTemplateField.GetValue(npc) != null;
+        }
+
+        internal static void InitializeFor(Assembly assembly)
+        {
+            Resolve(assembly);
         }
 
         private static MethodInfo FindByName(Type type, string name, int count)

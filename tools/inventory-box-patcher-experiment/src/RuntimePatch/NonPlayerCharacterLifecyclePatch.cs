@@ -16,6 +16,7 @@ namespace Magicka.CommunityPatch.Runtime
         private static FieldInfo gibsField;
         private static FieldInfo modelField;
         private static FieldInfo templateField;
+        private static MethodInfo templateIdGetter;
         private static MethodInfo agentDisableMethod;
         private static MethodInfo agentResetMethod;
         private static ConstructorInfo controllerConstructor;
@@ -58,6 +59,12 @@ namespace Magicka.CommunityPatch.Runtime
             gibsField = RequireDeclaredField(character, "mGibs");
             modelField = RequireDeclaredField(character, "mModel");
             templateField = RequireDeclaredField(character, "mTemplate");
+            PropertyInfo templateIdProperty = templateField.FieldType.GetProperty(
+                "ID",
+                InstanceMembers);
+            templateIdGetter = templateIdProperty == null
+                ? null
+                : templateIdProperty.GetGetMethod(true);
 
             agentDisableMethod = RequireMethod(
                 agent,
@@ -104,6 +111,7 @@ namespace Magicka.CommunityPatch.Runtime
                 crossfadeFinishedEvent == null ||
                 onAnimationLoopedMethod == null ||
                 onCrossfadeFinishedMethod == null ||
+                templateIdGetter == null ||
                 !typeof(IList).IsAssignableFrom(gibsField.FieldType) ||
                 deinitialize == null ||
                 deinitialize.ReturnType != typeof(void))
@@ -140,6 +148,13 @@ namespace Magicka.CommunityPatch.Runtime
 
         public static void Prefix(object __instance)
         {
+            object template = templateField.GetValue(__instance);
+            if (template != null)
+            {
+                CharacterTemplateIdentityStore.Remember(
+                    __instance,
+                    Convert.ToInt32(templateIdGetter.Invoke(template, null)));
+            }
             object agent = agentField.GetValue(__instance);
             if (agent != null)
                 agentDisableMethod.Invoke(agent, null);

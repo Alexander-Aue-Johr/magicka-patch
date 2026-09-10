@@ -18,6 +18,9 @@ namespace Magicka.CommunityPatch.Runtime
                 CharacterNetworkGripPatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,
+                CharacterNetworkTemplatePatch.Definition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
                 AIStateAttackOnExecutePatch.Definition);
             RuntimePatchSession.Apply(
                 targetAssembly,

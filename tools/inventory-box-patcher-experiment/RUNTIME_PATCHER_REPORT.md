@@ -2915,6 +2915,9 @@ Versionsnachweis.
   werden über den aktuellen EntityManager wieder eingereiht. Der zusätzliche
   `Content`-Getter ist innerhalb der manuellen Assembly unbenutzt; erzwungene
   Collections und Retention-Aufrufe sind Diagnostik, der Rest Compilerrauschen.
+  Die gespeicherte NPC-Template-ID liegt in einer schwachen Runtime-Tabelle,
+  sodass sie den vorherigen `Deinitialize`-Abbau überlebt, ohne den NPC oder
+  seinen PlayState stark zu halten.
 - [x] `Magicka/CommunityPatch/PatchTelemetry.cs` — VOLLSTÄNDIG: Startup,
   Normal-Close, Crash, Runtime-Guard, Animation, Typing, Network-Drop,
   Network-Diagnose und Network-Exception verwenden die Runtime-Sender mit
@@ -2929,8 +2932,10 @@ Versionsnachweis.
   Elementstatistik bei gelöstem Gamer. Der finale Levelabbau gibt außerdem den
   vollständigen Character-eigenen Objektgraphen frei. Ungültige verspätete
   Grip-Pakete werden vor jeder Zustandsänderung verworfen. Template-Reapply,
-  einschließlich des GameScene-Wiederherstellungspfads, ist migriert;
-  NetworkClient-Recovery, Telemetrie und Diagnoseänderungen sind noch offen.
+  einschließlich des GameScene-Wiederherstellungspfads und der schwach über
+  `Deinitialize` erhaltenen Template-ID, ist migriert. Der NetworkClient stellt
+  das Template vor `Character.NetworkAction` wieder her oder verwirft die
+  Aktion kontrolliert. Telemetrie und Diagnoseänderungen sind noch offen.
 - [ ] `Magicka/GameLogic/Spells/SpellEffects/ProjectileSpell.cs` — TEILWEISE:
   Leerpool-Recovery, aktuelle PlayState-Zugriffe und statische Poolfreigabe
   sind migriert. `SpawnMissile` verwirft außerdem Owner ohne PlayState oder
