@@ -101,7 +101,10 @@ namespace Magicka.CommunityPatch.Runtime
             try
             {
                 if (current == null || candidate == null)
+                {
+                    ReportRecovery("railgun_parent_cycle_check_failed", 0, 0, 0);
                     return true;
+                }
                 object[] pending = new object[TraversalLimit];
                 object[] visited = new object[TraversalLimit];
                 int pendingCount = 1;
@@ -111,22 +114,40 @@ namespace Magicka.CommunityPatch.Runtime
                 {
                     object node = pending[--pendingCount];
                     if (Object.ReferenceEquals(node, candidate))
+                    {
+                        ReportRecovery("railgun_parent_cycle_prevented",
+                            visitedCount, pendingCount, ParentCount(candidate));
                         return true;
+                    }
                     if (Contains(visited, visitedCount, node))
                         continue;
                     if (visitedCount >= TraversalLimit)
+                    {
+                        ReportRecovery("railgun_parent_cycle_check_limit_reached",
+                            visitedCount, pendingCount, ParentCount(candidate));
                         return true;
+                    }
                     visited[visitedCount++] = node;
                     IList parents = getParents(node);
                     if (parents == null)
+                    {
+                        ReportRecovery("railgun_parent_cycle_check_failed",
+                            visitedCount, pendingCount, ParentCount(candidate));
                         return true;
+                    }
                     for (int index = 0; index < parents.Count; index++)
                     {
                         object parent = parents[index];
                         if (parent == null || Contains(visited, visitedCount, parent))
                             continue;
                         if (pendingCount >= TraversalLimit)
+                        {
+                            ReportRecovery(
+                                "railgun_parent_cycle_check_limit_reached",
+                                visitedCount, pendingCount,
+                                ParentCount(candidate));
                             return true;
+                        }
                         pending[pendingCount++] = parent;
                     }
                 }
@@ -134,8 +155,36 @@ namespace Magicka.CommunityPatch.Runtime
             }
             catch (Exception)
             {
+                ReportRecovery("railgun_parent_cycle_check_failed", 0, 0, 0);
                 return true;
             }
+        }
+
+        private static int ParentCount(object railgun)
+        {
+            try
+            {
+                IList parents = railgun == null ? null : getParents(railgun);
+                return parents == null ? 0 : parents.Count;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        private static void ReportRecovery(string reason, int visitedCount,
+            int pendingCount, int candidateParentCount)
+        {
+            RuntimePatchTelemetry.SendRuntimeGuard(
+                "magicka_patch_runtime_recovery",
+                reason,
+                "Railgun.mParents",
+                "Magicka.GameLogic.Spells.Railgun",
+                "visited_count=" + visitedCount + ";pending_count=" +
+                    pendingCount + ";candidate_parent_count=" +
+                    candidateParentCount,
+                String.Empty);
         }
 
         public static bool LockAllPrefix(object __instance)
