@@ -2542,6 +2542,21 @@ Runtime-Architektur doppelte Implementierungen. Erhalten bleiben nur:
 
 ## Einen weiteren Patch übernehmen
 
+### Verbindliche Migrationsentscheidung
+
+Die Runtime-Migration muss das sichtbare und semantische Verhalten von 0.0.60
+erhalten, nicht dessen interne Klassenhierarchie. Vorhandene Magicka-Typen
+dürfen deshalb mit Harmony erweitert und zusätzlicher Zustand darf schwach in
+der Runtime-Assembly gehalten werden. Neue Unterklassen aus 0.0.60 werden nicht
+mit `Reflection.Emit` nachgebaut, wenn eine robustere Interception vorhandener
+Menüs dasselbe Verhalten liefert. Im Netzwerk werden gezielte Zustandsprüfungen
+statt eines breiten `NullReferenceException`-Catch verwendet. Die originale
+Assembly-Identität bleibt unverändert.
+
+Praktische Grafik-, Controller- und Multiplayer-Prüfungen blockieren die
+Implementierung nicht. Sie werden gesammelt und erst nach Abschluss aller
+automatisch prüfbaren Migrationen als gemeinsame Endtest-Liste ausgeführt.
+
 - [x] Manuellen C#-Diff lesen und dnSpy-Rauschen von semantischen Änderungen trennen.
 - [x] Die kleinste geeignete Harmony-Technik wählen.
 - [x] Patchdefinition in einer fachlich benannten Patchklasse anlegen.
@@ -2865,7 +2880,7 @@ Versionsnachweis.
   Character-Select-Unload. Die übrigen Unterschiede bei Zuweisungen,
   Switches, statischen Initialisierern, Literalen und lokalen Variablen sind
   Compilerrauschen.
-- [?] `Magicka/GameLogic/Entities/Avatar.cs` — INPUT: `FindInteractable`
+- [x] `Magicka/GameLogic/Entities/Avatar.cs` — VOLLSTÄNDIG: `FindInteractable`
   sowie die Guards gegen verspätete Pickup-Aktionen sind migriert. Der
   Inventory-Close beim Deinitialisieren toleriert einen bereits gelösten
   PlayState beziehungsweise ein bereits gelöstes Inventory, ohne den übrigen
@@ -2873,7 +2888,8 @@ Versionsnachweis.
   bereits durch die gemeinsamen Pool-/Handle-Patches abgedeckt. Offen bleibt
   nur `CommunityPatchClearSpellQueue` aus dem unteilbaren
   Magicka-2-Controllerblock; die Architekturentscheidung steht bei
-  `InGameMenuOptionsControls`.
+  umgesetzt: Im Offline-Modus leert der rechte Stick Icon-, Spell- und
+  Input-Queue und setzt Chant-Zähler, Chant-Zustand und Chastrichtung zurück.
   RetentionRegistry-Aufrufe und lokale Umbenennungen sind Diagnostik
   beziehungsweise Compilerrauschen.
 - [x] `Magicka/GameLogic/GameStates/PlayState.cs` — VOLLSTÄNDIG: `AddWorldSyncMessage`, ShadowBlobs-Lebensdauer, sämtliche fachlich dokumentierten Level-Cleanup-Injektionen, der eingereihte render-sichere `OnExit`-Abbau, der leere Checkpoint-Payload sowie PlayState-/Menü-Telemetriekontext sind migriert. `RetentionRegistry` und zusätzliche erzwungene GC-Aufrufe der manuellen Testassembly sind Diagnostik und kein auszulieferndes Laufzeitverhalten; die übrigen Unterschiede sind Compilerrauschen.
@@ -2914,10 +2930,12 @@ Versionsnachweis.
   das explizite Leeren der Renderfelder aus dem manuellen `Dispose` ist danach
   für Erreichbarkeit und GPU-Lebensdauer redundant. Die übrigen Unterschiede
   sind RetentionRegistry- und Netzwerkdiagnostik.
-- [?] `Magicka/GameLogic/Controls/XInputController.cs` — INPUT: Root-Menü-B und
-  Elementauswahl-Telemetrie sind migriert. Die Magicka-2-Eingabelogik gehört
-  zum unteilbaren Controller-UI-Bündel; die Architekturentscheidung steht bei
-  `InGameMenuOptionsControls`.
+- [x] `Magicka/GameLogic/Controls/XInputController.cs` — VOLLSTÄNDIG:
+  Root-Menü-B, Elementauswahl-Telemetrie und die optionale Magicka-2-Belegung
+  sind migriert. Der Runtime-Helper bildet Modifier, Elemente, Aktion,
+  Inventar, Boost, Special, Area/Force, Trigger-Magick, wiederholtes
+  Schusswaffenfeuer, invertiertes Zielen und Offline-Queue-Clear ab. Die
+  ursprüngliche Belegung bleibt bei aktivierter Legacy-Einstellung unverändert.
 - [x] `Magicka/Levels/GameScene.cs` — VOLLSTÄNDIG: der ungültige
   Ambient-Audio-Locator wird bei einem internen XACT-Cue-Indexfehler entfernt;
   `PlayState` liefert außerdem den aktuellen statt eines gespeicherten
@@ -3003,9 +3021,10 @@ Versionsnachweis.
   Steam-Build-4143032-Katalogs. Drei Drei-Wege-Szenarien prüfen Verfügbarkeit,
   fehlende und nicht verifizierte Kandidaten; 16 geänderte konkrete Methoden
   JITten unter CLR 2 und Mono ohne Skip.
-- [?] `Magicka/CommunityPatch/Magicka2ControllerSupport.cs` — INPUT:
-  unteilbarer Teil des Controller-UI-Bündels; siehe
-  `InGameMenuOptionsControls`.
+- [x] `Magicka/CommunityPatch/Magicka2ControllerSupport.cs` — VOLLSTÄNDIG:
+  als versionsneutrale Runtime-Hilfsklasse statt als injizierter Magicka-Typ
+  umgesetzt. Vier Elementpaare und die Aktivierung werden im Drei-Wege-Test
+  geprüft; der vollständige Controllerlauf bleibt in der Endtest-Liste.
 - [x] `Magicka/GameLogic/Entities/CharacterTemplate.cs` — VOLLSTÄNDIG:
   Animationsaktionen ohne auflösbaren Clip werden nicht gespeichert. Beide
   Template-Lookups werden ohne vorzeitige Freigabe gemeinsam besessener Assets

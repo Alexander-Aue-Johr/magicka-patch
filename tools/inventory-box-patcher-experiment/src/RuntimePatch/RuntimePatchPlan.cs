@@ -7,6 +7,16 @@ namespace Magicka.CommunityPatch.Runtime
         internal static void ApplyTo(Assembly targetAssembly)
         {
             RuntimePatchAudit.BeginRun(targetAssembly);
+            RuntimePatchSession.Apply(targetAssembly,
+                ModernControllerSchemePatch.UpdateDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                ModernControllerSchemePatch.FloatDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                ModernControllerSchemePatch.BoolDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                ModernControllerSchemePatch.PressedDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                ModernControllerSchemePatch.ReleasedDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 AvatarFindInteractablePatch.Definition);
