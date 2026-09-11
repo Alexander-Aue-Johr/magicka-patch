@@ -3058,12 +3058,14 @@ Versionsnachweis.
   Forced-Sync, Hotjoin-Fortsetzung, Undead-Zustand und Ruleset-Lifecycle sind
   migriert. Damage- sowie Spawn-Handle-Helfer sind migriert; nachgelagerte
   Spawn-Validierung und Diagnose bleiben offen.
-- [?] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCutscene.cs` — INPUT:
-  Harmony kann die in 0.0.60 hinzugefügten Instanzfelder nicht in den
-  Originaltyp einfügen. Zur Wahl stehen ein externer schwacher Zustandsstore
-  mit vollständiger GPU-Ressourcen-Neuanlage oder das sichere Entladen der
-  großen Texturen bei dauerhaft behaltenen kleinen Vertex-/Textobjekten.
-  Beide Varianten brauchen einen visuellen Enter/Exit/Re-enter-Test.
+- [x] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCutscene.cs` —
+  VOLLSTÄNDIG: Die sieben Konstruktor-Ladevorgänge verwenden einen privaten
+  Runtime-ContentManager. `OnExit` entlädt ihn, löst alle Texturfelder und den
+  aktiven Cue; `OnEnter` lädt gemeinsame und ausgewählte Kartenassets neu.
+  Kleine Vertex-/Textobjekte bleiben am ohnehin prozessweiten Singleton und
+  müssen nicht fragil per Reflection neu erzeugt werden. Draw-Hooks sperren
+  den inaktiven Zeitraum. Der visuelle Enter/Exit/Re-enter-Test steht gesammelt
+  in der Endtest-Liste.
 - [x] `Magicka/CommunityPatch/RuntimeCompatibilityGuards.cs` — VOLLSTÄNDIG:
   DirectInput-Ausfallerkennung und verzögerte Warnung, Versionszeilen- und
   Unterstützerdialog-Helfer, asynchroner Store-Abruf sowie die absolute
@@ -3370,14 +3372,11 @@ Versionsnachweis.
 - [x] `Magicka/Levels/Packs/ItemPack.cs` — VOLLSTÄNDIG: Custom-Lizenz in beiden Settern, 2 Transpiler und gemeinsame Pack-Szenarien.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/OtherworldlyDischarge.cs` — VOLLSTÄNDIG: statischer levelgeladener Template-Cache, bestehender PlayState-Cleanup-Transpiler und 2 gemeinsame Drei-Wege-Szenarien.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/MutateBeastman.cs` — VOLLSTÄNDIG: statischer levelgeladener Template-Cache, bestehender PlayState-Cleanup-Transpiler und 2 gemeinsame Drei-Wege-Szenarien.
-- [?] `Properties/AssemblyInfo.cs` — INPUT: Die einzige beabsichtigte
-  Metadatenänderung der manuellen Assembly ist die sichtbare
-  `AssemblyDescription("Patched by Alexander Aue-Johr")`. Das zusätzlich
-  entstandene `CLSCompliant(true)` ist Rekompilierungsnoise und wird nicht
-  übernommen. Zu entscheiden ist, ob der Runtime-Loader die unveränderte
-  Original-EXE bewusst mit einer Patch-Beschreibung versehen soll oder ob die
-  minimale Loader-Injektion auch die Originalmetadaten bewahren soll. Dies hat
-  keinen Einfluss auf das Laufzeitverhalten.
+- [x] `Properties/AssemblyInfo.cs` — VOLLSTÄNDIG: Die Runtime-Migration bewahrt
+  absichtlich Magickas originale Assembly-Identität und -Beschreibung. Die
+  manuelle `AssemblyDescription` ist kein Laufzeitverhalten; das zusätzlich
+  entstandene `CLSCompliant(true)` war Rekompilierungsnoise. Patchidentität und
+  Version liegen in der Runtime-Payload und deren Telemetrie.
 - [x] `Magicka/Audio/AudioManager.cs` — VOLLSTÄNDIG: `StopAll` überspringt
   bereits freigegebene Cues, Transpiler und 2 Drei-Wege-Szenarien; die
   statische String-Initialisierer-Umschreibung ist semantikfreies

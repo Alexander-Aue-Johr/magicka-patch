@@ -39,6 +39,11 @@ namespace Magicka.CommunityPatch.Runtime
                 List<string> lines = Header("FAIL", targetAssembly);
                 lines.Add("exception=" + exception.GetType().FullName);
                 lines.Add("message=" + exception.Message);
+                lines.Add("stack=" + (exception.StackTrace ?? String.Empty)
+                    .Replace('\r', ' ').Replace('\n', ' '));
+                if (exception.InnerException != null)
+                    lines.Add("inner=" + exception.InnerException.ToString()
+                        .Replace('\r', ' ').Replace('\n', ' '));
                 File.WriteAllLines(AuditPath(), lines.ToArray());
             }
             catch

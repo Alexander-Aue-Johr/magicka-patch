@@ -24,6 +24,20 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(targetAssembly,
                 HybridInputPatch.LabelsDefinition);
             ControllerOptionsMenuPatchPlan.ApplyTo(targetAssembly);
+            RuntimePatchSession.Apply(targetAssembly,
+                CutsceneMenuLifetimePatch.ConstructorDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                CutsceneMenuLifetimePatch.EnterDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                CutsceneMenuLifetimePatch.ExitDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                CutsceneMenuLifetimePatch.DrawDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                CutsceneMenuLifetimePatch.DrawOldDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                CutsceneMenuLifetimePatch.DrawBothDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                CutsceneMenuLifetimePatch.LevelDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 AvatarFindInteractablePatch.Definition);
