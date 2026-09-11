@@ -61,13 +61,13 @@ namespace Magicka.CommunityPatch.Runtime
                 "Magicka 2 controller pressed bindings",
                 "org.magickacommunitypatch.modern-controller-pressed",
                 assembly => FindBoundMethod(assembly, "GetBoundValuePressed", 3),
-                CreateTransitionPrefix);
+                CreatePressedPrefix);
         internal static readonly RuntimePatchDefinition ReleasedDefinition =
             RuntimePatchDefinition.Prefix(
                 "Magicka 2 controller released bindings",
                 "org.magickacommunitypatch.modern-controller-released",
                 assembly => FindBoundMethod(assembly, "GetBoundValueReleased", 3),
-                CreateTransitionPrefix);
+                CreateReleasedPrefix);
 
         private static MethodInfo FindUpdate(Assembly assembly)
         {
@@ -157,12 +157,21 @@ namespace Magicka.CommunityPatch.Runtime
                 .GetMethod("Prefix");
         }
 
-        private static MethodInfo CreateTransitionPrefix(MethodInfo target)
+        private static MethodInfo CreatePressedPrefix(MethodInfo target)
         {
             Type[] args = new Type[] { target.DeclaringType,
                 target.GetParameters()[0].ParameterType,
                 target.GetParameters()[1].ParameterType };
-            return typeof(ModernControllerTransitionPrefix<,,>)
+            return typeof(ModernControllerPressedPrefix<,,>)
+                .MakeGenericType(args).GetMethod("Prefix");
+        }
+
+        private static MethodInfo CreateReleasedPrefix(MethodInfo target)
+        {
+            Type[] args = new Type[] { target.DeclaringType,
+                target.GetParameters()[0].ParameterType,
+                target.GetParameters()[1].ParameterType };
+            return typeof(ModernControllerReleasedPrefix<,,>)
                 .MakeGenericType(args).GetMethod("Prefix");
         }
 
@@ -225,7 +234,41 @@ namespace Magicka.CommunityPatch.Runtime
                 name == "Spell_Up" || name == "Spell_Down";
         }
 
+        public static bool TryOverridePressed(object controller, object function,
+            object current, object previous, out bool result)
+        {
+            result = false;
+            if (!enabled || !IsPlaying()) return false;
+            string name = function.ToString();
+            if (name == "Interact")
+            {
+                int index = Math.Max(0, Math.Min(3, Convert.ToInt32(
+                    playerIndexField.GetValue(controller))));
+                if (Pressed(current, previous, "LeftShoulder"))
+                    ModifierUsed[index] = false;
+                if (Down(current, "LeftShoulder") &&
+                    (Down(current, "A") || Down(current, "B") ||
+                     Down(current, "X") || Down(current, "Y") ||
+                     Down(current, "DPadUp") || Down(current, "DPadDown") ||
+                     Down(current, "DPadLeft") || Down(current, "DPadRight")))
+                    ModifierUsed[index] = true;
+                result = ShouldInvokeAction(
+                    Down(current, "LeftShoulder"),
+                    Down(previous, "LeftShoulder"),
+                    ModifierUsed[index]);
+                return true;
+            }
+            return TryOverrideBool(function, out result);
+        }
+
         public static bool IsEnabled() { return enabled; }
+
+        public static bool ShouldInvokeAction(bool currentModifierDown,
+            bool previousModifierDown, bool modifierUsed)
+        {
+            return !currentModifierDown && previousModifierDown &&
+                !modifierUsed;
+        }
 
         public static string MappedElement(string button, bool modifier)
         {
@@ -520,7 +563,14 @@ namespace Magicka.CommunityPatch.Runtime
             TState iState, ref bool __result)
         { return !ModernControllerSchemePatch.TryOverrideBool(iFunction, out __result); }
     }
-    public static class ModernControllerTransitionPrefix<TInstance, TFunction, TState>
+    public static class ModernControllerPressedPrefix<TInstance, TFunction, TState>
+    {
+        public static bool Prefix(TInstance __instance, TFunction iFunction,
+            TState iNewState, TState iOldState, ref bool __result)
+        { return !ModernControllerSchemePatch.TryOverridePressed(__instance,
+            iFunction, iNewState, iOldState, out __result); }
+    }
+    public static class ModernControllerReleasedPrefix<TInstance, TFunction, TState>
     {
         public static bool Prefix(TInstance __instance, TFunction iFunction,
             TState iNewState, TState iOldState, ref bool __result)

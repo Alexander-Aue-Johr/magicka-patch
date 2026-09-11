@@ -2936,8 +2936,11 @@ Versionsnachweis.
   Root-Menü-B, Elementauswahl-Telemetrie und die optionale Magicka-2-Belegung
   sind migriert. Der Runtime-Helper bildet Modifier, Elemente, Aktion,
   Inventar, Boost, Special, Area/Force, Trigger-Magick, wiederholtes
-  Schusswaffenfeuer, invertiertes Zielen und Offline-Queue-Clear ab. Die
-  ursprüngliche Belegung bleibt bei aktivierter Legacy-Einstellung unverändert.
+  Schusswaffenfeuer, invertiertes Zielen und Offline-Queue-Clear ab. Die Aktion
+  wird beim Loslassen eines unbenutzten Modifiers ausgelöst; nach einer
+  Elementauswahl wird sie unterdrückt. Ein automatisches Szenario deckt beide
+  Modifierpfade ab. Die ursprüngliche Belegung bleibt bei aktivierter
+  Legacy-Einstellung unverändert.
 - [x] `Magicka/Levels/GameScene.cs` — VOLLSTÄNDIG: der ungültige
   Ambient-Audio-Locator wird bei einem internen XACT-Cue-Indexfehler entfernt;
   `PlayState` liefert außerdem den aktuellen statt eines gespeicherten

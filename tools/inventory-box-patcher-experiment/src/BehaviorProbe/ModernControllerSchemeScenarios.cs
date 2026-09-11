@@ -22,9 +22,15 @@ internal static class ModernControllerSchemeScenarios
                 null, new object[] { buttons[index], true }) == modified[index];
         }
         bool available = manual || runtimePatchEnabled;
+        MethodInfo action = runtime.GetMethod("ShouldInvokeAction");
+        bool actionRelease =
+            (bool)action.Invoke(null, new object[] { false, true, false }) &&
+            !(bool)action.Invoke(null, new object[] { false, true, true }) &&
+            !(bool)action.Invoke(null, new object[] { true, true, false });
         report.Add("controller.modern_scheme_available", new ScenarioResult(
-            available && (!runtimePatchEnabled || mappings),
-            "available:" + available + ",mappings:" + mappings,
-            "available:True,mappings:True"));
+            available && (!runtimePatchEnabled || (mappings && actionRelease)),
+            "available:" + available + ",mappings:" + mappings +
+                ",action_release:" + actionRelease,
+            "available:True,mappings:True,action_release:True"));
     }
 }
