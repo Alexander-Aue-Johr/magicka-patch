@@ -17,6 +17,12 @@ namespace Magicka.CommunityPatch.Runtime
                 ModernControllerSchemePatch.PressedDefinition);
             RuntimePatchSession.Apply(targetAssembly,
                 ModernControllerSchemePatch.ReleasedDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                HybridInputPatch.InputDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                HybridInputPatch.HudDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                HybridInputPatch.LabelsDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 AvatarFindInteractablePatch.Definition);

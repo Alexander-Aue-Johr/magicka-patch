@@ -2231,8 +2231,8 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=GameScene saved avatar initialization" -or
         $auditLines -notcontains "patch_end=GameScene saved NPC template restore" -or
         @($auditLines | Where-Object { $_ -like "patch_end=Shared content disposable ownership:*" }).Count -ne 13 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 125 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 30 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 126 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 32 -or
         $auditLines -notcontains "patch_end=Missile initialized condition collection" -or
         $auditLines -notcontains "patch_end=Missile update empty target sentinel" -or
         $auditLines -notcontains "patch_end=Missile collision empty target sentinel" -or
@@ -2252,7 +2252,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=615")
+    $summary.Add("implemented_patches=618")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

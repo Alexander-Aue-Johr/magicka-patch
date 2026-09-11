@@ -245,6 +245,10 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        HybridInputScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         ParadoxStorePriceUpdateScenarios.Run(
             magicka,
             runtimePatchEnabled,

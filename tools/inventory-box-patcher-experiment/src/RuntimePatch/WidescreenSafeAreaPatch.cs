@@ -88,8 +88,12 @@ namespace Magicka.CommunityPatch.Runtime
             return typeof(WidescreenSafeAreaPatch).GetMethod("KeyboardPrefix");
         }
 
-        public static void KeyboardPrefix(object __instance, ref float iXOffset)
+        public static void KeyboardPrefix(object __instance,
+            ref int iPosition, int iElementIndex, ref float iXOffset,
+            ref float iYOffset)
         {
+            HybridInputPatch.AdjustIcon(iElementIndex, ref iPosition,
+                ref iXOffset, ref iYOffset);
             object size = keyboardScreenSizeField.GetValue(__instance);
             int width = (int)pointXField.GetValue(size);
             int height = (int)pointYField.GetValue(size);

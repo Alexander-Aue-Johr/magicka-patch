@@ -2726,10 +2726,10 @@ Versionsnachweis.
   sind mit 4 Transpilern und 4 Drei-Wege-Szenarien migriert.
   RetentionRegistry-Aufrufe sind reine Diagnostik; statische Initialisierer sind
   semantikfreies Compiler- beziehungsweise Decompilerrauschen.
-- [?] `Magicka/GameLogic/UI/KeyboardHUD.cs` — INPUT: der Safe-Area-Einzug ist
-  migriert. Hybrid-Anzeige und Label-Aktualisierung gehören zum unteilbaren
-  Controller-UI-Bündel; die dafür nötige Architekturentscheidung steht bei
-  `InGameMenuOptionsControls`.
+- [x] `Magicka/GameLogic/UI/KeyboardHUD.cs` — VOLLSTÄNDIG: Safe-Area-Einzug,
+  Controller-Anordnung der acht Elemente, Basis-/Modifier-Labels und die
+  Abschwächung der jeweils inaktiven Elementgruppe sind migriert. Beim Wechsel
+  zur Tastatur stellt `UpdateControls` die originalen Tastenlabels wieder her.
 - [x] `Magicka/CommunityPatch/MouseInputCompatibility.cs` — VOLLSTÄNDIG: die
   koordinatengenaue, begrenzte Skalierung für randloses Fullscreen liegt im
   Runtime-Helper und wird typisiert aus `Game.Draw` aufgerufen.
@@ -3011,8 +3011,11 @@ Versionsnachweis.
   Spawn-Handles verwenden passend zur Rolle entweder reservierte Cache-Slots
   oder aktive Entities. Weitere Cache-, Hitlist-, Telemetrie- und Lebensdaueränderungen sind
   noch offen.
-- [?] `Magicka/CommunityPatch/HybridInputSupport.cs` — INPUT: unteilbarer Teil
-  des Controller-UI-Bündels; siehe `InGameMenuOptionsControls`.
+- [x] `Magicka/CommunityPatch/HybridInputSupport.cs` — VOLLSTÄNDIG: Ein
+  versionsneutraler Runtime-Helfer verfolgt vier Gamepads sowie Tastatur und
+  Maus in fest begrenztem Zustand. Er übergibt ausschließlich den einzigen
+  lokalen, spielenden und nicht gesperrten Player, neutralisiert gehaltene
+  Aktionen und hält HUD-Modus und Modifierzustand synchron.
 - [x] `Magicka/CommunityPatch/OriginalBackupAudit.cs` — VOLLSTÄNDIG: Das
   Start-Ereignis prüft im asynchronen Worker dieselben Manifest-, Installer-
   und manuell benannten Sicherungskandidaten wie 0.0.60. Der rekursive Scan
@@ -3503,11 +3506,10 @@ Versionsnachweis.
   Drei-Wege-Szenarien; die Wiederverwendung des Schleifenindex im manuellen
   Dekompilat ist semantikfreies Compilerrauschen.
 - [x] `Magicka/Levels/Packs/PackMan.cs` — VOLLSTÄNDIG: das gemeinsame Lizenzprädikat ist für beide Pack-Setter und alle vier Anzeigeaufrufe migriert.
-- [?] `Magicka/GameLogic/Controls/ControlManager.cs` — INPUT: die drei
+- [x] `Magicka/GameLogic/Controls/ControlManager.cs` — VOLLSTÄNDIG: die drei
   `Controller`-Überladungen der Player-Input-Sperre sind mit 3 Prefixen und 3
-  Drei-Wege-Szenarien migriert; `HybridInputSupport.Update` gehört zum
-  unteilbaren Controller-UI-Bündel und wartet auf die bei
-  `InGameMenuOptionsControls` dokumentierte Architekturentscheidung.
+  Drei-Wege-Szenarien migriert; die `HybridInputSupport.Update`-Semantik läuft
+  als Prefix von `HandleInput`.
 - [x] `Magicka/GameLogic/Player.cs` — VOLLSTÄNDIG: Avatar-Setter sowie die
   unabhängige Freigabe von TextBox und Notifier in `DeinitializeGame`, 3
   Prefixe und 9 Drei-Wege-Szenarien.
