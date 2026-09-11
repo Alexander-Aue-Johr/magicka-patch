@@ -2639,14 +2639,16 @@ Versionsnachweis.
   Vier Drei-Wege-Szenarien prüfen Layout-Hooks, Maus-Hooks sowie aktives und
   inaktives Scaling; 19 geänderte konkrete Runtime-Methoden JITten unter CLR 2
   und Mono ohne Skip. Die Änderung ist für 1.4/1.5 nicht anwendbar.
-- [?] `Magicka/CommunityPatch/NetworkEntityHandleGuard.cs` — INPUT:
+- [x] `Magicka/CommunityPatch/NetworkEntityHandleGuard.cs` — VOLLSTÄNDIG:
   SpawnNPC-WorldSync sowie schwache, zentralisierte Resolve-, ResolveActive-,
   Body- und Lifecycle-Prüfungen sind migriert. Damage auf Client und Server
   verwirft inaktive Angreifer und körperlose Ziele mit stabilen Reason-Codes.
   Spawn-, Remove- und Die-Paketpfade unterscheiden nun reservierte, noch
   inaktive Cache-Slots von Ownern, Zielen und Aktionen, die im aktuellen
   EntityManager aktiv sein müssen. Nachgelagerte Cache-, Hitlist- und
-  Post-Initialize-Prüfungen bleiben offen.
+  Post-Initialize-Prüfungen brechen ausschließlich das bereits als inkonsistent
+  erkannte Einzelpaket über eine interne, am ReadMessage-Rand abgefangene
+  Kontrollflussausnahme ab.
 - [x] `Magicka/GameLogic/Spells/ArcaneBlast.cs` — VOLLSTÄNDIG: der statische
   Pool wird beim Levelabbau geleert. Alle übrigen Änderungen sind
   RetentionRegistry-Diagnostik, lokale Variablennamen oder eine äquivalente
@@ -2992,15 +2994,17 @@ Versionsnachweis.
   normalen Offline-Leave-Pfad auch den letzten offenen Spielerslot und kehrt
   zum vorigen Menü zurück; Countdown-, Dropdown- und Submenü-Aktionen behalten
   Vorrang. Die übrigen Unterschiede sind Compiler-/Decompilerrauschen.
-- [?] `Magicka/Network/NetworkClient.cs` — INPUT: verspätete
+- [x] `Magicka/Network/NetworkClient.cs` — VOLLSTÄNDIG: verspätete
   `RulesetUpdate`-Pakete werden bei gelöster PlayState-/Szenenkette verworfen;
   weltverändernde Spawn-Trigger werden nur vom Server angenommen. EntityUpdate
   verwendet nur aktive Handles; CharacterAction stellt ein fehlendes Template
   kontrolliert wieder her. Damage verwirft inaktive Angreifer und körperlose
   Ziele. Spawn-Handles verwenden passend zur Rolle entweder reservierte
-  Cache-Slots oder aktive Entities. Weitere Cache-, Hitlist-, Telemetrie- und
-  Lebensdaueränderungen sind noch offen.
-- [?] `Magicka/Network/NetworkServer.cs` — INPUT: alle geschlossenen
+  Cache-Slots oder aktive Entities. Cache-, Hitlist-, Gamer-/Template- und
+  Post-Initialize-Abhängigkeiten werden
+  vor der nächsten Originaldereferenz geprüft. Nur gezielt verworfene Pakete
+  verlassen den Decoder vorzeitig; das Paketformat bleibt unverändert.
+- [x] `Magicka/Network/NetworkServer.cs` — VOLLSTÄNDIG: alle geschlossenen
   `QueueUDPMessage<T>`-Instanziierungen prüfen einen veralteten Clientindex
   atomar im vorhandenen Listen-Lock; `EnterSync` verwirft unbekannte Sender
   ebenfalls innerhalb des Locks. Cachebare Broadcasts laufen nach dem Einreihen
@@ -3009,8 +3013,9 @@ Versionsnachweis.
   Antworten aus lückenhaften Player-Slots. EntityUpdate verwendet nur aktive
   Handles. Damage verwirft inaktive Angreifer und körperlose Ziele. Weitere
   Spawn-Handles verwenden passend zur Rolle entweder reservierte Cache-Slots
-  oder aktive Entities. Weitere Cache-, Hitlist-, Telemetrie- und Lebensdaueränderungen sind
-  noch offen.
+  oder aktive Entities. Weitere Cache-, Hitlist- und Lebensdauerzustände sind
+  über denselben gezielten Post-Initialize-Abbruch
+  abgedeckt. Der bestehende breite Original-Catch wird nicht erweitert.
 - [x] `Magicka/CommunityPatch/HybridInputSupport.cs` — VOLLSTÄNDIG: Ein
   versionsneutraler Runtime-Helfer verfolgt vier Gamepads sowie Tastatur und
   Maus in fest begrenztem Zustand. Er übergibt ausschließlich den einzigen
@@ -3053,11 +3058,13 @@ Versionsnachweis.
   prüfen Parser und Versionsentscheidungen ohne Netzwerk-, Dialog- oder
   Prozessseiteneffekte; 31 geänderte konkrete Methoden JITten unter CLR 2 und
   Mono ohne Skip.
-- [?] `Magicka/CommunityPatch/NetworkLifecycleCompatibility.cs` — INPUT:
+- [x] `Magicka/CommunityPatch/NetworkLifecycleCompatibility.cs` — VOLLSTÄNDIG:
   TriggerAction-Absender- und Lifecycle-Regeln, aktive Entity-Auflösung,
   Forced-Sync, Hotjoin-Fortsetzung, Undead-Zustand und Ruleset-Lifecycle sind
   migriert. Damage- sowie Spawn-Handle-Helfer sind migriert; nachgelagerte
-  Spawn-Validierung und Diagnose bleiben offen.
+  Spawn-Validierung und stabile Diagnosen sind migriert. Eine private
+  `NetworkPacketRejectedException` dient nur als strukturierter Sprung aus dem
+  bereits abgelehnten Paket und wird am jeweiligen `ReadMessage`-Rand beendet.
 - [x] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuCutscene.cs` —
   VOLLSTÄNDIG: Die sieben Konstruktor-Ladevorgänge verwenden einen privaten
   Runtime-ContentManager. `OnExit` entlädt ihn, löst alle Texturfelder und den

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using Harmony;
+using Harmony.ILCopying;
 
 namespace Magicka.CommunityPatch.Runtime
 {
@@ -49,10 +50,12 @@ namespace Magicka.CommunityPatch.Runtime
         }
 
         public static IEnumerable<CodeInstruction> Transpiler(
-            IEnumerable<CodeInstruction> instructions)
+            IEnumerable<CodeInstruction> instructions,
+            ILGenerator generator)
         {
             List<CodeInstruction> body = new List<CodeInstruction>(instructions);
             int replacements = 0;
+            int dependencyReplacements = 0;
             for (int index = 0; index < body.Count; index++)
             {
                 MethodInfo read = body[index].operand as MethodInfo;
@@ -66,6 +69,35 @@ namespace Magicka.CommunityPatch.Runtime
                 for (int call = index + 1; call < end; call++)
                 {
                     MethodInfo candidate = body[call].operand as MethodInfo;
+                    if (candidate != null &&
+                        (candidate.Name == "GetByHandle" ||
+                         candidate.Name == "GetFromCache") &&
+                        candidate.ReturnType != typeof(void) &&
+                        candidate.GetParameters().Length == 1)
+                    {
+                        body[call].opcode = OpCodes.Call;
+                        body[call].operand = CreateRequiredResultAdapter(
+                            candidate,
+                            message.Replace("Message", String.Empty)
+                                .ToLowerInvariant() +
+                                "_missing_owner_cache_or_hitlist");
+                        dependencyReplacements++;
+                        continue;
+                    }
+                    if (message == "SpawnPlayerMessage" && candidate != null &&
+                        ((candidate.Name == "get_Gamer" &&
+                          candidate.GetParameters().Length == 0) ||
+                         (candidate.Name == "GetCachedTemplate" &&
+                          candidate.GetParameters().Length == 1)))
+                    {
+                        body[call].opcode = OpCodes.Call;
+                        body[call].operand = CreateRequiredResultAdapter(
+                            candidate, candidate.Name == "get_Gamer"
+                                ? "spawn_player_missing_gamer_for_template"
+                                : "spawn_player_template_not_cached");
+                        dependencyReplacements++;
+                        continue;
+                    }
                     if (!CallsGetFromHandle(candidate))
                         continue;
                     bool active = RequiresActiveHandle(message, body, call);
@@ -76,20 +108,52 @@ namespace Magicka.CommunityPatch.Runtime
                 }
                 index = end - 1;
             }
-            if (replacements == 0)
+            if (replacements == 0 || dependencyReplacements == 0)
                 throw new InvalidOperationException(
-                    "No network spawn handle sites were found.");
+                    "Network spawn handle/dependency sites were not found.");
+            WrapRejectedPacket(body, generator);
             return body;
         }
 
         public static object ResolveHandle(int handle, string side,
             string reason, bool active)
         {
-            return active
+            object result = active
                 ? Magicka.CommunityPatch.NetworkEntityHandleGuard.ResolveActive(
                     handle, side, reason, true)
                 : Magicka.CommunityPatch.NetworkEntityHandleGuard.Resolve(
                     handle, side, reason, true);
+            if (active && result == null)
+                throw new NetworkPacketRejectedException();
+            return result;
+        }
+
+        private static void WrapRejectedPacket(List<CodeInstruction> body,
+            ILGenerator generator)
+        {
+            if (body.Count == 0) return;
+            body[0].blocks.Insert(0, new ExceptionBlock(
+                ExceptionBlockType.BeginExceptionBlock, null));
+            Label exit = generator.DefineLabel();
+            for (int index = 0; index < body.Count; index++)
+            {
+                if (body[index].opcode != OpCodes.Ret) continue;
+                body[index].opcode = OpCodes.Leave;
+                body[index].operand = exit;
+            }
+            CodeInstruction handler = new CodeInstruction(OpCodes.Pop);
+            handler.blocks.Add(new ExceptionBlock(
+                ExceptionBlockType.BeginCatchBlock,
+                typeof(NetworkPacketRejectedException)));
+            body.Add(handler);
+            body.Add(new CodeInstruction(OpCodes.Leave, exit));
+            CodeInstruction end = new CodeInstruction(OpCodes.Nop);
+            end.blocks.Add(new ExceptionBlock(
+                ExceptionBlockType.EndExceptionBlock, null));
+            body.Add(end);
+            CodeInstruction ret = new CodeInstruction(OpCodes.Ret);
+            ret.labels.Add(exit);
+            body.Add(ret);
         }
 
         private static MethodInfo CreateAdapter(bool active, string reason)
@@ -109,12 +173,53 @@ namespace Magicka.CommunityPatch.Runtime
             return method;
         }
 
+        private static MethodInfo CreateRequiredResultAdapter(
+            MethodInfo original, string reason)
+        {
+            ParameterInfo[] parameters = original.GetParameters();
+            Type[] args = new Type[parameters.Length + (original.IsStatic ? 0 : 1)];
+            int offset = 0;
+            if (!original.IsStatic)
+            {
+                args[0] = original.DeclaringType;
+                offset = 1;
+            }
+            for (int index = 0; index < parameters.Length; index++)
+                args[index + offset] = parameters[index].ParameterType;
+            DynamicMethod method = new DynamicMethod("RequireNetworkDependency",
+                original.ReturnType, args, typeof(NetworkSpawnHandlePatch), true);
+            ILGenerator il = method.GetILGenerator();
+            for (int index = 0; index < args.Length; index++)
+                il.Emit(OpCodes.Ldarg, index);
+            il.EmitCall(original.IsStatic ? OpCodes.Call : OpCodes.Callvirt,
+                original, null);
+            Label valid = il.DefineLabel();
+            il.Emit(OpCodes.Dup);
+            il.Emit(OpCodes.Brtrue_S, valid);
+            il.Emit(OpCodes.Pop);
+            il.Emit(OpCodes.Ldstr, currentSide);
+            il.Emit(OpCodes.Ldstr, reason);
+            il.EmitCall(OpCodes.Call,
+                typeof(NetworkSpawnHandlePatch).GetMethod("RejectDependency"),
+                null);
+            il.MarkLabel(valid);
+            il.Emit(OpCodes.Ret);
+            return method;
+        }
+
+        public static void RejectDependency(string side, string reason)
+        {
+            RuntimePatchTelemetry.SendNetworkGuardDrop(side, "spawn",
+                String.Empty, String.Empty, reason, String.Empty);
+            throw new NetworkPacketRejectedException();
+        }
+
         private static bool IsHandledMessage(string name)
         {
             return name == "SpawnShieldMessage" ||
                 name == "SpawnBarrierMessage" || name == "SpawnWaveMessage" ||
                 name == "SpawnVortexMessage" || name == "SpawnMineMessage" ||
-                name == "SpawnMissileMessage" ||
+                name == "SpawnMissileMessage" || name == "SpawnPlayerMessage" ||
                 name == "SpawnShieldRequestMessage" ||
                 name == "SpawnBarrierRequestMessage" ||
                 name == "SpawnWaveRequestMessage" ||
@@ -177,5 +282,9 @@ namespace Magicka.CommunityPatch.Runtime
                 candidate.Name == getFromHandle.Name &&
                 candidate.GetParameters().Length == 1;
         }
+    }
+
+    internal sealed class NetworkPacketRejectedException : Exception
+    {
     }
 }

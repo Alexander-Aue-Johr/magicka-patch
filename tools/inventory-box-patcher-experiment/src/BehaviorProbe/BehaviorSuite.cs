@@ -166,6 +166,10 @@ internal static class BehaviorSuite
             magicka,
             runtimePatchEnabled,
             report);
+        NetworkPostInitializeScenarios.Run(
+            magicka,
+            runtimePatchEnabled,
+            report);
         PropBossTeardownScenarios.Run(magicka, runtimePatchEnabled, report);
         FairyTeardownScenarios.Run(magicka, runtimePatchEnabled, report);
         BarrierTeardownScenarios.Run(magicka, runtimePatchEnabled, report);

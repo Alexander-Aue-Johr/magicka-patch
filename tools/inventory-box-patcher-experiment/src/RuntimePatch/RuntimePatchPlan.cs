@@ -38,6 +38,20 @@ namespace Magicka.CommunityPatch.Runtime
                 CutsceneMenuLifetimePatch.DrawBothDefinition);
             RuntimePatchSession.Apply(targetAssembly,
                 CutsceneMenuLifetimePatch.LevelDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                NetworkPostInitializePatch.ClientScopeDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                NetworkPostInitializePatch.ServerScopeDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                NetworkPostInitializePatch.ShieldDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                NetworkPostInitializePatch.BarrierDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                NetworkPostInitializePatch.WaveDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                NetworkPostInitializePatch.VortexDefinition);
+            RuntimePatchSession.Apply(targetAssembly,
+                NetworkPostInitializePatch.MineDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 AvatarFindInteractablePatch.Definition);

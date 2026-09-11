@@ -36,9 +36,12 @@ internal static class NetworkSpawnHandleScenarios
                 .GetType("Magicka.CommunityPatch.Runtime.NetworkSpawnHandlePatch", true);
             patch.GetMethod("FindReadMessage", Members).Invoke(null,
                 new object[] { magicka, typeName, side });
+            DynamicMethod rewritten = new DynamicMethod(
+                "RewriteSpawnHandles", typeof(void), Type.EmptyTypes,
+                typeof(NetworkSpawnHandleScenarios), true);
             body = new List<CodeInstruction>((IEnumerable<CodeInstruction>)
                 patch.GetMethod("Transpiler", Members).Invoke(null,
-                    new object[] { body }));
+                    new object[] { body, rewritten.GetILGenerator() }));
             count = CountCalls(body, "ResolveSpawnHandle", null);
             guarded = count >= (side == "client" ? 10 : 4);
         }
