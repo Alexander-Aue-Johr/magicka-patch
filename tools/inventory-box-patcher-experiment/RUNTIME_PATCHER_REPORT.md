@@ -1,6 +1,6 @@
 # Runtime-Patcher-Bericht
 
-Stand: 8. September 2026
+Stand: 11. September 2026
 
 ## Zweck und Verifikationsgrenze
 
@@ -977,10 +977,9 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     Vollkapazitätsfällen. Die manuelle Patch-Assembly 0.0.60 und alle
     Runtime-Patch-Profile bestehen Add, Insert, `Entity`, `Character`, `int`
     und `Spell` sowie die Kontrollfälle unterhalb der Kapazität.
-  - Noch offen: die manuelle Erweiterungs-Telemetrie und ihre Backoff-Daten
-    sind noch nicht migriert. Direkte generische Referenztyp-Aufrufe außerhalb
-    der drei im Spiel vorhandenen Add-Stellen werden bewusst nicht als
-    verifiziert behauptet.
+  - Die begrenzte Erweiterungs-Telemetrie einschließlich Backoff ist migriert.
+    Direkte generische Referenztyp-Aufrufe außerhalb der drei im Spiel
+    vorhandenen Add-Stellen werden bewusst nicht als verifiziert behauptet.
 - [x] `railgun-parent-cycle-prevention`
   - Ziele: `Railgun.Update(DataChannel, float)` und `Railgun.LockAll()`
   - Technik: ein Transpiler fügt die Ahnenprüfung unmittelbar nach den
@@ -999,8 +998,8 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 akzeptieren den zyklischen
     Kandidaten und besitzen keinen Lock-Schutz. Die manuelle Patch-Assembly
     0.0.60 und alle Runtime-Patch-Profile bestehen alle fünf Szenarien.
-  - Noch offen: die drei begrenzten Recovery-Telemetriegründe aus dem
-    manuellen Patch folgen mit dem gemeinsamen Runtime-Telemetrieblock.
+  - Die drei begrenzten Recovery-Telemetriegründe des manuellen Patches sind
+    mit demselben stabilen Eventnamen, denselben Reasons und Backoff migriert.
 - [x] `animation-clip-compatibility`
   - Ziele: der Content-Konstruktor von `AnimationClipAction`, die beiden
     Template-Reader, `Character.Initialize` sowie `GoToAnimation` und
@@ -1022,8 +1021,8 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern in den fünf ungültigen
     Szenarien. Die manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile
     bestehen alle sieben Fehler- und Kontrollszenarien.
-  - Noch offen: die begrenzte Meldung fehlender Clip-Namen folgt mit dem
-    gemeinsamen Runtime-Telemetrieblock.
+  - Die begrenzte Meldung fehlender Clip-Namen einschließlich Asset-, Clip-
+    und Animationskontext ist migriert.
 - [x] `character-spell-usage-detached-gamer`
   - Ziel: `Character.CastSpell(bool, string)`.
   - Technik: Ein Transpiler ersetzt nur die zweite der zwei
@@ -1180,8 +1179,8 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern bei den drei
     Lebensdauerfällen. Die manuelle Patch-Assembly 0.0.60 und alle
     Runtime-Patch-Profile bestehen alle fünf Fehler- und Kontrollszenarien.
-  - Noch offen: die manuellen `RetentionRegistry`-Markierungen folgen mit dem
-    gemeinsamen Runtime-Diagnostics-Block.
+  - Die manuellen `RetentionRegistry`-Markierungen gehören zur lokalen
+    Heap-Testinstrumentierung und werden bewusst nicht ausgeliefert.
 - [x] `summon-phoenix-play-state-lifetime`
   - Ziele: beide `SummonPhoenix.Execute`-Überladungen und
     `Update(DataChannel, float)`
@@ -1638,7 +1637,8 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
     nicht. Die manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile
     bestehen alle fünf Szenarien.
   - Die zusätzliche Netzwerksemantik in dieser Datei gehört zu Issue #28 und
-    bleibt bis zu dessen eigener Host-/Client-Verifikation separat offen.
+    ist im direkt folgenden Checklist-Punkt migriert. Der reale
+    Host-/Client-Test steht in der gemeinsamen Endtestliste.
 - [x] `summon-undead-network-state`
   - Ziele: die private `SummonUndead.Execute`-Spawn-Methode auf dem Host und
     `Trigger.SpawnNPC` auf dem Client
@@ -2065,9 +2065,8 @@ Drei-Wege-Matrix erneut erzeugt und geprüft werden.
   - Original 1.10.4.2, 1.4.16.0 und 1.5.1.0 scheitern im Fehlerfall. Die
     manuelle Patch-Assembly 0.0.60 und alle Runtime-Patch-Profile bestehen den
     Fehler- und den Identitäts-Kontrollfall.
-  - Die manuelle Recovery-Telemetrie folgt mit dem gemeinsamen
-    Telemetrieblock. Bis dahin ist die betroffene Quelldatei in der Checkliste
-    bewusst nur teilweise migriert.
+  - Die begrenzte Recovery-Telemetrie ist mit dem gemeinsamen
+    Runtime-Telemetrieblock migriert.
 
 - [x] `projectile-spell-condition-cache`
   - Ziel: `ProjectileSpell.SpawnMissile(...)`.
@@ -2610,7 +2609,7 @@ Versionsnachweis.
   PlayState-/Szenenzähler, Sprach- und Glyphenfingerprints sowie Auflösung und
   UI-Skalierung. Acht gezielte Hooks erfassen die derzeit veränderlichen Werte
   an ihren vorhandenen Zustandswechseln; die UI-Skalierungs-Schnittstelle wird
-  beim noch offenen UI-Kompatibilitätsschritt mit dessen Setter verbunden.
+  mit dem migrierten UI-Skalierungs-Setter verbunden.
   Die Sender hängen ausschließlich zwischengespeicherte Werte an
   Crash- und Normal-Close-Telemetrie. Fünf Drei-Wege-Szenarien prüfen
   Pfadbereinigung, Begrenzung, Sprache, Anzeigeparameter und JSON-Payload.
@@ -2887,10 +2886,10 @@ Versionsnachweis.
   Inventory-Close beim Deinitialisieren toleriert einen bereits gelösten
   PlayState beziehungsweise ein bereits gelöstes Inventory, ohne den übrigen
   Abbau zu überspringen. Poolerweiterung, Cache- und finaler Objektabbau werden
-  bereits durch die gemeinsamen Pool-/Handle-Patches abgedeckt. Offen bleibt
-  nur `CommunityPatchClearSpellQueue` aus dem unteilbaren
-  Magicka-2-Controllerblock; die Architekturentscheidung steht bei
-  umgesetzt: Im Offline-Modus leert der rechte Stick Icon-, Spell- und
+  bereits durch die gemeinsamen Pool-/Handle-Patches abgedeckt.
+  `CommunityPatchClearSpellQueue` aus dem Magicka-2-Controllerblock ist ohne
+  zusätzlichen Avatar-Untertyp umgesetzt: Im Offline-Modus leert der rechte
+  Stick Icon-, Spell- und
   Input-Queue und setzt Chant-Zähler, Chant-Zustand und Chastrichtung zurück.
   RetentionRegistry-Aufrufe und lokale Umbenennungen sind Diagnostik
   beziehungsweise Compilerrauschen.
@@ -3563,3 +3562,34 @@ Versionsnachweis.
   übrigen manuellen Änderungen sind Retention-Diagnostik.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/StarGaze.cs` — VOLLSTÄNDIG: abgelaufene, bereits deinitialisierte Opfer verwenden bei der Bereinigung die weiterhin verfügbare aktuelle Fraktion, ein Transpiler und 2 Drei-Wege-Szenarien; die statische Initialisierer-Umschreibung ist semantikfreies Compilerrauschen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/PoisonSpray.cs` — VOLLSTÄNDIG: gespeicherter PlayState in `Execute` und beide veralteten EntityManager-Zugriffe in `Update`, 2 Transpiler und 3 Drei-Wege-Szenarien; lokale `yaw`-Variable und statische Hash-Initialisierer sind semantikfreies Compilerrauschen.
+
+## Gemeinsame Endtestliste
+
+Alle Implementierungs- und automatischen Prüfpunkte sind abgeschlossen. Diese
+Praxistests benötigen echte Grafik-, Eingabe-, Audio- oder Netzwerkgeräte und
+werden gemeinsam am finalen Build ausgeführt:
+
+- [ ] Sauberer Start mit Original 1.10.4.2, Hauptmenü öffnen, ein Story-Level
+  starten, zum Menü zurückkehren und das Spiel normal beenden.
+- [ ] Im Steuerungsmenü die neue Zeile an Position 1 mit Maus und Controller
+  zwischen Original- und Magicka-2-Belegung umschalten. Danach Sound, Grafik
+  und Zurück öffnen und die gespeicherte Auswahl nach einem Neustart prüfen.
+- [ ] Magicka-2-Belegung prüfen: A/B/X/Y, LB+A/B/X/Y, Aktion durch unbenutztes
+  LB-Loslassen, keine Aktion nach einer LB-Elementauswahl, Inventar, Boost,
+  Special, Area/Force, Trigger-Magick, Schusswaffen-Dauerfeuer, invertiertes
+  Zielen und Offline-Queue-Clear mit rechtem Stick.
+- [ ] Im Einzelspieler während neutraler Eingabe von Tastatur/Maus zu Gamepad
+  und zurück wechseln. Mauszeiger und HUD müssen folgen. Mit mehreren lokalen
+  oder Netzwerkspielern darf keine automatische Übergabe stattfinden.
+- [ ] HUD und UI-Skalierung bei 16:9 sowie 21:9 oder 32:9 prüfen. Fullscreen-
+  Effekte bleiben bildschirmfüllend; HUD und Lesetext bleiben in der sicheren
+  Fläche.
+- [ ] Normale Kampagnen-Cutscene und Dungeons-Karte jeweils betreten,
+  verlassen und erneut betreten. Wiedergabe, Untertitel und Texturen müssen
+  beim zweiten Eintritt vollständig vorhanden sein.
+- [ ] Host-/Client-Sitzung mit Wiederbelebung, Projektilen, Items, Zaubern,
+  Shield, Barrier, Wave, Vortex, Mine, Szenenwechsel und spätem Join prüfen.
+  Zusätzlich einen Necromancer-Staff-Undead-Summon auf dem Client bestätigen.
+- [ ] Optionaler Kompatibilitäts-Smoke-Test für 1.4.16.0 und 1.5.1.0: Start,
+  Hauptmenü, ein Level und Rückkehr zum Menü. Registrierung und Szenarien sind
+  für beide Versionen bereits automatisiert bestanden.
