@@ -23,6 +23,7 @@ namespace Magicka.CommunityPatch.Runtime
                 HybridInputPatch.HudDefinition);
             RuntimePatchSession.Apply(targetAssembly,
                 HybridInputPatch.LabelsDefinition);
+            ControllerOptionsMenuPatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 AvatarFindInteractablePatch.Definition);

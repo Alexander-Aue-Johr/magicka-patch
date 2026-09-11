@@ -73,6 +73,25 @@ namespace Magicka.CommunityPatch.Runtime
                 "postfix");
         }
 
+        internal static RuntimePatchDefinition PrefixAndPostfix(
+            string name,
+            string harmonyOwner,
+            Func<Assembly, MethodInfo> findTarget,
+            Func<MethodInfo, MethodInfo> createPrefix,
+            Func<MethodInfo, MethodInfo> createPostfix)
+        {
+            return new RuntimePatchDefinition(
+                name,
+                harmonyOwner,
+                assembly => findTarget(assembly),
+                createPrefix,
+                createPostfix,
+                null,
+                null,
+                null,
+                "prefix");
+        }
+
         internal static RuntimePatchDefinition Transpile(
             string name,
             string harmonyOwner,

@@ -3150,14 +3150,11 @@ Versionsnachweis.
   Fairies sowie nur über Avatar oder NPC erreichbare inaktive Instanzen; ein
   Prefix und 3 Drei-Wege-Szenarien. Statische Initialisiererdarstellung und
   RetentionRegistry-Aufrufe sind semantikfrei beziehungsweise Diagnostik.
-- [?] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsControls.cs` —
-  INPUT: 0.0.60 fügt einen neuen, von Magickas `InGameMenu` abgeleiteten Typ
-  mit virtuellen UI-Overrides hinzu. Harmony kann diesen Typ nicht in die
-  Zielassembly einfügen. Benötigt wird eine Entscheidung zwischen (a) einem
-  CLR-2-`Reflection.Emit`-Untertyp, (b) einer direkten Build-Referenz auf die
-  jeweilige Magicka-Version mit getrennten Runtime-DLLs oder (c) einer
-  abweichenden Menüinterception ohne neuen Untertyp. Danach ist ein Test mit
-  physischem Controller für Wechsel, HUD, Modifier und Pause nötig.
+- [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptionsControls.cs` —
+  VOLLSTÄNDIG: Die persistente Moduswahl ist ohne neuen Untertyp umgesetzt.
+  Der vorhandene Optionsdialog enthält an Position 1 eine Moduszeile, die
+  direkt zwischen Original- und Magicka-2-Belegung umschaltet. Damit bleibt
+  die Runtime-DLL versionsneutral und die originale Klassenhierarchie intakt.
 - [x] `Magicka/GameLogic/Entities/DamageablePhysicsEntity.cs` — VOLLSTÄNDIG:
   `Deinitialize()` löst Gib- und Resistance-Template-Referenzen vor der
   Poolrückgabe; der finale Handle-Abbau stoppt Status-Effekte und Statuslicht,
@@ -3302,9 +3299,11 @@ Versionsnachweis.
   `judgement_spray_condition_cache_empty_recovered`; der normale Cachepfad
   sendet nichts.
 - [x] `Magicka/GameLogic/Spells/IceSpikes.cs` — VOLLSTÄNDIG: statische Poolfreigabe bei Levelende; das Verschieben der unveränderten `Random`-Initialisierung in den explizit dargestellten Typinitialisierer ist semantikfreies Decompilerrauschen.
-- [?] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptions.cs` — INPUT:
-  der neue Controls-Eintrag hängt vom neuen Untermenütyp und damit von der bei
-  `InGameMenuOptionsControls` dokumentierten Architekturentscheidung ab.
+- [x] `Magicka/GameLogic/GameStates/InGameMenus/InGameMenuOptions.cs` —
+  VOLLSTÄNDIG: Konstruktor-Postfix und Select-/Highlight-Hooks fügen den
+  Controller-Modus an Index 1 ein und übersetzen Sound, Graphics und Back
+  während der Originalmethoden auf ihre bisherigen Indizes. 1.4/1.5 haben
+  einen anderen virtuellen Vertrag und sind explizit `NOT_APPLICABLE`.
 - [x] `Magicka/GameLogic/GameStates/Menu/Main/SubMenuMain.cs` — VOLLSTÄNDIG: Gamepad-B öffnet die vorhandene Beenden-Bestätigung, Keyboard/Maus behält den Cursorpfad; Prefix und 2 Drei-Wege-Szenarien. Die leere manuelle Markermethode hat kein Laufzeitverhalten und wird nicht übernommen.
 - [x] `Magicka/GameLogic/Entities/Abilities/SpecialAbilities/Starfall.cs` — VOLLSTÄNDIG: statische PlayState-Retention und veraltete Update-Zugriffe, 2 Transpiler und 3 Drei-Wege-Szenarien; lokale Variablennamen sind nicht Teil des Runtime-Patches.
 - [x] `Magicka/GameLogic/Entities/ChantSpellManager.cs` — VOLLSTÄNDIG: aktive
