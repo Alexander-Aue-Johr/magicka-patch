@@ -14,6 +14,9 @@ namespace Magicka.CommunityPatch.Runtime
         private static FieldInfo bool2Field;
         private static FieldInfo colorField;
         private static FieldInfo point2Field;
+        private static FieldInfo templateField;
+        private static FieldInfo handleField;
+        private static FieldInfo sceneField;
         private static FieldInfo vectorXField;
         private static MethodInfo summonedSingle;
         private static MethodInfo summonedWithFlag;
@@ -90,6 +93,9 @@ namespace Magicka.CommunityPatch.Runtime
                 true);
             bool2Field = RequireField(messageType, "Bool2", typeof(bool));
             point2Field = RequireField(messageType, "Point2", typeof(int));
+            templateField = RequireField(messageType, "Template", typeof(int));
+            handleField = RequireField(messageType, "Handle", typeof(ushort));
+            sceneField = RequireField(messageType, "Scene", typeof(int));
             Type vectorType = FindLoadedType("Microsoft.Xna.Framework.Vector3");
             colorField = RequireField(messageType, "Color", vectorType);
             vectorXField = RequireField(vectorType, "X", typeof(float));
@@ -165,7 +171,12 @@ namespace Magicka.CommunityPatch.Runtime
                 new CodeInstruction(messageAddress.opcode, messageAddress.operand));
             result.Insert(insertAt++, new CodeInstruction(OpCodes.Ldflda, colorField));
             result.Insert(insertAt++, new CodeInstruction(OpCodes.Ldc_R4, NegativeZero));
-            result.Insert(insertAt, new CodeInstruction(OpCodes.Stfld, vectorXField));
+            result.Insert(insertAt++, new CodeInstruction(OpCodes.Stfld, vectorXField));
+            result.Insert(insertAt++, new CodeInstruction(
+                messageAddress.opcode, messageAddress.operand));
+            result.Insert(insertAt++, new CodeInstruction(OpCodes.Ldstr, "server"));
+            result.Insert(insertAt, new CodeInstruction(OpCodes.Call,
+                ReportMethod()));
             return result;
         }
 
@@ -216,7 +227,43 @@ namespace Magicka.CommunityPatch.Runtime
             result.Insert(legacyCall++, new CodeInstruction(OpCodes.Ldfld, vectorXField));
             result.Insert(legacyCall++, new CodeInstruction(OpCodes.Call, marker));
             result[legacyCall].operand = summonedWithFlag;
+            result.Insert(++legacyCall, new CodeInstruction(OpCodes.Ldarg_0));
+            result.Insert(++legacyCall, new CodeInstruction(OpCodes.Ldstr, "client"));
+            result.Insert(++legacyCall, new CodeInstruction(OpCodes.Call,
+                typeof(UndeadSummonNetworkPatch).GetMethod(
+                    "ReportUndeadState").MakeGenericMethod(
+                        bool2Field.DeclaringType)));
             return result;
+        }
+
+        private static MethodInfo ReportMethod()
+        {
+            return typeof(UndeadSummonNetworkPatch).GetMethod(
+                "ReportUndeadState").MakeGenericMethod(bool2Field.DeclaringType);
+        }
+
+        public static void ReportUndeadState<T>(ref T message, string side)
+        {
+            try
+            {
+                object boxed = message;
+                if (!(bool)bool2Field.GetValue(boxed))
+                    return;
+                string template = Convert.ToString(templateField.GetValue(boxed));
+                string handle = Convert.ToString(handleField.GetValue(boxed));
+                string scene = Convert.ToString(sceneField.GetValue(boxed));
+                RuntimePatchTelemetry.SendNetworkDiagnostic(
+                    side,
+                    "SpawnNPC",
+                    side == "server" ? "summon_undead_state_sent" :
+                        "summon_undead_state_applied",
+                    template,
+                    "template=" + template + "; handle=" + handle +
+                        "; masterHandle=" + scene + "; undeadFlag=True");
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private static bool HasExactClientMarker(
