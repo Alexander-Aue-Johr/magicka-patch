@@ -247,13 +247,32 @@ internal sealed class PairMaps
         Dictionary<string, string> afterMap = new(StringComparer.Ordinal);
         HashSet<int> matchedBefore = new();
         HashSet<int> matchedAfter = new();
-        int canonical = 0;
+        List<(string Name, SyntaxNode Node)> usedTargets = new();
+        HashSet<string> parameterNames = ParameterNames(original)
+            .Concat(ParameterNames(patched)).ToHashSet(StringComparer.Ordinal);
         foreach ((int beforeIndex, int afterIndex) in matches)
         {
-            string name = "local_" + canonical++.ToString("D4",
-                CultureInfo.InvariantCulture);
+            string originalName = before[beforeIndex].Name;
+            string patchedName = after[afterIndex].Name;
+            SyntaxNode patchedDeclaration = after[afterIndex].Node;
+            bool collidesWithPatchedLocal = after.Select((local, index) =>
+                    (local, index)).Any(value => value.index != afterIndex &&
+                    value.local.Name == originalName &&
+                    ScopesOverlap(patchedDeclaration, value.local.Node));
+            bool collidesWithTarget = usedTargets.Any(target =>
+                target.Name == originalName &&
+                ScopesOverlap(patchedDeclaration, target.Node));
+            string name = !parameterNames.Contains(originalName) &&
+                !collidesWithTarget && !collidesWithPatchedLocal
+                ? originalName
+                : UniqueName(originalName + "_matched",
+                    usedTargets.Where(target => ScopesOverlap(
+                        patchedDeclaration, target.Node)).Select(target => target.Name),
+                    parameterNames, after.Where(local => ScopesOverlap(
+                        patchedDeclaration, local.Node)).Select(local => local.Name));
+            usedTargets.Add((name, patchedDeclaration));
             beforeMap[before[beforeIndex].Name] = name;
-            afterMap[afterIndex < after.Count ? after[afterIndex].Name : ""] = name;
+            afterMap[patchedName] = name;
             matchedBefore.Add(beforeIndex);
             matchedAfter.Add(afterIndex);
             MatchedLocals++;
@@ -262,8 +281,7 @@ internal sealed class PairMaps
         {
             if (matchedBefore.Contains(index))
                 continue;
-            beforeMap[before[index].Name] = "original_local_" +
-                index.ToString("D4", CultureInfo.InvariantCulture);
+            beforeMap[before[index].Name] = before[index].Name;
             OriginalOnlyLocals++;
         }
         for (int index = 0; index < after.Count; index++)
@@ -283,8 +301,9 @@ internal sealed class PairMaps
         List<LocalDeclaration> locals = LocalDeclarations(callable);
         Dictionary<string, string> map = new(StringComparer.Ordinal);
         for (int index = 0; index < locals.Count; index++)
-            map[locals[index].Name] = (original ? "original_local_" :
-                "patched_local_") + index.ToString("D4", CultureInfo.InvariantCulture);
+            map[locals[index].Name] = original ? locals[index].Name :
+                "patched_local_" + index.ToString("D4",
+                    CultureInfo.InvariantCulture);
         if (original)
         {
             OriginalMaps[callable.SpanStart] = map;
@@ -296,6 +315,48 @@ internal sealed class PairMaps
             PatchedOnlyLocals += locals.Count;
         }
     }
+
+    private static IEnumerable<string> ParameterNames(SyntaxNode callable) =>
+        callable switch
+        {
+            BaseMethodDeclarationSyntax method => method.ParameterList.Parameters
+                .Select(parameter => parameter.Identifier.ValueText),
+            SimpleLambdaExpressionSyntax lambda =>
+                new[] { lambda.Parameter.Identifier.ValueText },
+            ParenthesizedLambdaExpressionSyntax lambda => lambda.ParameterList.Parameters
+                .Select(parameter => parameter.Identifier.ValueText),
+            AnonymousMethodExpressionSyntax anonymous when anonymous.ParameterList != null =>
+                anonymous.ParameterList.Parameters.Select(parameter =>
+                    parameter.Identifier.ValueText),
+            _ => Enumerable.Empty<string>()
+        };
+
+    private static string UniqueName(string prefix, IEnumerable<string> used,
+        HashSet<string> parameters, IEnumerable<string> existing)
+    {
+        HashSet<string> unavailable = existing.Concat(used).Concat(parameters)
+            .ToHashSet(StringComparer.Ordinal);
+        if (!unavailable.Contains(prefix)) return prefix;
+        for (int suffix = 2; ; suffix++)
+        {
+            string candidate = prefix + "_" + suffix.ToString(
+                CultureInfo.InvariantCulture);
+            if (!unavailable.Contains(candidate)) return candidate;
+        }
+    }
+
+    private static bool ScopesOverlap(SyntaxNode left, SyntaxNode right)
+    {
+        SyntaxNode leftScope = DeclarationScope(left);
+        SyntaxNode rightScope = DeclarationScope(right);
+        return leftScope == rightScope || leftScope.AncestorsAndSelf().Contains(rightScope) ||
+            rightScope.AncestorsAndSelf().Contains(leftScope);
+    }
+
+    private static SyntaxNode DeclarationScope(SyntaxNode node) =>
+        node.AncestorsAndSelf().FirstOrDefault(candidate =>
+            candidate is BlockSyntax or SwitchSectionSyntax or BaseMethodDeclarationSyntax or
+                AccessorDeclarationSyntax or AnonymousFunctionExpressionSyntax) ?? node;
 
     private static Dictionary<string, List<SyntaxNode>> IndexCallables(SyntaxNode root)
     {
@@ -383,7 +444,7 @@ internal sealed class PairMaps
             .OfType<ParameterSyntax>())
             names.Add(parameter.Identifier.ValueText);
         return raw.OrderBy(value => value.Node.SpanStart).Select(value =>
-            new LocalDeclaration(value.Name, value.Kind, value.Kind + "|" +
+            new LocalDeclaration(value.Name, value.Node, value.Kind, value.Kind + "|" +
                 NormalizeTokens(value.Node, names))).ToList();
     }
 
@@ -461,8 +522,8 @@ internal sealed class PairMaps
         node.Parent?.Parent is LocalDeclarationStatementSyntax or ForStatementSyntax or
             UsingStatementSyntax or FixedStatementSyntax;
 
-    private readonly record struct LocalDeclaration(string Name, string Shape,
-        string Descriptor);
+    private readonly record struct LocalDeclaration(string Name, SyntaxNode Node,
+        string Shape, string Descriptor);
 }
 
 internal sealed class LocalRenameRewriter : CSharpSyntaxRewriter

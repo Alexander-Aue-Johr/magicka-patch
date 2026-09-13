@@ -1,8 +1,11 @@
 # Source noise normalizer
 
 This tool creates paired review copies of ILSpy C# output. It aligns local
-declarations between the original and patched methods before assigning stable
-names. It also restores original static field initializers when ILSpy moved an
+declarations between the original and patched methods and uses the original
+variable name for each safely matched pair. A stable `_matched` suffix is used
+only when that name would collide in an overlapping C# scope. Locals that exist
+only in the patch remain visibly named `patched_local_####`. The tool also
+restores original static field initializers when ILSpy moved an
 exactly equivalent assignment into a synthetic type initializer.
 
 Compiler-generated parameter aliases are removed only when the source

@@ -19,3 +19,14 @@ only a thin Windows command-line wrapper and contains no audit logic.
 
 The output directory must not already exist. This prevents an audit from
 silently mixing results from different input assemblies.
+
+## Static patcher verification
+
+A future static patcher should run this pipeline twice: original versus the
+manual reference payload, and the same original versus the generated payload.
+Verification must compare the normalized patched source trees, added-source
+inventories and assembly semantic inventories. Comparing only rendered diff
+text is insufficient because normalization intentionally hides local-slot and
+formatting differences. Assembly references, resources and PE/CLI metadata
+must also be compared before CLR 2 and Mono JIT validation of every changed
+method.

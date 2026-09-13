@@ -9,7 +9,9 @@ The audit excludes 979 identical Magicka files, 116 identical PolygonHead
 files, 21 added Magicka files and 3 added PolygonHead files. It reviews the
 remaining 215 existing files. Pair normalization aligned 9,379 local
 declarations, restored 336 static field initializers and removed 3 proven
-read-only lambda-capture aliases. Stable-signature IL comparison separately
+read-only lambda-capture aliases. Matched locals use their original Magicka
+names; a stable `_matched` suffix is used only for a real overlapping-scope
+collision, while patch-only locals remain explicit. Stable-signature IL comparison separately
 identified 866 local-slot/layout-only method changes. No managed payload was
 modified by this audit, so CLR 2 and Mono JIT validation of a replacement
 payload is not applicable.
