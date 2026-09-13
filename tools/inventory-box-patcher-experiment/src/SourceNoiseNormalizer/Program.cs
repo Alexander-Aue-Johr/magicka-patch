@@ -51,10 +51,9 @@ internal static class SourceNoiseNormalizer
         SyntaxNode originalRoot = Parse(original);
         SyntaxNode patchedRoot = Parse(patched);
         PairMaps maps = PairMaps.Create(originalRoot, patchedRoot);
-        SyntaxNode normalizedOriginal = new LocalRenameRewriter(
-            maps.OriginalMaps).Visit(originalRoot)!;
+        SyntaxNode normalizedOriginal = originalRoot;
         SyntaxNode normalizedPatched = new LocalRenameRewriter(
-            maps.PatchedMaps).Visit(patchedRoot)!;
+            maps.PatchedTokenRenames).Visit(patchedRoot)!;
         CaptureAliasNormalizer aliasNormalizer = new();
         normalizedPatched = aliasNormalizer.Visit(normalizedPatched)!;
         StaticInitializerNormalizer initializerNormalizer = new(
@@ -198,8 +197,7 @@ internal sealed class CaptureAliasNormalizer : CSharpSyntaxRewriter
 
 internal sealed class PairMaps
 {
-    public Dictionary<int, Dictionary<string, string>> OriginalMaps { get; } = new();
-    public Dictionary<int, Dictionary<string, string>> PatchedMaps { get; } = new();
+    public Dictionary<int, string> PatchedTokenRenames { get; } = new();
     public int MatchedLocals { get; private set; }
     public int OriginalOnlyLocals { get; private set; }
     public int PatchedOnlyLocals { get; private set; }
@@ -207,6 +205,8 @@ internal sealed class PairMaps
     public static PairMaps Create(SyntaxNode originalRoot, SyntaxNode patchedRoot)
     {
         PairMaps result = new();
+        SemanticModel originalModel = CreateSemanticModel(originalRoot);
+        SemanticModel patchedModel = CreateSemanticModel(patchedRoot);
         Dictionary<string, List<SyntaxNode>> originals = IndexCallables(originalRoot);
         Dictionary<string, List<SyntaxNode>> patched = IndexCallables(patchedRoot);
         foreach (string key in originals.Keys.Union(patched.Keys,
@@ -218,7 +218,8 @@ internal sealed class PairMaps
             afterList ??= new List<SyntaxNode>();
             int common = Math.Min(beforeList.Count, afterList.Count);
             for (int index = 0; index < common; index++)
-                result.PairCallable(beforeList[index], afterList[index]);
+                result.PairCallable(beforeList[index], afterList[index],
+                    originalModel, patchedModel);
             for (int index = common; index < beforeList.Count; index++)
                 result.AddUnpaired(beforeList[index], true);
             for (int index = common; index < afterList.Count; index++)
@@ -227,7 +228,8 @@ internal sealed class PairMaps
         return result;
     }
 
-    private void PairCallable(SyntaxNode original, SyntaxNode patched)
+    private void PairCallable(SyntaxNode original, SyntaxNode patched,
+        SemanticModel originalModel, SemanticModel patchedModel)
     {
         List<LocalDeclaration> before = LocalDeclarations(original);
         List<LocalDeclaration> after = LocalDeclarations(patched);
@@ -243,36 +245,19 @@ internal sealed class PairMaps
         matches.AddRange(LongestCommonShapeSubsequence(
             remainingBefore, remainingAfter));
         matches.Sort((left, right) => left.Before.CompareTo(right.Before));
-        Dictionary<string, string> beforeMap = new(StringComparer.Ordinal);
-        Dictionary<string, string> afterMap = new(StringComparer.Ordinal);
         HashSet<int> matchedBefore = new();
         HashSet<int> matchedAfter = new();
-        List<(string Name, SyntaxNode Node)> usedTargets = new();
-        HashSet<string> parameterNames = ParameterNames(original)
-            .Concat(ParameterNames(patched)).ToHashSet(StringComparer.Ordinal);
+        string[] targets = after.Select(local => local.Name).ToArray();
         foreach ((int beforeIndex, int afterIndex) in matches)
         {
             string originalName = before[beforeIndex].Name;
-            string patchedName = after[afterIndex].Name;
             SyntaxNode patchedDeclaration = after[afterIndex].Node;
-            bool collidesWithPatchedLocal = after.Select((local, index) =>
-                    (local, index)).Any(value => value.index != afterIndex &&
-                    value.local.Name == originalName &&
-                    ScopesOverlap(patchedDeclaration, value.local.Node));
-            bool collidesWithTarget = usedTargets.Any(target =>
-                target.Name == originalName &&
-                ScopesOverlap(patchedDeclaration, target.Node));
-            string name = !parameterNames.Contains(originalName) &&
-                !collidesWithTarget && !collidesWithPatchedLocal
-                ? originalName
-                : UniqueName(originalName + "_matched",
-                    usedTargets.Where(target => ScopesOverlap(
-                        patchedDeclaration, target.Node)).Select(target => target.Name),
-                    parameterNames, after.Where(local => ScopesOverlap(
-                        patchedDeclaration, local.Node)).Select(local => local.Name));
-            usedTargets.Add((name, patchedDeclaration));
-            beforeMap[before[beforeIndex].Name] = name;
-            afterMap[patchedName] = name;
+            if (!ParameterNames(patched).Contains(originalName,
+                    StringComparer.Ordinal) &&
+                !after.Select((local, index) => (local, index)).Any(value =>
+                    value.index != afterIndex && value.local.Name == originalName &&
+                    ScopesOverlap(patchedDeclaration, value.local.Node)))
+                targets[afterIndex] = originalName;
             matchedBefore.Add(beforeIndex);
             matchedAfter.Add(afterIndex);
             MatchedLocals++;
@@ -281,40 +266,69 @@ internal sealed class PairMaps
         {
             if (matchedBefore.Contains(index))
                 continue;
-            beforeMap[before[index].Name] = before[index].Name;
             OriginalOnlyLocals++;
         }
         for (int index = 0; index < after.Count; index++)
         {
             if (matchedAfter.Contains(index))
                 continue;
-            afterMap[after[index].Name] = "patched_local_" +
-                index.ToString("D4", CultureInfo.InvariantCulture);
             PatchedOnlyLocals++;
         }
-        OriginalMaps[original.SpanStart] = beforeMap;
-        PatchedMaps[patched.SpanStart] = afterMap;
+        for (int index = 0; index < after.Count; index++)
+            if (targets[index] != after[index].Name)
+                AddSymbolRename(patchedModel, patched, after[index],
+                    targets[index], PatchedTokenRenames);
     }
 
     private void AddUnpaired(SyntaxNode callable, bool original)
     {
         List<LocalDeclaration> locals = LocalDeclarations(callable);
-        Dictionary<string, string> map = new(StringComparer.Ordinal);
-        for (int index = 0; index < locals.Count; index++)
-            map[locals[index].Name] = original ? locals[index].Name :
-                "patched_local_" + index.ToString("D4",
-                    CultureInfo.InvariantCulture);
         if (original)
         {
-            OriginalMaps[callable.SpanStart] = map;
             OriginalOnlyLocals += locals.Count;
         }
         else
         {
-            PatchedMaps[callable.SpanStart] = map;
             PatchedOnlyLocals += locals.Count;
         }
     }
+
+    private static SemanticModel CreateSemanticModel(SyntaxNode root)
+    {
+        CSharpCompilation compilation = CSharpCompilation.Create("NoiseNormalization")
+            .AddSyntaxTrees(root.SyntaxTree);
+        return compilation.GetSemanticModel(root.SyntaxTree, true);
+    }
+
+    private static void AddSymbolRename(SemanticModel model, SyntaxNode callable,
+        LocalDeclaration local, string target, Dictionary<int, string> renames)
+    {
+        ISymbol? symbol = local.Node switch
+        {
+            VariableDeclaratorSyntax variable => model.GetDeclaredSymbol(variable),
+            ForEachStatementSyntax statement => model.GetDeclaredSymbol(statement),
+            CatchDeclarationSyntax declaration => model.GetDeclaredSymbol(declaration),
+            _ => null
+        };
+        if (symbol == null) return;
+        SyntaxToken declarationToken = DeclarationToken(local.Node);
+        renames[declarationToken.SpanStart] = target;
+        foreach (IdentifierNameSyntax identifier in callable.DescendantNodes()
+            .OfType<IdentifierNameSyntax>())
+        {
+            if (SymbolEqualityComparer.Default.Equals(
+                model.GetSymbolInfo(identifier).Symbol, symbol))
+                renames[identifier.Identifier.SpanStart] = target;
+        }
+    }
+
+    private static SyntaxToken DeclarationToken(SyntaxNode node) => node switch
+    {
+        VariableDeclaratorSyntax variable => variable.Identifier,
+        ForEachStatementSyntax statement => statement.Identifier,
+        CatchDeclarationSyntax declaration => declaration.Identifier,
+        _ => default
+    };
 
     private static IEnumerable<string> ParameterNames(SyntaxNode callable) =>
         callable switch
@@ -330,20 +344,6 @@ internal sealed class PairMaps
                     parameter.Identifier.ValueText),
             _ => Enumerable.Empty<string>()
         };
-
-    private static string UniqueName(string prefix, IEnumerable<string> used,
-        HashSet<string> parameters, IEnumerable<string> existing)
-    {
-        HashSet<string> unavailable = existing.Concat(used).Concat(parameters)
-            .ToHashSet(StringComparer.Ordinal);
-        if (!unavailable.Contains(prefix)) return prefix;
-        for (int suffix = 2; ; suffix++)
-        {
-            string candidate = prefix + "_" + suffix.ToString(
-                CultureInfo.InvariantCulture);
-            if (!unavailable.Contains(candidate)) return candidate;
-        }
-    }
 
     private static bool ScopesOverlap(SyntaxNode left, SyntaxNode right)
     {
@@ -528,81 +528,19 @@ internal sealed class PairMaps
 
 internal sealed class LocalRenameRewriter : CSharpSyntaxRewriter
 {
-    private readonly Dictionary<int, Dictionary<string, string>> maps;
-    private readonly Stack<Dictionary<string, string>> active = new();
+    private readonly Dictionary<int, string> tokenRenames;
 
-    public LocalRenameRewriter(Dictionary<int, Dictionary<string, string>> maps)
+    public LocalRenameRewriter(Dictionary<int, string> tokenRenames)
     {
-        this.maps = maps;
+        this.tokenRenames = tokenRenames;
     }
 
-    public override SyntaxNode? VisitMethodDeclaration(MethodDeclarationSyntax node) =>
-        VisitCallable(node, () => base.VisitMethodDeclaration(node));
-    public override SyntaxNode? VisitConstructorDeclaration(ConstructorDeclarationSyntax node) =>
-        VisitCallable(node, () => base.VisitConstructorDeclaration(node));
-    public override SyntaxNode? VisitDestructorDeclaration(DestructorDeclarationSyntax node) =>
-        VisitCallable(node, () => base.VisitDestructorDeclaration(node));
-    public override SyntaxNode? VisitOperatorDeclaration(OperatorDeclarationSyntax node) =>
-        VisitCallable(node, () => base.VisitOperatorDeclaration(node));
-    public override SyntaxNode? VisitConversionOperatorDeclaration(ConversionOperatorDeclarationSyntax node) =>
-        VisitCallable(node, () => base.VisitConversionOperatorDeclaration(node));
-    public override SyntaxNode? VisitAccessorDeclaration(AccessorDeclarationSyntax node) =>
-        VisitCallable(node, () => base.VisitAccessorDeclaration(node));
-    public override SyntaxNode? VisitAnonymousMethodExpression(AnonymousMethodExpressionSyntax node) =>
-        VisitCallable(node, () => base.VisitAnonymousMethodExpression(node));
-    public override SyntaxNode? VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node) =>
-        VisitCallable(node, () => base.VisitSimpleLambdaExpression(node));
-    public override SyntaxNode? VisitParenthesizedLambdaExpression(ParenthesizedLambdaExpressionSyntax node) =>
-        VisitCallable(node, () => base.VisitParenthesizedLambdaExpression(node));
-
-    public override SyntaxNode? VisitVariableDeclarator(VariableDeclaratorSyntax node)
+    public override SyntaxToken VisitToken(SyntaxToken token)
     {
-        if (!TryRename(node.Identifier, out SyntaxToken renamed))
-            return base.VisitVariableDeclarator(node);
-        return base.VisitVariableDeclarator(node.WithIdentifier(renamed));
-    }
-
-    public override SyntaxNode? VisitForEachStatement(ForEachStatementSyntax node)
-    {
-        return TryRename(node.Identifier, out SyntaxToken renamed)
-            ? base.VisitForEachStatement(node.WithIdentifier(renamed))
-            : base.VisitForEachStatement(node);
-    }
-
-    public override SyntaxNode? VisitCatchDeclaration(CatchDeclarationSyntax node)
-    {
-        return TryRename(node.Identifier, out SyntaxToken renamed)
-            ? base.VisitCatchDeclaration(node.WithIdentifier(renamed))
-            : base.VisitCatchDeclaration(node);
-    }
-
-    public override SyntaxNode? VisitIdentifierName(IdentifierNameSyntax node)
-    {
-        return TryRename(node.Identifier, out SyntaxToken renamed)
-            ? node.WithIdentifier(renamed)
-            : base.VisitIdentifierName(node);
-    }
-
-    private T VisitCallable<T>(T node, Func<SyntaxNode?> visit) where T : SyntaxNode
-    {
-        active.Push(maps.TryGetValue(node.SpanStart, out Dictionary<string, string>? map)
-            ? map : new Dictionary<string, string>());
-        try { return (T)visit()!; }
-        finally { active.Pop(); }
-    }
-
-    private bool TryRename(SyntaxToken token, out SyntaxToken renamed)
-    {
-        foreach (Dictionary<string, string> map in active)
-        {
-            if (!map.TryGetValue(token.ValueText, out string? name))
-                continue;
-            renamed = SyntaxFactory.Identifier(token.LeadingTrivia, name,
-                token.TrailingTrivia);
-            return true;
-        }
-        renamed = token;
-        return false;
+        if (!tokenRenames.TryGetValue(token.SpanStart, out string? name))
+            return base.VisitToken(token);
+        return SyntaxFactory.Identifier(token.LeadingTrivia, name,
+            token.TrailingTrivia);
     }
 }
 
