@@ -1,0 +1,234 @@
+﻿# Manual payload denoise checklist
+
+Input set: original Magicka 1.10.4.2 `A896E05A...3112EE7`, manual patch
+0.0.60 `F9457611...029E347D`, original PolygonHead
+`B43450B3...603CC514`, and patched PolygonHead
+`BBB4043E...81282E33`.
+
+This is the generated first-pass checklist. Only `[x]` means that a file has
+completed semantic review. `[~]` and `[!]` remain open even when the first-pass
+normalizer removed some local-name churn.
+
+Legend: `[ ]` requires semantic review; `[~]` contains recognized local-name noise; `[!]` requires paired declaration alignment; `[x]` is fully reviewed and noise-free.
+
+## magicka
+
+- [ ] `Magicka\AI\Agent.cs` - manual-semantic-review-pending; raw 78, normalized 78 changed lines
+- [ ] `Magicka\AI\AgentStates\AIStateAttack.cs` - manual-semantic-review-pending; raw 2, normalized 2 changed lines
+- [ ] `Magicka\AI\AgentStates\AIStateMove.cs` - manual-semantic-review-pending; raw 4, normalized 4 changed lines
+- [ ] `Magicka\Audio\AudioManager.cs` - manual-semantic-review-pending; raw 15, normalized 15 changed lines
+- [ ] `Magicka\CoreFramework\GameSystem\HUDCustomisation\HUDManager.cs` - manual-semantic-review-pending; raw 2, normalized 2 changed lines
+- [ ] `Magicka\CoreFramework\GameSystem\Store\StoreItemDatabase.cs` - manual-semantic-review-pending; raw 57, normalized 57 changed lines
+- [ ] `Magicka\Game.cs` - manual-semantic-review-pending; raw 49, normalized 49 changed lines
+- [ ] `Magicka\GameLogic\Controls\Controller.cs` - manual-semantic-review-pending; raw 8, normalized 8 changed lines
+- [ ] `Magicka\GameLogic\Controls\ControlManager.cs` - manual-semantic-review-pending; raw 16, normalized 16 changed lines
+- [ ] `Magicka\GameLogic\Controls\DirectInputController.cs` - manual-semantic-review-pending; raw 2, normalized 2 changed lines
+- [ ] `Magicka\GameLogic\Controls\KeyboardMouseController.cs` - manual-semantic-review-pending; raw 38, normalized 38 changed lines
+- [ ] `Magicka\GameLogic\Controls\XInputController.cs` - manual-semantic-review-pending; raw 220, normalized 220 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\ArrowRain.cs` - manual-semantic-review-pending; raw 24, normalized 24 changed lines
+- [!] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\Blizzard.cs` - normalizer-needs-paired-alignment; raw 47, normalized 63 changed lines
+- [~] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\BreakBarriers.cs` - normalized-local-noise; raw 25, normalized 21 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\ChillyBlast.cs` - manual-semantic-review-pending; raw 20, normalized 20 changed lines
+- [~] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\Conflagration.cs` - normalized-local-noise; raw 72, normalized 68 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\Confuse.cs` - manual-semantic-review-pending; raw 26, normalized 26 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\ConfuseWho.cs` - manual-semantic-review-pending; raw 27, normalized 27 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\DeflectionAura.cs` - manual-semantic-review-pending; raw 13, normalized 13 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\DrainLife.cs` - manual-semantic-review-pending; raw 10, normalized 10 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\DrinkBlood.cs` - manual-semantic-review-pending; raw 3, normalized 3 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\EarthQuake.cs` - manual-semantic-review-pending; raw 27, normalized 27 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\EtherealClone.cs` - manual-semantic-review-pending; raw 19, normalized 19 changed lines
+- [~] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\FloorStomp.cs` - normalized-local-noise; raw 33, normalized 29 changed lines
+- [~] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\Grease.cs` - normalized-local-noise; raw 149, normalized 145 changed lines
+- [~] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\GreaseLump.cs` - normalized-local-noise; raw 44, normalized 40 changed lines
+- [~] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\GreaseTrail.cs` - normalized-local-noise; raw 32, normalized 28 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\Grow.cs` - manual-semantic-review-pending; raw 30, normalized 30 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\Haste.cs` - manual-semantic-review-pending; raw 20, normalized 20 changed lines
+- [!] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\HealingRain.cs` - normalizer-needs-paired-alignment; raw 36, normalized 42 changed lines
+- [~] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\HomingCharge.cs` - normalized-local-noise; raw 23, normalized 19 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\JudgementSpray.cs` - manual-semantic-review-pending; raw 13, normalized 13 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\MeteorShower.cs` - manual-semantic-review-pending; raw 32, normalized 32 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\MutateBeastman.cs` - manual-semantic-review-pending; raw 5, normalized 5 changed lines
+- [!] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\Napalm.cs` - normalizer-needs-paired-alignment; raw 65, normalized 73 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\OtherworldlyDischarge.cs` - manual-semantic-review-pending; raw 5, normalized 5 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\PerformanceEnchantment.cs` - manual-semantic-review-pending; raw 29, normalized 29 changed lines
+- [!] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\PoisonSpray.cs` - normalizer-needs-paired-alignment; raw 20, normalized 66 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\Polymorph.cs` - manual-semantic-review-pending; raw 67, normalized 67 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\Portal.cs` - manual-semantic-review-pending; raw 98, normalized 98 changed lines
+- [!] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\Rain.cs` - normalizer-needs-paired-alignment; raw 44, normalized 48 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\RandomMine.cs` - manual-semantic-review-pending; raw 10, normalized 10 changed lines
+- [~] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\Revive.cs` - normalized-local-noise; raw 84, normalized 80 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\Shrink.cs` - manual-semantic-review-pending; raw 22, normalized 22 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\SpawnSlime.cs` - manual-semantic-review-pending; raw 36, normalized 36 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\SpawnSlimeOverkill.cs` - manual-semantic-review-pending; raw 8, normalized 8 changed lines
+- [!] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\Starfall.cs` - normalizer-needs-paired-alignment; raw 10, normalized 16 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\StarGaze.cs` - manual-semantic-review-pending; raw 21, normalized 21 changed lines
+- [~] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\StopCharge.cs` - normalized-local-noise; raw 23, normalized 19 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\SummonBug.cs` - manual-semantic-review-pending; raw 5, normalized 5 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\SummonCross.cs` - manual-semantic-review-pending; raw 23, normalized 23 changed lines
+- [!] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\SummonDeath.cs` - normalizer-needs-paired-alignment; raw 135, normalized 183 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\SummonElemental.cs` - manual-semantic-review-pending; raw 5, normalized 5 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\SummonFlamer.cs` - manual-semantic-review-pending; raw 17, normalized 17 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\SummonPhoenix.cs` - manual-semantic-review-pending; raw 52, normalized 52 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\SummonSpirit.cs` - manual-semantic-review-pending; raw 17, normalized 17 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\SummonUndead.cs` - manual-semantic-review-pending; raw 23, normalized 23 changed lines
+- [~] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\SummonZombie.cs` - normalized-local-noise; raw 49, normalized 45 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\Thunderbolt.cs` - manual-semantic-review-pending; raw 44, normalized 44 changed lines
+- [!] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\Thunderstorm.cs` - normalizer-needs-paired-alignment; raw 62, normalized 110 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\TimeWarp.cs` - manual-semantic-review-pending; raw 30, normalized 30 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\TimeWarpStaff.cs` - manual-semantic-review-pending; raw 30, normalized 30 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\TornadoEntity.cs` - manual-semantic-review-pending; raw 33, normalized 33 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\VladZap.cs` - manual-semantic-review-pending; raw 12, normalized 12 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\VortexEntity.cs` - manual-semantic-review-pending; raw 36, normalized 36 changed lines
+- [~] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\Wave.cs` - normalized-local-noise; raw 76, normalized 72 changed lines
+- [~] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\WaveEntity.cs` - normalized-local-noise; raw 19, normalized 15 changed lines
+- [ ] `Magicka\GameLogic\Entities\Abilities\SpecialAbilities\Zap.cs` - manual-semantic-review-pending; raw 12, normalized 12 changed lines
+- [ ] `Magicka\GameLogic\Entities\AnimatedPhysicsEntity.cs` - manual-semantic-review-pending; raw 113, normalized 113 changed lines
+- [!] `Magicka\GameLogic\Entities\AnimationClipAction.cs` - normalizer-needs-paired-alignment; raw 10, normalized 16 changed lines
+- [~] `Magicka\GameLogic\Entities\Avatar.cs` - normalized-local-noise; raw 311, normalized 291 changed lines
+- [ ] `Magicka\GameLogic\Entities\Barrier.cs` - manual-semantic-review-pending; raw 103, normalized 103 changed lines
+- [ ] `Magicka\GameLogic\Entities\Bosses\BossCollisionZone.cs` - manual-semantic-review-pending; raw 3, normalized 3 changed lines
+- [ ] `Magicka\GameLogic\Entities\Bosses\BossFight.cs` - manual-semantic-review-pending; raw 151, normalized 151 changed lines
+- [ ] `Magicka\GameLogic\Entities\Bosses\CthulhuMist.cs` - manual-semantic-review-pending; raw 3, normalized 3 changed lines
+- [!] `Magicka\GameLogic\Entities\Bosses\GenericBoss.cs` - normalizer-needs-paired-alignment; raw 53, normalized 57 changed lines
+- [ ] `Magicka\GameLogic\Entities\Bosses\Jormungandr.cs` - manual-semantic-review-pending; raw 4, normalized 4 changed lines
+- [ ] `Magicka\GameLogic\Entities\Bosses\Machine.cs` - manual-semantic-review-pending; raw 2, normalized 2 changed lines
+- [ ] `Magicka\GameLogic\Entities\Bosses\PropBoss.cs` - manual-semantic-review-pending; raw 21, normalized 21 changed lines
+- [ ] `Magicka\GameLogic\Entities\Bosses\Tentacle.cs` - manual-semantic-review-pending; raw 2, normalized 2 changed lines
+- [ ] `Magicka\GameLogic\Entities\Bosses\Vlad.cs` - manual-semantic-review-pending; raw 62, normalized 62 changed lines
+- [ ] `Magicka\GameLogic\Entities\Bosses\WarlordCharacter.cs` - manual-semantic-review-pending; raw 2, normalized 2 changed lines
+- [ ] `Magicka\GameLogic\Entities\ChantSpellManager.cs` - manual-semantic-review-pending; raw 12, normalized 12 changed lines
+- [!] `Magicka\GameLogic\Entities\ChantSpells.cs` - normalizer-needs-paired-alignment; raw 3, normalized 35 changed lines
+- [!] `Magicka\GameLogic\Entities\Character.cs` - normalizer-needs-paired-alignment; raw 619, normalized 649 changed lines
+- [!] `Magicka\GameLogic\Entities\CharacterTemplate.cs` - normalizer-needs-paired-alignment; raw 313, normalized 391 changed lines
+- [ ] `Magicka\GameLogic\Entities\DamageablePhysicsEntity.cs` - manual-semantic-review-pending; raw 145, normalized 145 changed lines
+- [~] `Magicka\GameLogic\Entities\Dispenser.cs` - normalized-local-noise; raw 23, normalized 19 changed lines
+- [ ] `Magicka\GameLogic\Entities\ElementalEgg.cs` - manual-semantic-review-pending; raw 87, normalized 87 changed lines
+- [!] `Magicka\GameLogic\Entities\Entanglement.cs` - normalizer-needs-paired-alignment; raw 35, normalized 55 changed lines
+- [ ] `Magicka\GameLogic\Entities\Entity.cs` - manual-semantic-review-pending; raw 85, normalized 85 changed lines
+- [ ] `Magicka\GameLogic\Entities\EntityManager.cs` - manual-semantic-review-pending; raw 36, normalized 36 changed lines
+- [ ] `Magicka\GameLogic\Entities\EntityStateStorage.cs` - manual-semantic-review-pending; raw 7, normalized 7 changed lines
+- [ ] `Magicka\GameLogic\Entities\Fairy.cs` - manual-semantic-review-pending; raw 85, normalized 85 changed lines
+- [ ] `Magicka\GameLogic\Entities\FrogTongue.cs` - manual-semantic-review-pending; raw 3, normalized 3 changed lines
+- [ ] `Magicka\GameLogic\Entities\Gib.cs` - manual-semantic-review-pending; raw 192, normalized 192 changed lines
+- [ ] `Magicka\GameLogic\Entities\Items\Attachment.cs` - manual-semantic-review-pending; raw 5, normalized 5 changed lines
+- [ ] `Magicka\GameLogic\Entities\Items\BookOfMagick.cs` - manual-semantic-review-pending; raw 45, normalized 45 changed lines
+- [!] `Magicka\GameLogic\Entities\Items\Item.cs` - normalizer-needs-paired-alignment; raw 256, normalized 348 changed lines
+- [ ] `Magicka\GameLogic\Entities\Items\Pickable.cs` - manual-semantic-review-pending; raw 2, normalized 2 changed lines
+- [~] `Magicka\GameLogic\Entities\MissileEntity.cs` - normalized-local-noise; raw 221, normalized 213 changed lines
+- [ ] `Magicka\GameLogic\Entities\NonPlayerCharacter.cs` - manual-semantic-review-pending; raw 114, normalized 114 changed lines
+- [ ] `Magicka\GameLogic\Entities\PhysicsEntity.cs` - manual-semantic-review-pending; raw 73, normalized 73 changed lines
+- [ ] `Magicka\GameLogic\Entities\PhysicsEntityTemplate.cs` - manual-semantic-review-pending; raw 109, normalized 109 changed lines
+- [~] `Magicka\GameLogic\Entities\Shield.cs` - normalized-local-noise; raw 60, normalized 56 changed lines
+- [~] `Magicka\GameLogic\Entities\Snare.cs` - normalized-local-noise; raw 18, normalized 14 changed lines
+- [ ] `Magicka\GameLogic\Entities\SpellMine.cs` - manual-semantic-review-pending; raw 61, normalized 61 changed lines
+- [ ] `Magicka\GameLogic\Entities\SprayEntity.cs` - manual-semantic-review-pending; raw 23, normalized 23 changed lines
+- [~] `Magicka\GameLogic\Entities\TeslaField.cs` - normalized-local-noise; raw 33, normalized 29 changed lines
+- [ ] `Magicka\GameLogic\GameStates\CompanyState.cs` - manual-semantic-review-pending; raw 9, normalized 9 changed lines
+- [~] `Magicka\GameLogic\GameStates\InGameMenus\InGameMenu.cs` - normalized-local-noise; raw 54, normalized 18 changed lines
+- [ ] `Magicka\GameLogic\GameStates\InGameMenus\InGameMenuMagicks.cs` - manual-semantic-review-pending; raw 102, normalized 102 changed lines
+- [ ] `Magicka\GameLogic\GameStates\InGameMenus\InGameMenuMain.cs` - manual-semantic-review-pending; raw 32, normalized 32 changed lines
+- [ ] `Magicka\GameLogic\GameStates\InGameMenus\InGameMenuOptions.cs` - manual-semantic-review-pending; raw 11, normalized 11 changed lines
+- [ ] `Magicka\GameLogic\GameStates\InGameMenus\InGameMenuOptionsGraphics.cs` - manual-semantic-review-pending; raw 27, normalized 27 changed lines
+- [ ] `Magicka\GameLogic\GameStates\InGameMenus\InGameMenuOptionsResolution.cs` - manual-semantic-review-pending; raw 50, normalized 50 changed lines
+- [!] `Magicka\GameLogic\GameStates\InGameMenus\InGameMenuSurvivalStatistics.cs` - normalizer-needs-paired-alignment; raw 45, normalized 63 changed lines
+- [ ] `Magicka\GameLogic\GameStates\InGameMenus\InGameMenuTimedObjectiveStatistics.cs` - manual-semantic-review-pending; raw 61, normalized 61 changed lines
+- [ ] `Magicka\GameLogic\GameStates\InGameMenus\InGameMenuVersusStatistics.cs` - manual-semantic-review-pending; raw 59, normalized 59 changed lines
+- [!] `Magicka\GameLogic\GameStates\LoadingScreen.cs` - normalizer-needs-paired-alignment; raw 5, normalized 9 changed lines
+- [ ] `Magicka\GameLogic\GameStates\Menu\Main\Options\SubMenuOptionsControls.cs` - manual-semantic-review-pending; raw 5, normalized 5 changed lines
+- [!] `Magicka\GameLogic\GameStates\Menu\Main\SubMenuCharacterSelect.cs` - normalizer-needs-paired-alignment; raw 1589, normalized 1779 changed lines
+- [!] `Magicka\GameLogic\GameStates\Menu\Main\SubMenuCutscene.cs` - normalizer-needs-paired-alignment; raw 397, normalized 405 changed lines
+- [ ] `Magicka\GameLogic\GameStates\Menu\Main\SubMenuMain.cs` - manual-semantic-review-pending; raw 10, normalized 10 changed lines
+- [ ] `Magicka\GameLogic\GameStates\Menu\MenuImageTextItem.cs` - manual-semantic-review-pending; raw 9, normalized 9 changed lines
+- [ ] `Magicka\GameLogic\GameStates\MenuState.cs` - manual-semantic-review-pending; raw 21, normalized 21 changed lines
+- [!] `Magicka\GameLogic\GameStates\PlayState.cs` - normalizer-needs-paired-alignment; raw 270, normalized 392 changed lines
+- [ ] `Magicka\GameLogic\Player.cs` - manual-semantic-review-pending; raw 17, normalized 17 changed lines
+- [!] `Magicka\GameLogic\Spells\ArcaneBlade.cs` - normalizer-needs-paired-alignment; raw 65, normalized 83 changed lines
+- [~] `Magicka\GameLogic\Spells\ArcaneBlast.cs` - normalized-local-noise; raw 57, normalized 53 changed lines
+- [~] `Magicka\GameLogic\Spells\IceBlade.cs` - normalized-local-noise; raw 27, normalized 23 changed lines
+- [ ] `Magicka\GameLogic\Spells\IceSpikes.cs` - manual-semantic-review-pending; raw 12, normalized 12 changed lines
+- [!] `Magicka\GameLogic\Spells\LightningBolt.cs` - normalizer-needs-paired-alignment; raw 32, normalized 36 changed lines
+- [ ] `Magicka\GameLogic\Spells\Magick.cs` - manual-semantic-review-pending; raw 225, normalized 225 changed lines
+- [~] `Magicka\GameLogic\Spells\Railgun.cs` - normalized-local-noise; raw 210, normalized 206 changed lines
+- [ ] `Magicka\GameLogic\Spells\SpellEffects\LightningSpell.cs` - manual-semantic-review-pending; raw 20, normalized 20 changed lines
+- [!] `Magicka\GameLogic\Spells\SpellEffects\ProjectileSpell.cs` - normalizer-needs-paired-alignment; raw 529, normalized 575 changed lines
+- [ ] `Magicka\GameLogic\Spells\SpellEffects\PushSpell.cs` - manual-semantic-review-pending; raw 37, normalized 37 changed lines
+- [~] `Magicka\GameLogic\Spells\SpellEffects\RailGunSpell.cs` - normalized-local-noise; raw 68, normalized 66 changed lines
+- [~] `Magicka\GameLogic\Spells\SpellEffects\ShieldSpell.cs` - normalized-local-noise; raw 36, normalized 34 changed lines
+- [ ] `Magicka\GameLogic\Spells\SpellEffects\SpellEffect.cs` - manual-semantic-review-pending; raw 51, normalized 51 changed lines
+- [!] `Magicka\GameLogic\Spells\SpellEffects\SpraySpell.cs` - normalizer-needs-paired-alignment; raw 89, normalized 203 changed lines
+- [~] `Magicka\GameLogic\Spells\UnderGroundAttack.cs` - normalized-local-noise; raw 107, normalized 103 changed lines
+- [ ] `Magicka\GameLogic\Statistics\StatisticsManager.cs` - manual-semantic-review-pending; raw 12, normalized 12 changed lines
+- [ ] `Magicka\GameLogic\UI\BossHealthBar.cs` - manual-semantic-review-pending; raw 5, normalized 5 changed lines
+- [!] `Magicka\GameLogic\UI\Credits.cs` - normalizer-needs-paired-alignment; raw 70, normalized 114 changed lines
+- [ ] `Magicka\GameLogic\UI\DialogManager.cs` - manual-semantic-review-pending; raw 26, normalized 26 changed lines
+- [ ] `Magicka\GameLogic\UI\GenericHealthBar.cs` - manual-semantic-review-pending; raw 19, normalized 19 changed lines
+- [ ] `Magicka\GameLogic\UI\IconRenderer.cs` - manual-semantic-review-pending; raw 56, normalized 56 changed lines
+- [ ] `Magicka\GameLogic\UI\InventoryBox.cs` - manual-semantic-review-pending; raw 1, normalized 1 changed lines
+- [~] `Magicka\GameLogic\UI\KeyboardHUD.cs` - normalized-local-noise; raw 67, normalized 65 changed lines
+- [ ] `Magicka\GameLogic\UI\Message.cs` - manual-semantic-review-pending; raw 27, normalized 27 changed lines
+- [ ] `Magicka\GameLogic\UI\ShadowBlobs.cs` - manual-semantic-review-pending; raw 8, normalized 8 changed lines
+- [ ] `Magicka\GameLogic\UI\SpellWheel.cs` - manual-semantic-review-pending; raw 35, normalized 35 changed lines
+- [!] `Magicka\GameLogic\UI\Tome.cs` - normalizer-needs-paired-alignment; raw 287, normalized 447 changed lines
+- [ ] `Magicka\GlobalSettings.cs` - manual-semantic-review-pending; raw 2, normalized 2 changed lines
+- [ ] `Magicka\Graphics\CutsceneText.cs` - manual-semantic-review-pending; raw 6, normalized 6 changed lines
+- [~] `Magicka\Graphics\EffectManager.cs` - normalized-local-noise; raw 22, normalized 18 changed lines
+- [~] `Magicka\Graphics\Effects\RadialBlur.cs` - normalized-local-noise; raw 36, normalized 32 changed lines
+- [ ] `Magicka\Graphics\Flash.cs` - manual-semantic-review-pending; raw 18, normalized 18 changed lines
+- [ ] `Magicka\Graphics\Lights\DynamicLight.cs` - manual-semantic-review-pending; raw 18, normalized 18 changed lines
+- [ ] `Magicka\Graphics\MagickCamera.cs` - manual-semantic-review-pending; raw 35, normalized 35 changed lines
+- [!] `Magicka\Graphics\NotifierButton.cs` - normalizer-needs-paired-alignment; raw 12, normalized 44 changed lines
+- [ ] `Magicka\Graphics\TextBox.cs` - manual-semantic-review-pending; raw 14, normalized 14 changed lines
+- [!] `Magicka\Graphics\TutorialManager.cs` - normalizer-needs-paired-alignment; raw 52, normalized 64 changed lines
+- [ ] `Magicka\Graphics\TypingText.cs` - manual-semantic-review-pending; raw 115, normalized 115 changed lines
+- [ ] `Magicka\Helper.cs` - manual-semantic-review-pending; raw 18, normalized 18 changed lines
+- [ ] `Magicka\Levels\AnimatedLevelPart.cs` - manual-semantic-review-pending; raw 134, normalized 134 changed lines
+- [ ] `Magicka\Levels\Campaign\LevelManager.cs` - manual-semantic-review-pending; raw 75, normalized 75 changed lines
+- [!] `Magicka\Levels\ForceField.cs` - normalizer-needs-paired-alignment; raw 82, normalized 84 changed lines
+- [~] `Magicka\Levels\GameScene.cs` - normalized-local-noise; raw 220, normalized 204 changed lines
+- [!] `Magicka\Levels\Lava.cs` - normalizer-needs-paired-alignment; raw 50, normalized 162 changed lines
+- [ ] `Magicka\Levels\Level.cs` - manual-semantic-review-pending; raw 39, normalized 39 changed lines
+- [ ] `Magicka\Levels\LevelModel.cs` - manual-semantic-review-pending; raw 93, normalized 93 changed lines
+- [ ] `Magicka\Levels\Liquid.cs` - manual-semantic-review-pending; raw 9, normalized 9 changed lines
+- [ ] `Magicka\Levels\Packs\ItemPack.cs` - manual-semantic-review-pending; raw 4, normalized 4 changed lines
+- [ ] `Magicka\Levels\Packs\MagickPack.cs` - manual-semantic-review-pending; raw 4, normalized 4 changed lines
+- [ ] `Magicka\Levels\Packs\PackMan.cs` - manual-semantic-review-pending; raw 16, normalized 16 changed lines
+- [ ] `Magicka\Levels\Triggers\Actions\Action.cs` - manual-semantic-review-pending; raw 30, normalized 30 changed lines
+- [ ] `Magicka\Levels\Triggers\Actions\AssignItem.cs` - manual-semantic-review-pending; raw 13, normalized 13 changed lines
+- [ ] `Magicka\Levels\Triggers\Actions\GiveOrder.cs` - manual-semantic-review-pending; raw 29, normalized 29 changed lines
+- [~] `Magicka\Levels\Triggers\Actions\SetDialogHint.cs` - normalized-local-noise; raw 8, normalized 2 changed lines
+- [!] `Magicka\Levels\Triggers\Interactable.cs` - normalizer-needs-paired-alignment; raw 16, normalized 30 changed lines
+- [ ] `Magicka\Levels\Triggers\Trigger.cs` - manual-semantic-review-pending; raw 206, normalized 206 changed lines
+- [ ] `Magicka\Levels\Triggers\TriggerArea.cs` - manual-semantic-review-pending; raw 52, normalized 52 changed lines
+- [ ] `Magicka\Levels\Versus\VersusRuleset.cs` - manual-semantic-review-pending; raw 4, normalized 4 changed lines
+- [!] `Magicka\Levels\Water.cs` - normalizer-needs-paired-alignment; raw 50, normalized 166 changed lines
+- [ ] `Magicka\Localization\LanguageManager.cs` - manual-semantic-review-pending; raw 10, normalized 10 changed lines
+- [ ] `Magicka\Network\EntityUpdateMessage.cs` - manual-semantic-review-pending; raw 6, normalized 6 changed lines
+- [~] `Magicka\Network\NetworkClient.cs` - normalized-local-noise; raw 794, normalized 686 changed lines
+- [~] `Magicka\Network\NetworkServer.cs` - normalized-local-noise; raw 777, normalized 545 changed lines
+- [ ] `Magicka\Physics\PhysicsManager.cs` - manual-semantic-review-pending; raw 103, normalized 103 changed lines
+- [!] `Magicka\Program.cs` - normalizer-needs-paired-alignment; raw 113, normalized 147 changed lines
+- [~] `Magicka\SharedContentManager.cs` - normalized-local-noise; raw 248, normalized 234 changed lines
+- [!] `Magicka\StaticList.cs` - normalizer-needs-paired-alignment; raw 40, normalized 44 changed lines
+- [!] `Magicka\StaticWeakList.cs` - normalizer-needs-paired-alignment; raw 68, normalized 74 changed lines
+- [ ] `Magicka\WebTools\Paradox\ParadoxPopupUtils.cs` - manual-semantic-review-pending; raw 6, normalized 6 changed lines
+- [ ] `Properties\AssemblyInfo.cs` - manual-semantic-review-pending; raw 4, normalized 4 changed lines
+
+## polygonhead
+
+- [ ] `PolygonHead\Camera.cs` - manual-semantic-review-pending; raw 6, normalized 6 changed lines
+- [ ] `PolygonHead\Effects\AdditiveEffect.cs` - manual-semantic-review-pending; raw 24, normalized 24 changed lines
+- [ ] `PolygonHead\Effects\GUIBasicEffect.cs` - manual-semantic-review-pending; raw 2, normalized 2 changed lines
+- [ ] `PolygonHead\Effects\PostProcessingEffect.cs` - manual-semantic-review-pending; raw 2, normalized 2 changed lines
+- [ ] `PolygonHead\Effects\ProjectionEffect.cs` - manual-semantic-review-pending; raw 9, normalized 9 changed lines
+- [ ] `PolygonHead\Effects\RenderDeferredEffect.cs` - manual-semantic-review-pending; raw 11, normalized 11 changed lines
+- [ ] `PolygonHead\Effects\RenderDeferredLiquidEffect.cs` - manual-semantic-review-pending; raw 58, normalized 58 changed lines
+- [!] `PolygonHead\Effects\SkinnedModelDeferredEffect.cs` - normalizer-needs-paired-alignment; raw 15, normalized 91 changed lines
+- [!] `PolygonHead\Effects\SkinnedModelDeferredNormalMappedEffect.cs` - normalizer-needs-paired-alignment; raw 12, normalized 46 changed lines
+- [ ] `PolygonHead\Effects\SpotLightEffect.cs` - manual-semantic-review-pending; raw 15, normalized 15 changed lines
+- [ ] `PolygonHead\Helpers\SyncedList.cs` - manual-semantic-review-pending; raw 2, normalized 2 changed lines
+- [ ] `PolygonHead\Lights\Light.cs` - manual-semantic-review-pending; raw 8, normalized 8 changed lines
+- [ ] `PolygonHead\Models\BiTreeModel.cs` - manual-semantic-review-pending; raw 21, normalized 21 changed lines
+- [ ] `PolygonHead\ParticleEffects\ParticleSystem.cs` - manual-semantic-review-pending; raw 68, normalized 68 changed lines
+- [~] `PolygonHead\RenderManager.cs` - normalized-local-noise; raw 203, normalized 201 changed lines
+- [ ] `PolygonHead\Scene.cs` - manual-semantic-review-pending; raw 89, normalized 89 changed lines
+
