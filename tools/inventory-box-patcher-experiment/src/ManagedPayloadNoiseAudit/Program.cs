@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 return ManagedPayloadNoiseAudit.Run(args);
 
@@ -149,13 +150,27 @@ internal static class ManagedPayloadNoiseAudit
             ReadNormalizations(normalizerReport);
 
         string semanticDiffRoot = Path.Combine(root, "semantic-review-diffs");
+        string playStateFeatureRoot = Path.Combine(root, "feature-diffs",
+            "playstate-singleton");
+        List<string> playStateFeatureFiles = new();
         List<AuditRow> rows = new();
         foreach (string relative in modified)
         {
             string normalizedOriginal = Path.Combine(normalized, "original", relative);
             string normalizedPatched = Path.Combine(normalized, "patched", relative);
-            WriteReviewDiff(normalizedOriginal, normalizedPatched,
-                Path.Combine(semanticDiffRoot, relative + ".diff"));
+            string reviewDiff = Path.Combine(semanticDiffRoot,
+                relative + ".diff");
+            WriteReviewDiff(normalizedOriginal, normalizedPatched, reviewDiff);
+            bool playStateSingletonOnly =
+                IsExclusivePlayStateSingletonDiff(reviewDiff);
+            if (playStateSingletonOnly)
+            {
+                string featureDiff = Path.Combine(playStateFeatureRoot,
+                    relative + ".diff");
+                Directory.CreateDirectory(Path.GetDirectoryName(featureDiff)!);
+                File.Move(reviewDiff, featureDiff);
+                playStateFeatureFiles.Add(relative);
+            }
             int rawLines = ChangedLines(originals[relative], patched[relative]);
             int normalizedLines = ChangedReviewLines(normalizedOriginal,
                 normalizedPatched);
@@ -169,17 +184,72 @@ internal static class ManagedPayloadNoiseAudit
                 methods.AddedMethods, methods.AddedFields,
                 methods.MetadataChanges,
                 fixes.MatchedLocals, fixes.RestoredInitializers,
-                fixes.RemovedCaptureAliases));
+                fixes.RemovedCaptureAliases, playStateSingletonOnly));
         }
+        Directory.CreateDirectory(playStateFeatureRoot);
+        File.WriteAllLines(Path.Combine(playStateFeatureRoot, "files.txt"),
+            playStateFeatureFiles.OrderBy(value => value,
+                StringComparer.OrdinalIgnoreCase), new UTF8Encoding(false));
         WriteAuditCsv(Path.Combine(root, "noise-audit.csv"), rows);
         File.WriteAllLines(Path.Combine(analysis, "analysis-summary.txt"), new[]
         {
             "identical_pairs_removed=" + identical.Count,
             "modified_files=" + modified.Length,
             "added_files_excluded=" + added.Length,
-            "removed_files=" + removed.Length
+            "removed_files=" + removed.Length,
+            "playstate_singleton_only_diffs=" + playStateFeatureFiles.Count
         }, new UTF8Encoding(false));
         return rows;
+    }
+
+    private static bool IsExclusivePlayStateSingletonDiff(string path)
+    {
+        List<string> changes = File.ReadLines(path).Where(line =>
+            (line.StartsWith("+", StringComparison.Ordinal) ||
+             line.StartsWith("-", StringComparison.Ordinal)) &&
+            !line.StartsWith("+++", StringComparison.Ordinal) &&
+            !line.StartsWith("---", StringComparison.Ordinal) &&
+            line[1..].Trim().Length != 0).ToList();
+        Regex fieldPattern = new(
+            @"^\s*(?:private|protected|internal|public)\s+(?:readonly\s+)?PlayState\s+(\w+)\s*;\s*$",
+            RegexOptions.CultureInvariant);
+        string[] fields = changes.Where(line => line[0] == '-')
+            .Select(line => fieldPattern.Match(line[1..]))
+            .Where(match => match.Success)
+            .Select(match => match.Groups[1].Value)
+            .Distinct(StringComparer.Ordinal).ToArray();
+        if (fields.Length == 0) return false;
+
+        List<string> additions = changes.Where(line => line[0] == '+')
+            .Select(line => line[1..]).ToList();
+        foreach (string removed in changes.Where(line => line[0] == '-')
+            .Select(line => line[1..]))
+        {
+            bool accepted = false;
+            foreach (string field in fields)
+            {
+                if (fieldPattern.IsMatch(removed) || Regex.IsMatch(removed,
+                    @"^\s*(?:this\.)?" + Regex.Escape(field) +
+                    @"\s*=\s*[^;]+;\s*$", RegexOptions.CultureInvariant))
+                {
+                    accepted = true;
+                    break;
+                }
+                if (!Regex.IsMatch(removed, @"\b" + Regex.Escape(field) +
+                    @"\b", RegexOptions.CultureInvariant))
+                    continue;
+                string replacement = Regex.Replace(removed,
+                    @"\b(?:this\.)?" + Regex.Escape(field) + @"\b",
+                    "PlayState.RecentPlayState", RegexOptions.CultureInvariant);
+                int addition = additions.FindIndex(line => line == replacement);
+                if (addition < 0) continue;
+                additions.RemoveAt(addition);
+                accepted = true;
+                break;
+            }
+            if (!accepted) return false;
+        }
+        return additions.Count == 0;
     }
 
     private static Dictionary<string, InventoryTotals> ReadInventory(string path)
@@ -323,14 +393,15 @@ internal static class ManagedPayloadNoiseAudit
     private static void WriteAuditCsv(string path, IEnumerable<AuditRow> rows)
     {
         using StreamWriter writer = new(path, false, new UTF8Encoding(false));
-        writer.WriteLine("Assembly,File,RawChangedLines,NormalizedChangedLines,Status,ChangedExistingMethods,LayoutOnlyMethods,AddedMethods,AddedFields,MetadataChanges,MatchedLocals,RestoredInitializers,RemovedCaptureAliases");
+        writer.WriteLine("Assembly,File,RawChangedLines,NormalizedChangedLines,Status,ChangedExistingMethods,LayoutOnlyMethods,AddedMethods,AddedFields,MetadataChanges,MatchedLocals,RestoredInitializers,RemovedCaptureAliases,Feature");
         foreach (AuditRow row in rows)
             writer.WriteLine(string.Join(",", Csv(row.Assembly), Csv(row.File),
                 row.RawChangedLines, row.NormalizedChangedLines, Csv(row.Status),
                 row.ChangedMethods, row.LayoutOnlyMethods, row.AddedMethods,
                 row.AddedFields, row.MetadataChanges, row.MatchedLocals,
                 row.RestoredInitializers,
-                row.RemovedCaptureAliases));
+                row.RemovedCaptureAliases,
+                Csv(row.PlayStateSingletonOnly ? "playstate-singleton" : "")));
     }
 
     private static void WriteChecklist(IEnumerable<AuditRow> allRows)
@@ -359,7 +430,9 @@ internal static class ManagedPayloadNoiseAudit
                     ", metadata changes " + row.MetadataChanges +
                     "; normalized locals " + row.MatchedLocals +
                     ", static initializers " + row.RestoredInitializers +
-                    ", capture aliases " + row.RemovedCaptureAliases);
+                    ", capture aliases " + row.RemovedCaptureAliases +
+                    (row.PlayStateSingletonOnly
+                        ? "; feature `playstate-singleton`" : ""));
             }
             lines.Add("");
         }
@@ -460,7 +533,7 @@ internal static class ManagedPayloadNoiseAudit
         int RawChangedLines, int NormalizedChangedLines, string Status,
         int ChangedMethods, int LayoutOnlyMethods, int AddedMethods,
         int AddedFields, int MetadataChanges, int MatchedLocals, int RestoredInitializers,
-        int RemovedCaptureAliases);
+        int RemovedCaptureAliases, bool PlayStateSingletonOnly);
     private readonly record struct InventoryTotals(int Changed, int LayoutOnly,
         int AddedMethods, int AddedFields, int MetadataChanges);
     private readonly record struct NormalizationTotals(int MatchedLocals,
