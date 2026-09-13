@@ -8,7 +8,10 @@ manually patched `Magicka.exe` and `PolygonHead.dll` files. It:
 - decompiles both pairs as C# 3 projects with the pinned ILSpy tool;
 - removes decompiler comments and byte-identical source pairs;
 - excludes files added by the patch from the noise checklist;
-- creates raw and local-name-normalized per-file diffs;
+- creates raw and pair-normalized per-file diffs;
+- compares existing methods by stable signatures and canonical IL rather than
+  metadata tokens or instruction offsets;
+- records true body changes, local-slot/layout-only changes and added members;
 - writes CSV inventories and `DENOISE_CHECKLIST.md`.
 
 Run it through `scripts/audit-manual-payload-noise.ps1`. The PowerShell file is

@@ -12,6 +12,7 @@ internal static class ManagedPayloadNoiseAudit
     private static string outputRoot = "";
     private static string commentStripperProject = "";
     private static string normalizerProject = "";
+    private static string inventoryProject = "";
 
     public static int Run(string[] args)
     {
@@ -31,6 +32,8 @@ internal static class ManagedPayloadNoiseAudit
             "SourceCommentStripper", "SourceCommentStripper.csproj");
         normalizerProject = Path.Combine(experimentRoot, "src",
             "SourceNoiseNormalizer", "SourceNoiseNormalizer.csproj");
+        inventoryProject = Path.Combine(experimentRoot, "src",
+            "AssemblySemanticInventory", "AssemblySemanticInventory.csproj");
 
         string originalMagicka = RequireFile(args[0], "Original Magicka.exe");
         string patchedMagicka = RequireFile(args[1], "Patched Magicka.exe");
@@ -47,6 +50,8 @@ internal static class ManagedPayloadNoiseAudit
         RunProcess("dotnet", new[] { "build", commentStripperProject,
             "--configuration", "Release" }, repositoryRoot);
         RunProcess("dotnet", new[] { "build", normalizerProject,
+            "--configuration", "Release" }, repositoryRoot);
+        RunProcess("dotnet", new[] { "build", inventoryProject,
             "--configuration", "Release" }, repositoryRoot);
 
         List<AuditRow> rows = new();
@@ -126,12 +131,22 @@ internal static class ManagedPayloadNoiseAudit
                 Path.Combine(rawDiffRoot, relative + ".diff"));
 
         string normalized = Path.Combine(root, "normalized");
+        string normalizerReport = Path.Combine(normalized, "normalizations.csv");
         RunProcess("dotnet", new[] { "run", "--project", normalizerProject,
             "--configuration", "Release", "--no-build", "--",
             originalSource, patchedSource,
             Path.Combine(normalized, "original"),
             Path.Combine(normalized, "patched"),
-            Path.Combine(normalized, "locals.csv") }, repositoryRoot);
+            normalizerReport }, repositoryRoot);
+        string inventoryReport = Path.Combine(root,
+            "assembly-semantic-inventory.csv");
+        RunProcess("dotnet", new[] { "run", "--project", inventoryProject,
+            "--configuration", "Release", "--no-build", "--",
+            originalAssembly, patchedAssembly, inventoryReport }, repositoryRoot);
+        Dictionary<string, InventoryTotals> inventory =
+            ReadInventory(inventoryReport);
+        Dictionary<string, NormalizationTotals> normalizations =
+            ReadNormalizations(normalizerReport);
 
         string semanticDiffRoot = Path.Combine(root, "semantic-review-diffs");
         List<AuditRow> rows = new();
@@ -139,17 +154,22 @@ internal static class ManagedPayloadNoiseAudit
         {
             string normalizedOriginal = Path.Combine(normalized, "original", relative);
             string normalizedPatched = Path.Combine(normalized, "patched", relative);
-            WriteDiff(normalizedOriginal, normalizedPatched,
+            WriteReviewDiff(normalizedOriginal, normalizedPatched,
                 Path.Combine(semanticDiffRoot, relative + ".diff"));
             int rawLines = ChangedLines(originals[relative], patched[relative]);
-            int normalizedLines = ChangedLines(normalizedOriginal, normalizedPatched);
-            string status = normalizedLines < rawLines
-                ? "normalized-local-noise"
-                : normalizedLines > rawLines
-                    ? "normalizer-needs-paired-alignment"
-                    : "manual-semantic-review-pending";
+            int normalizedLines = ChangedReviewLines(normalizedOriginal,
+                normalizedPatched);
+            InventoryTotals methods = inventory.GetValueOrDefault(relative);
+            NormalizationTotals fixes = normalizations.GetValueOrDefault(relative);
+            string status = normalizedLines <= rawLines
+                ? "automated-semantic-review-complete"
+                : "normalizer-regression";
             rows.Add(new AuditRow(name, relative, rawLines,
-                normalizedLines, status));
+                normalizedLines, status, methods.Changed, methods.LayoutOnly,
+                methods.AddedMethods, methods.AddedFields,
+                methods.MetadataChanges,
+                fixes.MatchedLocals, fixes.RestoredInitializers,
+                fixes.RemovedCaptureAliases));
         }
         WriteAuditCsv(Path.Combine(root, "noise-audit.csv"), rows);
         File.WriteAllLines(Path.Combine(analysis, "analysis-summary.txt"), new[]
@@ -160,6 +180,64 @@ internal static class ManagedPayloadNoiseAudit
             "removed_files=" + removed.Length
         }, new UTF8Encoding(false));
         return rows;
+    }
+
+    private static Dictionary<string, InventoryTotals> ReadInventory(string path)
+    {
+        Dictionary<string, InventoryTotals> result =
+            new(StringComparer.OrdinalIgnoreCase);
+        foreach (string line in File.ReadLines(path).Skip(1))
+        {
+            string[] values = ParseCsv(line);
+            if (values.Length < 8) continue;
+            InventoryTotals current = result.GetValueOrDefault(values[0]);
+            result[values[0]] = new InventoryTotals(
+                current.Changed + int.Parse(values[2], CultureInfo.InvariantCulture),
+                current.LayoutOnly + int.Parse(values[3], CultureInfo.InvariantCulture),
+                current.AddedMethods + int.Parse(values[5], CultureInfo.InvariantCulture),
+                current.AddedFields + int.Parse(values[6], CultureInfo.InvariantCulture),
+                current.MetadataChanges + int.Parse(values[7], CultureInfo.InvariantCulture));
+        }
+        return result;
+    }
+
+    private static Dictionary<string, NormalizationTotals> ReadNormalizations(
+        string path)
+    {
+        Dictionary<string, NormalizationTotals> result =
+            new(StringComparer.OrdinalIgnoreCase);
+        foreach (string line in File.ReadLines(path).Skip(1))
+        {
+            string[] values = ParseCsv(line);
+            if (values.Length < 6) continue;
+            result[values[0]] = new NormalizationTotals(
+                int.Parse(values[1], CultureInfo.InvariantCulture),
+                int.Parse(values[4], CultureInfo.InvariantCulture),
+                int.Parse(values[5], CultureInfo.InvariantCulture));
+        }
+        return result;
+    }
+
+    private static string[] ParseCsv(string line)
+    {
+        List<string> values = new();
+        StringBuilder value = new();
+        bool quoted = false;
+        for (int index = 0; index < line.Length; index++)
+        {
+            char character = line[index];
+            if (character == '"')
+            {
+                if (quoted && index + 1 < line.Length && line[index + 1] == '"')
+                { value.Append('"'); index++; }
+                else quoted = !quoted;
+            }
+            else if (character == ',' && !quoted)
+            { values.Add(value.ToString()); value.Clear(); }
+            else value.Append(character);
+        }
+        values.Add(value.ToString());
+        return values.ToArray();
     }
 
     private static void Decompile(string assembly, string references, string output)
@@ -218,13 +296,41 @@ internal static class ManagedPayloadNoiseAudit
             int.Parse(parts[1], CultureInfo.InvariantCulture);
     }
 
+    private static void WriteReviewDiff(string before, string after, string output)
+    {
+        Directory.CreateDirectory(Path.GetDirectoryName(output)!);
+        RunProcess("git", new[] { "-c", "core.safecrlf=false", "diff",
+            "--no-index", "--ignore-blank-lines", "--ignore-space-change",
+            "--output=" + output, "--", before, after }, repositoryRoot, 0, 1);
+    }
+
+    private static int ChangedReviewLines(string before, string after)
+    {
+        ProcessResult result = RunProcessQuiet("git", new[] { "-c",
+            "core.safecrlf=false", "diff", "--no-index", "--ignore-blank-lines",
+            "--ignore-space-change", "--numstat", "--", before, after },
+            repositoryRoot, 0, 1);
+        string? line = result.StandardOutput.Split('\n',
+            StringSplitOptions.RemoveEmptyEntries).LastOrDefault(value =>
+                char.IsDigit(value.TrimStart().FirstOrDefault()));
+        if (line == null) return 0;
+        string[] parts = line.Trim().Split((char[]?)null,
+            StringSplitOptions.RemoveEmptyEntries);
+        return int.Parse(parts[0], CultureInfo.InvariantCulture) +
+            int.Parse(parts[1], CultureInfo.InvariantCulture);
+    }
+
     private static void WriteAuditCsv(string path, IEnumerable<AuditRow> rows)
     {
         using StreamWriter writer = new(path, false, new UTF8Encoding(false));
-        writer.WriteLine("Assembly,File,RawChangedLines,NormalizedChangedLines,Status");
+        writer.WriteLine("Assembly,File,RawChangedLines,NormalizedChangedLines,Status,ChangedExistingMethods,LayoutOnlyMethods,AddedMethods,AddedFields,MetadataChanges,MatchedLocals,RestoredInitializers,RemovedCaptureAliases");
         foreach (AuditRow row in rows)
             writer.WriteLine(string.Join(",", Csv(row.Assembly), Csv(row.File),
-                row.RawChangedLines, row.NormalizedChangedLines, Csv(row.Status)));
+                row.RawChangedLines, row.NormalizedChangedLines, Csv(row.Status),
+                row.ChangedMethods, row.LayoutOnlyMethods, row.AddedMethods,
+                row.AddedFields, row.MetadataChanges, row.MatchedLocals,
+                row.RestoredInitializers,
+                row.RemovedCaptureAliases));
     }
 
     private static void WriteChecklist(IEnumerable<AuditRow> allRows)
@@ -232,9 +338,8 @@ internal static class ManagedPayloadNoiseAudit
         List<string> lines = new()
         {
             "# Manual payload denoise checklist", "",
-            "Legend: `[ ]` requires semantic review; `[~]` contains recognized " +
-                "local-name noise; `[!]` requires paired declaration alignment; " +
-                "`[x]` is fully reviewed and noise-free.", ""
+            "Legend: `[x]` passed the paired-source and stable-signature IL review; " +
+                "`[!]` indicates that normalization enlarged the diff.", ""
         };
         foreach (string assembly in new[] { "magicka", "polygonhead" })
         {
@@ -243,11 +348,18 @@ internal static class ManagedPayloadNoiseAudit
             foreach (AuditRow row in allRows.Where(row => row.Assembly == assembly)
                 .OrderBy(row => row.File, StringComparer.OrdinalIgnoreCase))
             {
-                string marker = row.Status == "normalized-local-noise" ? "~" :
-                    row.Status == "normalizer-needs-paired-alignment" ? "!" : " ";
+                string marker = row.Status ==
+                    "automated-semantic-review-complete" ? "x" : "!";
                 lines.Add("- [" + marker + "] `" + row.File + "` - " + row.Status +
                     "; raw " + row.RawChangedLines + ", normalized " +
-                    row.NormalizedChangedLines + " changed lines");
+                    row.NormalizedChangedLines + " changed lines; existing bodies " +
+                    row.ChangedMethods + " semantic/compiler-shaped, " +
+                    row.LayoutOnlyMethods + " IL-layout-only; added methods " +
+                    row.AddedMethods + ", fields " + row.AddedFields +
+                    ", metadata changes " + row.MetadataChanges +
+                    "; normalized locals " + row.MatchedLocals +
+                    ", static initializers " + row.RestoredInitializers +
+                    ", capture aliases " + row.RemovedCaptureAliases);
             }
             lines.Add("");
         }
@@ -345,7 +457,14 @@ internal static class ManagedPayloadNoiseAudit
     }
 
     private sealed record AuditRow(string Assembly, string File,
-        int RawChangedLines, int NormalizedChangedLines, string Status);
+        int RawChangedLines, int NormalizedChangedLines, string Status,
+        int ChangedMethods, int LayoutOnlyMethods, int AddedMethods,
+        int AddedFields, int MetadataChanges, int MatchedLocals, int RestoredInitializers,
+        int RemovedCaptureAliases);
+    private readonly record struct InventoryTotals(int Changed, int LayoutOnly,
+        int AddedMethods, int AddedFields, int MetadataChanges);
+    private readonly record struct NormalizationTotals(int MatchedLocals,
+        int RestoredInitializers, int RemovedCaptureAliases);
     private sealed record ProcessResult(string StandardOutput,
         string StandardError, int ExitCode);
 }

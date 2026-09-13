@@ -24,7 +24,6 @@ internal static class SourceNoiseNormalizer
         string normalizedPatchedRoot = PrepareOutput(args[3]);
         string reportPath = Path.GetFullPath(args[4]);
         Directory.CreateDirectory(Path.GetDirectoryName(reportPath)!);
-
         Dictionary<string, string> originals = FilesByRelativePath(originalRoot);
         Dictionary<string, string> patched = FilesByRelativePath(patchedRoot);
         string[] common = originals.Keys.Intersect(patched.Keys,
@@ -32,30 +31,47 @@ internal static class SourceNoiseNormalizer
             StringComparer.OrdinalIgnoreCase).ToArray();
 
         using StreamWriter report = new(reportPath, false, new UTF8Encoding(false));
-        report.WriteLine("file,original_locals,patched_locals");
+        report.WriteLine("file,matched_locals,original_only_locals,patched_only_locals,restored_initializers,removed_capture_aliases");
         foreach (string relativePath in common)
         {
-            NormalizedSource before = Normalize(File.ReadAllText(originals[relativePath]));
-            NormalizedSource after = Normalize(File.ReadAllText(patched[relativePath]));
-            Write(normalizedOriginalRoot, relativePath, before.Text);
-            Write(normalizedPatchedRoot, relativePath, after.Text);
-            report.WriteLine(Csv(relativePath) + "," +
-                before.LocalCount.ToString(CultureInfo.InvariantCulture) + "," +
-                after.LocalCount.ToString(CultureInfo.InvariantCulture));
+            SourcePair pair = NormalizePair(File.ReadAllText(originals[relativePath]),
+                File.ReadAllText(patched[relativePath]));
+            Write(normalizedOriginalRoot, relativePath, pair.Original);
+            Write(normalizedPatchedRoot, relativePath, pair.Patched);
+            report.WriteLine(Csv(relativePath) + "," + pair.MatchedLocals + "," +
+                pair.OriginalOnlyLocals + "," + pair.PatchedOnlyLocals + "," +
+                pair.RestoredInitializers + "," + pair.RemovedCaptureAliases);
         }
-
         Console.WriteLine("normalized_pairs=" + common.Length);
         return 0;
     }
 
-    private static NormalizedSource Normalize(string source)
+    private static SourcePair NormalizePair(string original, string patched)
     {
-        SyntaxNode root = CSharpSyntaxTree.ParseText(source,
+        SyntaxNode originalRoot = Parse(original);
+        SyntaxNode patchedRoot = Parse(patched);
+        PairMaps maps = PairMaps.Create(originalRoot, patchedRoot);
+        SyntaxNode normalizedOriginal = new LocalRenameRewriter(
+            maps.OriginalMaps).Visit(originalRoot)!;
+        SyntaxNode normalizedPatched = new LocalRenameRewriter(
+            maps.PatchedMaps).Visit(patchedRoot)!;
+        CaptureAliasNormalizer aliasNormalizer = new();
+        normalizedPatched = aliasNormalizer.Visit(normalizedPatched)!;
+        StaticInitializerNormalizer initializerNormalizer = new(
+            normalizedOriginal);
+        normalizedPatched = initializerNormalizer.Visit(normalizedPatched)!;
+        return new SourcePair(normalizedOriginal.ToFullString(),
+            normalizedPatched.ToFullString(), maps.MatchedLocals,
+            maps.OriginalOnlyLocals, maps.PatchedOnlyLocals,
+            initializerNormalizer.RestoredInitializers,
+            aliasNormalizer.RemovedAliases);
+    }
+
+    private static SyntaxNode Parse(string source)
+    {
+        return CSharpSyntaxTree.ParseText(source,
             CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp3))
             .GetRoot();
-        LocalRenameRewriter rewriter = new();
-        SyntaxNode normalized = rewriter.Visit(root)!;
-        return new NormalizedSource(normalized.ToFullString(), rewriter.LocalCount);
     }
 
     private static string FullDirectory(string path)
@@ -89,154 +105,547 @@ internal static class SourceNoiseNormalizer
         File.WriteAllText(path, text, new UTF8Encoding(false));
     }
 
-    private static string Csv(string value)
-    {
-        return "\"" + value.Replace("\"", "\"\"") + "\"";
-    }
+    private static string Csv(string value) =>
+        "\"" + value.Replace("\"", "\"\"") + "\"";
 
-    private readonly record struct NormalizedSource(string Text, int LocalCount);
+    private readonly record struct SourcePair(string Original, string Patched,
+        int MatchedLocals, int OriginalOnlyLocals, int PatchedOnlyLocals,
+        int RestoredInitializers, int RemovedCaptureAliases);
 }
 
-internal sealed class LocalRenameRewriter : CSharpSyntaxRewriter
+internal sealed class CaptureAliasNormalizer : CSharpSyntaxRewriter
 {
-    private readonly Stack<Dictionary<string, string>> methodMaps = new();
-    public int LocalCount { get; private set; }
+    public int RemovedAliases { get; private set; }
 
     public override SyntaxNode? VisitMethodDeclaration(MethodDeclarationSyntax node)
     {
-        return VisitMethodLike(node, () => base.VisitMethodDeclaration(node));
+        MethodDeclarationSyntax visited = (MethodDeclarationSyntax)base.VisitMethodDeclaration(node)!;
+        return visited.Body == null ? visited : visited.WithBody(
+            Normalize(visited.Body, visited.ParameterList.Parameters));
     }
 
     public override SyntaxNode? VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
     {
-        return VisitMethodLike(node, () => base.VisitConstructorDeclaration(node));
+        ConstructorDeclarationSyntax visited = (ConstructorDeclarationSyntax)base.VisitConstructorDeclaration(node)!;
+        return visited.Body == null ? visited : visited.WithBody(
+            Normalize(visited.Body, visited.ParameterList.Parameters));
     }
 
-    public override SyntaxNode? VisitDestructorDeclaration(DestructorDeclarationSyntax node)
+    private BlockSyntax Normalize(BlockSyntax body,
+        SeparatedSyntaxList<ParameterSyntax> parameters)
     {
-        return VisitMethodLike(node, () => base.VisitDestructorDeclaration(node));
+        HashSet<string> parameterNames = parameters.Select(parameter =>
+            parameter.Identifier.ValueText).ToHashSet(StringComparer.Ordinal);
+        BlockSyntax current = body;
+        foreach (LocalDeclarationStatementSyntax declaration in body.DescendantNodes()
+            .OfType<LocalDeclarationStatementSyntax>().ToArray())
+        {
+            if (declaration.Declaration.Variables.Count != 1)
+                continue;
+            VariableDeclaratorSyntax variable = declaration.Declaration.Variables[0];
+            if (variable.Initializer?.Value is not IdentifierNameSyntax source ||
+                !parameterNames.Contains(source.Identifier.ValueText))
+                continue;
+            string alias = variable.Identifier.ValueText;
+            string parameter = source.Identifier.ValueText;
+            if (IsWritten(body, alias) || IsWritten(body, parameter))
+                continue;
+            LocalDeclarationStatementSyntax? currentDeclaration = current.DescendantNodes()
+                .OfType<LocalDeclarationStatementSyntax>()
+                .FirstOrDefault(candidate => candidate.SpanStart == declaration.SpanStart);
+            if (currentDeclaration == null)
+                continue;
+            IdentifierNameSyntax[] uses = current.DescendantNodes()
+                .OfType<IdentifierNameSyntax>()
+                .Where(identifier => identifier.Identifier.ValueText == alias &&
+                    !currentDeclaration.Span.Contains(identifier.Span))
+                .ToArray();
+            if (uses.Length == 0 || !uses.Any(identifier => identifier.Ancestors()
+                .Any(ancestor => ancestor is AnonymousMethodExpressionSyntax or
+                    SimpleLambdaExpressionSyntax or ParenthesizedLambdaExpressionSyntax)))
+                continue;
+            current = current.RemoveNode(currentDeclaration,
+                SyntaxRemoveOptions.KeepExteriorTrivia)!;
+            uses = current.DescendantNodes().OfType<IdentifierNameSyntax>()
+                .Where(identifier => identifier.Identifier.ValueText == alias)
+                .ToArray();
+            current = current.ReplaceNodes(uses, (identifier, _) =>
+                SyntaxFactory.IdentifierName(parameter).WithTriviaFrom(identifier));
+            RemovedAliases++;
+        }
+        return current;
     }
 
-    public override SyntaxNode? VisitOperatorDeclaration(OperatorDeclarationSyntax node)
+    private static bool IsWritten(BlockSyntax body, string name)
     {
-        return VisitMethodLike(node, () => base.VisitOperatorDeclaration(node));
+        foreach (IdentifierNameSyntax identifier in body.DescendantNodes()
+            .OfType<IdentifierNameSyntax>().Where(identifier =>
+                identifier.Identifier.ValueText == name))
+        {
+            SyntaxNode? parent = identifier.Parent;
+            if (parent is AssignmentExpressionSyntax assignment && assignment.Left == identifier ||
+                parent is PrefixUnaryExpressionSyntax prefix &&
+                    (prefix.IsKind(SyntaxKind.PreIncrementExpression) || prefix.IsKind(SyntaxKind.PreDecrementExpression)) ||
+                parent is PostfixUnaryExpressionSyntax postfix &&
+                    (postfix.IsKind(SyntaxKind.PostIncrementExpression) || postfix.IsKind(SyntaxKind.PostDecrementExpression)) ||
+                parent is ArgumentSyntax argument &&
+                    !argument.RefOrOutKeyword.IsKind(SyntaxKind.None))
+                return true;
+        }
+        return false;
+    }
+}
+
+internal sealed class PairMaps
+{
+    public Dictionary<int, Dictionary<string, string>> OriginalMaps { get; } = new();
+    public Dictionary<int, Dictionary<string, string>> PatchedMaps { get; } = new();
+    public int MatchedLocals { get; private set; }
+    public int OriginalOnlyLocals { get; private set; }
+    public int PatchedOnlyLocals { get; private set; }
+
+    public static PairMaps Create(SyntaxNode originalRoot, SyntaxNode patchedRoot)
+    {
+        PairMaps result = new();
+        Dictionary<string, List<SyntaxNode>> originals = IndexCallables(originalRoot);
+        Dictionary<string, List<SyntaxNode>> patched = IndexCallables(patchedRoot);
+        foreach (string key in originals.Keys.Union(patched.Keys,
+            StringComparer.Ordinal))
+        {
+            originals.TryGetValue(key, out List<SyntaxNode>? beforeList);
+            patched.TryGetValue(key, out List<SyntaxNode>? afterList);
+            beforeList ??= new List<SyntaxNode>();
+            afterList ??= new List<SyntaxNode>();
+            int common = Math.Min(beforeList.Count, afterList.Count);
+            for (int index = 0; index < common; index++)
+                result.PairCallable(beforeList[index], afterList[index]);
+            for (int index = common; index < beforeList.Count; index++)
+                result.AddUnpaired(beforeList[index], true);
+            for (int index = common; index < afterList.Count; index++)
+                result.AddUnpaired(afterList[index], false);
+        }
+        return result;
     }
 
-    public override SyntaxNode? VisitConversionOperatorDeclaration(
-        ConversionOperatorDeclarationSyntax node)
+    private void PairCallable(SyntaxNode original, SyntaxNode patched)
     {
-        return VisitMethodLike(node,
-            () => base.VisitConversionOperatorDeclaration(node));
+        List<LocalDeclaration> before = LocalDeclarations(original);
+        List<LocalDeclaration> after = LocalDeclarations(patched);
+        List<(int Before, int After)> matches = LongestCommonSubsequence(before, after);
+        HashSet<int> exactBefore = matches.Select(match => match.Before).ToHashSet();
+        HashSet<int> exactAfter = matches.Select(match => match.After).ToHashSet();
+        List<(int Index, LocalDeclaration Local)> remainingBefore = before
+            .Select((local, index) => (index, local))
+            .Where(value => !exactBefore.Contains(value.index)).ToList();
+        List<(int Index, LocalDeclaration Local)> remainingAfter = after
+            .Select((local, index) => (index, local))
+            .Where(value => !exactAfter.Contains(value.index)).ToList();
+        matches.AddRange(LongestCommonShapeSubsequence(
+            remainingBefore, remainingAfter));
+        matches.Sort((left, right) => left.Before.CompareTo(right.Before));
+        Dictionary<string, string> beforeMap = new(StringComparer.Ordinal);
+        Dictionary<string, string> afterMap = new(StringComparer.Ordinal);
+        HashSet<int> matchedBefore = new();
+        HashSet<int> matchedAfter = new();
+        int canonical = 0;
+        foreach ((int beforeIndex, int afterIndex) in matches)
+        {
+            string name = "local_" + canonical++.ToString("D4",
+                CultureInfo.InvariantCulture);
+            beforeMap[before[beforeIndex].Name] = name;
+            afterMap[afterIndex < after.Count ? after[afterIndex].Name : ""] = name;
+            matchedBefore.Add(beforeIndex);
+            matchedAfter.Add(afterIndex);
+            MatchedLocals++;
+        }
+        for (int index = 0; index < before.Count; index++)
+        {
+            if (matchedBefore.Contains(index))
+                continue;
+            beforeMap[before[index].Name] = "original_local_" +
+                index.ToString("D4", CultureInfo.InvariantCulture);
+            OriginalOnlyLocals++;
+        }
+        for (int index = 0; index < after.Count; index++)
+        {
+            if (matchedAfter.Contains(index))
+                continue;
+            afterMap[after[index].Name] = "patched_local_" +
+                index.ToString("D4", CultureInfo.InvariantCulture);
+            PatchedOnlyLocals++;
+        }
+        OriginalMaps[original.SpanStart] = beforeMap;
+        PatchedMaps[patched.SpanStart] = afterMap;
     }
 
-    public override SyntaxNode? VisitAccessorDeclaration(AccessorDeclarationSyntax node)
+    private void AddUnpaired(SyntaxNode callable, bool original)
     {
-        return VisitMethodLike(node, () => base.VisitAccessorDeclaration(node));
+        List<LocalDeclaration> locals = LocalDeclarations(callable);
+        Dictionary<string, string> map = new(StringComparer.Ordinal);
+        for (int index = 0; index < locals.Count; index++)
+            map[locals[index].Name] = (original ? "original_local_" :
+                "patched_local_") + index.ToString("D4", CultureInfo.InvariantCulture);
+        if (original)
+        {
+            OriginalMaps[callable.SpanStart] = map;
+            OriginalOnlyLocals += locals.Count;
+        }
+        else
+        {
+            PatchedMaps[callable.SpanStart] = map;
+            PatchedOnlyLocals += locals.Count;
+        }
     }
 
-    public override SyntaxNode? VisitAnonymousMethodExpression(
-        AnonymousMethodExpressionSyntax node)
+    private static Dictionary<string, List<SyntaxNode>> IndexCallables(SyntaxNode root)
     {
-        return VisitMethodLike(node,
-            () => base.VisitAnonymousMethodExpression(node));
+        Dictionary<string, List<SyntaxNode>> result = new(StringComparer.Ordinal);
+        foreach (SyntaxNode node in root.DescendantNodes().Where(IsCallable))
+        {
+            string key = CallableKey(node);
+            if (!result.TryGetValue(key, out List<SyntaxNode>? list))
+                result.Add(key, list = new List<SyntaxNode>());
+            list.Add(node);
+        }
+        return result;
     }
 
-    public override SyntaxNode? VisitSimpleLambdaExpression(
-        SimpleLambdaExpressionSyntax node)
+    private static string CallableKey(SyntaxNode node)
     {
-        return VisitMethodLike(node,
-            () => base.VisitSimpleLambdaExpression(node));
+        string owner = string.Join("/", node.Ancestors().OfType<TypeDeclarationSyntax>()
+            .Reverse().Select(type => type.Identifier.ValueText));
+        if (node is MethodDeclarationSyntax method)
+            return owner + "|method|" + method.Identifier.ValueText + "|" +
+                method.TypeParameterList?.Parameters.Count + "|" + Parameters(method.ParameterList);
+        if (node is ConstructorDeclarationSyntax constructor)
+            return owner + "|ctor|" + Parameters(constructor.ParameterList);
+        if (node is DestructorDeclarationSyntax)
+            return owner + "|dtor";
+        if (node is OperatorDeclarationSyntax op)
+            return owner + "|operator|" + op.OperatorToken.ValueText + "|" + Parameters(op.ParameterList);
+        if (node is ConversionOperatorDeclarationSyntax conversion)
+            return owner + "|conversion|" + conversion.Type.WithoutTrivia() + "|" + Parameters(conversion.ParameterList);
+        if (node is AccessorDeclarationSyntax accessor)
+            return owner + "|accessor|" + MemberKey(accessor.Parent?.Parent) + "|" + accessor.Keyword.ValueText;
+        return owner + "|" + node.Kind() + "|" + AnonymousOrdinal(node);
     }
 
-    public override SyntaxNode? VisitParenthesizedLambdaExpression(
-        ParenthesizedLambdaExpressionSyntax node)
+    private static string Parameters(BaseParameterListSyntax list) => string.Join(",",
+        list.Parameters.Select(parameter => string.Concat(parameter.Modifiers.Select(
+            modifier => modifier.ValueText + " ")) + parameter.Type?.WithoutTrivia().ToString()));
+
+    private static string MemberKey(SyntaxNode? member) => member switch
     {
-        return VisitMethodLike(node,
-            () => base.VisitParenthesizedLambdaExpression(node));
+        PropertyDeclarationSyntax property => "property:" + property.Identifier.ValueText,
+        IndexerDeclarationSyntax indexer => "indexer:" + Parameters(indexer.ParameterList),
+        EventDeclarationSyntax eventDeclaration => "event:" + eventDeclaration.Identifier.ValueText,
+        _ => member?.Kind().ToString() ?? "unknown"
+    };
+
+    private static int AnonymousOrdinal(SyntaxNode node)
+    {
+        SyntaxNode? parentCallable = node.Ancestors().FirstOrDefault(IsCallable);
+        IEnumerable<SyntaxNode> siblings = parentCallable == null
+            ? node.SyntaxTree.GetRoot().DescendantNodes().Where(IsAnonymousCallable)
+            : parentCallable.DescendantNodes(descendIntoChildren: child =>
+                child == parentCallable || !IsCallable(child)).Where(IsAnonymousCallable);
+        return siblings.TakeWhile(sibling => sibling.SpanStart < node.SpanStart).Count();
     }
+
+    private static List<LocalDeclaration> LocalDeclarations(SyntaxNode callable)
+    {
+        List<(string Name, SyntaxNode Node, string Kind)> raw = new();
+        foreach (VariableDeclaratorSyntax variable in callable.DescendantNodes(
+            descendIntoChildren: node => node == callable || !IsCallable(node))
+            .OfType<VariableDeclaratorSyntax>().Where(IsLocal))
+        {
+            string type = (variable.Parent as VariableDeclarationSyntax)?.Type
+                .WithoutTrivia().ToString() ?? "unknown";
+            raw.Add((variable.Identifier.ValueText, variable,
+                (variable.Parent?.Parent?.Kind().ToString() ?? "variable") +
+                ":" + type));
+        }
+        foreach (ForEachStatementSyntax statement in callable.DescendantNodes(
+            descendIntoChildren: node => node == callable || !IsCallable(node))
+            .OfType<ForEachStatementSyntax>())
+            raw.Add((statement.Identifier.ValueText, statement, "foreach:" +
+                statement.Type.WithoutTrivia()));
+        foreach (CatchDeclarationSyntax declaration in callable.DescendantNodes(
+            descendIntoChildren: node => node == callable || !IsCallable(node))
+            .OfType<CatchDeclarationSyntax>().Where(value =>
+                !value.Identifier.IsKind(SyntaxKind.None)))
+            raw.Add((declaration.Identifier.ValueText, declaration, "catch:" +
+                declaration.Type.WithoutTrivia()));
+        HashSet<string> names = raw.Select(value => value.Name).ToHashSet(
+            StringComparer.Ordinal);
+        foreach (ParameterSyntax parameter in callable.DescendantNodes(
+            descendIntoChildren: node => node == callable || !IsCallable(node))
+            .OfType<ParameterSyntax>())
+            names.Add(parameter.Identifier.ValueText);
+        return raw.OrderBy(value => value.Node.SpanStart).Select(value =>
+            new LocalDeclaration(value.Name, value.Kind, value.Kind + "|" +
+                NormalizeTokens(value.Node, names))).ToList();
+    }
+
+    private static string NormalizeTokens(SyntaxNode node, HashSet<string> localNames)
+    {
+        StringBuilder result = new();
+        foreach (SyntaxToken token in node.DescendantTokens())
+        {
+            if (token.IsKind(SyntaxKind.IdentifierToken) &&
+                localNames.Contains(token.ValueText))
+                result.Append("$local");
+            else
+                result.Append(token.ValueText);
+            result.Append('|');
+        }
+        return result.ToString();
+    }
+
+    private static List<(int Before, int After)> LongestCommonSubsequence(
+        IReadOnlyList<LocalDeclaration> before, IReadOnlyList<LocalDeclaration> after)
+    {
+        int[,] lengths = new int[before.Count + 1, after.Count + 1];
+        for (int i = before.Count - 1; i >= 0; i--)
+            for (int j = after.Count - 1; j >= 0; j--)
+                lengths[i, j] = before[i].Descriptor == after[j].Descriptor
+                    ? lengths[i + 1, j + 1] + 1
+                    : Math.Max(lengths[i + 1, j], lengths[i, j + 1]);
+        List<(int, int)> result = new();
+        for (int i = 0, j = 0; i < before.Count && j < after.Count;)
+        {
+            if (before[i].Descriptor == after[j].Descriptor)
+            {
+                result.Add((i++, j++));
+            }
+            else if (lengths[i + 1, j] >= lengths[i, j + 1])
+                i++;
+            else
+                j++;
+        }
+        return result;
+    }
+
+    private static List<(int Before, int After)> LongestCommonShapeSubsequence(
+        IReadOnlyList<(int Index, LocalDeclaration Local)> before,
+        IReadOnlyList<(int Index, LocalDeclaration Local)> after)
+    {
+        int[,] lengths = new int[before.Count + 1, after.Count + 1];
+        for (int i = before.Count - 1; i >= 0; i--)
+            for (int j = after.Count - 1; j >= 0; j--)
+                lengths[i, j] = before[i].Local.Shape == after[j].Local.Shape
+                    ? lengths[i + 1, j + 1] + 1
+                    : Math.Max(lengths[i + 1, j], lengths[i, j + 1]);
+        List<(int, int)> result = new();
+        for (int i = 0, j = 0; i < before.Count && j < after.Count;)
+        {
+            if (before[i].Local.Shape == after[j].Local.Shape)
+            {
+                result.Add((before[i++].Index, after[j++].Index));
+            }
+            else if (lengths[i + 1, j] >= lengths[i, j + 1])
+                i++;
+            else
+                j++;
+        }
+        return result;
+    }
+
+    internal static bool IsCallable(SyntaxNode node) =>
+        node is BaseMethodDeclarationSyntax or AccessorDeclarationSyntax ||
+        IsAnonymousCallable(node);
+    private static bool IsAnonymousCallable(SyntaxNode node) =>
+        node is AnonymousMethodExpressionSyntax or SimpleLambdaExpressionSyntax or
+            ParenthesizedLambdaExpressionSyntax;
+    private static bool IsLocal(VariableDeclaratorSyntax node) =>
+        node.Parent?.Parent is LocalDeclarationStatementSyntax or ForStatementSyntax or
+            UsingStatementSyntax or FixedStatementSyntax;
+
+    private readonly record struct LocalDeclaration(string Name, string Shape,
+        string Descriptor);
+}
+
+internal sealed class LocalRenameRewriter : CSharpSyntaxRewriter
+{
+    private readonly Dictionary<int, Dictionary<string, string>> maps;
+    private readonly Stack<Dictionary<string, string>> active = new();
+
+    public LocalRenameRewriter(Dictionary<int, Dictionary<string, string>> maps)
+    {
+        this.maps = maps;
+    }
+
+    public override SyntaxNode? VisitMethodDeclaration(MethodDeclarationSyntax node) =>
+        VisitCallable(node, () => base.VisitMethodDeclaration(node));
+    public override SyntaxNode? VisitConstructorDeclaration(ConstructorDeclarationSyntax node) =>
+        VisitCallable(node, () => base.VisitConstructorDeclaration(node));
+    public override SyntaxNode? VisitDestructorDeclaration(DestructorDeclarationSyntax node) =>
+        VisitCallable(node, () => base.VisitDestructorDeclaration(node));
+    public override SyntaxNode? VisitOperatorDeclaration(OperatorDeclarationSyntax node) =>
+        VisitCallable(node, () => base.VisitOperatorDeclaration(node));
+    public override SyntaxNode? VisitConversionOperatorDeclaration(ConversionOperatorDeclarationSyntax node) =>
+        VisitCallable(node, () => base.VisitConversionOperatorDeclaration(node));
+    public override SyntaxNode? VisitAccessorDeclaration(AccessorDeclarationSyntax node) =>
+        VisitCallable(node, () => base.VisitAccessorDeclaration(node));
+    public override SyntaxNode? VisitAnonymousMethodExpression(AnonymousMethodExpressionSyntax node) =>
+        VisitCallable(node, () => base.VisitAnonymousMethodExpression(node));
+    public override SyntaxNode? VisitSimpleLambdaExpression(SimpleLambdaExpressionSyntax node) =>
+        VisitCallable(node, () => base.VisitSimpleLambdaExpression(node));
+    public override SyntaxNode? VisitParenthesizedLambdaExpression(ParenthesizedLambdaExpressionSyntax node) =>
+        VisitCallable(node, () => base.VisitParenthesizedLambdaExpression(node));
 
     public override SyntaxNode? VisitVariableDeclarator(VariableDeclaratorSyntax node)
     {
-        if (methodMaps.Count == 0 || !IsLocal(node))
+        if (!TryRename(node.Identifier, out SyntaxToken renamed))
             return base.VisitVariableDeclarator(node);
-        Dictionary<string, string> map = methodMaps.Peek();
-        string oldName = node.Identifier.ValueText;
-        if (!map.TryGetValue(oldName, out string? newName))
-        {
-            newName = "local_" + map.Count.ToString("D4", CultureInfo.InvariantCulture);
-            map.Add(oldName, newName);
-            LocalCount++;
-        }
-        VariableDeclaratorSyntax renamed = node.WithIdentifier(
-            SyntaxFactory.Identifier(node.Identifier.LeadingTrivia, newName,
-                node.Identifier.TrailingTrivia));
-        return base.VisitVariableDeclarator(renamed);
+        return base.VisitVariableDeclarator(node.WithIdentifier(renamed));
     }
 
     public override SyntaxNode? VisitForEachStatement(ForEachStatementSyntax node)
     {
-        if (methodMaps.Count == 0)
-            return base.VisitForEachStatement(node);
-        ForEachStatementSyntax renamed = node.WithIdentifier(
-            RenameDeclaration(node.Identifier));
-        return base.VisitForEachStatement(renamed);
+        return TryRename(node.Identifier, out SyntaxToken renamed)
+            ? base.VisitForEachStatement(node.WithIdentifier(renamed))
+            : base.VisitForEachStatement(node);
     }
 
     public override SyntaxNode? VisitCatchDeclaration(CatchDeclarationSyntax node)
     {
-        if (methodMaps.Count == 0 || node.Identifier.IsKind(SyntaxKind.None))
-            return base.VisitCatchDeclaration(node);
-        CatchDeclarationSyntax renamed = node.WithIdentifier(
-            RenameDeclaration(node.Identifier));
-        return base.VisitCatchDeclaration(renamed);
+        return TryRename(node.Identifier, out SyntaxToken renamed)
+            ? base.VisitCatchDeclaration(node.WithIdentifier(renamed))
+            : base.VisitCatchDeclaration(node);
     }
 
     public override SyntaxNode? VisitIdentifierName(IdentifierNameSyntax node)
     {
-        if (methodMaps.Count == 0)
-            return base.VisitIdentifierName(node);
-        foreach (Dictionary<string, string> map in methodMaps)
+        return TryRename(node.Identifier, out SyntaxToken renamed)
+            ? node.WithIdentifier(renamed)
+            : base.VisitIdentifierName(node);
+    }
+
+    private T VisitCallable<T>(T node, Func<SyntaxNode?> visit) where T : SyntaxNode
+    {
+        active.Push(maps.TryGetValue(node.SpanStart, out Dictionary<string, string>? map)
+            ? map : new Dictionary<string, string>());
+        try { return (T)visit()!; }
+        finally { active.Pop(); }
+    }
+
+    private bool TryRename(SyntaxToken token, out SyntaxToken renamed)
+    {
+        foreach (Dictionary<string, string> map in active)
         {
-            if (!map.TryGetValue(node.Identifier.ValueText, out string? replacement))
+            if (!map.TryGetValue(token.ValueText, out string? name))
                 continue;
-            return node.WithIdentifier(SyntaxFactory.Identifier(
-                node.Identifier.LeadingTrivia, replacement,
-                node.Identifier.TrailingTrivia));
+            renamed = SyntaxFactory.Identifier(token.LeadingTrivia, name,
+                token.TrailingTrivia);
+            return true;
         }
-        return base.VisitIdentifierName(node);
+        renamed = token;
+        return false;
+    }
+}
+
+internal sealed class StaticInitializerNormalizer : CSharpSyntaxRewriter
+{
+    private readonly Dictionary<string, TypeDeclarationSyntax> originalTypes;
+    public int RestoredInitializers { get; private set; }
+
+    public StaticInitializerNormalizer(SyntaxNode originalRoot)
+    {
+        originalTypes = originalRoot.DescendantNodes()
+            .OfType<TypeDeclarationSyntax>()
+            .ToDictionary(TypeKey, StringComparer.Ordinal);
     }
 
-    private T VisitMethodLike<T>(T node, Func<SyntaxNode?> visit)
-        where T : SyntaxNode
+    public override SyntaxNode? VisitClassDeclaration(ClassDeclarationSyntax node) =>
+        NormalizeType((ClassDeclarationSyntax)base.VisitClassDeclaration(node)!);
+
+    public override SyntaxNode? VisitStructDeclaration(StructDeclarationSyntax node) =>
+        NormalizeType((StructDeclarationSyntax)base.VisitStructDeclaration(node)!);
+
+    private T NormalizeType<T>(T node) where T : TypeDeclarationSyntax
     {
-        methodMaps.Push(new Dictionary<string, string>(StringComparer.Ordinal));
-        try
+        if (!originalTypes.TryGetValue(TypeKey(node), out TypeDeclarationSyntax? original))
+            return node;
+        ConstructorDeclarationSyntax? staticConstructor = node.Members
+            .OfType<ConstructorDeclarationSyntax>().FirstOrDefault(constructor =>
+                constructor.Modifiers.Any(SyntaxKind.StaticKeyword));
+        if (staticConstructor?.Body == null)
+            return node;
+
+        Dictionary<string, VariableDeclaratorSyntax> initializedVariables = original.Members
+            .OfType<FieldDeclarationSyntax>()
+            .SelectMany(field => field.Declaration.Variables)
+            .Where(variable => variable.Initializer != null)
+            .ToDictionary(variable => variable.Identifier.ValueText,
+                variable => variable, StringComparer.Ordinal);
+        Dictionary<string, ExpressionStatementSyntax> assignments =
+            new(StringComparer.Ordinal);
+        foreach (ExpressionStatementSyntax statement in staticConstructor.Body.Statements
+            .OfType<ExpressionStatementSyntax>())
         {
-            return (T)visit()!;
+            if (statement.Expression is not AssignmentExpressionSyntax assignment ||
+                !assignment.IsKind(SyntaxKind.SimpleAssignmentExpression))
+                continue;
+            string? fieldName = assignment.Left switch
+            {
+                IdentifierNameSyntax identifier => identifier.Identifier.ValueText,
+                MemberAccessExpressionSyntax member => member.Name.Identifier.ValueText,
+                _ => null
+            };
+            if (fieldName != null && initializedVariables.TryGetValue(fieldName,
+                out VariableDeclaratorSyntax? initializedVariable) &&
+                Equivalent(initializedVariable.Initializer!.Value, assignment.Right))
+                assignments[fieldName] = statement;
         }
-        finally
+        if (assignments.Count == 0)
+            return node;
+
+        Dictionary<FieldDeclarationSyntax, FieldDeclarationSyntax> fieldReplacements = new();
+        foreach (FieldDeclarationSyntax field in node.Members.OfType<FieldDeclarationSyntax>())
         {
-            methodMaps.Pop();
+            FieldDeclarationSyntax changed = field;
+            foreach (VariableDeclaratorSyntax variable in field.Declaration.Variables)
+            {
+                if (variable.Initializer != null ||
+                    !assignments.ContainsKey(variable.Identifier.ValueText))
+                    continue;
+                changed = changed.ReplaceNode(variable,
+                    initializedVariables[variable.Identifier.ValueText]);
+                RestoredInitializers++;
+            }
+            if (!ReferenceEquals(changed, field))
+                fieldReplacements[field] = changed;
         }
+        TypeDeclarationSyntax updated = node.ReplaceNodes(fieldReplacements.Keys,
+            (field, _) => fieldReplacements[field]);
+
+        staticConstructor = updated.Members.OfType<ConstructorDeclarationSyntax>()
+            .First(constructor => constructor.Modifiers.Any(SyntaxKind.StaticKeyword));
+        SyntaxList<StatementSyntax> remaining = SyntaxFactory.List(
+            staticConstructor.Body!.Statements.Where(statement =>
+                !assignments.Values.Any(removed =>
+                    removed.WithoutTrivia().IsEquivalentTo(statement.WithoutTrivia()))));
+        bool originalHasStaticConstructor = original.Members
+            .OfType<ConstructorDeclarationSyntax>().Any(constructor =>
+                constructor.Modifiers.Any(SyntaxKind.StaticKeyword));
+        if (remaining.Count == 0 && !originalHasStaticConstructor)
+            return (T)updated.RemoveNode(staticConstructor,
+                SyntaxRemoveOptions.KeepExteriorTrivia)!;
+        return (T)updated.ReplaceNode(staticConstructor,
+            staticConstructor.WithBody(staticConstructor.Body.WithStatements(remaining)));
     }
 
-    private SyntaxToken RenameDeclaration(SyntaxToken identifier)
-    {
-        Dictionary<string, string> map = methodMaps.Peek();
-        string oldName = identifier.ValueText;
-        if (!map.TryGetValue(oldName, out string? newName))
-        {
-            newName = "local_" + map.Count.ToString("D4", CultureInfo.InvariantCulture);
-            map.Add(oldName, newName);
-            LocalCount++;
-        }
-        return SyntaxFactory.Identifier(identifier.LeadingTrivia, newName,
-            identifier.TrailingTrivia);
-    }
+    private static bool Equivalent(ExpressionSyntax left, ExpressionSyntax right) =>
+        left.WithoutTrivia().IsEquivalentTo(right.WithoutTrivia());
 
-    private static bool IsLocal(VariableDeclaratorSyntax node)
+    private static string TypeKey(TypeDeclarationSyntax type)
     {
-        return node.Parent?.Parent is LocalDeclarationStatementSyntax or
-            ForStatementSyntax or UsingStatementSyntax or FixedStatementSyntax;
+        string namespaceName = type.Ancestors().OfType<BaseNamespaceDeclarationSyntax>()
+            .FirstOrDefault()?.Name.ToString() ?? "";
+        string owners = string.Join("/", type.Ancestors()
+            .OfType<TypeDeclarationSyntax>().Reverse()
+            .Select(owner => owner.Identifier.ValueText));
+        return namespaceName + "|" + owners + "|" + type.Identifier.ValueText;
     }
 }
