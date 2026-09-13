@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.Serialization;
 
 internal static class RuntimeTelemetryContextScenarios
 {
@@ -21,6 +22,7 @@ internal static class RuntimeTelemetryContextScenarios
             report.Add("telemetry_context.language", Missing());
             report.Add("telemetry_context.navigation_bound", Missing());
             report.Add("telemetry_context.payload", Missing());
+            report.Add("telemetry_context.resolution_setter", Missing());
             return;
         }
 
@@ -33,6 +35,47 @@ internal static class RuntimeTelemetryContextScenarios
             "telemetry_context.navigation_bound",
             harness.NavigationBound());
         report.Add("telemetry_context.payload", harness.Payload());
+        report.Add(
+            "telemetry_context.resolution_setter",
+            ResolutionSetter(magicka));
+    }
+
+    private static ScenarioResult ResolutionSetter(Assembly magicka)
+    {
+        try
+        {
+            Type settingsType = magicka.GetType("Magicka.GlobalSettings", true);
+            PropertyInfo resolutionProperty = settingsType.GetProperty(
+                "Resolution",
+                BindingFlags.Instance | BindingFlags.Public |
+                    BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+            Type resolutionType = resolutionProperty.PropertyType;
+            object resolution = Activator.CreateInstance(resolutionType);
+            resolutionType.GetField("Width").SetValue(resolution, 2560);
+            resolutionType.GetField("Height").SetValue(resolution, 1440);
+            object settings = FormatterServices.GetUninitializedObject(
+                settingsType);
+            resolutionProperty.SetValue(settings, resolution, null);
+            object stored = resolutionProperty.GetValue(settings, null);
+            bool passed = (int)resolutionType.GetField("Width").GetValue(stored)
+                    == 2560 &&
+                (int)resolutionType.GetField("Height").GetValue(stored) == 1440;
+            return new ScenarioResult(
+                passed,
+                passed ? "setter:completed" : "setter:value_mismatch",
+                "setter:completed");
+        }
+        catch (Exception exception)
+        {
+            Exception failure = exception is TargetInvocationException &&
+                exception.InnerException != null
+                    ? exception.InnerException
+                    : exception;
+            return new ScenarioResult(
+                false,
+                "setter:" + failure.GetType().Name,
+                "setter:completed");
+        }
     }
 
     private static ScenarioResult Missing()

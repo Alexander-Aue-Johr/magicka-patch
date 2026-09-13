@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Threading;
 using Harmony;
 
 namespace Magicka.CommunityPatch.Runtime
@@ -16,6 +17,7 @@ namespace Magicka.CommunityPatch.Runtime
         private static Type contentManagerType;
         private static Type textureType;
         private static bool inactive;
+        private static int exitPatchApplied;
         private static readonly string[] TextureFields = new string[] {
             "mTexture", "mMaskTexture", "mPageTexture", "mTexture_Dungeons",
             "mMaskTexture_Dungeons", "mPageTexture_Dungeons",
@@ -41,8 +43,8 @@ namespace Magicka.CommunityPatch.Runtime
                 "Cutscene menu content release",
                 "org.magickacommunitypatch.cutscene-content-exit",
                 FindExitMethod,
-                target => typeof(CutsceneExitPostfix<>).MakeGenericType(
-                    target.DeclaringType).GetMethod("Postfix"));
+                target => typeof(CutsceneMenuLifetimePatch).GetMethod(
+                    "ExitPostfix"));
         internal static readonly RuntimePatchDefinition DrawDefinition =
             RuntimePatchDefinition.Prefix(
                 "Cutscene menu inactive draw guard",
@@ -116,6 +118,20 @@ namespace Magicka.CommunityPatch.Runtime
             throw new MissingMethodException(menuType.FullName, "OnExit");
         }
 
+        private static void EnsureExitPatch()
+        {
+            if (Interlocked.CompareExchange(ref exitPatchApplied, 1, 0) != 0)
+                return;
+            RuntimePatchSession.Apply(
+                Assembly.GetEntryAssembly(),
+                ExitDefinition);
+        }
+
+        public static void ExitPostfix(object __instance)
+        {
+            Exit(__instance);
+        }
+
         private static void Initialize(Assembly assembly)
         {
             menuType = assembly.GetType(
@@ -165,6 +181,7 @@ namespace Magicka.CommunityPatch.Runtime
 
         public static void Enter(object menu)
         {
+            EnsureExitPatch();
             inactive = false;
             object manager = EnsureContentManager();
             Load(menu, manager, "mMaskTexture", "UI/Menu/MapMask");
@@ -284,9 +301,6 @@ namespace Magicka.CommunityPatch.Runtime
     public static class CutsceneEnterPrefix<T>
     { public static void Prefix(T __instance)
       { CutsceneMenuLifetimePatch.Enter(__instance); } }
-    public static class CutsceneExitPostfix<T>
-    { public static void Postfix(T __instance)
-      { CutsceneMenuLifetimePatch.Exit(__instance); } }
     public static class CutsceneDrawPrefix<T>
     { public static bool Prefix() { return CutsceneMenuLifetimePatch.CanDraw(); } }
     public static class CutsceneLevelPrefix<T>

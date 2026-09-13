@@ -29,8 +29,6 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(targetAssembly,
                 CutsceneMenuLifetimePatch.EnterDefinition);
             RuntimePatchSession.Apply(targetAssembly,
-                CutsceneMenuLifetimePatch.ExitDefinition);
-            RuntimePatchSession.Apply(targetAssembly,
                 CutsceneMenuLifetimePatch.DrawDefinition);
             RuntimePatchSession.Apply(targetAssembly,
                 CutsceneMenuLifetimePatch.DrawOldDefinition);
@@ -190,9 +188,6 @@ namespace Magicka.CommunityPatch.Runtime
             TomeLanguageRefreshPatchPlan.ApplyTo(targetAssembly);
             ItemWeaponCachePatchPlan.ApplyTo(targetAssembly);
             SharedContentLifetimePatchPlan.ApplyTo(targetAssembly);
-            InGameMenuScalePatchPlan.ApplyTo(targetAssembly);
-            LevelSceneTransitionPatchPlan.ApplyTo(targetAssembly);
-            GameSparksRetirementPatchPlan.ApplyTo(targetAssembly);
             GameOptionalEffectPatchPlan.ApplyTo(targetAssembly);
             AvatarInventoryClosePatchPlan.ApplyTo(targetAssembly);
             RuntimePatchSession.Apply(
@@ -1084,6 +1079,9 @@ namespace Magicka.CommunityPatch.Runtime
             RuntimePatchSession.Apply(
                 targetAssembly,
                 RuntimeTelemetryContextPatch.LanguageDefinition);
+            RuntimePatchSession.Apply(
+                targetAssembly,
+                ProgramTelemetryPatch.StartupDefinition);
             RuntimePatchSession.Apply(
                 targetAssembly,
                 ProgramTelemetryPatch.NormalCloseDefinition);

@@ -2232,12 +2232,12 @@ function Verify-RuntimeEffectiveDiff {
         $auditLines -notcontains "patch_end=GameScene saved NPC template restore" -or
         @($auditLines | Where-Object { $_ -like "patch_end=Shared content disposable ownership:*" }).Count -ne 13 -or
         @($auditLines | Where-Object { $_ -eq "patch_kind=prefix" }).Count -ne 135 -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 39 -or
+        @($auditLines | Where-Object { $_ -eq "patch_kind=postfix" }).Count -ne 38 -or
         $auditLines -notcontains "patch_end=Missile initialized condition collection" -or
         $auditLines -notcontains "patch_end=Missile update empty target sentinel" -or
         $auditLines -notcontains "patch_end=Missile collision empty target sentinel" -or
         $auditLines -notcontains "patch_end=Missile deinitialize reference release" -or
-        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 461) {
+        @($auditLines | Where-Object { $_ -eq "patch_kind=transpiler" }).Count -ne 452) {
         throw "The runtime audit does not contain all registered Harmony patches."
     }
 }
@@ -2252,7 +2252,7 @@ function Write-ExperimentSummary {
     )
     $summary = New-Object System.Collections.Generic.List[string]
     $summary.Add("result=PASS")
-    $summary.Add("implemented_patches=635")
+    $summary.Add("implemented_patches=625")
     $summary.Add("runtime_registration=PASS")
     $summary.Add("runtime_original_assembly_probe=PASS")
     $summary.Add("runtime_behavior=PASS")

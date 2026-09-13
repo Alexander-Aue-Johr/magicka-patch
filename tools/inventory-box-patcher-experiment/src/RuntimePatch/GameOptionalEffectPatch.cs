@@ -44,7 +44,6 @@ namespace Magicka.CommunityPatch.Runtime
                 5);
             return result;
         }
-
         private static void RemoveExpression(
             List<CodeInstruction> body,
             string effectType,

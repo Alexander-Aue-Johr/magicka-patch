@@ -13,97 +13,63 @@ namespace Magicka.CommunityPatch.Runtime
             BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
 
         internal static readonly RuntimePatchDefinition InitializeDefinition =
-            Definition("initialize", "Initialize", null);
+            Definition("initialize", FindInitialize);
 
         internal static readonly RuntimePatchDefinition UpdateDefinition =
-            Definition(
-                "update", "Update", "System.Single");
+            Definition("update", assembly => FindServiceMethod(
+                assembly, "Update"));
 
         internal static readonly RuntimePatchDefinition EndRunDefinition =
-            Definition("end run", "EndRun", null);
+            Definition("end run", assembly => FindServiceMethod(
+                assembly, "Dispose"));
 
         private static RuntimePatchDefinition Definition(
-            string label, string methodName, string parameterTypeName)
+            string label, Func<Assembly, MethodInfo> findTarget)
         {
-            return RuntimePatchDefinition.Transpile(
+            return RuntimePatchDefinition.Prefix(
                 "GameSparks retirement " + label,
                 "org.magickacommunitypatch.gamesparks-retirement-" +
-                    methodName.ToLowerInvariant(),
-                assembly => FindGameMethod(
-                    assembly, methodName, parameterTypeName),
-                typeof(GameSparksRetirementPatch).GetMethod("Transpiler"));
+                    label.Replace(' ', '-'),
+                findTarget,
+                target => typeof(GameSparksRetirementPatch).GetMethod("Skip"));
         }
 
-        private static MethodInfo FindGameMethod(
-            Assembly assembly, string name, string parameterTypeName)
+        private static MethodInfo FindInitialize(Assembly assembly)
         {
-            Type game = assembly.GetType("Magicka.Game", true);
-            MethodInfo[] methods = game.GetMethods(Members);
-            MethodInfo result = null;
+            Type service = assembly.GetType(
+                "Magicka.WebTools.GameSparks.GameSparksServices", true);
+            Type platform = assembly.GetType(
+                "Magicka.WebTools.GameSparks.Platforms.GSWindowsPlatform",
+                true);
+            MethodInfo[] methods = service.GetMethods(Members);
             for (int index = 0; index < methods.Length; index++)
             {
                 MethodInfo method = methods[index];
-                ParameterInfo[] parameters = method.GetParameters();
-                if (method.Name != name ||
-                    (parameterTypeName == null && parameters.Length != 0) ||
-                    (parameterTypeName != null &&
-                        (parameters.Length != 1 ||
-                            parameters[0].ParameterType.FullName !=
-                                parameterTypeName)))
-                    continue;
-                if (result != null)
-                    throw new AmbiguousMatchException(game.FullName + "." + name);
-                result = method;
+                if (method.Name == "Initialize" &&
+                    method.IsGenericMethodDefinition &&
+                    method.GetGenericArguments().Length == 1 &&
+                    method.GetParameters().Length == 0)
+                    return method.MakeGenericMethod(platform);
             }
-            if (result == null)
-                throw new MissingMethodException(game.FullName, name);
-            return result;
+            throw new MissingMethodException(service.FullName, "Initialize<T>");
         }
 
-        public static IEnumerable<CodeInstruction> Transpiler(
-            IEnumerable<CodeInstruction> instructions)
+        private static MethodInfo FindServiceMethod(
+            Assembly assembly,
+            string name)
         {
-            List<CodeInstruction> result =
-                new List<CodeInstruction>(instructions);
-            int removed = 0;
-            for (int index = 1; index < result.Count; index++)
-            {
-                MethodInfo called = result[index].operand as MethodInfo;
-                if (!IsGameSparksCall(called))
-                    continue;
-                MethodInfo getter = result[index - 1].operand as MethodInfo;
-                if (!IsSingletonGetter(getter, called.DeclaringType))
-                    throw new InvalidOperationException(
-                        "GameSparks singleton getter shape changed.");
-                result[index - 1].opcode = OpCodes.Nop;
-                result[index - 1].operand = null;
-                result[index].opcode = OpCodes.Nop;
-                result[index].operand = null;
-                removed++;
-            }
-            if (removed != 1)
-                throw new InvalidOperationException(
-                    "Expected one GameSparks lifecycle call, found " +
-                    removed + ".");
-            return result;
+            Type service = assembly.GetType(
+                "Magicka.WebTools.GameSparks.GameSparksServices", true);
+            MethodInfo method = service.GetMethod(
+                name, Members, null, Type.EmptyTypes, null);
+            if (method == null || method.ReturnType != typeof(void))
+                throw new MissingMethodException(service.FullName, name);
+            return method;
         }
 
-        private static bool IsGameSparksCall(MethodInfo method)
+        public static bool Skip()
         {
-            return method != null && method.DeclaringType != null &&
-                method.DeclaringType.FullName ==
-                    "Magicka.WebTools.GameSparks.GameSparksServices";
-        }
-
-        private static bool IsSingletonGetter(
-            MethodInfo method, Type serviceType)
-        {
-            if (method == null || method.Name != "get_Instance" ||
-                method.DeclaringType == null ||
-                !method.DeclaringType.IsGenericType)
-                return false;
-            Type[] arguments = method.DeclaringType.GetGenericArguments();
-            return arguments.Length == 1 && arguments[0] == serviceType;
+            return false;
         }
     }
 }

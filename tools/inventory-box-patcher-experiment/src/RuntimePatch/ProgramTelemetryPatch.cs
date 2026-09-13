@@ -11,6 +11,14 @@ namespace Magicka.CommunityPatch.Runtime
 {
     public static class ProgramTelemetryPatch
     {
+        internal static readonly RuntimePatchDefinition StartupDefinition =
+            RuntimePatchDefinition.Prefix(
+                "Startup telemetry after Steam initialization",
+                "org.magickacommunitypatch.telemetry-startup",
+                FindGameInitialize,
+                target => typeof(ProgramTelemetryPatch).GetMethod(
+                    "StartupPrefix"));
+
         internal static readonly RuntimePatchDefinition NormalCloseDefinition =
             RuntimePatchDefinition.Transpile(
                 "Normal-close telemetry context",
@@ -40,6 +48,26 @@ namespace Magicka.CommunityPatch.Runtime
             if (method == null || method.ReturnType != typeof(int))
                 throw new MissingMethodException(program.FullName, "Main");
             return method;
+        }
+
+        private static MethodInfo FindGameInitialize(Assembly assembly)
+        {
+            Type game = assembly.GetType("Magicka.Game", true);
+            MethodInfo method = game.GetMethod(
+                "Initialize",
+                BindingFlags.Instance | BindingFlags.NonPublic |
+                    BindingFlags.DeclaredOnly,
+                null,
+                Type.EmptyTypes,
+                null);
+            if (method == null || method.ReturnType != typeof(void))
+                throw new MissingMethodException(game.FullName, "Initialize");
+            return method;
+        }
+
+        public static void StartupPrefix()
+        {
+            RuntimePatchTelemetry.SendStartup();
         }
 
         private static MethodInfo FindWriteReport(Assembly assembly)

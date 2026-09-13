@@ -9,10 +9,6 @@ namespace Magicka.CommunityPatch.Runtime
             if (assembly.GetName().Version.Minor < 10)
                 return;
             RuntimePatchSession.Apply(
-                assembly, GameSparksRetirementPatch.InitializeDefinition);
-            RuntimePatchSession.Apply(
-                assembly, GameSparksRetirementPatch.UpdateDefinition);
-            RuntimePatchSession.Apply(
                 assembly, GameSparksRetirementPatch.EndRunDefinition);
         }
     }

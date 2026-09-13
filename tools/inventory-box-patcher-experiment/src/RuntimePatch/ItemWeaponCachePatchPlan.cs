@@ -1,9 +1,12 @@
 using System.Reflection;
+using System.Threading;
 
 namespace Magicka.CommunityPatch.Runtime
 {
     internal static class ItemWeaponCachePatchPlan
     {
+        private static int deferredApplied;
+
         internal static void ApplyTo(Assembly assembly)
         {
             RuntimePatchSession.Apply(assembly,
@@ -12,6 +15,16 @@ namespace Magicka.CommunityPatch.Runtime
                 ItemWeaponCachePatch.CacheDefinition);
             RuntimePatchSession.Apply(assembly,
                 ItemWeaponCachePatch.GetDefinition);
+        }
+
+        internal static void ApplyDeferred()
+        {
+            if (Interlocked.CompareExchange(ref deferredApplied, 1, 0) != 0)
+                return;
+            Assembly assembly = Assembly.GetEntryAssembly();
+            if (assembly == null)
+                throw new InvalidOperationException(
+                    "The Magicka entry assembly is unavailable.");
             if (assembly.GetName().Version.Minor >= 10)
                 RuntimePatchSession.Apply(assembly,
                     ItemWeaponCachePatch.HasDefinition);

@@ -39,10 +39,10 @@ namespace Magicka.CommunityPatch.Runtime
             return method;
         }
 
-        public static void Prefix(object __1)
+        public static void Prefix(object e)
         {
             UnhandledExceptionEventArgs arguments =
-                __1 as UnhandledExceptionEventArgs;
+                e as UnhandledExceptionEventArgs;
             if (arguments == null)
                 return;
             string reason = ClassifyGraphicsStartupException(

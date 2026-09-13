@@ -14,6 +14,7 @@ namespace Magicka.CommunityPatch.Runtime
         private static FieldInfo stateLevel;
         private static FieldInfo playStateInitialized;
         private static FieldInfo currentLanguage;
+        private static PropertyInfo resolutionProperty;
         private static FieldInfo resolutionWidth;
         private static FieldInfo resolutionHeight;
 
@@ -90,6 +91,9 @@ namespace Magicka.CommunityPatch.Runtime
 
         public static void LevelPostfix(object __instance, string iFileName)
         {
+            InGameMenuScalePatchPlan.ApplyDeferred();
+            LevelSceneTransitionPatchPlan.ApplyDeferred();
+            ItemWeaponCachePatchPlan.ApplyDeferred();
             RuntimeTelemetryContext.RecordPlayState(
                 iFileName,
                 levelName.GetValue(__instance, null) as string);
@@ -203,15 +207,16 @@ namespace Magicka.CommunityPatch.Runtime
         private static MethodInfo FindResolutionSetter(Assembly assembly)
         {
             Type settings = assembly.GetType("Magicka.GlobalSettings", true);
-            PropertyInfo resolution = settings.GetProperty(
+            resolutionProperty = settings.GetProperty(
                 "Resolution",
                 BindingFlags.Instance | BindingFlags.Public |
                     BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
-            if (resolution == null || resolution.GetSetMethod(true) == null)
+            if (resolutionProperty == null ||
+                resolutionProperty.GetSetMethod(true) == null)
                 throw new MissingMemberException(
                     settings.FullName,
                     "Resolution");
-            Type resolutionType = resolution.PropertyType;
+            Type resolutionType = resolutionProperty.PropertyType;
             resolutionWidth = RequireField(
                 resolutionType,
                 "Width",
@@ -220,7 +225,7 @@ namespace Magicka.CommunityPatch.Runtime
                 resolutionType,
                 "Height",
                 typeof(int));
-            return resolution.GetSetMethod(true);
+            return resolutionProperty.GetSetMethod(true);
         }
 
         private static MethodInfo CreateResolutionPostfix(MethodInfo target)
@@ -229,13 +234,16 @@ namespace Magicka.CommunityPatch.Runtime
                 "ResolutionPostfix");
         }
 
-        public static void ResolutionPostfix(object __0)
+        public static void ResolutionPostfix(object __instance)
         {
-            if (__0 == null)
+            if (__instance == null)
+                return;
+            object resolution = resolutionProperty.GetValue(__instance, null);
+            if (resolution == null)
                 return;
             RuntimeTelemetryContext.RecordResolution(
-                (int)resolutionWidth.GetValue(__0),
-                (int)resolutionHeight.GetValue(__0));
+                (int)resolutionWidth.GetValue(resolution),
+                (int)resolutionHeight.GetValue(resolution));
         }
 
         private static MethodInfo FindSetLanguage(Assembly assembly)

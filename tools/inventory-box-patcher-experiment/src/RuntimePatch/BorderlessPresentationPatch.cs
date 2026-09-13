@@ -17,9 +17,11 @@ namespace Magicka.CommunityPatch.Runtime
         private static MethodInfo applyChangesMethod;
         private static MethodInfo addPreparingDeviceSettingsMethod;
         private static PropertyInfo graphicsDeviceInformationProperty;
-        private static PropertyInfo presentationParametersProperty;
+        private static PropertyInfo settingsPresentationParametersProperty;
+        private static PropertyInfo updatePresentationParametersProperty;
         private static PropertyInfo renderTargetUsageProperty;
-        private static PropertyInfo actualFullscreenProperty;
+        private static PropertyInfo settingsActualFullscreenProperty;
+        private static PropertyInfo updateActualFullscreenProperty;
         private static PropertyInfo refreshRateProperty;
         private static PropertyInfo logicalFullscreenProperty;
         private static PropertyInfo globalSettingsInstanceProperty;
@@ -113,14 +115,15 @@ namespace Magicka.CommunityPatch.Runtime
             graphicsDeviceInformationProperty = RequireProperty(
                 argumentsType,
                 "GraphicsDeviceInformation");
-            presentationParametersProperty = RequireProperty(
+            settingsPresentationParametersProperty = RequireProperty(
                 graphicsDeviceInformationProperty.PropertyType,
                 "PresentationParameters");
-            Type presentationType = presentationParametersProperty.PropertyType;
+            Type presentationType =
+                settingsPresentationParametersProperty.PropertyType;
             renderTargetUsageProperty = RequireProperty(
                 presentationType,
                 "RenderTargetUsage");
-            actualFullscreenProperty = RequireProperty(
+            settingsActualFullscreenProperty = RequireProperty(
                 presentationType,
                 "IsFullScreen");
             refreshRateProperty = RequireProperty(
@@ -151,11 +154,11 @@ namespace Magicka.CommunityPatch.Runtime
             PropertyInfo graphicsDeviceProperty = RequireProperty(
                 gameType,
                 "GraphicsDevice");
-            presentationParametersProperty = RequireProperty(
+            updatePresentationParametersProperty = RequireProperty(
                 graphicsDeviceProperty.PropertyType,
                 "PresentationParameters");
-            actualFullscreenProperty = RequireProperty(
-                presentationParametersProperty.PropertyType,
+            updateActualFullscreenProperty = RequireProperty(
+                updatePresentationParametersProperty.PropertyType,
                 "IsFullScreen");
             PropertyInfo topMostProperty = RequireProperty(
                 formField.FieldType,
@@ -204,7 +207,8 @@ namespace Magicka.CommunityPatch.Runtime
             object information = graphicsDeviceInformationProperty.GetValue(
                 __1,
                 null);
-            object presentation = presentationParametersProperty.GetValue(
+            object presentation =
+                settingsPresentationParametersProperty.GetValue(
                 information,
                 null);
             object preserveContents = Enum.Parse(
@@ -221,7 +225,10 @@ namespace Magicka.CommunityPatch.Runtime
                 null);
             if (!UseWindowedPresentation(logicalFullscreen))
                 return;
-            actualFullscreenProperty.SetValue(presentation, false, null);
+            settingsActualFullscreenProperty.SetValue(
+                presentation,
+                false,
+                null);
             refreshRateProperty.SetValue(presentation, 0, null);
         }
 
@@ -262,9 +269,9 @@ namespace Magicka.CommunityPatch.Runtime
             MethodInfo getSavedFullscreen =
                 savedFullscreenProperty.GetGetMethod();
             MethodInfo getPresentation =
-                presentationParametersProperty.GetGetMethod();
+                updatePresentationParametersProperty.GetGetMethod();
             MethodInfo getActualFullscreen =
-                actualFullscreenProperty.GetGetMethod();
+                updateActualFullscreenProperty.GetGetMethod();
             if (getGlobalSettings == null || getSavedFullscreen == null ||
                 getPresentation == null || getActualFullscreen == null)
                 throw new MissingMethodException(
