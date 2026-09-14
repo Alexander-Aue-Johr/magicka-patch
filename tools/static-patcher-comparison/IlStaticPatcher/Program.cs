@@ -1,8 +1,14 @@
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 
-if (args.Length != 2)
-    throw new ArgumentException("Usage: IlStaticPatcher <original-Magicka.exe> <output.exe>");
+if (args.Length is < 2 or > 3)
+    throw new ArgumentException("Usage: IlStaticPatcher <original-Magicka.exe> " +
+        "<output.exe> [--retain-scene-content]");
+
+bool retainSceneContent = args.Length == 3 &&
+    args[2] == "--retain-scene-content";
+if (args.Length == 3 && !retainSceneContent)
+    throw new ArgumentException("Unknown option: " + args[2]);
 
 string input = Path.GetFullPath(args[0]);
 string output = Path.GetFullPath(args[1]);
@@ -13,18 +19,48 @@ File.Copy(input, output, true);
 using (ModuleDefinition module = ModuleDefinition.ReadModule(output,
     new ReaderParameters { InMemory = true, ReadWrite = false }))
 {
-    ApplyFeatureChanges(module);
+    ApplyFeatureChanges(module, retainSceneContent);
     module.Write(output + ".writing");
 }
 File.Move(output + ".writing", output, true);
 EnableLargeAddressAwareness(output);
 Console.WriteLine(output);
 
-static void ApplyFeatureChanges(ModuleDefinition module)
+static void ApplyFeatureChanges(ModuleDefinition module, bool retainSceneContent)
 {
     RemoveGameSparksLifecycleInterop(module);
     RestoreLegacyPlayStateFinalization(module);
+    if (retainSceneContent)
+        RetainPreviousSceneContentDuringSceneChanges(module);
 }
+
+static void RetainPreviousSceneContentDuringSceneChanges(ModuleDefinition module)
+{
+    TypeDefinition level = RequireType(module, "Magicka.Levels.Level");
+    DisablePreviousSceneContentUnload(
+        level.Methods.Single(method => method.Name == "ChangeScene" &&
+            method.Parameters.Count == 0));
+}
+
+static void DisablePreviousSceneContentUnload(MethodDefinition changeScene)
+{
+    IList<Instruction> instructions = changeScene.Body.Instructions;
+    int[] calls = instructions.Select((instruction, index) => (instruction, index))
+        .Where(item => item.instruction.Operand is MethodReference called &&
+            called.DeclaringType.FullName == "Magicka.Levels.GameScene" &&
+            called.Name == "UnloadContent" && called.Parameters.Count == 0)
+        .Select(item => item.index).ToArray();
+    if (calls.Length != 1 || calls[0] == 0 ||
+        !IsLoadLocal(instructions[calls[0] - 1]))
+        throw new InvalidOperationException(
+            "Unexpected GameScene.UnloadContent call shape.");
+    MakeNop(instructions[calls[0] - 1]);
+    MakeNop(instructions[calls[0]]);
+}
+
+static bool IsLoadLocal(Instruction instruction) => instruction.OpCode.Code is
+    Code.Ldloc or Code.Ldloc_0 or Code.Ldloc_1 or Code.Ldloc_2 or Code.Ldloc_3 or
+    Code.Ldloc_S;
 
 static void RemoveGameSparksLifecycleInterop(ModuleDefinition module)
 {

@@ -12,6 +12,11 @@ Both remove the complete `PlayState.Finalize` method definition and set the PE
 `IMAGE_FILE_LARGE_ADDRESS_AWARE` characteristic. Each patcher validates the
 expected type, method and call shape before writing an output file.
 
+For a deliberately leaky local stress test, `IlStaticPatcher` accepts
+`--retain-scene-content`. This suppresses only the old scene's
+`GameScene.UnloadContent()` call in `Level.ChangeScene`; it does not suppress
+global or `PlayState.Dispose` cleanup. This option must never be shipped.
+
 The structural variant is intentionally not described as a C# recompilation.
 ILSpy's untouched project export of Magicka 1.10.4.2 is not round-trip
 compilable, and dnSpy's Edit Method compiler is not exposed as a supported
