@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -10,11 +11,12 @@ internal static class SourceNoiseNormalizer
 {
     public static int Run(string[] args)
     {
-        if (args.Length is < 5 or > 6)
+        if (args.Length is < 5 or > 7)
         {
             Console.Error.WriteLine(
                 "usage: SourceNoiseNormalizer <original-root> <patched-root> " +
-                "<normalized-original-root> <normalized-patched-root> <report.csv> [methods.tsv]");
+                "<normalized-original-root> <normalized-patched-root> <report.csv> " +
+                "[methods.tsv] [All|Exclude|Only]");
             return 2;
         }
 
@@ -24,8 +26,11 @@ internal static class SourceNoiseNormalizer
         string normalizedPatchedRoot = PrepareOutput(args[3]);
         string reportPath = Path.GetFullPath(args[4]);
         Dictionary<string, HashSet<CallableDescriptor>> layoutOnly = args.Length == 6
-            ? ReadLayoutOnlyMethods(args[5])
-            : new(StringComparer.OrdinalIgnoreCase);
+            || args.Length == 7 ? ReadLayoutOnlyMethods(args[5])
+                : new(StringComparer.OrdinalIgnoreCase);
+        GcDiagnosticsMode diagnosticsMode = args.Length == 7
+            ? Enum.Parse<GcDiagnosticsMode>(args[6], true)
+            : GcDiagnosticsMode.All;
         Directory.CreateDirectory(Path.GetDirectoryName(reportPath)!);
         Dictionary<string, string> originals = FilesByRelativePath(originalRoot);
         Dictionary<string, string> patched = FilesByRelativePath(patchedRoot);
@@ -39,7 +44,7 @@ internal static class SourceNoiseNormalizer
         {
             SourcePair pair = NormalizePair(File.ReadAllText(originals[relativePath]),
                 File.ReadAllText(patched[relativePath]),
-                layoutOnly.GetValueOrDefault(relativePath));
+                layoutOnly.GetValueOrDefault(relativePath), diagnosticsMode);
             Write(normalizedOriginalRoot, relativePath, pair.Original);
             Write(normalizedPatchedRoot, relativePath, pair.Patched);
             report.WriteLine(Csv(relativePath) + "," + pair.MatchedLocals + "," +
@@ -54,10 +59,21 @@ internal static class SourceNoiseNormalizer
     }
 
     private static SourcePair NormalizePair(string original, string patched,
-        HashSet<CallableDescriptor>? layoutOnly)
+        HashSet<CallableDescriptor>? layoutOnly, GcDiagnosticsMode diagnosticsMode)
     {
         SyntaxNode originalRoot = Parse(original);
         SyntaxNode patchedRoot = Parse(patched);
+        if (diagnosticsMode == GcDiagnosticsMode.Only)
+        {
+            (string emptyProjection, string diagnosticsProjection) =
+                GcDiagnosticsProjection.Create(patchedRoot);
+            ValidateOutput(emptyProjection, "empty GC diagnostics projection");
+            ValidateOutput(diagnosticsProjection, "GC diagnostics projection");
+            return new SourcePair(emptyProjection, diagnosticsProjection,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        }
+        if (diagnosticsMode == GcDiagnosticsMode.Exclude)
+            patchedRoot = new GcDiagnosticsRemovalRewriter().Visit(patchedRoot)!;
         LayoutOnlyCallableNormalizer layoutNormalizer = new(originalRoot,
             layoutOnly ?? new HashSet<CallableDescriptor>());
         patchedRoot = layoutNormalizer.Normalize(patchedRoot);
@@ -170,6 +186,62 @@ internal static class SourceNoiseNormalizer
 
 internal readonly record struct CallableDescriptor(string Type, string Name,
     int ParameterCount, int GenericCount, int Ordinal);
+
+internal enum GcDiagnosticsMode
+{
+    All,
+    Exclude,
+    Only
+}
+
+internal sealed class GcDiagnosticsRemovalRewriter : CSharpSyntaxRewriter
+{
+    public override SyntaxNode? VisitUsingDirective(UsingDirectiveSyntax node) =>
+        node.Name?.ToString() == "Magicka.GcDiagnostics"
+            ? null
+            : base.VisitUsingDirective(node);
+
+    public override SyntaxNode? VisitExpressionStatement(ExpressionStatementSyntax node)
+    {
+        if (GcDiagnosticsProjection.IsRetentionRegistryCall(node.Expression))
+            return node.Parent is BlockSyntax or SwitchSectionSyntax
+                ? null
+                : SyntaxFactory.EmptyStatement().WithTriviaFrom(node);
+        return base.VisitExpressionStatement(node);
+    }
+}
+
+internal static class GcDiagnosticsProjection
+{
+    public static (string Empty, string Diagnostics) Create(SyntaxNode patchedRoot)
+    {
+        ExpressionStatementSyntax[] calls = patchedRoot.DescendantNodes()
+            .OfType<ExpressionStatementSyntax>()
+            .Where(statement => IsRetentionRegistryCall(statement.Expression))
+            .ToArray();
+        string body = string.Join(Environment.NewLine, calls.Select(call =>
+            "\t\t\t" + Regex.Replace(call.WithoutTrivia().NormalizeWhitespace()
+                .ToFullString(), @"\s+", " ")));
+        string shellStart = "namespace ManagedPayloadGcDiagnosticsProjection" +
+            Environment.NewLine + "{" + Environment.NewLine +
+            "\tinternal static class Entries" + Environment.NewLine + "\t{" +
+            Environment.NewLine + "\t\tinternal static void Record()" +
+            Environment.NewLine + "\t\t{" + Environment.NewLine;
+        string shellEnd = "\t\t}" + Environment.NewLine + "\t}" +
+            Environment.NewLine + "}" + Environment.NewLine;
+        string empty = shellStart + shellEnd;
+        if (calls.Length == 0)
+            return (empty, empty);
+        string diagnostics = "using Magicka.GcDiagnostics;" + Environment.NewLine +
+            shellStart + body + Environment.NewLine + shellEnd;
+        return (empty, diagnostics);
+    }
+
+    public static bool IsRetentionRegistryCall(ExpressionSyntax expression) =>
+        expression is InvocationExpressionSyntax invocation &&
+        invocation.Expression is MemberAccessExpressionSyntax member &&
+        member.Expression.ToString() == "RetentionRegistry";
+}
 
 internal sealed class LayoutOnlyCallableNormalizer
 {

@@ -17,15 +17,17 @@ internal static class ManagedPayloadNoiseAudit
     private static string commentStripperProject = "";
     private static string normalizerProject = "";
     private static string inventoryProject = "";
+    private static string gcDiagnosticsMode = "All";
 
     public static int Run(string[] args)
     {
-        if (args.Length != 5)
+        if (args.Length is < 5 or > 6)
         {
             Console.Error.WriteLine(
                 "usage: ManagedPayloadNoiseAudit <original-Magicka.exe> " +
                 "<patched-Magicka.exe> <original-PolygonHead.dll> " +
-                "<patched-PolygonHead.dll> <output-directory>");
+                "<patched-PolygonHead.dll> <output-directory> " +
+                "[All|Exclude|Only]");
             return 2;
         }
 
@@ -44,6 +46,9 @@ internal static class ManagedPayloadNoiseAudit
         string originalPolygonHead = RequireFile(args[2], "Original PolygonHead.dll");
         string patchedPolygonHead = RequireFile(args[3], "Patched PolygonHead.dll");
         outputRoot = Path.GetFullPath(args[4]);
+        gcDiagnosticsMode = args.Length == 6 ? args[5] : "All";
+        if (gcDiagnosticsMode is not ("All" or "Exclude" or "Only"))
+            throw new ArgumentException("GC diagnostics mode must be All, Exclude or Only.");
         if (Directory.Exists(outputRoot) || File.Exists(outputRoot))
             throw new IOException("Refusing to overwrite existing audit path: " + outputRoot);
         Directory.CreateDirectory(outputRoot);
@@ -129,6 +134,8 @@ internal static class ManagedPayloadNoiseAudit
             added, new UTF8Encoding(false));
         File.WriteAllLines(Path.Combine(analysis, "removed-files.txt"),
             removed, new UTF8Encoding(false));
+        GcDiagnosticsTotals diagnostics = WriteGcDiagnosticsInventory(root,
+            patchedSource, added);
 
         foreach (string relative in modified)
             WriteDiff(originals[relative], patched[relative],
@@ -149,7 +156,7 @@ internal static class ManagedPayloadNoiseAudit
             originalSource, patchedSource,
             Path.Combine(normalized, "original"),
             Path.Combine(normalized, "patched"),
-            normalizerReport, methodInventoryReport }, repositoryRoot);
+            normalizerReport, methodInventoryReport, gcDiagnosticsMode }, repositoryRoot);
         Dictionary<string, InventoryTotals> inventory =
             ReadInventory(inventoryReport);
         Dictionary<string, NormalizationTotals> normalizations =
@@ -177,7 +184,8 @@ internal static class ManagedPayloadNoiseAudit
                 normalizedPatched);
             if (normalizedIdentical && File.Exists(reviewDiff))
                 File.Delete(reviewDiff);
-            bool playStateSingletonOnly = !normalizedIdentical &&
+            bool classifyFeatures = gcDiagnosticsMode == "All";
+            bool playStateSingletonOnly = classifyFeatures && !normalizedIdentical &&
                 IsExclusivePlayStateSingletonDiff(reviewDiff);
             if (playStateSingletonOnly)
             {
@@ -187,7 +195,8 @@ internal static class ManagedPayloadNoiseAudit
                 File.Move(reviewDiff, featureDiff);
                 playStateFeatureFiles.Add(relative);
             }
-            bool gcRetentionOnly = !normalizedIdentical && !playStateSingletonOnly &&
+            bool gcRetentionOnly = classifyFeatures && !normalizedIdentical &&
+                !playStateSingletonOnly &&
                 IsExclusiveGcRetentionDiff(normalizedOriginal, normalizedPatched);
             if (gcRetentionOnly)
             {
@@ -197,7 +206,7 @@ internal static class ManagedPayloadNoiseAudit
                 File.Move(reviewDiff, featureDiff);
                 gcRetentionFeatureFiles.Add(relative);
             }
-            bool cacheCleanupOnly = !normalizedIdentical &&
+            bool cacheCleanupOnly = classifyFeatures && !normalizedIdentical &&
                 !playStateSingletonOnly && !gcRetentionOnly &&
                 IsExclusiveCacheAndLevelReferenceCleanup(normalizedOriginal,
                     normalizedPatched);
@@ -247,12 +256,78 @@ internal static class ManagedPayloadNoiseAudit
             "modified_files=" + modified.Length,
             "added_files_excluded=" + added.Length,
             "removed_files=" + removed.Length,
+            "gc_diagnostics_mode=" + gcDiagnosticsMode,
+            "gc_diagnostics_affected_files=" + diagnostics.Files,
+            "gc_diagnostics_using_directives=" + diagnostics.Usings,
+            "gc_diagnostics_calls=" + diagnostics.Calls,
+            "gc_diagnostics_added_files=" + diagnostics.AddedFiles,
             "playstate_singleton_only_diffs=" + playStateFeatureFiles.Count,
             "gc_retention_only_diffs=" + gcRetentionFeatureFiles.Count,
             "cache_and_level_reference_cleanup_only_diffs=" +
                 cacheCleanupFeatureFiles.Count
         }, new UTF8Encoding(false));
         return rows;
+    }
+
+    private static GcDiagnosticsTotals WriteGcDiagnosticsInventory(string root,
+        string patchedSource, IEnumerable<string> addedFiles)
+    {
+        HashSet<string> added = addedFiles.ToHashSet(StringComparer.OrdinalIgnoreCase);
+        List<GcDiagnosticsRow> rows = new();
+        foreach ((string relative, string path) in FilesByRelativePath(patchedSource)
+            .OrderBy(pair => pair.Key, StringComparer.OrdinalIgnoreCase))
+        {
+            SyntaxNode syntax = CSharpSyntaxTree.ParseText(File.ReadAllText(path),
+                CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp3))
+                .GetRoot();
+            int usings = syntax.DescendantNodes().OfType<UsingDirectiveSyntax>()
+                .Count(directive => directive.Name?.ToString() ==
+                    "Magicka.GcDiagnostics");
+            ExpressionStatementSyntax[] calls = syntax.DescendantNodes()
+                .OfType<ExpressionStatementSyntax>().Where(statement =>
+                    IsRetentionRegistryCall(statement.Expression)).ToArray();
+            if (usings == 0 && calls.Length == 0)
+                continue;
+            bool isAdded = added.Contains(relative);
+            rows.Add(new GcDiagnosticsRow(relative, usings, calls.Length, isAdded));
+            if (gcDiagnosticsMode == "Only" && isAdded)
+            {
+                string projection = Path.Combine(root,
+                    "diagnostics-only-added-source", relative);
+                Directory.CreateDirectory(Path.GetDirectoryName(projection)!);
+                File.WriteAllText(projection, DiagnosticsProjection(calls),
+                    new UTF8Encoding(false));
+            }
+        }
+        using StreamWriter writer = new(Path.Combine(root,
+            "gc-diagnostics-inventory.csv"), false, new UTF8Encoding(false));
+        writer.WriteLine("File,UsingDirectives,Calls,AddedFile");
+        foreach (GcDiagnosticsRow row in rows)
+            writer.WriteLine(string.Join(",", Csv(row.File), row.Usings,
+                row.Calls, row.AddedFile ? "true" : "false"));
+        return new GcDiagnosticsTotals(rows.Count, rows.Sum(row => row.Usings),
+            rows.Sum(row => row.Calls), rows.Count(row => row.AddedFile));
+    }
+
+    private static bool IsRetentionRegistryCall(ExpressionSyntax expression) =>
+        expression is InvocationExpressionSyntax invocation &&
+        invocation.Expression is MemberAccessExpressionSyntax member &&
+        member.Expression.ToString() == "RetentionRegistry";
+
+    private static string DiagnosticsProjection(
+        IEnumerable<ExpressionStatementSyntax> calls)
+    {
+        string body = string.Join(Environment.NewLine, calls.Select(call =>
+            "\t\t\t" + Regex.Replace(call.WithoutTrivia().NormalizeWhitespace()
+                .ToFullString(), @"\s+", " ")));
+        return "using Magicka.GcDiagnostics;" + Environment.NewLine +
+            "namespace ManagedPayloadGcDiagnosticsProjection" + Environment.NewLine +
+            "{" + Environment.NewLine + "\tinternal static class Entries" +
+            Environment.NewLine + "\t{" + Environment.NewLine +
+            "\t\tinternal static void Record()" + Environment.NewLine +
+            "\t\t{" + Environment.NewLine + body + Environment.NewLine +
+            "\t\t}" + Environment.NewLine + "\t}" + Environment.NewLine +
+            "}" + Environment.NewLine;
     }
 
     private static bool IsExclusiveGcRetentionDiff(string originalPath,
@@ -679,6 +754,10 @@ internal static class ManagedPayloadNoiseAudit
         int RestoredLayoutOnlyCallables);
     private sealed record ProcessResult(string StandardOutput,
         string StandardError, int ExitCode);
+    private readonly record struct GcDiagnosticsRow(string File, int Usings,
+        int Calls, bool AddedFile);
+    private readonly record struct GcDiagnosticsTotals(int Files, int Usings,
+        int Calls, int AddedFiles);
 }
 
 internal sealed class GcRetentionRemovalRewriter : CSharpSyntaxRewriter

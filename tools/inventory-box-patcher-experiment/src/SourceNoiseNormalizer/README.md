@@ -18,3 +18,10 @@ The normalizer is invoked by `scripts/audit-manual-payload-noise.ps1`. Added
 source files are excluded from its checklist because they have no original
 counterpart and therefore cannot contain recompilation noise relative to an
 original method body.
+
+The optional GC diagnostics mode keeps all instrumentation, removes it before
+normalization, or creates a diagnostics-only projection. A diagnostics node is
+either the exact `using Magicka.GcDiagnostics` directive or an expression
+statement whose invoked receiver is `RetentionRegistry`. The exclusion mode
+does not use text matching and therefore does not remove strings, comments,
+similarly named methods, or surrounding gameplay statements.

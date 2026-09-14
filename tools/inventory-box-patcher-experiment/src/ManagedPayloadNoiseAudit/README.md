@@ -17,6 +17,27 @@ manually patched `Magicka.exe` and `PolygonHead.dll` files. It:
   `feature-diffs/playstate-singleton`, with a `files.txt` manifest;
 - writes CSV inventories and `DENOISE_CHECKLIST.md`.
 
+`scripts/audit-manual-payload-noise.ps1` accepts `-GcDiagnosticsMode`:
+
+- `All` keeps the complete normalized manual-payload diff;
+- `Exclude` removes `using Magicka.GcDiagnostics` and every expression-statement
+  call on `RetentionRegistry` before local and expression normalization;
+- `Only` writes a minimal, syntactically valid per-file projection containing
+  only that using directive and those calls. The wrapper namespace, type and
+  method merely keep the extracted statements parseable and are identical on
+  both sides of each comparison.
+
+Every mode also writes `gc-diagnostics-inventory.csv` for each assembly. The
+inventory covers the complete patched decompilation, including files added by
+the patch that are intentionally absent from the original-versus-patched
+comparison. In `Only` mode, diagnostics found in such added files are written
+to `diagnostics-only-added-source` so the diagnostics-only result remains
+complete without treating an added class as a changed original class.
+
+Removing diagnostics before the remaining normalization is important. It lets
+the normalizer collapse temporary locals introduced only so a loaded or newly
+created object could be passed to `RetentionRegistry`.
+
 Run it through `scripts/audit-manual-payload-noise.ps1`. The PowerShell file is
 only a thin Windows command-line wrapper and contains no audit logic.
 

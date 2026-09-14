@@ -3,7 +3,9 @@ param(
     [Parameter(Mandatory = $true)][string]$PatchedMagicka,
     [Parameter(Mandatory = $true)][string]$OriginalPolygonHead,
     [Parameter(Mandatory = $true)][string]$PatchedPolygonHead,
-    [Parameter(Mandatory = $true)][string]$OutputDirectory
+    [Parameter(Mandatory = $true)][string]$OutputDirectory,
+    [ValidateSet("All", "Exclude", "Only")]
+    [string]$GcDiagnosticsMode = "All"
 )
 
 $ErrorActionPreference = "Stop"
@@ -16,7 +18,8 @@ $project = Join-Path $repositoryRoot `
     $PatchedMagicka `
     $OriginalPolygonHead `
     $PatchedPolygonHead `
-    $OutputDirectory
+    $OutputDirectory `
+    $GcDiagnosticsMode
 
 if ($LASTEXITCODE -ne 0) {
     throw "Managed payload noise audit failed with exit code $LASTEXITCODE"
