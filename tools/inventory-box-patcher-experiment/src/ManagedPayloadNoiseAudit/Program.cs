@@ -3,6 +3,9 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 return ManagedPayloadNoiseAudit.Run(args);
 
@@ -133,17 +136,20 @@ internal static class ManagedPayloadNoiseAudit
 
         string normalized = Path.Combine(root, "normalized");
         string normalizerReport = Path.Combine(normalized, "normalizations.csv");
+        string inventoryReport = Path.Combine(root,
+            "assembly-semantic-inventory.csv");
+        string methodInventoryReport = Path.Combine(root,
+            "assembly-method-inventory.tsv");
+        RunProcess("dotnet", new[] { "run", "--project", inventoryProject,
+            "--configuration", "Release", "--no-build", "--",
+            originalAssembly, patchedAssembly, inventoryReport,
+            methodInventoryReport }, repositoryRoot);
         RunProcess("dotnet", new[] { "run", "--project", normalizerProject,
             "--configuration", "Release", "--no-build", "--",
             originalSource, patchedSource,
             Path.Combine(normalized, "original"),
             Path.Combine(normalized, "patched"),
-            normalizerReport }, repositoryRoot);
-        string inventoryReport = Path.Combine(root,
-            "assembly-semantic-inventory.csv");
-        RunProcess("dotnet", new[] { "run", "--project", inventoryProject,
-            "--configuration", "Release", "--no-build", "--",
-            originalAssembly, patchedAssembly, inventoryReport }, repositoryRoot);
+            normalizerReport, methodInventoryReport }, repositoryRoot);
         Dictionary<string, InventoryTotals> inventory =
             ReadInventory(inventoryReport);
         Dictionary<string, NormalizationTotals> normalizations =
@@ -152,7 +158,10 @@ internal static class ManagedPayloadNoiseAudit
         string semanticDiffRoot = Path.Combine(root, "semantic-review-diffs");
         string playStateFeatureRoot = Path.Combine(root, "feature-diffs",
             "playstate-singleton");
+        string gcRetentionFeatureRoot = Path.Combine(root, "feature-diffs",
+            "gc-retention");
         List<string> playStateFeatureFiles = new();
+        List<string> gcRetentionFeatureFiles = new();
         List<AuditRow> rows = new();
         foreach (string relative in modified)
         {
@@ -161,7 +170,11 @@ internal static class ManagedPayloadNoiseAudit
             string reviewDiff = Path.Combine(semanticDiffRoot,
                 relative + ".diff");
             WriteReviewDiff(normalizedOriginal, normalizedPatched, reviewDiff);
-            bool playStateSingletonOnly =
+            bool normalizedIdentical = SyntaxEquivalent(normalizedOriginal,
+                normalizedPatched);
+            if (normalizedIdentical && File.Exists(reviewDiff))
+                File.Delete(reviewDiff);
+            bool playStateSingletonOnly = !normalizedIdentical &&
                 IsExclusivePlayStateSingletonDiff(reviewDiff);
             if (playStateSingletonOnly)
             {
@@ -170,6 +183,16 @@ internal static class ManagedPayloadNoiseAudit
                 Directory.CreateDirectory(Path.GetDirectoryName(featureDiff)!);
                 File.Move(reviewDiff, featureDiff);
                 playStateFeatureFiles.Add(relative);
+            }
+            bool gcRetentionOnly = !normalizedIdentical && !playStateSingletonOnly &&
+                IsExclusiveGcRetentionDiff(normalizedOriginal, normalizedPatched);
+            if (gcRetentionOnly)
+            {
+                string featureDiff = Path.Combine(gcRetentionFeatureRoot,
+                    relative + ".diff");
+                Directory.CreateDirectory(Path.GetDirectoryName(featureDiff)!);
+                File.Move(reviewDiff, featureDiff);
+                gcRetentionFeatureFiles.Add(relative);
             }
             int rawLines = ChangedLines(originals[relative], patched[relative]);
             int normalizedLines = ChangedReviewLines(normalizedOriginal,
@@ -184,11 +207,18 @@ internal static class ManagedPayloadNoiseAudit
                 methods.AddedMethods, methods.AddedFields,
                 methods.MetadataChanges,
                 fixes.MatchedLocals, fixes.RestoredInitializers,
-                fixes.RemovedCaptureAliases, playStateSingletonOnly));
+                fixes.RemovedCaptureAliases, fixes.RestoredTemporaries,
+                fixes.RestoredCompoundAssignments, fixes.RestoredSwitchOrders,
+                fixes.RestoredBaseOrders, fixes.RestoredLayoutOnlyCallables,
+                playStateSingletonOnly, gcRetentionOnly, normalizedIdentical));
         }
         Directory.CreateDirectory(playStateFeatureRoot);
         File.WriteAllLines(Path.Combine(playStateFeatureRoot, "files.txt"),
             playStateFeatureFiles.OrderBy(value => value,
+                StringComparer.OrdinalIgnoreCase), new UTF8Encoding(false));
+        Directory.CreateDirectory(gcRetentionFeatureRoot);
+        File.WriteAllLines(Path.Combine(gcRetentionFeatureRoot, "files.txt"),
+            gcRetentionFeatureFiles.OrderBy(value => value,
                 StringComparer.OrdinalIgnoreCase), new UTF8Encoding(false));
         WriteAuditCsv(Path.Combine(root, "noise-audit.csv"), rows);
         File.WriteAllLines(Path.Combine(analysis, "analysis-summary.txt"), new[]
@@ -197,9 +227,33 @@ internal static class ManagedPayloadNoiseAudit
             "modified_files=" + modified.Length,
             "added_files_excluded=" + added.Length,
             "removed_files=" + removed.Length,
-            "playstate_singleton_only_diffs=" + playStateFeatureFiles.Count
+            "playstate_singleton_only_diffs=" + playStateFeatureFiles.Count,
+            "gc_retention_only_diffs=" + gcRetentionFeatureFiles.Count
         }, new UTF8Encoding(false));
         return rows;
+    }
+
+    private static bool IsExclusiveGcRetentionDiff(string originalPath,
+        string patchedPath)
+    {
+        string original = File.ReadAllText(originalPath);
+        SyntaxNode originalRoot = CSharpSyntaxTree.ParseText(original,
+            CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp3)).GetRoot();
+        SyntaxNode patchedRoot = CSharpSyntaxTree.ParseText(File.ReadAllText(patchedPath),
+            CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp3)).GetRoot();
+        GcRetentionRemovalRewriter rewriter = new();
+        SyntaxNode stripped = rewriter.Visit(patchedRoot)!;
+        return rewriter.Removed != 0 && originalRoot.WithoutTrivia()
+            .IsEquivalentTo(stripped.WithoutTrivia());
+    }
+
+    private static bool SyntaxEquivalent(string originalPath, string patchedPath)
+    {
+        SyntaxNode original = CSharpSyntaxTree.ParseText(File.ReadAllText(originalPath),
+            CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp3)).GetRoot();
+        SyntaxNode patched = CSharpSyntaxTree.ParseText(File.ReadAllText(patchedPath),
+            CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp3)).GetRoot();
+        return original.WithoutTrivia().IsEquivalentTo(patched.WithoutTrivia());
     }
 
     private static bool IsExclusivePlayStateSingletonDiff(string path)
@@ -279,11 +333,16 @@ internal static class ManagedPayloadNoiseAudit
         foreach (string line in File.ReadLines(path).Skip(1))
         {
             string[] values = ParseCsv(line);
-            if (values.Length < 6) continue;
+            if (values.Length < 11) continue;
             result[values[0]] = new NormalizationTotals(
                 int.Parse(values[1], CultureInfo.InvariantCulture),
                 int.Parse(values[4], CultureInfo.InvariantCulture),
-                int.Parse(values[5], CultureInfo.InvariantCulture));
+                int.Parse(values[5], CultureInfo.InvariantCulture),
+                int.Parse(values[6], CultureInfo.InvariantCulture),
+                int.Parse(values[7], CultureInfo.InvariantCulture),
+                int.Parse(values[8], CultureInfo.InvariantCulture),
+                int.Parse(values[9], CultureInfo.InvariantCulture),
+                int.Parse(values[10], CultureInfo.InvariantCulture));
         }
         return result;
     }
@@ -393,7 +452,7 @@ internal static class ManagedPayloadNoiseAudit
     private static void WriteAuditCsv(string path, IEnumerable<AuditRow> rows)
     {
         using StreamWriter writer = new(path, false, new UTF8Encoding(false));
-        writer.WriteLine("Assembly,File,RawChangedLines,NormalizedChangedLines,Status,ChangedExistingMethods,LayoutOnlyMethods,AddedMethods,AddedFields,MetadataChanges,MatchedLocals,RestoredInitializers,RemovedCaptureAliases,Feature");
+        writer.WriteLine("Assembly,File,RawChangedLines,NormalizedChangedLines,Status,ChangedExistingMethods,LayoutOnlyMethods,AddedMethods,AddedFields,MetadataChanges,MatchedLocals,RestoredInitializers,RemovedCaptureAliases,RestoredTemporaries,RestoredCompoundAssignments,RestoredSwitchOrders,RestoredBaseOrders,RestoredLayoutOnlyCallables,Feature");
         foreach (AuditRow row in rows)
             writer.WriteLine(string.Join(",", Csv(row.Assembly), Csv(row.File),
                 row.RawChangedLines, row.NormalizedChangedLines, Csv(row.Status),
@@ -401,7 +460,11 @@ internal static class ManagedPayloadNoiseAudit
                 row.AddedFields, row.MetadataChanges, row.MatchedLocals,
                 row.RestoredInitializers,
                 row.RemovedCaptureAliases,
-                Csv(row.PlayStateSingletonOnly ? "playstate-singleton" : "")));
+                row.RestoredTemporaries, row.RestoredCompoundAssignments,
+                row.RestoredSwitchOrders, row.RestoredBaseOrders,
+                row.RestoredLayoutOnlyCallables,
+                Csv(row.PlayStateSingletonOnly ? "playstate-singleton" :
+                    row.GcRetentionOnly ? "gc-retention" : "")));
     }
 
     private static void WriteChecklist(IEnumerable<AuditRow> allRows)
@@ -431,8 +494,16 @@ internal static class ManagedPayloadNoiseAudit
                     "; normalized locals " + row.MatchedLocals +
                     ", static initializers " + row.RestoredInitializers +
                     ", capture aliases " + row.RemovedCaptureAliases +
+                    ", temporaries " + row.RestoredTemporaries +
+                    ", compound assignments " + row.RestoredCompoundAssignments +
+                    ", switch orders " + row.RestoredSwitchOrders +
+                    ", base orders " + row.RestoredBaseOrders +
+                    ", layout-only callables " + row.RestoredLayoutOnlyCallables +
                     (row.PlayStateSingletonOnly
-                        ? "; feature `playstate-singleton`" : ""));
+                        ? "; feature `playstate-singleton`" :
+                        row.GcRetentionOnly ? "; feature `gc-retention`" :
+                        row.NormalizedIdentical ?
+                            "; all differences normalized as noise" : ""));
             }
             lines.Add("");
         }
@@ -533,11 +604,47 @@ internal static class ManagedPayloadNoiseAudit
         int RawChangedLines, int NormalizedChangedLines, string Status,
         int ChangedMethods, int LayoutOnlyMethods, int AddedMethods,
         int AddedFields, int MetadataChanges, int MatchedLocals, int RestoredInitializers,
-        int RemovedCaptureAliases, bool PlayStateSingletonOnly);
+        int RemovedCaptureAliases, int RestoredTemporaries,
+        int RestoredCompoundAssignments, int RestoredSwitchOrders,
+        int RestoredBaseOrders, int RestoredLayoutOnlyCallables,
+        bool PlayStateSingletonOnly, bool GcRetentionOnly,
+        bool NormalizedIdentical);
     private readonly record struct InventoryTotals(int Changed, int LayoutOnly,
         int AddedMethods, int AddedFields, int MetadataChanges);
     private readonly record struct NormalizationTotals(int MatchedLocals,
-        int RestoredInitializers, int RemovedCaptureAliases);
+        int RestoredInitializers, int RemovedCaptureAliases,
+        int RestoredTemporaries, int RestoredCompoundAssignments,
+        int RestoredSwitchOrders, int RestoredBaseOrders,
+        int RestoredLayoutOnlyCallables);
     private sealed record ProcessResult(string StandardOutput,
         string StandardError, int ExitCode);
+}
+
+internal sealed class GcRetentionRemovalRewriter : CSharpSyntaxRewriter
+{
+    public int Removed { get; private set; }
+
+    public override SyntaxNode? VisitUsingDirective(UsingDirectiveSyntax node)
+    {
+        if (node.Name?.ToString() == "Magicka.GcDiagnostics")
+        {
+            Removed++;
+            return null;
+        }
+        return base.VisitUsingDirective(node);
+    }
+
+    public override SyntaxNode? VisitExpressionStatement(ExpressionStatementSyntax node)
+    {
+        if (node.Expression is InvocationExpressionSyntax invocation &&
+            invocation.Expression is MemberAccessExpressionSyntax member &&
+            member.Expression.ToString() == "RetentionRegistry")
+        {
+            Removed++;
+            return node.Parent is BlockSyntax or SwitchSectionSyntax
+                ? null
+                : SyntaxFactory.EmptyStatement().WithTriviaFrom(node);
+        }
+        return base.VisitExpressionStatement(node);
+    }
 }

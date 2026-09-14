@@ -10,11 +10,11 @@ internal static class SourceNoiseNormalizer
 {
     public static int Run(string[] args)
     {
-        if (args.Length != 5)
+        if (args.Length is < 5 or > 6)
         {
             Console.Error.WriteLine(
                 "usage: SourceNoiseNormalizer <original-root> <patched-root> " +
-                "<normalized-original-root> <normalized-patched-root> <report.csv>");
+                "<normalized-original-root> <normalized-patched-root> <report.csv> [methods.tsv]");
             return 2;
         }
 
@@ -23,6 +23,9 @@ internal static class SourceNoiseNormalizer
         string normalizedOriginalRoot = PrepareOutput(args[2]);
         string normalizedPatchedRoot = PrepareOutput(args[3]);
         string reportPath = Path.GetFullPath(args[4]);
+        Dictionary<string, HashSet<CallableDescriptor>> layoutOnly = args.Length == 6
+            ? ReadLayoutOnlyMethods(args[5])
+            : new(StringComparer.OrdinalIgnoreCase);
         Directory.CreateDirectory(Path.GetDirectoryName(reportPath)!);
         Dictionary<string, string> originals = FilesByRelativePath(originalRoot);
         Dictionary<string, string> patched = FilesByRelativePath(patchedRoot);
@@ -31,39 +34,58 @@ internal static class SourceNoiseNormalizer
             StringComparer.OrdinalIgnoreCase).ToArray();
 
         using StreamWriter report = new(reportPath, false, new UTF8Encoding(false));
-        report.WriteLine("file,matched_locals,original_only_locals,patched_only_locals,restored_initializers,removed_capture_aliases");
+        report.WriteLine("file,matched_locals,original_only_locals,patched_only_locals,restored_initializers,removed_capture_aliases,restored_temporaries,restored_compound_assignments,restored_switch_orders,restored_base_orders,restored_layout_only_callables");
         foreach (string relativePath in common)
         {
             SourcePair pair = NormalizePair(File.ReadAllText(originals[relativePath]),
-                File.ReadAllText(patched[relativePath]));
+                File.ReadAllText(patched[relativePath]),
+                layoutOnly.GetValueOrDefault(relativePath));
             Write(normalizedOriginalRoot, relativePath, pair.Original);
             Write(normalizedPatchedRoot, relativePath, pair.Patched);
             report.WriteLine(Csv(relativePath) + "," + pair.MatchedLocals + "," +
                 pair.OriginalOnlyLocals + "," + pair.PatchedOnlyLocals + "," +
-                pair.RestoredInitializers + "," + pair.RemovedCaptureAliases);
+                pair.RestoredInitializers + "," + pair.RemovedCaptureAliases + "," +
+                pair.RestoredTemporaries + "," + pair.RestoredCompoundAssignments +
+                "," + pair.RestoredSwitchOrders + "," + pair.RestoredBaseOrders +
+                "," + pair.RestoredLayoutOnlyCallables);
         }
         Console.WriteLine("normalized_pairs=" + common.Length);
         return 0;
     }
 
-    private static SourcePair NormalizePair(string original, string patched)
+    private static SourcePair NormalizePair(string original, string patched,
+        HashSet<CallableDescriptor>? layoutOnly)
     {
         SyntaxNode originalRoot = Parse(original);
         SyntaxNode patchedRoot = Parse(patched);
+        LayoutOnlyCallableNormalizer layoutNormalizer = new(originalRoot,
+            layoutOnly ?? new HashSet<CallableDescriptor>());
+        patchedRoot = layoutNormalizer.Normalize(patchedRoot);
         PairMaps maps = PairMaps.Create(originalRoot, patchedRoot);
         SyntaxNode normalizedOriginal = originalRoot;
         SyntaxNode normalizedPatched = new LocalRenameRewriter(
             maps.PatchedTokenRenames).Visit(patchedRoot)!;
         CaptureAliasNormalizer aliasNormalizer = new();
         normalizedPatched = aliasNormalizer.Visit(normalizedPatched)!;
+        PairSyntaxNoiseNormalizer syntaxNormalizer = new(normalizedOriginal);
+        normalizedPatched = syntaxNormalizer.Normalize(normalizedPatched);
         StaticInitializerNormalizer initializerNormalizer = new(
             normalizedOriginal);
         normalizedPatched = initializerNormalizer.Visit(normalizedPatched)!;
-        return new SourcePair(normalizedOriginal.ToFullString(),
-            normalizedPatched.ToFullString(), maps.MatchedLocals,
+        string normalizedOriginalText = normalizedOriginal.ToFullString();
+        string normalizedPatchedText = normalizedPatched.ToFullString();
+        ValidateOutput(normalizedOriginalText, "normalized original source");
+        ValidateOutput(normalizedPatchedText, "normalized patched source");
+        return new SourcePair(normalizedOriginalText,
+            normalizedPatchedText, maps.MatchedLocals,
             maps.OriginalOnlyLocals, maps.PatchedOnlyLocals,
             initializerNormalizer.RestoredInitializers,
-            aliasNormalizer.RemovedAliases);
+            aliasNormalizer.RemovedAliases,
+            syntaxNormalizer.RestoredTemporaries,
+            syntaxNormalizer.RestoredCompoundAssignments,
+            syntaxNormalizer.RestoredSwitchOrders,
+            syntaxNormalizer.RestoredBaseOrders,
+            layoutNormalizer.RestoredCallables);
     }
 
     private static SyntaxNode Parse(string source)
@@ -71,6 +93,17 @@ internal static class SourceNoiseNormalizer
         return CSharpSyntaxTree.ParseText(source,
             CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp3))
             .GetRoot();
+    }
+
+    private static void ValidateOutput(string source, string description)
+    {
+        Diagnostic[] errors = CSharpSyntaxTree.ParseText(source,
+            CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp3))
+            .GetDiagnostics().Where(diagnostic =>
+                diagnostic.Severity == DiagnosticSeverity.Error).ToArray();
+        if (errors.Length != 0)
+            throw new InvalidDataException(description + " is not valid C#: " +
+                string.Join(" | ", errors.Take(5).Select(error => error.ToString())));
     }
 
     private static string FullDirectory(string path)
@@ -97,6 +130,26 @@ internal static class SourceNoiseNormalizer
                 StringComparer.OrdinalIgnoreCase);
     }
 
+    private static Dictionary<string, HashSet<CallableDescriptor>> ReadLayoutOnlyMethods(
+        string path)
+    {
+        Dictionary<string, HashSet<CallableDescriptor>> result =
+            new(StringComparer.OrdinalIgnoreCase);
+        foreach (string line in File.ReadLines(Path.GetFullPath(path)).Skip(1))
+        {
+            string[] values = line.Split('\t');
+            if (values.Length != 7 || values[6] != "layout-only")
+                continue;
+            if (!result.TryGetValue(values[0], out HashSet<CallableDescriptor>? methods))
+                result.Add(values[0], methods = new HashSet<CallableDescriptor>());
+            methods.Add(new CallableDescriptor(values[1], values[2],
+                int.Parse(values[3], CultureInfo.InvariantCulture),
+                int.Parse(values[4], CultureInfo.InvariantCulture),
+                int.Parse(values[5], CultureInfo.InvariantCulture)));
+        }
+        return result;
+    }
+
     private static void Write(string root, string relativePath, string text)
     {
         string path = Path.Combine(root, relativePath);
@@ -109,7 +162,359 @@ internal static class SourceNoiseNormalizer
 
     private readonly record struct SourcePair(string Original, string Patched,
         int MatchedLocals, int OriginalOnlyLocals, int PatchedOnlyLocals,
-        int RestoredInitializers, int RemovedCaptureAliases);
+        int RestoredInitializers, int RemovedCaptureAliases,
+        int RestoredTemporaries, int RestoredCompoundAssignments,
+        int RestoredSwitchOrders, int RestoredBaseOrders,
+        int RestoredLayoutOnlyCallables);
+}
+
+internal readonly record struct CallableDescriptor(string Type, string Name,
+    int ParameterCount, int GenericCount, int Ordinal);
+
+internal sealed class LayoutOnlyCallableNormalizer
+{
+    private readonly Dictionary<CallableDescriptor, SyntaxNode> originals;
+    private readonly HashSet<CallableDescriptor> layoutOnly;
+    public int RestoredCallables { get; private set; }
+
+    public LayoutOnlyCallableNormalizer(SyntaxNode originalRoot,
+        HashSet<CallableDescriptor> layoutOnly)
+    {
+        this.layoutOnly = layoutOnly;
+        originals = Describe(originalRoot).ToDictionary(value => value.Descriptor,
+            value => value.Node);
+    }
+
+    public SyntaxNode Normalize(SyntaxNode patchedRoot)
+    {
+        Dictionary<SyntaxNode, SyntaxNode> replacements = new();
+        foreach ((CallableDescriptor descriptor, SyntaxNode node) in Describe(patchedRoot))
+        {
+            if (!layoutOnly.Contains(descriptor) ||
+                !originals.TryGetValue(descriptor, out SyntaxNode? original))
+                continue;
+            SyntaxNode restored = RestoreBody(node, original);
+            if (ReferenceEquals(restored, node))
+                continue;
+            replacements[node] = restored;
+            RestoredCallables++;
+        }
+        return patchedRoot.ReplaceNodes(replacements.Keys,
+            (node, _) => replacements[node]);
+    }
+
+    private static SyntaxNode RestoreBody(SyntaxNode patched, SyntaxNode original) =>
+        (patched, original) switch
+        {
+            (MethodDeclarationSyntax after, MethodDeclarationSyntax before) => after
+                .WithBody(before.Body?.WithTriviaFrom(after.Body ?? before.Body!))
+                .WithExpressionBody(before.ExpressionBody)
+                .WithSemicolonToken(before.SemicolonToken),
+            (ConstructorDeclarationSyntax after, ConstructorDeclarationSyntax before) => after
+                .WithBody(before.Body?.WithTriviaFrom(after.Body ?? before.Body!))
+                .WithExpressionBody(before.ExpressionBody)
+                .WithSemicolonToken(before.SemicolonToken),
+            (DestructorDeclarationSyntax after, DestructorDeclarationSyntax before)
+                when before.Body != null && after.Body != null => after
+                    .WithBody(before.Body.WithTriviaFrom(after.Body)),
+            (AccessorDeclarationSyntax after, AccessorDeclarationSyntax before) => after
+                .WithBody(before.Body?.WithTriviaFrom(after.Body ?? before.Body!))
+                .WithExpressionBody(before.ExpressionBody)
+                .WithSemicolonToken(before.SemicolonToken),
+            _ => patched
+        };
+
+    private static IEnumerable<(CallableDescriptor Descriptor, SyntaxNode Node)> Describe(
+        SyntaxNode root)
+    {
+        Dictionary<(string Type, string Name, int Parameters, int Generic), int> ordinals = new();
+        foreach (SyntaxNode node in root.DescendantNodes().Where(IsRestorable))
+        {
+            string type = FullTypeName(node);
+            (string Name, int Parameters, int Generic) signature = Signature(node);
+            var key = (type, signature.Name, signature.Parameters, signature.Generic);
+            int ordinal = ordinals.GetValueOrDefault(key);
+            ordinals[key] = ordinal + 1;
+            yield return (new CallableDescriptor(type, signature.Name,
+                signature.Parameters, signature.Generic, ordinal), node);
+        }
+    }
+
+    private static bool IsRestorable(SyntaxNode node) =>
+        node is MethodDeclarationSyntax or ConstructorDeclarationSyntax or
+            DestructorDeclarationSyntax or AccessorDeclarationSyntax;
+
+    private static (string Name, int Parameters, int Generic) Signature(SyntaxNode node) =>
+        node switch
+        {
+            MethodDeclarationSyntax method => (method.Identifier.ValueText,
+                method.ParameterList.Parameters.Count,
+                method.TypeParameterList?.Parameters.Count ?? 0),
+            ConstructorDeclarationSyntax constructor =>
+                (constructor.Modifiers.Any(SyntaxKind.StaticKeyword) ? ".cctor" : ".ctor",
+                    constructor.ParameterList.Parameters.Count, 0),
+            DestructorDeclarationSyntax => ("Finalize", 0, 0),
+            AccessorDeclarationSyntax accessor => AccessorSignature(accessor),
+            _ => ("", 0, 0)
+        };
+
+    private static (string Name, int Parameters, int Generic) AccessorSignature(
+        AccessorDeclarationSyntax accessor)
+    {
+        SyntaxNode? member = accessor.Parent?.Parent;
+        string memberName = member switch
+        {
+            PropertyDeclarationSyntax property => property.Identifier.ValueText,
+            IndexerDeclarationSyntax => "Item",
+            EventDeclarationSyntax eventDeclaration => eventDeclaration.Identifier.ValueText,
+            _ => ""
+        };
+        int parameters = member is IndexerDeclarationSyntax indexer
+            ? indexer.ParameterList.Parameters.Count : 0;
+        if (accessor.IsKind(SyntaxKind.SetAccessorDeclaration) ||
+            accessor.IsKind(SyntaxKind.AddAccessorDeclaration) ||
+            accessor.IsKind(SyntaxKind.RemoveAccessorDeclaration))
+            parameters++;
+        string prefix = accessor.Kind() switch
+        {
+            SyntaxKind.GetAccessorDeclaration => "get_",
+            SyntaxKind.SetAccessorDeclaration => "set_",
+            SyntaxKind.AddAccessorDeclaration => "add_",
+            _ => "remove_"
+        };
+        return (prefix + memberName, parameters, 0);
+    }
+
+    private static string FullTypeName(SyntaxNode node)
+    {
+        TypeDeclarationSyntax[] types = node.Ancestors().OfType<TypeDeclarationSyntax>()
+            .Reverse().ToArray();
+        string ns = node.Ancestors().OfType<BaseNamespaceDeclarationSyntax>()
+            .FirstOrDefault()?.Name.ToString() ?? "";
+        string type = string.Join("/", types.Select(value => value.Identifier.ValueText +
+            (value.TypeParameterList == null ? "" : "`" + value.TypeParameterList.Parameters.Count)));
+        return ns.Length == 0 ? type : ns + "." + type;
+    }
+}
+
+internal sealed class PairSyntaxNoiseNormalizer
+{
+    private readonly SyntaxNode originalRoot;
+    public int RestoredTemporaries { get; private set; }
+    public int RestoredCompoundAssignments { get; private set; }
+    public int RestoredSwitchOrders { get; private set; }
+    public int RestoredBaseOrders { get; private set; }
+
+    public PairSyntaxNoiseNormalizer(SyntaxNode originalRoot)
+    {
+        this.originalRoot = originalRoot;
+    }
+
+    public SyntaxNode Normalize(SyntaxNode patchedRoot)
+    {
+        patchedRoot = RestoreBaseOrder(patchedRoot);
+        Dictionary<string, List<SyntaxNode>> originals = PairMaps.IndexCallables(originalRoot);
+        Dictionary<string, List<SyntaxNode>> patched = PairMaps.IndexCallables(patchedRoot);
+        List<(SyntaxNode Old, SyntaxNode New)> replacements = new();
+        foreach (string key in originals.Keys.Intersect(patched.Keys, StringComparer.Ordinal))
+        {
+            int count = Math.Min(originals[key].Count, patched[key].Count);
+            for (int index = 0; index < count; index++)
+            {
+                SyntaxNode before = originals[key][index];
+                SyntaxNode after = patched[key][index];
+                CallableNoiseRewriter rewriter = new(before);
+                SyntaxNode changed = rewriter.Visit(after)!;
+                RestoredTemporaries += rewriter.RestoredTemporaries;
+                RestoredCompoundAssignments += rewriter.RestoredCompoundAssignments;
+                RestoredSwitchOrders += rewriter.RestoredSwitchOrders;
+                if (!ReferenceEquals(changed, after))
+                    replacements.Add((after, changed));
+            }
+        }
+        Dictionary<SyntaxNode, SyntaxNode> map = replacements.ToDictionary(
+            value => value.Old, value => value.New);
+        return patchedRoot.ReplaceNodes(map.Keys, (node, _) => map[node]);
+    }
+
+    private SyntaxNode RestoreBaseOrder(SyntaxNode patchedRoot)
+    {
+        Dictionary<string, TypeDeclarationSyntax> originals = originalRoot.DescendantNodes()
+            .OfType<TypeDeclarationSyntax>().ToDictionary(TypeKey, StringComparer.Ordinal);
+        TypeDeclarationSyntax[] candidates = patchedRoot.DescendantNodes()
+            .OfType<TypeDeclarationSyntax>().Where(type => type.BaseList != null &&
+                originals.TryGetValue(TypeKey(type), out TypeDeclarationSyntax? before) &&
+                before.BaseList != null && SameBaseSet(before.BaseList, type.BaseList) &&
+                !before.BaseList.Types.Select(BaseKey).SequenceEqual(
+                    type.BaseList.Types.Select(BaseKey), StringComparer.Ordinal)).ToArray();
+        RestoredBaseOrders = candidates.Length;
+        return patchedRoot.ReplaceNodes(candidates, (type, _) =>
+            type.WithBaseList(originals[TypeKey(type)].BaseList!.WithTriviaFrom(type.BaseList!)));
+    }
+
+    private static bool SameBaseSet(BaseListSyntax left, BaseListSyntax right) =>
+        left.Types.Select(BaseKey).OrderBy(value => value, StringComparer.Ordinal)
+            .SequenceEqual(right.Types.Select(BaseKey).OrderBy(value => value,
+                StringComparer.Ordinal), StringComparer.Ordinal);
+    private static string BaseKey(BaseTypeSyntax type) => Canonical(type.Type);
+    private static string TypeKey(TypeDeclarationSyntax type)
+    {
+        string ns = type.Ancestors().OfType<BaseNamespaceDeclarationSyntax>()
+            .FirstOrDefault()?.Name.ToString() ?? "";
+        string owners = string.Join("/", type.Ancestors().OfType<TypeDeclarationSyntax>()
+            .Reverse().Select(owner => owner.Identifier.ValueText));
+        return ns + "|" + owners + "|" + type.Identifier.ValueText;
+    }
+
+    internal static string Canonical(SyntaxNode node)
+    {
+        StringBuilder value = new();
+        foreach (SyntaxToken token in node.DescendantTokens())
+            value.Append(token.ValueText).Append('|');
+        return value.ToString();
+    }
+
+    private sealed class CallableNoiseRewriter : CSharpSyntaxRewriter
+    {
+        private readonly Dictionary<string, AssignmentExpressionSyntax> compounds;
+        private readonly List<TemporaryPattern> temporaries;
+        private readonly List<SwitchStatementSyntax> switches;
+        private int switchIndex;
+        public int RestoredTemporaries { get; private set; }
+        public int RestoredCompoundAssignments { get; private set; }
+        public int RestoredSwitchOrders { get; private set; }
+
+        public CallableNoiseRewriter(SyntaxNode original)
+        {
+            compounds = original.DescendantNodes().OfType<AssignmentExpressionSyntax>()
+                .Where(IsCompound).GroupBy(ExpandedCompoundKey)
+                .Where(group => group.Count() == 1)
+                .ToDictionary(group => group.Key, group => group.Single(), StringComparer.Ordinal);
+            temporaries = FindTemporaryPatterns(original);
+            switches = original.DescendantNodes().OfType<SwitchStatementSyntax>().ToList();
+        }
+
+        public override SyntaxNode? VisitAssignmentExpression(AssignmentExpressionSyntax node)
+        {
+            AssignmentExpressionSyntax visited =
+                (AssignmentExpressionSyntax)base.VisitAssignmentExpression(node)!;
+            if (!visited.IsKind(SyntaxKind.SimpleAssignmentExpression) ||
+                !compounds.TryGetValue(Canonical(visited), out AssignmentExpressionSyntax? original))
+                return visited;
+            RestoredCompoundAssignments++;
+            return original.WithTriviaFrom(visited);
+        }
+
+        public override SyntaxNode? VisitBlock(BlockSyntax node)
+        {
+            BlockSyntax visited = (BlockSyntax)base.VisitBlock(node)!;
+            List<StatementSyntax> statements = visited.Statements.ToList();
+            for (int index = 0; index < statements.Count; index++)
+            {
+                string key = Canonical(statements[index]);
+                TemporaryPattern[] matches = temporaries.Where(pattern =>
+                    pattern.InlinedKey == key).ToArray();
+                if (matches.Length != 1)
+                    continue;
+                TemporaryPattern match = matches[0];
+                SyntaxTriviaList leading = statements[index].GetLeadingTrivia();
+                statements.RemoveAt(index);
+                statements.Insert(index, match.Use.WithLeadingTrivia(leading));
+                statements.Insert(index, match.Declaration.WithLeadingTrivia(leading));
+                RestoredTemporaries++;
+                index++;
+            }
+            return visited.WithStatements(SyntaxFactory.List(statements));
+        }
+
+        public override SyntaxNode? VisitSwitchStatement(SwitchStatementSyntax node)
+        {
+            SwitchStatementSyntax visited =
+                (SwitchStatementSyntax)base.VisitSwitchStatement(node)!;
+            if (switchIndex >= switches.Count)
+                return visited;
+            SwitchStatementSyntax original = switches[switchIndex++];
+            Dictionary<string, SwitchSectionSyntax> sections = visited.Sections
+                .GroupBy(SectionKey).Where(group => group.Count() == 1)
+                .ToDictionary(group => group.Key, group => group.Single(), StringComparer.Ordinal);
+            string[] order = original.Sections.Select(SectionKey).ToArray();
+            if (order.Length != visited.Sections.Count || order.Distinct().Count() != order.Length ||
+                order.Any(key => !sections.ContainsKey(key)))
+                return visited;
+            if (order.SequenceEqual(visited.Sections.Select(SectionKey), StringComparer.Ordinal))
+                return visited;
+            RestoredSwitchOrders++;
+            return visited.WithSections(SyntaxFactory.List(order.Select(key => sections[key])));
+        }
+
+        private static string SectionKey(SwitchSectionSyntax section) => string.Join(",",
+            section.Labels.Select(Canonical));
+        private static bool IsCompound(AssignmentExpressionSyntax expression) =>
+            expression.Kind() is SyntaxKind.AddAssignmentExpression or
+                SyntaxKind.SubtractAssignmentExpression or SyntaxKind.MultiplyAssignmentExpression or
+                SyntaxKind.DivideAssignmentExpression or SyntaxKind.ModuloAssignmentExpression or
+                SyntaxKind.AndAssignmentExpression or SyntaxKind.ExclusiveOrAssignmentExpression or
+                SyntaxKind.OrAssignmentExpression or SyntaxKind.LeftShiftAssignmentExpression or
+                SyntaxKind.RightShiftAssignmentExpression;
+        private static string ExpandedCompoundKey(AssignmentExpressionSyntax expression)
+        {
+            SyntaxKind binaryKind = expression.Kind() switch
+            {
+                SyntaxKind.AddAssignmentExpression => SyntaxKind.AddExpression,
+                SyntaxKind.SubtractAssignmentExpression => SyntaxKind.SubtractExpression,
+                SyntaxKind.MultiplyAssignmentExpression => SyntaxKind.MultiplyExpression,
+                SyntaxKind.DivideAssignmentExpression => SyntaxKind.DivideExpression,
+                SyntaxKind.ModuloAssignmentExpression => SyntaxKind.ModuloExpression,
+                SyntaxKind.AndAssignmentExpression => SyntaxKind.BitwiseAndExpression,
+                SyntaxKind.ExclusiveOrAssignmentExpression => SyntaxKind.ExclusiveOrExpression,
+                SyntaxKind.OrAssignmentExpression => SyntaxKind.BitwiseOrExpression,
+                SyntaxKind.LeftShiftAssignmentExpression => SyntaxKind.LeftShiftExpression,
+                _ => SyntaxKind.RightShiftExpression
+            };
+            return Canonical(SyntaxFactory.AssignmentExpression(
+                SyntaxKind.SimpleAssignmentExpression, expression.Left,
+                SyntaxFactory.BinaryExpression(binaryKind, expression.Left, expression.Right)));
+        }
+
+        private static List<TemporaryPattern> FindTemporaryPatterns(SyntaxNode original)
+        {
+            List<TemporaryPattern> result = new();
+            foreach (BlockSyntax block in original.DescendantNodesAndSelf().OfType<BlockSyntax>())
+            {
+                for (int index = 0; index + 1 < block.Statements.Count; index++)
+                {
+                    if (block.Statements[index] is not LocalDeclarationStatementSyntax declaration ||
+                        declaration.Declaration.Variables.Count != 1)
+                        continue;
+                    VariableDeclaratorSyntax variable = declaration.Declaration.Variables[0];
+                    if (variable.Initializer == null)
+                        continue;
+                    IdentifierNameSyntax[] uses = block.Statements[index + 1].DescendantNodes()
+                        .OfType<IdentifierNameSyntax>().Where(identifier =>
+                            identifier.Identifier.ValueText == variable.Identifier.ValueText).ToArray();
+                    int laterUses = block.Statements.Skip(index + 2).SelectMany(statement =>
+                        statement.DescendantNodes().OfType<IdentifierNameSyntax>()).Count(identifier =>
+                            identifier.Identifier.ValueText == variable.Identifier.ValueText);
+                    if (uses.Length != 1 || laterUses != 0)
+                        continue;
+                    StatementSyntax inlined = block.Statements[index + 1].ReplaceNode(uses[0],
+                        ParenthesizeIfNeeded(variable.Initializer.Value, uses[0]));
+                    result.Add(new TemporaryPattern(declaration, block.Statements[index + 1],
+                        Canonical(inlined)));
+                }
+            }
+            return result;
+        }
+
+        private static ExpressionSyntax ParenthesizeIfNeeded(ExpressionSyntax expression,
+            IdentifierNameSyntax use) => use.Parent is MemberAccessExpressionSyntax &&
+                expression is CastExpressionSyntax
+                ? SyntaxFactory.ParenthesizedExpression(expression.WithoutTrivia())
+                : expression.WithoutTrivia();
+    }
+
+    private sealed record TemporaryPattern(LocalDeclarationStatementSyntax Declaration,
+        StatementSyntax Use, string InlinedKey);
 }
 
 internal sealed class CaptureAliasNormalizer : CSharpSyntaxRewriter
@@ -358,7 +763,7 @@ internal sealed class PairMaps
             candidate is BlockSyntax or SwitchSectionSyntax or BaseMethodDeclarationSyntax or
                 AccessorDeclarationSyntax or AnonymousFunctionExpressionSyntax) ?? node;
 
-    private static Dictionary<string, List<SyntaxNode>> IndexCallables(SyntaxNode root)
+    internal static Dictionary<string, List<SyntaxNode>> IndexCallables(SyntaxNode root)
     {
         Dictionary<string, List<SyntaxNode>> result = new(StringComparer.Ordinal);
         foreach (SyntaxNode node in root.DescendantNodes().Where(IsCallable))

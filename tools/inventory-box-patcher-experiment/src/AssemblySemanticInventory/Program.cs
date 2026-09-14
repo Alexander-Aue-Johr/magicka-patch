@@ -2,9 +2,9 @@ using System.Text;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 
-if (args.Length != 3)
+if (args.Length is < 3 or > 4)
 {
-    Console.Error.WriteLine("usage: AssemblySemanticInventory <original> <patched> <output.csv>");
+    Console.Error.WriteLine("usage: AssemblySemanticInventory <original> <patched> <output.csv> [methods.tsv]");
     return 2;
 }
 
@@ -13,6 +13,7 @@ using AssemblyDefinition patched = AssemblyDefinition.ReadAssembly(Path.GetFullP
 Dictionary<string, TypeDefinition> oldTypes = Types(original.MainModule)
     .ToDictionary(TypeKey, StringComparer.Ordinal);
 List<Row> rows = new();
+List<MethodRow> methodRows = new();
 string[] oldAttributes = original.CustomAttributes.Select(AttributeKey)
     .OrderBy(value => value, StringComparer.Ordinal).ToArray();
 string[] newAttributes = patched.CustomAttributes.Select(AttributeKey)
@@ -36,18 +37,43 @@ foreach (TypeDefinition type in Types(patched.MainModule).Where(t => t.Name != "
             addedMethods++;
             continue;
         }
+        string status;
         if (ExactBodyKey(oldMethod) == ExactBodyKey(method))
+        {
             unchanged++;
+            status = "exact";
+        }
         else if (CanonicalBodyKey(oldMethod) == CanonicalBodyKey(method))
+        {
             layoutOnly++;
+            status = "layout-only";
+        }
         else
+        {
             changed++;
+            status = "changed";
+        }
+        methodRows.Add(new MethodRow(SourcePath(type), TypeKey(type),
+            SourceMethodName(method), method.Parameters.Count,
+            method.GenericParameters.Count, SourceMethodOrdinal(type, method), status));
     }
     HashSet<string> oldFields = oldType.Fields.Select(FieldKey).ToHashSet(StringComparer.Ordinal);
     addedFields = type.Fields.Count(field => !oldFields.Contains(FieldKey(field)));
     if (changed + layoutOnly + addedMethods + addedFields > 0)
         rows.Add(new Row(SourcePath(type), TypeKey(type), changed, layoutOnly,
             unchanged, addedMethods, addedFields, 0));
+}
+if (args.Length == 4)
+{
+    string methodsPath = Path.GetFullPath(args[3]);
+    Directory.CreateDirectory(Path.GetDirectoryName(methodsPath)!);
+    using StreamWriter methods = new(methodsPath, false, new UTF8Encoding(false));
+    methods.WriteLine("File\tType\tName\tParameterCount\tGenericCount\tOrdinal\tStatus");
+    foreach (MethodRow row in methodRows.OrderBy(row => row.File)
+        .ThenBy(row => row.Type).ThenBy(row => row.Name)
+        .ThenBy(row => row.ParameterCount).ThenBy(row => row.Ordinal))
+        methods.WriteLine(string.Join('\t', row.File, row.Type, row.Name,
+            row.ParameterCount, row.GenericCount, row.Ordinal, row.Status));
 }
 
 Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(args[2]))!);
@@ -70,6 +96,12 @@ static string TypeKey(TypeReference type) => type.FullName;
 static string MethodKey(MethodReference method) => method.Name + "`" + method.GenericParameters.Count +
     "(" + string.Join(",", method.Parameters.Select(p => p.ParameterType.FullName)) + "):" + method.ReturnType.FullName;
 static string FieldKey(FieldReference field) => field.Name + ":" + field.FieldType.FullName;
+static string SourceMethodName(MethodDefinition method) => method.Name;
+static int SourceMethodOrdinal(TypeDefinition type, MethodDefinition method) =>
+    type.Methods.Where(candidate => SourceMethodName(candidate) == SourceMethodName(method) &&
+        candidate.Parameters.Count == method.Parameters.Count &&
+        candidate.GenericParameters.Count == method.GenericParameters.Count)
+    .TakeWhile(candidate => candidate != method).Count();
 static string AttributeKey(CustomAttribute attribute) => attribute.AttributeType.FullName +
     "(" + string.Join(",", attribute.ConstructorArguments.Select(argument =>
         argument.Type.FullName + "=" + argument.Value)) + ")" +
@@ -122,3 +154,5 @@ static string BodyKey(MethodDefinition method, bool canonical)
 static string Csv(string value) => '"' + value.Replace("\"", "\"\"") + '"';
 internal readonly record struct Row(string File, string Type, int Changed, int LayoutOnly,
     int Unchanged, int AddedMethods, int AddedFields, int MetadataChanges);
+internal readonly record struct MethodRow(string File, string Type, string Name,
+    int ParameterCount, int GenericCount, int Ordinal, string Status);
