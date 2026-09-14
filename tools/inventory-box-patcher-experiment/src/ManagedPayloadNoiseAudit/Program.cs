@@ -160,8 +160,11 @@ internal static class ManagedPayloadNoiseAudit
             "playstate-singleton");
         string gcRetentionFeatureRoot = Path.Combine(root, "feature-diffs",
             "gc-retention");
+        string cacheCleanupFeatureRoot = Path.Combine(root, "feature-diffs",
+            "cache-and-level-reference-cleanup");
         List<string> playStateFeatureFiles = new();
         List<string> gcRetentionFeatureFiles = new();
+        List<string> cacheCleanupFeatureFiles = new();
         List<AuditRow> rows = new();
         foreach (string relative in modified)
         {
@@ -194,6 +197,18 @@ internal static class ManagedPayloadNoiseAudit
                 File.Move(reviewDiff, featureDiff);
                 gcRetentionFeatureFiles.Add(relative);
             }
+            bool cacheCleanupOnly = !normalizedIdentical &&
+                !playStateSingletonOnly && !gcRetentionOnly &&
+                IsExclusiveCacheAndLevelReferenceCleanup(normalizedOriginal,
+                    normalizedPatched);
+            if (cacheCleanupOnly)
+            {
+                string featureDiff = Path.Combine(cacheCleanupFeatureRoot,
+                    relative + ".diff");
+                Directory.CreateDirectory(Path.GetDirectoryName(featureDiff)!);
+                File.Move(reviewDiff, featureDiff);
+                cacheCleanupFeatureFiles.Add(relative);
+            }
             int rawLines = ChangedLines(originals[relative], patched[relative]);
             int normalizedLines = ChangedReviewLines(normalizedOriginal,
                 normalizedPatched);
@@ -210,7 +225,8 @@ internal static class ManagedPayloadNoiseAudit
                 fixes.RemovedCaptureAliases, fixes.RestoredTemporaries,
                 fixes.RestoredCompoundAssignments, fixes.RestoredSwitchOrders,
                 fixes.RestoredBaseOrders, fixes.RestoredLayoutOnlyCallables,
-                playStateSingletonOnly, gcRetentionOnly, normalizedIdentical));
+                playStateSingletonOnly, gcRetentionOnly, cacheCleanupOnly,
+                normalizedIdentical));
         }
         Directory.CreateDirectory(playStateFeatureRoot);
         File.WriteAllLines(Path.Combine(playStateFeatureRoot, "files.txt"),
@@ -220,6 +236,10 @@ internal static class ManagedPayloadNoiseAudit
         File.WriteAllLines(Path.Combine(gcRetentionFeatureRoot, "files.txt"),
             gcRetentionFeatureFiles.OrderBy(value => value,
                 StringComparer.OrdinalIgnoreCase), new UTF8Encoding(false));
+        Directory.CreateDirectory(cacheCleanupFeatureRoot);
+        File.WriteAllLines(Path.Combine(cacheCleanupFeatureRoot, "files.txt"),
+            cacheCleanupFeatureFiles.OrderBy(value => value,
+                StringComparer.OrdinalIgnoreCase), new UTF8Encoding(false));
         WriteAuditCsv(Path.Combine(root, "noise-audit.csv"), rows);
         File.WriteAllLines(Path.Combine(analysis, "analysis-summary.txt"), new[]
         {
@@ -228,7 +248,9 @@ internal static class ManagedPayloadNoiseAudit
             "added_files_excluded=" + added.Length,
             "removed_files=" + removed.Length,
             "playstate_singleton_only_diffs=" + playStateFeatureFiles.Count,
-            "gc_retention_only_diffs=" + gcRetentionFeatureFiles.Count
+            "gc_retention_only_diffs=" + gcRetentionFeatureFiles.Count,
+            "cache_and_level_reference_cleanup_only_diffs=" +
+                cacheCleanupFeatureFiles.Count
         }, new UTF8Encoding(false));
         return rows;
     }
@@ -254,6 +276,40 @@ internal static class ManagedPayloadNoiseAudit
         SyntaxNode patched = CSharpSyntaxTree.ParseText(File.ReadAllText(patchedPath),
             CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp3)).GetRoot();
         return original.WithoutTrivia().IsEquivalentTo(patched.WithoutTrivia());
+    }
+
+    private static bool IsExclusiveCacheAndLevelReferenceCleanup(
+        string originalPath, string patchedPath)
+    {
+        SyntaxNode original = CSharpSyntaxTree.ParseText(File.ReadAllText(originalPath),
+            CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp3)).GetRoot();
+        SyntaxNode patched = CSharpSyntaxTree.ParseText(File.ReadAllText(patchedPath),
+            CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp3)).GetRoot();
+        HashSet<string> originalUsings = original.DescendantNodes()
+            .OfType<UsingDirectiveSyntax>().Select(UsingKey)
+            .ToHashSet(StringComparer.Ordinal);
+        HashSet<string> originalMethods = original.DescendantNodes()
+            .OfType<MethodDeclarationSyntax>().Select(MethodKey)
+            .ToHashSet(StringComparer.Ordinal);
+        CacheAndLevelReferenceCleanupRewriter rewriter = new(originalUsings,
+            originalMethods);
+        SyntaxNode stripped = rewriter.Visit(patched)!;
+        return rewriter.RemovedCleanupMethod && original.WithoutTrivia()
+            .IsEquivalentTo(stripped.WithoutTrivia());
+    }
+
+    private static string UsingKey(UsingDirectiveSyntax directive) =>
+        directive.WithoutTrivia().ToFullString();
+
+    private static string MethodKey(MethodDeclarationSyntax method)
+    {
+        string owner = string.Join("/", method.Ancestors()
+            .OfType<TypeDeclarationSyntax>().Reverse()
+            .Select(type => type.Identifier.ValueText));
+        return owner + "|" + method.Identifier.ValueText + "|" +
+            method.TypeParameterList?.Parameters.Count + "|" +
+            string.Join(",", method.ParameterList.Parameters.Select(parameter =>
+                parameter.Type?.WithoutTrivia().ToFullString() ?? ""));
     }
 
     private static bool IsExclusivePlayStateSingletonDiff(string path)
@@ -464,7 +520,9 @@ internal static class ManagedPayloadNoiseAudit
                 row.RestoredSwitchOrders, row.RestoredBaseOrders,
                 row.RestoredLayoutOnlyCallables,
                 Csv(row.PlayStateSingletonOnly ? "playstate-singleton" :
-                    row.GcRetentionOnly ? "gc-retention" : "")));
+                    row.GcRetentionOnly ? "gc-retention" :
+                    row.CacheCleanupOnly ?
+                        "cache-and-level-reference-cleanup" : "")));
     }
 
     private static void WriteChecklist(IEnumerable<AuditRow> allRows)
@@ -501,7 +559,9 @@ internal static class ManagedPayloadNoiseAudit
                     ", layout-only callables " + row.RestoredLayoutOnlyCallables +
                     (row.PlayStateSingletonOnly
                         ? "; feature `playstate-singleton`" :
-                        row.GcRetentionOnly ? "; feature `gc-retention`" :
+                    row.GcRetentionOnly ? "; feature `gc-retention`" :
+                    row.CacheCleanupOnly ?
+                        "; feature `cache-and-level-reference-cleanup`" :
                         row.NormalizedIdentical ?
                             "; all differences normalized as noise" : ""));
             }
@@ -608,6 +668,7 @@ internal static class ManagedPayloadNoiseAudit
         int RestoredCompoundAssignments, int RestoredSwitchOrders,
         int RestoredBaseOrders, int RestoredLayoutOnlyCallables,
         bool PlayStateSingletonOnly, bool GcRetentionOnly,
+        bool CacheCleanupOnly,
         bool NormalizedIdentical);
     private readonly record struct InventoryTotals(int Changed, int LayoutOnly,
         int AddedMethods, int AddedFields, int MetadataChanges);
@@ -646,5 +707,67 @@ internal sealed class GcRetentionRemovalRewriter : CSharpSyntaxRewriter
                 : SyntaxFactory.EmptyStatement().WithTriviaFrom(node);
         }
         return base.VisitExpressionStatement(node);
+    }
+}
+
+internal sealed class CacheAndLevelReferenceCleanupRewriter : CSharpSyntaxRewriter
+{
+    private static readonly HashSet<string> CleanupMethodNames = new(
+        StringComparer.Ordinal)
+    {
+        "Clear", "ClearCache", "ClearInstances", "DisposeCache",
+        "DisposeCaches", "DisposePickableCache", "ReleaseLevelReferences",
+        "ResetForLevelUnload"
+    };
+
+    private readonly HashSet<string> originalUsings;
+    private readonly HashSet<string> originalMethods;
+    public bool RemovedCleanupMethod { get; private set; }
+
+    public CacheAndLevelReferenceCleanupRewriter(
+        HashSet<string> originalUsings, HashSet<string> originalMethods)
+    {
+        this.originalUsings = originalUsings;
+        this.originalMethods = originalMethods;
+    }
+
+    public override SyntaxNode? VisitUsingDirective(UsingDirectiveSyntax node)
+    {
+        if (!originalUsings.Contains(node.WithoutTrivia().ToFullString()))
+            return null;
+        return base.VisitUsingDirective(node);
+    }
+
+    public override SyntaxNode? VisitMethodDeclaration(MethodDeclarationSyntax node)
+    {
+        if (CleanupMethodNames.Contains(node.Identifier.ValueText) &&
+            !originalMethods.Contains(MethodKey(node)))
+        {
+            RemovedCleanupMethod = true;
+            return null;
+        }
+        return base.VisitMethodDeclaration(node);
+    }
+
+    public override SyntaxNode? VisitExpressionStatement(ExpressionStatementSyntax node)
+    {
+        if (node.Expression is InvocationExpressionSyntax invocation &&
+            invocation.Expression is MemberAccessExpressionSyntax member &&
+            member.Expression.ToString() == "RetentionRegistry")
+            return node.Parent is BlockSyntax or SwitchSectionSyntax
+                ? null
+                : SyntaxFactory.EmptyStatement().WithTriviaFrom(node);
+        return base.VisitExpressionStatement(node);
+    }
+
+    private static string MethodKey(MethodDeclarationSyntax method)
+    {
+        string owner = string.Join("/", method.Ancestors()
+            .OfType<TypeDeclarationSyntax>().Reverse()
+            .Select(type => type.Identifier.ValueText));
+        return owner + "|" + method.Identifier.ValueText + "|" +
+            method.TypeParameterList?.Parameters.Count + "|" +
+            string.Join(",", method.ParameterList.Parameters.Select(parameter =>
+                parameter.Type?.WithoutTrivia().ToFullString() ?? ""));
     }
 }
