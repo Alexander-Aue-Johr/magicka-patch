@@ -63,6 +63,8 @@ internal static class SourceNoiseNormalizer
     {
         SyntaxNode originalRoot = Parse(original);
         SyntaxNode patchedRoot = Parse(patched);
+        HashSet<DiagnosticKey> acceptedDiagnostics = Diagnostics(originalRoot)
+            .Concat(Diagnostics(patchedRoot)).ToHashSet();
         if (diagnosticsMode == GcDiagnosticsMode.Only)
         {
             (string emptyProjection, string diagnosticsProjection) =
@@ -90,8 +92,10 @@ internal static class SourceNoiseNormalizer
         normalizedPatched = initializerNormalizer.Visit(normalizedPatched)!;
         string normalizedOriginalText = normalizedOriginal.ToFullString();
         string normalizedPatchedText = normalizedPatched.ToFullString();
-        ValidateOutput(normalizedOriginalText, "normalized original source");
-        ValidateOutput(normalizedPatchedText, "normalized patched source");
+        ValidateOutput(normalizedOriginalText, "normalized original source",
+            acceptedDiagnostics);
+        ValidateOutput(normalizedPatchedText, "normalized patched source",
+            acceptedDiagnostics);
         return new SourcePair(normalizedOriginalText,
             normalizedPatchedText, maps.MatchedLocals,
             maps.OriginalOnlyLocals, maps.PatchedOnlyLocals,
@@ -111,16 +115,26 @@ internal static class SourceNoiseNormalizer
             .GetRoot();
     }
 
-    private static void ValidateOutput(string source, string description)
+    private static IEnumerable<DiagnosticKey> Diagnostics(SyntaxNode root) =>
+        root.SyntaxTree.GetDiagnostics().Where(diagnostic =>
+            diagnostic.Severity == DiagnosticSeverity.Error).Select(diagnostic =>
+                new DiagnosticKey(diagnostic.Id, diagnostic.GetMessage()));
+
+    private static void ValidateOutput(string source, string description,
+        HashSet<DiagnosticKey>? acceptedDiagnostics = null)
     {
         Diagnostic[] errors = CSharpSyntaxTree.ParseText(source,
             CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.CSharp3))
             .GetDiagnostics().Where(diagnostic =>
-                diagnostic.Severity == DiagnosticSeverity.Error).ToArray();
+                diagnostic.Severity == DiagnosticSeverity.Error &&
+                (acceptedDiagnostics == null || !acceptedDiagnostics.Contains(
+                    new DiagnosticKey(diagnostic.Id, diagnostic.GetMessage())))).ToArray();
         if (errors.Length != 0)
             throw new InvalidDataException(description + " is not valid C#: " +
                 string.Join(" | ", errors.Take(5).Select(error => error.ToString())));
     }
+
+    private readonly record struct DiagnosticKey(string Id, string Message);
 
     private static string FullDirectory(string path)
     {
@@ -154,7 +168,8 @@ internal static class SourceNoiseNormalizer
         foreach (string line in File.ReadLines(Path.GetFullPath(path)).Skip(1))
         {
             string[] values = line.Split('\t');
-            if (values.Length != 7 || values[6] != "layout-only")
+            if (values.Length != 7 ||
+                values[6] is not ("exact" or "layout-only"))
                 continue;
             if (!result.TryGetValue(values[0], out HashSet<CallableDescriptor>? methods))
                 result.Add(values[0], methods = new HashSet<CallableDescriptor>());
@@ -412,7 +427,9 @@ internal sealed class PairSyntaxNoiseNormalizer
     private SyntaxNode RestoreBaseOrder(SyntaxNode patchedRoot)
     {
         Dictionary<string, TypeDeclarationSyntax> originals = originalRoot.DescendantNodes()
-            .OfType<TypeDeclarationSyntax>().ToDictionary(TypeKey, StringComparer.Ordinal);
+            .OfType<TypeDeclarationSyntax>().GroupBy(TypeKey, StringComparer.Ordinal)
+            .Where(group => group.Count() == 1).ToDictionary(group => group.Key,
+                group => group.Single(), StringComparer.Ordinal);
         TypeDeclarationSyntax[] candidates = patchedRoot.DescendantNodes()
             .OfType<TypeDeclarationSyntax>().Where(type => type.BaseList != null &&
                 originals.TryGetValue(TypeKey(type), out TypeDeclarationSyntax? before) &&
@@ -1030,7 +1047,9 @@ internal sealed class StaticInitializerNormalizer : CSharpSyntaxRewriter
     {
         originalTypes = originalRoot.DescendantNodes()
             .OfType<TypeDeclarationSyntax>()
-            .ToDictionary(TypeKey, StringComparer.Ordinal);
+            .GroupBy(TypeKey, StringComparer.Ordinal)
+            .Where(group => group.Count() == 1).ToDictionary(group => group.Key,
+                group => group.Single(), StringComparer.Ordinal);
     }
 
     public override SyntaxNode? VisitClassDeclaration(ClassDeclarationSyntax node) =>

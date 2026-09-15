@@ -680,7 +680,8 @@ internal static class ManagedPayloadNoiseAudit
         DirectoryInfo? directory = new(start);
         while (directory != null)
         {
-            if (Directory.Exists(Path.Combine(directory.FullName, ".git")))
+            string gitEntry = Path.Combine(directory.FullName, ".git");
+            if (Directory.Exists(gitEntry) || File.Exists(gitEntry))
                 return directory.FullName;
             directory = directory.Parent;
         }
