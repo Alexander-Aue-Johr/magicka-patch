@@ -32,11 +32,306 @@ static void ApplyFeatureChanges(ModuleDefinition module, bool retainSceneContent
 {
     RemoveGameSparksLifecycleInterop(module);
     RestoreLegacyPlayStateFinalization(module);
+    ReplaceStoredPlayStateReferencesWithRecentPlayState(module);
     if (retainSceneContent)
         RetainPreviousSceneContentDuringSceneChanges(module);
     if (probeHighGcHeap)
         AddHighGcHeapCapabilityProbe(module);
 }
+
+static void ReplaceStoredPlayStateReferencesWithRecentPlayState(
+    ModuleDefinition module)
+{
+    TypeDefinition playState = RequireType(module,
+        "Magicka.GameLogic.GameStates.PlayState");
+    MethodDefinition recentPlayState = playState.Methods.Single(method =>
+        method.Name == "get_RecentPlayState" && method.IsStatic &&
+        method.Parameters.Count == 0);
+
+    foreach (string fieldName in MigratedPlayStateFields())
+    {
+        int separator = fieldName.LastIndexOf("::", StringComparison.Ordinal);
+        TypeDefinition type = RequireType(module, fieldName[..separator]);
+        string name = fieldName[(separator + 2)..];
+        FieldDefinition field = type.Fields.Single(candidate =>
+            candidate.Name == name && candidate.FieldType.FullName ==
+                playState.FullName);
+        ReplacePlayStateFieldReferences(module, field, recentPlayState,
+            replaceWrites: true, methodFilter: null);
+        type.Fields.Remove(field);
+    }
+
+    foreach (string fieldName in RetainedPlayStateFieldsWithAllUsesMigrated())
+    {
+        FieldDefinition field = RequirePlayStateField(module, playState, fieldName);
+        ReplacePlayStateFieldReferences(module, field, recentPlayState,
+            replaceWrites: true, methodFilter: null);
+    }
+
+    foreach (string fieldName in RetainedPlayStateFieldsWithReadsMigrated())
+    {
+        FieldDefinition field = RequirePlayStateField(module, playState, fieldName);
+        ReplacePlayStateFieldReferences(module, field, recentPlayState,
+            replaceWrites: false, methodFilter: null);
+    }
+
+    FieldDefinition entityPlayState = RequirePlayStateField(module, playState,
+        "Magicka.GameLogic.Entities.Entity::mPlayState");
+    HashSet<string> entityMethods = new(EntityPlayStateMethodsMigrated(),
+        StringComparer.Ordinal);
+    ReplacePlayStateFieldReferences(module, entityPlayState, recentPlayState,
+        replaceWrites: true, methodFilter: method =>
+            entityMethods.Contains(method.FullName));
+}
+
+static FieldDefinition RequirePlayStateField(ModuleDefinition module,
+    TypeDefinition playState, string fieldName)
+{
+    int separator = fieldName.LastIndexOf("::", StringComparison.Ordinal);
+    TypeDefinition type = RequireType(module, fieldName[..separator]);
+    string name = fieldName[(separator + 2)..];
+    return type.Fields.Single(candidate => candidate.Name == name &&
+        candidate.FieldType.FullName == playState.FullName);
+}
+
+static void ReplacePlayStateFieldReferences(ModuleDefinition module,
+    FieldDefinition field, MethodDefinition recentPlayState, bool replaceWrites,
+    Func<MethodDefinition, bool>? methodFilter)
+{
+    int reads = 0;
+    int writes = 0;
+    foreach (TypeDefinition type in AllTypes(module.Types))
+    {
+        foreach (MethodDefinition method in type.Methods.Where(candidate =>
+            candidate.HasBody))
+        {
+            if (methodFilter != null && !methodFilter(method))
+                continue;
+            IList<Instruction> instructions = method.Body.Instructions;
+            for (int index = 0; index < instructions.Count; index++)
+            {
+                Instruction instruction = instructions[index];
+                if (instruction.Operand is not FieldReference reference ||
+                    reference.FullName != field.FullName)
+                    continue;
+
+                if (instruction.OpCode.Code == Code.Ldfld)
+                {
+                    RemoveConsumedValues(method, index, 1);
+                    instruction.OpCode = OpCodes.Call;
+                    instruction.Operand = recentPlayState;
+                    reads++;
+                    continue;
+                }
+                if (instruction.OpCode.Code == Code.Ldsfld)
+                {
+                    instruction.OpCode = OpCodes.Call;
+                    instruction.Operand = recentPlayState;
+                    reads++;
+                    continue;
+                }
+                if (instruction.OpCode.Code == Code.Stfld)
+                {
+                    if (!replaceWrites)
+                        continue;
+                    RemoveFieldAssignment(method, index, 2);
+                    writes++;
+                    continue;
+                }
+                if (instruction.OpCode.Code == Code.Stsfld)
+                {
+                    if (!replaceWrites)
+                        continue;
+                    RemoveFieldAssignment(method, index, 1);
+                    writes++;
+                    continue;
+                }
+                throw UnsupportedPlayStateFieldUse(method, instruction);
+            }
+        }
+    }
+    Console.WriteLine("Migrated " + field.FullName + ": " + reads +
+        " reads, " + writes + " assignments");
+}
+
+static InvalidOperationException UnsupportedPlayStateFieldUse(
+    MethodDefinition method, Instruction instruction) => new(
+        "Unsupported PlayState field use in " + method.FullName + " at IL_" +
+        instruction.Offset.ToString("X4") + ": " + instruction);
+
+static void RemoveFieldAssignment(MethodDefinition method, int storeIndex,
+    int requiredValues)
+{
+    RemoveConsumedValues(method, storeIndex, requiredValues);
+    MakeNop(method.Body.Instructions[storeIndex]);
+}
+
+static void RemoveConsumedValues(MethodDefinition method, int consumerIndex,
+    int requiredValues)
+{
+    IList<Instruction> instructions = method.Body.Instructions;
+    int required = requiredValues;
+    int start = consumerIndex;
+    for (int index = consumerIndex - 1; index >= 0; index--)
+    {
+        Instruction instruction = instructions[index];
+        if (instruction.OpCode.FlowControl is FlowControl.Branch or
+            FlowControl.Cond_Branch or FlowControl.Return or FlowControl.Throw)
+            throw UnsupportedPlayStateFieldUse(method, instructions[consumerIndex]);
+        required -= PushCount(instruction);
+        required += PopCount(instruction);
+        if (required == 0)
+        {
+            start = index;
+            break;
+        }
+        if (required < 0)
+            throw UnsupportedPlayStateFieldUse(method, instructions[consumerIndex]);
+    }
+    if (required != 0)
+        throw UnsupportedPlayStateFieldUse(method, instructions[consumerIndex]);
+    for (int index = start; index < consumerIndex; index++)
+        MakeNop(instructions[index]);
+}
+
+static int PushCount(Instruction instruction)
+{
+    if (instruction.OpCode.Code == Code.Dup)
+        return 2;
+    if (instruction.OpCode.StackBehaviourPush == StackBehaviour.Varpush)
+    {
+        if (instruction.OpCode.Code == Code.Newobj)
+            return 1;
+        if (instruction.Operand is MethodReference method)
+            return method.ReturnType.MetadataType == MetadataType.Void ? 0 : 1;
+    }
+    return instruction.OpCode.StackBehaviourPush switch
+    {
+        StackBehaviour.Push0 => 0,
+        StackBehaviour.Push1 or StackBehaviour.Pushi or StackBehaviour.Pushi8 or
+            StackBehaviour.Pushr4 or StackBehaviour.Pushr8 or
+            StackBehaviour.Pushref => 1,
+        StackBehaviour.Push1_push1 => 2,
+        _ => throw new InvalidOperationException("Unsupported push behavior: " +
+            instruction)
+    };
+}
+
+static int PopCount(Instruction instruction)
+{
+    if (instruction.OpCode.StackBehaviourPop == StackBehaviour.Varpop)
+    {
+        if (instruction.Operand is MethodReference method)
+            return method.Parameters.Count +
+                ((method.HasThis && instruction.OpCode.Code != Code.Newobj) ? 1 : 0);
+    }
+    return instruction.OpCode.StackBehaviourPop switch
+    {
+        StackBehaviour.Pop0 => 0,
+        StackBehaviour.Pop1 or StackBehaviour.Popi or StackBehaviour.Popref => 1,
+        StackBehaviour.Pop1_pop1 or StackBehaviour.Popi_pop1 or
+            StackBehaviour.Popi_popi or StackBehaviour.Popi_popi8 or
+            StackBehaviour.Popi_popr4 or StackBehaviour.Popi_popr8 or
+            StackBehaviour.Popref_pop1 or StackBehaviour.Popref_popi => 2,
+        StackBehaviour.Popi_popi_popi or StackBehaviour.Popref_popi_popi or
+            StackBehaviour.Popref_popi_popi8 or
+            StackBehaviour.Popref_popi_popr4 or
+            StackBehaviour.Popref_popi_popr8 or
+            StackBehaviour.Popref_popi_popref => 3,
+        _ => throw new InvalidOperationException("Unsupported pop behavior: " +
+            instruction)
+    };
+}
+
+static IEnumerable<TypeDefinition> AllTypes(
+    IEnumerable<TypeDefinition> roots)
+{
+    foreach (TypeDefinition type in roots)
+    {
+        yield return type;
+        foreach (TypeDefinition nested in AllTypes(type.NestedTypes))
+            yield return nested;
+    }
+}
+
+static IEnumerable<string> MigratedPlayStateFields() =>
+[
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.ArrowRain::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Blizzard::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.BreakBarriers::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.ChillyBlast::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Conflagration::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.DeflectionAura::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.DrainLife::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.DrinkBlood::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.EarthQuake::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.EtherealClone::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.FloorStomp::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Grease/GreaseField::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Grease::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.GreaseLump::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.GreaseTrail::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.HealingRain::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.HomingCharge::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.MeteorShower::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Napalm::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.PoisonSpray::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Polymorph::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Portal::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Rain::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.RandomMine::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Revive::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SpawnSlime::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.StopCharge::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonCross::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonDeath::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonFlamer::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonSpirit::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonUndead::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonZombie::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Thunderbolt::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Thunderstorm::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.TimeWarp::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.TimeWarpStaff::mPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Wave::mPlayState",
+    "Magicka.GameLogic.Entities.Bosses.BossFight::mPlayState",
+    "Magicka.GameLogic.Entities.EntityManager::mPlayState",
+    "Magicka.GameLogic.Entities.EntityStateStorage::mPlayState",
+    "Magicka.GameLogic.Entities.TeslaField::mPlaystate",
+    "Magicka.GameLogic.Spells.ArcaneBlade::mPlayState",
+    "Magicka.GameLogic.Spells.SpellEffects.SpellEffect::mPlayState",
+    "Magicka.GameLogic.Spells.UnderGroundAttack::mPlayState",
+    "Magicka.GameLogic.UI.IconRenderer::mPlayState",
+    "Magicka.GameLogic.UI.SpellWheel::mPlayState",
+    "Magicka.Graphics.TutorialManager::mPlayState",
+    "Magicka.Levels.ForceField::mPlayState"
+];
+
+static IEnumerable<string> RetainedPlayStateFieldsWithAllUsesMigrated() =>
+[
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Starfall::sPlayState",
+    "Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonPhoenix::sPlayState",
+    "Magicka.GameLogic.Entities.Bosses.Vlad::mPlayState",
+    "Magicka.GameLogic.GameStates.InGameMenus.InGameMenu::sPlayState",
+    "Magicka.Graphics.MagickCamera::mPlayState"
+];
+
+static IEnumerable<string> RetainedPlayStateFieldsWithReadsMigrated() =>
+[
+    "Magicka.Levels.GameScene::mPlayState",
+    "Magicka.Levels.Level::mPlayState"
+];
+
+static IEnumerable<string> EntityPlayStateMethodsMigrated() =>
+[
+    "System.Void Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Portal/PortalEntity::Initialize(Magicka.Network.SpawnPortalMessage&)",
+    "System.Void Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Portal/PortalEntity::Initialize(Microsoft.Xna.Framework.Vector3&)",
+    "System.Void Magicka.GameLogic.Entities.Abilities.SpecialAbilities.Portal/PortalEntity::Update(PolygonHead.DataChannel,System.Single)",
+    "System.Void Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonDeath/MagickDeath::.ctor(Magicka.GameLogic.GameStates.PlayState)",
+    "System.Void Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonDeath/MagickDeath::Deinitialize()",
+    "System.Void Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonDeath/MagickDeath::Initialize(Microsoft.Xna.Framework.Matrix&,Magicka.GameLogic.GameStates.PlayState,Magicka.GameLogic.Entities.Character)",
+    "System.Void Magicka.GameLogic.Entities.Abilities.SpecialAbilities.SummonDeath/MagickDeath::Update(PolygonHead.DataChannel,System.Single)"
+];
 
 static void AddHighGcHeapCapabilityProbe(ModuleDefinition module)
 {

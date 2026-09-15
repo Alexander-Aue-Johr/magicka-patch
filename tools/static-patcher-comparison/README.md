@@ -12,6 +12,13 @@ Both remove the complete `PlayState.Finalize` method definition and set the PE
 `IMAGE_FILE_LARGE_ADDRESS_AWARE` characteristic. Each patcher validates the
 expected type, method and call shape before writing an output file.
 
+The IL variant also applies the manual patch's stored-`PlayState` migration as
+one feature. It removes the 49 fields that disappeared from the manual payload,
+removes their assignments and replaces their reads with
+`PlayState.RecentPlayState`. It also migrates the retained static fields and the
+selected retained instance-field reads found in the manual payload. Fields that
+the manual payload still actively uses are deliberately left intact.
+
 For a deliberately leaky local stress test, `IlStaticPatcher` accepts
 `--retain-scene-content`. This suppresses only the old scene's
 `GameScene.UnloadContent()` call in `Level.ChangeScene`; it does not suppress
