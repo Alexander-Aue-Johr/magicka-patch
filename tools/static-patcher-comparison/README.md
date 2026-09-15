@@ -17,6 +17,13 @@ For a deliberately leaky local stress test, `IlStaticPatcher` accepts
 `GameScene.UnloadContent()` call in `Level.ChangeScene`; it does not suppress
 global or `PlayState.Dispose` cleanup. This option must never be shipped.
 
+`--probe-high-gc-heap` injects a startup-only CLR capability probe. Before game
+initialization it attempts to retain 320 blocks of 8 MiB (2560 MiB total),
+writes its progress or exception to `high-gc-heap-probe.txt`, releases the
+blocks, performs a full collection and then continues into the game. It tests
+whether the selected x86 CLR can cross the 2-GiB managed-allocation boundary;
+it does not permanently relocate the game heap and must never be shipped.
+
 The structural variant is intentionally not described as a C# recompilation.
 ILSpy's untouched project export of Magicka 1.10.4.2 is not round-trip
 compilable, and dnSpy's Edit Method compiler is not exposed as a supported
